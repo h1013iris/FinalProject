@@ -23,6 +23,8 @@
 	
 	<context:component-scan base-package="com.uni.spring" />
 	
+	<!-- 에러페이지에 대한 빈 등록 -->
+	<beans:bean id="commonExceptionHandler" class="com.uni.spring.common.CommonExceptionHandler" />
 	
 	
 </beans:beans>
