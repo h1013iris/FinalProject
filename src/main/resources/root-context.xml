@@ -2,11 +2,70 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:task="http://www.springframework.org/schema/task"
-	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
-		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"/>
+	</bean>
 		
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml"/>
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<bean id = "realDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"><!-- 세션을 자동으로 클로즈 하기 위해서 destroy-method를 설정해준다.  -->
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@localhost:xe"/>
+		<property name="username" value="LATTE"/>
+		<property name="password" value="LATTE"/>	
+		<property name="defaultAutoCommit" value="false"/>
+	</bean>
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="realDataSource"/>
+		<property name="logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE"/>
+				<property name="sqlPrefix" value="[SQL] "/>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- 트렌젝션처리 구문 추가하기 -->	 
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<tx:advice id ="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+		<!-- 이것을 만들때  select*로 하면 우리가 만드는 파일의 select가 들어간 아이들을 다 체크
+		readonly 를 insert, update부분에 true로 사용하게 되면 에러가 뜨게 된다. 
+		name에 메소드 명을 적어주는데 우리가 하나만 사용하는 것이 아니기 때문에 select*로 해주면서 select뒤에 
+		어떤 이름이 들어와도 상관없다고 생각하면 된다.-->
+		<tx:method name="select*" read-only="true" rollback-for="Exception"/>
+		<tx:method name="insert*" rollback-for="Exception"/>
+		<tx:method name="update*" rollback-for="Exception"/>
+		<tx:method name="delete*" rollback-for="Exception"/>
+		<!-- 만약에 모두다 동일하게 줄거면은 아래와 같이 name에 *만 적어주면 된다. -->
+		<tx:method name="*" propagation="REQUIRED" rollback-for="Exception"/>
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<!-- 언제 돌게 할것인지 설정을 해주는 것 
+		expression에다가 이제 serviceImpl안에 들어가있는 모든것에 적용을 할것이라고 선언해주는 것-->
+		<aop:pointcut expression="execution(* com.uni.spring..*ServiceImpl*.*(..))" id="serviceMethod"/>
+		<!-- 참조를 어디 할 것인지 설정해주는 것 (advice-ref)
+		pointcut-ref 연결 할 것은 위에 설정해 주느 것으로 하면 된다.-->
+		<aop:advisor id="transactionAdvisor" pointcut-ref="serviceMethod" advice-ref="txAdvice"/>
+	</aop:config>
+	
+	<!--2. 파일 업로드 시 사용 (파일크기지정)
+	MultipartResolver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000000" />
+		<property name="maxInMemorySize" value="100000000" />
+	</bean>	
 </beans>
