@@ -19,7 +19,7 @@
 	</bean>
 	<bean id = "realDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"><!-- 세션을 자동으로 클로즈 하기 위해서 destroy-method를 설정해준다.  -->
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-		<property name="url" value="jdbc:oracle:thin:@localhost:xe"/>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
 		<property name="username" value="LATTE"/>
 		<property name="password" value="LATTE"/>	
 		<property name="defaultAutoCommit" value="false"/>

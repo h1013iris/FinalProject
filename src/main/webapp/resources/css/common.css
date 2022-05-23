@@ -18,7 +18,8 @@ a{
     left: 5vw;
     padding: 100px;
     overflow-y: scroll;
-    height: 65vh;
+    height: 71vh;
+    width: 83vw;
 }
 
 .main_section::-webkit-scrollbar{
@@ -409,7 +410,7 @@ a{
     left: 0;
     bottom: 0;
     right: 0;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     z-index: 999 ;
