@@ -14,7 +14,7 @@
 	<jsp:include page="../approval/docEnrollModal.jsp"></jsp:include>
 	<jsp:include page="./alert.jsp"></jsp:include>
 	<jsp:include page="./confirm.jsp"></jsp:include>
-	
+
 	
 	<header id="main_header">
 	    <div class="logo_header">
@@ -280,7 +280,7 @@
 	                <ul> 
 	                    <li class="list_title">조직 관리</li>
 	                    <div class="hhh">
-		                    <li><a href="#">사원 관리</a></li>
+		                    <li><a href="empManagement">사원 관리</a></li>
 		                    <li><a href="#">부서 관리</a></li>
 		                    <li><a href="#">직책 관리</a></li>
 	                    </div>

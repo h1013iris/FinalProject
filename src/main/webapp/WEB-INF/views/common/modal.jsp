@@ -37,7 +37,6 @@
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, nemo? Similique tempora aliquid iusto exercitationem fuga earum rem ratione voluptatibus. Maxime quo magni dicta in dignissimos temporibus recusandae id molestiae?
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, nemo? Similique tempora aliquid iusto exercitationem fuga earum rem ratione voluptatibus. Maxime quo magni dicta in dignissimos temporibus recusandae id molestiae?
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, nemo? Similique tempora aliquid iusto exercitationem fuga earum rem ratione voluptatibus. Maxime quo magni dicta in dignissimos temporibus recusandae id molestiae?
-
             </div>
             <div class="modal_footer">
                 <button class="next_btn" type="button">다음</button>

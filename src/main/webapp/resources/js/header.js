@@ -61,6 +61,6 @@ $(function(){
 		$(".modal_background").hide();
 	})
 	
+	
 })
-
 
