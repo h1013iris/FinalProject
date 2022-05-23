@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.uni.spring.common.Attachment;
 import com.uni.spring.common.exception.CommException;
@@ -31,22 +32,26 @@ public class DepartController {
 		return "depart/annoDepartEnrollForm";
 	}
 	
-	@ResponseBody
-	@RequestMapping(value="insertAnnoDepart.do", produces ="application/json; charset=utf-8")
+	
+	@RequestMapping("insertAnnoDepart.do")
 	public String insertAnnoDepart(Department d, HttpServletRequest request, @RequestParam(name="uploadFile", required = false) MultipartFile file, Attachment a) {
-		
-		System.out.println(d.toString());
-		return "redirect:/";
-		/*if(!file.getOriginalFilename().equals("")) {//파일이 있을시에
+		d.setAnnoWR(100000);//일단은 임의로 사원번호를 준다 
+		d.setRefDepart(1);//임의로 참조 부서 넣어줬다
+	
+		if(!file.getOriginalFilename().equals("")) {//파일이 있을시에
 			String changeName = saveFile(file, request);
 			
 			if(changeName != null) {
 				a.setOriginName(file.getOriginalFilename());
 				a.setChangeName(changeName);
 			}
+			departService.insertAnnoDepart(d,a);
+			
 		}
-		departService.insertAnnoDepart(d,a);
-		return "redirect:/";*/
+		
+
+		
+		return "redirect:/";
 	}
 	
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
@@ -75,4 +80,5 @@ public class DepartController {
 		return changeName;
 	}
 	
+
 }

@@ -82,17 +82,27 @@
 					<div class="enrollReplyStatusSection">
 						<div class="mainStyleCh"><span class="enrollStatusSection">댓글</span></div>
 						<div class="radioDiv">
-							<input type="radio" id="used" value="사용" name="replyStatus" checked>사용
-							<input type="radio" id="notused" value="미사용" name="replyStatus">미사용
+							<input type="radio" id="used" value="Y" name="accessReply" checked>사용
+							<input type="radio" id="notused" value="N" name="accessReply">미사용
 						</div>
 					</div>
 					<div align="right" class="buttonSection">
 						<button type="submit" class="commonButton1">등록하기</button>
-						<button type="reset" class="commonButton1">취소하기</button>
+						<button type="reset" class="commonButton1 cancelEnrollAnnoDepart">취소하기</button>
 					</div>
 				</form>
 			</div>
 		</div>
     </div>
+    <script type="text/javascript">
+    	$(".cancelEnrollAnnoDepart").click(function(){
+    		$.ajax({
+    			type:"POST", 
+    			url:"cancelMessage.do",
+    			success:function(){
+    			}
+    		})
+    	})
+    </script>
 </body>
 </html>
