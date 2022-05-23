@@ -22,7 +22,7 @@
 </head>
 <body>
 	<!-- 모달 시작부분 -->
-    <div id="modal_background" class="annoDepartModal">
+    <div id="modal_background" class="modal_background annoDepartModal">
         <div id="modal_container" class="size800">
         	<!-- 모달 헤더 부분 -->
             <div class="modal_header">
