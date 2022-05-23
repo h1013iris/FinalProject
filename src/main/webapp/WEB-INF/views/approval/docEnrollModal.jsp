@@ -9,7 +9,7 @@
 </head>
 <body>
 
-	<div id="modal_background" class="modal_doc">
+	<div id="modal_background" class="modal_background docEnrollModal">
         <div id="modal_container" class="size800">
             <div class="modal_header">
                 <div class="logo">
@@ -30,8 +30,8 @@
     </div>
     
     <script type="text/javascript">
-	
+	    
 	</script>
-	
+		
 </body>
 </html>

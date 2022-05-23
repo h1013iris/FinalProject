@@ -100,7 +100,7 @@
 	            <a class="approval" href="apprvalMain.do"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/결재.png" alt=""></a>
 	            <div class="detail_nav_content">
 	                <div class="nananan"><p class="detail_title">전자결재</p></div>
-	                <button type="button" class="commonButton2 etcButton docEnrollButton" onclick="docEnroll()"><span>문서 작성</span></button>
+	                <button type="button" class="commonButton2 etcButton docEnrollButton"><span>문서 작성</span></button>
 	                <ul> 
 	                    <li class="list_title"><a href="waitingMain.do">결재 대기함</a></li>
 	                </ul>
