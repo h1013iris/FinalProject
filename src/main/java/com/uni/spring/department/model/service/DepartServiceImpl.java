@@ -21,10 +21,19 @@ public class DepartServiceImpl implements DepartService {
 	@Override
 	public void insertAnnoDepart(Department d, Attachment a) {
 		int result = departDao.insertAnnoDepart(sqlSession, d);//공지사항 넣기
-		int result2 = departDao.insertAnnoDepartAttach(sqlSession,a);
-		if(result*result2 <0) {
+		
+		if(result>0) {
+			int findAnnoNum = departDao.insertAnnoNum(sqlSession, d);
+			int result2 = departDao.insertAnnoDepartAttach(sqlSession,a);
+		}else {
 			throw new CommException("게시글 추가 실패");
 		}
 		
 	}
+
+	/*@Override
+	public void insertAnnoDepartNoAttach(Department d) {
+		
+		
+	}*/
 }

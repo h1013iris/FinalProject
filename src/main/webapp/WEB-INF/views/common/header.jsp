@@ -12,6 +12,9 @@
 
 	<jsp:include page="../depart/annoDepartList.jsp"></jsp:include>
 	<jsp:include page="../approval/docEnrollModal.jsp"></jsp:include>
+	<jsp:include page="./alert.jsp"></jsp:include>
+	<jsp:include page="./confirm.jsp"></jsp:include>
+	
 	
 	<header id="main_header">
 	    <div class="logo_header">

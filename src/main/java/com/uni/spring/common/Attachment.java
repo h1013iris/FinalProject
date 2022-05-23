@@ -14,7 +14,6 @@ public class Attachment {
 	private int refListCatNo;//참조 분류 순서 
 	private String originName;//파일 원본명
 	private String changeName;//파일 수정명
-	private String filePath;//저장파일이 저장된 폴더 경로
 	private Date uploadDate;//파일 업로드일
 	private String status;//파일 상태값
 	
