@@ -12,7 +12,7 @@
         <div id="modal_container" class="size800">
             <div class="modal_header">
                 <div class="logo">
-                    <img src="./images/facebook_cover_photo_1.png" alt="">
+                    <img src="${ pageContext.servletContext.contextPath }/resources/images/facebook_cover_photo_1.png" alt="">
                 </div>
                 <span class="modal_title">asfsaf</span>
             </div >
@@ -45,5 +45,6 @@
             </div>
         </div>
     </div>
+  
 </body>
 </html>
