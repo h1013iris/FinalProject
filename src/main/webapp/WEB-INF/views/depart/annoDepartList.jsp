@@ -8,7 +8,7 @@
 <title>공지사항 페이지 모달</title>
 <style type="text/css">
 	.annoDepartListsize{
-		height:700px;
+		height:80vh;
 	}
 	.annodDepartButton{
 		padding:5px;
@@ -22,7 +22,7 @@
 </head>
 <body>
 	<!-- 모달 시작부분 -->
-    <div id="modal_background">
+    <div id="modal_background" class="modal_background annoDepartModal">
         <div id="modal_container" class="size800">
         	<!-- 모달 헤더 부분 -->
             <div class="modal_header">

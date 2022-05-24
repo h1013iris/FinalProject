@@ -8,5 +8,14 @@
   		<setting name="jdbcTypeForNull" value="NULL"/><!-- NULL은 항상 대문자 -->
   	</settings>
   	
+  	<typeAliases>
+  		<typeAlias type="com.uni.spring.member.model.dto.Member" alias="Member"/>
+  		<typeAlias type="com.uni.spring.department.model.dto.Department" alias="Department"/>
+  		<typeAlias type="com.uni.spring.common.Attachment" alias="Attachment"/>
+  	</typeAliases>
   	
+  	<mappers>
+  		<mapper resource="/mappers/department-mapper.xml"/>
+  		<mapper resource="/mappers/member-mapper.xml"/>
+  	</mappers>
   </configuration>

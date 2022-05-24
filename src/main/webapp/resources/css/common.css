@@ -1,4 +1,4 @@
-@charset "utf-8";
+@CHARSET "UTF-8";
 
 /*header 부분*/
 
@@ -18,8 +18,7 @@ a{
     left: 5vw;
     padding: 100px;
     overflow-y: scroll;
-    height: 71vh;
-    width: 83vw;
+    height: 65vh;
 }
 
 .main_section::-webkit-scrollbar{
@@ -321,6 +320,7 @@ a{
     border: 1px solid #85cdff;
     box-shadow: 4px 3px #b9b9b9;
     border-radius: 5px;
+    display: none;
 }
 
 #alert_title{
@@ -367,6 +367,7 @@ a{
     border: 1px solid #85cdff;
     box-shadow: 4px 3px #b9b9b9;
     border-radius: 5px;
+    display: none;
 }
 
 #confirm_title{
