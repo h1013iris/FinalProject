@@ -5,7 +5,10 @@
 
   <configuration>
   	<settings>
-  		<setting name="jdbcTypeForNull" value="NULL"/><!-- NULL은 항상 대문자 -->
+  		<!-- NULL은 항상 대문자 -->
+  		<setting name="jdbcTypeForNull" value="NULL"/>
+  		<!-- 언더바 때문에 컬럼명 달라서 resultMap 작성할 필요 없도록 -->
+ 		<setting name="mapUnderscoreToCamelCase" value="true"/>
   	</settings>
   	
   	<typeAliases>

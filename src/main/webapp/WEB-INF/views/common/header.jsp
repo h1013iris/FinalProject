@@ -119,7 +119,7 @@
 	                    <li class="list_title"><a href="statusMain.do">진행 상태 확인함</a></li>
 	                </ul>
 	                <ul>
-	                    <li class="list_title"><a href="completeMain.do">완료 문서함</a></li>
+	                    <li class="list_title"><a href="completeMain.do">결재 완료 문서함</a></li>
 	                </ul>
 	            </div>
 	        </li>
@@ -198,7 +198,7 @@
 	            <a class="board" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/게시판.png" alt=""></a>
 	            <div class="detail_nav_content">
 	                <div class="nananan"><p class="detail_title">게시판</p></div>
-	                    <a href="enroll.do"><button type="button" class="commonButton2 etcButton" ><span>글 작성</span></button></a>
+	                <a href="enroll.do"><button type="button" class="commonButton2 etcButton" ><span>글 작성</span></button></a>
                 <ul> 
                     <li class="list_title"><a href="notice.do">공지사항 게시판</a></li> 
                 </ul>
@@ -212,7 +212,7 @@
                     <li class="list_title"><a href="depart.do">부서 게시판</a></li>
                 </ul>
                 <ul>
-                    <li class="list_title"><a href="pbox.do">임시보관함</a></li>
+                    <li class="list_title"><a href="pbox.do">임시 보관함</a></li>
                 </ul>
             </div>
         </li>

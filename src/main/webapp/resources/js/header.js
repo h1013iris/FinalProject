@@ -59,7 +59,7 @@ $(function(){
     })
     
     
-	//모달창 취소
+	// 모달창 취소 - 공통
 	$(document).on("click",".cancel_btn",function(){
 		$(".modal_background").hide();
 	})
