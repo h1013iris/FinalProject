@@ -10,6 +10,15 @@ $(function(){
 		location.href="enrollFormAnnoDepart.do";
 	})
 
+	//캘린더 상세메뉴 일정 추가하기 버튼 클릭시
+	$(".calenderButton").click(function(){
+		location.href="enrollFormCalender.do";
+	})
+	// 문서 작성 버튼 클릭 시 문서 서식 선택하는 모달창
+	$(document).on("click",".docEnrollButton",function(){
+		$(".docEnrollModal").css("display","flex");
+	})
+
     $("#main_nav img").mouseenter(function(){
         $(".detail_nav_content").removeClass("enter");
         $(this).parent().next().addClass("enter");
@@ -49,7 +58,8 @@ $(function(){
             $(".login_status").css("display","none")
         }
     })
-	//모달창 취소
+	// 모달창 취소 - 공통
+
 	$(document).on("click",".cancel_btn",function(){
 		$("#modal_background").hide();
 	})

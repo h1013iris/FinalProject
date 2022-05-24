@@ -1,0 +1,71 @@
+@CHARSET "UTF-8";
+ #container{
+            width: 500px;
+            margin:0 auto;
+            text-align:center;
+    		position: left: 50%; top: 50%;
+        }
+        .title{
+            text-align: left;
+            margin: 20px;
+        }
+        .input{
+            width: 300px;
+            margin:10px;
+            height: 25px;
+            
+        }
+        .inputlo{
+            width: 450px;
+            margin:10px;
+            height: 25px;
+        }
+        .outter{
+            background-color: #85cdff;
+            height: 10px;  
+            width: 600px;  
+            margin:40px auto;       
+        }
+        #logo{
+            background-color: hsl(205, 100%, 91%);
+            height: 130px;
+            text-align: center; 
+            
+        }
+        #newmember{
+            text-align: center;
+        }
+        #mem{
+            width: 560px;
+            margin:auto; 
+            
+        }
+        .mem{ 
+            text-align: center;
+        }
+        .m{
+            width: 300px;
+            height: 30px;
+            margin-right: 50px;
+            background-color: rgba(233, 233, 233, 0.833);
+            text-align: center;
+        }
+        .m2{
+            background-color: rgba(233, 233, 233, 0.833);
+            text-align: center;
+        }
+
+        #photo{
+            margin-left: 15px;
+        }
+        
+        .id_Yse{color:#fff; display: none;}
+        .id_No{color:#6A82FB; display: none;}
+        .regex {
+            font-size: 0.8em;
+            text-align: center;
+          }
+          .checkResult{
+            font-size: 0.8em;
+            text-align: center;
+          }
