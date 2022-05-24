@@ -117,7 +117,7 @@
 	                    <li class="list_title"><a href="statusMain.do">진행 상태 확인함</a></li>
 	                </ul>
 	                <ul>
-	                    <li class="list_title"><a href="completeMain.do">완료 문서함</a></li>
+	                    <li class="list_title"><a href="completeMain.do">결재 완료 문서함</a></li>
 	                </ul>
 	            </div>
 	        </li>
@@ -210,7 +210,7 @@
 	                    <li class="list_title"><a href="#">부서 게시판</a></li>
 	                </ul>
 	                <ul>
-	                    <li class="list_title"><a href="#">임시보관함</a></li>
+	                    <li class="list_title"><a href="#">임시 보관함</a></li>
 	                </ul>
 	            </div>
 	        </li>
