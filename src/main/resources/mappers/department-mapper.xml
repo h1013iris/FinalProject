@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="departMapper">
+	<resultMap type="Department" id="departmentResultSet">
+		<id property="annoNo" column="ANNO_NO"/>
+		<result property="refDepart" column="REF_DEPART"/>
+		<result property="annoWR" column="ANNO_WR"/>
+		<result property="annoTitle" column="ANNO_TITLE"/>
+		<result property="annoContent" column="ANNO_CONTENT"/>
+		<result property="accessReply" column="ACCESS_REPLY"/>	
+		<result property="annoDate" column="ANNO_DATE"/>	
+		<result property="status" column="STATUS"/>		
+	</resultMap>
+	
+	<insert id="insertAnnoDepart" parameterType="Department">
+		INSERT INTO ANNOUNCE_DEPART
+		VALUES
+		(SEQ_ANNO.NEXTVAL, #{refDepart}, #{annoWR}, #{annoTitle}, #{annoContent}, #{accessReply}, SYSDATE, DEFAULT)
+	</insert>
+	<insert id="insertAnnoNum">
+		INSERT INTO CATE_ALL
+		VALUES
+		(SEQ_CATEGORY.NEXTVAL, 60, SEQ_ANNO.CURRVAL)
+	</insert>
+	<insert id="insertAnnoDepartAttach" parameterType="Attachment">
+		INSERT INTO ATTACHMENT
+		VALUES
+		(SEQ_ATTACH.NEXTVAL,SEQ_CATEGORY.CURRVAL, #{originName}, #{changeName}, SYSDATE, DEFAULT)
+	</insert>
+</mapper>

@@ -2,13 +2,19 @@ $(function(){
 
 	//부서별 페이지 공지사항 클릭했을 시에 
 	$(document).on("click",".annoDepart",function(){
-		$("#modal_background").css("display","flex");
+		$(".annoDepartModal").css("display","flex");
 	})
 	
 	//부서별 페이지 공지사항 작성하기 버튼 클릭시
 	$(".annoDepartEnrollButton").click(function(){
 		location.href="enrollFormAnnoDepart.do";
 	})
+	
+	// 문서 작성 버튼 클릭 시 문서 서식 선택하는 모달창
+	$(document).on("click",".docEnrollButton",function(){
+		$(".docEnrollModal").css("display","flex");
+	})
+	
 
     $("#main_nav img").mouseenter(function(){
         $(".detail_nav_content").removeClass("enter");
@@ -48,9 +54,13 @@ $(function(){
             $(".login_status").css("display","none")
         }
     })
+    
+    
 	//모달창 취소
 	$(document).on("click",".cancel_btn",function(){
-		$("#modal_background").hide();
+		$(".modal_background").hide();
 	})
 	
+	
 })
+
