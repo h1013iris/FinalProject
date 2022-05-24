@@ -18,6 +18,18 @@
 	    top: 3px;
 	    right: 30px;
 	}
+	.annoDepartTable{
+		border:1px solid black;
+		width: 100%;
+	}
+	.titleDepartArea{
+		width: 50%;
+		height: 10%;
+	}
+	#annoDepartArea thead{
+		height: 6%;
+    	line-height: 30px;
+	}
 </style>
 </head>
 <body>
@@ -37,7 +49,24 @@
             <!-- 모달 바디 부분 -->
             <div class="modal_body annoDepartListsize">
             	<table id="annoDepartArea" align="center" class="annoDepartTable">
-            	
+            		<thead>
+            			<tr>
+            				<th class="titleDepartArea">제목</th>
+            				<th>작성자</th>
+            				<th>읽은 사람</th>
+            				<th>작성일</th>
+            			</tr>
+            		</thead>
+            		<tbody class="annoDepartListPart">
+            			<c:forEach items="${list}" var="d">
+            				<tr>
+            					<td>${d.annoTitle}</td>
+            					<td>${d.writerName}</td>
+            					<td>읽은 사람 </td>
+            					<td>${d.annoDate}</td>
+            				</tr>
+            			</c:forEach>
+            		</tbody>
             	</table>
             </div>
             <!-- 모달 푸터 부분 -->

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,7 +89,7 @@
 					</div>
 					<div align="right" class="buttonSection">
 						<button type="submit" class="commonButton1">등록하기</button>
-						<button type="reset" class="commonButton1 cancelEnrollAnnoDepart">취소하기</button>
+						<button type="button" class="commonButton1 cancelEnrollAnnoDepart">취소하기</button>
 					</div>
 				</form>
 			</div>
@@ -96,12 +97,19 @@
     </div>
     <script type="text/javascript">
     	$(".cancelEnrollAnnoDepart").click(function(){
-    		$.ajax({
-    			type:"POST", 
-    			url:"cancelMessage.do",
-    			success:function(){
-    			}
-    		})
+    		$("#confirm_title .title_name").text("공지사항 확인");
+    		$("#confirm_body .confirm_content").text("등록을 취소하시겠습니까?");
+    		$("#confirm_container").css("display","block");
+    	})
+    	
+    	$("button[name='confirmBtn']").click(function(){
+    		console.log($(this).val())
+    		if($(this).val()=="true"){
+    			location.href="departmentPage.do";
+    			$("#confirm_container").css("display","none");
+    		}else{
+    			$("#confirm_container").hide();
+    		}
     	})
     </script>
 </body>

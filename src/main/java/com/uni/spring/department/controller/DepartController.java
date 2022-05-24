@@ -26,13 +26,19 @@ public class DepartController {
 	@Autowired
 	public DepartService departService;
 	
+	//부서별 메인페이지로 전환
+	@RequestMapping("departmentPage.do")
+	public String departmentPage() {
+		return "depart/departmentMainPage";
+	}
+	
 	//공지사항 등록하러 화면 전환
 	@RequestMapping("enrollFormAnnoDepart.do")
 	public String enrollForm() {
 		return "depart/annoDepartEnrollForm";
 	}
 	
-	
+	//공지사항 등록(첨부파일 있을시, 없을시 분류해서)
 	@RequestMapping("insertAnnoDepart.do")
 	public String insertAnnoDepart(Department d, HttpServletRequest request, @RequestParam(name="uploadFile", required = false) MultipartFile file, Attachment a) {
 		d.setAnnoWR(100000);//일단은 임의로 사원번호를 준다 
@@ -47,11 +53,13 @@ public class DepartController {
 			}
 			departService.insertAnnoDepart(d,a);
 			
+		}else {
+			departService.insertAnnoDepartNoAttach(d);
 		}
 		
-
 		
-		return "redirect:/";
+		
+		return "redirect:departmentPage.do";
 	}
 	
 	private String saveFile(MultipartFile file, HttpServletRequest request) {

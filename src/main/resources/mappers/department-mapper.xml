@@ -29,4 +29,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES
 		(SEQ_ATTACH.NEXTVAL,SEQ_CATEGORY.CURRVAL, #{originName}, #{changeName}, SYSDATE, DEFAULT)
 	</insert>
+	<insert id="insertAnnoDepartNoAttach">
+		INSERT INTO ANNOUNCE_DEPART
+		VALUES
+		(SEQ_ANNO.NEXTVAL,#{refDepart}, #{annoWR}, #{annoTitle}, #{annoContent}, #{accessReply}, SYSDATE, DEFAULT)
+	</insert>
 </mapper>
