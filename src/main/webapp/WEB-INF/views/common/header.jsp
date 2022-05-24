@@ -9,9 +9,11 @@
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">
 </head>
 <body>
-
 	<jsp:include page="../depart/annoDepartList.jsp"></jsp:include>
 	<jsp:include page="../approval/docEnrollModal.jsp"></jsp:include>
+	<jsp:include page="./alert.jsp"></jsp:include>
+	<jsp:include page="./confirm.jsp"></jsp:include>
+
 	
 	<header id="main_header">
 	    <div class="logo_header">
@@ -122,10 +124,10 @@
 	            </div>
 	        </li>
 	        <li>
-	            <a class="calender" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/캘린더.png" alt=""></a>
-	            <div class="detail_nav_content">
-	                <div class="nananan"><p class="detail_title">캘린더</p></div>
-	                <button type="button" class="commonButton2 etcButton"><span>일정 추가하기</span></button>
+            <a class="calender" href="calendar.do"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/캘린더.png" alt=""></a>
+            <div class="detail_nav_content">
+                <div class="nananan"><p class="detail_title">캘린더</p></div>
+                <button type="button" class="commonButton2 etcButton calenderButton"><span>일정 추가하기</span></button>
 	                <ul> 
 	                    <li class="list_title">내 캘린더</li>
 	                    <div class="hhh">
@@ -196,25 +198,25 @@
 	            <a class="board" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/게시판.png" alt=""></a>
 	            <div class="detail_nav_content">
 	                <div class="nananan"><p class="detail_title">게시판</p></div>
-	                <button type="button" class="commonButton2 etcButton"><span>글 작성</span></button>
-	                <ul> 
-	                    <li class="list_title"><a href="#">공지사항</a></li> 
-	                </ul>
-	                <ul>
-	                    <li class="list_title"><a href="#">자유 게시판</a></li>         
-	                </ul>
-	                <ul>
-	                    <li class="list_title"><a href="#">익명 게시판</a></li>
-	                </ul>
-	                <ul>
-	                    <li class="list_title"><a href="#">부서 게시판</a></li>
-	                </ul>
-	                <ul>
-	                    <li class="list_title"><a href="#">임시 보관함</a></li>
-	                </ul>
-	            </div>
-	        </li>
-	        <li>
+	                <a href="enroll.do"><button type="button" class="commonButton2 etcButton" ><span>글 작성</span></button></a>
+                <ul> 
+                    <li class="list_title"><a href="notice.do">공지사항 게시판</a></li> 
+                </ul>
+                <ul>
+                    <li class="list_title"><a href="free.do">자유 게시판</a></li>         
+                </ul>
+                <ul>
+                    <li class="list_title"><a href="anonymous.do">익명 게시판</a></li>
+                </ul>
+                <ul>
+                    <li class="list_title"><a href="depart.do">부서 게시판</a></li>
+                </ul>
+                <ul>
+                    <li class="list_title"><a href="pbox.do">임시 보관함</a></li>
+                </ul>
+            </div>
+        </li>
+        <li>
 	            <a class="messenger" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/메신저.png" alt=""></a>
 	        </li>
 	        <li>
@@ -277,7 +279,7 @@
 	                <ul> 
 	                    <li class="list_title">조직 관리</li>
 	                    <div class="hhh">
-		                    <li><a href="#">사원 관리</a></li>
+		                    <li><a href="empManagement">사원 관리</a></li>
 		                    <li><a href="#">부서 관리</a></li>
 		                    <li><a href="#">직책 관리</a></li>
 	                    </div>
