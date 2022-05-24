@@ -119,10 +119,10 @@
             </div>
         </li>
         <li>
-            <a class="calender" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/캘린더.png" alt=""></a>
+            <a class="calender" href="calendar.do"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/캘린더.png" alt=""></a>
             <div class="detail_nav_content">
                 <div class="nananan"><p class="detail_title">캘린더</p></div>
-                <button type="button" class="commonButton2 etcButton"><span>일정 추가하기</span></button>
+                <button type="button" class="commonButton2 etcButton calenderButton"><span>일정 추가하기</span></button>
                 <ul> 
                     <li class="list_title">내 캘린더</li>
                     <div class="hhh">

@@ -9,6 +9,11 @@ $(function(){
 	$(".annoDepartEnrollButton").click(function(){
 		location.href="enrollFormAnnoDepart.do";
 	})
+	
+	//캘린더 상세메뉴 일정 추가하기 버튼 클릭시
+	$(".calenderButton").click(function(){
+		location.href="enrollFormCalender.do";
+	})
 
     $("#main_nav img").mouseenter(function(){
         $(".detail_nav_content").removeClass("enter");
