@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="page_title">
-            <p class="title_name">페이지 이름</p>
+            <p class="title_name"></p>
         </div>
         <div class="right">
             <div class="alarm">
@@ -193,21 +193,21 @@
             <a class="board" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/게시판.png" alt=""></a>
             <div class="detail_nav_content">
                 <div class="nananan"><p class="detail_title">게시판</p></div>
-                <button type="button" class="commonButton2 etcButton"><span>글 작성</span></button>
+                <a href="enroll.do"><button type="button" class="commonButton2 etcButton" ><span>글 작성</span></button></a>
                 <ul> 
-                    <li class="list_title"><a href="#">공지사항</a></li> 
+                    <li class="list_title"><a href="notice.do">공지사항 게시판</a></li> 
                 </ul>
                 <ul>
-                    <li class="list_title"><a href="#">자유 게시판</a></li>         
+                    <li class="list_title"><a href="free.do">자유 게시판</a></li>         
                 </ul>
                 <ul>
-                    <li class="list_title"><a href="#">익명 게시판</a></li>
+                    <li class="list_title"><a href="anonymous.do">익명 게시판</a></li>
                 </ul>
                 <ul>
-                    <li class="list_title"><a href="#">부서 게시판</a></li>
+                    <li class="list_title"><a href="depart.do">부서 게시판</a></li>
                 </ul>
                 <ul>
-                    <li class="list_title"><a href="#">임시보관함</a></li>
+                    <li class="list_title"><a href="pbox.do">임시보관함</a></li>
                 </ul>
             </div>
         </li>
