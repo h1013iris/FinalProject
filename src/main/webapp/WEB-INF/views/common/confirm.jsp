@@ -16,8 +16,8 @@
             <span class="confirm_content">${msg}</span>
         </div>
         <div id="confirm_footer">
-            <button type="button" class="cancel_btn">취소</button>
-            <button type="button" class="ok_btn">확인</button>
+      		<button type="button" class="true_btn">확인</button>
+            <button type="button" class="false_btn">취소</button>
         </div>
     </div>
 </body>

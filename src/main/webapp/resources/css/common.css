@@ -320,6 +320,7 @@ a{
     border: 1px solid #85cdff;
     box-shadow: 4px 3px #b9b9b9;
     border-radius: 5px;
+    display: none;
 }
 
 #alert_title{
@@ -366,6 +367,7 @@ a{
     border: 1px solid #85cdff;
     box-shadow: 4px 3px #b9b9b9;
     border-radius: 5px;
+    display: none;
 }
 
 #confirm_title{
@@ -409,7 +411,7 @@ a{
     left: 0;
     bottom: 0;
     right: 0;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     z-index: 999 ;

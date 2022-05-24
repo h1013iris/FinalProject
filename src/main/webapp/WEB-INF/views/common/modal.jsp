@@ -12,7 +12,7 @@
         <div id="modal_container" class="size800">
             <div class="modal_header">
                 <div class="logo">
-                    <img src="./images/facebook_cover_photo_1.png" alt="">
+                    <img src="${ pageContext.servletContext.contextPath }/resources/images/facebook_cover_photo_1.png" alt="">
                 </div>
                 <span class="modal_title">asfsaf</span>
             </div >
@@ -37,7 +37,6 @@
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, nemo? Similique tempora aliquid iusto exercitationem fuga earum rem ratione voluptatibus. Maxime quo magni dicta in dignissimos temporibus recusandae id molestiae?
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, nemo? Similique tempora aliquid iusto exercitationem fuga earum rem ratione voluptatibus. Maxime quo magni dicta in dignissimos temporibus recusandae id molestiae?
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, nemo? Similique tempora aliquid iusto exercitationem fuga earum rem ratione voluptatibus. Maxime quo magni dicta in dignissimos temporibus recusandae id molestiae?
-
             </div>
             <div class="modal_footer">
                 <button class="next_btn" type="button">다음</button>
@@ -45,5 +44,6 @@
             </div>
         </div>
     </div>
+  
 </body>
 </html>

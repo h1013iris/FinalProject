@@ -6,7 +6,6 @@
 <meta charset="UTF-8">
 <title>로그인/메인페이지</title>
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/login.css">
-
 </head>
 <body>
     <div id="container">
@@ -23,4 +22,5 @@
             <a href="empNo.do">회원가입</a>
         </div>
     </div>
+</body>
 </html>
