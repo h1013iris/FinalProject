@@ -7,6 +7,7 @@ public interface DepartService {
 
 	void insertAnnoDepart(Department d, Attachment a);
 
-	//void insertAnnoDepartNoAttach(Department d);
+
+	void insertAnnoDepartNoAttach(Department d);
 
 }

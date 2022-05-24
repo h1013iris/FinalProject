@@ -11,7 +11,7 @@
 	<jsp:forward page='WEB-INF/views/main.jsp'/>
 
 	<!-- 초기 jsp파일 만들때 기본 셋팅	
-	<jsp:include page="common/header.jsp"></jsp:include>
+	<jsp:include page="../common/header.jsp"></jsp:include>
 	<div class="main_section">
         
     </div> 

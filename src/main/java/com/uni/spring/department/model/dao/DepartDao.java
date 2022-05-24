@@ -25,4 +25,9 @@ public class DepartDao {
 		return sqlSession.insert("departMapper.insertAnnoNum", d);
 	}
 
+	public int insertAnnoDepartNoAttach(SqlSessionTemplate sqlSession, Department d) {
+		
+		return sqlSession.insert("departMapper.insertAnnoDepartNoAttach", d);
+	}
+
 }

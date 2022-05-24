@@ -2,6 +2,7 @@ $(function(){
 
 	//부서별 페이지 공지사항 클릭했을 시에 
 	$(document).on("click",".annoDepart",function(){
+		
 		$(".annoDepartModal").css("display","flex");
 	})
 	
