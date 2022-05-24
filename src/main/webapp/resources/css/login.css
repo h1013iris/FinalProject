@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+ #container{
+        width: 800px;
+        position: absolute;left: 50%; top: 50%;
+        transform: translate(-50%,-50%);
+        height: 300px;
+        text-align: center;
+        
+    }
+    #logo{
+        width: 300px;
+    }
+    #con{
+        margin-top: 50px;
+        position: absolute;left: 50%; top: 50%;
+        transform: translate(-50%,-50%);
+    }
+
+    .inf{
+        width: 200px;
+        height: 30px;
+        border-radius: 5px;
+    }
+    #stn{
+        width: 80px;
+        height: 50px;
+        margin-top: 20px;
+    }
+
+    #con a{
+        font-size: 15px;
+        text-decoration:none;
+        color: black;
+    }

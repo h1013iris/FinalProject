@@ -1,4 +1,4 @@
-@charset "utf-8";
+@CHARSET "UTF-8";
 
 /*header 부분*/
 
@@ -198,12 +198,15 @@ a{
     width: 150px;
     border-radius: 10px;
     user-select:none;
-    display:none
+    display:none;
+    z-index: 99;
+    background-color: #fff;
 }
 
 .login_status p, .login_status li {
     font-size: 18px;
     line-height: 30px;
+    margin: 5px 0;
 }
 
 .login_status ul{
