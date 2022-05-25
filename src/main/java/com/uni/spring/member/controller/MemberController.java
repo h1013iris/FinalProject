@@ -49,10 +49,8 @@ public class MemberController {
 		Member loginUser;
 		try {
 			loginUser = memberService.loginMember(m);
-			model.addAttribute("loginUser",loginUser);
-
+			model.addAttribute("loginUser",loginUser)
 			return "redirect:apprvalMain.do";//로그인이 성공하면 이동 나중에 경로 바꿔주기!!
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

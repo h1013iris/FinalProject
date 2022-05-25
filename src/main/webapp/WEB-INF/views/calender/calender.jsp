@@ -68,13 +68,16 @@
 		.navigation{
 			margin-bottom:15px;
 			text-align: right;
-			width: 64%;
+			width: 60%;
 			font-size: 25px;
 		}
 		.searchLine{
-			width: 36%;
+			width: 40%;
 			display: flex;
 		    justify-content: end;
+		}
+		.searchtext {
+		    width: 31%;
 		}
 		/*검색할 text*/
 		.searchSchedule {
@@ -83,9 +86,6 @@
 		}
 		/*검색하기 버튼*/
 		.searchcalender {
-			height: 25px;
-			margin-left: 5px;
-			margin-bottom: 3px;
 			width: 30px;
 			height: 30px;	
 		}
@@ -192,12 +192,20 @@
 		.todayList a :hover{
 			color: black;
 		}
+		.main-caldiv{
+			width: 83vw;
+		}
+		.calendar {
+			/*border: 1px solid black;*/
+			width: 65vw;
+		}
 	</style>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	<div class="main_section">
-	<form name="calendarFrm" id="calendarFrm" action="" method="GET">
-		<div class="calendar" >
+		<div class="main-caldiv">
+		<form name="calendarFrm" id="calendarFrm" action="" method="GET">
+			<div class="calendar">
 			<div class="naviLine">
 				<!--날짜 네비게이션  -->
 				<div class="navigation">
@@ -300,8 +308,9 @@
 						</c:forEach>
 				</tbody>
 			</table>
-		</div>
-	</form>
+			</div>
+		</form>
+	</div>
 	<div class="today-Schedule">
 		<div class="schedule-title">오늘 예정된 일정</div>
 		<div class="scheduleList">
