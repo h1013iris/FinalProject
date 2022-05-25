@@ -71,7 +71,7 @@ width : 84vw;
 .ham{
 margin-left :12%;
 }
-#bu1{
+#bu2{
 background-color: #85cdff;
 }
 
@@ -203,7 +203,7 @@ height :30px;
                 <ul class="pagination">
                 	<c:choose>
                 		<c:when test="${ pi.currentPage ne 1 }">
-                		<a class="page-link" href="notice.do?currentPage=${ pi.currentPage-1 }"><button class="noticeButton2"><</button></a>
+                		<a class="page-link" href="free.do?currentPage=${ pi.currentPage-1 }"><button class="noticeButton2"><</button></a>
                 		</c:when>
                 		<c:otherwise>
                 		<a class="page-link" href=""></a><button class="noticeButton2">></button></a>
@@ -213,7 +213,7 @@ height :30px;
                     <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
                     	<c:choose>
 	                		<c:when test="${ pi.currentPage ne p }">
-                   <a class="page-link" href="notice.do?currentPage=${ p }" style="color: white"><button class="noticeButton2">${ p }</button></a>
+                   <a class="page-link" href="free.do?currentPage=${ p }" style="color: white"><button class="noticeButton2">${ p }</button></a>
 	                		</c:when>
 	                		<c:otherwise>
 	               <a class="page-link" href="" style="color: white"><button class="noticeButton2">${ p }</button></a>
@@ -224,10 +224,10 @@ height :30px;
                     
                     <c:choose>
                 		<c:when test="${ pi.currentPage ne pi.maxPage }">
-                		<a class="page-link" href="notice.do?currentPage=${ pi.currentPage+1 }"><button class="noticeButton2">></button></a>
+                		<a class="page-link" href="free.do?currentPage=${ pi.currentPage+1 }"><button class="noticeButton2">></button></a>
                 		</c:when>
                 		<c:otherwise>
-                		<a class="page-link" href="notice.do?currentPage=${ pi.currentPage+1 }"><button class="noticeButton2">></button></a>
+                		<a class="page-link" href="free.do?currentPage=${ pi.currentPage+1 }"><button class="noticeButton2">></button></a>
                 		</c:otherwise>
                 	</c:choose>
                 </ul>
@@ -266,5 +266,4 @@ height :30px;
     	});
     </script>
 </body>
-
 </html>
