@@ -15,12 +15,10 @@ import lombok.ToString;
 @ToString
 public class Board {
 	
-	
-	private String Title;
-	private String Writer;
-	private String Content;
-	private String originName;
-	private String changeName;
+	private String writeno;
+	private String title;
+	private String writer;
+	private String content;
 	private Date createDate;
 	private String status;
 }
