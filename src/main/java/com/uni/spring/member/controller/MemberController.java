@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.uni.spring.member.model.dto.Member;
+import com.uni.spring.member.model.dto.WideMember;
 import com.uni.spring.member.model.service.MemberService;
 
+//로그인용
 @SessionAttributes("loginUser")//SessionAttribute는 세션에 있는 데이터도 바인딩하며 여러화면에서 사용하는 객체를 공유할때 사용(여러화면에 나눠진 회원가입,장바구니등)
 @Controller
 public class MemberController {
@@ -46,8 +49,8 @@ public class MemberController {
 		Member loginUser;
 		try {
 			loginUser = memberService.loginMember(m);
-			model.addAttribute("loginUser",loginUser);
-			return "member/testLogin";//로그인이 성공하면 testLogin으로 이동 나중에 경로 바꿔주기!!
+			model.addAttribute("loginUser",loginUser)
+			return "redirect:apprvalMain.do";//로그인이 성공하면 이동 나중에 경로 바꿔주기!!
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -66,13 +69,13 @@ public class MemberController {
 
 	//사원번호를 입력받았으니까 회원정보를 긁어와 회원가입창에 보이게하기!(업데이트 방식으로 할거니까)
 	@PostMapping(value="updateNewMember.do")
-	public ModelAndView updateNewMember(int empNo, ModelAndView mv) {
+	public String updateNewMember(int empNo, Model model) {
 		
-		Member m = memberService.selectNewMember(empNo);
+		WideMember m = memberService.selectNewMember(empNo);
 	
-		mv.addObject("m", m).setViewName("member/updateNewMember");
+		model.addAttribute("m", m);
 
-		return mv;
+		return "member/updateNewMember";
 	}
 	
 	
@@ -90,14 +93,29 @@ public class MemberController {
 	
 	
 	
-	/*@PostMapping(value="updateNewMember2.do")
-	public String updateNewMember2() {//여기서는 불러온 정보 + 업테이트식으로 회원가입
-										
+	@PostMapping(value="updateNewMember2.do")//oneAddress twoAddress는 검색주소와 상세주소임
+	public String updateNewMember2(Member m, @RequestParam("oneAddress") String oneAddress, @RequestParam("twoAddress") String twoAddress) {//여기서는 불러온 정보 + 업테이트식으로 회원가입
 		
 		
-	
-		return "main";//회원가입이 성공하면 로그인화면으로 이동
+		
+		m.setAddress(oneAddress+"/"+twoAddress);//주소 합쳐서Address에 넣어주기
+		
+		//암호화 하기전 회원가입시 입력한 비밀번호
+		System.out.println("회원가입시 입력한 비밀번호: "+m.getUserPw());
+		
+		//비밀번호 암호화
+		String encPwd =bCryptPasswordEncoder.encode(m.getUserPw());
+		
+		System.out.println("암호화한 비밀번호: "+encPwd);
+		
+		m.setUserPw(encPwd);//암호화한 비밀번호를 다시 넣어준다.
+		
+		
+		memberService.updateNewMember(m);
+		
+		return "main";//회원가입 성공하면 로그인화면으로
+
 	}
-	*/
+	
 	
 }
