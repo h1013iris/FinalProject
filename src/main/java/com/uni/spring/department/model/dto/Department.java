@@ -15,10 +15,14 @@ public class Department {
 	private int refDepart;//참조 부서 코드 
 	private int annoWR;//작성자 사원 번호 
 	private String writerName;//작성자 이름
+	private String writerJo;//직위
 	private String annoTitle;//공지사항 제목
 	private String annoContent;//공지사항 내용
 	private String accessReply;//댓글 사용 여부
 	private Date annoDate;//작성일
+	private String annoChangeDate;//작성일 두번째
 	private String status;//상태값
+	private int count;//조회수
+	private String attachStatus;//첨부파일 상태값
 	
 }

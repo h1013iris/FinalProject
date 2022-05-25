@@ -7,17 +7,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="annoNo" column="ANNO_NO"/>
 		<result property="refDepart" column="REF_DEPART"/>
 		<result property="annoWR" column="ANNO_WR"/>
+		<result property="writerName" column="EMP_NAME"/>
+		<result property="writerJo" column="JOB_NAME"/>
 		<result property="annoTitle" column="ANNO_TITLE"/>
 		<result property="annoContent" column="ANNO_CONTENT"/>
 		<result property="accessReply" column="ACCESS_REPLY"/>	
 		<result property="annoDate" column="ANNO_DATE"/>	
-		<result property="status" column="STATUS"/>		
+		<result property="annoChangeDate" column="ANNO_DATE2"/>
+		<result property="status" column="STATUS"/>
+		<result property="count" column="COUNT"/>	
+		<result property="attachStatus" column="ATTACH_STATUS"/>	
+	</resultMap>
+	<resultMap type="Attachment" id="attachmentResultSet">
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
 	</resultMap>
 	
 	<insert id="insertAnnoDepart" parameterType="Department">
 		INSERT INTO ANNOUNCE_DEPART
 		VALUES
-		(SEQ_ANNO.NEXTVAL, #{refDepart}, #{annoWR}, #{annoTitle}, #{annoContent}, #{accessReply}, SYSDATE, DEFAULT)
+		(SEQ_ANNO.NEXTVAL, #{refDepart}, #{annoWR}, #{annoTitle}, #{annoContent}, #{accessReply}, SYSDATE, DEFAULT, DEFAULT, #{attachStatus})
 	</insert>
 	<insert id="insertAnnoNum">
 		INSERT INTO CATE_ALL
@@ -32,6 +41,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertAnnoDepartNoAttach">
 		INSERT INTO ANNOUNCE_DEPART
 		VALUES
-		(SEQ_ANNO.NEXTVAL,#{refDepart}, #{annoWR}, #{annoTitle}, #{annoContent}, #{accessReply}, SYSDATE, DEFAULT)
+		(SEQ_ANNO.NEXTVAL,#{refDepart}, #{annoWR}, #{annoTitle}, #{annoContent}, #{accessReply}, SYSDATE, DEFAULT, DEFAULT, #{attachStatus})
 	</insert>
+	<select id="selectAnnoDepartList" parameterType="_int" resultMap="departmentResultSet">
+		SELECT ANNO_NO, REF_DEPART,ANNO_WR, EMP_NAME, ANNO_TITLE, ACCESS_REPLY, ANNO_DATE, COUNT
+		FROM ANNOUNCE_DEPART AD
+		JOIN USER_INFO ON (ANNO_WR=EMP_NO)
+		WHERE REF_DEPART = #{adno}
+		AND AD.STATUS='Y'
+	</select>
+	<update id="increaseCount" parameterType="_int">
+		UPDATE ANNOUNCE_DEPART
+		SET COUNT = COUNT+1
+		WHERE ANNO_NO =#{adno}
+		AND STATUS='Y'
+	</update>
+	<select id="selectDepartmentAnno" parameterType="_int" resultMap="departmentResultSet">
+		SELECT ANNO_NO, REF_DEPART, ANNO_WR, EMP_NAME, ANNO_TITLE, ANNO_CONTENT, ACCESS_REPLY, TO_CHAR(ANNO_DATE, 'YYYY/MM/DD HH24:MI:SS') AS ANNO_DATE2, COUNT, ATTACH_STATUS, JOB_NAME
+		FROM ANNOUNCE_DEPART AD
+        JOIN USER_INFO UI ON(ANNO_WR=EMP_NO)
+        JOIN JOB_RANK_MANAGEMENT JR ON (UI.JOB_NO=JR.JOB_NO)
+		WHERE ANNO_NO =#{adno}
+		AND AD.STATUS='Y'
+	</select>
+	<select id="selectAttachmentAnno" parameterType="_int" resultMap="attachmentResultSet">
+		SELECT ORIGIN_NAME, CHANGE_NAME
+		FROM ATTACHMENT
+		JOIN CATE_ALL CA ON (REF_LIST_CAT_NO=LIST_CAT_NO)
+		WHERE CA.CAT_NO = 60
+		AND LARGE_CAT=#{adno}
+	</select>
 </mapper>

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class Attachment {
 	private int fileNo;//파일번호
 	private int refListCatNo;//참조 분류 순서 
+	private int largeCat;//게시글 번호
 	private String originName;//파일 원본명
 	private String changeName;//파일 수정명
 	private Date uploadDate;//파일 업로드일
