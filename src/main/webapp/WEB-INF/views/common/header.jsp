@@ -315,7 +315,59 @@
 	        </li>
 	    </ul>
 	</aside>
+	<script type="text/javascript">
+	$(function(){
+	//부서별 페이지 공지사항 클릭했을 시에 
+	$(document).on("click",".annoDepart",function(){
+		var adno =${loginUser.departmentNo}//부서코드
+		$.ajax({
+			url:"annoDepartListView.do", 
+			data:{adno:adno}, 
+			type:"get", 
+			success:function(list){
+				$tableBody = $('#annoDepartArea .annoDepartListPart');
+				$tableBody.html('');
+				if(list.length ==0){
+					var th1 = $("<th colspan='4'>").text("존재하는 공지사항이 없습니다");
+					var tt = $("<tr>").append(th1);
+					$tableBody.append(tt);
+				}else if(list.length != 0){
+					$.each(list, function(i, obj){
+						var $tr = $('<tr>').addClass("annoDepart_detail");
+						var $dTitle = $('<td>').text(obj.annoTitle).addClass("annoDepart_Tilte");
+						var $dWriterName = $('<td>').text(obj.writerName);
+						var $dwatcher = $('<td>').text(obj.count);
+						var $dAnnoDate = $('<td>').text(obj.annoDate);
+						var $dAnnoNo = $('<td><input type="hidden" name="annoNo" value='+obj.annoNo+'>');
+						var $dAnnoW = $('<td><input type="hidden" name="annoWR" value='+obj.annoWR+'>');
+						
+						$tr.append($dTitle);
+						$tr.append($dWriterName);
+						$tr.append($dwatcher);
+						$tr.append($dAnnoDate);
+						$tr.append($dAnnoNo);
+						$tr.append($dAnnoW);
+						$tableBody.append($tr);
+						
+					});
+				}
+				$(".annoDepartModal").css("display","flex");
+			}, 
+			err:function(){
+				console.log("부서별 공지사항 모음 값 받기 실패")
+			}
+		})
+		
+	})
+		
+	$(document).on("click",".annoDepart_detail",function(){
+		console.log($(this).children().eq(4).children().val())//번호 체크
+		console.log($(this).children().eq(5).children().val())//글작성한 사람
+		location.href="detailAnnoDepart.do?adno="+$(this).children().eq(4).children().val()+"&userNo="+${loginUser.empNo}+"&writerNo="+$(this).children().eq(5).children().val();
+	})
+	})
 	
+	</script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
 

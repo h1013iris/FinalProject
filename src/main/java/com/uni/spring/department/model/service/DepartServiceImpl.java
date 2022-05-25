@@ -1,5 +1,7 @@
 package com.uni.spring.department.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,31 @@ public class DepartServiceImpl implements DepartService {
 		if(result<0) {
 			throw new CommException("공지사항 추가 실패");
 		}
+	}
+
+	@Override
+	public ArrayList<Department> selectAnnoDepartList(int adno) {
+		ArrayList<Department> list = departDao.selectAnnoDepartList(sqlSession, adno);
+		System.out.println("공지사항 리스트 가져와"+list.toString());
+		return list;
+	}
+
+	@Override
+	public int increaseCount(int adno) {
+		
+		return departDao.increaseCount(sqlSession, adno);
+	}
+
+	@Override
+	public Department selectDepartmentAnno(int adno) {
+		
+		return departDao.selectDepartmentAnno(sqlSession, adno);
+	}
+
+	@Override
+	public Attachment selectAttachmentAnno(int adno) {
+		
+		return departDao.selectAttachmentAnno(sqlSession, adno);
 	}
 
 }

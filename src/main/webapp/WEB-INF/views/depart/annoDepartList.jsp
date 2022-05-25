@@ -13,14 +13,18 @@
 	.annodDepartButton{
 		padding:5px;
 	}
+	
 	.annoButtonDiv{
 		position: absolute;
 	    top: 3px;
 	    right: 30px;
 	}
 	.annoDepartTable{
-		border:1px solid black;
 		width: 100%;
+	}
+	.annoDepartTable thead{
+		border-bottom: 1px solid;
+		margin-bottom: 10px;
 	}
 	.titleDepartArea{
 		width: 50%;
@@ -29,6 +33,26 @@
 	#annoDepartArea thead{
 		height: 6%;
     	line-height: 30px;
+	}
+	.annoDepart_detail{
+		height: 6%;
+    	line-height: 30px;
+    	text-align: center;
+	}
+	.annoDepart_Tilte{
+		text-align: left;
+		padding-left: 15px;
+	}
+	.annoDepart_detail:hover{
+		cursor: pointer;
+		background-color: rgb(174, 217, 248);
+	}
+	.commonButton1{
+		width: 65px;
+		height: 45px;
+	}
+	.buttonSection{
+		height: 70px;
 	}
 </style>
 </head>
@@ -63,14 +87,17 @@
             	</table>
             </div>
             <!-- 모달 푸터 부분 -->
-            <div class="modal_footer">
-                <button class="next_btn deletebutton" type="button">다음</button>
-                <button class="cancel_btn closebutton" type="button">취소</button>
+            <div class="modal_footer buttonSection" align="right">
+                <button class="next_btn deletebutton commonButton1" type="button">다음</button>
+                <button class="cancel_btn closebutton commonButton1" type="button">창 닫기</button>
             </div>
         </div>
 	</div>
 	<script type="text/javascript">
-	
+		
 	</script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
+	
 </body>
 </html>

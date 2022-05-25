@@ -68,7 +68,9 @@
 					<!-- 작성자 부분 session에서 값 받아오기 ${loginUser.empName} -->
 					<div class="enrollWriterSection">
 						<div class="mainStyleCh"><span class="writerPart">작성자</span></div>
-						<input type="text" id = "writer" name="writerName" value="1" readonly>
+						<input type="text" id = "writer" name="writerName" value="${loginUser.empName}" readonly>
+						<input type="hidden" name="annoWR" value="${loginUser.empNo}"> 
+						<input type="hidden" name="refDepart" value="${loginUser.departmentNo}">
 					</div>
 					<!-- 내용 부분 -->
 					<div class="enrollContentSection">
