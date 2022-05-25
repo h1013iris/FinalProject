@@ -45,7 +45,12 @@
 		height: 50px;
 	}
 	.main_section{
-		border: 1px solid black;
+		text-align:center;
+		justify-content: center;
+	    align-items: center;
+	    width : 83vw;
+
+	   
 	}
 	#enrollFormAnnoDepart{
 		height: 90vh;
@@ -59,6 +64,7 @@
 
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
+	
 	<div class="main_section">	
 		<div class="middleEnrollForm">
 			
@@ -90,6 +96,7 @@
 			</form>
 		</div>
     </div>
+    
 <script>
 CKEDITOR.replace('content');
 </script>

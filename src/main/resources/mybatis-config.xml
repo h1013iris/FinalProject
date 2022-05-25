@@ -15,11 +15,14 @@
   		<typeAlias type="com.uni.spring.member.model.dto.Member" alias="Member"/>
   		<typeAlias type="com.uni.spring.member.model.dto.WideMember" alias="WideMember"/>
   		<typeAlias type="com.uni.spring.department.model.dto.Department" alias="Department"/>
+  		<typeAlias type="com.uni.spring.common.Attachment" alias="Attachment"/>
+  		<typeAlias type="com.uni.spring.board.model.dto.Board" alias="Board"/>
   	</typeAliases>
   	
   	<mappers>
   		<mapper resource="/mappers/department-mapper.xml"/>
   		<mapper resource="/mappers/member-mapper.xml"/>
+  		<mapper resource="/mappers/board-mapper.xml"/>
   	</mappers>
   </configuration>
   	
