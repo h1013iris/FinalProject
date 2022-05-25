@@ -7,12 +7,13 @@
   	<settings>
   		<!-- NULL은 항상 대문자 -->
   		<setting name="jdbcTypeForNull" value="NULL"/>
-  		<!-- 언더바 때문에 컬럼명 달라서 resultMap 작성할 필요 없도록 -->
- 		<setting name="mapUnderscoreToCamelCase" value="true"/>
+  		<!-- 언더바 때문에 컬럼명 달라서 resultMap 작성할 필요 없도록-->
+ 		<setting name="mapUnderscoreToCamelCase" value="true"/> 
   	</settings>
   	
   	<typeAliases>
   		<typeAlias type="com.uni.spring.member.model.dto.Member" alias="Member"/>
+  		<typeAlias type="com.uni.spring.member.model.dto.WideMember" alias="WideMember"/>
   		<typeAlias type="com.uni.spring.department.model.dto.Department" alias="Department"/>
   		<typeAlias type="com.uni.spring.common.Attachment" alias="Attachment"/>
   		<typeAlias type="com.uni.spring.board.model.dto.Board" alias="Board"/>
@@ -24,3 +25,4 @@
   		<mapper resource="/mappers/board-mapper.xml"/>
   	</mappers>
   </configuration>
+  	

@@ -19,14 +19,27 @@
  	<result property="jobNo" column="JOB_NO"/>
  	<result property="departmentNo" column="DEPARTMENT_NO"/>
  </resultMap>
-
-
  
+  <resultMap type="WideMember" id="WidememberResultSet">
+ 	<id property="empNo" column="EMP_NO"/>
+ 	<result property="userId" column="USER_ID"/>
+ 	<result property="userPw" column="USER_PW"/>
+ 	<result property="empName" column="EMP_NAME"/>
+ 	<result property="userNo" column="USER_NO"/>
+ 	<result property="email" column="EMAIL"/>
+ 	<result property="phone" column="PHONE"/>
+ 	<result property="address" column="ADDRESS"/>
+ 	<result property="hireDate" column="HIRE_DATE"/>
+ 	<result property="status" column="STATUS"/>
+ 	<result property="endDate" column="END_DATE"/>
+ 	<result property="jobNo" column="JOB_NO"/>
+ 	<result property="departmentNo" column="DEPARTMENT_NO"/>
+ 	<result property="jobName" column="JOB_NAME"/>
+ 	<result property="departmentTitle" column="DEPARTMENT_TITLE"/>
+ </resultMap> 
+ 
+
  <select id="selectLoginMember" resultMap="memberResultSet">
-
-
-
-
 
  <!-- 암호화 이후 로그인쿼리 여기서 STATUS는 퇴사여부임(아직구현안함)
  <![CDATA[
@@ -56,14 +69,31 @@
 </select>
 
 <!-- 회원가입하기전 회원가입창에 사원정보 불러오기 select -->
-<select id = "selectNewMember" resultMap="memberResultSet">
+ <!-- <select id = "selectNewMember" resultMap="memberResultSet">
 <![CDATA[
  	SELECT *
  	FROM USER_INFO
  	WHERE EMP_NO=#{empNo}
 	 ]]>
 </select>
-
+ -->
+ 
+<!-- 회원가입폼에 입력한 사번으로 정보 불러오기 -->
+<select id ="selectNewMember" resultType="WideMember">
+<![CDATA[
+   SELECT B.JOB_NAME,
+           C.DEPARTMENT_TITLE,
+           A.EMP_NAME,
+           A.EMAIL,
+           A.PHONE,
+           A.USER_NO,
+           A.EMP_NO
+ 	FROM USER_INFO A 
+    JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO =B.JOB_NO
+    JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO = C.DEPARTMENT_NO 
+ 	WHERE A.EMP_NO=#{empNo}
+ 	 ]]>
+</select>
 
 <!-- 아이디 중복확인 -->
 <select id="selectIdCheck" resultType="_int">
@@ -76,14 +106,12 @@
 
 
 <!-- 회원가입 update로 진행 -->
+
 <update id="updateNewMember" parameterType="Member">
 	<![CDATA[
 		UPDATE USER_INFO
 		SET USER_ID = #{userId}, USER_PW=#{userPw}, ADDRESS=#{address}
-		WHERE EMP_NO = #{empNo} 
+		WHERE EMP_NO =#{empNo}
  	]]>
 </update>
-
-
- 
  </mapper>
