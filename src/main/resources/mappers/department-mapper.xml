@@ -24,11 +24,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES
 		(SEQ_CATEGORY.NEXTVAL, 60, SEQ_ANNO.CURRVAL)
 	</insert>
-	<insert id="insertAnnoDepartAttach" parameterType="Attachment">
+	
+	<!-- <insert id="insertAnnoDepartAttach" parameterType="Attachment">
 		INSERT INTO ATTACHMENT
 		VALUES
 		(SEQ_ATTACH.NEXTVAL,SEQ_CATEGORY.CURRVAL, #{originName}, #{changeName}, SYSDATE, DEFAULT)
-	</insert>
+	</insert>-->
+	
 	<insert id="insertAnnoDepartNoAttach">
 		INSERT INTO ANNOUNCE_DEPART
 		VALUES

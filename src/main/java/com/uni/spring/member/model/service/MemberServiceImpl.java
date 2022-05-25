@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.uni.spring.common.exception.CommException;
 import com.uni.spring.member.model.dao.MemberDao;
 import com.uni.spring.member.model.dto.Member;
+import com.uni.spring.member.model.dto.WideMember;
 
 
 @Service
@@ -49,9 +50,9 @@ public class MemberServiceImpl implements MemberService {
 	*/
 
 	@Override
-	public Member selectNewMember(int empNo) {
+	public WideMember selectNewMember(int empNo) {
 		
-		Member m =  null;
+		WideMember m =  null;
 		
 		int result = memberDao.selectEmpNoCount(sqlSession, empNo);
 		System.out.println("사번조회"+result);
@@ -64,12 +65,12 @@ public class MemberServiceImpl implements MemberService {
 		return m;
 	}
 
-	@Override
+	/*@Override
 	public Member selectLoginMember(BCryptPasswordEncoder bCryptPasswordEncoder, Member m) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+*/
 	
 	//아이디 중복체크
 	@Override
@@ -78,11 +79,19 @@ public class MemberServiceImpl implements MemberService {
 		return idno;
 	}
 
+	@Override
+	public void updateNewMember(Member m){
+		int result = memberDao.updateNewMember(sqlSession, m);
+		if(result < 0) {//왜 여기 1이 아니고 0일까..?? 내일물어보자
+			throw new CommException("회원가입에 실패했습니다");
+		}
+		
+	}
 
-
-
-	
-
-
-
+	//암호화 된거 로그인
+	@Override
+	public Member selectLoginMember(BCryptPasswordEncoder bCryptPasswordEncoder, Member m) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
