@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="boardMapper">
+
+ <resultMap type="Board" id="boardResultset">
+   <id property="writeno" column="WRITE_NO"/>
+   <result property="title" column="TITLE"/>
+   <result property="writer" column="EMP_NO"/>
+   <result property="content" column="CONTENT"/>
+   <result property="createDate" column="B_DATE"/>
+   
+
+ </resultMap>
+
+<select id="selectListCount" resultType="_int"  >
+
+select count(*)
+from notice
+where status='Y'
+
+</select>
+	
+     
+     <select id="selectList" resultMap="boardResultset">
+   
+   
+        SELECT *
+		FROM notice 		
+		WHERE STATUS='Y'
+		ORDER BY WRITE_NO DESC
+   
+   </select>
+   <select id="selectfreeListCount" resultType="_int"  >
+
+select count(*)
+from free_board
+where status='Y'
+
+</select>
+	
+     
+     <select id="selectfreeList" resultMap="boardResultset">
+   
+   
+        SELECT *
+		FROM free_board 		
+		WHERE STATUS='Y'
+		ORDER BY WRITE_NO DESC
+   
+   </select>
+     
+    
+  
+</mapper>

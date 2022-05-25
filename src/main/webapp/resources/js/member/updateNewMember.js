@@ -1,16 +1,16 @@
 window.onload = function(){
-    document.getElementById("address_search").addEventListener("click", function(){ //주소입력칸을 클릭하면
+     document.getElementById("address_search").addEventListener("click", function(){ //주소입력칸을 클릭하면
         //카카오 지도 발생
-        new daum.Postcode({
+    new daum.Postcode({
             oncomplete: function(data) { //선택시 입력값 세팅
                 document.getElementById("address").value = data.address; // 주소 넣기
-                document.querySelector("input[name=nextAddress]").focus(); //상세입력 포커싱
+                document.querySelector("input[name=twoAddress]").focus(); //상세입력 포커싱
             }
         }).open();
     });
 }
 
-
+   
 function checkId(no){
 	if(no == 0){
 	$("#checkResult").hide();
@@ -87,14 +87,14 @@ $(function(){
             
           
           //회원가입 버튼 눌렀을 때, 빈칸 있으면 다시 유효성 검사진행    
-           $("#submit").on("click",function(){
+   /*        $("#submit").on("click",function(){
         	   var pw = $("#userPw").val();
         
         	   var pwregex =/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
         
         	   var pwregex = pwregex.exec(pw);
         	   if(pwregex == null){
-        		   alert("비밀번호양식을 다시 확인해주세요");
+        		   alert("입력정보를 다시 확인해주세요");
         		   retrun;
         	   }
         
@@ -104,6 +104,28 @@ $(function(){
            
            })
         })
+ */
  
- 
+ //마지막에 비밀번호 일치하는지 한번더 확인하는것
+     //회원가입 버튼 눌렀을 때, 빈칸 있으면 다시 유효성 검사진행    
+           $("#submit").on("click",function(){
+        	   var pw = $("#userPw").val();
+        
+        	   var pwregex =/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
+        
+        	   var pwregex = pwregex.exec(pw);
+        	   if(pwregex == null){
+        		   alert("입력정보를 다시 확인해주세요");
+        		   return;
+        	  }
+        	   if($("#userPw").val()!=$("#ckPw").val()){//비밀번호 일치여부 다시 확인
+                alert("비밀번호 일치여부를 다시 확인해주세요");
+                   return;
+            }else{
+             //빈칸 없을 때 제출.
+        	   $("#submit").submit();
+            }
+           })
+        })
+    
 
