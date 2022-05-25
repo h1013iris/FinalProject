@@ -4,9 +4,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>휴가 신청서</title>
+<style type="text/css">
+	
+</style>
 </head>
 <body>
-
+	
+	<div class="mainDiv">
+		${docForm}
+        ${docTitle}
+        
+        <div class="table">
+        
+        
+        </div>
+	
+	</div>
+	
 </body>
 </html>

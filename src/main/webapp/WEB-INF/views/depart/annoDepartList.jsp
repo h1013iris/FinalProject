@@ -82,7 +82,7 @@
             			</tr>
             		</thead>
             		<tbody class="annoDepartListPart">
-            			
+
             		</tbody>
             	</table>
             </div>

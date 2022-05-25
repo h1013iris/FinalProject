@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReturnDoc {
+public class ReturnDoc { // 반려 문서
 
-	private int docNo;
-	private int reFrom;
-	private String reReason;
-	private Timestamp reDate;
+	private int docNo; // 문서 번호
+	private int reFrom; // 반려자
+	private String reReason; // 반려 사유
+	private Timestamp reDate; // 반려일
 }

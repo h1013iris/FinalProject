@@ -9,7 +9,7 @@
 <style type="text/css">
 	
 	#modal_container {
-		height: 400px;
+		height: 500px;
 	}
 	
 	/*.modal_header {
@@ -17,27 +17,38 @@
 	}*/
 	
 	.modal_title {
-		font-size: 19px;
+		font-size: 21px;
 		font-weight: bold;
 	}
 	
 	.modal_body {
 		/*border: 1px solid black;*/
-		height: 260px;
-		padding: 
-	}
-	
-	#docTitle {
-		width: 270px;
+		height: 65%;
 	}
 	
 	.select_div {
-		height: 80px;
-		margin: 10px 10px;
+		/*height: 10%;*/
+		margin-top: 10%;
+	}
+	
+	.select_title {
+		font-size: 17px;
 	}
 	
 	.dropdown, .input_docTitle {
 		margin-top: 10px;
+	}
+	
+	#docType, #docForm {
+		width: 65%;
+		padding: 1%;
+		font-size: 16px;
+	}
+	
+	#docTitle {
+		width: 95%;
+		padding: 1%;
+		font-size: 16px;
 	}
 	
 </style>
@@ -45,7 +56,7 @@
 <body>
 
 	<div id="modal_background" class="modal_background docEnrollModal">
-        <div id="modal_container" class="size400">
+        <div id="modal_container" class="size500">
             <div class="modal_header">
                 <div class="logo">
                     <img src="${ pageContext.servletContext.contextPath }/resources/images/facebook_cover_photo_1.png" alt="">
@@ -53,13 +64,13 @@
                 <span class="modal_title">문서 작성</span>
             </div>
             
-            <div class="modal_body">
-			   	<form class="documentTypeForm" action="" method="get">
+            <form class="documentTypeForm" action="docEnrollForm.do" method="post">
+            	<div class="modal_body">
 			   		<div class="select_div">
-				   		<span class="select_title">문서 타입</span>
+				   		<label class="select_title">문서 타입</label>
 				        <div class="dropdown">
-					        <select id="docType" name="docType">
-					        	<option value="none">=== 선택 ===</option>
+					        <select id="docType" name="docType" onchange="docFormChange(this)">
+					        	<option>선택</option>
 					           	<option value="app">신청서</option>
 					           	<option value="draft">기안서</option>
 					           	<option value="coop">협조문</option>
@@ -67,34 +78,36 @@
 				        </div>
 			        </div>
 			        <div class="select_div">
-				        <span class="select_title">문서 서식</span>
+				        <label class="select_title">문서 서식</label>
 				        <div class="dropdown">
 					        <select id="docForm" name="docForm">
-					        	<option value="none">=== 선택 ===</option>
-					           	<option value="title">제목</option>
-					           	<option value="content">내용</option>
+					        	<option>선택</option>
 					        </select>
 					   	</div>
 			        </div>
 			        <div class="select_div">
-			        	<span class="select_title">문서 제목</span>
+			        	<label class="select_title">문서 제목</label>
 			        	<div class="input_docTitle">
-			        		<input type="text" id="docTitle" name="docTitle">
+			        		<input type="text" id="docTitle" name="docTitle" maxlength="100">
 			        	</div>
 			        </div>
-			  	</form>
-            </div>
-            
-            <div class="modal_footer">
-                <button class="next_btn" type="button">확인</button>
-                <button class="cancel_btn" type="button">취소</button>
-            </div>
+	            </div>
+	            
+	            <div class="modal_footer">
+	                <button class="next_btn" type="submit">확인</button>
+	                <button class="cancel_btn" type="button">취소</button>
+	            </div>
+            </form>
         </div>
     </div>
     
     <script type="text/javascript">
 	    
+    	
 	</script>
+	
+	<script src="${ pageContext.servletContext.contextPath }/resources/js/approval/docEnrollModal.js"></script>
+	
 		
 </body>
 </html>

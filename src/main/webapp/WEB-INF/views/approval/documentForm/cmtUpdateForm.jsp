@@ -4,9 +4,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>근태 기록 수정 의뢰 신청서</title>
 </head>
 <body>
-
+	
+	<div class="mainDiv">
+	
+		${docForm}
+        ${docTitle}
+	
+	</div>
+	
 </body>
 </html>
