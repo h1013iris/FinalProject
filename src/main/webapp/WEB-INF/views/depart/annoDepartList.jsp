@@ -58,14 +58,7 @@
             			</tr>
             		</thead>
             		<tbody class="annoDepartListPart">
-            			<c:forEach items="${list}" var="d">
-            				<tr>
-            					<td>${d.annoTitle}</td>
-            					<td>${d.writerName}</td>
-            					<td>읽은 사람 </td>
-            					<td>${d.annoDate}</td>
-            				</tr>
-            			</c:forEach>
+
             		</tbody>
             	</table>
             </div>

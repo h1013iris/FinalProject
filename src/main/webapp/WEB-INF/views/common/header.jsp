@@ -9,10 +9,10 @@
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">
 </head>
 <body>
-	<jsp:include page="../depart/annoDepartList.jsp"></jsp:include>
-	<jsp:include page="../approval/docEnrollModal.jsp"></jsp:include>
-	<jsp:include page="./alert.jsp"></jsp:include>
-	<jsp:include page="./confirm.jsp"></jsp:include>
+	<jsp:include page="../depart/annoDepartList.jsp"/>
+	<jsp:include page="../approval/docEnrollModal.jsp"/>
+	<jsp:include page="./alert.jsp"/>
+	<jsp:include page="./confirm.jsp"/>
 
 	
 	<header id="main_header">
@@ -99,7 +99,7 @@
 	            </div>
 	        </li>
 	        <li>
-	            <a class="approval" href="apprvalMain.do"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/결재.png" alt=""></a>
+	            <a class="approval" href="approvalMain.do"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/결재.png" alt=""></a>
 	            <div class="detail_nav_content">
 	                <div class="nananan"><p class="detail_title">전자결재</p></div>
 	                <button type="button" class="commonButton2 etcButton docEnrollButton"><span>문서 작성</span></button>
@@ -299,8 +299,8 @@
 	                <ul>
 	                    <li class="list_title">전재결재 관리</li>
 	                    <div class="hhh">
-		                    <li><a href="#">문서 보안 관리</a></li>
-		                    <li><a href="#">문서 서식 관리</a></li>
+		                    <li><a href="securityMain.do">문서 보안 관리</a></li>
+		                    <li><a href="formMgtMain.do">문서 서식 관리</a></li>
 	                   	</div>
 	                </ul>
 	                <ul>

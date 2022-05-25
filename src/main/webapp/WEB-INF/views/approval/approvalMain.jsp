@@ -37,13 +37,13 @@
 	.waiting {
 		width: 48.65%;
 		float: left;
-		padding-right: 20px;
+		padding-right: 1.2%;
 	}
 	
 	.complete {
 		width: 48.65%;
 		float: left;
-		padding-left: 20px;
+		padding-left: 1.2%;
 	}
 	
 	.status {
@@ -53,20 +53,20 @@
 	.table {
 		width: 100%;
 		margin-top: 20px;
-		padding: 20px;
+		padding: 1.5%;
 		text-align: center;
 	}
 	
 	.table td, .table th {
 		border: 1px solid black;
-		padding: 10px;
+		padding: 15px;
 	}
 	
 	.search {
 		text-align: center;
 		margin-top: 5%;
 		margin-bottom: 4%;
-		padding: 20px;
+		padding: 1.5%;
 	}
 	
 </style>
@@ -84,9 +84,9 @@
 		        	<table class="table">
 		        		<thead class="thead">
 		   					<tr>
-		   						<th>문서 제목</th>
-		   						<th>기안자</th>
-		   						<th>기안일</th>
+		   						<th width="65%">문서 제목</th>
+		   						<th width="15%">기안자</th>
+		   						<th width="20%">기안일</th>
 		   					</tr>
 		   				</thead>
 		   				<tbody>
@@ -115,9 +115,9 @@
 					<table class="table">
 		   				<thead class="thead">
 		   					<tr>
-		   						<th>문서 제목</th>
-		   						<th>기안자</th>
-		   						<th>완료일</th>
+		   						<th width="65%">문서 제목</th>
+		   						<th width="15%">기안자</th>
+		   						<th width="20%">완료일</th>
 		   					</tr>
 		  				</thead>
 		   				<tbody>
@@ -146,11 +146,11 @@
 		        	<table class="table">
 		        		<thead class="thead">
 		   					<tr>
-		   						<th>문서 번호</th>
-		   						<th>문서 유형</th>
-		   						<th>문서 제목</th>
-		   						<th>기안일</th>
-		   						<th>진행 상태</th>
+		   						<th width="10%">문서 번호</th>
+		   						<th width="10%">문서 유형</th>
+		   						<th width="53%">문서 제목</th>
+		   						<th width="10%">기안일</th>
+		   						<th width="17%">진행 상태</th>
 		   					</tr>
 		   				</thead>
 		   				<tbody>

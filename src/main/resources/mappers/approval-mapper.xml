@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="aprvMapper">
+
+	<resultMap type="AprvDoc" id="aprvComRSet">
+		<result property="docNo" column="DOC_NO"/>
+		<result property="docType" column="DOC_TYPE"/>
+		<result property="docTitle" column="DOC_TITLE"/>
+		<result property="drafter" column="DRAFTER"/>
+		<result property="comDate" column="PRO_DATE"/>
+	</resultMap>
+	
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM V_COMPLETE_DOC
+	</select>
+
+	<select id="selectList" resultMap="aprvComRSet">
+		SELECT *
+		FROM V_COMPLETE_DOC
+	</select>
+
+	
+
+
+</mapper>

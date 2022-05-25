@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>문서 보안 관리 상세 페이지</title>
 </head>
 <body>
 
-	<jsp:include page="../../common/header.jsp"/>
+	<jsp:include page="../../common/header.jsp"></jsp:include>
 	
 	<div class="main_section">
         
@@ -19,6 +19,6 @@
         
         
     </div>
-
+    
 </body>
 </html>

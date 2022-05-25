@@ -4,9 +4,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>업무 협조문</title>
 </head>
 <body>
-
+	
+	<div class="mainDiv">
+		${docForm}
+        ${docTitle}
+	
+	
+	</div>
+	
 </body>
 </html>
