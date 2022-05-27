@@ -6,7 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <style>
+
+
+
 #boardList {
 	text-align: center;
 }
@@ -72,15 +76,16 @@ img {
 	margin-left: 12%;
 }
 
-#bu2 {
+#bu3 {
 	background-color: #85cdff;
 }
 
 .dropdown {
 	position: relative;
 	display: inline-block;
-	margin-left: 83%;
+	margin-left: 70%;
 	height: 150px;
+	float: left;
 }
 
 .dropdown1 {
@@ -88,6 +93,12 @@ img {
 	display: inline;
 	margin-left: 20%;
 	height: 10%;
+}
+
+.dropdown2 {
+	position: relative;
+	display: inline-block;
+	height: 150px;
 }
 
 .dropbtn_icon {
@@ -130,6 +141,46 @@ img {
 	display: block;
 }
 
+.dropbtn_icon2 {
+	font-family: 'Material Icons';
+}
+
+.dropbtn2 {
+	border: 1px solid rgb(133, 205, 255);
+	border-radius: 4px;
+	background-color: #f5f5f5;
+	font-weight: 400;
+	color: rgb(37, 37, 37);
+	padding: 12px;
+	width: 200px;
+	text-align: left;
+	cursor: pointer;
+	font-size: 12px;
+}
+
+.dropdown-content2 {
+	display: none;
+	font-weight: 400;
+	background-color: #f9f9f9;
+	min-width: 200px;
+}
+
+.dropdown-content2 a {
+	display: block;
+	text-decoration: none;
+	color: rgb(37, 37, 37);
+	font-size: 12px;
+	padding: 12px 20px;
+}
+
+.dropdown-content2 a:hover {
+	background-color: #ececec
+}
+
+.dropdown2:hover .dropdown-content2 {
+	display: block;
+}
+
 .noticelist {
 	width: 84vw;
 	margin-bottom: 100%;
@@ -143,6 +194,10 @@ img {
 #tex {
 	width: 300px;
 	height: 30px;
+}
+.dpAll{
+	display: flex;
+	justify-content: flex-end;
 }
 </style>
 </head>
@@ -158,18 +213,29 @@ img {
 				<a href="free.do"><button class="noticeButton1" id="bu2">자유게시판</button></a>
 				<a href="depart.do"><button class="noticeButton1" id="bu3">부서게시판</button></a>
 				<a href="anonymous.do"><button class="noticeButton1" id="bu4">익명게시판</button></a>
-
-
-
-				<div class="dropdown">
-					<button class="dropbtn">
-						<span id="isRecent" class="dropbtn_icon">최신순</span>
-					</button>
-					<div class="dropdown-content" id="drp">
-						<a id="new" href="free.do">최신순</a> <a id="old" href="freeold.do">오래된순</a>
-					</div>
+			</div>
+            
+           <div class="dpAll"> 
+			<div class="dropdown">
+				<button class="dropbtn">
+					<span id="isRecent" class="dropbtn_icon">최신순</span>
+				</button>
+				<div class="dropdown-content" id="drp">
+					<a id="new" href="notice.do">최신순</a> <a id="old"
+						href="noticeold.do">오래된순</a>
 				</div>
 			</div>
+			<div class="dropdown2">
+				<button class="dropbtn2">
+					<span id="isRecent" class="dropbtn_icon2">영업팀</span>
+				</button>
+				<div class="dropdown-content2" id="drp">
+					<a id="sales" href="depart.do">영업팀</a> 
+					<a id="tec" href="tec.do">기술 지원팀</a>
+					<a id="oper" href="oper.do">경영 지원팀</a>
+				</div>
+			</div>
+          </div>
 			<div class="noticelist" style="padding: 5% 10%;">
 				<table id="boardList" class="table table-hover" align="center">
 
@@ -182,6 +248,7 @@ img {
 						</tr>
 					</thead>
 					<tbody>
+
 						<c:forEach items="${ list }" var="n">
 							<tr>
 								<td style="height: 70px;">${ n.writeno }</td>
@@ -193,6 +260,7 @@ img {
 							</tr>
 
 						</c:forEach>
+
 					</tbody>
 					<c:if test="${ empty list }">
 						<tr>
@@ -206,7 +274,7 @@ img {
 						<c:choose>
 							<c:when test="${ pi.currentPage ne 1 }">
 								<a class="page-link"
-									href="free.do?currentPage=${ pi.currentPage-1 }"><button
+									href="notice.do?currentPage=${ pi.currentPage-1 }"><button
 										class="noticeButton2"><</button></a>
 							</c:when>
 							<c:otherwise>
@@ -219,7 +287,7 @@ img {
 						<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 							<c:choose>
 								<c:when test="${ pi.currentPage ne p }">
-									<a class="page-link" href="free.do?currentPage=${ p }"
+									<a class="page-link" href="notice.do?currentPage=${ p }"
 										style="color: white"><button class="noticeButton2">${ p }</button></a>
 								</c:when>
 								<c:otherwise>
@@ -233,20 +301,21 @@ img {
 						<c:choose>
 							<c:when test="${ pi.currentPage ne pi.maxPage }">
 								<a class="page-link"
-									href="free.do?currentPage=${ pi.currentPage+1 }"><button
+									href="notice.do?currentPage=${ pi.currentPage+1 }"><button
 										class="noticeButton2">></button></a>
 							</c:when>
 							<c:otherwise>
 								<a class="page-link"
-									href="free.do?currentPage=${ pi.currentPage+1 }"><button
+									href="notice.do?currentPage=${ pi.currentPage+1 }"><button
 										class="noticeButton2">></button></a>
 							</c:otherwise>
 						</c:choose>
 					</ul>
 				</div>
+				<br> <br>
 				<div class="serch">
 					<div class="dropdown1">
-						<form action="searchfree.do">
+						<form action="searchBoard.do">
 							<select name="condition">
 								<option value="title">제목</option>
 								<option value="content">내용</option>
@@ -255,8 +324,29 @@ img {
 						</form>
 					</div>
 
-
-
+					<script>
+			$(function(){
+				switch('${condition}'){				
+				case "title" : $("#searchArea option").eq(1).attr("selected", true); break; 
+				case "content" : $("#searchArea option").eq(2).attr("selected", true); break; 
+				}
+			})
+		
+            if(window.location.pathname === "/noticeold.do"){
+            document.getElementById("isRecent").innerText="오래된순";
+            }else{
+            document.getElementById("isRecent").innerText="최신순";
+            }
+			  if(window.location.pathname === "/sales.do"){
+		      document.getElementById("isRecent").innerText="영업팀";
+		      }else if(window.location.pathname === "/tec.do"){
+		      document.getElementById("isRecent").innerText="기술 지원팀";
+		      }else{
+		    	  document.getElementById("isRecent").innerText="경영 지원팀";
+		      }
+			
+			
+		</script>
 
 
 				</div>
@@ -264,17 +354,15 @@ img {
 
 
 			<script>
-    if(window.location.pathname === "/freeold.do"){
-        document.getElementById("isRecent").innerText="오래된순";
-        }else{
-        document.getElementById("isRecent").innerText="최신순";
-        }
     
     	$(function(){
     		$("#boardList tbody tr").click(function(){
     			location.href="detailBoard.do?bno=" + $(this).children().eq(0).text();
     		});
     	});
+    
+  
     </script>
 </body>
+
 </html>

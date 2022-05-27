@@ -8,14 +8,6 @@
 <title>결재 문서 서식 선택</title>
 <style type="text/css">
 	
-	#modal_container {
-		height: 500px;
-	}
-	
-	/*.modal_header {
-		border: 1px solid black;
-	}*/
-	
 	.docTitle {
 		font-size: 21px;
 		font-weight: bold;
@@ -35,7 +27,7 @@
 		font-size: 17px;
 	}
 	
-	.dropdown, .input_docTitle {
+	.docEnrollDropdown, .input_docTitle {
 		margin-top: 10px;
 	}
 	
@@ -49,6 +41,10 @@
 		width: 95%;
 		padding: 1%;
 		font-size: 16px;
+	}
+	
+	.docEnrollFooter {
+		margin-bottom: 30px;
 	}
 	
 </style>
@@ -68,7 +64,9 @@
             	<div class="modal_body docEnrollbody">
 			   		<div class="select_div">
 				   		<label class="select_title">문서 타입</label>
-				        <div class="dropdown">
+
+				        <div class="dropdown docEnrollDropdown">
+
 					        <select id="docType" name="docType" onchange="docFormChange(this)">
 					        	<option value="none">== 선택 ==</option>
 					           	<option value="app">신청서</option>
@@ -79,7 +77,9 @@
 			        </div>
 			        <div class="select_div">
 				        <label class="select_title">문서 서식</label>
-				        <div class="dropdown">
+
+				        <div class="dropdown docEnrollDropdown">
+
 					        <select id="docForm" name="docForm">
 					        </select>
 					   	</div>
@@ -91,7 +91,7 @@
 			        	</div>
 			        </div>
 	            </div>
-	            <div class="modal_footer">
+	            <div class="modal_footer docEnrollFooter">
                 	<button class="next_btn" type="submit">확인</button>
                 	<button class="cancel_btn" type="button">취소</button>
             	</div>

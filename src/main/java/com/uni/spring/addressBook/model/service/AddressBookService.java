@@ -11,4 +11,6 @@ public interface AddressBookService {
 
 	ArrayList<Dept> selectDeptTitleList(Dept dp);
 
+	ArrayList<WideMember> selectDeptAddlist(String departmentTitle);
+
 }

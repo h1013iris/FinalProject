@@ -86,7 +86,7 @@
     
     <script type="text/javascript">
     	
-    	// 취소 버튼 클릭 시 이전 페이지로 이동
+    	// 문서 등록 페이지에서 취소 버튼 클릭 시 이전 페이지로 이동
     	$(".cancle_btn").click(function() {
 			location.href=document.referrer;
 			// document.referrer : 마지막 페이지의 url을 가져오면 이전 정보는 가져올 수 없음

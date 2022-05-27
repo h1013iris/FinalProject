@@ -142,13 +142,19 @@
 ]]>
 </select>
 
-<!-- 부서명클릭시 부서별 조회 리스트 나오게 
-<select id="selectDeptlist" resultType="WideMember">
+<!-- 부서명클릭시 부서별 조회 리스트 나오게 -->
+<select id="selectDeptAddList" resultType="WideMember">
 <![CDATA[
-	SELECT DEPARTMENT_TITLE
-    FROM DEPARTMENT_MANAGEMENT  
-    ORDER BY DEPARTMENT_NO
-]]>
+	 SELECT A.EMP_NAME,
+           C.DEPARTMENT_TITLE,
+           B.JOB_NAME,
+           A.EMAIL,
+           A.PHONE
+ 	FROM USER_INFO A 
+    LEFT JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO =B.JOB_NO
+    LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO =C.DEPARTMENT_NO
+    WHERE C.DEPARTMENT_TITLE=#{departmentTitle}
+    ]]>
 </select>
- -->
+ 
  </mapper>
