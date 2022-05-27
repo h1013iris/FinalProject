@@ -8,7 +8,7 @@
 <title>공지사항 페이지 모달</title>
 <style type="text/css">
 	.annoDepartListsize{
-		height:68%;
+		height:400px;
 	}
 	.annodDepartButton{
 		padding:5px;

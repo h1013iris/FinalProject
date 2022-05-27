@@ -4,189 +4,235 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="boardMapper">
 
-	<resultMap type="Board" id="boardResultset">
-		<id property="writeno" column="WRITE_NO" />
-		<result property="title" column="TITLE" />
-		<result property="empno" column="EMP_NO" />
-		<result property="content" column="CONTENT" />
-		<result property="createDate" column="B_DATE" />
-		<result property="writer" column="EMP_NAME" />
-	</resultMap>
+   <resultMap type="Board" id="boardResultset">
+      <id property="writeno" column="WRITE_NO" />
+      <result property="title" column="TITLE" />
+      <result property="empno" column="EMP_NO" />
+      <result property="content" column="CONTENT" />
+      <result property="createDate" column="B_DATE" />
+      <result property="writer" column="EMP_NAME" />
+   </resultMap>
 
-	<!-- 노티스 -->
-	<select id="selectListCount" resultType="_int">
+   <!-- 노티스 -->
+   <select id="selectListCount" resultType="_int">
 
-		select count(*)
-		from notice
-		where status='Y'
+      select count(*)
+      from notice
+      where status='Y'
 
-	</select>
-
-
-	<select id="selectList" resultMap="boardResultset">
+   </select>
 
 
-		SELECT A.*,
-		B.EMP_NAME
-		FROM notice A
-		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
-		WHERE A.STATUS='Y'
-		ORDER BY
-		A.WRITE_NO DESC
-
-	</select>
-
-	<select id="selectsearchnotiCount" resultType="_int">
-		SELECT COUNT(*)
-		FROM NOTICE N
-		JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
-		WHERE N.STATUS='Y'
-		<if test="title != null">
-			AND N.TITLE LIKE '%' ||#{title}||'%'
-		</if>
-		<if test="content != null">
-			AND N.CONTENT LIKE '%' ||#{content}||'%'
-		</if>
-
-	</select>
-
-	<select id="selectnotiList" resultMap="boardResultset">
-		SELECT *
-		FROM NOTICE N
-		JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
-		WHERE N.STATUS='Y'
-		<if test="title != null">
-			AND N.TITLE LIKE '%' ||#{title}||'%'
-		</if>
-		<if test="content != null">
-			AND N.CONTENT LIKE '%' ||#{content}||'%'
-		</if>
-
-		ORDER BY WRITE_NO DESC
+   <select id="selectList" resultMap="boardResultset">
 
 
+      SELECT A.*,
+      B.EMP_NAME
+      FROM notice A
+      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+      WHERE A.STATUS='Y'
+      ORDER BY
+      A.WRITE_NO DESC
 
-	</select>
-	<select id="selectoldList" resultMap="boardResultset">
+   </select>
 
+   <select id="selectsearchnotiCount" resultType="_int">
+      SELECT COUNT(*)
+      FROM NOTICE N
+      JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
+      WHERE N.STATUS='Y'
+      <if test="title != null">
+         AND N.TITLE LIKE '%' ||#{title}||'%'
+      </if>
+      <if test="content != null">
+         AND N.CONTENT LIKE '%' ||#{content}||'%'
+      </if>
 
-		SELECT A.*,
-		B.EMP_NAME
-		FROM notice A
-		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
-		WHERE A.STATUS='Y'
-		ORDER BY A.WRITE_NO 
+   </select>
 
-	</select>
-	<!-- 자유게시판 -->
-	<select id="selectfreeListCount" resultType="_int">
+   <select id="selectnotiList" resultMap="boardResultset">
+      SELECT *
+      FROM NOTICE N
+      JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
+      WHERE N.STATUS='Y'
+      <if test="title != null">
+         AND N.TITLE LIKE '%' ||#{title}||'%'
+      </if>
+      <if test="content != null">
+         AND N.CONTENT LIKE '%' ||#{content}||'%'
+      </if>
 
-		select count(*)
-		from free_board
-		where status='Y'
-
-	</select>
-
-
-	<select id="selectfreeList" resultMap="boardResultset">
-
-		SELECT A.*,
-		B.EMP_NAME
-		FROM free_board A
-		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
-		WHERE A.STATUS='Y'
-		ORDER BY
-		A.WRITE_NO DESC
-
-	</select>
-
-	<select id="selectsearchfreeCount" resultType="_int">
-		SELECT COUNT(*)
-		FROM free_board N
-		JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
-		WHERE N.STATUS='Y'
-		<if test="title != null">
-			AND N.TITLE LIKE '%' ||#{title}||'%'
-		</if>
-		<if test="content != null">
-			AND N.CONTENT LIKE '%' ||#{content}||'%'
-		</if>
-
-	</select>
-
-	<select id="selectsearchfree" resultMap="boardResultset">
-		SELECT *
-		FROM free_board N
-		JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
-		WHERE N.STATUS='Y'
-		<if test="title != null">
-			AND N.TITLE LIKE '%' ||#{title}||'%'
-		</if>
-		<if test="content != null">
-			AND N.CONTENT LIKE '%' ||#{content}||'%'
-		</if>
-
-		ORDER BY WRITE_NO DESC
+      ORDER BY WRITE_NO DESC
 
 
 
-	</select>
+   </select>
+   <select id="selectoldList" resultMap="boardResultset">
+
+
+      SELECT A.*,
+      B.EMP_NAME
+      FROM notice A
+      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+      WHERE A.STATUS='Y'
+      ORDER BY A.WRITE_NO 
+
+   </select>
+   <!-- 자유게시판 -->
+   <select id="selectfreeListCount" resultType="_int">
+
+      select count(*)
+      from free_board
+      where status='Y'
+
+   </select>
+
+
+   <select id="selectfreeList" resultMap="boardResultset">
+
+      SELECT A.*,
+      B.EMP_NAME
+      FROM free_board A
+      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+      WHERE A.STATUS='Y'
+      ORDER BY
+      A.WRITE_NO DESC
+
+   </select>
+
+   <select id="selectsearchfreeCount" resultType="_int">
+      SELECT COUNT(*)
+      FROM free_board N
+      JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
+      WHERE N.STATUS='Y'
+      <if test="title != null">
+         AND N.TITLE LIKE '%' ||#{title}||'%'
+      </if>
+      <if test="content != null">
+         AND N.CONTENT LIKE '%' ||#{content}||'%'
+      </if>
+
+   </select>
+
+   <select id="selectsearchfree" resultMap="boardResultset">
+      SELECT *
+      FROM free_board N
+      JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
+      WHERE N.STATUS='Y'
+      <if test="title != null">
+         AND N.TITLE LIKE '%' ||#{title}||'%'
+      </if>
+      <if test="content != null">
+         AND N.CONTENT LIKE '%' ||#{content}||'%'
+      </if>
+
+      ORDER BY WRITE_NO DESC
+
+
+
+   </select>
 
 
 
 
-	<select id="selectfreeoldList" resultMap="boardResultset">
+   <select id="selectfreeoldList" resultMap="boardResultset">
 
 
-		SELECT A.*,
-		B.EMP_NAME
-		FROM free_board A
-		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
-		WHERE A.STATUS='Y'
-		ORDER BY A.WRITE_NO 
+      SELECT A.*,
+      B.EMP_NAME
+      FROM free_board A
+      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+      WHERE A.STATUS='Y'
+      ORDER BY A.WRITE_NO 
 
-	</select>
+   </select>
 
-	<!-- 글작성 -->
-	<insert id="insertnotice" parameterType="Board">
+   <!-- 글작성 -->
+   <insert id="insertnotice" parameterType="Board">
 
-		INSERT INTO NOTICE
-		VALUES(SEQ_NOTI.NEXTVAL, #{title}, #{content}, SYSDATE, DEFAULT, #{empno})
-
-
-
-	</insert>
-
-	<insert id="insertfree" parameterType="Board">
-
-		INSERT INTO FREE_BOARD
-		VALUES(SEQ_NOTI.NEXTVAL, #{title}, #{content}, SYSDATE ,DEFAULT,#{empno})
+      INSERT INTO NOTICE
+      VALUES(SEQ_NOTI.NEXTVAL, #{title}, #{content}, SYSDATE, DEFAULT, #{empno})
 
 
 
-	</insert>
-	
-		<select id="selecdeparttListCount" resultType="_int">
+   </insert>
 
-		select count(*)
-		from dept_board
-		where status='Y'
+   <insert id="insertfree" parameterType="Board">
 
-	</select>
+      INSERT INTO FREE_BOARD
+      VALUES(SEQ_NOTI.NEXTVAL, #{title}, #{content}, SYSDATE ,DEFAULT,#{empno})
 
 
-	<select id="selectList" resultMap="boardResultset">
+
+   </insert>
+   
+      <select id="selecdeparttListCount" resultType="_int">
+
+      select count(*)
+      from dept_board
+      where status='Y'
+      AND DEPARTMENT_NO = '1'
+
+   </select>
 
 
-		SELECT A.*,
-		B.EMP_NAME
-		FROM dept_board A
-		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
-		WHERE A.STATUS='Y'
-		ORDER BY
-		A.WRITE_NO DESC
+   <select id="selectdepartList" resultMap="boardResultset">
 
-	</select>
+
+      SELECT A.*,
+      B.EMP_NAME
+      FROM dept_board A
+      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+      WHERE A.STATUS='Y'
+      AND A.DEPARTMENT_NO = '1'
+      ORDER BY A.WRITE_NO DESC
+
+   </select>
+   
+   <select id="selecttecListCount" resultType="_int">
+
+      select count(*)
+      from dept_board
+      where status='Y'
+      AND DEPARTMENT_NO = '2'
+
+   </select>
+
+
+   <select id="selecttecList" resultMap="boardResultset">
+
+
+      SELECT A.*,
+      B.EMP_NAME
+      FROM dept_board A
+      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+      WHERE A.STATUS='Y'
+      AND A.DEPARTMENT_NO = '2'
+      ORDER BY A.WRITE_NO DESC
+
+   </select>
+   
+   <select id="selectoperListCount" resultType="_int">
+
+      select count(*)
+      from dept_board
+      where status='Y'
+        AND DEPARTMENT_NO = '3'
+   </select>
+
+
+   <select id="selectoperList" resultMap="boardResultset">
+
+
+      SELECT A.*,
+      B.EMP_NAME
+      FROM dept_board A
+      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+      WHERE A.STATUS='Y'
+      AND A.DEPARTMENT_NO = '3'
+      ORDER BY A.WRITE_NO DESC
+
+   </select>
 
 
 </mapper>

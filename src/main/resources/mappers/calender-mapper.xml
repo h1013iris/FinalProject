@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{empNo}, #{sectionOption}, #{selectColor},
 		#{title}, #{openOption}, #{alarm}, #{place}, #{memo}, 'Y')
 	</insert>
-	<select id="selectList" parameterType="Member" resultMap="calenderMapper">
+	<select id="selectList" parameterType="Member" resultMap="calenderResultSet">
 		SELECT
 		    *
 		FROM CALENDER
