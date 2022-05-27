@@ -7,6 +7,7 @@
 <title>로그인/메인페이지</title>
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/login.css">
 </head>
+
 <body>
     <div id="container">
         <img src="resources/images/loginComLogo.png" alt="회사로고" id="logo"><br>
