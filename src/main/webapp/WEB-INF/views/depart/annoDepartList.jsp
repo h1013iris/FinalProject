@@ -47,12 +47,15 @@
 		cursor: pointer;
 		background-color: rgb(174, 217, 248);
 	}
-	.commonButton1{
+	.closebutton, .deletebutton{
 		width: 65px;
 		height: 45px;
 	}
 	.buttonSection{
 		height: 70px;
+	}
+	.noannoDepart{
+		padding-top: 20px;
 	}
 </style>
 </head>
@@ -93,9 +96,6 @@
             </div>
         </div>
 	</div>
-	<script type="text/javascript">
-		
-	</script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
 	

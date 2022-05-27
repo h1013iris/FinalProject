@@ -14,6 +14,11 @@ $(function(){
 	$(document).on("click",".docEnrollButton",function(){
 		$(".docEnrollModal").css("display","flex");
 	})
+	
+	//간편 프로젝트 생성 버튼 클릭시 모달창 
+	$(document).on("click",".simplepjMo", function(){
+		$(".simpleProjectCreateModal").css("display","flex");
+	})
 
     $("#main_nav img").mouseenter(function(){
         $(".detail_nav_content").removeClass("enter");

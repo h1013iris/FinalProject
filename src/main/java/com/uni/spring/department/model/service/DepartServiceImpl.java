@@ -10,6 +10,8 @@ import com.uni.spring.common.Attachment;
 import com.uni.spring.common.exception.CommException;
 import com.uni.spring.department.model.dao.DepartDao;
 import com.uni.spring.department.model.dto.Department;
+import com.uni.spring.department.model.dto.DepartmentReply;
+import com.uni.spring.department.model.dto.Project;
 
 @Service
 public class DepartServiceImpl implements DepartService {
@@ -25,20 +27,17 @@ public class DepartServiceImpl implements DepartService {
 		int result = departDao.insertAnnoDepart(sqlSession, d);//공지사항 넣기
 		
 		if(result>0) {
-			int findAnnoNum = departDao.insertAnnoNum(sqlSession, d);//통합 분류 넣기
-			int result2 = departDao.insertAnnoDepartAttach(sqlSession,a);//첨부파일 넣긴
+			if(a.getOriginName()!=null) {
+				a.setRefListCatNo(60);
+				int result2 = departDao.insertAnnoDepartAttach(sqlSession,a);//첨부파일 넣긴
+				if(result2<0) {
+						throw new CommException("게시글 추가 실패");
+				}
+			}
 		}else {
 			throw new CommException("게시글 추가 실패");
 		}
 		
-	}
-
-	@Override
-	public void insertAnnoDepartNoAttach(Department d) {
-		int result = departDao.insertAnnoDepartNoAttach(sqlSession, d);//공지사항 넣기
-		if(result<0) {
-			throw new CommException("공지사항 추가 실패");
-		}
 	}
 
 	@Override
@@ -64,6 +63,76 @@ public class DepartServiceImpl implements DepartService {
 	public Attachment selectAttachmentAnno(int adno) {
 		
 		return departDao.selectAttachmentAnno(sqlSession, adno);
+	}
+
+	@Override
+	public void deletAnnoDepart(int adno, String rlcn) {
+		int result = departDao.deleteAnnoDepart(sqlSession, adno);//게시글
+		if(!rlcn.equals("")) {
+			int resultR = departDao.deleteAnnoDepartRef(sqlSession,Integer.parseInt(rlcn));//참조번호
+			if(resultR<0) {
+				throw new CommException("첨부파일 삭제 실패");
+			}
+		}
+		
+		if(result<0) {
+			throw new CommException("공지사항 삭제 실패");
+		}
+	}
+	
+
+	@Override
+	public void updateAnnoDepart(Department d, Attachment a) {
+		int result = departDao.updateAnnoDepart(sqlSession, d);//공지사항 수정
+		if(result>0) {
+			if(a.getOriginName()!=null) {
+				a.setRefListCatNo(60);
+				int result2 = departDao.updateAnnoDepartAttach(sqlSession,a);//첨부파일 수정
+				if(result2<0) {
+					throw new CommException("게시글 추가 실패");
+				}
+			}
+		}else {
+			throw new CommException("게시글 추가 실패");
+		}
+		
+		
+	}
+
+	@Override
+	public void insertAtta(Attachment a) {
+		
+		int result2 = departDao.insertAnnoDepartreAttach(sqlSession,a);//첨부파일 넣긴
+		if(result2<0) {
+				throw new CommException("게시글 추가 실패");
+		}	
+	}
+
+	@Override
+	public int insertAnnoReply(DepartmentReply dr) {
+		int result = departDao.insertAnnoReply(sqlSession, dr);
+		return result;
+	}
+
+	@Override
+	public ArrayList<DepartmentReply> selectAnnoReplyList(int adno) {//댓글 리스트
+		
+		return departDao.selectAnnoReplyList(sqlSession, adno);
+	}
+
+	@Override
+	public int deleteAnnoDepartReply(int adro) {
+		
+		return departDao.deleteAnnoDepartReply(sqlSession, adro);
+	}
+
+	@Override
+	public void insertDPSimple(Project p) {
+		int result = departDao.insertDPSimple(sqlSession, p);
+		if(result<0) {
+			throw new CommException("게시글 추가 실패");
+		}
+		
 	}
 
 }

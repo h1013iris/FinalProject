@@ -9,7 +9,6 @@
 <style type="text/css">
 	.annoDetailVeiw{
 		width: 83vw;
-		border: 1px solid;
 	}
 	.annoDetailTitle{
 		margin-left : 20px;
@@ -49,8 +48,8 @@
 		margin-right: 10px;
 	}
 	.annoDetailContent{
-		border: 1px solid red;
-		margin-bottom: 30px;
+		margin-bottom: 40px;
+		font-size: 19px;
 	}
 	.annoDetailEdit img:hover{
 		cursor: pointer;
@@ -65,7 +64,6 @@
 	}
 
 	.controlAnnoDetail>li{
-		border:1px solid;
 		background-color:white;
 		width:90px;
 		height:25px;
@@ -82,6 +80,68 @@
 		background-color: #85cdff;
 		color: white;
 		cursor: pointer;
+	}
+	.annoDetailReplyUp{
+		display: flex;
+	}
+	.logo_Reply{
+		margin-right: 20px;
+	}
+	.countReply{
+		line-height: 40px;
+	}
+	.replyAREA{
+		margin-top: 10px;
+		overflow-y: scroll;
+		height: 30vh;
+	}
+	.replySendArea{
+		height: 5vh;
+	}
+	.replyButton{
+		height: 32px;
+		width: 70px;
+		transform:translate(10px, -17px);
+	}
+	#reply{
+		margin-top: 10px;
+		
+	}
+	.replyWriterName{
+		font-size: 18px;
+	    height: 18px;
+	    font-weight: 550;
+	    float: left;
+	}
+	.replyTitleSe{
+		padding-top:4px;
+    	height: 27px;
+    	width: 92%;
+    	padding-bottom: 7px;
+	}
+	.replywrDateSe{
+		font-size: 13px;
+		width: 15%;
+	}
+	.replydelete img:hover{
+		cursor: pointer;
+		width: 10px;
+	}
+	.replydelete img{
+		width: 10px;
+	}
+	.deleteorsubmit{
+		display: flex;
+		height: 20%;
+		justify-content:space-between;
+		margin-top: 20px;
+	}
+	.annoDetailButton {
+	    position: relative;
+	    width: 8%;
+	    height:5%;
+	    font-size: 14px;
+	    text-align: center;
 	}
 </style>
 </head>
@@ -105,6 +165,11 @@
 	        			</ul>
 	        		</li>
         		</ul>
+        		<form action="" id="postForm" method="post">
+        			<input type="hidden" name ="adno" value="${d.annoNo}">
+        			<input type="hidden" name ="rlcn" value="${a.fileNo}">
+        			<input type="hidden" name ="fileName" value="${a.changeName}">
+        		</form>
 	        	</div>
 	        	</c:if>
         	</div>
@@ -127,12 +192,43 @@
         		</c:if>
         	</div>
         	<!-- 내용 -->
-        	<div class="annoDetailContent"><span>${d.annoContent}</span></div>
+        	<div class="annoDetailContent">
+        		<span>${d.annoContent}</span>
+       		</div>
         	<!-- 댓글 부분 -->
-        	
+        	<c:if test="${d.accessReply eq 'Y'}">
+        	<div class="annoDetailReplySection">
+        		<div class="annoDetailReplyUp">
+        			<div class="logo_Reply">
+                    <img src="${ pageContext.servletContext.contextPath }/resources/images/reply.png" alt="" width="40">
+                	</div>
+                	<div class="countReply">
+                		<span>댓글 <span id="rcount"></span> 개</span>
+                	</div>
+        		</div>
+        		<div class="replyAREA">
+        			<table id="replyList" >
+			
+					</table>
+        		</div>
+        		<c:if test="${loginUser.empNo != d.annoWR}">
+        		<div class="replySendArea">
+        			<textarea name="replyTitle" rows="2.5" cols="180" style="resize:none;" id="reply"></textarea>
+        			<button type="button" class="commonButton1 replyButton" style="line-height:normal;">댓글 작성</button>
+        		</div>
+        		</c:if>
+        	</div>
+        	</c:if>
+        	<!-- 이전 공지, 이후 공지, 목록으로 -->
+        	<div class="deleteorsubmit" >
+				<button class="commonButton2 annoDetailButton" onclick="prevButton()" ><span> < Prev </span></button>
+				<button class="commonButton2 annoDetailButton" onclick="location.href='departmentPage.do'"><span> 목록으로 </span></button>
+				<button class="commonButton2 annoDetailButton" onclick="nextButton()" ><span> Next > </span></button>
+			</div>
         </div>
     </div>
     <script type="text/javascript">
+	  	
     	/*디폴트로 사라지게*/
 	    $(document).ready(function(){
 			$(".controlAnnoDetail").hide();		
@@ -146,6 +242,157 @@
 		$(document).click(function(){
 			$(".controlAnnoDetail").hide();	
 		})
+		
+		function postFormSubmit(num){
+    		 var postForm = $("#postForm");
+    		 
+    		 if(num ==1){
+    			 postForm.attr("action", "updateAnnoDepartForm.do")
+    		 }else{
+    			 postForm.attr("action", "deleteAnnoDepart.do")
+    		 }
+    		 postForm.submit();
+    	}
+    	
+    	$(function(){
+    		selectAnnoReplyList();
+    		$(".replyButton").click(function(){
+        		console.log($("#reply").val())//값이 잘 나오는 것을 확인 완료
+        		console.log(${loginUser.empNo})
+        		var adno = ${d.annoNo};//게시글 번호
+        		var replyWriter = ${loginUser.empNo};
+        		if($("#reply").val().trim().length != 0){
+        			$.ajax({
+        				url:"annoReplyInsert.do", 
+        				type:"post", 
+        				data:{
+        					replyTitle:$("#reply").val(), 
+        					refDepartNo:adno, 
+        					replyWriter:replyWriter}, 
+       					success:function(result){
+       						if(result>0){
+       							$("#reply").val("");
+       							console.log("댓글 달기 성공")//댓글 다는거는 성공
+       							selectAnnoReplyList();
+       						}else{
+       							$("#alert_container .title_name").text("댓글 등록 실패");
+       		        			$("#alert_body .alert_content").text("댓글을 등록을 실패하였습니다");
+       		        			$("#alert_container").css("display","block");
+       		        			
+       		        			$(".cancel_btn").click(function(){
+       		        				$("#alert_container .title_name").text("");
+       		            			$("#alert_body .alert_content").text("");
+       		        				$("#alert_container").hide();
+       		        			})
+       						}
+       					}, error:function(){
+       						console.log("댓글 작성 ajax 실패")
+       					}
+        				
+        			});
+        			
+        		}else{//댓글 등록 안하고 클릭시
+        			$("#alert_container .title_name").text("댓글 등록");
+        			$("#alert_body .alert_content").text("댓글을 등록해주세요");
+        			$("#alert_container").css("display","block");
+        			
+        			$(".cancel_btn").click(function(){
+        				$("#alert_container .title_name").text("");
+            			$("#alert_body .alert_content").text("");
+        				$("#alert_container").hide();
+        				$("#reply").focus();
+        			})
+        		}
+        	});
+    	});
+    	
+    	function selectAnnoReplyList(){//댓글 리스트 가져오는 것
+    		var adno = ${d.annoNo};//게시글 번호
+    		$.ajax({
+    			url:"annoRList.do",
+    			data:{adno:adno}, 
+    			type:"get", 
+    			success:function(list){
+    				$("#rcount").text(list.length);
+    				
+    				var value ="";
+    				$.each(list, function(i, obj){
+    					if("${loginUser.empNo}"==obj.replyWriter){
+    						value += "<tr class='replyListTr'>";
+    					}else{
+    						value += "<tr class='replyListTr'>";
+    					}
+    					
+    					value += "<th class='replyWriterName'>" + obj.writerName +" "+ obj.writerJo + "</th>" ;
+    					if("${loginUser.empNo}"==obj.replyWriter){
+    					value += "<th class='replydelete'><img src='${ pageContext.servletContext.contextPath }/resources/images/close.png' alt='' onclick='deleteReply("+obj.replyNo+")' width='10'>"+"</th></tr>";
+    					} 
+    					value += "</tr><tr class='contenttot'><td class='replyTitleSe'>" + obj.replyTitle + "</td>" + 
+						 "<td class='replywrDateSe'>" + obj.wrDate + "</td>" +
+					 	"</tr>";
+    				})
+    				$("#replyList").html(value);
+    			},error:function(){
+    				console.log("댓글 리스트조회용 ajax 통신 실패");
+    			}
+    		})
+    	}
+    	
+    	function deleteReply(num){
+    		$("#confirm_title .title_name").text("댓글 삭제");
+    		$("#confirm_body .confirm_content").text("댓글을 삭제하시겠습니까?");
+    		$("#confirm_container").css("display","block");
+       		
+    		$("button[name='confirmBtn']").click(function(){
+        		console.log($(this).val())
+        		if($(this).val()=="true"){
+        			location.href="deleteAnnoDepartReply.do?adro="+num+"&adno="+${d.annoNo};
+        			$("#confirm_container").css("display","none");
+        		}else{
+        			$("#confirm_container").hide();
+        		}
+        	})
+    	}  	
+    	
+    	//이전 게시물 버튼
+		function prevButton(){
+			var adno = "${d.prevNo}";
+			if(adno != 0){
+				location.href="detailAnnoDepart.do?adno"+adno;
+			}else{
+				$("#alert_container .title_name").text("공지사항");
+    			$("#alert_body .alert_content").text("이전 공지사항이 없습니다.");
+    			$("#alert_container").css("display","block");
+    			
+    			$(".cancel_btn").click(function(){
+    				$("#alert_container .title_name").text("");
+        			$("#alert_body .alert_content").text("");
+    				$("#alert_container").hide();
+    				$("#reply").focus();
+    			})
+				return;
+			}
+		}
+		//이후 게시물 버튼
+		function nextButton(){
+			
+			var adno = "${d.nextNo}";
+			if(adno != 0){
+				location.href="detailAnnoDepart.do?adno"+adno;
+			}else{
+				$("#alert_container .title_name").text("공지사항");
+    			$("#alert_body .alert_content").text("이후 공지사항이 없습니다.");
+    			$("#alert_container").css("display","block");
+    			
+    			$(".cancel_btn").click(function(){
+    				$("#alert_container .title_name").text("");
+        			$("#alert_body .alert_content").text("");
+    				$("#alert_container").hide();
+    				$("#reply").focus();
+    			})
+				return;
+			}
+		}
     </script>
 </body>
 </html>

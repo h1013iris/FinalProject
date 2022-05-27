@@ -13,6 +13,7 @@
 	<jsp:include page="../approval/docEnrollModal.jsp"/>
 	<jsp:include page="./alert.jsp"/>
 	<jsp:include page="./confirm.jsp"/>
+	<jsp:include page="../depart/simpleProjectCreate.jsp"/>
 
 	
 	<header id="main_header">
@@ -182,8 +183,8 @@
 	                <ul>
 	                    <li class="list_title">프로젝트</li>
 	                    <div class="hhh">
-		                    <li><a href="#">간편 프로젝트 생성</a></li>
-		                    <li><a href="#">프로젝트 관리</a></li>
+		                    <li ><a href="#" class="simplepjMo">간편 프로젝트 생성</a></li>
+		                    <li><a href="gotoProjectPage.do">프로젝트 관리</a></li>
 	                    </div>
 	                </ul>
 	                <ul>
@@ -328,7 +329,7 @@
 				$tableBody = $('#annoDepartArea .annoDepartListPart');
 				$tableBody.html('');
 				if(list.length ==0){
-					var th1 = $("<th colspan='4'>").text("존재하는 공지사항이 없습니다");
+					var th1 = $("<th colspan='4'>").text("존재하는 공지사항이 없습니다").addClass("noannoDepart");
 					var tt = $("<tr>").append(th1);
 					$tableBody.append(tt);
 				}else if(list.length != 0){

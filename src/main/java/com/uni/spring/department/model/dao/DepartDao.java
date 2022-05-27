@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import com.uni.spring.common.Attachment;
 import com.uni.spring.department.model.dto.Department;
+import com.uni.spring.department.model.dto.DepartmentReply;
+import com.uni.spring.department.model.dto.Project;
 
 @Repository
 public class DepartDao {
@@ -51,5 +53,50 @@ public class DepartDao {
 		
 		return sqlSession.selectOne("departMapper.selectAttachmentAnno", adno);
 	}
+
+	public int deleteAnnoDepart(SqlSessionTemplate sqlSession, int adno) {
+		return sqlSession.update("departMapper.deleteAnnoDepart", adno);
+	}
+
+	public int deleteAnnoDepartRef(SqlSessionTemplate sqlSession, int rlcn) {
+		
+		return sqlSession.update("departMapper.deleteAnnoDepartRef",rlcn);
+	}
+
+	public int updateAnnoDepart(SqlSessionTemplate sqlSession, Department d) {
+		
+		return sqlSession.update("departMapper.updateAnnoDepart", d);
+	}
+
+	public int updateAnnoDepartAttach(SqlSessionTemplate sqlSession, Attachment a) {
+		
+		return sqlSession.update("departMapper.updateAnnoDepartAttach",a);
+	}
+
+	public int insertAnnoDepartreAttach(SqlSessionTemplate sqlSession, Attachment a) {
+		
+		return sqlSession.insert("departMapper.insertAnnoDepartreAttach",a);
+	}
+
+	public int insertAnnoReply(SqlSessionTemplate sqlSession, DepartmentReply dr) {
+		System.out.println(dr.toString());
+		return sqlSession.insert("departMapper.insertAnnoReply", dr);
+	}
+
+	public ArrayList<DepartmentReply> selectAnnoReplyList(SqlSessionTemplate sqlSession, int adno) {
+		
+		return (ArrayList)sqlSession.selectList("departMapper.selectAnnoReplyList",adno);
+	}
+
+	public int deleteAnnoDepartReply(SqlSessionTemplate sqlSession, int adro) {
+		
+		return sqlSession.update("departMapper.deleteAnnoDepartReply", adro);
+	}
+
+	public int insertDPSimple(SqlSessionTemplate sqlSession, Project p) {
+		
+		return sqlSession.insert("departMapper.insertDPSimple", p);
+	}
+
 
 }
