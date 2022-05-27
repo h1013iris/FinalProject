@@ -18,7 +18,7 @@
             <input type="submit" id="stn" value="로그인">
           </form>
             <br>
-            <a href="#">아이디/비밀번호 찾기</a>&nbsp;&nbsp;
+            <a href="findIdPw.do">아이디/비밀번호 찾기</a>&nbsp;&nbsp;
             <a href="empNo.do">회원가입</a>
         </div>
     </div>

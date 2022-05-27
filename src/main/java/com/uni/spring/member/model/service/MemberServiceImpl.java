@@ -21,33 +21,38 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao memberDao;
 	
 	//비밀번호 암호화 이전
-	@Override
+	/*@Override
 	public Member loginMember(Member m) throws Exception {
 		Member loginUser = memberDao.loginMember(sqlSession, m);
 		if(loginUser == null) {
 			throw new Exception("로그인정보를 확인해주세요");
 		}	
 		return loginUser;
-	}
-	/*비밀번호 암호화
+	}*/
+	//비밀번호 암호화된것 로그인
 	@Override
-	 * public Member selectLoginMember(BCryptPasswordEncoder bCryptPasswordEncoder, Member m){
+	 public Member loginMember(BCryptPasswordEncoder bCryptPasswordEncoder, Member m){
 		
-		Member loginUser = memberDao.selectLoginMember(sqlSession, m);
+		Member loginUser = memberDao.loginMember(sqlSession, m);
 		
 		if(loginUser == null) {
-			throw new CommException("loginUser 확인");
+			
+			System.out.println("없는 아이디");
+			throw new CommException("로그인 정보를 다시 확인해주세요");
 		}
 		
-		//mathes(입력한비번,암호화비번) ture, false로 반
+		//mathes(입력한비번,암호화비번) ture, false로 반환
 		if(!bCryptPasswordEncoder.matches(m.getUserPw(), loginUser.getUserPw())) {
-			throw new CommException("암호불일치");
+			
+			System.out.println("비밀번호 불일치");
+			throw new CommException("로그인 정보를 다시 확인해주세요");
+			
 		}
 		return loginUser;
 		
 
 	}
-	*/
+	
 
 	@Override
 	public WideMember selectNewMember(int empNo) {
@@ -65,12 +70,6 @@ public class MemberServiceImpl implements MemberService {
 		return m;
 	}
 
-	/*@Override
-	public Member selectLoginMember(BCryptPasswordEncoder bCryptPasswordEncoder, Member m) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-*/
 	
 	//아이디 중복체크
 	@Override
@@ -88,10 +87,4 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
-	//암호화 된거 로그인
-	@Override
-	public Member selectLoginMember(BCryptPasswordEncoder bCryptPasswordEncoder, Member m) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

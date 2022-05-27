@@ -20,7 +20,7 @@
  	<result property="departmentNo" column="DEPARTMENT_NO"/>
  </resultMap>
  
-  <resultMap type="WideMember" id="WidememberResultSet">
+  <resultMap type="WideMember" id="wideMemberResultSet">
  	<id property="empNo" column="EMP_NO"/>
  	<result property="userId" column="USER_ID"/>
  	<result property="userPw" column="USER_PW"/>
@@ -38,24 +38,33 @@
  	<result property="departmentTitle" column="DEPARTMENT_TITLE"/>
  </resultMap> 
  
-
+   <resultMap type="Dept" id="deptResultSet">
+ 	<id property="dNo" column="EMP_NO"/>
+ 	<result property="userId" column="USER_ID"/>
+ 	<result property="userPw" column="USER_PW"/>
+ 	<result property="empName" column="EMP_NAME"/>
+ 	<result property="userNo" column="USER_NO"/>
+ 	<result property="email" column="EMAIL"/>
+ 	<result property="phone" column="PHONE"/>
+ 	<result property="address" column="ADDRESS"/>
+ 	<result property="hireDate" column="HIRE_DATE"/>
+ 	<result property="status" column="STATUS"/>
+ 	<result property="endDate" column="END_DATE"/>
+ 	<result property="jobNo" column="JOB_NO"/>
+ 	<result property="departmentNo" column="DEPARTMENT_NO"/>
+ 	<result property="jobName" column="JOB_NAME"/>
+ 	<result property="departmentTitle" column="DEPARTMENT_TITLE"/>
+ </resultMap> 
+ 
+<!-- 암호화된 로그인 -->
  <select id="selectLoginMember" resultMap="memberResultSet">
+ <![CDATA[
+ 	SELECT *
+ 	FROM USER_INFO
+ 	WHERE USER_ID=#{userId}
+ 	AND STATUS='N'
+ ]]>
 
- <!-- 암호화 이후 로그인쿼리 여기서 STATUS는 퇴사여부임(아직구현안함)
- <![CDATA[
- 	SELECT *
- 	FROM USER_INFO
- 	WHERE USER_ID=#{userId}
- 	AND STATUS='N'
- ]]>-->
- <!-- 암호화 하기전 로그인 -->
- <![CDATA[
- 	SELECT *
- 	FROM USER_INFO
- 	WHERE USER_ID=#{userId}
- 	AND USER_PW=#{userPw}
- 	AND STATUS='N'
-  ]]>
  </select>
  
  
@@ -64,19 +73,10 @@
 <![CDATA[
  	SELECT COUNT(*)
  	FROM USER_INFO
- 	WHERE EMP_NO=#{empNo}
+ 	WHERE USER_ID IS NULL 
+ 	AND EMP_NO=#{empNo} 
  	 ]]>
 </select>
-
-<!-- 회원가입하기전 회원가입창에 사원정보 불러오기 select -->
- <!-- <select id = "selectNewMember" resultMap="memberResultSet">
-<![CDATA[
- 	SELECT *
- 	FROM USER_INFO
- 	WHERE EMP_NO=#{empNo}
-	 ]]>
-</select>
- -->
  
 <!-- 회원가입폼에 입력한 사번으로 정보 불러오기 -->
 <select id ="selectNewMember" resultType="WideMember">
@@ -92,6 +92,7 @@
     JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO =B.JOB_NO
     JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO = C.DEPARTMENT_NO 
  	WHERE A.EMP_NO=#{empNo}
+ 	
  	 ]]>
 </select>
 
@@ -114,4 +115,40 @@
 		WHERE EMP_NO =#{empNo}
  	]]>
 </update>
+
+
+<!-- 전체주소록조회 -->
+<select id="selectAllAddList" resultType="WideMember">
+<![CDATA[
+	SELECT A.EMP_NAME,
+           C.DEPARTMENT_TITLE,
+           B.JOB_NAME,
+           A.EMAIL,
+           A.PHONE
+ 	FROM USER_INFO A 
+    LEFT JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO =B.JOB_NO
+    LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO =C.DEPARTMENT_NO 
+]]>
+</select>
+
+
+<!-- 부서별 주소록 목록 뜨게 음.. 관리자가 부서 추가하면 계속 추가됨. 정렬순서는 부서번호순-->
+
+<select id="selectDeptTitleList" resultType="Dept">
+<![CDATA[
+	SELECT DEPARTMENT_TITLE
+    FROM DEPARTMENT_MANAGEMENT  
+    ORDER BY DEPARTMENT_NO
+]]>
+</select>
+
+<!-- 부서명클릭시 부서별 조회 리스트 나오게 
+<select id="selectDeptlist" resultType="WideMember">
+<![CDATA[
+	SELECT DEPARTMENT_TITLE
+    FROM DEPARTMENT_MANAGEMENT  
+    ORDER BY DEPARTMENT_NO
+]]>
+</select>
+ -->
  </mapper>
