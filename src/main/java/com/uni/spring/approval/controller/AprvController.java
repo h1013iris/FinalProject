@@ -36,7 +36,7 @@ public class AprvController {
 	
 	
 	@RequestMapping("docEnrollForm.do")
-	public ModelAndView docEnrollForm(int docForm, String docTitle, ModelAndView mv) {
+	public ModelAndView docEnrollForm(Integer docForm, String docTitle, ModelAndView mv) {
 		
 		//System.out.println("docForm ========" + docForm);
 		//System.out.println("docTitle ========" + docTitle);
@@ -49,49 +49,51 @@ public class AprvController {
 	}
 	
 	
-	
+	// 휴가 신청서
 	@RequestMapping("insertLeaveApp.do")
 	public ModelAndView insertLeaveApp(LeaveForm form, ModelAndView mv) {
 		
+		//System.out.println("form.getDocTypeNo() =============== " + form.getDocTypeNo());
+		System.out.println("form =============" + form.toString());
 		
 		
-		mv.setViewName("approval/approvalMain");
+		mv.setViewName("redirect:approvalMain.do");
 		
 		return mv;
 	}
 	
 	
-	
+	// 근태 기록 수정 신청서
 	@RequestMapping("insertCmtUpdateApp.do")
 	public ModelAndView insertCmtUpdateApp(CmtUpdateForm form, ModelAndView mv) {
 		
 		
 		
-		mv.setViewName("approval/approvalMain");
+		mv.setViewName("redirect:approvalMain.do");
 		
 		return mv;
 	}
 	
 	
-	
+	// 업무 기안서
 	@RequestMapping("insertBusDraft.do")
 	public ModelAndView insertBusDraft(BusDraftForm form, ModelAndView mv) {
 		
 		
 		
-		mv.setViewName("approval/approvalMain");
+		mv.setViewName("redirect:approvalMain.do");
 		
 		return mv;
 	}
 	
 	
-	
+	// 업무 협조문
 	@RequestMapping("insertBusCoop.do")
 	public ModelAndView insertBusCoop(BusCoopForm form, ModelAndView mv) {
 		
 		
 		
-		mv.setViewName("approval/approvalMain");
+		mv.setViewName("redirect:approvalMain.do");
 		
 		return mv;
 	}
