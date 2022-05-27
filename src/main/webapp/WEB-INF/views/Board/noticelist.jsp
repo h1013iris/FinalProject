@@ -81,7 +81,7 @@ img {
 	position: relative;
 	display: inline-block;
 	margin-left: 83%;
-	height: 120px;
+	height: 150px;;
 }
 
 .dropdown1 {
@@ -248,8 +248,7 @@ img {
 						</c:choose>
 					</ul>
 				</div>
-				<br>
-				<br>
+				<br> <br>
 				<div class="serch">
 					<div class="dropdown1">
 						<form action="searchBoard.do">
@@ -269,15 +268,11 @@ img {
 				}
 			})
 		
-            if(window.location.pathname === "/spring/noticeold.do"){
+            if(window.location.pathname === "/noticeold.do"){
             document.getElementById("isRecent").innerText="오래된순";
             }else{
             document.getElementById("isRecent").innerText="최신순";
             }
-			
-			 $("#new").click(function(){
-		     $(".dropbtn_icon").text("최신순");
-			 });
 			
 			
 			
