@@ -21,6 +21,8 @@
   		<typeAlias type="com.uni.spring.board.model.dto.Board" alias="Board"/>
   		<!-- 캘린더 -->
   		<typeAlias type="com.uni.spring.calender.model.dto.Calender" alias="Calender"/>
+  		<!-- 주소록 -->
+  		<typeAlias type="com.uni.spring.addressBook.model.dto.Dept" alias="Dept"/>
   	</typeAliases>
   	
   	<mappers>

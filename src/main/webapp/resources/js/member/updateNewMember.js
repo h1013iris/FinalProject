@@ -95,7 +95,7 @@ $(function(){
         	   var pwregex = pwregex.exec(pw);
         	   if(pwregex == null){
         		   alert("입력정보를 다시 확인해주세요");
-        		   retrun;
+        		   
         	   }
         
         	   
@@ -108,24 +108,26 @@ $(function(){
  
  //마지막에 비밀번호 일치하는지 한번더 확인하는것
      //회원가입 버튼 눌렀을 때, 빈칸 있으면 다시 유효성 검사진행    
-           $("#submit").on("click",function(){
-        	   var pw = $("#userPw").val();
-        
-        	   var pwregex =/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
-        
-        	   var pwregex = pwregex.exec(pw);
-        	   if(pwregex == null){
-        		   alert("입력정보를 다시 확인해주세요");
-        		   return;
-        	  }
-        	   if($("#userPw").val()!=$("#ckPw").val()){//비밀번호 일치여부 다시 확인
-                alert("비밀번호 일치여부를 다시 확인해주세요");
-                   return;
-            }else{
-             //빈칸 없을 때 제출.
-        	   $("#submit").submit();
-            }
-           })
-        })
-    
+         $("#submit").on("click",function(){
+       var pw = $("#userPw").val();
 
+       var pwregex =/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
+
+       var pwregex = pwregex.exec(pw);
+       //비밀번호 정규식 재검사
+       if(pwregex == null){
+           alert("입력정보를 다시 확인해주세요");
+              return false;
+      }//비밀번호 일치여부 재확인
+       if($("#userPw").val()!=$("#ckPw").val()){
+        alert("비밀번호 일치여부를 다시 확인해주세요");
+           return false;
+    }else{
+         //회원가입 성공
+     alert("회원가입 되었습니다")
+       $("#submit").submit();
+    }
+   })
+})
+	//중복확인 누르고 다시 중복인 아이디 작성하면 로그인 안되도록..
+	//중복확인 안눌러도 가입되는문제 해결..ㅜㅜㅜ 
