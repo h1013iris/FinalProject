@@ -264,7 +264,6 @@
 	<div class="main_section">
         <div class="cal-Enrollform">
 			<form  name="enrollFormSchedule" id="enrollForm-Schedule" action="insertCalender.do" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="empNo" id="empNo" value="${loginUser.empNo}">
 				<div class="enrollform-in-Section">
 					<div class="cal-left">
 						<div class="calender-sectionTitle">일정 추가하기</div>

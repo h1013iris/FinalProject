@@ -86,47 +86,52 @@ public class DateData {
 		// 검색 월에 -1한 값 넣기
 		search_month = search_month-1; 
 		
+		// 이전달 다음달 및 이전년도 다음년도 리턴값 받기
 		Map<String, Integer> before_after_calendar = before_after_calendar(search_year,search_month);
 		
 		//날짜 관련
 		System.out.println("search_month : " + search_month);
 		// 캘린더 함수 end
-		today_Data.put("start", start);
-		today_Data.put("startDay", startDay);
-		today_Data.put("endDay", endDay);
-		today_Data.put("today", today);
-		today_Data.put("search_year", search_year);
-		today_Data.put("search_month", search_month+1);
-		today_Data.put("before_year", before_after_calendar.get("before_year"));
-		today_Data.put("before_month", before_after_calendar.get("before_month"));
-		today_Data.put("after_year", before_after_calendar.get("after_year"));
-		today_Data.put("after_month", before_after_calendar.get("after_month"));
+		today_Data.put("start", start); //시작요앨
+		today_Data.put("startDay", startDay); // 시작하는 일자
+		today_Data.put("endDay", endDay); // 끝나는 일자
+		today_Data.put("today", today); // 오늘
+		today_Data.put("search_year", search_year); // 검색년도
+		today_Data.put("search_month", search_month+1); // 검색달
+		today_Data.put("before_year", before_after_calendar.get("before_year")); // 이전 년도 
+		today_Data.put("before_month", before_after_calendar.get("before_month")); // 이전 달
+		today_Data.put("after_year", before_after_calendar.get("after_year")); // 다음 년도
+		today_Data.put("after_month", before_after_calendar.get("after_month")); // 다음 달
 		return today_Data;
 	}
 	
 	//이전달 다음달 및 이전년도 다음년도
 	private Map<String, Integer> before_after_calendar(int search_year, int search_month){
 		Map<String, Integer> before_after_data = new HashMap<String, Integer>();
-		int before_year = search_year;
-		int before_month = search_month-1;
-		int after_year = search_year;
-		int after_month = search_month+1;
+		int before_year = search_year; // 이전년도
+		int before_month = search_month-1; // 이전 달
+		int after_year = search_year; // 다음 년도
+		int after_month = search_month+1; // 다음 달
 
+		// 만약 이전 달이 0보다 작으면
 		if(before_month<0){
-			before_month=11;
-			before_year=search_year-1;
+			before_month=11; // 11월로 넘어가기
+			before_year=search_year-1; // 검색 년도에서 -1 을 해 이전 년도에 넣기
 		}
 		
+		// 만약 다음 달이 11월보다 크면
 		if(after_month>11){
-			after_month=0;
-			after_year=search_year+1;
+			after_month=0; // 다음달에 0을 담고
+			after_year=search_year+1; // 다음 년도에 +1해 다음년도에 넣기
 		}
 		
+		// 이전년도 이전달, 다음년도 다음달 넣고
 		before_after_data.put("before_year", before_year);
 		before_after_data.put("before_month", before_month);
 		before_after_data.put("after_year", after_year);
 		before_after_data.put("after_month", after_month);
 		
+		//리턴
 		return before_after_data;
 	}
 
