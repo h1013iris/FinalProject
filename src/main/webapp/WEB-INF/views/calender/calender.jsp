@@ -20,9 +20,9 @@
 		}*/
 
 		/*행과 열*/
-		td {font-family: "돋움"; font-size: 9pt; color:#595959;}
-		th {font-family: "돋움"; font-size: 9pt; color:#000000;}
-		select {font-family: "돋움"; font-size: 9pt; color:#595959;}
+		#calendarFrm td {font-family: "돋움"; font-size: 9pt; color:#595959;}
+		#calendarFrm th {font-family: "돋움"; font-size: 9pt; color:#000000;}
+		#calendarFrm select {font-family: "돋움"; font-size: 9pt; color:#595959;}
 
 
 		.divDotText {
@@ -30,10 +30,10 @@
 		text-overflow:ellipsis;
 		}
 
-		A:link { font-size:11pt; font-family:"돋움";color:#000000; text-decoration:none; }
-		A:visited { font-size:9pt; font-family:"돋움";color:#000000; text-decoration:none; }
-		A:active { font-family:"돋움";color:#17b6ff; text-decoration:none; }
-		A:hover { font-family:"돋움";color:#17b6ff;text-decoration:none;}
+		#calendarFrm A:link { font-size:11pt; font-family:"돋움";color:#000000; text-decoration:none; }
+		#calendarFrm A:visited { font-size:9pt; font-family:"돋움";color:#000000; text-decoration:none; }
+		#calendarFrm A:active { font-family:"돋움";color:#17b6ff; text-decoration:none; }
+		#calendarFrm A:hover { font-family:"돋움";color:#17b6ff;text-decoration:none;}
 		.day{
 			width:100px; 
 			height:30px;
