@@ -5,13 +5,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.uni.spring.common.exception.CommException;
 import com.uni.spring.member.model.dto.Member;
 import com.uni.spring.member.model.dto.WideMember;
 import com.uni.spring.member.model.service.MemberService;
@@ -28,38 +27,6 @@ public class MemberController {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;//스프링 시큐리티(Spring Seurity) 프레임워크에서 제공하는 클래스 중 하나로
 														//비밀번호를 암호화하는 데 사용할 수 있는 메서드를 가진 클래스
 	
-	/*@PostMapping(value="loginMember.do")
-	public String selectLoginMember(Member m, Model model){
-		//매치로 암호환된비번이랑 입력한 비번 확인!
-		String encPwd = bCryptPasswordEncoder.encode(m.getUserPw());
-		
-		Member loginUser;
-		
-		loginUser = memberService.selectLoginMember(bCryptPasswordEncoder, m);
-		
-		model.addAttribute("loginUser", loginUser);
-		
-		return "메인화면으로이동";
-		
-	}
-	*/
-	//암호화 하기전 로그인
-	@PostMapping(value="loginMember.do")
-	public String loginMember(Member m, Model model) {
-		Member loginUser;
-		try {
-			loginUser = memberService.loginMember(m);
-			model.addAttribute("loginUser",loginUser)
-			return "redirect:apprvalMain.do";//로그인이 성공하면 이동 나중에 경로 바꿔주기!!
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			model.addAttribute("msg","로그인실패");//로그인이 실패하면 다시 로그인 화면으로!
-			
-			return "redirect:/";
-		}
-	}
-
 	
 	//회원가입 이전에 사번 입력하는 화면으로 이동
 	@GetMapping(value="empNo.do")
@@ -68,11 +35,12 @@ public class MemberController {
 	}
 
 	//사원번호를 입력받았으니까 회원정보를 긁어와 회원가입창에 보이게하기!(업데이트 방식으로 할거니까)
+	//id가 이미 등록된 사번은 회원가입 할수없다.
 	@PostMapping(value="updateNewMember.do")
 	public String updateNewMember(int empNo, Model model) {
 		
 		WideMember m = memberService.selectNewMember(empNo);
-	
+		
 		model.addAttribute("m", m);
 
 		return "member/updateNewMember";
@@ -90,13 +58,9 @@ public class MemberController {
 		
 	}
 	
-	
-	
-	
+
 	@PostMapping(value="updateNewMember2.do")//oneAddress twoAddress는 검색주소와 상세주소임
 	public String updateNewMember2(Member m, @RequestParam("oneAddress") String oneAddress, @RequestParam("twoAddress") String twoAddress) {//여기서는 불러온 정보 + 업테이트식으로 회원가입
-		
-		
 		
 		m.setAddress(oneAddress+"/"+twoAddress);//주소 합쳐서Address에 넣어주기
 		
@@ -115,6 +79,25 @@ public class MemberController {
 		
 		return "main";//회원가입 성공하면 로그인화면으로
 
+	}
+	//암호화 이후 로그인
+	@PostMapping("loginMember.do")
+	public String loginMember(Member m, Model model) {
+		String encPw = bCryptPasswordEncoder.encode(m.getUserPw());//입력한userPw를 암호화
+		Member loginUser;
+		
+		loginUser=memberService.loginMember(bCryptPasswordEncoder, m);
+		
+		model.addAttribute("loginUser",loginUser);
+		
+		return "redirect:approvalMain.do";
+	}
+	
+	//아이디 비밀번호 찾기
+	@GetMapping("findIdPw.do")
+	public String findIdPw() {
+		
+		return "member/findIdPw";
 	}
 	
 	

@@ -24,6 +24,13 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.selectNewMember",empNo);
 	}
 	//암호화 이전 로그인
+	/*public Member loginMember(SqlSessionTemplate sqlSession, Member m) {
+		
+		Member m1= sqlSession.selectOne("memberMapper.selectLoginMember",m);
+		return m1;
+	}
+	*/
+	
 	public Member loginMember(SqlSessionTemplate sqlSession, Member m) {
 		
 		Member m1= sqlSession.selectOne("memberMapper.selectLoginMember",m);
