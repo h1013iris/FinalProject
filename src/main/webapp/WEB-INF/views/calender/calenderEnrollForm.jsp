@@ -415,18 +415,18 @@
 			if(checkform.title.value == ""){ // 일정 제목 작성 하지 않앗을 시 알람
 	    		$("#alert_title .title_name").text("일정 제목 확인");
 	    		$("#alert_body .alert_content").text("일정 제목을 적으셔야 합니다.");
-	    		$("#alert_container").css("display","block");
+	    		$("#alertBackground").css("display","block");
 			}else if($('input[name = "oneday"]').is(':checked') == true){
 				if(checkform.startDate.value == ""){ // 하루종일 체크 하되 날짜를 작성 하지 않을 시 알람
 		    		$("#alert_title .title_name").text("일시 확인");
 		    		$("#alert_body .alert_content").text("날짜를 적으셔야 합니다.");
-		    		$("#alert_container").css("display","block");
+		    		$("#alertBackground").css("display","block");
 				}
 			}else if(checkform.startDate.value == "" | checkform.startTime.value == ""
 					| checkform.endDate.value == "" | checkform.endTime.value == ""){ // 하루종일 체크 안하되 하나라도 일시 작성 하지 않을 시 알림
 	    		$("#alert_title .title_name").text("일시 확인");
 	    		$("#alert_body .alert_content").text("일시를 적으셔야 합니다.");
-	    		$("#alert_container").css("display","block");
+	    		$("#alertBackground").css("display","block");
 			}else{ // 모두 작성 시 submit
 				checkform.submit();
 			}
@@ -436,7 +436,7 @@
 		
 		// alert 확인 버튼시
     	$(".cancel_btn").click(function(){
-   			$("#alert_container").hide();
+   			$("#alertBackground").hide();
     	})
 
 
@@ -524,7 +524,7 @@
 	    		if(checkform.startTime.value > checkform.endTime.value){
 	    			$("#alert_title .title_name").text("시작날짜 시간과 마감날짜 시간 확인");
 	    			$("#alert_body .alert_content").html("시작날짜 시간이 마감날짜 시간을 넘습니다.");
-	    			$("#alert_container").css({"display":"block"});
+	    			$("#alertBackground").css({"display":"block"});
 	    			$('#startdate').val(" ");
 	    			$('#startTime').val(" ");
 	    			$('#enddate').val(" ");
@@ -532,7 +532,7 @@
 				}else if(checkform.startTime.value == checkform.endTime.value){
 	    			$("#alert_title .title_name").text("시작날짜 시간과 마감날짜 시간 확인");
 	    			$("#alert_body .alert_content").html("시작날짜 시간이 마감날짜 시간과 같습니다.");
-	    			$("#alert_container").css("display","block");
+	    			$("#alertBackground").css("display","block");
 	    			$('#startdate').val(" ");
 	    			$('#startTime').val(" ");
 	    			$('#enddate').val(" ");

@@ -378,7 +378,7 @@
  				 
  				let content = "휴가 종류를 선택해주세요.";
  				let focus = "#vacType";
- 				
+
  				alertFn(content);
  				cancleFn(focus);
  				
@@ -386,7 +386,7 @@
  				 				
  				$("#alert_container .title_name").text("문서 등록 확인");
  				$("#alert_body .alert_content").text("휴가 기간을 선택해주세요.");
- 				$("#alert_container").css("display","block");
+ 				$("#alertBackground").css("display","block");
  				
  				$("#startDate").focus();
  				
@@ -394,10 +394,10 @@
  				 				
  				$("#alert_container .title_name").text("문서 등록 확인");
  				$("#alert_body .alert_content").text("휴가 사유를 작성해주세요.");
- 				$("#alert_container").css("display","block");
+ 				$("#alertBackground").css("display","block");
  				
  				$("#vacReason").focus();
- 				
+
  			} else {
  				// 제거했던 액션 태그 다시 추가해서 잘 진행되도록
 				$("form").submit();
@@ -428,7 +428,7 @@
  			
  			$("#alert_container .title_name").text("문서 등록 확인");
 			$("#alert_body .alert_content").text(content);
-			$("#alert_container").css("display","block");
+			$("#alertBackground").css("display","block");
 			
  		}
  		
@@ -436,7 +436,7 @@
 		function cancelFn(focus) {
  			
  			$(".cancel_btn").click(function() {
-				$("#alert_container").hide();
+				$("#alertBackground").hide();
 			})
 			
 			if(focus != null) {

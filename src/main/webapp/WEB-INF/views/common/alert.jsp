@@ -8,6 +8,7 @@
 <title>Document</title>
 </head>
 <body>
+	<div id="alertBackground">
     <div id="alert_container">
         <div id="alert_title">
             <span class="title_name">${msgTitle}</span>
@@ -18,6 +19,7 @@
         <div id="alert_footer">
             <button type="button" class="cancel_btn">확인</button>
         </div>
+    </div>
     </div>
 </body>
 </html>
