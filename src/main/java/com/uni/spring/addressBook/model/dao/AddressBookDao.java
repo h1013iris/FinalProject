@@ -21,4 +21,9 @@ public class AddressBookDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectDeptTitleList");
 	}
 
+	public ArrayList<WideMember> selectDeptAddList(SqlSessionTemplate sqlSession,String departmentTitle) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("memberMapper.selectDeptAddList",departmentTitle );
+	}
+
 }

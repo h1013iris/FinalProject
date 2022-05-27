@@ -24,8 +24,7 @@ public class MemberController {
 	private MemberService memberService;
 	
 	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;//스프링 시큐리티(Spring Seurity) 프레임워크에서 제공하는 클래스 중 하나로
-														//비밀번호를 암호화하는 데 사용할 수 있는 메서드를 가진 클래스
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	
 	//회원가입 이전에 사번 입력하는 화면으로 이동
@@ -58,7 +57,7 @@ public class MemberController {
 		
 	}
 	
-
+	//회원가입
 	@PostMapping(value="updateNewMember2.do")//oneAddress twoAddress는 검색주소와 상세주소임
 	public String updateNewMember2(Member m, @RequestParam("oneAddress") String oneAddress, @RequestParam("twoAddress") String twoAddress) {//여기서는 불러온 정보 + 업테이트식으로 회원가입
 		

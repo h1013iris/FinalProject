@@ -34,6 +34,14 @@ public class AddressBookServiceImpl implements AddressBookService {
 		return addressBookDao.selectDeptTitleList(sqlSession);
 		
 	}
+
+	//부서별 번호 클릭했을때 주소록리스트 불러오기
+	@Override
+	public ArrayList<WideMember> selectDeptAddlist(String departmentTitle) {
+		
+		return addressBookDao.selectDeptAddList(sqlSession, departmentTitle);
+		 
+	}
 	
 
 	

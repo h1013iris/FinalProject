@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>주소록메인</title>
+<title>부서별주소록</title>
 
 <style>
     
@@ -37,25 +37,9 @@
 
 </style>
 <body>
-<div id="container">
-    <div id="deptTitle">
-
 
 <div id="container">
     <div id="deptTitle">
-<!-- 클릭하면 부서별 페이지로 이동 각 부서만 뜨게 -->
-<!-- 관리자가 입력한 부서명대로 생성됨 부서번호순서로  -->
- 
-<c:forEach items="${deptTitlList}" var="dept">
-<form action="deptAddList" method="get" class="a">
-	<div >
-	<input type="submit" value="${dept.departmentTitle}">
-	<input type="hidden" value="${dept.departmentTitle}" name="departmentTitle"/>
-	</div>
-</form>
-</c:forEach>
-</div>
-
 <!--전체 주소록 내용이 표시될곳-->
 <div id="addcon">
 <table>
@@ -66,19 +50,20 @@
 		<th>이메일</th>
 		<th>휴대폰</th>
 	</tr>
-	<c:forEach items="${allAddList}" var="allAdd" >
+	<c:forEach items="${deptList}" var="deptAdd" >
 	<tr>
-	<td>${allAdd.empName}</td>
-	<td>${allAdd.departmentTitle}</td>
-	<td>${allAdd.jobName}</td>
-	<td>${allAdd.email}</td>
-	<td>${allAdd.phone}</td>
+	<td>${deptAdd.empName}</td>
+	<td>${deptAdd.departmentTitle}</td>
+	<td>${deptAdd.jobName}</td>
+	<td>${deptAdd.email}</td>
+	<td>${deptAdd.phone}</td>
 	</tr>
 	</c:forEach>
 </table>
     </div>
 </div>
 </div>
-</div>
+
+
 </body>
 </html>
