@@ -51,6 +51,45 @@ where status='Y'
    
    </select>
      
-    
-  
+
+  <select id="selectsearchnotiCount"  resultType="_int" >
+        SELECT COUNT(*)
+        FROM NOTICE N
+        JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
+        WHERE N.STATUS='Y'
+        <if test="title != null">
+        AND N.TITLE LIKE '%' ||#{title}||'%'
+        </if>
+        <if test="content != null">
+        AND N.CONTENT LIKE '%' ||#{content}||'%'
+        </if>
+        
+   </select> 
+   
+   <select id="selectnotiList" resultMap="boardResultset">
+       SELECT *
+		FROM NOTICE N
+		JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO) 
+		WHERE N.STATUS='Y'
+		<if test="title != null">
+        AND N.TITLE LIKE '%' ||#{title}||'%'
+        </if>
+        <if test="content != null">
+        AND N.CONTENT LIKE '%' ||#{content}||'%'
+        </if>
+			
+		ORDER BY WRITE_NO DESC
+   
+   
+   
+   </select>
+   <select id="selectoldList" resultMap="boardResultset">
+   
+   
+        SELECT *
+		FROM notice 		
+		WHERE STATUS='Y'
+		ORDER BY WRITE_NO 
+   
+   </select>
 </mapper>

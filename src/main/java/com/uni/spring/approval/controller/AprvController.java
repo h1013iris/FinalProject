@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.uni.spring.approval.model.dto.AprvDoc;
+import com.uni.spring.approval.model.dto.BusCoopForm;
+import com.uni.spring.approval.model.dto.BusDraftForm;
+import com.uni.spring.approval.model.dto.CmtUpdateForm;
+import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.approval.model.service.AprvService;
 import com.uni.spring.common.PageInfo;
 import com.uni.spring.common.Pagination;
@@ -45,6 +49,55 @@ public class AprvController {
 	}
 	
 	
+	
+	@RequestMapping("insertLeaveApp.do")
+	public ModelAndView insertLeaveApp(LeaveForm form, ModelAndView mv) {
+		
+		
+		
+		mv.setViewName("approval/approvalMain");
+		
+		return mv;
+	}
+	
+	
+	
+	@RequestMapping("insertCmtUpdateApp.do")
+	public ModelAndView insertCmtUpdateApp(CmtUpdateForm form, ModelAndView mv) {
+		
+		
+		
+		mv.setViewName("approval/approvalMain");
+		
+		return mv;
+	}
+	
+	
+	
+	@RequestMapping("insertBusDraft.do")
+	public ModelAndView insertBusDraft(BusDraftForm form, ModelAndView mv) {
+		
+		
+		
+		mv.setViewName("approval/approvalMain");
+		
+		return mv;
+	}
+	
+	
+	
+	@RequestMapping("insertBusCoop.do")
+	public ModelAndView insertBusCoop(BusCoopForm form, ModelAndView mv) {
+		
+		
+		
+		mv.setViewName("approval/approvalMain");
+		
+		return mv;
+	}
+	
+	
+	
 	@RequestMapping("completeMain.do")
 	public ModelAndView completeMain(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, ModelAndView mv) {
 		
@@ -75,7 +128,7 @@ public class AprvController {
 	@RequestMapping("outboxMain.do")
 	public ModelAndView outboxMain(ModelAndView mv) {
 		
-		mv.setViewName("approval/outbox/outboxMain");
+		mv.setViewName("approval/documentForm/test");
 		
 		return mv;
 	}
