@@ -8,6 +8,7 @@
 <title>Document</title>
 </head>
 <body>
+	<div id="helpmeCOnfirm">
     <div id="confirm_container">
         <div id="confirm_title">
             <span class="title_name">${msgTitle}</span>
@@ -19,6 +20,7 @@
         	<button type="button" class="false_btn" value="false" name="confirmBtn">취소</button>
       		<button type="button" class="true_btn" value="true" name="confirmBtn">확인</button>
         </div>
+    </div>
     </div>
 </body>
 </html>

@@ -113,16 +113,16 @@
     	$(".cancelEnrollAnnoDepart").click(function(){
     		$("#confirm_title .title_name").text("공지사항 수정 취소");
     		$("#confirm_body .confirm_content").text("수정을 취소하시겠습니까?");
-    		$("#confirm_container").css("display","block");
+    		$("#helpmeCOnfirm").css("display","block");
     	})
     	
     	$("button[name='confirmBtn']").click(function(){
     		console.log($(this).val())
     		if($(this).val()=="true"){
     			history.go(-1);
-    			$("#confirm_container").css("display","none");
+    			$("#helpmeCOnfirm").css("display","none");
     		}else{
-    			$("#confirm_container").hide();
+    			$("#helpmeCOnfirm").hide();
     		}
     	})
     </script>

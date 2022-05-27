@@ -314,6 +314,18 @@ a{
 
 
 /* alert모달창 */
+#alertBackground {
+    background-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999 ;
+}
 #alert_container{
     position: absolute;
     top: 50%;
@@ -324,7 +336,6 @@ a{
     border: 1px solid #85cdff;
     box-shadow: 4px 3px #b9b9b9;
     border-radius: 5px;
-    display: none;
     z-index: 99;
     background-color: white;
 }
@@ -363,6 +374,18 @@ a{
 
 
 /* 컨펌 모달창 */
+#helpmeCOnfirm{
+	background-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999 ;
+}
 #confirm_container{
     position: absolute;
     top: 50%;
@@ -373,7 +396,6 @@ a{
     border: 1px solid #85cdff;
     box-shadow: 4px 3px #b9b9b9;
     border-radius: 5px;
-    display: none;
     z-index: 99;
     background-color: white;
 }

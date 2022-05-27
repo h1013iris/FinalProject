@@ -38,7 +38,7 @@
 	    align-items: center;
 	    font-size:20px;
 	}
-	.commonButton1{
+	.annoDepartButton{
 		width: 85px;
 		height: 50px;
 	}
@@ -90,8 +90,8 @@
 						</div>
 					</div>
 					<div align="right" class="buttonSection">
-						<button type="submit" class="commonButton1">등록하기</button>
-						<button type="button" class="commonButton1 cancelEnrollAnnoDepart">취소하기</button>
+						<button type="submit" class="commonButton1 annoDepartButton">등록하기</button>
+						<button type="button" class="commonButton1 cancelEnrollAnnoDepart annoDepartButton">취소하기</button>
 					</div>
 				</form>
 			</div>
@@ -101,16 +101,16 @@
     	$(".cancelEnrollAnnoDepart").click(function(){
     		$("#confirm_title .title_name").text("공지사항 확인");
     		$("#confirm_body .confirm_content").text("등록을 취소하시겠습니까?");
-    		$("#confirm_container").css("display","block");
+    		$("#helpmeCOnfirm").css("display","block");
     	})
     	
     	$("button[name='confirmBtn']").click(function(){
     		console.log($(this).val())
     		if($(this).val()=="true"){
     			location.href="departmentPage.do";
-    			$("#confirm_container").css("display","none");
+    			$("#helpmeCOnfirm").css("display","none");
     		}else{
-    			$("#confirm_container").hide();
+    			$("#helpmeCOnfirm").hide();
     		}
     	})
     </script>

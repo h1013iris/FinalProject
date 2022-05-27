@@ -277,12 +277,12 @@
        						}else{
        							$("#alert_container .title_name").text("댓글 등록 실패");
        		        			$("#alert_body .alert_content").text("댓글을 등록을 실패하였습니다");
-       		        			$("#alert_container").css("display","block");
+       		        			$("#alertBackground").css("display","block");
        		        			
        		        			$(".cancel_btn").click(function(){
        		        				$("#alert_container .title_name").text("");
        		            			$("#alert_body .alert_content").text("");
-       		        				$("#alert_container").hide();
+       		        				$("#alertBackground").hide();
        		        			})
        						}
        					}, error:function(){
@@ -294,12 +294,12 @@
         		}else{//댓글 등록 안하고 클릭시
         			$("#alert_container .title_name").text("댓글 등록");
         			$("#alert_body .alert_content").text("댓글을 등록해주세요");
-        			$("#alert_container").css("display","block");
+        			$("#alertBackground").css("display","block");
         			
         			$(".cancel_btn").click(function(){
         				$("#alert_container .title_name").text("");
             			$("#alert_body .alert_content").text("");
-        				$("#alert_container").hide();
+        				$("#alertBackground").hide();
         				$("#reply").focus();
         			})
         		}
@@ -341,15 +341,15 @@
     	function deleteReply(num){
     		$("#confirm_title .title_name").text("댓글 삭제");
     		$("#confirm_body .confirm_content").text("댓글을 삭제하시겠습니까?");
-    		$("#confirm_container").css("display","block");
+    		$("#helpmeCOnfirm").css("display","block");
        		
     		$("button[name='confirmBtn']").click(function(){
         		console.log($(this).val())
         		if($(this).val()=="true"){
         			location.href="deleteAnnoDepartReply.do?adro="+num+"&adno="+${d.annoNo};
-        			$("#confirm_container").css("display","none");
+        			$("#helpmeCOnfirm").css("display","none");
         		}else{
-        			$("#confirm_container").hide();
+        			$("#helpmeCOnfirm").hide();
         		}
         	})
     	}  	
@@ -362,12 +362,12 @@
 			}else{
 				$("#alert_container .title_name").text("공지사항");
     			$("#alert_body .alert_content").text("이전 공지사항이 없습니다.");
-    			$("#alert_container").css("display","block");
+    			$("#alertBackground").css("display","block");
     			
     			$(".cancel_btn").click(function(){
     				$("#alert_container .title_name").text("");
         			$("#alert_body .alert_content").text("");
-    				$("#alert_container").hide();
+    				$("#alertBackground").hide();
     				$("#reply").focus();
     			})
 				return;
@@ -382,12 +382,12 @@
 			}else{
 				$("#alert_container .title_name").text("공지사항");
     			$("#alert_body .alert_content").text("이후 공지사항이 없습니다.");
-    			$("#alert_container").css("display","block");
+    			$("#alertBackground").css("display","block");
     			
     			$(".cancel_btn").click(function(){
     				$("#alert_container .title_name").text("");
         			$("#alert_body .alert_content").text("");
-    				$("#alert_container").hide();
+    				$("#alertBackground").hide();
     				$("#reply").focus();
     			})
 				return;

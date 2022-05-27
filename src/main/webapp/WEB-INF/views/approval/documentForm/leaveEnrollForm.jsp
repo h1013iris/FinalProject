@@ -370,11 +370,11 @@
  				
  				$("#alert_title .title_name").text("문서 등록 확인");
  				$("#alert_body .alert_content").text("로그인이 필요합니다.");
- 				$("#alert_container").css("display","block");
+ 				$("#alertBackground").css("display","block");
  				
  				$(".cancel_btn").click(function() {
  					
- 					$("#alert_container").hide();
+ 					$("#alertBackground").hide();
  					location.href="departmentPage.do";
  				})
  			
