@@ -25,4 +25,7 @@ public class Department {
 	private int count;//조회수
 	private String attachStatus;//첨부파일 상태값
 	
+	/*이전 게시판 , 이후 게시판 번호*/
+	private int nextNo;//이후게시판(현재꺼 다음꺼)
+	private int prevNo;//이전 게시판(현재꺼 이전꺼)
 }

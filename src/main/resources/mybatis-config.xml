@@ -19,6 +19,8 @@
   		<!-- 전자결재 -->
   		<typeAlias type="com.uni.spring.approval.model.dto.AprvDoc" alias="AprvDoc"/>
   		<typeAlias type="com.uni.spring.board.model.dto.Board" alias="Board"/>
+  		<typeAlias type="com.uni.spring.department.model.dto.DepartmentReply" alias="DepartmentReply"/>
+  		<typeAlias type="com.uni.spring.department.model.dto.Project" alias="Project"/>
   	</typeAliases>
   	
   	<mappers>

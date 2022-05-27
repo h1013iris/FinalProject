@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>부서별 공지사항 작성하기</title>
+<title>부서별 페이지 공지사항 수정하기</title>
 <style type="text/css">
 	.annoDepartEnrollHeader{
 		margin-bottom:50px;
@@ -48,6 +48,11 @@
 	.mainDivEnroll{
 		width: 83vw;
 	}
+	.alreayAttachment{
+		width: 55%;
+		margin-top: 5px;
+		margin-left: 20px;
+	}
 </style>
 </head>
 <body>
@@ -56,42 +61,49 @@
 		<div class="mainDivEnroll">
 			<div class="middleEnrollForm">
 				
-				<form id="enrollFormAnnoDepart" action="insertAnnoDepart.do" method="post" enctype="multipart/form-data">
+				<form id="enrollFormAnnoDepart" action="updateAnnoDepart.do" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="annoNo" value="${d.annoNo}">
+					<c:if test="${!empty a.fileNo }">
+					<input type="hidden" name="fileNo" value="${a.fileNo}">
+					</c:if>
 					<div class="annoDepartEnrollHeader">
-						<h2>공지사항 작성</h2>
+						<h2>공지사항 수정</h2>
 					</div>
 					<!-- 제목 부분 -->
 					<div class="enrollTitleSection">
 						<div class="mainStyleCh"><span class="titleNamePart mainStyleCh">제목</span></div>
-						<input type ="text" name="annoTitle" id="title" class="inputTitlePart" placeholder="제목을 입력해주세요" required>
+						<input type ="text" name="annoTitle" id="title" class="inputTitlePart" value="${d.annoTitle}" required>
 					</div>
 					<!-- 작성자 부분 session에서 값 받아오기 ${loginUser.empName} -->
 					<div class="enrollWriterSection">
 						<div class="mainStyleCh"><span class="writerPart">작성자</span></div>
 						<input type="text" id = "writer" name="writerName" value="${loginUser.empName}" readonly>
-						<input type="hidden" name="annoWR" value="${loginUser.empNo}"> 
-						<input type="hidden" name="refDepart" value="${loginUser.departmentNo}">
 					</div>
 					<!-- 내용 부분 -->
 					<div class="enrollContentSection">
 						<div class="contentPart mainStyleCh"><span class="contentEn">내용</span></div>
-						<textarea name="annoContent" rows="15" cols="90" style="resize:none;" id="content" required></textarea>
+						<textarea name="annoContent" rows="15" cols="90" style="resize:none;" id="content" required>${d.annoContent}</textarea>
 					</div>
 					<!-- 첨부파일 부분 -->
 					<div class="enrollUpfileSection">
 						<div class="mainStyleCh"><span class="enrollUpfileSection">첨부파일</span></div>
-						<input type="file" id ="upfile" name="uploadFile">
+						<input type="file" id ="upfile" name="reUploadFile">
+						<c:if test="${ !empty a.originName }">
+							<span class="alreayAttachment"> 현재 업로드된 파일 : ${ a.originName }</span>
+							<input type="hidden" name="changeName" value="${a.changeName}"> 
+							<input type="hidden" name="originName" value="${a.originName}">
+						</c:if>
 					</div>
 					<div class="enrollReplyStatusSection">
 						<div class="mainStyleCh"><span class="enrollStatusSection">댓글</span></div>
 						<div class="radioDiv">
-							<input type="radio" id="used" value="Y" name="accessReply" checked>사용
-							<input type="radio" id="notused" value="N" name="accessReply">미사용
+							<input type="radio" id="used" value="Y" name="accessReply" <c:if test="${d.accessReply eq 'Y'}">checked</c:if>>사용
+							<input type="radio" id="notused" value="N" name="accessReply" <c:if test="${d.accessReply eq 'N'}">checked</c:if>>미사용
 						</div>
 					</div>
 					<div align="right" class="buttonSection">
-						<button type="submit" class="commonButton1">등록하기</button>
-						<button type="button" class="commonButton1 cancelEnrollAnnoDepart">취소하기</button>
+						<button type="submit" class="commonButton1">수정하기</button>
+						<button type="button" class="commonButton1 cancelEnrollAnnoDepart">이전으로</button>
 					</div>
 				</form>
 			</div>
@@ -99,15 +111,15 @@
     </div>
     <script type="text/javascript">
     	$(".cancelEnrollAnnoDepart").click(function(){
-    		$("#confirm_title .title_name").text("공지사항 확인");
-    		$("#confirm_body .confirm_content").text("등록을 취소하시겠습니까?");
+    		$("#confirm_title .title_name").text("공지사항 수정 취소");
+    		$("#confirm_body .confirm_content").text("수정을 취소하시겠습니까?");
     		$("#confirm_container").css("display","block");
     	})
     	
     	$("button[name='confirmBtn']").click(function(){
     		console.log($(this).val())
     		if($(this).val()=="true"){
-    			location.href="departmentPage.do";
+    			history.go(-1);
     			$("#confirm_container").css("display","none");
     		}else{
     			$("#confirm_container").hide();
