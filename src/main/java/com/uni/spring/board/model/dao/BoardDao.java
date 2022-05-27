@@ -14,61 +14,109 @@ import com.uni.spring.common.PageInfo;
 @Repository
 public class BoardDao {
 
-        public  int selectListCount(SqlSessionTemplate sqlSession) {
-		
+	// 노티스
+	public int selectListCount(SqlSessionTemplate sqlSession) {
+
 		return sqlSession.selectOne("boardMapper.selectListCount");
 	}
 
 	public ArrayList<Board> selectListCount(SqlSessionTemplate sqlSession, PageInfo pi) {
-		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
-		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
-		return (ArrayList)sqlSession.selectList("boardMapper.selectList" , null , rowBounds);
-		//파라미터값 null
+
+		return (ArrayList) sqlSession.selectList("boardMapper.selectList", null, rowBounds);
+		// 파라미터값 null
 	}
 
+	public ArrayList<Board> selectsearchnoti(SqlSessionTemplate sqlSession, PageInfo pi, searchcon sc) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return (ArrayList) sqlSession.selectList("boardMapper.selectnotiList", sc, rowBounds);
+	}
+
+	public int selectsearchnotiCount(SqlSessionTemplate sqlSession, searchcon sc) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("boardMapper.selectsearchnotiCount", sc);
+	}
+
+	public ArrayList<Board> selectoldListCount(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return (ArrayList) sqlSession.selectList("boardMapper.selectoldList", null, rowBounds);
+
+	}
+
+	//자유 게시판
 	public int selectfreeListCount(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("boardMapper.selectfreeListCount");
 	}
 
-	public ArrayList<Board> selectfreeListCount(SqlSessionTemplate sqlSession, PageInfo pi) {
-int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
-		
+	public ArrayList<Board> selectfreeList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
-		return (ArrayList)sqlSession.selectList("boardMapper.selectfreeList" , null , rowBounds);
+
+		return (ArrayList) sqlSession.selectList("boardMapper.selectfreeList", null, rowBounds);
 	}
 
+	public int selectsearchfreeCount(SqlSessionTemplate sqlSession, searchcon sc) {
 
+		return sqlSession.selectOne("boardMapper.selectsearchfreeCount", sc);
+	}
 
-	public ArrayList<Board> selectsearchnoti(SqlSessionTemplate sqlSession, PageInfo pi, searchcon sc) {
-        int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
-		
+	public ArrayList<Board> selectsearchfree(SqlSessionTemplate sqlSession, PageInfo pi, searchcon sc) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return (ArrayList) sqlSession.selectList("boardMapper.selectsearchfree", sc, rowBounds);
+	}
+
+	public ArrayList<Board> selectfreeoldList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return (ArrayList) sqlSession.selectList("boardMapper.selectfreeoldList", null, rowBounds);
+	}
+
+	// 글작성
+	public int insertnotice(SqlSessionTemplate sqlSession, Board b) {
+
+		return sqlSession.insert("boardMapper.insertnotice", b);
+
+	}
+
+	public int insertfree(SqlSessionTemplate sqlSession, Board b) {
+
+		return sqlSession.insert("boardMapper.insertfree", b);
+
+	}
+
+	public int selecdeparttListCount(SqlSessionTemplate sqlSession) {
 		
-		return (ArrayList)sqlSession.selectList("boardMapper.selectnotiList" , sc , rowBounds);
+		return sqlSession.selectOne("boardMapper.selecdeparttListCount");
+	}
+
+	public ArrayList<Board> selectdepartList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return (ArrayList) sqlSession.selectList("boardMapper.selectdepartList", null, rowBounds);
 	}
 
 	
-
-	public int selectsearchnotiCount(SqlSessionTemplate sqlSession, searchcon sc) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("boardMapper.selectsearchnotiCount",sc);
 	}
 
-
-
-	public ArrayList<Board> selectoldListCount(SqlSessionTemplate sqlSession, PageInfo pi) {
-int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
-		
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
-		return (ArrayList)sqlSession.selectList("boardMapper.selectoldList" , null , rowBounds);
-	}
-
-
-}
+	
+	
 
 

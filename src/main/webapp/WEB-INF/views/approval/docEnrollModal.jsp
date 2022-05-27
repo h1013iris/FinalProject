@@ -64,7 +64,9 @@
             	<div class="modal_body docEnrollbody">
 			   		<div class="select_div">
 				   		<label class="select_title">문서 타입</label>
+
 				        <div class="dropdown docEnrollDropdown">
+
 					        <select id="docType" name="docType" onchange="docFormChange(this)">
 					        	<option value="none">== 선택 ==</option>
 					           	<option value="app">신청서</option>
@@ -75,7 +77,9 @@
 			        </div>
 			        <div class="select_div">
 				        <label class="select_title">문서 서식</label>
+
 				        <div class="dropdown docEnrollDropdown">
+
 					        <select id="docForm" name="docForm">
 					        </select>
 					   	</div>

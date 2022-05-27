@@ -2,21 +2,24 @@ package com.uni.spring.board.model.dto;
 
 import java.sql.Date;
 
+import com.uni.spring.department.model.dto.Department;
+
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Board {
 	
-	private String writeno;
+	private int writeno;
 	private String title;
+	private int deptno;
+	private int empno;
 	private String writer;
 	private String content;
 	private Date createDate;
