@@ -58,6 +58,9 @@
 	.buttonSection{
 		height: 70px;
 	}
+	#bo{
+	margin-left : 85%;
+	}
 </style>
 
 </head>
@@ -72,6 +75,12 @@
 				<div class="annoDepartEnrollHeader">
 					<h2>글 작성</h2>
 				</div>
+						
+				<select name="bo" id="bo">
+					<option value="noti"<c:if test="${bo==noti}"> </c:if>>공지사항</option>
+					<option value="free"<c:if test="${bo==free}"> </c:if>>자유게시판</option>				
+				</select>
+								
 				<!-- 제목 부분 -->
 				<div class="enrollTitleSection">
 					<div class="mainStyleCh"><span class="titleNamePart mainStyleCh">제목</span></div>

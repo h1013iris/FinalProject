@@ -233,7 +233,7 @@ height :30px;
                 </ul>
             </div>
            <br><br>
-            
+  <form class="searchArea" align="center">         
  <div class= "serch">
   <div class="dropdown1">
       <button class="dropbtn"> 
@@ -247,7 +247,7 @@ height :30px;
     <input id="tex" type="text">  
     <button class="noticeButton2">검색</button></button>
 </div>
-
+</form>
 			</div>
          
    
