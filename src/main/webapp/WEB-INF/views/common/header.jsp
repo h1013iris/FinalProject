@@ -221,7 +221,7 @@
 	            <a class="messenger" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/메신저.png" alt=""></a>
 	        </li>
 	        <li>
-	            <a class="address" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/주소록.png" alt=""></a>
+	            <a class="address" href="addressMain.do"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/주소록.png" alt=""></a>
 	            <div class="detail_nav_content">
 	                <div class="nananan"><p class="detail_title">주소록</p></div>
 	                <ul> 

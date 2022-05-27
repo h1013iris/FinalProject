@@ -21,5 +21,5 @@ public class WideMember {
 	private String jobNo;//int
 	private String departmentNo;//int
 	private String jobName;
-	private String departMentTitle;
+	private String departmentTitle;
 }

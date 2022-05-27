@@ -66,6 +66,10 @@ $(function(){
 		$("#modal_background").hide();
 	})
 	
+	$(document).on("click",".cancel_btn",function(){
+		$(".docEnrollModal").hide();
+	})
+	
 	$("#main_nav a").click(function(){
 
     })

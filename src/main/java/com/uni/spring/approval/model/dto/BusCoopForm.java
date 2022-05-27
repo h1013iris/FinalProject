@@ -13,6 +13,7 @@ public class BusCoopForm { // 업무 협조문
 
 	private int busCoopNo; // 업무 협조문 번호
 	private int docNo; // 문서 번호
+	private int docTypeNo; // 문서 서식 번호
 	private int refDocNo; // 참조 문서 번호
 	private String coopTitle; // 협조문 제목
 	private int drafter; // 기안자
