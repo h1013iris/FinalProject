@@ -240,4 +240,11 @@ public class DepartController {
 	public String projectPage() {
 		return "depart/ProjectList";
 	}
+	
+	@RequestMapping("selectProjectList.do")
+	public String selectProjectList(int emno) {
+		ArrayList<Project> list = departService.selectProjectList(emno);
+		
+		return new GsonBuilder().setDateFormat("yyyy/MM/dd").create().toJson(list);
+	}
 }

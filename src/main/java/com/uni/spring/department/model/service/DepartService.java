@@ -33,4 +33,6 @@ public interface DepartService {
 
 	void insertDPSimple(Project p);
 
+	ArrayList<Project> selectProjectList(int emno);
+
 }
