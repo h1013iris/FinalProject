@@ -46,6 +46,8 @@
 	.docEnrollBtn {
 		margin: 5px;
 		width: 80px;
+		height: 50px;
+		
 	}
 	
 	.fix_input {

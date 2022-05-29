@@ -19,12 +19,16 @@
 	}
 	
 	.select_div {
-		/*height: 10%;*/
-		margin-top: 12%;
+		/*border: 1px solid black;*/
+		/*margin-top: 12%;*/
 	}
 	
 	.select_title {
 		font-size: 17px;
+	}
+	
+	.select_div_hr {
+		margin: 6% 0 6% 0;
 	}
 	
 	.docEnrollDropdown, .input_docTitle {
@@ -44,7 +48,19 @@
 	}
 	
 	.docEnrollFooter {
-		margin-bottom: 30px;
+		height: 50px;
+		/*border: 1px solid black;*/
+		margin-bottom: 6%;
+	}
+	
+	.modal_cascelBtn, .modal_nextBtn {
+		font-size: 14px;
+		height: 45px;
+		width: 60px;
+	}
+	
+	.modal_cascelBtn {
+		background-color: #c8c8c8 !important;
 	}
 	
 </style>
@@ -60,7 +76,10 @@
                 <span class="modal_title docTitle">문서 작성</span>
             </div>
             
-            <form class="documentTypeForm" action="docEnrollForm.do" method="post">
+            <hr>
+            
+            <form class="documentTypeForm"  method="post">
+            	<input type="hidden" name="deptNo" value="${ loginUser.departmentNo }"/>
             	<div class="modal_body docEnrollbody">
 			   		<div class="select_div">
 				   		<label class="select_title">문서 타입</label>
@@ -75,6 +94,9 @@
 					        </select>
 				        </div>
 			        </div>
+			        
+			        <hr class="select_div_hr">
+			        
 			        <div class="select_div">
 				        <label class="select_title">문서 서식</label>
 
@@ -84,6 +106,9 @@
 					        </select>
 					   	</div>
 			        </div>
+			        
+			        <hr class="select_div_hr">
+			        
 			        <div class="select_div">
 			        	<label class="select_title">문서 제목</label>
 			        	<div class="input_docTitle">
@@ -92,18 +117,20 @@
 			        </div>
 	            </div>
 	            <div class="modal_footer docEnrollFooter">
-                	<button class="next_btn" type="submit">확인</button>
-                	<button class="cancel_btn" type="button">취소</button>
+                	<button class="commonButton1 modal_nextBtn next_btn" type="submit">확인</button>
+                	<button class="commonButton1 modal_cascelBtn cancel_btn" type="button">취소</button>
             	</div>
             </form>
         </div>
     </div>
     
     <script type="text/javascript">
-	    
+
+    
 	</script>
 	
 	<script src="${ pageContext.servletContext.contextPath }/resources/js/approval/docEnrollModal.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/js/approval/docEnrollForm.js"></script>
 	
 		
 </body>
