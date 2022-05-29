@@ -163,10 +163,11 @@ img {
 
 				<div class="dropdown">
 					<button class="dropbtn">
-						<span id="isRecent" class="dropbtn_icon">최신순</span>
+						<span id="isRecents" class="dropbtn_icon">최신순</span>
 					</button>
 					<div class="dropdown-content" id="drp">
-						<a id="new" href="free.do">최신순</a> <a id="old" href="freeold.do">오래된순</a>
+						<a id="new" href="free.do">최신순</a> 
+						<a id="old" href="freeold.do">오래된순</a>
 					</div>
 				</div>
 			</div>
@@ -264,11 +265,15 @@ img {
 
 
 			<script>
-    if(window.location.pathname === "/freeold.do"){
-        document.getElementById("isRecent").innerText="오래된순";
+    if(window.location.pathname === "/spring/freeold.do"){
+        document.getElementById("isRecents").innerText="오래된순";
         }else{
-        document.getElementById("isRecent").innerText="최신순";
+        document.getElementById("isRecents").innerText="최신순";
         }
+    
+    
+    
+    
     
     	$(function(){
     		$("#boardList tbody tr").click(function(){

@@ -90,6 +90,9 @@ public class BoardSeriveImpl implements BoardService {
 	//글작성
 	@Override
 	public void insertnotice(Board b) {
+		String con = b.getContent();
+		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
+        b.setContent(con);
 		int result = BoardDao.insertnotice(sqlSession, b);
 		if(result < 0) {
 			throw new CommException("게시글 추가 실패");
@@ -98,6 +101,9 @@ public class BoardSeriveImpl implements BoardService {
 
 	@Override
 	public void insertfree(Board b) {
+		String con = b.getContent();
+		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
+        b.setContent(con);
 		int result = BoardDao.insertfree(sqlSession, b);
 
 		if(result < 0) {
@@ -115,6 +121,48 @@ public class BoardSeriveImpl implements BoardService {
 	public ArrayList<Board> selectdepartList(PageInfo pi) {
 		// TODO Auto-generated method stub
 		return BoardDao.selectdepartList(sqlSession , pi);
+	}
+
+	@Override
+	public int selecttectListCount() {
+		// TODO Auto-generated method stub
+		return BoardDao.selecttecListCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Board> selecttecList(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return BoardDao.selecttecList(sqlSession , pi);
+	}
+
+	@Override
+	public int selectoperListCount() {
+		// TODO Auto-generated method stub
+		return BoardDao.selectoperListCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Board> selectoperList(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return BoardDao.selectoperList(sqlSession , pi);
+	}
+
+	@Override
+	public int selectdeoldCount() {
+		// TODO Auto-generated method stub
+		return BoardDao.selectdeoldCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Board> selectdeoldList(PageInfo pi, int de) {
+		// TODO Auto-generated method stub
+		return BoardDao.selectdeoldList(sqlSession , pi ,de);
+	}
+
+	@Override
+	public ArrayList<Board> selectdeptnameList() {
+		// TODO Auto-generated method stub
+		return BoardDao.selectdeptnameList(sqlSession);
 	}
 
 
