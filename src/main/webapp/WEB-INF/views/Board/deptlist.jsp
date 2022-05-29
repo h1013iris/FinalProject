@@ -218,21 +218,24 @@ img {
            <div class="dpAll"> 
 			<div class="dropdown">
 				<button class="dropbtn">
-					<span id="isRecent" class="dropbtn_icon">최신순</span>
+					<span id="isRecents" class="dropbtn_icon">${condition}</span>
 				</button>
+				
 				<div class="dropdown-content" id="drp">
-					<a id="new" href="notice.do">최신순</a> <a id="old"
-						href="noticeold.do">오래된순</a>
+					<p id="new"  onclick="old('최신순')">최신순</p> 
+					<p id="old"  onclick="old('오래된순')">오래된순</p>
+					
 				</div>
+				
 			</div>
 			<div class="dropdown2">
 				<button class="dropbtn2">
-					<span id="isRecent" class="dropbtn_icon2">영업팀</span>
+					<span id="isRecents2" class="dropbtn_icon2"><input class ="deptRecents"  type="hidden" value = 1 />영업팀</span>
 				</button>
 				<div class="dropdown-content2" id="drp">
-					<a id="sales" href="depart.do">영업팀</a> 
-					<a id="tec" href="tec.do">기술 지원팀</a>
-					<a id="oper" href="oper.do">경영 지원팀</a>
+				<c:forEach items="${ conditions }" var="c">
+					<p class="dpt" onclick="dpt('${c.deptno}')">${c.deptname}</p> 					
+					</c:forEach>			
 				</div>
 			</div>
           </div>
@@ -325,26 +328,86 @@ img {
 					</div>
 
 					<script>
+				/*대충이해완료*/
+					
+					
+				/*	 if(window.location.pathname === "/spring/depart.do" ){				      	    
+						 document.getElementById("isRecents2").innerText="영업팀";
+						 $("#old").click(function(){							 
+							 location.href = "depart.do?de="+1;
+							 
+						 })
+					 
+					      }else if(window.location.pathname === "/spring/tec.do"){
+				           document.getElementById("isRecents2").innerText="기술지원팀";
+				           $("#old").click(function(){			        	
+								 location.href = "tec.do?de="+2;
+								
+							 })
+					      }else if(window.location.pathname === "/spring/oper.do"){
+					       document.getElementById("isRecents2").innerText="경영지원팀";
+					       $("#old").click(function(){					    	   
+								 location.href = "oper.do?de="+3;
+								 
+								 //document.getElementById("isRecents").innerText="오래된순";
+							 })
+					      }*/
+					 
+					 
+					 console.log('${condition}');
+					 
+					 
+					 
 			$(function(){
 				switch('${condition}'){				
 				case "title" : $("#searchArea option").eq(1).attr("selected", true); break; 
 				case "content" : $("#searchArea option").eq(2).attr("selected", true); break; 
 				}
 			})
+		      
 		
-            if(window.location.pathname === "/noticeold.do"){
-            document.getElementById("isRecent").innerText="오래된순";
-            }else{
-            document.getElementById("isRecent").innerText="최신순";
-            }
-			  if(window.location.pathname === "/sales.do"){
-		      document.getElementById("isRecent").innerText="영업팀";
-		      }else if(window.location.pathname === "/tec.do"){
-		      document.getElementById("isRecent").innerText="기술 지원팀";
-		      }else{
-		    	  document.getElementById("isRecent").innerText="경영 지원팀";
-		      }
+					      function dpt(num){
+					      $(document).ready(function(){
+				            	 var dpt = num;
+				            	 var old = $("#isRecents").text();
+				            	 console.log(dpt)
+				            	 console.log(old)
+				            		$.ajax({
+				            			type: 'post',   
+				            			url : "depart.do",
+				            			data: {dpt:dpt, old:old},          			
+				            			success: function(result){
+				            				console.log("통신완료")
+				            			},
+				            			error:function(){  
+				            				console.log("통신실패")
+				            			}
+				            		})
+				            	})
+					      }
 			
+			function old(n&o){
+            $(document).ready(function(){
+				            	 var old = n&o;
+				            	 var dpt = $("#deptRecents").val
+				            	 console.log(old)
+				            		$.ajax({
+				            			type: 'post',   
+				            			url : "depart.do",
+				            			data: {old:old },          			
+				            			success: function(result){
+				            				console.log("통신완료")
+				            			},
+				            			error:function(){  
+				            				console.log("통신실패")
+				            			}
+				            		})
+				            	})
+					      };
+			
+           
+			
+             
 			
 		</script>
 

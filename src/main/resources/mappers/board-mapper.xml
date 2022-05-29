@@ -11,6 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <result property="content" column="CONTENT" />
       <result property="createDate" column="B_DATE" />
       <result property="writer" column="EMP_NAME" />
+      <result property="deptno" column="DEPARTMENT_NO"/>
+      <result property="deptname" column="DEPARTMENT_TITLE"/>
    </resultMap>
 
    <!-- 노티스 -->
@@ -231,6 +233,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       WHERE A.STATUS='Y'
       AND A.DEPARTMENT_NO = '3'
       ORDER BY A.WRITE_NO DESC
+
+   </select>
+   
+     <select id="selectdeoldCount" resultType="_int">
+
+      select count(*)
+      from dept_board
+      where status='Y'
+      AND DEPARTMENT_NO = '1'
+   </select>
+
+
+   <select id="selectdeoldList" resultMap="boardResultset" parameterType="_int">
+
+
+      SELECT A.*,
+      B.EMP_NAME    
+      FROM dept_board A
+      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+      
+      WHERE A.STATUS='Y'
+      AND A.DEPARTMENT_NO = #{de}
+      ORDER BY A.WRITE_NO 
+
+   </select>
+  
+   <select id="selectdeptnameList" resultMap="boardResultset">
+
+      SELECT *      
+      FROM DEPARTMENT_MANAGEMENT     
 
    </select>
 
