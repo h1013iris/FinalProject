@@ -2,6 +2,7 @@ package com.uni.spring.calender.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,16 +34,17 @@ public class CalenderController {
 		Calendar cal = Calendar.getInstance();
 		DateData calendarData;
 		Member loginUser = (Member)session.getAttribute("loginUser");
-//		ArrayList<Calender> list = calenderService.selectList(loginUser);
 		
-		//검색 날짜(첫 시작은 오늘날짜이다. 이후 화살표표시 클릭시 이동할 검색날짜로 된다)
-		if(dateData.getDate().equals("")&&dateData.getMonth().equals("")){
+		//검색 날짜(화살표표시 클릭하여 이동하기위한 검색날짜의 데이터[이전년도,이전달,다음년도,다음달])
+		if(dateData.getDate() == null &&dateData.getMonth() == null){
 			dateData = new DateData(String.valueOf(cal.get(Calendar.YEAR)),String.valueOf(cal.get(Calendar.MONTH)),String.valueOf(cal.get(Calendar.DATE)),null);
 		}
 		
 		//검색 날짜 end
 		Map<String, Integer> today_info =  dateData.today_info(dateData);
 		List<DateData> dateList = new ArrayList<DateData>();
+		
+		ArrayList<Calender> list = calenderService.selectList(loginUser, today_info); // 일정 리스트를 담음(팀,전체,개인 공개)
 		
 		//실질적인 달력 데이터 리스트에 데이터 삽입 시작.
 		//일단 시작 인덱스까지 아무것도 없는 데이터 삽입 -- 앞에 이전달의 날을 비우기 위해
@@ -81,6 +83,7 @@ public class CalenderController {
 		//배열에 담음
 		model.addAttribute("dateList", dateList);		//날짜 데이터 배열
 		model.addAttribute("today_info", today_info);
+		model.addAttribute("monthList", list); // 스케쥴 담음
 		return "calender/calender";
 	}
 	

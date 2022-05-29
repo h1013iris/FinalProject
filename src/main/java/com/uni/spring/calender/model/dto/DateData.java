@@ -10,12 +10,12 @@ import lombok.Data;
 @Data
 public class DateData {
 
-	String year = ""; 		// 년도
-	String month = "";		// 월
-	String date = "";		// 일
-	String value = "";		// today, nomaldate
-	String schedule = "";	// 
-	String schedule_detail = "";	// 상세
+	private String year; 			// 년도
+	private String month;			// 월
+	private String date;			// 일
+	private String value;			// today, nomaldate
+	private String schedule;		// 일정명
+	private String todaySchedule;	// 오늘 일정
 
 	public DateData() {
 	}
@@ -31,14 +31,14 @@ public class DateData {
 	}
 	
 	// 스케줄 사용시 사용될 생성자
-	public DateData(String year, String month, String date, String value, String schedule, String schedule_detail) {
+	public DateData(String year, String month, String date, String value, String schedule, String todaySchedule) {
 
 		this.year = year;
 		this.month = month;
 		this.date = date;
 		this.value = value;
 		this.schedule = schedule;
-		this.schedule_detail = schedule_detail;
+		this.todaySchedule = todaySchedule;
 
 	}
 	
@@ -68,12 +68,12 @@ public class DateData {
 		// 오늘자의 월
 		int today_month = Integer.parseInt(msdf.format(todayCal.getTime()));
 
-		// 검색 년도(첫 시작은 오늘 년도이다. 이후 화살표표시 클릭시 이동할 검색날짜)
+		// 검색 년도(첫 시작은 오늘 년도이다. 이후 화살표표시 클릭시 이동할 검색날짜로바뀜)
 		int search_year = Integer.parseInt(dateData.getYear());
 		// 검색 월(첫 시작은 오늘 년도이다. 이후 화살표표시 클릭시 이동할 검색날짜)
 		int search_month = Integer.parseInt(dateData.getMonth()) + 1;
 
-		int today = -1; // 오늘 일자(dd) 생성
+		int today = 0; // 오늘 일자(dd) 생성
 		
 		// 오늘 년도와 검색년도가 같고 오늘 월과 검색 월이 같으면 
 		if (today_year == search_year && today_month == search_month) {
