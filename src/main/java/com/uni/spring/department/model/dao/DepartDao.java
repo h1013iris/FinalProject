@@ -98,5 +98,19 @@ public class DepartDao {
 		return sqlSession.insert("departMapper.insertDPSimple", p);
 	}
 
+	public int insertclass(SqlSessionTemplate sqlSession) {
+		return sqlSession.insert("departMapper.insertclass");
+	}
+
+	public int insertInclude(SqlSessionTemplate sqlSession, Project p) {
+		
+		return sqlSession.insert("departMapper.insertInclude", p);
+	}
+
+	public ArrayList<Project> selectProjectList(SqlSessionTemplate sqlSession, int emno) {
+		
+		return (ArrayList)sqlSession.selectList("departMapper.selectProjectList", emno);
+	}
+
 
 }

@@ -128,11 +128,25 @@ public class DepartServiceImpl implements DepartService {
 
 	@Override
 	public void insertDPSimple(Project p) {
-		int result = departDao.insertDPSimple(sqlSession, p);
-		if(result<0) {
+		int result = departDao.insertDPSimple(sqlSession, p);//게시글 등록
+		if(result>0) {
+			//프로젝트 분류, 프로젝트 참여자(작성자) 넣기
+			int result1 = departDao.insertclass(sqlSession);//프로젝트 분류 넣기
+			int result2 = departDao.insertInclude(sqlSession,p);//작성자 넣기
+			if(result1*result2<0) {
+				throw new CommException("게시글 추가 실패");
+			}
+			
+		}else {
 			throw new CommException("게시글 추가 실패");
 		}
 		
+	}
+
+	@Override
+	public ArrayList<Project> selectProjectList(int emno) {
+		
+		return departDao.selectProjectList(sqlSession, emno);
 	}
 
 }
