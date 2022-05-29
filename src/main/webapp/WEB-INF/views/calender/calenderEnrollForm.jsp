@@ -416,14 +416,14 @@
 	    		$("#alert_title .title_name").text("일정 제목 확인");
 	    		$("#alert_body .alert_content").text("일정 제목을 적으셔야 합니다.");
 	    		$("#alertBackground").css("display","block");
-			}else if($('input[name = "oneday"]').is(':checked') == true){
-				if(checkform.startDate.value == ""){ // 하루종일 체크 하되 날짜를 작성 하지 않을 시 알람
-		    		$("#alert_title .title_name").text("일시 확인");
-		    		$("#alert_body .alert_content").text("날짜를 적으셔야 합니다.");
-		    		$("#alertBackground").css("display","block");
-				}
-			}else if(checkform.startDate.value == "" | checkform.startTime.value == ""
-					| checkform.endDate.value == "" | checkform.endTime.value == ""){ // 하루종일 체크 안하되 하나라도 일시 작성 하지 않을 시 알림
+			}else if($('input[name = "oneday"]').is(':checked') == true & checkform.startDate.value == ""){
+				// 하루종일 체크 하되 날짜를 작성 하지 않을 시 알람
+	    		$("#alert_title .title_name").text("일시 확인");
+	    		$("#alert_body .alert_content").text("날짜를 적으셔야 합니다.");
+	    		$("#alertBackground").css("display","block");
+				
+			}else if($('input[name = "oneday"]').not(':checked') & (checkform.startDate.value == "" | checkform.startTime.value == ""
+					| checkform.endDate.value == "" | checkform.endTime.value == "")){ // 하루종일 체크 안하되 하나라도 일시 작성 하지 않을 시 알림
 	    		$("#alert_title .title_name").text("일시 확인");
 	    		$("#alert_body .alert_content").text("일시를 적으셔야 합니다.");
 	    		$("#alertBackground").css("display","block");

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -156,7 +158,7 @@
 			margin: 10px;
 		}
 		form#calendarFrm {
-		    padding-bottom: 30px;
+			padding-bottom: 30px;
 		}
 		.schedule-title{
 			margin-top: 12px;
@@ -262,50 +264,70 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
 						<c:forEach var="dateList" items="${dateList}" varStatus="date_status"> 
 							<c:choose>
 								<c:when test="${dateList.value=='today'}">
-									<td class="today">
+								<tr>
+									<td class="today" id="${ dateList.date }">
 										<div class="date">
 											${dateList.date}
 										</div>
-										<div>
-										</div>
+										<c:forEach var="scheduleList" items="${monthList}">
+											<c:if test="${ fn:startsWith(fn:substring(scheduleList.startDate, 8, 10), '0') and fn:substring(scheduleList.startDate, 9, 10) == dateList.date  or fn:substring(scheduleList.startDate, 8, 10) == dateList.date }">
+												<div class="schedulebox" style="background-color: #${ scheduleList.selectColor};">
+													${ scheduleList.title }
+												</div>
+											</c:if>
+										</c:forEach>
 									</td>
 								</c:when>
 								<c:when test="${date_status.index%7==6}">
-									<td class="sat_day">
+									<td class="sat_day" id="${ dateList.date }">
 										<div class="sat">
 											${dateList.date}
 										</div>
-										<div>
-										</div>
+										<c:forEach var="scheduleList" items="${monthList}">
+											<c:if test="${ fn:startsWith(fn:substring(scheduleList.startDate, 8, 10), '0') and fn:substring(scheduleList.startDate, 9, 10) == dateList.date  or fn:substring(scheduleList.startDate, 8, 10) == dateList.date }">
+												<div class="schedulebox" style="background-color: #${ scheduleList.selectColor};">
+													${ scheduleList.title }
+												</div>
+											</c:if>
+										</c:forEach>
 									</td>
 								</c:when>
 								<c:when test="${date_status.index%7==0}">
 					</tr>
 					<tr>	
-						<td class="sun_day">
+						<td class="sun_day" id="${ dateList.date }">
 							<div class="sun">
 								${dateList.date}
 							</div>
-							<div>
-							</div>
+								<c:forEach var="scheduleList" items="${monthList}">
+									<c:if test="${ fn:startsWith(fn:substring(scheduleList.startDate, 8, 10), '0') and fn:substring(scheduleList.startDate, 9, 10) == dateList.date  or fn:substring(scheduleList.startDate, 8, 10) == dateList.date }">
+										<div class="schedulebox" style="background-color: #${ scheduleList.selectColor};">
+											${ scheduleList.title }
+										</div>
+									</c:if>
+								</c:forEach>
 						</td>
 								</c:when>
 								<c:otherwise>
-						<td class="normal_day">
+						<td class="normal_day" id="${ dateList.date }">
 							<div class="date">
 								${dateList.date}
 							</div>
-							<div>
-							
-							</div>
+								<c:forEach var="scheduleList" items="${monthList}">
+									<c:if test="${ fn:startsWith(fn:substring(scheduleList.startDate, 8, 10), '0') and fn:substring(scheduleList.startDate, 9, 10) == dateList.date  or fn:substring(scheduleList.startDate, 8, 10) == dateList.date }">
+										<div class="schedulebox" style="background-color: #${ scheduleList.selectColor};">
+											${ scheduleList.title }
+										</div>
+									</c:if>
+								</c:forEach>
 						</td>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
+						</tr>
 				</tbody>
 			</table>
 			</div>
@@ -329,7 +351,8 @@
 			<div class="today">
 				<div class="todayList">
 					<div class="titleAndTimeAndPlace">
-						<div class="title">예시제목</div><div class="range">예시팀</div>
+						<div class="title">예시제목</div>
+						<div class="range">예시팀</div>
 					</div>
 					<br>
 					<div class="titleAndTimeAndPlace">
@@ -343,5 +366,31 @@
 		</div>
 	</div>
 	</div>
+	<script>
+		// 시작날짜부터 종료날짜까지 색칠 하기
+		
+		let arr = new Array();
+		
+		<c:forEach items="${monthList}" var="scheduleList">
+			arr.push({startDate : new Date('${fn:substring(scheduleList.startDate, 0, 10)}'),
+					  endDate : new Date('${fn:substring(scheduleList.endDate, 0, 10)}'),
+					  writerNo : ${scheduleList.writerNo},
+					  sectionOption : ${scheduleList.sectionOption},
+					  selectColor : '${scheduleList.selectColor}',
+					  title : '${scheduleList.title}',
+					  openOption : '${scheduleList.openOption}',
+					  alarm : ${scheduleList.alarm},
+					  <c:choose><c:when test="${fn:length(scheduleList.place) == 0}"></c:when><c:otherwise>place : '${scheduleList.place}',</c:otherwise></c:choose>
+					  <c:choose><c:when test="${fn:length(scheduleList.memo) == 0}"></c:when><c:otherwise>memo : '${scheduleList.memo}'</c:otherwise></c:choose>
+					  })
+		</c:forEach>
+		console.log(arr)
+		console.log(typeof(arr))
+		
+		//arr.forEach(function() {
+		//	console.log(arr.selectColor)
+		//	let start = new Date(arr.startDate)
+		//});
+	</script>
 </body>
 </html>
