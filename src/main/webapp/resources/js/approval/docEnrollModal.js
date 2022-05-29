@@ -56,6 +56,18 @@
 	    	} else {
 	    		// 제거했던 액션 태그 다시 추가해서 잘 진행되도록
 				$(this).attr("action", "docEnrollForm.do");
+				
+				/*let submit = $(".documentTypeForm").serialize();
+	
+				$.ajax({
+			
+				type: "post",
+			        url: "docEnrollForm.do",
+			        data: submit,
+			        success: function (data) {
+			            console.log(data);
+					 }
+				 })*/
 	    	}
 	    })
 	    
