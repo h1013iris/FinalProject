@@ -356,10 +356,9 @@
     	
     	//이전 게시물 버튼
 		function prevButton(){
-			var adno = "${d.prevNo}";
-			if(adno != 0){
-				location.href="detailAnnoDepart.do?adno"+adno;
-			}else{
+			var adno = ${d.prevNo};
+			console.log(adno+"이전")
+			if(adno == null || adno ==""){
 				$("#alert_container .title_name").text("공지사항");
     			$("#alert_body .alert_content").text("이전 공지사항이 없습니다.");
     			$("#alertBackground").css("display","block");
@@ -371,15 +370,16 @@
     				$("#reply").focus();
     			})
 				return;
+			}else if(adno != null){
+				location.href="detailAnnoDepart.do?adno="+adno;
 			}
 		}
 		//이후 게시물 버튼
 		function nextButton(){
 			
-			var adno = "${d.nextNo}";
-			if(adno != 0){
-				location.href="detailAnnoDepart.do?adno"+adno;
-			}else{
+			var adno = ${d.nextNo};
+			console.log(adno+"이후")
+			 if (adno == null || adno ==""){
 				$("#alert_container .title_name").text("공지사항");
     			$("#alert_body .alert_content").text("이후 공지사항이 없습니다.");
     			$("#alertBackground").css("display","block");
@@ -391,6 +391,8 @@
     				$("#reply").focus();
     			})
 				return;
+			}else if(adno != null){
+				location.href="detailAnnoDepart.do?adno="+adno;
 			}
 		}
     </script>
