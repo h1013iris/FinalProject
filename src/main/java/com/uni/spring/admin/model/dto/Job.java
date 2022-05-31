@@ -13,17 +13,9 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class employee {
+public class Job {
 	
-	private int empNo;
-	private String userId;
-	private String empName;
-	private String cityNo;
-	private String email;
-	private String phone;
-	private String address;
-	private Date hireDate;
-	private Date endDate;
 	private int jobNo;
-	private int deptNo;
+	private String jobName;
+
 }
