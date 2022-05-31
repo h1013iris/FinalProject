@@ -38,8 +38,8 @@
   		<typeAlias type="com.uni.spring.calender.model.dto.Calender" alias="Calender"/>
   		<!-- 주소록 -->
   		<typeAlias type="com.uni.spring.addressBook.model.dto.Dept" alias="Dept"/>
-  		
-  		
+  		<typeAlias type="com.uni.spring.addressBook.model.dto.Company" alias="Company"/>
+  		<typeAlias type="com.uni.spring.addressBook.model.dto.Customer" alias="Customer"/>		
   		<!-- 관리자 -->
   		<!-- 사원정보 -->
   		<typeAlias type="com.uni.spring.admin.model.dto.employee" alias="emp"/>
@@ -55,6 +55,7 @@
   		<mapper resource="/mappers/approval-mapper.xml"/>
   		<mapper resource="/mappers/board-mapper.xml"/>
   		<mapper resource="/mappers/calender-mapper.xml"/>
+  		<mapper resource="/mappers/addressBook-mapper.xml"/>
   		<mapper resource="/mappers/adminMapper.xml"/>
   	</mappers>
   </configuration>

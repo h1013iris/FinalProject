@@ -1,5 +1,7 @@
 package com.uni.spring.member.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.uni.spring.common.exception.CommException;
+import com.uni.spring.addressBook.model.dto.Dept;
 import com.uni.spring.member.model.dto.Member;
 import com.uni.spring.member.model.dto.WideMember;
 import com.uni.spring.member.model.service.MemberService;
@@ -90,13 +92,29 @@ public class MemberController {
 		model.addAttribute("loginUser",loginUser);
 		
 		return "redirect:approvalMain.do";
+		
+		
 	}
 	
-	//아이디 비밀번호 찾기
+	//아이디 비밀번호 찾기 화면으로 이동 갈때 부서정보를 가지고 가게
 	@GetMapping("findIdPw.do")
-	public String findIdPw() {
+	public String findIdPw(Dept dp, Model model) {
+		
+		ArrayList<Dept> dtlist = memberService.findDept();
+		
+		model.addAttribute("dtlist",dtlist);
 		
 		return "member/findIdPw";
+	}
+	
+	//아이디 찾기
+	@PostMapping("selectFindId.do")
+	public String selectFindId(WideMember wm, Model model) {
+		
+		System.out.println("jsp에서 값이 넘어왔나용?"+wm);//넘어옴..!!
+		String msg = memberService.selectFindId(wm);
+		model.addAttribute("msg",msg);
+		return "member/findId";
 	}
 	
 	

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
- <mapper namespace="memberMapper">
+ <mapper namespace="addressBookMapper">
  
  <resultMap type="Member" id="memberResultSet">
  	<id property="empNo" column="EMP_NO"/>
@@ -56,66 +56,37 @@
  	<result property="departmentTitle" column="DEPARTMENT_TITLE"/>
  </resultMap> 
  
-<!-- 암호화된 로그인 -->
- <select id="selectLoginMember" resultMap="memberResultSet">
- <![CDATA[
- 	SELECT *
- 	FROM USER_INFO
- 	WHERE USER_ID=#{userId}
- 	AND STATUS='N'
- ]]>
+    <resultMap type="Customer" id="customerResultSet">
+ 	<id property="cusNo" column="CUS_NO"/>
+ 	<result property="empNo" column="EMP_NO"/>
+ 	<result property="inFolder" column="IN_FOLDER"/>
+ 	<result property="comNm" column="COM_NM"/>
+ 	<result property="comNo" column="COMNO"/>
+ 	<result property="comTel" column="COM_TEL"/>
+ 	<result property="comCeo" column="COM_CEO"/>
+ 	<result property="comPix" column="COM_PIX"/>
+ 	<result property="comPhone" column="COM_PHONE"/>
+ 	<result property="comEmail" column="COM_EMAIL"/>
+ 	<result property="comMemo" column="COM_MEMO"/>
+ 	<result property="creDate" column="CRE_DATE"/>
+ 	<result property="outBox" column="OUTBOX"/>
+ 	 </resultMap> 
 
- </select>
- 
- 
-<!-- 회원가입하기전전 사원번호 입력시 사번있는지 확인용 1아니면 0이 나오게-->
-<select id="selectEmpNoCount" resultType="_int">
-<![CDATA[
- 	SELECT COUNT(*)
- 	FROM USER_INFO
- 	WHERE USER_ID IS NULL 
- 	AND EMP_NO=#{empNo} 
- 	 ]]>
-</select>
- 
-<!-- 회원가입폼에 입력한 사번으로 정보 불러오기 -->
-<select id ="selectNewMember" resultType="WideMember">
-<![CDATA[
-   SELECT B.JOB_NAME,
-           C.DEPARTMENT_TITLE,
-           A.EMP_NAME,
-           A.EMAIL,
-           A.PHONE,
-           A.USER_NO,
-           A.EMP_NO
- 	FROM USER_INFO A 
-    JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO =B.JOB_NO
-    JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO = C.DEPARTMENT_NO 
- 	WHERE A.EMP_NO=#{empNo}
- 	
- 	 ]]>
-</select>
-
-<!-- 아이디 중복확인 -->
-<select id="selectIdCheck" resultType="_int">
-<![CDATA[
- 	SELECT COUNT(*)
- 	FROM USER_INFO
- 	WHERE USER_ID=#{userId}
-	 ]]>
-</select>
-
-
-<!-- 회원가입 update로 진행 -->
-
-<update id="updateNewMember" parameterType="Member">
-	<![CDATA[
-		UPDATE USER_INFO
-		SET USER_ID = #{userId}, USER_PW=#{userPw}, ADDRESS=#{address}
-		WHERE EMP_NO =#{empNo}
- 	]]>
-</update>
-
+   <resultMap type="Company" id="companyResultSet">
+ 	<id property="compNo" column="COM_NO"/>
+ 	<result property="empNo" column="EMP_NO"/>
+ 	<result property="inFolder" column="IN_FOLDER"/>
+ 	<result property="comNm" column="COM_NM"/>
+ 	<result property="comNo" column="COMNO"/>
+ 	<result property="comTel" column="COM_TEL"/>
+ 	<result property="comCeo" column="COM_CEO"/>
+ 	<result property="comPix" column="COM_PIX"/>
+ 	<result property="comPhone" column="COM_PHONE"/>
+ 	<result property="comEmail" column="COM_EMAIL"/>
+ 	<result property="comMemo" column="COM_MEMO"/>
+ 	<result property="creDate" column="CRE_DATE"/>
+ 	<result property="outBox" column="OUTBOX"/>
+ 	 </resultMap> 
 
 <!-- 전체주소록조회 -->
 <select id="selectAllAddList" resultType="WideMember">
@@ -157,18 +128,61 @@
     ]]>
 </select>
 
-<!-- 아이디 찾기 -->
- <select id="selectFindId" resultType="string" parameterType="WideMember">
+<!-- 고객주소록메인(로그인한 유저마다 다르게 나오는 전체조회) -->
+<select id="selectCustoList" resultType="Customer">
+<![CDATA[
+	SELECT *
+	FROM CUSTO_ADD
+	WHERE EMP_NO=#{empNo}
+    ]]>
+ 
+ </select>
+ 
+ <!-- 거래처주소록메인(로그인한 유저마다 다르게 나오는 전체조회) -->
+<select id="selectComList" resultType="Company">
+<![CDATA[
+	SELECT *
+	FROM COM_ADD
+	WHERE EMP_NO=#{empNo}
+    ]]>
+
+ </select>
+ 
+ <!--전체 주소록검색기능 검색한 조건에 따라 이름 직급 부서명 이메일 휴대폰을 보여주는 쿼리 -->
+ <select id="selectAllAddSearch" resultType="WideMember">
  <![CDATA[
-    SELECT A.USER_ID
+ SELECT A.EMP_NAME,
+           C.DEPARTMENT_TITLE,
+           B.JOB_NAME,
+           A.EMAIL,
+           A.PHONE
  	FROM USER_INFO A 
     LEFT JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO =B.JOB_NO
-    LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO =C.DEPARTMENT_NO
-    WHERE A.EMP_NAME=#{empName}
-    AND C.DEPARTMENT_TITLE=#{departmentTitle}
-    AND A.EMAIL=#{email}
-    AND SUBSTR(USER_NO,1,6)= #{userNo}
-    ]]>
-</select>
+    LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO =C.DEPARTMENT_NO 
+    WHERE A.EMP_NAME LIKE '%'||#{search}||'%'
+    OR C.DEPARTMENT_TITLE LIKE '%'||#{search}||'%'
+    OR B.JOB_NAME LIKE '%'||#{search}||'%'
+    OR A.EMAIL LIKE '%'||#{search}||'%'
+    OR A.PHONE LIKE '%'||#{search}||'%'
+     ]]>  
+ </select>
  
+ <insert id="insertComAdd" parameterType="Company">
+  <![CDATA[
+	    INSERT INTO COM_ADD
+    (COM_NO,EMP_NO,COM_NM,IN_FOLDER,COMNO,COM_TEL,COM_CEO,COM_PIX,COM_PHONE,COM_EMAIL,COM_MEMO)
+    VALUES
+    (SEQ_COMADD.NEXTVAL,#{empNo},#{comNm},#{inFolder},#{comNo},#{comTel},#{comCeo},#{comPix},#{comPhone},#{comEmail},#{comMemo})
+     ]]>  
+ </insert>
+ 
+ <!-- 주소록등록할때 자기사번으로 폴더명 불러오는 쿼리 -->
+ <select id="selectComFolder" resultType="Company">
+  <![CDATA[
+  SELECT DISTINCT IN_FOLDER
+    FROM COM_ADD
+    WHERE IN_FOLDER IS NOT NULL
+    AND EMP_NO=#{empNo}
+      ]]>  
+ </select>
  </mapper>

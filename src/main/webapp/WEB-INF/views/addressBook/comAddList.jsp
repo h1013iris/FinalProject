@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>부서별주소록</title>
+<title>거래처 주소록 리스트조회</title>
 
 <style>
     
@@ -39,33 +39,39 @@
 <body>
 <jsp:include page="../common/header.jsp"></jsp:include>
 <div class="main_section">
+<div id="container">
+    <div id="deptTitle">
+
 
 <div id="container">
-   
-    
-<!--전체 주소록 내용이 표시될곳-->
+
+
+<!--고객 주소록 내용이 표시될곳-->
 <div id="addcon">
 <table>
 	<tr>
-		<th>이름</th>
-		<th>부서명</th>
-		<th>직급</th>
-		<th>이메일</th>
+		<th>회사명</th>
 		<th>휴대폰</th>
+		<th>이메일</th>
+		<th>기타</th>
+		
 	</tr>
-	<c:forEach items="${deptList}" var="deptAdd" >
+	<c:forEach items="${comList}" var="com" >
 	<tr>
-	<td>${deptAdd.empName}</td>
-	<td>${deptAdd.departmentTitle}</td>
-	<td>${deptAdd.jobName}</td>
-	<td>${deptAdd.email}</td>
-	<td>${deptAdd.phone}</td>
+	<td>${com.comNm}</td>
+	<td>${com.comPhone}</td>
+	<td>${com.comEmail}</td>
+	<td>${com.comMemo}</td>
 	</tr>
 	</c:forEach>
 </table>
+<form action="comAddWriter.do" method="post">
+<input type="submit" value="거래처등록">
+</form>
+    </div>
     </div>
 </div>
 </div>
-
+</div>
 </body>
 </html>
