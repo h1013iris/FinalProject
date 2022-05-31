@@ -227,18 +227,18 @@
 	                <ul> 
 	                    <li class="list_title">전체 주소록</li>
 	                    <div class="hhh">
-	                    	<li><a href="#">부서별 주소록</a></li>
+	                    	<li><a href="addressMain.do">부서별 주소록</a></li>
 	                    </div>
 	                </ul>
 	                <ul>
 	                    <li class="list_title">개인 주소록</li>
 	                    <div class="hhh">
-		                    <li><a href="#">거래처 주소록</a></li>
-		                    <li><a href="#">고객 주소록</a></li>
+		                    <li><a href="comAdd.do">거래처 주소록</a></li>
+		                    <li><a href="custoAdd.do">고객 주소록</a></li>
 	                    </div>
 	                </ul>
 	                <ul>
-	                    <li class="list_title">임시보관함</li>
+	                    <li class="list_title"><a href="boxAdd.do">임시보관함</a></li>
 	                </ul>
 	            </div>
 	        </li>

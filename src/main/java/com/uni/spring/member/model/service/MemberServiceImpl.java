@@ -1,10 +1,13 @@
 package com.uni.spring.member.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.uni.spring.addressBook.model.dto.Dept;
 import com.uni.spring.common.exception.CommException;
 import com.uni.spring.member.model.dao.MemberDao;
 import com.uni.spring.member.model.dto.Member;
@@ -84,6 +87,27 @@ public class MemberServiceImpl implements MemberService {
 		if(result < 0) {//왜 여기 1이 아니고 0일까..?? 내일물어보자
 			throw new CommException("회원가입에 실패했습니다");
 		}
+		
+	}
+
+	//아이디찾기에 출력될 부서명
+	@Override
+	public ArrayList<Dept> findDept() {
+		ArrayList<Dept> dtlist = memberDao.selectDeptTitle(sqlSession);
+		return dtlist;
+	}
+
+
+	@Override
+	public String selectFindId(WideMember wm) {
+		String msg = memberDao.selectFindId(sqlSession, wm);
+		System.out.println("아이디는"+msg);//아이디가 잘 담겼는지 확인
+		if(msg.isEmpty()) {
+			System.out.println("아이디가 없다.."+msg);//아이디가 잘 담겼는지 확인
+			throw new CommException("입력정보를 다시 확인해주세요");
+		}
+		System.out.println("아이디는"+msg);//아이디가 잘 담겼는지 확인
+		return msg;
 		
 	}
 

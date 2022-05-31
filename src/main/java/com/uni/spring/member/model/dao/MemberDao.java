@@ -1,8 +1,11 @@
 package com.uni.spring.member.model.dao;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.uni.spring.addressBook.model.dto.Dept;
 import com.uni.spring.member.model.dto.Member;
 import com.uni.spring.member.model.dto.WideMember;
 
@@ -46,5 +49,16 @@ public class MemberDao {
 	public int updateNewMember(SqlSessionTemplate sqlSession, Member m) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("memberMapper.updateNewMember",m);
+	}
+
+	public ArrayList<Dept> selectDeptTitle(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("memberMapper.selectDeptTitleList");
+	
+	}
+
+	public String selectFindId(SqlSessionTemplate sqlSession, WideMember wm) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.selectFindId", wm);
 	}
 }

@@ -25,6 +25,8 @@
   		<typeAlias type="com.uni.spring.calender.model.dto.Calender" alias="Calender"/>
   		<!-- 주소록 -->
   		<typeAlias type="com.uni.spring.addressBook.model.dto.Dept" alias="Dept"/>
+  		<typeAlias type="com.uni.spring.addressBook.model.dto.Company" alias="Company"/>
+  		<typeAlias type="com.uni.spring.addressBook.model.dto.Customer" alias="Customer"/>
   	</typeAliases>
   	
   	<mappers>
@@ -33,6 +35,7 @@
   		<mapper resource="/mappers/approval-mapper.xml"/>
   		<mapper resource="/mappers/board-mapper.xml"/>
   		<mapper resource="/mappers/calender-mapper.xml"/>
+  		<mapper resource="/mappers/addressBook-mapper.xml"/>
   	</mappers>
   </configuration>
   	
