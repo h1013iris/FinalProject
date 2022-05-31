@@ -1,9 +1,11 @@
 package com.uni.spring.approval.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.uni.spring.approval.model.dto.AprvDoc;
 import com.uni.spring.approval.model.dto.AprvHistory;
 import com.uni.spring.approval.model.dto.BusCoopForm;
@@ -21,6 +22,7 @@ import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.approval.model.service.AprvService;
 import com.uni.spring.common.PageInfo;
 import com.uni.spring.common.Pagination;
+import com.uni.spring.department.model.dto.AttendLog;
 import com.uni.spring.member.model.dto.Member;
 
 @SessionAttributes("loginUser") // 해당 key값의 value를 세션에 추가
@@ -49,16 +51,36 @@ public class AprvController {
 		//System.out.println("docTitle ========" + docTitle);
 		//System.out.println("deptNo ===============" + deptNo);
 		
-		// 해당 부서 1차, 2차 결재자 조회해서 담기
-		ArrayList<Member> approver = aprvService.selectApprover(deptNo);
-				
-		// 폼 유형, 문서 제목, 결재자 넘기기
-		mv.addObject("docForm", docForm);
-		mv.addObject("docTitle", docTitle);
-		mv.addObject("approver", approver);
-		mv.setViewName("approval/docEnrollForm");
+		// 폼 유형, 문서 제목, 결재자 넘기기 - 메소드 체이닝으로
+		mv.addObject("docForm", docForm)
+		.addObject("docTitle", docTitle)
+		.setViewName("approval/docEnrollForm");
 		
 		return mv;
+	}
+	
+	
+	// 로그인 유저의 소속(부서명) 조회
+	@ResponseBody
+	@RequestMapping(value="selectDeptName.do", produces="application/json; charset=utf-8")
+	public String selectDeptName(String deptNo) {
+		
+		// 로그인 유저의 부서명 조회해서 가져오기
+		String deptName = aprvService.selectDeptName(deptNo);
+		
+		return new Gson().toJson(deptName);
+	}
+	
+	
+	// 결재선 조회
+	@ResponseBody
+	@RequestMapping(value="selectApprover.do", produces="application/json; charset=utf-8")
+	public String selectApprover(String deptNo) {
+		
+		// 해당 부서 1차, 2차 결재자 조회해서 담기
+		ArrayList<Member> approver = aprvService.selectApprover(deptNo);
+		
+		return new Gson().toJson(approver);
 	}
 	
 	
@@ -67,29 +89,66 @@ public class AprvController {
 	@RequestMapping(value="insertLeaveApp.do", produces="application/json; charset=utf-8")
 	public String insertLeaveApp(AprvDoc aprvDoc, AprvHistory aprvHistory, LeaveForm leaveForm) {
 		
-		System.out.println("Dao ======= " + aprvDoc.toString());
-		System.out.println("Dao ======= " + leaveForm.toString());
-		System.out.println(aprvHistory.toString());
+		//System.out.println("Dao ======= " + aprvDoc.toString());
+		//System.out.println("Dao ======= " + leaveForm.toString());
+		//System.out.println(aprvHistory.toString());
+
+		// 문서 서식 먼저 등록
+		int result = aprvService.insertLeaveApp(leaveForm);
 		
 		// 결재 문서에 먼저 등록 -> 결재 기록에 등록
-		aprvService.insertDoc(aprvDoc, aprvHistory);
+		if(result > 0) {
+			aprvService.insertDoc(aprvDoc, aprvHistory);
+			
+			return new Gson().toJson("success");
 		
-		// 최종적으로 문서 서식 등록
-		aprvService.insertLeaveApp(leaveForm);
+		} else {
+			return new Gson().toJson("fail");
+		}
 		
-		return new Gson().toJson("success");
 	}
 	
 	
 	// 근태 기록 수정 신청서 등록
-	@RequestMapping("insertCmtUpdateApp.do")
-	public ModelAndView insertCmtUpdateApp(CmtUpdateForm form, ModelAndView mv) {
+	@ResponseBody
+	@RequestMapping(value="insertCmtUpdateApp.do", produces="application/json; charset=utf-8")
+	public String insertCmtUpdateApp(AprvDoc aprvDoc, AprvHistory aprvHistory, CmtUpdateForm cmtUpdateForm) {
+
+		// 문서 서식 먼저 등록
+		int result = aprvService.insertCmtUpdateForm(cmtUpdateForm);
 		
+		// 결재 문서에 먼저 등록 -> 결재 기록에 등록
+		if(result > 0) {
+			aprvService.insertDoc(aprvDoc, aprvHistory);
+			
+			return new Gson().toJson("success");
 		
+		} else {
+			return new Gson().toJson("fail");
+		}
+	}
+	
+	
+	// 해당 날짜 근태 기록 조회
+	@ResponseBody
+	@RequestMapping(value="selectCmt.do", produces="application/json; charset=utf-8")
+	public Model selectCmt(String userNo, String date, Model model) {
 		
-		mv.setViewName("redirect:approvalMain.do");
+		// 근태 기록 객체에 유저 번호, 해당 날짜 담아서 넘기기
+		AttendLog attendLog = new AttendLog();
+		attendLog.setEmpNo(Integer.valueOf(userNo));
+		attendLog.setAttendDate(Date.valueOf(date)); // String 을 Date로 형변환해서 set
 		
-		return mv;
+		System.out.println("Controller =========" + attendLog.toString());
+		
+		// 회원의 해당 날짜 촐퇴근 시간을 근태 기록 객체에 담기
+		AttendLog userAttendLog = aprvService.selectCmt(attendLog);
+		
+		System.out.println(userAttendLog.toString());
+		
+		model.addAttribute("userAttendLog", userAttendLog);
+		
+		return model;
 	}
 	
 	

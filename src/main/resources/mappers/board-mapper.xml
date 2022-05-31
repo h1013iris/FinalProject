@@ -168,17 +168,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
    </insert>
    
-      <select id="selecdeparttListCount" resultType="_int">
+      <select id="selecdeparttListCount" resultType="_int" parameterType="_int">
 
       select count(*)
       from dept_board
       where status='Y'
-      AND DEPARTMENT_NO = '1'
+      AND DEPARTMENT_NO = #{dpt}
 
    </select>
 
 
-   <select id="selectdepartList" resultMap="boardResultset">
+   
+    <select id="selectdeptList" resultMap="boardResultset">
 
 
       SELECT A.*,
@@ -186,84 +187,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       FROM dept_board A
       JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
       WHERE A.STATUS='Y'
-      AND A.DEPARTMENT_NO = '1'
+      AND A.DEPARTMENT_NO = #{deptno}
+      <if test='status == "최신순"'>
       ORDER BY A.WRITE_NO DESC
-
-   </select>
-   
-   <select id="selecttecListCount" resultType="_int">
-
-      select count(*)
-      from dept_board
-      where status='Y'
-      AND DEPARTMENT_NO = '2'
-
-   </select>
-
-
-   <select id="selecttecList" resultMap="boardResultset">
-
-
-      SELECT A.*,
-      B.EMP_NAME
-      FROM dept_board A
-      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
-      WHERE A.STATUS='Y'
-      AND A.DEPARTMENT_NO = '2'
-      ORDER BY A.WRITE_NO DESC
-
-   </select>
-   
-   <select id="selectoperListCount" resultType="_int">
-
-      select count(*)
-      from dept_board
-      where status='Y'
-        AND DEPARTMENT_NO = '3'
-   </select>
-
-
-   <select id="selectoperList" resultMap="boardResultset">
-
-
-      SELECT A.*,
-      B.EMP_NAME
-      FROM dept_board A
-      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
-      WHERE A.STATUS='Y'
-      AND A.DEPARTMENT_NO = '3'
-      ORDER BY A.WRITE_NO DESC
-
-   </select>
-   
-     <select id="selectdeoldCount" resultType="_int">
-
-      select count(*)
-      from dept_board
-      where status='Y'
-      AND DEPARTMENT_NO = '1'
-   </select>
-
-
-   <select id="selectdeoldList" resultMap="boardResultset" parameterType="_int">
-
-
-      SELECT A.*,
-      B.EMP_NAME    
-      FROM dept_board A
-      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
-      
-      WHERE A.STATUS='Y'
-      AND A.DEPARTMENT_NO = #{de}
+      </if>
+      <if test='status == "오래된순"'>
       ORDER BY A.WRITE_NO 
-
+      </if>
    </select>
+   
   
    <select id="selectdeptnameList" resultMap="boardResultset">
 
       SELECT *      
       FROM DEPARTMENT_MANAGEMENT     
 
+   </select>
+   
+   <select id="detailBoard" resultMap="boardResultset" parameterType="_int">
+        SELECT a.*,     
+         B.EMP_NAME
+      FROM notice A
+      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+      WHERE A.STATUS='Y'
+      AND WRITE_NO= #{bno}
+		
+		
+   
    </select>
 
 

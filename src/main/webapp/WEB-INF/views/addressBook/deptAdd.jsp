@@ -37,16 +37,19 @@
 
 </style>
 <body>
+<jsp:include page="../common/header.jsp"></jsp:include>
+<div class="main_section">
 
 <div id="container">
-    <div id="deptTitle">
+   
+    
 <!--전체 주소록 내용이 표시될곳-->
 <div id="addcon">
 <table>
 	<tr>
 		<th>이름</th>
-		<th>직급</th>
 		<th>부서명</th>
+		<th>직급</th>
 		<th>이메일</th>
 		<th>휴대폰</th>
 	</tr>
@@ -63,7 +66,6 @@
     </div>
 </div>
 </div>
-
 
 </body>
 </html>

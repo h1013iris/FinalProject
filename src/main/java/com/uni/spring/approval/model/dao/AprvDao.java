@@ -8,8 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import com.uni.spring.approval.model.dto.AprvDoc;
 import com.uni.spring.approval.model.dto.AprvHistory;
+import com.uni.spring.approval.model.dto.CmtUpdateForm;
 import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.common.PageInfo;
+import com.uni.spring.department.model.dto.AttendLog;
 import com.uni.spring.member.model.dto.Member;
 
 @Repository // DB에 접근하는 클래스
@@ -35,6 +37,11 @@ public class AprvDao {
 		
 		return (ArrayList)sqlSession.selectList("aprvMapper.selectApprover", deptNo);
 	}
+	
+	public String selectDeptName(SqlSessionTemplate sqlSession, String deptNo) {
+		
+		return sqlSession.selectOne("aprvMapper.selectDeptName", deptNo);
+	}
 
 	public int insertAprvDoc(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
 		
@@ -49,6 +56,18 @@ public class AprvDao {
 	public int insertLeaveApp(SqlSessionTemplate sqlSession, LeaveForm leaveForm) {
 		
 		return sqlSession.insert("aprvMapper.insertLeaveApp", leaveForm);
+	}
+
+	public int insertCmtUpdateForm(SqlSessionTemplate sqlSession, CmtUpdateForm cmtUpdateForm) {
+		
+		return sqlSession.insert("aprvMapper.insertCmtUpdateForm", cmtUpdateForm);
+	}
+
+	public AttendLog selectCmt(SqlSessionTemplate sqlSession, AttendLog attendLog) {
+		
+		System.out.println("Dao =========" + attendLog.toString());
+		
+		return sqlSession.selectOne("aprvMapper.selectCmt", attendLog);
 	}
 
 	

@@ -8,11 +8,11 @@ import lombok.Data;
 public class Member {
 	
 	//파싱을 위해서 int대신 String타입으로 받아준다
-	private String empNo;//int
+	private int empNo;//int//int.. String이부분 좀더 공부하기..
 	private String userId;
 	private String userPw;
 	private String empName;
-	private String userNo;//int
+	private String userNo;
 	private String email;
 	private String phone;
 	private String address;
@@ -21,6 +21,8 @@ public class Member {
 	private Date endDate;
 	private String jobNo;//int
 	private String departmentNo;//int
+	
+	private String jobName;
 	
 	
 	/*

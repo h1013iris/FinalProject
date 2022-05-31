@@ -278,6 +278,7 @@ img {
     	$(function(){
     		$("#boardList tbody tr").click(function(){
     			location.href="detailBoard.do?bno=" + $(this).children().eq(0).text();
+    			
     		});
     	});
     </script>

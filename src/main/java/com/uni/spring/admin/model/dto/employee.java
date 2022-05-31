@@ -18,7 +18,7 @@ public class employee {
 	private int empNo;
 	private String userId;
 	private String empName;
-	private int cityNo;
+	private String cityNo;
 	private String email;
 	private String phone;
 	private String address;

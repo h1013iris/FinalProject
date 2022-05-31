@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ <mapper namespace="addressBookMapper">
+ 
+ <resultMap type="Member" id="memberResultSet">
+ 	<id property="empNo" column="EMP_NO"/>
+ 	<result property="userId" column="USER_ID"/>
+ 	<result property="userPw" column="USER_PW"/>
+ 	<result property="empName" column="EMP_NAME"/>
+ 	<result property="userNo" column="USER_NO"/>
+ 	<result property="email" column="EMAIL"/>
+ 	<result property="phone" column="PHONE"/>
+ 	<result property="address" column="ADDRESS"/>
+ 	<result property="hireDate" column="HIRE_DATE"/>
+ 	<result property="status" column="STATUS"/>
+ 	<result property="endDate" column="END_DATE"/>
+ 	<result property="jobNo" column="JOB_NO"/>
+ 	<result property="departmentNo" column="DEPARTMENT_NO"/>
+ </resultMap>
+ 
+  <resultMap type="WideMember" id="wideMemberResultSet">
+ 	<id property="empNo" column="EMP_NO"/>
+ 	<result property="userId" column="USER_ID"/>
+ 	<result property="userPw" column="USER_PW"/>
+ 	<result property="empName" column="EMP_NAME"/>
+ 	<result property="userNo" column="USER_NO"/>
+ 	<result property="email" column="EMAIL"/>
+ 	<result property="phone" column="PHONE"/>
+ 	<result property="address" column="ADDRESS"/>
+ 	<result property="hireDate" column="HIRE_DATE"/>
+ 	<result property="status" column="STATUS"/>
+ 	<result property="endDate" column="END_DATE"/>
+ 	<result property="jobNo" column="JOB_NO"/>
+ 	<result property="departmentNo" column="DEPARTMENT_NO"/>
+ 	<result property="jobName" column="JOB_NAME"/>
+ 	<result property="departmentTitle" column="DEPARTMENT_TITLE"/>
+ </resultMap> 
+ 
+   <resultMap type="Dept" id="deptResultSet">
+ 	<id property="dNo" column="EMP_NO"/>
+ 	<result property="userId" column="USER_ID"/>
+ 	<result property="userPw" column="USER_PW"/>
+ 	<result property="empName" column="EMP_NAME"/>
+ 	<result property="userNo" column="USER_NO"/>
+ 	<result property="email" column="EMAIL"/>
+ 	<result property="phone" column="PHONE"/>
+ 	<result property="address" column="ADDRESS"/>
+ 	<result property="hireDate" column="HIRE_DATE"/>
+ 	<result property="status" column="STATUS"/>
+ 	<result property="endDate" column="END_DATE"/>
+ 	<result property="jobNo" column="JOB_NO"/>
+ 	<result property="departmentNo" column="DEPARTMENT_NO"/>
+ 	<result property="jobName" column="JOB_NAME"/>
+ 	<result property="departmentTitle" column="DEPARTMENT_TITLE"/>
+ </resultMap> 
+ 
+    <resultMap type="Customer" id="customerResultSet">
+ 	<id property="cusNo" column="CUS_NO"/>
+ 	<result property="empNo" column="EMP_NO"/>
+ 	<result property="inFolder" column="IN_FOLDER"/>
+ 	<result property="comNm" column="COM_NM"/>
+ 	<result property="comNo" column="COMNO"/>
+ 	<result property="comTel" column="COM_TEL"/>
+ 	<result property="comCeo" column="COM_CEO"/>
+ 	<result property="comPix" column="COM_PIX"/>
+ 	<result property="comPhone" column="COM_PHONE"/>
+ 	<result property="comEmail" column="COM_EMAIL"/>
+ 	<result property="comMemo" column="COM_MEMO"/>
+ 	<result property="creDate" column="CRE_DATE"/>
+ 	<result property="outBox" column="OUTBOX"/>
+ 	 </resultMap> 
+
+   <resultMap type="Company" id="companyResultSet">
+ 	<id property="compNo" column="COM_NO"/>
+ 	<result property="empNo" column="EMP_NO"/>
+ 	<result property="inFolder" column="IN_FOLDER"/>
+ 	<result property="comNm" column="COM_NM"/>
+ 	<result property="comNo" column="COMNO"/>
+ 	<result property="comTel" column="COM_TEL"/>
+ 	<result property="comCeo" column="COM_CEO"/>
+ 	<result property="comPix" column="COM_PIX"/>
+ 	<result property="comPhone" column="COM_PHONE"/>
+ 	<result property="comEmail" column="COM_EMAIL"/>
+ 	<result property="comMemo" column="COM_MEMO"/>
+ 	<result property="creDate" column="CRE_DATE"/>
+ 	<result property="outBox" column="OUTBOX"/>
+ 	 </resultMap> 
+
+<!-- 전체주소록조회 -->
+<select id="selectAllAddList" resultType="WideMember">
+<![CDATA[
+	SELECT A.EMP_NAME,
+           C.DEPARTMENT_TITLE,
+           B.JOB_NAME,
+           A.EMAIL,
+           A.PHONE
+ 	FROM USER_INFO A 
+    LEFT JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO =B.JOB_NO
+    LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO =C.DEPARTMENT_NO 
+]]>
+</select>
+
+
+<!-- 부서별 주소록 목록 뜨게 음.. 관리자가 부서 추가하면 계속 추가됨. 정렬순서는 부서번호순-->
+
+<select id="selectDeptTitleList" resultType="Dept">
+<![CDATA[
+	SELECT DEPARTMENT_TITLE
+    FROM DEPARTMENT_MANAGEMENT  
+    ORDER BY DEPARTMENT_NO
+]]>
+</select>
+
+<!-- 부서명클릭시 부서별 조회 리스트 나오게 -->
+<select id="selectDeptAddList" resultType="WideMember">
+<![CDATA[
+	 SELECT A.EMP_NAME,
+           C.DEPARTMENT_TITLE,
+           B.JOB_NAME,
+           A.EMAIL,
+           A.PHONE
+ 	FROM USER_INFO A 
+    LEFT JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO =B.JOB_NO
+    LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO =C.DEPARTMENT_NO
+    WHERE C.DEPARTMENT_TITLE=#{departmentTitle}
+    ]]>
+</select>
+
+<!-- 고객주소록메인(로그인한 유저마다 다르게 나오는 전체조회) -->
+<select id="selectCustoList" resultType="Customer">
+<![CDATA[
+	SELECT *
+	FROM CUSTO_ADD
+	WHERE EMP_NO=#{empNo}
+    ]]>
+ 
+ </select>
+ 
+ <!-- 거래처주소록메인(로그인한 유저마다 다르게 나오는 전체조회) -->
+<select id="selectComList" resultType="Company">
+<![CDATA[
+	SELECT *
+	FROM COM_ADD
+	WHERE EMP_NO=#{empNo}
+    ]]>
+
+ </select>
+ 
+ <!--전체 주소록검색기능 검색한 조건에 따라 이름 직급 부서명 이메일 휴대폰을 보여주는 쿼리 -->
+ <select id="selectAllAddSearch" resultType="WideMember">
+ <![CDATA[
+ SELECT A.EMP_NAME,
+           C.DEPARTMENT_TITLE,
+           B.JOB_NAME,
+           A.EMAIL,
+           A.PHONE
+ 	FROM USER_INFO A 
+    LEFT JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO =B.JOB_NO
+    LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO =C.DEPARTMENT_NO 
+    WHERE A.EMP_NAME LIKE '%'||#{search}||'%'
+    OR C.DEPARTMENT_TITLE LIKE '%'||#{search}||'%'
+    OR B.JOB_NAME LIKE '%'||#{search}||'%'
+    OR A.EMAIL LIKE '%'||#{search}||'%'
+    OR A.PHONE LIKE '%'||#{search}||'%'
+     ]]>  
+ </select>
+ 
+ <insert id="insertComAdd" parameterType="Company">
+  <![CDATA[
+	    INSERT INTO COM_ADD
+    (COM_NO,EMP_NO,COM_NM,IN_FOLDER,COMNO,COM_TEL,COM_CEO,COM_PIX,COM_PHONE,COM_EMAIL,COM_MEMO)
+    VALUES
+    (SEQ_COMADD.NEXTVAL,#{empNo},#{comNm},#{inFolder},#{comNo},#{comTel},#{comCeo},#{comPix},#{comPhone},#{comEmail},#{comMemo})
+     ]]>  
+ </insert>
+ 
+ <!-- 주소록등록할때 자기사번으로 폴더명 불러오는 쿼리 -->
+ <select id="selectComFolder" resultType="Company">
+  <![CDATA[
+  SELECT DISTINCT IN_FOLDER
+    FROM COM_ADD
+    WHERE IN_FOLDER IS NOT NULL
+    AND EMP_NO=#{empNo}
+      ]]>  
+ </select>
+ </mapper>

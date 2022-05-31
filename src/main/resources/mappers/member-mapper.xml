@@ -156,5 +156,19 @@
     WHERE C.DEPARTMENT_TITLE=#{departmentTitle}
     ]]>
 </select>
+
+<!-- 아이디 찾기 -->
+ <select id="selectFindId" resultType="string" parameterType="WideMember">
+ <![CDATA[
+    SELECT A.USER_ID
+ 	FROM USER_INFO A 
+    LEFT JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO =B.JOB_NO
+    LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO =C.DEPARTMENT_NO
+    WHERE A.EMP_NAME=#{empName}
+    AND C.DEPARTMENT_TITLE=#{departmentTitle}
+    AND A.EMAIL=#{email}
+    AND SUBSTR(USER_NO,1,6)= #{userNo}
+    ]]>
+</select>
  
  </mapper>

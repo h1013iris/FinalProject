@@ -12,7 +12,7 @@
         overflow-y: hidden !important;
     }
 </style>
-<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/adminEmpManagementPage.css">
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/admin/adminEmpManagementPage.css">
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
@@ -57,6 +57,7 @@
                 <button type="button" class="insert_btn">사원추가</button>
             </div>
         </div>
-    </div> 
+    </div>
+    <script src="${ pageContext.servletContext.contextPath }/resources/js/admin/admin.js"></script>
 </body>
 </html>
