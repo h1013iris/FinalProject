@@ -22,6 +22,8 @@ public class Member {
 	private String jobNo;//int
 	private String departmentNo;//int
 	
+	private String jobName;
+	
 	
 	/*
 	USER_INFO 컬럼명

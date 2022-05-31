@@ -78,7 +78,7 @@
             
             <hr>
             
-            <form class="documentTypeForm"  method="post">
+            <form class="documentTypeForm" method="post">
             	<input type="hidden" name="deptNo" value="${ loginUser.departmentNo }"/>
             	<div class="modal_body docEnrollbody">
 			   		<div class="select_div">
@@ -117,7 +117,7 @@
 			        </div>
 	            </div>
 	            <div class="modal_footer docEnrollFooter">
-                	<button class="commonButton1 modal_nextBtn next_btn" type="submit">확인</button>
+                	<button class="commonButton1 modal_nextBtn next_btn" type="button">확인</button>
                 	<button class="commonButton1 modal_cascelBtn cancel_btn" type="button">취소</button>
             	</div>
             </form>

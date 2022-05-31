@@ -54,6 +54,15 @@
 		border:0 solid black;
 	}
 	
+	.approverName {
+		width: 100px;
+	}
+	
+	.approverJop {
+		width: 50px;
+		/*text-align: right;*/
+	}
+	
 </style>
 </head>
 <body>

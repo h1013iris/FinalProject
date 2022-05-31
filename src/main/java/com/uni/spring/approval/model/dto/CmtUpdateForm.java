@@ -1,5 +1,7 @@
 package com.uni.spring.approval.model.dto;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
@@ -15,9 +17,10 @@ public class CmtUpdateForm { // 근태 기록 수정 의뢰 신청서
 	private int docNo; // 문서 번호
 	private int docTypeNo; // 문서 서식 번호
 	private int drafter; // 기안자
-	private Timestamp draftDate; // 기안일
-	private Timestamp updateDate; // 수정일
-	private Timestamp goTime; // 수정 출근 시간
-	private Timestamp leaveTime; // 수정 퇴근 시간
+	private int drafterDept; // 기안자 소속
+	private Date draftDate; // 기안일
+	private Date updateDate; // 수정일
+	private Date attendTime; // 수정 출근 시간
+	private Date leaveTime; // 수정 퇴근 시간
 	private String updateReason; // 수정 사유
 }
