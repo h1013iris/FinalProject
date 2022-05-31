@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 
   <configuration>
+  
   	<settings>
   		<!-- NULL은 항상 대문자 -->
   		<setting name="jdbcTypeForNull" value="NULL"/>
@@ -34,11 +35,18 @@
   		<typeAlias type="com.uni.spring.department.model.dto.DepartmentReply" alias="DepartmentReply"/>
   		<typeAlias type="com.uni.spring.department.model.dto.Department" alias="Department"/>
   		<typeAlias type="com.uni.spring.department.model.dto.Project" alias="Project"/>
+  		<typeAlias type="com.uni.spring.department.model.dto.AttendLog" alias="AttendLog"/>
   		<!-- 캘린더 -->
   		<typeAlias type="com.uni.spring.calender.model.dto.Calender" alias="Calender"/>
   		<!-- 주소록 -->
   		<typeAlias type="com.uni.spring.addressBook.model.dto.Dept" alias="Dept"/>
   	</typeAliases>
+  	
+  	<!-- 
+  	<typeHandlers>
+		<typeHandler handler="com.uni.spring.common.CustomDateHandler"/>
+	</typeHandlers>
+  	 -->
   	
   	<mappers>
   		<mapper resource="/mappers/department-mapper.xml"/>
@@ -47,5 +55,6 @@
   		<mapper resource="/mappers/board-mapper.xml"/>
   		<mapper resource="/mappers/calender-mapper.xml"/>
   	</mappers>
+  	
   </configuration>
   	

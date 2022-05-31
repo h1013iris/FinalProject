@@ -1,3 +1,5 @@
+	
+	// 신청서 유형 선택 시
 	function docFormChange(type) {
 	    		
 		var app = ["== 선택 ==", "휴가 신청서", "근태 기록 수정 의뢰 신청서"];
@@ -31,45 +33,31 @@
 			target.appendChild(opt);
 		}
 	}
-
-
-
-		// 폼 제출 시
-		$("form").submit(function() {
-	    	// 문서 타입, 폼 유형 변수에 담아서
-			let type = $("#docType").val();
-	    	let form = $("#docForm").val();
-	    	
-	    	// 타입 비어 있으면 폼 액션 태그 제거
-	    	if(type == "none") {
-	    		$(this).removeAttr("action");
-	    		
-	    		return false;
-	    	
-	    	// 폼 유형 비어 있으면 폼 액션 태그 제거
-	    	} else if (form == "none") {
-	    		$(this).removeAttr("action");
-	    		
-	    		return false;
-	    	
-	    	// 잘 작성되어 있으면
-	    	} else {
-	    		// 제거했던 액션 태그 다시 추가해서 잘 진행되도록
-				$(this).attr("action", "docEnrollForm.do");
-				
-				/*let submit = $(".documentTypeForm").serialize();
 	
-				$.ajax({
-			
-				type: "post",
-			        url: "docEnrollForm.do",
-			        data: submit,
-			        success: function (data) {
-			            console.log(data);
-					 }
-				 })*/
-	    	}
-	    })
-	    
-	    
+	
+	
+ 	// 확인 버튼 클릭 시
+	$(".next_btn").click(function() {
+    	// 문서 타입, 폼 유형 변수에 담아서
+		let type = $("#docType").val();
+    	let form = $("#docForm").val();
+    	
+    	// 문서 타입, 폼 유형 있으면
+    	if(type == "none") {
+    		return false;
+    	
+    	} else if (form == "none") {
+    		return false;
+    	
+    	// 잘 작성되어 있으면
+    	} else {
+    		
+    		$(".documentTypeForm").attr("action", "docEnrollForm.do");
+    		$(".documentTypeForm").submit();
+    	}
+
+    })
+
+
+
     

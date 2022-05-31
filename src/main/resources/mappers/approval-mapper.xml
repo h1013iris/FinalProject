@@ -42,10 +42,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY B.JOB_NO
 	</select>
 	
+	<select id="selectDeptName" parameterType="string" resultType="string">
+		SELECT DEPARTMENT_TITLE
+		FROM DEPARTMENT_MANAGEMENT
+		WHERE DEPARTMENT_NO = #{deptNo}
+	</select>
+	
 	<!-- 결재 문서 등록 -->
 	<insert id="insertAprvDoc" parameterType="AprvDoc">
 		INSERT INTO APRV_DOCUMENT VALUES
-		(SEQ_DOC_NO.NEXTVAL, #{docType}, #{docTitle}, #{drafter}, #{firstAprv}, #{secondAprv}, DEFAULT, DEFAULT)
+		(SEQ_DOC_NO.CURRVAL, #{docType}, #{docTitle}, #{drafter}, #{firstAprv}, #{secondAprv}, DEFAULT, DEFAULT)
 	</insert>
 	
 	<!-- 결재 기록 등록 -->
@@ -57,7 +63,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 휴가 신청서 등록 -->
 	<insert id="insertLeaveApp" parameterType="LeaveForm">
 		INSERT INTO LEAVE_APP VALUES
-		(SEQ_LEAVE_APP.NEXTVAL, SEQ_DOC_NO.CURRVAL, #{docTypeNo}, #{drafter}, #{drafterDept}, DEFAULT, #{vacType}, #{startDate}, #{endDate}, #{vacUseDays}, #{vacReason})
+		(SEQ_LEAVE_APP.NEXTVAL, SEQ_DOC_NO.NEXTVAL, #{docTypeNo}, #{drafter}, #{drafterDept}, DEFAULT, #{vacType}, #{startDate}, #{endDate}, #{vacUseDays}, #{vacReason})
 	</insert>
+	
+	<!-- 해당 날짜 근태 기록 조회 -->
+	<select id="selectCmt" parameterType="AttendLog" resultType="AttendLog">
+		SELECT
+		    SUBSTR(TO_CHAR(ATTEND_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS ATTEND_TIME,
+		    SUBSTR(TO_CHAR(LEAVE_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS LEAVE_TIME
+		FROM ATTEND_LOG
+		WHERE 1=1
+		AND EMP_NO = #{empNo}
+		AND ATTEND_DATE = TO_DATE(#{attendDate})
+	</select>
+	
+	<!-- <insert id="insertCmtUpdateForm" parameterType="CmtUpdateForm">
+		INSERT INTO CMT_UPDATE_APP VALUES
+		()
+	</insert> -->
 
 </mapper>
