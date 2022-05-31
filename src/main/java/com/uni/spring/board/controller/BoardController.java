@@ -194,50 +194,27 @@ public class BoardController {
 	//영업팀 기술지원팀 경영지원팀 
 	@RequestMapping("depart.do")
 	public String selectdepartList(@RequestParam(value="currentPage" , required = false , defaultValue = "1")int currentPage, Model model,
-		@RequestParam(required = false, value="old")String old, @RequestParam(required = false, value="dpt")String dpt){
+		@RequestParam(required = false, value="old", defaultValue = "최신순")String old, @RequestParam(required = false, value="dpt", defaultValue = "1" )int dpt){
 		
 		System.out.println(dpt);
 		System.out.println(old);
-		int listCount = BoardService.selecdeparttListCount();
+		int listCount = BoardService.selecdeparttListCount(dpt);
 		System.out.println(listCount);
-
-		
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
 
-		int de = 0;
-		if(dpt != null) {
-			if(dpt.equals("영업팀")) {
-				de = 1;
-			}else if (dpt.equals("기술 지원팀")){
-				de = 2;
-			}else if (dpt.equals("경영 지원팀")) {
-				de=3;
-			}
-		}
-		
-          System.out.println(de+"나는 부서");
+	
+		Board b = new Board();
+		b.setDeptno(dpt);
+		b.setStatus(old);
+          
 		ArrayList<Board> conditions =BoardService.selectdeptnameList();
 		
 		ArrayList<Board> list = new ArrayList<Board>();
-		if(old != null) {
-			if(de == 1 || old.equals("오래된순")) {			
-				list = BoardService.selectdeoldList(pi ,de);
+				
+		list = BoardService.selectdeptList(pi,b);
 
-			}else if(de == 1 || old.equals("최신순")){
-				list = BoardService.selectdepartList(pi);
-			}
-			if(de == 2 || old.equals("오래된순")) {						
-				list = BoardService.selectdeoldList(pi ,de);
-			}else if (de == 2 || old.equals("최신순")){
-				list = BoardService.selectoperList(pi);
-			}
-			if(de == 3 || old.equals("오래된순")) {						
-				list = BoardService.selectdeoldList(pi ,de);
-			}else if(de == 3 || old.equals("최신순")){
-				list = BoardService.selecttecList(pi);
-			}
-		}
+		
 		
 		System.out.println(list.toString());
 		model.addAttribute("condition", "최신순");
@@ -246,58 +223,23 @@ public class BoardController {
 		model.addAttribute("pi",pi);
 		return "Board/deptlist";
 	}
-	@RequestMapping("tec.do")
-	public String selecttecList(@RequestParam(value="currentPage" , required = false , defaultValue = "1") int currentPage, Model model) {
+	
+	@RequestMapping("detailBoard.do")
+    public ModelAndView selectBoard(int bno, ModelAndView mv ) {
+		
+		
+		System.out.println(bno+"나는비앤오");
+		/*Board a = new Board();
+		a.setWriteno(bno);	*/
+		
+		
+		Board b = BoardService.detailBoard(bno);
+		
+		mv.addObject("b" , b).setViewName("Board/boarddetail");
+		
+		return mv;
 
-		int listCount = BoardService.selecttectListCount();
-		System.out.println(listCount);
-
-
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
-
-		ArrayList<Board> list = BoardService.selecttecList(pi);
-
-		System.out.println(list.toString());
-		model.addAttribute("condition", "최신순");
-		model.addAttribute("list",list);
-		model.addAttribute("pi",pi);
-		return "Board/deptlist";
-	}
-	@RequestMapping("oper.do")
-	public String selectoperList(@RequestParam(value="currentPage" , required = false , defaultValue = "1") int currentPage, Model model) {
-
-		int listCount = BoardService.selectoperListCount();
-		System.out.println(listCount);
-
-
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
-
-		ArrayList<Board> list = BoardService.selectoperList(pi);
-
-		System.out.println(list.toString());
-		model.addAttribute("condition", "최신순");
-		model.addAttribute("list",list);
-		model.addAttribute("pi",pi);
-		return "Board/deptlist";
-	}
-	@RequestMapping("departold.do")
-	public String selectdepartoldList(@RequestParam(value="currentPage" , required = false , defaultValue = "1") int currentPage, Model model, @RequestParam(required=false, value="de")int de) {
-
-		int listCount = BoardService.selectdeoldCount();
-		System.out.println(listCount);
-
-
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
-
-		ArrayList<Board> list = BoardService.selectdeoldList(pi ,de);
-
-		System.out.println(list);		
-		model.addAttribute("condition", "오래된순");
-		model.addAttribute("list",list);
-		model.addAttribute("pi",pi);
-		return "Board/deptlist";
-	}
 	
 	}
 
-
+}
