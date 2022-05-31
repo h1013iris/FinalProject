@@ -16,13 +16,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.common.exception.CommException;
 import com.uni.spring.department.model.dto.Department;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
+import com.uni.spring.department.model.dto.ProjectClass;
 import com.uni.spring.department.model.service.DepartService;
+import com.uni.spring.member.model.dto.Member;
 
 @Controller
 public class DepartController {
@@ -241,10 +244,60 @@ public class DepartController {
 		return "depart/ProjectList";
 	}
 	
-	@RequestMapping("selectProjectList.do")
+	@ResponseBody
+	@RequestMapping(value="selectProjectList.do", produces="application/json; charset=utf-8")
 	public String selectProjectList(int emno) {
 		ArrayList<Project> list = departService.selectProjectList(emno);
 		
-		return new GsonBuilder().setDateFormat("yyyy/MM/dd").create().toJson(list);
+		return new Gson().toJson(list);
+	}
+	
+	/*프로젝트 즐겨찾기 추가*/
+	@ResponseBody
+	@RequestMapping(value="insertProjectFav.do")
+	public String insertFavProject(int prno, int emno) {
+		Project p = new Project();
+		p.setProNo(prno);
+		p.setProWriter(emno);
+		int result = departService.insertFavProject(p);
+		
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectFavProjectList.do", produces="application/json; charset=utf-8")
+	public String selectFavProjectList(int emno) {
+		ArrayList<Project> list = departService.selectFavProjectList(emno);
+		
+		return new Gson().toJson(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteProjectFav.do")
+	public String deleteProjectFav(int prno, int emno) {
+		Project p = new Project();
+		p.setProNo(prno);
+		p.setProWriter(emno);
+		int result = departService.deleteProjectFav(p);
+		return String.valueOf(result) ;
+	}
+	
+	@RequestMapping("detailProject.do")
+	public ModelAndView selectDetailProject(int pjno, ModelAndView mv) {
+		
+		Project p = departService.selectDetailProject(pjno);//프로젝트
+		if(p!= null) {
+			ProjectClass pc = departService.selectPC(pjno);//프로젝트 분류
+			ArrayList<Member> list = departService.selectPW(pjno);//참가자
+			if(pc != null && list != null) {
+				mv.addObject("p",p).addObject("pc",pc).addObject("list",list).setViewName("depart/detailProject");
+			}else {
+				mv.addObject("msg","화면 전환 실패").addObject("msgTitle", "프로젝트 상세").setViewName("common/alert");
+			}
+		}else {
+			mv.addObject("msg","화면 전환 실패").addObject("msgTitle", "프로젝트 상세").setViewName("common/alert");
+		}
+
+		return mv;
 	}
 }

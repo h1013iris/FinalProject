@@ -9,6 +9,8 @@ import com.uni.spring.common.Attachment;
 import com.uni.spring.department.model.dto.Department;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
+import com.uni.spring.department.model.dto.ProjectClass;
+import com.uni.spring.member.model.dto.Member;
 
 @Repository
 public class DepartDao {
@@ -111,6 +113,42 @@ public class DepartDao {
 		
 		return (ArrayList)sqlSession.selectList("departMapper.selectProjectList", emno);
 	}
+
+	public int insertFavProject(SqlSessionTemplate sqlSession, Project p) {
+		
+		return sqlSession.insert("departMapper.insertFavProject", p);
+	}
+
+	public ArrayList<Project> selectFavProjectList(SqlSessionTemplate sqlSession, int emno) {
+		
+		return (ArrayList)sqlSession.selectList("departMapper.selectFavProjectList", emno);
+	}
+
+	public Project selectProjectFav(SqlSessionTemplate sqlSession, Project p) {
+		
+		return sqlSession.selectOne("departMapper.selectProjectFav",p);
+	}
+
+	public int deleteProjectFav(SqlSessionTemplate sqlSession, Project p) {
+		
+		return sqlSession.delete("departMapper.deleteProjectFav",p);
+	}
+
+	public Project selectDetailProject(SqlSessionTemplate sqlSession, int pjno) {
+		
+		return sqlSession.selectOne("departMapper.selectDetailProject",pjno);
+	}
+
+	public ProjectClass selectPC(SqlSessionTemplate sqlSession, int pjno) {
+		
+		return sqlSession.selectOne("departMapper.selectPC",pjno);
+	}
+
+	public ArrayList<Member> selectPW(SqlSessionTemplate sqlSession, int pjno) {
+		
+		return (ArrayList)sqlSession.selectList("departMapper.selectPW", pjno);
+	}
+
 
 
 }

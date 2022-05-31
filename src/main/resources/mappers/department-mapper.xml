@@ -43,9 +43,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="proWriter" column="PRO_WRITER"/>
 		<result property="proDepart" column="PRO_DEPART"/>
 		<result property="proTitle" column="PRO_TITLE"/>
+		<result property="count" column="COUNT"/>
 		<result property="proDate" column="PRO_DATE"/>
 		<result property="proStatus" column="PRO_STATUS"/>
 	</resultMap>
+	<resultMap type="ProjectClass" id="pcResultSet">
+		<id property="pcNo" column="PC_NO"/>
+		<result property="refPro" column="REF_PRO"/>
+		<result property="pcOne" column="PC_ONE"/>
+		<result property="pcTwo" column="PC_TWO"/>
+		<result property="pcThree" column="PC_THREE"/>
+		<result property="pcFour" column="PC_FOUR"/>
+		<result property="pcStatus" column="PC_STATUS"/>
+	</resultMap>
+	<resultMap type="Member" id="memberResultSet">
+	 	<id property="empNo" column="PW_ATTEN"/>
+	 	<result property="empName" column="EMP_NAME"/>
+	 	<result property="userNo" column="PW_NO"/>
+	 	<result property="email" column="REF_PRO"/>
+	 	<result property="status" column="PW_STATUS"/>
+	 	<result property="jobNo" column="JOB_NO"/>
+	 	<result property="departmentNo" column="DEPARTMENT_NO"/>
+ 	</resultMap>
 	
 	<insert id="insertAnnoDepart" parameterType="Department">
 		INSERT INTO ANNOUNCE_DEPART
@@ -71,12 +90,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND STATUS='Y'
 	</update>
 	<select id="selectDepartmentAnno" parameterType="_int" resultMap="departmentResultSet">
-		SELECT ANNO_NO, REF_DEPART, ANNO_WR, EMP_NAME, ANNO_TITLE, ANNO_CONTENT, ACCESS_REPLY, TO_CHAR(ANNO_DATE, 'YYYY/MM/DD HH24:MI:SS') AS ANNO_DATE2, COUNT, ATTACH_STATUS, JOB_NAME, LEAD(ANNO_NO) OVER(ORDER BY ANNO_NO) AS NEXTNO, LAG(ANNO_NO) OVER(ORDER BY ANNO_NO) PREVNO
-		FROM ANNOUNCE_DEPART AD
-		JOIN USER_INFO UI ON(ANNO_WR=EMP_NO)
+		SELECT ADT.ANNO_NO, REF_DEPART, ANNO_WR, EMP_NAME, ANNO_TITLE, ANNO_CONTENT, ACCESS_REPLY,  COUNT, ATTACH_STATUS, JOB_NAME, AD.PREVNO, AD.NEXTNO
+		FROM (SELECT ANNO_NO, LAG(ANNO_NO) OVER(ORDER BY ANNO_NO) AS PREVNO, LEAD(ANNO_NO) OVER(ORDER BY ANNO_NO) AS NEXTNO FROM ANNOUNCE_DEPART) AD
+		JOIN ANNOUNCE_DEPART ADT ON (AD.ANNO_NO=ADT.ANNO_NO)
+		JOIN USER_INFO UI ON(ADT.ANNO_WR=EMP_NO)
 		JOIN JOB_RANK_MANAGEMENT JR ON (UI.JOB_NO=JR.JOB_NO)
-		WHERE ANNO_NO =#{adno}
-		AND AD.STATUS='Y'
+		WHERE ADT.ANNO_NO =#{adno}
+		AND ADT.STATUS='Y'
 	</select>
 	<select id="selectAttachmentAnno" parameterType="_int" resultMap="attachmentResultSet">
 		SELECT FILE_NO, REF_LIST_CAT_NO, LARGE_CAT, ORIGIN_NAME, CHANGE_NAME
@@ -150,10 +170,60 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(SEQ_PROWAT.NEXTVAL, SEQ_ANPRO.CURRVAL, #{proWriter},DEFAULT)
 	</insert>
 	<select id="selectProjectList" parameterType="_int" resultMap="projectResultSet">
-		SELECT * 
-		FROM PROJECT
+		SELECT J.PRO_NO, J.PRO_WRITER, J.PRO_DEPART, J.PRO_TITLE, PW.COUNT, J.PRO_DATE, J.PRO_STATUS
+		FROM(SELECT *
+		FROM PROJECT 
 		WHERE PRO_NO IN(SELECT REF_PRO
 		                FROM PRO_WATCHER
-		                WHERE PW_ATTEN =#{emno})
+		                WHERE PW_ATTEN =#{emno})) J,  (SELECT COUNT(PW_ATTEN) AS COUNT, REF_PRO FROM PRO_WATCHER JOIN PROJECT ON(PRO_NO=REF_PRO) GROUP BY REF_PRO ) PW
+		WHERE J.PRO_NO = PW.REF_PRO
+		ORDER BY PRO_NO
+	</select>
+	<insert id="insertFavProject" parameterType="Project">
+		INSERT INTO PROJECT_FAV
+		VALUES
+		(#{proNo}, #{proWriter}, SYSDATE, DEFAULT)
+	</insert>
+	<select id="selectFavProjectList" parameterType="_int" resultMap="projectResultSet">
+		SELECT J.PRO_NO, J.PRO_WRITER, J.PRO_DEPART, J.PRO_TITLE, PW.COUNT, J.PRO_DATE, J.PRO_STATUS
+		FROM(SELECT *
+		FROM PROJECT 
+		WHERE PRO_NO IN(SELECT REF_PRO
+		                FROM PRO_WATCHER
+		                WHERE PW_ATTEN =#{emno})) J,  (SELECT COUNT(PW_ATTEN) AS COUNT, REF_PRO FROM PRO_WATCHER JOIN PROJECT ON(PRO_NO=REF_PRO) GROUP BY REF_PRO ) PW
+		WHERE J.PRO_NO = PW.REF_PRO
+		AND J.PRO_NO IN (SELECT FAV_PRO
+		                FROM PROJECT_FAV
+		                WHERE PF_EMP=#{emno})
+		ORDER BY PRO_NO
+	</select>
+	<select id="selectProjectFav" parameterType="Project" resultMap="projectResultSet">
+		SELECT FAV_PRO AS PRO_NO, PF_EMP AS PRO_WRITER
+		FROM PROJECT_FAV
+		WHERE FAV_PRO =#{proNo}
+		AND PF_EMP = #{proWriter}
+	</select>
+	<delete id="deleteProjectFav" parameterType="Project">
+		DELETE PROJECT_FAV 
+		WHERE FAV_PRO =#{proNo}
+		AND PF_EMP = #{proWriter}
+	</delete>
+	<select id ="selectDetailProject" parameterType="_int" resultMap="projectResultSet">
+		SELECT *
+		FROM PROJECT
+		WHERE PRO_NO = #{pjno}
+		AND PRO_STATUS ='Y'
+	</select>
+	<select id="selectPC" parameterType="_int" resultMap="pcResultSet">
+		SELECT *
+		FROM PRO_CLASS
+		WHERE REF_PRO = #{pjno}
+		AND PC_STATUS = 'Y'
+	</select>
+	<select id="selectPW" parameterType="_int" resultMap="memberResultSet">
+		SELECT PW_NO, REF_PRO, PW_ATTEN, PW_STATUS
+		FROM PRO_WATCHER
+		JOIN USER_INFO ON (EMP_NO = PW_ATTEN)
+		WHERE REF_PRO = #{pjno}
 	</select>
 </mapper>

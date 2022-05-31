@@ -6,6 +6,8 @@ import com.uni.spring.common.Attachment;
 import com.uni.spring.department.model.dto.Department;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
+import com.uni.spring.department.model.dto.ProjectClass;
+import com.uni.spring.member.model.dto.Member;
 
 public interface DepartService {
 
@@ -34,5 +36,18 @@ public interface DepartService {
 	void insertDPSimple(Project p);
 
 	ArrayList<Project> selectProjectList(int emno);
+
+	int insertFavProject(Project p);
+
+	ArrayList<Project> selectFavProjectList(int emno);
+
+	int deleteProjectFav(Project p);
+
+	Project selectDetailProject(int pjno);
+
+	ProjectClass selectPC(int pjno);
+
+	ArrayList<Member> selectPW(int pjno);
+
 
 }

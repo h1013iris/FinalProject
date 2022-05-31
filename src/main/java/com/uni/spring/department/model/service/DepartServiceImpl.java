@@ -12,6 +12,8 @@ import com.uni.spring.department.model.dao.DepartDao;
 import com.uni.spring.department.model.dto.Department;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
+import com.uni.spring.department.model.dto.ProjectClass;
+import com.uni.spring.member.model.dto.Member;
 
 @Service
 public class DepartServiceImpl implements DepartService {
@@ -148,5 +150,54 @@ public class DepartServiceImpl implements DepartService {
 		
 		return departDao.selectProjectList(sqlSession, emno);
 	}
+
+	@Override
+	public int insertFavProject(Project p) {
+		Project p1 = departDao.selectProjectFav(sqlSession,p);
+		int result = 0;
+		if(p1 == null) {
+			 result = departDao.insertFavProject(sqlSession,p);
+		}else {
+			result = 1;
+		}
+
+		return result;
+	}
+
+	@Override
+	public ArrayList<Project> selectFavProjectList(int emno) {
+		
+		return departDao.selectFavProjectList(sqlSession, emno);
+	}
+
+	@Override
+	public int deleteProjectFav(Project p) {
+		
+		int result = departDao.deleteProjectFav(sqlSession, p);
+		if(result<0) {
+			throw new CommException("즐겨찾기 삭제 실패");
+		}
+		return result;
+	}
+
+	@Override
+	public Project selectDetailProject(int pjno) {
+		
+		return departDao.selectDetailProject(sqlSession, pjno);
+	}
+
+	@Override
+	public ProjectClass selectPC(int pjno) {
+	
+		return departDao.selectPC(sqlSession, pjno);
+	}
+
+	@Override
+	public ArrayList<Member> selectPW(int pjno) {
+		
+		return departDao.selectPW(sqlSession, pjno);
+	}
+
+	
 
 }
