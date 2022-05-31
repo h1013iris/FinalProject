@@ -264,10 +264,10 @@
 					</tr>
 				</thead>
 				<tbody>
+					<tr>
 						<c:forEach var="dateList" items="${dateList}" varStatus="date_status"> 
 							<c:choose>
 								<c:when test="${dateList.value=='today'}">
-								<tr>
 									<td class="today" id="${ dateList.date }">
 										<div class="date">
 											${dateList.date}
@@ -294,9 +294,9 @@
 											</c:if>
 										</c:forEach>
 									</td>
+					</tr>
 								</c:when>
 								<c:when test="${date_status.index%7==0}">
-					</tr>
 					<tr>	
 						<td class="sun_day" id="${ dateList.date }">
 							<div class="sun">
@@ -327,7 +327,6 @@
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-						</tr>
 				</tbody>
 			</table>
 			</div>
@@ -368,29 +367,53 @@
 	</div>
 	<script>
 		// 시작날짜부터 종료날짜까지 색칠 하기
+		$(function() {			
+			let arr = new Array();
+			
+			<c:forEach items="${monthList}" var="scheduleList">
+				arr.push({startDate : new Date('${fn:substring(scheduleList.startDate, 0, 10)}'),
+						  endDate : new Date('${fn:substring(scheduleList.endDate, 0, 10)}'),
+						  writerNo : ${scheduleList.writerNo},
+						  sectionOption : ${scheduleList.sectionOption},
+						  selectColor : '${scheduleList.selectColor}',
+						  title : '${scheduleList.title}',
+						  openOption : '${scheduleList.openOption}',
+						  alarm : ${scheduleList.alarm},
+						  <c:choose><c:when test="${fn:length(scheduleList.place) == 0}"></c:when><c:otherwise>place : '${scheduleList.place}',</c:otherwise></c:choose>
+						  <c:choose><c:when test="${fn:length(scheduleList.memo) == 0}"></c:when><c:otherwise>memo : '${scheduleList.memo}'</c:otherwise></c:choose>
+						  })
+			</c:forEach>
+			console.log(arr)
+			
+			arr.forEach(function(val){
+				let start = val.startDate;
+				let end = val.endDate;
+
+				// 하루종일 이거나 검색달 내에 끝나면 탐
+				if(start.getMonth() == end.getMonth()){
+					if(start == end){// 하루종일인 경우
+						console.log("하루종일")
+						
+					}else{// 검색 달 내에 끝나는 경우
+						console.log("한달내에 끝남")
+						let temp = start.getTime() - end.getTime();
+						  
+						let dateDays = Math.abs(temp / (1000 * 3600 * 24));
+						  
+						console.log(dateDays);
+					}
+				}else if(start.getFullYear == ${today_info.search_year} & start.getMonth() == ${today_info.search_month}){
+					// 시작일이 검색 달이면 탐
+					console.log("시작일이 검색달임")
+				}else if(end.getFullYear == ${today_info.search_year} & end.getMonth() == ${today_info.search_month}){
+					// 종료일이 검색 달이면 탐
+					console.log("종료일이 검색달임")
+					
+				}
+			})
+			
+		})
 		
-		let arr = new Array();
-		
-		<c:forEach items="${monthList}" var="scheduleList">
-			arr.push({startDate : new Date('${fn:substring(scheduleList.startDate, 0, 10)}'),
-					  endDate : new Date('${fn:substring(scheduleList.endDate, 0, 10)}'),
-					  writerNo : ${scheduleList.writerNo},
-					  sectionOption : ${scheduleList.sectionOption},
-					  selectColor : '${scheduleList.selectColor}',
-					  title : '${scheduleList.title}',
-					  openOption : '${scheduleList.openOption}',
-					  alarm : ${scheduleList.alarm},
-					  <c:choose><c:when test="${fn:length(scheduleList.place) == 0}"></c:when><c:otherwise>place : '${scheduleList.place}',</c:otherwise></c:choose>
-					  <c:choose><c:when test="${fn:length(scheduleList.memo) == 0}"></c:when><c:otherwise>memo : '${scheduleList.memo}'</c:otherwise></c:choose>
-					  })
-		</c:forEach>
-		console.log(arr)
-		console.log(typeof(arr))
-		
-		//arr.forEach(function() {
-		//	console.log(arr.selectColor)
-		//	let start = new Date(arr.startDate)
-		//});
 	</script>
 </body>
 </html>
