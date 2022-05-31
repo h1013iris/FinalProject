@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="endDate" column="END_DATE"/>
 		<result property="writerNo" column="WRITER_NO"/>
 		<result property="sectionOption" column="SECTION_NUM"/>
-		<result property="selectColor" column="COLOR_NUM"/>
+		<result property="selectColor" column="COLOR_CODE"/>
 		<result property="title" column="DATE_NAME"/>
 		<result property="openOption" column="PUBLIC_RANGE"/>
 		<result property="alarm" column="NOTICE_TIME"/>	
@@ -21,16 +21,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO CALENDER
 		VALUES
 		(TO_DATE(#{startDate},'YYYY/MM/DD HH24:MI'), TO_DATE(#{endDate},'YYYY/MM/DD HH24:MI'), 
-		#{empNo}, #{sectionOption}, #{selectColor},
+		#{writerNo}, #{sectionOption}, #{selectColor},
 		#{title}, #{openOption}, #{alarm}, #{place}, #{memo}, 'Y')
 	</insert>
-	<select id="selectList" parameterType="Member" resultMap="calenderResultSet">
+	<select id="selectList" parameterType="Map" resultMap="calenderResultSet">
 		SELECT
-		    *
-		FROM CALENDER
-		JOIN MEMBER ON (WRITER_NO = EMP_NO)
-		WHERE 
-		(OR EMP_NO = #{writerNo}
-		OR DEPARTMENT_NO = #{writerNo})
+		    A.START_DATE,
+			A.END_DATE,
+			A.WRITER_NO,
+			A.SECTION_NUM,
+			B.COLOR_CODE,
+			A.DATE_NAME,
+			A.PUBLIC_RANGE,
+			A.NOTICE_TIME,
+			A.PLACE,
+			A.MEMO
+		FROM CALENDER A
+		JOIN CAL_COLOR B ON (A.COLOR_NUM = B.COLOR_NUM)
+		WHERE WRITER_NO = 10000
+		AND EXTRACT(YEAR FROM START_DATE) = #{year}
+		AND EXTRACT(MONTH FROM START_DATE) = #{month}
+		<if test="empNo != null">
+			OR WRITER_NO = #{empNo}
+			AND EXTRACT(YEAR FROM START_DATE) = #{year}
+			AND EXTRACT(MONTH FROM START_DATE) = #{month}
+		</if>
+		<if test="departmentNo != null">
+			OR WRITER_NO = #{departmentNo}
+			AND EXTRACT(YEAR FROM START_DATE) = #{year}
+			AND EXTRACT(MONTH FROM START_DATE) = #{month}
+		</if>
 	</select>
 </mapper>

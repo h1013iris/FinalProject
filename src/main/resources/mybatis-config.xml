@@ -12,21 +12,41 @@
   	</settings>
   	
   	<typeAliases>
+  		<!-- 공통 -->
+  		<typeAlias type="com.uni.spring.common.Attachment" alias="Attachment"/>
+  		<!-- 유저 -->
   		<typeAlias type="com.uni.spring.member.model.dto.Member" alias="Member"/>
   		<typeAlias type="com.uni.spring.member.model.dto.WideMember" alias="WideMember"/>
-  		<typeAlias type="com.uni.spring.department.model.dto.Department" alias="Department"/>
-  		<typeAlias type="com.uni.spring.common.Attachment" alias="Attachment"/>
   		<!-- 전자결재 -->
   		<typeAlias type="com.uni.spring.approval.model.dto.AprvDoc" alias="AprvDoc"/>
+  		<typeAlias type="com.uni.spring.approval.model.dto.AprvHistory" alias="AprvHistory"/>
+  		<typeAlias type="com.uni.spring.approval.model.dto.LeaveForm" alias="LeaveForm"/>
+  		<typeAlias type="com.uni.spring.approval.model.dto.SecurityDoc" alias="SecurityDoc"/>
+  		<typeAlias type="com.uni.spring.approval.model.dto.ReturnDoc" alias="ReturnDoc"/>
+  		<typeAlias type="com.uni.spring.approval.model.dto.OutboxDoc" alias="OutboxDoc"/>
+  		<typeAlias type="com.uni.spring.approval.model.dto.LeaveForm" alias="LeaveForm"/>
+  		<typeAlias type="com.uni.spring.approval.model.dto.CmtUpdateForm" alias="CmtUpdateForm"/>
+  		<typeAlias type="com.uni.spring.approval.model.dto.BusDraftForm" alias="BusDraftForm"/>
+  		<typeAlias type="com.uni.spring.approval.model.dto.BusCoopForm" alias="BusCoopForm"/>
+  		<!--  게시글 -->
   		<typeAlias type="com.uni.spring.board.model.dto.Board" alias="Board"/>
+  		<!-- 부서 페이지 -->
   		<typeAlias type="com.uni.spring.department.model.dto.DepartmentReply" alias="DepartmentReply"/>
+  		<typeAlias type="com.uni.spring.department.model.dto.Department" alias="Department"/>
   		<typeAlias type="com.uni.spring.department.model.dto.Project" alias="Project"/>
   		<!-- 캘린더 -->
   		<typeAlias type="com.uni.spring.calender.model.dto.Calender" alias="Calender"/>
   		<!-- 주소록 -->
   		<typeAlias type="com.uni.spring.addressBook.model.dto.Dept" alias="Dept"/>
   		<typeAlias type="com.uni.spring.addressBook.model.dto.Company" alias="Company"/>
-  		<typeAlias type="com.uni.spring.addressBook.model.dto.Customer" alias="Customer"/>
+  		<typeAlias type="com.uni.spring.addressBook.model.dto.Customer" alias="Customer"/>		
+  		<!-- 관리자 -->
+  		<!-- 사원정보 -->
+  		<typeAlias type="com.uni.spring.admin.model.dto.employee" alias="emp"/>
+  		<!-- 직위 -->
+  		<typeAlias type="com.uni.spring.admin.model.dto.Job" alias="Job"/>
+  		<!-- 부서 -->
+  		<typeAlias type="com.uni.spring.admin.model.dto.Department" alias="DepartmentList"/>
   	</typeAliases>
   	
   	<mappers>
@@ -36,6 +56,7 @@
   		<mapper resource="/mappers/board-mapper.xml"/>
   		<mapper resource="/mappers/calender-mapper.xml"/>
   		<mapper resource="/mappers/addressBook-mapper.xml"/>
+  		<mapper resource="/mappers/adminMapper.xml"/>
   	</mappers>
   </configuration>
   	

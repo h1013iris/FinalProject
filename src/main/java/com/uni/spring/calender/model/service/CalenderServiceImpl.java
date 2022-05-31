@@ -1,6 +1,8 @@
 package com.uni.spring.calender.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +42,20 @@ public class CalenderServiceImpl implements CalenderService {
 	}
 
 	@Override
-	public ArrayList<Calender> selectList(Member loginUser) {
+	public ArrayList<Calender> selectList(Member loginUser, Map<String, Integer> today_info) {
 		ArrayList<Calender> list = new ArrayList<Calender>();
 		
-		// 내 할일 만 띄울 때(필터)
+		// 필요한 데이터 값을 담기
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("year", String.valueOf(today_info.get("search_year")));
+		data.put("month", String.valueOf(today_info.get("search_month")));
+		data.put("empNo", loginUser.getEmpNo());
+		data.put("departmentNo", loginUser.getDepartmentNo());
 		
-		list = calenderDao.selectList(loginUser, sqlSession);
+		list = calenderDao.selectList(data, sqlSession);
+		
 		return list;
 	}
+
 
 }

@@ -90,6 +90,9 @@ public class BoardSeriveImpl implements BoardService {
 	//글작성
 	@Override
 	public void insertnotice(Board b) {
+		String con = b.getContent();
+		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
+        b.setContent(con);
 		int result = BoardDao.insertnotice(sqlSession, b);
 		if(result < 0) {
 			throw new CommException("게시글 추가 실패");
@@ -98,24 +101,44 @@ public class BoardSeriveImpl implements BoardService {
 
 	@Override
 	public void insertfree(Board b) {
+		String con = b.getContent();
+		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
+        b.setContent(con);
 		int result = BoardDao.insertfree(sqlSession, b);
 
 		if(result < 0) {
 			throw new CommException("게시글 추가 실패");
 		}
 	}
-
+    
+	//부서게시판
 	@Override
-	public int selecdeparttListCount() {
+	public int selecdeparttListCount(int dpt) {
 		// TODO Auto-generated method stub
-		return BoardDao.selecdeparttListCount(sqlSession);
+		return BoardDao.selecdeparttListCount(sqlSession,dpt);
 	}
 
 	@Override
-	public ArrayList<Board> selectdepartList(PageInfo pi) {
-		// TODO Auto-generated method stub
-		return BoardDao.selectdepartList(sqlSession , pi);
+	public ArrayList<Board> selectdeptList(PageInfo pi, Board b) {
+		
+		return BoardDao.selectdeptList(sqlSession,pi,b);
 	}
+
+
+	@Override
+	public ArrayList<Board> selectdeptnameList() {
+		// TODO Auto-generated method stub
+		return BoardDao.selectdeptnameList(sqlSession);
+	}
+
+	@Override
+	public Board detailBoard(int bno) {
+		
+		return BoardDao.detailBoard(sqlSession, bno);
+	}
+
+	
+	
 
 
 

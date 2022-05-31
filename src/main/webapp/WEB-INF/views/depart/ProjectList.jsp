@@ -32,7 +32,6 @@
     	width: 22%;
 		margin: 15px;
 		text-align: center;
-		line-height: 19vh;
 	}
 	.allProjectSection{
 		margin-top: 10px;
@@ -45,7 +44,7 @@
 	.projectInputSection{
 		height: 36px;
    	 	width: 80%;
-    	margin-top: 10px;
+    	margin-top: 5px;
 	}
 	.MakeNewProject .makeNemProjectLa{
 		font-size: 20px;
@@ -60,7 +59,37 @@
 	.buttonSectionSimpleBu1, .buttonSectionSimpleBu2{
 		height: 35px;
 		width: 70px;
-		line-height: 15px;
+	}
+	.cNPchangeButton{
+		line-height: 19vh;
+	}
+	.emptyButtonStar, .fullButtonStar{
+		float: right;
+		margin-top:5px;
+		margin-right:5px;
+	}
+	.emptyButtonStar:hover, .cNPchangeButton:hover, .fullButtonStar:hover{
+		cursor: pointer;
+	}
+	.maProject{
+		font-size: 20px;
+		float: left;
+		margin-top:15px;
+		margin-left:10px;
+		-webkit-line-clamp: 1 ;
+		white-space : nowrap;
+		width: 70%;
+		word-wrap: break-word;
+		text-overflow: ellipsis;
+	}
+	.fullButtonStar{
+		display: none;
+	}
+	.attendProjectSum{
+		float: left;
+    	margin-top: 18%;
+   	 	margin-left: 5%;
+   	 	font-size: 17px;
 	}
 </style>
 </head>
@@ -76,8 +105,14 @@
         		</div>
         		<!-- 프로젝트 부분 -->
         		<div class="flex-container">
-        			<div class="flex-item"></div>
-     
+        			<div class="flex-item">
+        				<div>
+        				<span class="maProject"> 프로젝트 이름이름을미우ㅐㅜ </span>
+        				<a class="emptyButtonStar"><img src="${ pageContext.servletContext.contextPath }/resources/images/emptyStar.png"  width="40"></a>
+        				<a class="fullButtonStar"><img src="${ pageContext.servletContext.contextPath }/resources/images/fullStar.png"  width="40"></a>
+        				</div>
+        				<div class="attendProjectSum">참석 인원 : 명</div>
+        			</div>
         		</div>
         	</div>
         	<!-- 일반 프로젝트 부분 -->
@@ -116,16 +151,45 @@
     		$(".cNPchangeButton").css("display","none");
     		$(".MakeNewProject").css("display","block");
     	})
-    	
-    	$(".projectinPro").click(function(){
-		   $("#inputProject").submit();
-	   })
+    	$(function(){
+    		selectProjectList();
+    		$(".projectinPro").click(function(){
+    			   $("#inputProject").submit();
+    		})
+    		
+    	})
+    	/*function selectProjectList(){
+    		var emno = ${loginUser.empNo};//회원번호
+    		$.ajax({
+    			url:"selectProjectList.do", 
+    			data:{emno:emno}, 
+    			type:"get", 
+    			success:function(list){
+    				var value="";
+
+    				$.each(list, function(i, obj){
+    					value += "<div>"
+    				})
+    			}, error:function(){
+    				console.log("프로젝트 가져오는 것 실패")
+    			}
+    		})
+    	}*/
 	   $(".can_project").click(function(){
 		   $(".projectInputSection").val("");
 		   $(".cNPchangeButton").css("display","block");
    			$(".MakeNewProject").css("display","none");
 	   })
 	   
+	   $(".emptyButtonStar").click(function(){
+    		$(".emptyButtonStar").css("display","none");
+    		$(".fullButtonStar").css("display","block");
+    	})
+    	
+	   $(".fullButtonStar").click(function(){
+	   		$(".fullButtonStar").css("display","none");
+	   		$(".emptyButtonStar").css("display","block");
+	   })
 	   
     </script>
 </body>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="adminMapper">
+	<resultMap type="Job" id="JobResult">
+		<result property="jobNo" column="JOB_NO"/>
+		<result property="jobName" column="JOB_NAME"/>
+	</resultMap>
+	<resultMap type="DepartmentList" id="deptResult">
+		<result property="departmentNo" column="DEPARTMENT_NO"/>
+		<result property="departmentTitle" column="DEPARTMENT_TITLE"/>
+	</resultMap>
+	<resultMap type="emp" id="EmpResult">
+		<result property="empNo" column="EMP_NO"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="cityNo" column="USER_NO"/>
+		<result property="email" column="EMAIL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="hireDate" column="HIRE_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+		<result property="jobNo" column="JOB_NO"/>
+		<result property="deptNo" column="DEPARTMENT_NO"/>
+	</resultMap>
+	
+	<select id="selectAllDeptList" resultMap="deptResult">
+		select * from DEPARTMENT_MANAGEMENT
+	</select>
+	
+	<select id="selectAllJobList" resultMap="JobResult">
+		select * from JOB_RANK_MANAGEMENT
+	</select>
+	
+	<insert id="insertEmp" parameterType="emp">
+		insert into USER_INFO
+		(EMP_NO, EMP_NAME, USER_NO, EMAIL, PHONE, HIRE_DATE, STATUS, JOB_NO, DEPARTMENT_NO)
+		values
+		(SEQ_EMPNO.nextval, #{empName}, #{cityNo}, #{email}, #{phone}, #{hireDate}, default, #{jobNo}, #{deptNo})
+	</insert>
+	
+	<select id="insertUserSelect" resultMap="EmpResult">
+		select EMP_NO, email, phone, EMP_NAME from USER_INFO where USER_NO = #{cityNo}
+	</select>
+</mapper>

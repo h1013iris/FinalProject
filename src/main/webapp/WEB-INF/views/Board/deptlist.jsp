@@ -8,9 +8,6 @@
 <title>Insert title here</title>
 
 <style>
-
-
-
 #boardList {
 	text-align: center;
 }
@@ -125,7 +122,7 @@ img {
 	min-width: 200px;
 }
 
-.dropdown-content a {
+.dropdown-content p {
 	display: block;
 	text-decoration: none;
 	color: rgb(37, 37, 37);
@@ -165,7 +162,7 @@ img {
 	min-width: 200px;
 }
 
-.dropdown-content2 a {
+.dropdown-content2 p {
 	display: block;
 	text-decoration: none;
 	color: rgb(37, 37, 37);
@@ -195,7 +192,8 @@ img {
 	width: 300px;
 	height: 30px;
 }
-.dpAll{
+
+.dpAll {
 	display: flex;
 	justify-content: flex-end;
 }
@@ -214,28 +212,32 @@ img {
 				<a href="depart.do"><button class="noticeButton1" id="bu3">부서게시판</button></a>
 				<a href="anonymous.do"><button class="noticeButton1" id="bu4">익명게시판</button></a>
 			</div>
-            
-           <div class="dpAll"> 
-			<div class="dropdown">
-				<button class="dropbtn">
-					<span id="isRecent" class="dropbtn_icon">최신순</span>
-				</button>
-				<div class="dropdown-content" id="drp">
-					<a id="new" href="notice.do">최신순</a> <a id="old"
-						href="noticeold.do">오래된순</a>
+
+			<div class="dpAll">
+				<div class="dropdown">
+					<button class="dropbtn">
+						<span id="isRecents" class="dropbtn_icon">${condition}</span>
+					</button>
+
+					<div class="dropdown-content" id="drp">
+						<p id="new" class="nold" onclick="old('최신순')">최신순</p>
+						<p id="old" class="nold" onclick="old('오래된순')">오래된순</p>
+
+					</div>
+
+				</div>
+				<div class="dropdown2">
+					<button class="dropbtn2">
+						<span id="isRecents2" class="dropbtn_icon2"><input
+							class="deptRecents" type="hidden" value=1 />영업팀</span>
+					</button>
+					<div class="dropdown-content2" id="drp">
+						<c:forEach items="${ conditions }" var="c">
+							<p class="dpt" onclick="dpt('${c.deptno}')">${c.deptname}</p>
+						</c:forEach>
+					</div>
 				</div>
 			</div>
-			<div class="dropdown2">
-				<button class="dropbtn2">
-					<span id="isRecent" class="dropbtn_icon2">영업팀</span>
-				</button>
-				<div class="dropdown-content2" id="drp">
-					<a id="sales" href="depart.do">영업팀</a> 
-					<a id="tec" href="tec.do">기술 지원팀</a>
-					<a id="oper" href="oper.do">경영 지원팀</a>
-				</div>
-			</div>
-          </div>
 			<div class="noticelist" style="padding: 5% 10%;">
 				<table id="boardList" class="table table-hover" align="center">
 
@@ -247,19 +249,14 @@ img {
 							<th style="width: 150px; height: 50px;">작성일</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="realcontents">
+						<c:forEach items="${list}"  var="n">
+				            			    <td>("${n.writeno}");</td>
+				            				<td>list.push("${n.title}");</td>
+				            				<td>list.push("${n.witer}");</td>
+				            				<td>list.push("${n.createDate}");</td>
+				            				</c:forEach>
 
-						<c:forEach items="${ list }" var="n">
-							<tr>
-								<td style="height: 70px;">${ n.writeno }</td>
-								<td style="height: 70px;">${ n.title }</td>
-								<td style="height: 70px;">${ n.writer }</td>
-								<td style="height: 70px;">${ n.createDate }</td>
-
-
-							</tr>
-
-						</c:forEach>
 
 					</tbody>
 					<c:if test="${ empty list }">
@@ -324,29 +321,7 @@ img {
 						</form>
 					</div>
 
-					<script>
-			$(function(){
-				switch('${condition}'){				
-				case "title" : $("#searchArea option").eq(1).attr("selected", true); break; 
-				case "content" : $("#searchArea option").eq(2).attr("selected", true); break; 
-				}
-			})
-		
-            if(window.location.pathname === "/noticeold.do"){
-            document.getElementById("isRecent").innerText="오래된순";
-            }else{
-            document.getElementById("isRecent").innerText="최신순";
-            }
-			  if(window.location.pathname === "/sales.do"){
-		      document.getElementById("isRecent").innerText="영업팀";
-		      }else if(window.location.pathname === "/tec.do"){
-		      document.getElementById("isRecent").innerText="기술 지원팀";
-		      }else{
-		    	  document.getElementById("isRecent").innerText="경영 지원팀";
-		      }
-			
-			
-		</script>
+
 
 
 				</div>
@@ -354,10 +329,86 @@ img {
 
 
 			<script>
+			
+			
+			 
+			$(function(){
+				switch('${condition}'){				
+				case "title" : $("#searchArea option").eq(1).attr("selected", true); break; 
+				case "content" : $("#searchArea option").eq(2).attr("selected", true); break; 
+				}
+			})
+		     
+		
+					/*      function dpt(num){
+					      $(document).ready(function(){
+					    	 
+				            	 var dpt = num;
+				            	 var old = $("#isRecents").text();
+				            	 console.log(dpt)
+				            	 console.log(old)
+				            		$.ajax({
+				            			type: 'post',   
+				            			url : "depart.do",
+				            			data: {dpt:dpt, old:old},          			
+				            			success: function(result){
+				            				console.log("통신완료")
+				            				var list = new Array();
+				            				
+				            				<c:forEach items="${list}" var="n">
+				            				list.push("${n.writeno}");
+				            				list.push("${n.title}");
+				            				list.push("${n.witer}");
+				            				list.push("${n.createDate}");
+				            				</c:forEach>
+				            				
+				            				
+				            				console.log(list)
+				            				for ( var i = 0; i < list.length; i++) {    
+				            					$("#realcontens")
+				            				}
+				            				
+				            				
+				            			},
+				            			error:function(){  
+				            				console.log("통신실패")
+				            			}
+				            		})
+				            	})
+					      
+					      }
+			
+			function old(n&o){
+            $(document).ready(function(){
+            	
+				            	 var old = n&o;
+				            	 var dpt = $("#deptRecents").val
+				            	 console.log(old)
+				            		$.ajax({
+				            			type: 'post',   
+				            			url : "depart.do",
+				            			data: {old:old dpt:dpt},          			
+				            			success: function(result){
+				            				console.log("통신완료")
+				            			},
+				            			error:function(){  
+				            				console.log("통신실패")
+				            			}
+				            		})
+				            	})
+           
+					      };*/
+			
+           
+			
+             
+			
+	
     
     	$(function(){
     		$("#boardList tbody tr").click(function(){
     			location.href="detailBoard.do?bno=" + $(this).children().eq(0).text();
+    			
     		});
     	});
     

@@ -22,7 +22,7 @@ public class Calender {
 	
 	/*	START_DATE
 		END_DATE
-		EMP_NO
+		WRITER_NO
 		SECTION_NUM
 		COLOR_NUM
 		DATE_NAME
@@ -45,8 +45,9 @@ public class Calender {
 		}else {
 			startTime = "00:00";
 			endTime = "11:59";
-			day.setStartDate(calender.getStartDate().replace("-", "/").concat(" "+startTime));
-			day.setEndDate(calender.getStartDate().replace("-", "/").concat(" "+endTime));
+			String date = calender.getStartDate();
+			day.setStartDate(date.replace("-", "/").concat(" "+startTime));
+			day.setEndDate(date.replace("-", "/").concat(" "+endTime));
 		}
 		
 		System.out.println(day);
@@ -54,5 +55,35 @@ public class Calender {
 		return day;
 	}
 	
+	// 년도,월,일, 시간 분리 하는 메소드
+	public DateData decDate(String calender) {
+		DateData dec = new DateData(); // 생성자 생성
+		
+		String date; // 일자
+		String[] day; // 년,월,일 나누기 위한 것
+		
+		date = calender; // (시간포함)
+
+		// 일자 분리
+		day = date.split(" ");
+		
+		// 날짜담음
+		date = day[0];
+		
+		// 년 월 일 분리
+		day = date.split("-");
+		
+		//임의 값 확인
+		for(int i = 0 ; i < day.length ; i++) {
+			System.out.println("년 월 일 확인 ==> "+day[i]);
+		}
+		
+		// deteDeta에 년월일 담기
+		dec.setYear(day[0]);
+		dec.setMonth(day[1]);
+		dec.setDate(day[2]);
+		
+		return dec;
+	}
 	
 }

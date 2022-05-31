@@ -99,9 +99,9 @@ public class BoardDao {
 
    }
 
-   public int selecdeparttListCount(SqlSessionTemplate sqlSession) {
+   public int selecdeparttListCount(SqlSessionTemplate sqlSession, int de) {
       
-      return sqlSession.selectOne("boardMapper.selecdeparttListCount");
+      return sqlSession.selectOne("boardMapper.selecdeparttListCount",de);
    }
 
    public ArrayList<Board> selectdepartList(SqlSessionTemplate sqlSession, PageInfo pi) {
@@ -128,7 +128,7 @@ public class BoardDao {
 
    public int selectoperListCount(SqlSessionTemplate sqlSession) {
       // TODO Auto-generated method stub
-      return sqlSession.selectOne("boardMapper.selectoperListCoun");
+      return sqlSession.selectOne("boardMapper.selectoperListCount");
    }
 
    public ArrayList<Board> selectoperList(SqlSessionTemplate sqlSession, PageInfo pi) {
@@ -138,6 +138,33 @@ public class BoardDao {
 
       return (ArrayList) sqlSession.selectList("boardMapper.selectoperList", null, rowBounds);
    }
+
+public int selectdeoldCount(SqlSessionTemplate sqlSession) {
+	// TODO Auto-generated method stub
+	 return sqlSession.selectOne("boardMapper.selectdeoldCount");
+}
+
+
+public ArrayList<Board> selectdeptnameList(SqlSessionTemplate sqlSession) {
+	// TODO Auto-generated method stub
+	return (ArrayList)sqlSession.selectList("boardMapper.selectdeptnameList");
+}
+
+public ArrayList<Board> selectdeptList(SqlSessionTemplate sqlSession, PageInfo pi, Board b) {
+	int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+
+    RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+    return (ArrayList) sqlSession.selectList("boardMapper.selectdeptList", b, rowBounds);
+}
+
+public Board detailBoard(SqlSessionTemplate sqlSession, int bno) {
+	// TODO Auto-generated method stub
+	return sqlSession.selectOne("boardMapper.detailBoard" , bno);
+}
+
+
+
+
 
    
    }

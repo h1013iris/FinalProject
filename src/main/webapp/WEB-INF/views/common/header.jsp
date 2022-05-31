@@ -369,6 +369,15 @@
 	})
 	
 	</script>
+	<!-- 이메일 API -->
+	<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+	<script>
+	(function(){
+		emailjs.init("Mafb0wCflnksYAr8I");
+	})();
+	</script>
+
+	<!-- 문자전송 API -->
 	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
 

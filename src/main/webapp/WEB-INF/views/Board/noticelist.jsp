@@ -164,11 +164,11 @@ img {
 
 				<div class="dropdown">
 					<button class="dropbtn">
-						<span id="isRecent" class="dropbtn_icon">최신순</span>
+						<span id="isRecents" class="dropbtn_icon">최신순</span>
 					</button>
 					<div class="dropdown-content" id="drp">
-						<a id="new" href="notice.do">최신순</a> <a id="old"
-							href="noticeold.do">오래된순</a>
+						<a id="new" href="notice.do">최신순</a> 
+						<a id="old"	href="noticeold.do">오래된순</a>
 					</div>
 				</div>
 			</div>
@@ -268,14 +268,14 @@ img {
 				}
 			})
 		
-            if(window.location.pathname === "/noticeold.do"){
-            document.getElementById("isRecent").innerText="오래된순";
+          
+         if(window.location.pathname === "/spring/noticeold.do"){
+            document.getElementById("isRecents").innerText="오래된순";
             }else{
-            document.getElementById("isRecent").innerText="최신순";
-            }
+            document.getElementById("isRecents").innerText="최신순";
+            } 
 			
-			
-			
+          
 		</script>
 
 
@@ -288,10 +288,11 @@ img {
     	$(function(){
     		$("#boardList tbody tr").click(function(){
     			location.href="detailBoard.do?bno=" + $(this).children().eq(0).text();
+    			console.log(bno)
     		});
     	});
-    
-  
+    	
+         
     </script>
 </body>
 

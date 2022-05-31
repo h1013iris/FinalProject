@@ -123,7 +123,7 @@ public class BoardController {
 
 		model.addAttribute("list",list);
 		model.addAttribute("pi",pi);
-		return "Board/noticelist";
+		return "Board/freelist";
 	}
 	@RequestMapping("searchfree.do")
 	public String searchfree(@RequestParam(value="currentPage" , required = false , defaultValue = "1")int currentPage
@@ -168,6 +168,7 @@ public class BoardController {
 	@RequestMapping("insertenroll.do")
 	public String insertBoard(Board b , HttpServletRequest request ,@RequestParam("bo") int bo)  {
 
+	
 
 		System.out.println(b.toString());
 
@@ -192,22 +193,53 @@ public class BoardController {
 //부서게시판
 	//영업팀 기술지원팀 경영지원팀 
 	@RequestMapping("depart.do")
-	public String selectdepartList(@RequestParam(value="currentPage" , required = false , defaultValue = "1") int currentPage, Model model) {
-
-		int listCount = BoardService.selecdeparttListCount();
+	public String selectdepartList(@RequestParam(value="currentPage" , required = false , defaultValue = "1")int currentPage, Model model,
+		@RequestParam(required = false, value="old", defaultValue = "최신순")String old, @RequestParam(required = false, value="dpt", defaultValue = "1" )int dpt){
+		
+		System.out.println(dpt);
+		System.out.println(old);
+		int listCount = BoardService.selecdeparttListCount(dpt);
 		System.out.println(listCount);
-
-
+		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
 
-		ArrayList<Board> list = BoardService.selectdepartList(pi);
+	
+		Board b = new Board();
+		b.setDeptno(dpt);
+		b.setStatus(old);
+          
+		ArrayList<Board> conditions =BoardService.selectdeptnameList();
+		
+		ArrayList<Board> list = new ArrayList<Board>();
+				
+		list = BoardService.selectdeptList(pi,b);
 
+		
+		
 		System.out.println(list.toString());
-
+		model.addAttribute("condition", "최신순");
 		model.addAttribute("list",list);
+		model.addAttribute("conditions",conditions);
 		model.addAttribute("pi",pi);
-		return "Board/freelist";
+		return "Board/deptlist";
 	}
+	
+	@RequestMapping("detailBoard.do")
+    public ModelAndView selectBoard(int bno, ModelAndView mv ) {
+		
+		
+		System.out.println(bno+"나는비앤오");
+		/*Board a = new Board();
+		a.setWriteno(bno);	*/
+		
+		
+		Board b = BoardService.detailBoard(bno);
+		
+		mv.addObject("b" , b).setViewName("Board/boarddetail");
+		
+		return mv;
+
+	
 	}
 
-
+}

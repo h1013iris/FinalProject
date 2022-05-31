@@ -139,4 +139,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES
 		(SEQ_ANPRO.NEXTVAL, #{proWriter}, #{proDepart}, #{proTitle}, SYSDATE, DEFAULT)
 	</insert>
+	<insert id="insertclass">
+		INSERT INTO PRO_CLASS
+		VALUES 
+		(SEQ_PRCL.NEXTVAL, SEQ_ANPRO.CURRVAL, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+	</insert>
+	<insert id="insertInclude" parameterType="Project">
+		INSERT INTO PRO_WATCHER
+		VALUES
+		(SEQ_PROWAT.NEXTVAL, SEQ_ANPRO.CURRVAL, #{proWriter},DEFAULT)
+	</insert>
+	<select id="selectProjectList" parameterType="_int" resultMap="projectResultSet">
+		SELECT * 
+		FROM PROJECT
+		WHERE PRO_NO IN(SELECT REF_PRO
+		                FROM PRO_WATCHER
+		                WHERE PW_ATTEN =#{emno})
+	</select>
 </mapper>
