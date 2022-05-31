@@ -110,60 +110,35 @@ public class BoardSeriveImpl implements BoardService {
 			throw new CommException("게시글 추가 실패");
 		}
 	}
-
+    
+	//부서게시판
 	@Override
-	public int selecdeparttListCount() {
+	public int selecdeparttListCount(int dpt) {
 		// TODO Auto-generated method stub
-		return BoardDao.selecdeparttListCount(sqlSession);
+		return BoardDao.selecdeparttListCount(sqlSession,dpt);
 	}
 
 	@Override
-	public ArrayList<Board> selectdepartList(PageInfo pi) {
-		// TODO Auto-generated method stub
-		return BoardDao.selectdepartList(sqlSession , pi);
+	public ArrayList<Board> selectdeptList(PageInfo pi, Board b) {
+		
+		return BoardDao.selectdeptList(sqlSession,pi,b);
 	}
 
-	@Override
-	public int selecttectListCount() {
-		// TODO Auto-generated method stub
-		return BoardDao.selecttecListCount(sqlSession);
-	}
-
-	@Override
-	public ArrayList<Board> selecttecList(PageInfo pi) {
-		// TODO Auto-generated method stub
-		return BoardDao.selecttecList(sqlSession , pi);
-	}
-
-	@Override
-	public int selectoperListCount() {
-		// TODO Auto-generated method stub
-		return BoardDao.selectoperListCount(sqlSession);
-	}
-
-	@Override
-	public ArrayList<Board> selectoperList(PageInfo pi) {
-		// TODO Auto-generated method stub
-		return BoardDao.selectoperList(sqlSession , pi);
-	}
-
-	@Override
-	public int selectdeoldCount() {
-		// TODO Auto-generated method stub
-		return BoardDao.selectdeoldCount(sqlSession);
-	}
-
-	@Override
-	public ArrayList<Board> selectdeoldList(PageInfo pi, int de) {
-		// TODO Auto-generated method stub
-		return BoardDao.selectdeoldList(sqlSession , pi ,de);
-	}
 
 	@Override
 	public ArrayList<Board> selectdeptnameList() {
 		// TODO Auto-generated method stub
 		return BoardDao.selectdeptnameList(sqlSession);
 	}
+
+	@Override
+	public Board detailBoard(int bno) {
+		
+		return BoardDao.detailBoard(sqlSession, bno);
+	}
+
+	
+	
 
 
 

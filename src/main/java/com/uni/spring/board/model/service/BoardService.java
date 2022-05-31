@@ -36,23 +36,14 @@ public interface BoardService {
 
 	void insertfree(Board b);
 
-	int selecdeparttListCount();
+	int selecdeparttListCount(int dpt);
 
-	ArrayList<Board> selectdepartList(PageInfo pi);
-
-	int selecttectListCount();
-
-	ArrayList<Board> selecttecList(PageInfo pi);
-
-	int selectoperListCount();
-
-	ArrayList<Board> selectoperList(PageInfo pi);
-
-	int selectdeoldCount();
-
-	ArrayList<Board> selectdeoldList(PageInfo pi, int de);
 
 	ArrayList<Board> selectdeptnameList();
+
+	ArrayList<Board> selectdeptList(PageInfo pi, Board b);
+
+	Board detailBoard(int bno);
 
 
 
