@@ -23,10 +23,6 @@
 </style>
 </head>
 <body>
-	<!-- 오늘 날짜 설정  -->
-	<c:set var="today" value="<%=new java.util.Date()%>"/> 
-	<!-- 날짜 구하기 -->
-	<c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd"/></c:set>
 
 	<div class="formMainArea">
 		
@@ -89,7 +85,7 @@
 											</td>
 											<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
 												<div contenteditable="false">
-													<input class="fix_input" id="draftDate" name="draftDate" value="${ date }" readonly/>
+													<input class="fix_input" id="dftDate" name="dftDate" value="" readonly/>
 												</div>
 											</td>
 										</tr>
@@ -222,7 +218,7 @@
 				
  				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
  				// 휴가 시작 날짜, 기안일 오늘 날짜로 기본값 설정
- 	 			$("#draftDate").val(today);
+ 	 			$("#dftDate").val(today);
  	 			$("#startDate").val(today);
  	 			
  	 			// 소속 (로그인 유저의 부서 가져오기)
@@ -339,9 +335,17 @@
 			
 				}
 				
-				$("#vacUseDays").val(count);
-				$("#vacUseDays").attr('readonly', true);
-			
+				// 휴가 11일 이상 사용 시
+				if(count > 10) {
+					$("#formErrorMsg").text("11일 이상 사용할 수 없습니다.");
+					$("#endDate").val(''); // 끝 날짜 비워주고
+	 				$("#endDate").focus(); // 포커싱
+	 				$("#vacUseDays").val(''); // 사용일수도 비우기
+				
+				} else {
+					$("#vacUseDays").val(count);
+					$("#vacUseDays").attr('readonly', true);
+				}
 			}
  		})
 		
@@ -434,7 +438,7 @@
  	                    	let content = "결재가 성공적으로 요청되었습니다.";
  	                    	resultFn(content);
 	 	           	 		
- 	                    } else if (result == "fail") {
+ 	                    } else {
  	                    	
  	                    	let content = "결재 요청에 실패하였습니다.";
  	                    	resultFn(content);

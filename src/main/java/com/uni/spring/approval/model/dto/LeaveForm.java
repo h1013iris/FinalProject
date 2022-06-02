@@ -17,7 +17,7 @@ public class LeaveForm { // 휴가 신청서
 	private int drafter; // 기안자 (파싱 때문에 String으로)
 	private int drafterDept; // 기안자 소속
 	//@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date draftDate; // 기안일
+	private Date dftDate; // 기안일
 	private String vacType; // 휴가 종류
 	//@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startDate; //휴가 시작일

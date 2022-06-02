@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.uni.spring.admin.model.dto.Department;
 import com.uni.spring.approval.model.dto.AprvDoc;
 import com.uni.spring.approval.model.dto.AprvHistory;
 import com.uni.spring.approval.model.dto.BusCoopForm;
@@ -93,46 +94,16 @@ public class AprvController {
 		//System.out.println("Dao ======= " + leaveForm.toString());
 		//System.out.println(aprvHistory.toString());
 
-		// 문서 서식 먼저 등록
-		int result = aprvService.insertLeaveApp(leaveForm);
+		aprvService.insertLeaveApp(aprvDoc, aprvHistory, leaveForm);
 		
-		// 결재 문서에 먼저 등록 -> 결재 기록에 등록
-		if(result > 0) {
-			aprvService.insertDoc(aprvDoc, aprvHistory);
-			
-			return new Gson().toJson("success");
-		
-		} else {
-			return new Gson().toJson("fail");
-		}
-		
-	}
-	
-	
-	// 근태 기록 수정 신청서 등록
-	@ResponseBody
-	@RequestMapping(value="insertCmtUpdateApp.do", produces="application/json; charset=utf-8")
-	public String insertCmtUpdateApp(AprvDoc aprvDoc, AprvHistory aprvHistory, CmtUpdateForm cmtUpdateForm) {
-
-		// 문서 서식 먼저 등록
-		int result = aprvService.insertCmtUpdateForm(cmtUpdateForm);
-		
-		// 결재 문서에 먼저 등록 -> 결재 기록에 등록
-		if(result > 0) {
-			aprvService.insertDoc(aprvDoc, aprvHistory);
-			
-			return new Gson().toJson("success");
-		
-		} else {
-			return new Gson().toJson("fail");
-		}
+		return new Gson().toJson("success");
 	}
 	
 	
 	// 해당 날짜 근태 기록 조회
 	@ResponseBody
 	@RequestMapping(value="selectCmt.do", produces="application/json; charset=utf-8")
-	public Model selectCmt(String userNo, String date, Model model) {
+	public String selectCmt(String userNo, String date, Model model) {
 		
 		// 근태 기록 객체에 유저 번호, 해당 날짜 담아서 넘기기
 		AttendLog attendLog = new AttendLog();
@@ -144,39 +115,57 @@ public class AprvController {
 		// 회원의 해당 날짜 촐퇴근 시간을 근태 기록 객체에 담기
 		AttendLog userAttendLog = aprvService.selectCmt(attendLog);
 		
-		System.out.println(userAttendLog.toString());
+		//System.out.println(userAttendLog.toString());
 		
-		model.addAttribute("userAttendLog", userAttendLog);
+		return new Gson().toJson(userAttendLog);
+	}
+	
+	
+	// 근태 기록 수정 신청서 등록
+	@ResponseBody
+	@RequestMapping(value="insertCmtUpdateApp.do", produces="application/json; charset=utf-8")
+	public String insertCmtUpdateApp(AprvDoc aprvDoc, AprvHistory aprvHistory, CmtUpdateForm cmtUpdateForm) {
 		
-		return model;
+		aprvService.insertCmtUpdateApp(aprvDoc, aprvHistory, cmtUpdateForm);
+		
+		return new Gson().toJson("success");
+	}
+
+	
+	// 부서 조회
+	@ResponseBody
+	@RequestMapping(value="selectDeptList.do", produces="application/json; charset=utf-8")
+	public String selectDeptList() {
+		
+		ArrayList<Department> list = aprvService.selectDeptList();
+		
+		return new Gson().toJson(list);
 	}
 	
 	
 	// 업무 기안서 등록
-	@RequestMapping("insertBusDraft.do")
-	public ModelAndView insertBusDraft(BusDraftForm form, ModelAndView mv) {
+	@ResponseBody
+	@RequestMapping(value="insertBusDraft.do", produces="application/json; charset=utf-8")
+	public String insertBusDraft(AprvDoc aprvDoc, AprvHistory aprvHistory, BusDraftForm busDraftForm) {
 		
+		aprvService.insertBusDraft(aprvDoc, aprvHistory, busDraftForm);
 		
-		
-		mv.setViewName("redirect:approvalMain.do");
-		
-		return mv;
+		return new Gson().toJson("success");
 	}
 	
 	
 	// 업무 협조문 등록
-	@RequestMapping("insertBusCoop.do")
-	public ModelAndView insertBusCoop(BusCoopForm form, ModelAndView mv) {
+	@ResponseBody
+	@RequestMapping(value="insertBusCoop.do", produces="application/json; charset=utf-8")
+	public String insertBusCoop(AprvDoc aprvDoc, AprvHistory aprvHistory, BusCoopForm busCoopform) {
 		
+		aprvService.insertBusCoop(aprvDoc, aprvHistory, busCoopform);
 		
-		
-		mv.setViewName("redirect:approvalMain.do");
-		
-		return mv;
+		return new Gson().toJson("success");
 	}
 	
 	
-	
+	// 결재완료 리스트
 	@RequestMapping("completeMain.do")
 	public ModelAndView completeMain(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, ModelAndView mv) {
 		
