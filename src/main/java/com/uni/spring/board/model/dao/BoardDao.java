@@ -98,50 +98,17 @@ public class BoardDao {
       return sqlSession.insert("boardMapper.insertfree", b);
 
    }
+   public int insertde(SqlSessionTemplate sqlSession, Board b) {
+		// TODO Auto-generated method stub
+	   return sqlSession.insert("boardMapper.insertde", b);
+	}
 
-   public int selecdeparttListCount(SqlSessionTemplate sqlSession, int de) {
-      
-      return sqlSession.selectOne("boardMapper.selecdeparttListCount",de);
-   }
 
-   public ArrayList<Board> selectdepartList(SqlSessionTemplate sqlSession, PageInfo pi) {
-      
-      int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+  //부서게시판
 
-      RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-
-      return (ArrayList) sqlSession.selectList("boardMapper.selectdepartList", null, rowBounds);
-   }
-
-   public int selecttecListCount(SqlSessionTemplate sqlSession) {
-      // TODO Auto-generated method stub
-      return sqlSession.selectOne("boardMapper.selecttecListCount");
-   }
-
-   public ArrayList<Board> selecttecList(SqlSessionTemplate sqlSession, PageInfo pi) {
-      int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-
-      RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-
-      return (ArrayList) sqlSession.selectList("boardMapper.selecttecList", null, rowBounds);
-   }
-
-   public int selectoperListCount(SqlSessionTemplate sqlSession) {
-      // TODO Auto-generated method stub
-      return sqlSession.selectOne("boardMapper.selectoperListCount");
-   }
-
-   public ArrayList<Board> selectoperList(SqlSessionTemplate sqlSession, PageInfo pi) {
-      int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-
-      RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-
-      return (ArrayList) sqlSession.selectList("boardMapper.selectoperList", null, rowBounds);
-   }
-
-public int selectdeoldCount(SqlSessionTemplate sqlSession) {
+public int selecdeparttListCount(SqlSessionTemplate sqlSession) {
 	// TODO Auto-generated method stub
-	 return sqlSession.selectOne("boardMapper.selectdeoldCount");
+	 return sqlSession.selectOne("boardMapper.selecdeparttListCount");
 }
 
 
@@ -150,17 +117,36 @@ public ArrayList<Board> selectdeptnameList(SqlSessionTemplate sqlSession) {
 	return (ArrayList)sqlSession.selectList("boardMapper.selectdeptnameList");
 }
 
-public ArrayList<Board> selectdeptList(SqlSessionTemplate sqlSession, PageInfo pi, Board b) {
+public ArrayList<Board> selectdeptList(SqlSessionTemplate sqlSession, PageInfo pi) {
 	int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 
     RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-    return (ArrayList) sqlSession.selectList("boardMapper.selectdeptList", b, rowBounds);
+    return (ArrayList) sqlSession.selectList("boardMapper.selectdeptList", null, rowBounds);
 }
+
+
 
 public Board detailBoard(SqlSessionTemplate sqlSession, int bno) {
 	// TODO Auto-generated method stub
 	return sqlSession.selectOne("boardMapper.detailBoard" , bno);
 }
+
+public int selectstandupListCount(SqlSessionTemplate sqlSession, int con) {
+	// TODO Auto-generated method stub
+	return sqlSession.selectOne("boardMapper.selectstandupListCount" , con);
+}
+
+public ArrayList<Board> selectstandupList(SqlSessionTemplate sqlSession, PageInfo pi, Board b) {
+	int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+
+    RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+    return (ArrayList) sqlSession.selectList("boardMapper.selectstandupList", b, rowBounds);
+}
+
+
+
+
+
 
 
 

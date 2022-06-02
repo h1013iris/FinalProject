@@ -166,7 +166,7 @@ public class BoardController {
 	}
 
 	@RequestMapping("insertenroll.do")
-	public String insertBoard(Board b , HttpServletRequest request ,@RequestParam("bo") int bo)  {
+	public String insertBoard(Board b , HttpServletRequest request ,@RequestParam("bo") int bo ,@RequestParam("deno") int deno)  {
 
 	
 
@@ -183,6 +183,12 @@ public class BoardController {
 
 
 			return "redirect:free.do";
+		}	
+		else if(bo == 3) {
+			BoardService.insertde(b,deno);
+
+
+			return "redirect:depart.do";
 		}
 
 		return null;
@@ -193,36 +199,70 @@ public class BoardController {
 //부서게시판
 	//영업팀 기술지원팀 경영지원팀 
 	@RequestMapping("depart.do")
-	public String selectdepartList(@RequestParam(value="currentPage" , required = false , defaultValue = "1")int currentPage, Model model,
-		@RequestParam(required = false, value="old", defaultValue = "최신순")String old, @RequestParam(required = false, value="dpt", defaultValue = "1" )int dpt){
+	public String selectdepartList(@RequestParam(value="currentPage" , required = false , defaultValue = "1")int currentPage, Model model
+			){
 		
-		System.out.println(dpt);
-		System.out.println(old);
-		int listCount = BoardService.selecdeparttListCount(dpt);
+		
+		int listCount = BoardService.selecdeparttListCount();
 		System.out.println(listCount);
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
 
 	
-		Board b = new Board();
-		b.setDeptno(dpt);
-		b.setStatus(old);
+		
+		
           
 		ArrayList<Board> conditions =BoardService.selectdeptnameList();
 		
 		ArrayList<Board> list = new ArrayList<Board>();
 				
-		list = BoardService.selectdeptList(pi,b);
+		list = BoardService.selectdeptList(pi);
 
 		
 		
-		System.out.println(list.toString());
-		model.addAttribute("condition", "최신순");
+		System.out.println(list.toString());	
 		model.addAttribute("list",list);
 		model.addAttribute("conditions",conditions);
 		model.addAttribute("pi",pi);
 		return "Board/deptlist";
 	}
+	
+	@RequestMapping("standup.do")
+	public String standup(@RequestParam(value="currentPage" , required = false , defaultValue = "1")int currentPage, Model model
+			,@RequestParam("con") int con ,@RequestParam("nold") String nold){
+
+		System.out.println(con);
+		System.out.println(nold);
+		
+		Board b = new Board();
+		b.setDeptno(con);
+		b.setStatus(nold);
+		
+		int listCount = BoardService.selectstandupListCount(con);
+		System.out.println(listCount);
+		
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
+       
+		ArrayList<Board> conditions =BoardService.selectdeptnameList();
+		
+		ArrayList<Board> list = new ArrayList<Board>();
+				
+		list = BoardService.selectstandupList(pi,b);
+
+		
+		
+		System.out.println(list.toString());		
+		model.addAttribute("list",list);
+		model.addAttribute("conditions",conditions);
+		model.addAttribute("pi",pi);
+		model.addAttribute("con",con);
+		model.addAttribute("nold",nold);
+		return "Board/deptlist";
+	
+	
+	}
+	
 	
 	@RequestMapping("detailBoard.do")
     public ModelAndView selectBoard(int bno, ModelAndView mv ) {

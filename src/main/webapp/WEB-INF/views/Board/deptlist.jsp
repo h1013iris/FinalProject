@@ -77,106 +77,6 @@ img {
 	background-color: #85cdff;
 }
 
-.dropdown {
-	position: relative;
-	display: inline-block;
-	margin-left: 70%;
-	height: 150px;
-	float: left;
-}
-
-.dropdown1 {
-	position: relative;
-	display: inline;
-	margin-left: 20%;
-	height: 10%;
-}
-
-.dropdown2 {
-	position: relative;
-	display: inline-block;
-	height: 150px;
-}
-
-.dropbtn_icon {
-	font-family: 'Material Icons';
-}
-
-.dropbtn {
-	border: 1px solid rgb(133, 205, 255);
-	border-radius: 4px;
-	background-color: #f5f5f5;
-	font-weight: 400;
-	color: rgb(37, 37, 37);
-	padding: 12px;
-	width: 200px;
-	text-align: left;
-	cursor: pointer;
-	font-size: 12px;
-}
-
-.dropdown-content {
-	display: none;
-	font-weight: 400;
-	background-color: #f9f9f9;
-	min-width: 200px;
-}
-
-.dropdown-content p {
-	display: block;
-	text-decoration: none;
-	color: rgb(37, 37, 37);
-	font-size: 12px;
-	padding: 12px 20px;
-}
-
-.dropdown-content a:hover {
-	background-color: #ececec
-}
-
-.dropdown:hover .dropdown-content {
-	display: block;
-}
-
-.dropbtn_icon2 {
-	font-family: 'Material Icons';
-}
-
-.dropbtn2 {
-	border: 1px solid rgb(133, 205, 255);
-	border-radius: 4px;
-	background-color: #f5f5f5;
-	font-weight: 400;
-	color: rgb(37, 37, 37);
-	padding: 12px;
-	width: 200px;
-	text-align: left;
-	cursor: pointer;
-	font-size: 12px;
-}
-
-.dropdown-content2 {
-	display: none;
-	font-weight: 400;
-	background-color: #f9f9f9;
-	min-width: 200px;
-}
-
-.dropdown-content2 p {
-	display: block;
-	text-decoration: none;
-	color: rgb(37, 37, 37);
-	font-size: 12px;
-	padding: 12px 20px;
-}
-
-.dropdown-content2 a:hover {
-	background-color: #ececec
-}
-
-.dropdown2:hover .dropdown-content2 {
-	display: block;
-}
 
 .noticelist {
 	width: 84vw;
@@ -197,6 +97,27 @@ img {
 	display: flex;
 	justify-content: flex-end;
 }
+.select {
+  -o-appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; 
+    width: 170px;
+  height: 40px;
+  background-color: #f5f5f5;
+  color: rgb(37, 37, 37);
+  border: 1px solid rgb(133, 205, 255);
+
+}
+.dropdown{
+height:130px;
+margin-top:1%;
+}
+.dropdown2{
+height:130px;
+margin-top:1%;
+}
+
 </style>
 </head>
 <body>
@@ -212,35 +133,27 @@ img {
 				<a href="depart.do"><button class="noticeButton1" id="bu3">부서게시판</button></a>
 				<a href="anonymous.do"><button class="noticeButton1" id="bu4">익명게시판</button></a>
 			</div>
-
+            <form id="standup" action="standup.do" method="post">
 			<div class="dpAll">
-				<div class="dropdown">
-					<button class="dropbtn">
-						<span id="isRecents" class="dropbtn_icon">${condition}</span>
-					</button>
-
-					<div class="dropdown-content" id="drp">
-						<p id="new" class="nold" onclick="old('최신순')">최신순</p>
-						<p id="old" class="nold" onclick="old('오래된순')">오래된순</p>
-
-					</div>
-
+				<div id="nold" class="dropdown">
+					<select id="noro" class="select" name="nold" onchange="this.form.submit()">		<!-- 누르면 바로 넘어가게 -->	
+					    	<!-- 삼항 연산자 사용해서 controller에서 받아온값과 비교 해서 맞으면 selected로 고정할 수 있게 하기  -->
+						<option id="noro1" class="nol" value="최신순" ${nold == "최신순" ? 'selected="selected"' : '' }>최신순</option>
+						<option id="noro2" class="nol" value="오래된순"${nold == "오래된순" ? 'selected="selected"' : '' }>오래된순<option>
+					</select>				
 				</div>
-				<div class="dropdown2">
-					<button class="dropbtn2">
-						<span id="isRecents2" class="dropbtn_icon2"><input
-							class="deptRecents" type="hidden" value=1 />영업팀</span>
-					</button>
-					<div class="dropdown-content2" id="drp">
-						<c:forEach items="${ conditions }" var="c">
-							<p class="dpt" onclick="dpt('${c.deptno}')">${c.deptname}</p>
+				<div id="con" class="dropdown2">
+					<select id="deptconditions" class="select" name="con" onchange="this.form.submit()">
+					<c:forEach items="${ conditions }" var="c">
+					<!-- 삼항 연산자 사용해서 controller에서 받아온값과 비교 해서 맞으면 selected로 고정할 수 있게 하기  -->
+						<option class="dpt" value="${c.deptno}" ${c.deptno == con ? 'selected="selected"' : ''}>${c.deptname}</option>
 						</c:forEach>
-					</div>
+					</select>						
 				</div>
+			</form>
 			</div>
 			<div class="noticelist" style="padding: 5% 10%;">
 				<table id="boardList" class="table table-hover" align="center">
-
 					<thead>
 						<tr>
 							<th style="width: 50px; height: 50px;">글번호</th>
@@ -249,16 +162,17 @@ img {
 							<th style="width: 150px; height: 50px;">작성일</th>
 						</tr>
 					</thead>
-					<tbody id="realcontents">
-						<c:forEach items="${list}"  var="n">
-				            			    <td>("${n.writeno}");</td>
-				            				<td>list.push("${n.title}");</td>
-				            				<td>list.push("${n.witer}");</td>
-				            				<td>list.push("${n.createDate}");</td>
-				            				</c:forEach>
-
-
+					<tbody>
+						<c:forEach items="${ list }" var="b">
+							<tr>
+								<td style="height: 70px;">${ b.writeno }</td>
+								<td style="height: 70px;">${ b.title }</td>
+								<td style="height: 70px;">${ b.writer }</td>
+								<td style="height: 70px;">${ b.createDate }</td>
+							</tr>
+						</c:forEach>
 					</tbody>
+
 					<c:if test="${ empty list }">
 						<tr>
 							<td colspan="5">존재하는 게시글이 없습니다.</td>
@@ -276,7 +190,7 @@ img {
 							</c:when>
 							<c:otherwise>
 								<a class="page-link" href=""></a>
-								<button class="noticeButton2">></button>
+								<button class="noticeButton2"><</button>
 								</a>
 							</c:otherwise>
 						</c:choose>
@@ -330,81 +244,15 @@ img {
 
 			<script>
 			
-			
-			 
+		
 			$(function(){
 				switch('${condition}'){				
 				case "title" : $("#searchArea option").eq(1).attr("selected", true); break; 
 				case "content" : $("#searchArea option").eq(2).attr("selected", true); break; 
 				}
 			})
-		     
-		
-					/*      function dpt(num){
-					      $(document).ready(function(){
-					    	 
-				            	 var dpt = num;
-				            	 var old = $("#isRecents").text();
-				            	 console.log(dpt)
-				            	 console.log(old)
-				            		$.ajax({
-				            			type: 'post',   
-				            			url : "depart.do",
-				            			data: {dpt:dpt, old:old},          			
-				            			success: function(result){
-				            				console.log("통신완료")
-				            				var list = new Array();
-				            				
-				            				<c:forEach items="${list}" var="n">
-				            				list.push("${n.writeno}");
-				            				list.push("${n.title}");
-				            				list.push("${n.witer}");
-				            				list.push("${n.createDate}");
-				            				</c:forEach>
-				            				
-				            				
-				            				console.log(list)
-				            				for ( var i = 0; i < list.length; i++) {    
-				            					$("#realcontens")
-				            				}
-				            				
-				            				
-				            			},
-				            			error:function(){  
-				            				console.log("통신실패")
-				            			}
-				            		})
-				            	})
-					      
-					      }
-			
-			function old(n&o){
-            $(document).ready(function(){
-            	
-				            	 var old = n&o;
-				            	 var dpt = $("#deptRecents").val
-				            	 console.log(old)
-				            		$.ajax({
-				            			type: 'post',   
-				            			url : "depart.do",
-				            			data: {old:old dpt:dpt},          			
-				            			success: function(result){
-				            				console.log("통신완료")
-				            			},
-				            			error:function(){  
-				            				console.log("통신실패")
-				            			}
-				            		})
-				            	})
-           
-					      };*/
-			
-           
-			
-             
-			
+		    
 	
-    
     	$(function(){
     		$("#boardList tbody tr").click(function(){
     			location.href="detailBoard.do?bno=" + $(this).children().eq(0).text();
