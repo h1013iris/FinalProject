@@ -154,8 +154,6 @@ public class AddressBookController {
 		
 		addressBookService.insertComAdd(com,empNo);
 		//redirect를 쓰는 이유: 뷰이름을 적어주는 포워딩 방식시 새로고침하면 똑같은글이 또 작성됨 
-	
-	
 		return "redirect:comAdd.do";
 	}
 	

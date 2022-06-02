@@ -79,7 +79,7 @@ public class AddressBookServiceImpl implements AddressBookService {
 	@Override
 	public ArrayList<Company> selectComFolList(Company com, int empNo) {
 		// TODO Auto-generated method stub
-		return addressBookDao.selectComFolList(sqlSession,com,empNo);
+		return addressBookDao.selectComFolList(sqlSession, com, empNo);
 	}
 
 

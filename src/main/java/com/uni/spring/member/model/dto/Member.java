@@ -8,7 +8,7 @@ import lombok.Data;
 public class Member {
 	
 	//파싱을 위해서 int대신 String타입으로 받아준다
-	private int empNo;//int//int.. String이부분 좀더 공부하기..
+	private int empNo;//int.. String이부분 좀더 공부하기..
 	private String userId;
 	private String userPw;
 	private String empName;
