@@ -35,36 +35,58 @@
         margin-top: 20px;
         margin-bottom: 20px;
     }
-    
+  /*  #selboxDirect{
+    	display: none;
+    }*/
 </style>
-<script>
-                
-    $(function(){
-    
-          //직접입력 인풋박스 기존에는 숨어있다가
-    
-    $("#selboxDirect").hide();
-    $("#selbox").change(function() {
-    
-    //직접입력을 누를 때 나타남
-    
-            if($("#selbox").val() == "direct") {
-    
-                $("#selboxDirect").show();
-    
-            }  else {
-                $("#selboxDirect").hide();
-    
-            }
-    
-        }) 
-    
-    });
-    </script>
 
-<body>
 
+  <body>
+
+    <!--  원본
+     <div id="container">
+        <div class="main">
+            <form action="insertComAdd" method="post">
+                <h3>거래처등록</h3>
+        <table class="main2">
+            <tr>
+                <td>
+            <select id="selbox" name="inFolder">
+                <option name ="inFolder" value="">폴더선택(x)</option>
+            <c:forEach items="${comFolList}" var="comF">
+                <option class="cho" name="inFolder" value="${comF.inFolder}">${comF.inFolder}</option>
+            </c:forEach>
+                   <option value="direct">직접입력</option>
+            </select>
+            </td>
+            <td>
+            <input type="text" id="selboxDirect" name="inFolder" value="${comF.inFolder}" />
+        </td>
+    </tr>
+    -->
     
+    <!-- 이렇게하면 직접입력한거 값은 넘어가는데 기존폴더 선택하면 null로 날아감.. -->
+    <!-- <div id="container">
+        <div class="main">
+            <form action="insertComAdd" method="post">
+                <h3>거래처등록</h3>
+        <table class="main2">
+            <tr>
+                <td>
+            <select id="selbox">
+                <option name="inFolder" value="">폴더선택(x)</option>
+            <c:forEach items="${comFolList}" var="comF">
+                <option  name="inFolder" class="cho"value="${comF.inFolder}">${comF.inFolder}</option>
+            </c:forEach>
+                   <option value="direct">직접입력</option>
+                    <input type="text" id="selboxDirect" name="inFolder" value="${comF.inFolder}" />
+            </select>
+            </td>
+            <td>
+           
+        </td>
+    </tr>
+     -->
     <div id="container">
         <div class="main">
             <form action="insertComAdd" method="post">
@@ -72,19 +94,40 @@
         <table class="main2">
             <tr>
                 <td>
-            <select id="selbox" name="selbox">
-                <option name ="inFolder" value="">폴더선택(x)</option>
+            <select id="selbox" name="inFolder">
+                <option value="">폴더선택(x)</option>
             <c:forEach items="${comFolList}" var="comF">
-                <option name="inFolder" value="${comF.inFolder}">${comF.inFolder}</option>
+                <option value="${comF.inFolder}">${comF.inFolder}</option>
             </c:forEach>
-                   <option value="direct">직접입력</option>
+                   <option id="direct">직접입력</option>
+                   </td>
+                   <td><input type="text" id="selboxDirect" value=""/>
             
+            </select>
+            <td>
+           
+       
+    </tr>
+     
+     <!-- <div id="container">
+        <div class="main">
+            <form action="insertComAdd" method="post">
+                <h3>거래처등록</h3>
+        <table class="main2">
+            <tr>
+                <td>
+            <select id="selbox" name="inFolder">
+                <option value="">폴더선택(x)</option>
+            <c:forEach items="${comFolList}" var="comF">
+                <option value="${comF.inFolder}">${comF.inFolder}</option>
+            </c:forEach>
+                   <option class="cho" value="direct">직접입력</option>
             </select>
             </td>
             <td>
             <input type="text" id="selboxDirect" value="${comF.inFolder}" name="inFolder"/>
         </td>
-    </tr>
+    </tr> -->
                 
                    
             <!--내부폴더는 empNo로 distinct로 중복제거 select해서 목록띄우기-->
@@ -115,10 +158,10 @@
                 <tr>
                     <td>이메일</td>
                     <td><input type="text" name="comEmail"></td>
-                    <tr>
-                        <td>기타</td>
+                <tr>
+                    <td>기타</td>
                     <td><input type="text" name="comMemo" class="inputlo" required></td>
-                    </tr>
+                </tr>
                     
                     
                    
@@ -133,6 +176,51 @@
            </form>
         </div>
     </div>
-  
+  <script>
+  /*원본
+  $(function(){
+    
+        //직접입력시 인풋박스 기존에는 안보이는상태 
+   		$("#selboxDirect").hide();
+   
+    
+     $("#selbox").change(function() {
+    
+    	//직접입력을 누를 때 보임
+        if($("#selbox").val() == "direct") {
+        	$("#selboxDirect").show();
+
+        }  else {
+       		$("#selboxDirect").hide();
+        }
+
+    });
+    });*/
+    
+  const directBox = document.getElementById('selboxDirect')//selboxDirect id를 가진 태그를 선택한다
+  directBox.addEventListener('keyup',function(e){//태그에 keyup이벤트를 추가한다 (keyup: 손가락을 키보드에서 떼면 함수가 실행됨)
+	  const directValue=document.getElementById('direct')//direct id를 가진 태그를 선택
+	  directValue.value=e.currentTarget.value//input에 입력된 값을 선택직접입력 옵션 태그의 value값으로 넣어준다
+  })
+    $(function(){
+        
+        //인풋박스 기존에는 안보이는상태 
+   		$("#selboxDirect").hide();
+   
+    
+     $("#selbox").change(function() {
+    
+    	//직접입력을 누를 때 보임
+        if($("#selbox option:selected").attr('id')==='direct'){
+        	$("#selboxDirect").show();
+
+        }  else {
+       		$("#selboxDirect").hide();
+        }
+    });
+    });
+   
+
+    </script>
  </body>
 </html>
