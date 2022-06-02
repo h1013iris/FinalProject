@@ -62,7 +62,11 @@
 	.attachmentDetail a:hover{
 		color: #85cdff;
 	}
-
+	.annoDetailEdit{
+		width: 20%;
+		height:100%;
+		text-align: right;
+	}
 	.controlAnnoDetail>li{
 		background-color:white;
 		width:90px;
@@ -70,11 +74,6 @@
 		text-align:center;
 		transform:translateX(190px);
 		padding-top:6px;
-	}
-	.annoDetailEdit{
-		width: 20%;
-		height:100%;
-		text-align: right;
 	}
 	.controlAnnoDetail li:hover{
 		background-color: #85cdff;
@@ -222,7 +221,7 @@
         	<!-- 이전 공지, 이후 공지, 목록으로 -->
         	<div class="deleteorsubmit" >
 				<button class="commonButton2 annoDetailButton" onclick="prevButton()" ><span> < Prev </span></button>
-				<button class="commonButton2 annoDetailButton" onclick="location.href='departmentPage.do'"><span> 목록으로 </span></button>
+				<button class="commonButton2 annoDetailButton" onclick="location.href='departmentPage.do'"><span> 메인으로 </span></button>
 				<button class="commonButton2 annoDetailButton" onclick="nextButton()" ><span> Next > </span></button>
 			</div>
         </div>

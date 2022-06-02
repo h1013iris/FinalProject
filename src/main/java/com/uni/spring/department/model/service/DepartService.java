@@ -7,6 +7,7 @@ import com.uni.spring.department.model.dto.Department;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
 import com.uni.spring.department.model.dto.ProjectClass;
+import com.uni.spring.department.model.dto.SemiProject;
 import com.uni.spring.member.model.dto.Member;
 
 public interface DepartService {
@@ -48,6 +49,16 @@ public interface DepartService {
 	ProjectClass selectPC(int pjno);
 
 	ArrayList<Member> selectPW(int pjno);
+
+	void insertSemiPro(SemiProject sp);
+
+	ArrayList<SemiProject> selectSP(int pjno);
+
+	void updateprjectClass(ProjectClass pc);
+
+	void deleteTargetName(ProjectClass pc);
+
+	SemiProject selectSemiDetailPro(int sino);
 
 
 }
