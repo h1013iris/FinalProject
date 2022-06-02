@@ -38,18 +38,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			A.MEMO
 		FROM CALENDER A
 		JOIN CAL_COLOR B ON (A.COLOR_NUM = B.COLOR_NUM)
-		WHERE WRITER_NO = 10000
-		AND EXTRACT(YEAR FROM START_DATE) = #{year}
-		AND EXTRACT(MONTH FROM START_DATE) = #{month}
+		 <![CDATA[WHERE WRITER_NO = 10000
+			AND (EXTRACT(YEAR FROM START_DATE) <= #{year}
+			AND EXTRACT(MONTH FROM START_DATE) <= #{month}
+			AND EXTRACT(YEAR FROM END_DATE) >= #{year}
+			AND EXTRACT(MONTH FROM END_DATE) >= #{month}
+			)]]>
 		<if test="empNo != null">
-			OR WRITER_NO = #{empNo}
-			AND EXTRACT(YEAR FROM START_DATE) = #{year}
-			AND EXTRACT(MONTH FROM START_DATE) = #{month}
+			<![CDATA[OR WRITER_NO = #{empNo}
+			AND (EXTRACT(YEAR FROM START_DATE) <= #{year}
+			AND EXTRACT(MONTH FROM START_DATE) <= #{month}
+			AND EXTRACT(YEAR FROM END_DATE) >= #{year}
+			AND EXTRACT(MONTH FROM END_DATE) >= #{month}
+			)]]>
 		</if>
 		<if test="departmentNo != null">
-			OR WRITER_NO = #{departmentNo}
-			AND EXTRACT(YEAR FROM START_DATE) = #{year}
-			AND EXTRACT(MONTH FROM START_DATE) = #{month}
+			<![CDATA[OR WRITER_NO = #{departmentNo}
+			AND (EXTRACT(YEAR FROM START_DATE) <= #{year}
+			AND EXTRACT(MONTH FROM START_DATE) <= #{month}
+			AND EXTRACT(YEAR FROM END_DATE) >= #{year}
+			AND EXTRACT(MONTH FROM END_DATE) >= #{month}
+			)]]>
 		</if>
 	</select>
 </mapper>
