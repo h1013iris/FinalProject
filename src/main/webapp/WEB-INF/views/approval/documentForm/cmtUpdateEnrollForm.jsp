@@ -53,7 +53,7 @@
 											</td>
 											<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
 												<span contenteditable="false">
-													<input class="fix_input" id="drafter" name="drafter" value="${ loginUser.empName }" readonly/>
+													<input class="fix_input" id="drafter" name="drafterName" value="${ loginUser.empName } (${ loginUser.empNo })" readonly/>
 												</span> 
 											</td>
 										</tr>
@@ -156,9 +156,11 @@
 								<span style="font-weight: normal;">
 									<span contenteditable="false">
 										출근 :
-										<input id="beAttendTime" type="time"> &nbsp; &nbsp;
+										<input id="beAttendTime" type="time" value ="" readonly> &nbsp; &nbsp;
+										<input type="hidden" id="beAttendTime2" name="beAttendTime"/>
 										퇴근 :
-										<input id="beLeaveTime" type="time">
+										<input id="beLeaveTime" type="time" value ="" readonly>
+										<input type="hidden" id="beLeaveTime2" name="beLeaveTime"/>
 									</span>
 								</span>
 							</td>
@@ -171,9 +173,11 @@
 								<span style="font-weight: normal;">
 									<span contenteditable="false">
 										출근 :
-										<input id="goTime" name="attendTime" type="time"> &nbsp; &nbsp;
+										<input id="attendTime" type="time"> &nbsp; &nbsp;
+										<input type="hidden" id="attendTime2" name="attendTime"/>
 										퇴근 :
-										<input id="leaveTime" name="leaveTime" type="time">
+										<input id="leaveTime" type="time">
+										<input type="hidden" id="leaveTime2" name="leaveTime"/>
 									</span>
 								</span>
 							</td>
@@ -252,16 +256,23 @@
 	 	})
  		
  		
+	 	// 수정일 변경 시
  		$("#updateDate").change(function() {
  			
  			$("#formErrorMsg").empty();
  			
- 			let today = new Date(+ new Date() + 3240 * 10000); // 오늘 날짜
- 			let updateDate = new Date($(this).val())
+ 			let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10); // 오늘 날짜
+ 			let updateDate = new Date($(this).val());
  			
  			
  			if(updateDate > today) {
  				$("#formErrorMsg").text("내일 이후는 선택할 수 없습니다.");
+				$("#updateDate").val(''); // 날짜 비워주고
+ 				$("#updateDate").focus(); // 포커싱
+ 			
+ 			
+ 			} else if(updateDate == today) {
+ 				$("#formErrorMsg").text("오늘 근태 기록은 수정할 수 없습니다.");
 				$("#updateDate").val(''); // 날짜 비워주고
  				$("#updateDate").focus(); // 포커싱
  			
@@ -275,27 +286,79 @@
  	                data: { userNo : "${ loginUser.empNo }",
  	                		date : $("#updateDate").val()
  	                	  },
- 	                success: function (data) {
- 	                	console.log(data);
+ 	                success: function (attendLog) {
  	                	
- 	                    
+ 	                	if(attendLog != null) {
+ 	                		
+ 	                		$("#beAttendTime").val(attendLog.attendTime2);
+ 	 	                	$("#beLeaveTime").val(attendLog.leaveTime2);
+ 	 	                	
+ 	 	                	beforeTimeFn(); // 수정 전 시간 날짜와 합치는 함수 호출
+ 	 	                	// 꼭 ajax 안에서 해야 함 !!!!!!!!!!!!!!!!!!!
+ 	 	                	// 아니면 value 값 못 가져오 ㅁ...................
+ 	                	
+ 	                	} else {
+
+ 	                		$("#formErrorMsg").text("해당 날짜는 근태 기록이 없습니다.");
+ 	                		$("#updateDate").val(''); // 날짜 비워주고
+ 	                		$("#updateDate").focus(); // 포커싱
+ 	                	}
+ 	             		
  	                }	
  	                	
- 				})
+ 				});
  			}
 		
+ 		});
+ 		
+ 		
+ 		// ----------- 시간 데이터 넘기기 위해 날짜 합쳐서 hidden 으로 넘겨줌
+ 		// 객체에서 해당 타입 Stringd으로 바꾸고 insert 시 to_date 로 형변환
+ 		
+ 		// 수정 전 시간 날짜와 합치는 함수
+ 		function beforeTimeFn() {
+ 			
+ 			let updateDate = $("#updateDate").val();
+ 	 			
+			let beAttendTime = $("#beAttendTime").val();
+			let beLeaveTime = $("#beLeaveTime").val();
+			
+			$("#beAttendTime2").val(updateDate + " " + beAttendTime);
+			$("#beLeaveTime2").val(updateDate + " " + beLeaveTime);
+			
+			console.log($("#beAttendTime2").val());
+			console.log($("#beLeaveTime2").val());
+ 		}
+ 		
+ 		// 수정 후 출근 시간 변경 시
+ 		$("#attendTime").change(function() {
+ 			
+ 			let updateDate = $("#updateDate").val();
+ 				
+			$("#attendTime2").val(updateDate + " " + $("#attendTime").val());
  		})
-	 	
-	 	
-	 	
+ 		
+ 		// 수정 후 퇴근 시간 변경 시
+ 		$("#leaveTime").change(function() {
+ 			
+ 			let updateDate = $("#updateDate").val();
+ 			
+ 			$("#leaveTime2").val(updateDate + " " + $("#leaveTime").val());
+ 		})
+ 		
+ 		
+ 		
+ 		
+ 		//
  		$(".outbox_btn").click(function() {
  			
- 			let updateDate = new Date($("#updateDate").val()).toISOString().substring(0, 10);
- 			let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(11, 16);
+ 			let attendTime = $("#attendTime").val();
+ 			let leaveTime = $("#leaveTime").val();
+ 			let today = new Date(+ new Date() + 3240 * 10000).toISOString();
  			
- 			console.log(updateDate)
- 			console.log(typeof(updateDate))
- 			
+ 			console.log(attendTime);
+ 			console.log(taday);
+ 			console.log(typeof(today));
  		})
  		
  		
@@ -304,6 +367,8 @@
  		$(".submit_btn").click(function() {
  			
  			let updateDate = $("#updateDate").val();
+ 			let beAttendTime = $("#beAttendTime").val();
+ 			let beLeaveTime = $("#beLeaveTime").val();
  			let attendTime = $("#attendTime").val();
  			let leaveTime = $("#leaveTime").val();
  			let updateReason = $("#updateReason").val();
@@ -315,10 +380,18 @@
 				
  				alertFn(content, focus);
  				
+ 			} else if((beAttendTime == null || beAttendTime == "" )
+ 						&& (beLeaveTime == null || beLeaveTime == "")) {
+ 				
+ 				let content = "수정할 근태 기록이 없습니다.";
+				let focus="#beAttendTime";
+				
+				alertFn(content, focus);
+ 				
  			} else if(attendTime == null || attendTime == "") {
  				
  				let content = "수정 후 출근 시간을 기입해주세요.";
-				let focus="#goTime";
+				let focus="#attendTime";
 				
  				alertFn(content, focus);
  				
@@ -356,17 +429,15 @@
  	                    	let content = "결재가 성공적으로 요청되었습니다.";
  	                    	resultFn(content);
 	 	           	 		
- 	                    } else if (result == "fail") {
+ 	                    } else {
  	                    	
  	                    	let content = "결재 요청에 실패하였습니다.";
  	                    	resultFn(content);
-
  	               		}
  	                }
- 	            })
- 			}
- 			
- 		})
+ 	        	});
+ 			}	
+ 		});
  		
 		
  	</script>

@@ -1,12 +1,13 @@
 package com.uni.spring.approval.model.dto;
 
 import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 @Data
 @NoArgsConstructor
@@ -18,9 +19,11 @@ public class CmtUpdateForm { // 근태 기록 수정 의뢰 신청서
 	private int docTypeNo; // 문서 서식 번호
 	private int drafter; // 기안자
 	private int drafterDept; // 기안자 소속
-	private Date draftDate; // 기안일
+	private Date dftDate; // 기안일
 	private Date updateDate; // 수정일
-	private Date attendTime; // 수정 출근 시간
-	private Date leaveTime; // 수정 퇴근 시간
+	private String beAttendTime; // 기존 출근 시간
+	private String beLeaveTime; // 기존 출근 시간
+	private String attendTime; // 수정 출근 시간
+	private String leaveTime; // 수정 퇴근 시간
 	private String updateReason; // 수정 사유
 }

@@ -52,7 +52,7 @@
 										</td>
 										<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle; border-image: none;">
 											<span contenteditable="false" class="comp_wrap" data-cid="0" data-dsl="{{label:draftUser}}" data-wrapper="" style="" data-value="" data-autotype="">
-												<input class="fix_input" id="drafter" name="drafter" value="${ loginUser.empNo }" readonly/>
+												<input class="fix_input" id="drafter" name="drafterName" value="${ loginUser.empName } (${ loginUser.empNo })" readonly/>
 											</span> 
 										</td>
 									</tr>
@@ -72,7 +72,7 @@
 										</td>
 										<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle; border-image: none;">
 											<span contenteditable="false">
-												<input class="fix_input" id="draftDate" name="draftDate" type="date" readonly/>
+												<input class="fix_input" id="dftDate" name="dftDate" type="date" readonly/>
 											</span>
 										</td>
 									</tr>
@@ -144,7 +144,10 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;" colspan="3">
 								<span contenteditable="false" style="width: 100%;">
-									<input class="fix_input" id="receiveDeptNo" name="receiveDeptNo" value="" readonly/>
+									<select class="ipt_editor" id="receiveDept" name="receiveDept" style="width: 30%;">
+										<option value="none">선택</option>
+										<!-- 부서 리스트 출력되는 부분 -->
+									</select>
 								</span> 
 							</td>
 						</tr>
@@ -192,7 +195,7 @@
 		 		
 				// 기안일 오늘 날짜로 설정				
 				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
-				$("#draftDate").val(today);				
+				$("#dftDate").val(today);				
 		 		
 				// 로그인 유저 소속(부서명) 조회
 		 		$.ajax({
@@ -229,40 +232,50 @@
 		                }
 		 		})
 		 		
-		 		
 		 		// 부서 조회해서 select에 넣기
-	 		
-	
-			}
-			
-		})
+				$.ajax({
+		 					 			
+		 			type: "post",
+ 	                url: "selectDeptList.do",
+ 	                success: function (list) {
+						console.log(list);
+ 	                	if(list != null || list != "") {
+ 	                		
+ 	                		$.each(list, function(i) {
+ 	                			$("#receiveDept").append("<option value='" + list[i].departmentNo + "'>" + list[i].departmentTitle + "</option>");
+ 	                		});
+ 	                	}
+ 	                }
+		 		});
+			}	
+		});
 		
 		
 		
 		// 결재 요청 버튼 클릭 시
 		$(".submit_btn").click(function() {
 			
-			let dftDate = $("#dftDate").val();
-			let receiveDeptNo = $("#receiveDeptNo").val();
+			let coopTitle = $("#coopTitle").val();
+			let receiveDept = $("#receiveDept").val();
 			let coopContent = $("#coopContent").val();
 			
-			if(dftDate == null || dftDate == "") {
+			if(coopTitle == null || coopTitle == "") {
 				
-				let content = "시행일을 선택해주세요.";
-				let focus="#dftDate";
+				let content = "제목을 입력해주세요.";
+				let focus="#coopTitle";
 				
  				alertFn(content, focus);
 			
-			} else if(receiveDeptNo == "none") {
+			} else if(receiveDept == "none") {
 				
 				let content = "협조 부서를 선택해주세요.";
-				let focus="#receiveDeptNo";
+				let focus="#receiveDept";
 				
  				alertFn(content, focus);
  				
 			} else if(coopContent == null || coopContent == "") {
 				
-				let content = "기안서 내용을 작성해주세요.";
+				let content = "협조문 내용을 작성해주세요.";
 				let focus="#coopContent";
 				
  				alertFn(content, focus);
@@ -279,23 +292,21 @@
  	                url: "insertBusCoop.do",
  	                data: form,
  	                success: function (result) {
- 	                	console.log(result)
+ 	               		console.log(result)
  	                	
- 	                    if(result == "success") {
+ 	                   	if(result == "success") {
 							
  	                    	let content = "결재가 성공적으로 요청되었습니다.";
  	                    	resultFn(content);
 	 	           	 		
- 	                    } else if (result == "fail") {
+ 	                    } else {
  	                    	
  	                    	let content = "결재 요청에 실패하였습니다.";
  	                    	resultFn(content);
-
  	               		}
  	                }
 				})
 			}
-			
 		})
 		
 		

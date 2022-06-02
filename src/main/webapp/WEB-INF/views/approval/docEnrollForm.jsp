@@ -24,7 +24,7 @@
 		/*border: 1px solid red;*/
 		padding-left: 10%;
 		/*width: 1000px;*/
-		float: left;
+		/*float: left;*/
 	}
 	
 	.docEnrollForm {	
@@ -47,7 +47,6 @@
 		margin: 5px;
 		width: 80px;
 		height: 50px;
-		
 	}
 	
 	.fix_input {

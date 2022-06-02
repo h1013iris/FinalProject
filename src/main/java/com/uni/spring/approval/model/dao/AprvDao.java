@@ -6,8 +6,11 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.uni.spring.admin.model.dto.Department;
 import com.uni.spring.approval.model.dto.AprvDoc;
 import com.uni.spring.approval.model.dto.AprvHistory;
+import com.uni.spring.approval.model.dto.BusCoopForm;
+import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
 import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.common.PageInfo;
@@ -58,11 +61,6 @@ public class AprvDao {
 		return sqlSession.insert("aprvMapper.insertLeaveApp", leaveForm);
 	}
 
-	public int insertCmtUpdateForm(SqlSessionTemplate sqlSession, CmtUpdateForm cmtUpdateForm) {
-		
-		return sqlSession.insert("aprvMapper.insertCmtUpdateForm", cmtUpdateForm);
-	}
-
 	public AttendLog selectCmt(SqlSessionTemplate sqlSession, AttendLog attendLog) {
 		
 		System.out.println("Dao =========" + attendLog.toString());
@@ -70,7 +68,25 @@ public class AprvDao {
 		return sqlSession.selectOne("aprvMapper.selectCmt", attendLog);
 	}
 
-	
+	public int insertCmtUpdateApp(SqlSessionTemplate sqlSession, CmtUpdateForm cmtUpdateForm) {
+		
+		return sqlSession.insert("aprvMapper.insertCmtUpdateApp", cmtUpdateForm);
+	}
+
+	public ArrayList<Department> selectDeptList(SqlSessionTemplate sqlSession) {
+		
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectDeptList");
+	}
+
+	public int insertBusDraft(SqlSessionTemplate sqlSession, BusDraftForm busDraftForm) {
+		
+		return sqlSession.insert("aprvMapper.insertBusDraft", busDraftForm);
+	}
+
+	public int insertBusCoop(SqlSessionTemplate sqlSession, BusCoopForm busCoopform) {
+		
+		return sqlSession.insert("aprvMapper.insertBusCoop", busCoopform);
+	}
 	
 	
 
