@@ -110,18 +110,30 @@ public class BoardSeriveImpl implements BoardService {
 			throw new CommException("게시글 추가 실패");
 		}
 	}
+	@Override
+	public void insertde(Board b, int deno) {
+		String con = b.getContent();
+		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
+        b.setContent(con);
+        b.setDeptno(deno);
+		int result = BoardDao.insertde(sqlSession, b );
+		if(result < 0) {
+			throw new CommException("게시글 추가 실패");
+		}
+		
+	}
     
 	//부서게시판
 	@Override
-	public int selecdeparttListCount(int dpt) {
+	public int selecdeparttListCount() {
 		// TODO Auto-generated method stub
-		return BoardDao.selecdeparttListCount(sqlSession,dpt);
+		return BoardDao.selecdeparttListCount(sqlSession);
 	}
 
 	@Override
-	public ArrayList<Board> selectdeptList(PageInfo pi, Board b) {
+	public ArrayList<Board> selectdeptList(PageInfo pi) {
 		
-		return BoardDao.selectdeptList(sqlSession,pi,b);
+		return BoardDao.selectdeptList(sqlSession,pi);
 	}
 
 
@@ -136,6 +148,20 @@ public class BoardSeriveImpl implements BoardService {
 		
 		return BoardDao.detailBoard(sqlSession, bno);
 	}
+
+	@Override
+	public int selectstandupListCount(int con) {
+		
+		return BoardDao.selectstandupListCount(sqlSession,con);
+	}
+
+	@Override
+	public ArrayList<Board> selectstandupList(PageInfo pi, Board b) {
+		
+		return BoardDao.selectstandupList(sqlSession, pi,b);
+	}
+
+	
 
 	
 	

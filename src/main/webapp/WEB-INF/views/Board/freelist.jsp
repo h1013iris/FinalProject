@@ -212,7 +212,7 @@ img {
 							</c:when>
 							<c:otherwise>
 								<a class="page-link" href=""></a>
-								<button class="noticeButton2">></button>
+								<button class="noticeButton2"><</button>
 								</a>
 							</c:otherwise>
 						</c:choose>

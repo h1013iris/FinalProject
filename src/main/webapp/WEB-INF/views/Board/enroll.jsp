@@ -81,8 +81,7 @@
 	<div class="main_section">
 		<div class="middleEnrollForm">
 
-			<form id="enrollFormAnnoDepart" action="insertenroll.do"
-				method="post" enctype="multipart/form-data">
+			<form id="enrollFormAnnoDepart" action="insertenroll.do" method="post" enctype="multipart/form-data">
 				<div class="annoDepartEnrollHeader">
 					<h2>글 작성</h2>
 				</div>
@@ -90,6 +89,7 @@
 				<select name="bo" id="bo">
 					<option value="1">공지사항</option>
 					<option value="2">자유게시판</option>
+					<option value="3">부서게시판</option>
 				</select>
 
 				<!-- 제목 부분 -->
@@ -105,10 +105,9 @@
 					<div class="mainStyleCh">
 						<span class="writerPart">작성자</span>
 					</div>
-					<input type="text" id="writer" name="writerName"
-						value="${loginUser.empName}" readonly> <input
-						type="hidden" name="empno" value="${loginUser.empNo}"> <input
-						type="hidden" name="deptno" value="${loginUser.departmentNo}">
+					<input type="text" id="writer" name="writerName"value="${loginUser.empName}" readonly> 
+					<input type="hidden" name="empno" value="${loginUser.empNo}"> 
+					<input type="hidden" name="deno" value="${loginUser.departmentNo}">
 
 				</div>
 				<!-- 내용 부분 -->
