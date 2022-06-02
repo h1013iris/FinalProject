@@ -79,6 +79,7 @@
 	}
 	.titleDivpl{
 		height: 25px;	
+		overflow: hidden;
 		-webkit-line-clamp: 1 ;
 		white-space : nowrap;
 		text-overflow: ellipsis;
@@ -112,7 +113,11 @@
 		cursor: pointer;
 		transition: border 0.3s;
 	}
-
+	.lineSection{
+		border: 1px solid #e4e4e4;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
 	
 </style>
 </head>
@@ -138,6 +143,7 @@
         			</div>
         		</div>
         	</div>
+        	<div class="lineSection"></div>
         	<!-- 일반 프로젝트 부분 -->
         	<div class="allProjectSection">
         		<!-- 이름 부분 -->

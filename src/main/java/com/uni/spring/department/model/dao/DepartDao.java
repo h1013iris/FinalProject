@@ -10,6 +10,7 @@ import com.uni.spring.department.model.dto.Department;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
 import com.uni.spring.department.model.dto.ProjectClass;
+import com.uni.spring.department.model.dto.SemiProject;
 import com.uni.spring.member.model.dto.Member;
 
 @Repository
@@ -149,6 +150,41 @@ public class DepartDao {
 		return (ArrayList)sqlSession.selectList("departMapper.selectPW", pjno);
 	}
 
+	public ArrayList<SemiProject> selectSP(SqlSessionTemplate sqlSession, int pjno) {
+		
+		return (ArrayList)sqlSession.selectList("departMapper.selectSP", pjno);
+	}
+	
+	public int insertSemiPro(SqlSessionTemplate sqlSession, SemiProject sp) {
+		
+		return sqlSession.insert("departMapper.insertSemiPro", sp);
+	}
 
+	public int updateprjectClass(SqlSessionTemplate sqlSession, ProjectClass pc) {
+		
+		return sqlSession.update("departMapper.updateprjectClass",pc);
+	}
+	
+	public int updateSemiProTar(SqlSessionTemplate sqlSession, ProjectClass pc) {
+		
+		return sqlSession.update("departMapper.updateSemiProTar", pc);
+	}
+	
+	public int deleteTargetName(SqlSessionTemplate sqlSession, ProjectClass pc) {
+		
+		return sqlSession.update("departMapper.deleteTargetName",pc);
+	}
+
+	public int deleteSemiProTar(SqlSessionTemplate sqlSession, ProjectClass pc) {
+		
+		return sqlSession.update("departMapper.deleteSemiProTar",pc);
+	}
+
+	public SemiProject selectSemiDetailPro(SqlSessionTemplate sqlSession, int sino) {
+		
+		return sqlSession.selectOne("departMapper.selectSemiDetailPro", sino);
+	}
+
+	
 
 }

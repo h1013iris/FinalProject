@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +25,7 @@ import com.uni.spring.department.model.dto.Department;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
 import com.uni.spring.department.model.dto.ProjectClass;
+import com.uni.spring.department.model.dto.SemiProject;
 import com.uni.spring.department.model.service.DepartService;
 import com.uni.spring.member.model.dto.Member;
 
@@ -283,13 +285,16 @@ public class DepartController {
 	}
 	
 	@RequestMapping("detailProject.do")
-	public ModelAndView selectDetailProject(int pjno, ModelAndView mv) {
+	public ModelAndView selectDetailProject(int pjno, ModelAndView mv, @RequestParam(required=false, value="sp") SemiProject sp) {
 		
 		Project p = departService.selectDetailProject(pjno);//프로젝트
 		if(p!= null) {
 			ProjectClass pc = departService.selectPC(pjno);//프로젝트 분류
 			ArrayList<Member> list = departService.selectPW(pjno);//참가자
-			if(pc != null && list != null) {
+			ArrayList<SemiProject> slist = departService.selectSP(pjno);//세부 프로젝트
+			if(pc != null && list != null && slist != null) {
+				mv.addObject("p",p).addObject("pc",pc).addObject("list",list).addObject("slist",slist).setViewName("depart/detailProject");
+			}else if(pc != null && list != null && slist == null) {
 				mv.addObject("p",p).addObject("pc",pc).addObject("list",list).setViewName("depart/detailProject");
 			}else {
 				mv.addObject("msg","화면 전환 실패").addObject("msgTitle", "프로젝트 상세").setViewName("common/alert");
@@ -297,7 +302,43 @@ public class DepartController {
 		}else {
 			mv.addObject("msg","화면 전환 실패").addObject("msgTitle", "프로젝트 상세").setViewName("common/alert");
 		}
+		if(sp != null) {
+			mv.addObject("sp",sp);
+		}
 
 		return mv;
+	}
+	
+	@RequestMapping("insertSemiPro.do")
+	public String insertSemiPro(SemiProject sp, Model model) {
+		departService.insertSemiPro(sp);
+		model.addAttribute("pjno",sp.getRefPro());
+		return "redirect:detailProject.do";
+	}
+	
+	@RequestMapping("updateprjectClass.do")
+	public String updateprjectClass(ProjectClass pc, Model model) {
+		departService.updateprjectClass(pc);
+		model.addAttribute("pjno", pc.getRefPro());
+		return "redirect:detailProject.do";
+	}
+	
+	@RequestMapping("deleteTargetName.do")
+	public String deleteTargetName(int pcno, int sec, int pjno,String target, Model model) {
+		ProjectClass pc = new ProjectClass();
+		pc.setPcNo(pcno);
+		pc.setSec(sec);//바꿀 번호명
+		pc.setOriginpc(target);//원래 분류 명
+		departService.deleteTargetName(pc);
+		model.addAttribute("pjno", pjno);
+		return "redirect:detailProject.do";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectSemiDetailPro.do" , produces="application/json; charset=utf-8")
+	public String selectSemiDetailPro(int sino) {
+		SemiProject sp = departService.selectSemiDetailPro(sino);
+		
+		return new Gson().toJson(sp);
 	}
 }

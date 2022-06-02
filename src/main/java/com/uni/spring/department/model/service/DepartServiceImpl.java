@@ -13,6 +13,7 @@ import com.uni.spring.department.model.dto.Department;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
 import com.uni.spring.department.model.dto.ProjectClass;
+import com.uni.spring.department.model.dto.SemiProject;
 import com.uni.spring.member.model.dto.Member;
 
 @Service
@@ -196,6 +197,47 @@ public class DepartServiceImpl implements DepartService {
 	public ArrayList<Member> selectPW(int pjno) {
 		
 		return departDao.selectPW(sqlSession, pjno);
+	}
+
+	@Override
+	public ArrayList<SemiProject> selectSP(int pjno) {
+		
+		return departDao.selectSP(sqlSession, pjno);
+	}
+
+
+	@Override
+	public void insertSemiPro(SemiProject sp) {
+		int result = departDao.insertSemiPro(sqlSession, sp);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+		
+	}
+
+	@Override
+	public void updateprjectClass(ProjectClass pc) {
+		int result = departDao.updateprjectClass(sqlSession, pc);//분류테이블 업데이트
+		int result1 = departDao.updateSemiProTar(sqlSession, pc);//세부프로젝트 
+		if(result * result1 <0) {
+			throw new CommException("세미프로젝트 분류 이름 수정 실패");
+		}
+	}
+
+	@Override
+	public void deleteTargetName(ProjectClass pc) {
+		
+		int result = departDao.deleteTargetName(sqlSession, pc);
+		int result1 = departDao.deleteSemiProTar(sqlSession, pc);
+		if(result *result1 <0) {
+			throw new CommException("세미프로젝트 분류 이름 수정 실패");
+		}
+	}
+
+	@Override
+	public SemiProject selectSemiDetailPro(int sino) {
+		
+		return departDao.selectSemiDetailPro(sqlSession, sino);
 	}
 
 	

@@ -225,5 +225,66 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM PRO_WATCHER
 		JOIN USER_INFO ON (EMP_NO = PW_ATTEN)
 		WHERE REF_PRO = #{pjno}
+		AND PW_STATUS='Y'
+	</select>
+	<select id="selectSP" parameterType="_int" resultType="SemiProject">
+		SELECT *
+		FROM SEMI_PRO
+		WHERE REF_PRO = #{pjno}
+		AND SEMI_STATUS = 'Y'
+	</select>
+	<insert id="insertSemiPro" parameterType="SemiProject">
+		INSERT INTO SEMI_PRO
+		(SEMI_NO, REF_PRO, REF_PC, SEMI_WRITER, SEMI_TITLE, SEMI_DATE, SEMI_STATUS)
+		VALUES
+		(SEQ_SEMI.NEXTVAL, #{refPro}, #{refPc}, #{semiWriter}, #{semiTitle}, SYSDATE, DEFAULT)
+	</insert>
+	<update id="updateprjectClass" parameterType="ProjectClass">
+		UPDATE PRO_CLASS
+		<if test ="sec == 1">
+			SET PC_ONE = #{changepc}
+		</if>
+		<if test ="sec == 2">
+			SET PC_TWO = #{changepc}
+		</if>
+		<if test ="sec == 3">
+			SET PC_THREE = #{changepc}
+		</if>
+		<if test ="sec == 4">
+			SET PC_FOUR = #{changepc}
+		</if>
+		WHERE PC_NO =#{pcNo}
+	</update>
+	<!-- 세부프로젝트 타겟 변경 -->
+	<update id="updateSemiProTar" parameterType="ProjectClass">
+		UPDATE SEMI_PRO
+		SET REF_PC=#{changepc}
+		WHERE REF_PC=#{originpc}
+	</update>
+	<update id="deleteTargetName" parameterType="ProjectClass">
+		UPDATE PRO_CLASS
+		<if test ="sec == 1">
+			SET PC_ONE = NULL
+		</if>
+		<if test ="sec == 2">
+			SET PC_TWO = NULL
+		</if>
+		<if test ="sec == 3">
+			SET PC_THREE = NULL
+		</if>
+		<if test ="sec == 4">
+			SET PC_FOUR = NULL
+		</if>
+		WHERE PC_NO =#{pcNo}
+	</update>
+	<update id="deleteSemiProTar" parameterType="ProjectClass">
+		UPDATE SEMI_PRO
+		SET SEMI_STATUS ='N'
+		WHERE REF_PC=#{originpc}
+	</update>
+	<select id="selectSemiDetailPro" parameterType="_int" resultType="SemiProject">
+		SELECT *
+		FROM SEMI_PRO
+		WHERE SEMI_NO = #{sino}
 	</select>
 </mapper>
