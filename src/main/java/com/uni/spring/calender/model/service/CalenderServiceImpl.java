@@ -49,7 +49,7 @@ public class CalenderServiceImpl implements CalenderService {
 		Map<String, String> data = new HashMap<String, String>();
 		data.put("year", String.valueOf(today_info.get("search_year")));
 		data.put("month", String.valueOf(today_info.get("search_month")));
-		data.put("empNo", loginUser.getEmpNo());
+		data.put("empNo", String.valueOf(loginUser.getEmpNo()));
 		data.put("departmentNo", loginUser.getDepartmentNo());
 		
 		list = calenderDao.selectList(data, sqlSession);

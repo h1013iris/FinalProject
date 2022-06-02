@@ -100,6 +100,10 @@ public class CalenderController {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
+		calender.setTitle(calender.getTitle().replaceAll(" ", "&nbsp").replaceAll("<br>", "\n"));
+		calender.setMemo(calender.getMemo().replaceAll(" ", "&nbsp").replaceAll("<br>", "\n"));
+		calender.setPlace(calender.getPlace().replaceAll(" ", "&nbsp").replaceAll("<br>", "\n"));
+		
 		if(calender.getOpenOption().equals("전체공개")) {
 			System.out.println("전체공개 선택함");
 			calender.setWriterNo("10000");
@@ -108,7 +112,7 @@ public class CalenderController {
 			calender.setWriterNo(loginUser.getDepartmentNo());
 		}else {
 			System.out.println("개인공개 선택함");
-			calender.setWriterNo(loginUser.getEmpNo());
+			calender.setWriterNo(String.valueOf(loginUser.getEmpNo()));
 		}
 		
 		if(calender.getOneday() == null) {
