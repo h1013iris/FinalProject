@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.uni.spring.board.model.dto.Board;
+import com.uni.spring.board.model.dto.coment;
 import com.uni.spring.board.model.dto.searchcon;
 import com.uni.spring.common.PageInfo;
 
@@ -87,23 +88,15 @@ public class BoardDao {
    }
 
    // 글작성
-   public int insertnotice(SqlSessionTemplate sqlSession, Board b) {
-
-      return sqlSession.insert("boardMapper.insertnotice", b);
-
-   }
-
-   public int insertfree(SqlSessionTemplate sqlSession, Board b) {
-
-      return sqlSession.insert("boardMapper.insertfree", b);
-
-   }
-   public int insertde(SqlSessionTemplate sqlSession, Board b) {
+   public int insertboard(SqlSessionTemplate sqlSession, Board b) {
 		// TODO Auto-generated method stub
-	   return sqlSession.insert("boardMapper.insertde", b);
+	   return sqlSession.insert("boardMapper.insertboard", b);
 	}
+   public int insertdept(SqlSessionTemplate sqlSession, Board b) {
+		// TODO Auto-generated method stub
+	   return sqlSession.insert("boardMapper.insertdept", b);
 
-
+   }
   //부서게시판
 
 public int selecdeparttListCount(SqlSessionTemplate sqlSession) {
@@ -143,6 +136,28 @@ public ArrayList<Board> selectstandupList(SqlSessionTemplate sqlSession, PageInf
     return (ArrayList) sqlSession.selectList("boardMapper.selectstandupList", b, rowBounds);
 }
 
+public int insertReply(SqlSessionTemplate sqlSession, coment r) {
+	// TODO Auto-generated method stub
+	return sqlSession.insert("boardMapper.insertReply" , r);
+}
+
+public ArrayList<coment> selectcomentList(SqlSessionTemplate sqlSession, int bno) {
+	
+	return (ArrayList)sqlSession.selectList("boardMapper.selectcomentList",bno);
+}
+
+public int deletecoment(SqlSessionTemplate sqlSession, int cno) {
+	// TODO Auto-generated method stub
+    return sqlSession.update("boardMapper.deletecoment", cno);
+}
+
+public int updatedetail(SqlSessionTemplate sqlSession, Board b) {
+	// TODO Auto-generated method stub
+	return sqlSession.update("boardMapper.updatedetail" , b);
+}
+
+
+}
 
 
 
@@ -152,8 +167,13 @@ public ArrayList<Board> selectstandupList(SqlSessionTemplate sqlSession, PageInf
 
 
 
-   
-   }
+
+
+
+
+
+
+
 
    
    

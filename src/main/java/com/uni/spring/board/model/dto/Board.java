@@ -25,4 +25,5 @@ public class Board {
 	private String content;
 	private Date createDate;
 	private String status;
+	private int boardno;
 }
