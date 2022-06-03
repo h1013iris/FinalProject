@@ -185,6 +185,16 @@ public class DepartDao {
 		return sqlSession.selectOne("departMapper.selectSemiDetailPro", sino);
 	}
 
+	public int updateSemiPro(SqlSessionTemplate sqlSession, SemiProject sp) {
+		
+		return sqlSession.update("departMapper.updateSemiPro", sp);
+	}
+
+	public int updateSemiDueNull(SqlSessionTemplate sqlSession, int semiNo) {
+		
+		return sqlSession.update("departMapper.updateSemiDueNull", semiNo);
+	}
+
 	
 
 }

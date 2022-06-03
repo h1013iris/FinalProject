@@ -347,11 +347,9 @@
         		if($(this).val()=="true"){
         			location.href="deleteAnnoDepartReply.do?adro="+num+"&adno="+${d.annoNo};
         			$("#helpmeCOnfirm").css("display","none");
-        		}else{
-        			$("#helpmeCOnfirm").hide();
         		}
         	})
-    	}  	
+    	}
     	
     	//이전 게시물 버튼
 		function prevButton(){

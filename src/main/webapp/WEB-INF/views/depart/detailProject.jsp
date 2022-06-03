@@ -334,6 +334,16 @@
     				$(".modal_title").text(sp.semiTitle);
     				$(".semiProTar").text(" -"+sp.refPc);
     				$(".detailSemiTitleCh").val(sp.semiTitle);
+    				$("#semiNoDETAIL").val(sp.semiNo);
+    				$(".dueDateShow").text(sp.semiDue);
+    				if(sp.semiDue == null){
+    					$(".dueDateShow").empty();
+    					//오늘 날짜 넣기
+        				document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);
+    				}else if(sp.semiDue != null){
+    					document.getElementById('currentDate').value = sp.semiDue;
+    				}
+    				
     				if(sp.semiWriter == loginUser){
     					$(".outseeDelete").css("display","block");
     					$(".editdetailSemi").css("display","block");

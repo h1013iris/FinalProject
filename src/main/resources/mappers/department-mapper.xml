@@ -287,4 +287,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM SEMI_PRO
 		WHERE SEMI_NO = #{sino}
 	</select>
+	<update id="updateSemiPro" parameterType="SemiProject">
+		UPDATE SEMI_PRO
+		<if test="semiTitle != null">
+		SET SEMI_TITLE =#{semiTitle}
+		</if>
+		<if test="semiDue != null">
+		SET SEMI_DUE = #{semiDue}
+		</if>
+		WHERE SEMI_NO = #{semiNo}
+	</update>
+	<update id="updateSemiDueNull" parameterType="SemiProject">
+		UPDATE SEMI_PRO
+		SET SEMI_DUE = NULL
+		WHERE SEMI_NO = #{semiNo}
+	</update>
 </mapper>
