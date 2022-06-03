@@ -15,7 +15,7 @@ public class BusDraftForm { // 업무 기안서
 	private int busDftNo; // 업무 기안서 번호
 	private int docNo; // 문서 번호
 	private int docTypeNo; // 문서 서식 번호
-	private String dftTitle; // 기안서 제목
+	private String docTitle; // 기안서 제목
 	private int drafter; // 기안자
 	private int drafterDept; // 기안자 소속
 	private Date dftDate; // 기안일

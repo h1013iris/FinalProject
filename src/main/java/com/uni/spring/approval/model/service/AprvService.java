@@ -19,7 +19,7 @@ public interface AprvService {
 
 	ArrayList<AprvDoc> completeSelectList(PageInfo pi);
 
-	ArrayList<Member> selectApprover(String deptNo);
+	ArrayList<Member> selectDeptApprover(String deptNo);
 	
 	String selectDeptName(String deptNo);
 	
@@ -34,6 +34,16 @@ public interface AprvService {
 	void insertBusDraft(AprvDoc aprvDoc, AprvHistory aprvHistory, BusDraftForm busDraftForm);
 
 	void insertBusCoop(AprvDoc aprvDoc, AprvHistory aprvHistory, BusCoopForm busCoopform);
+
+	int requestListCount(Member loginUser);
+
+	ArrayList<AprvDoc> selectRequestList(PageInfo pi, Member loginUser);
+
+	int selectDocTypeNo(int docNo);
+
+	LeaveForm selectLeaveForm(int docNo);
+
+	AprvDoc selectDocApprover(int docNo);
 
 	
 

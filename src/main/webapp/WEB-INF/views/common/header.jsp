@@ -27,6 +27,9 @@
 	                <button type="submit">이동</button>
 	            </div>
 	        </div>
+	        
+	        <span style="border: 1px solid black">${ loginUser.userId } ${ loginUser.empName }</span>
+	        
 	        <div class="page_title">
 	            <p class="title_name">페이지 이름</p>
 	        </div>

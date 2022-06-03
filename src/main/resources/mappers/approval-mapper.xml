@@ -5,12 +5,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="aprvMapper">
 	
 	<!-- 결재 완료 문서 -->
-	<resultMap type="AprvDoc" id="aprvComRSet">
+	<resultMap type="AprvDoc" id="aprvCompleteRSet">
 		<result property="docNo" column="DOC_NO"/>
 		<result property="docType" column="DOC_TYPE"/>
 		<result property="docTitle" column="DOC_TITLE"/>
 		<result property="drafter" column="DRAFTER"/>
 		<result property="comDate" column="PRO_DATE"/>
+	</resultMap>
+	
+	<!-- 결재 요청 문서 -->
+	<resultMap type="AprvDoc" id="aprvRequestRSet">
+		<result property="docNo" column="DOC_NO"/>
+		<result property="docType" column="DOC_TYPE"/>
+		<result property="docTitle" column="DOC_TITLE"/>
+		<result property="drafter" column="EMP_NAME"/>
+		<result property="draftDate" column="기안일"/>
+		<result property="proDate" column="요청일"/>
 	</resultMap>
 	
 	<!-- 결재 완료 문서 총 개수 -->
@@ -20,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 결재 완료 문서 리스트 -->
-	<select id="selectList" resultMap="aprvComRSet">
+	<select id="selectList" resultMap="aprvCompleteRSet">
 		SELECT *
 		FROM V_COMPLETE_DOC
 	</select>
@@ -29,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 문서 등록 -->
 	
 	<!-- 결재선 조회 -->
-	<select id="selectApprover" parameterType="string" resultType="Member">
+	<select id="selectDeptApprover" parameterType="string" resultType="Member">
 		SELECT
 			A.EMP_NO,
 		    A.EMP_NAME,
@@ -42,6 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY B.JOB_NO
 	</select>
 	
+	<!-- 부서 리스트 조회 -->
 	<select id="selectDeptName" parameterType="string" resultType="string">
 		SELECT DEPARTMENT_TITLE
 		FROM DEPARTMENT_MANAGEMENT
@@ -93,13 +104,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 업무 기안서 등록 -->
 	<insert id="insertBusDraft" parameterType="BusDraftForm">
 		INSERT INTO BUSINESS_DFT VALUES
-		(SEQ_BUSINESS_DFT.NEXTVAL, SEQ_DOC_NO.NEXTVAL, #{docTypeNo}, #{dftTitle}, #{drafter}, #{drafterDept}, SYSDATE, #{enfDate}, #{coopDept}, #{dftContent})
+		(SEQ_BUSINESS_DFT.NEXTVAL, SEQ_DOC_NO.NEXTVAL, #{docTypeNo}, #{docTitle}, #{drafter}, #{drafterDept}, SYSDATE, #{enfDate}, #{coopDept}, #{dftContent})
 	</insert>
 	
 	<!-- 업무 협조문 -->
 	<insert id="insertBusCoop" parameterType="BusCoopForm">
 		INSERT INTO BUSINESS_COOP VALUES
-		(SEQ_BUSINESS_DFT.NEXTVAL, SEQ_DOC_NO.NEXTVAL, #{docTypeNo}, #{coopTitle}, #{drafter}, #{drafterDept}, SYSDATE, #{receiveDept}, #{coopContent})
+		(SEQ_BUSINESS_DFT.NEXTVAL, SEQ_DOC_NO.NEXTVAL, #{docTypeNo}, #{docTitle}, #{drafter}, #{drafterDept}, SYSDATE, #{receiveDept}, #{coopContent})
 	</insert>
+	
+	<!-- 결재 요청 리스트 개수 -->
+	<select id="requestListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM V_REQUEST_DOC
+		WHERE DRAFTER = #{empNo}
+	</select>
+	
+	<!-- 결재 요청 리스트 조회  -->
+	<select id="selectRequestList" parameterType="_int" resultMap="aprvRequestRSet">
+		SELECT *
+		FROM V_REQUEST_DOC
+		WHERE DRAFTER = #{empNo}
+	</select>
+	
+	<!-- 해당 문서의 서식 번호 조회 -->
+	<select id="selectDocTypeNo" parameterType="_int" resultType="_int">
+		SELECT DOC_TYPE
+		FROM APRV_DOCUMENT
+		WHERE DOC_NO = #{docNo}
+	</select>
+	
+	<!-- 해당 문서 결재자 조회 -->
+	<select id="selectDocApprover" parameterType="_int" resultType="AprvDoc">
+		SELECT
+		    A.DOC_NO,
+		    B.EMP_NAME AS FIRST_APRV,
+		    D.JOB_NAME AS FIRST_JOB,
+		    C.EMP_NAME AS SECOND_APRV,
+		    E.JOB_NAME AS SECOND_JOB
+		FROM APRV_DOCUMENT A
+		JOIN USER_INFO B ON A.FIRST_APRV = B.EMP_NO
+		JOIN USER_INFO C ON A.SECOND_APRV = C.EMP_NO
+		JOIN JOB_RANK_MANAGEMENT D ON B.JOB_NO = D.JOB_NO
+		JOIN JOB_RANK_MANAGEMENT E ON C.JOB_NO = E.JOB_NO
+		WHERE A.DOC_NO = #{docNo}
+	</select>
+	
+	<!-- 휴가 신청서 상세 조회 -->
+	<select id="selectLeaveForm" parameterType="_int" resultType="LeaveForm">
+		SELECT *
+		FROM LEAVE_APP
+		WHERE DOC_NO = #{docNo}
+	</select>
+	
 	
 </mapper>

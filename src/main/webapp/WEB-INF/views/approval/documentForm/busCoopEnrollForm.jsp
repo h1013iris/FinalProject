@@ -157,7 +157,7 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;" colspan="3">
 								<span contenteditable="false" class="comp_wrap" data-cid="5" data-dsl="{{text}}" data-wrapper="" style="width: 100%;" data-value="" data-autotype="">
-									<input class="ipt_editor" id="coopTitle" name="coopTitle" value="${ docTitle }" style="width: 99%;" type="text" maxlength="100">
+									<input id="docTitle" name="docTitle" value="${ docTitle }" style="width: 99%;" type="text" maxlength="100">
 								</span>
 							</td>
 						</tr>
@@ -173,8 +173,8 @@
 	 		</div>
  			<div class="docEnrollBtnsArea">
 				<button class="commonButton1 submit_btn docEnrollBtn" type="button">결재요청</button> <br>
-				<button class="commonButton1 outbox_btn docEnrollBtn" type="button">임시저장</button> <br> <%-- 임시저장 기능 --%>
-				<button class="commonButton1 cancle_btn docEnrollBtn" type="button" style="background-color: #c8c8c8 !important;">취소</button>
+				<button class="commonButton1 outbox_btn docEnrollBtn donEnrollOutboxBtn" type="button">임시저장</button> <br> <%-- 임시저장 기능 --%>
+				<button class="commonButton1 cancle_btn docEnrollBtn donEnrollCancleBtn" type="button" style="background-color: #c8c8c8 !important;">취소</button>
 			</div>
  		</form>
 	</div>
@@ -185,7 +185,7 @@
 	
 		// 화면 로드 시 가장 먼저 실행
 	 	$(document).ready(function() {
- 		
+	 		
 			// 로그인이 되어있지 않으면
 			if("${ loginUser.empNo }" == "") {
 				
@@ -216,7 +216,7 @@
 		 		$.ajax({
 		 			
 		 			type: "post",
-		                url: "selectApprover.do",
+		                url: "selectDeptApprover.do",
 		                data: { deptNo : "${ loginUser.departmentNo }" },
 		                success: function (data) {
 						console.log(data);
@@ -255,18 +255,10 @@
 		// 결재 요청 버튼 클릭 시
 		$(".submit_btn").click(function() {
 			
-			let coopTitle = $("#coopTitle").val();
 			let receiveDept = $("#receiveDept").val();
 			let coopContent = $("#coopContent").val();
 			
-			if(coopTitle == null || coopTitle == "") {
-				
-				let content = "제목을 입력해주세요.";
-				let focus="#coopTitle";
-				
- 				alertFn(content, focus);
-			
-			} else if(receiveDept == "none") {
+			if(receiveDept == "none") {
 				
 				let content = "협조 부서를 선택해주세요.";
 				let focus="#receiveDept";
@@ -305,9 +297,20 @@
  	                    	resultFn(content);
  	               		}
  	                }
-				})
+				});
 			}
-		})
+		});
+		
+		
+		// 임시저장 버튼 클릭 시 
+ 		$(".outbox_btn").click(function() {
+			
+ 			let coopTitle = $("#coopTitle").val();
+ 			$("#docTitle").val(coopTitle); // 결재 문서 객체에 저장하기 위해
+ 			
+ 			console.log(coopTitle);
+ 			console.log($("#docTitle").val());
+ 		});
 		
 		
 		

@@ -22,6 +22,12 @@ public class AprvDoc {
 	private Date comDate; // 결재 완료일 - 결재 완료 문서 위해
 	private String status; // 상태값
 	
+	private Date draftDate; // 기안일
+	private Date proDate; // 요청일
+	private String docForm; // 문서 종류 폼
+	private String firstJob; // 1차 결재자 직급
+	private String secondJob; // 2차 결재자 직급
+	
 	
 	// 결재 완료 문서 생성자
 	public AprvDoc(int docNo, int docType, String docTitle, String drafter, Date comDate) {
