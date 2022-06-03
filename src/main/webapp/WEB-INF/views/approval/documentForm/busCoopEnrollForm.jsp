@@ -216,20 +216,20 @@
 		 		$.ajax({
 		 			
 		 			type: "post",
-		                url: "selectDeptApprover.do",
-		                data: { deptNo : "${ loginUser.departmentNo }" },
-		                success: function (data) {
-						console.log(data);
-		                	if(data != null || data != "") {
-		                		
-		                		$("#firstAprvName").val(data[0].empName);
-		                		$("#firstAprv").val(data[0].empNo);
-		                		$("#firstAprvJob").val(data[0].jobName);
-		                		$("#secondAprvName").val(data[1].empName);
-		                		$("#secondAprv").val(data[1].empNo);
-		                		$("#secondAprvJob").val(data[1].jobName)
-		                	}
-		                }
+	                url: "selectDeptApprover.do",
+	                data: { deptNo : "${ loginUser.departmentNo }" },
+	                success: function (data) {
+					console.log(data);
+	                	if(data != null || data != "") {
+	                		
+	                		$("#firstAprvName").val(data[0].empName);
+	                		$("#firstAprv").val(data[0].empNo);
+	                		$("#firstAprvJob").val(data[0].jobName);
+	                		$("#secondAprvName").val(data[1].empName);
+	                		$("#secondAprv").val(data[1].empNo);
+	                		$("#secondAprvJob").val(data[1].jobName)
+	                	}
+	                }
 		 		})
 		 		
 		 		// 부서 조회해서 select에 넣기
