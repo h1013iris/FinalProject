@@ -241,6 +241,7 @@
 	</style>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
+	<jsp:include page="../calender/calenderDetailViewModal.jsp"></jsp:include>
 	<div class="main_section">
 		<div class="main-caldiv">
 		<form name="calendarFrm" id="calendarFrm" action="" method="GET">
@@ -444,14 +445,24 @@
 						오늘 예정된 일정이 없음
 					</li>
 					<c:forEach var="list" items="${ monthList }">
-					<fmt:parseDate value="${fn:substring(list.startDate, 0, 10)}" var="startDateValue" pattern="yyyy-MM-dd"/>
-					<fmt:formatDate value="${startDateValue}" pattern="yyyy-MM-dd" var="startDate"/>
-					<fmt:parseDate value="${fn:substring(list.endDate, 0, 10)}" var="endDateValue" pattern="yyyy-MM-dd"/>
-					<fmt:formatDate value="${endDateValue}" pattern="yyyy-MM-dd" var="endDate"/>
+						<fmt:parseDate value="${fn:substring(list.startDate, 0, 10)}" var="startDateValue" pattern="yyyy-MM-dd"/>
+						<fmt:formatDate value="${startDateValue}" pattern="yyyy-MM-dd" var="startDate"/>
+						<fmt:parseDate value="${fn:substring(list.endDate, 0, 10)}" var="endDateValue" pattern="yyyy-MM-dd"/>
+						<fmt:formatDate value="${endDateValue}" pattern="yyyy-MM-dd" var="endDate"/>
 									<!-- 오늘이 시작일보다 크거나 같고 오늘이 종료일보다 작거나 같을때 일때  -->
 						<c:if test="${ nowDate >= startDate and nowDate <= endDate}">
-							<li class="${ list.title }" style="margin-bottom:10px; border-bottom: 1px solid; padding-bottom: 10px;">
-								<div style="margin-bottom: 17px;"><span>${list.title }</span><span class="range">예시팀</span></div>
+							<li class="${ fn:replace(list.title, '&nbsp', '') }" onclick="calenderDetail('${list.startDate}','${list.endDate }','${list.writerNo }')" style="margin-bottom:10px; border-bottom: 1px solid; padding-bottom: 10px;">
+								<div style="margin-bottom: 17px;"><span>${list.title }</span>
+									<c:if test="${ list.writerNo == department.departNo }">
+										<span class="range" style="background-color: #${list.selectColor};">${ department.departmentTitle }</span>
+									</c:if>
+									<c:if test="${ list.writerNo != department.departNo }">
+										<span class="range" style="background-color: #${list.selectColor};">내 할 일</span>
+									</c:if>
+									<c:if test="${ list.writerNo == 10000 }">
+										<span class="range" style="background-color: #${list.selectColor};">전체 공개</span>
+									</c:if>
+								</div>
 								<p class="font-small">시간  ${ fn:substring(list.startDate, 0, 4) }년 ${ fn:substring(list.startDate, 5, 7) }월 ${ fn:substring(list.startDate, 8, 10) }일 ${ fn:substring(list.startDate, 11, fn:length(list.startDate)-5) }
 							~ ${ fn:substring(list.endDate, 0, 4) }년 ${ fn:substring(list.endDate, 5, 7) }월 ${ fn:substring(list.endDate, 8, 10) }일 ${ fn:substring(list.endDate, 11, fn:length(list.endDate)-5) }</p>
 								<c:if test="${ fn:length(list.place) != 0 }">
@@ -466,8 +477,20 @@
 				<p class="schedule-this">${ today_info.search_month }월 스케쥴</p>
 				<ul>
 					<c:forEach var="list" items="${ monthList }">
-						<li class="${ list.title }" style="margin-bottom: 13px; border-bottom: 1px solid; padding-bottom: 10px;">
-							<p>예시 제목 : ${ list.title }</p>
+						<li class="${ fn:replace(list.title, '&nbsp', '') }" onclick="calenderDetail('${list.startDate}','${list.endDate }','${list.writerNo }')" style="margin-bottom: 13px; border-bottom: 1px solid; padding-bottom: 10px;">
+							<p>예시 제목 : ${ list.title }  
+								<c:choose>
+									<c:when test="${ list.openOption eq '전체공개' }">
+										<span class="range" style="background-color: #${list.selectColor};">전체 공개</span>
+									</c:when>
+									<c:when test="${ list.openOption eq '팀공개' }">
+										<span class="range" style="background-color: #${list.selectColor};">${ department.departmentTitle }</span>
+									</c:when>
+									<c:when test="${ list.openOption eq '개인공개' }">
+										<span class="range" style="background-color: #${list.selectColor};">내 할 일</span>
+									</c:when>
+								</c:choose>
+							</p>
 							<br>
 							<p class="font-small">시간  ${ fn:substring(list.startDate, 0, 4) }년 ${ fn:substring(list.startDate, 5, 7) }월 ${ fn:substring(list.startDate, 8, 10) }일 ${ fn:substring(list.startDate, 11, fn:length(list.startDate)-5) }
 							~ ${ fn:substring(list.endDate, 0, 4) }년 ${ fn:substring(list.endDate, 5, 7) }월 ${ fn:substring(list.endDate, 8, 10) }일 ${ fn:substring(list.endDate, 11, fn:length(list.endDate)-5) }</p>
@@ -483,17 +506,80 @@
 	
 	</div>
 	<script>
+	
+		// 목록 클릭시 상세조회로 이동
+		function calenderDetail(startDate, endDate, writerNo) {
+			// ajax 를 먼저 실행 한 후에 그 값을 받아와서 
+			// 그 값을 include된 jsp 파일에 뿌려준다? let td = fkkdsdok;
+			// include된 파일에 존재하는 태그들 안에 append를 해주거나, 화면에만 보여주면 되니까 text나 val()에 넣어준다
+			//display : flex; 해주고
+			console.log("시작일 : "+startDate)
+			console.log("종료일 : "+endDate)
+			console.log("작성자 번호 : "+writerNo)
+			$.ajax({
+				url:"calenderDetailView.do",
+				data:{
+					startDate:startDate,
+					endDate:endDate,
+					writerNo:writerNo
+				},
+				type:"get",
+				success:function(value){
+					console.log("성공")
+					
+					let start = value.startDate; 		// 시작일
+					let end = value.endDate; 			// 종료일
+					let writerNo = value.writerNo;		// 작성자번호
+					let department = value.department;	// 부서명
+					let selectColor = value.selectColor;// 색상코드
+					let title = value.title;			// 일정명
+					let openOption = value.openOption;	// 공개여부
+					let alarm = value.alarm;			// 알림
+					let place = value.place;			// 장소
+					let memo = value.memo;				// 메모
+					let sectionName = value.sectionName;// 구분명
+					
+					console.log(department);
+					console.log(alarm);
+					console.log(memo);
+					console.log(place);
+					console.log(sectionName);
+					console.log(title);
+					
+					$(".calenderModal_Title").html(title).css({"font-size":"20px","font-weight":"bold"});
+					if(department != undefined){
+						$(".openOption").text(department).css({"background":"#"+selectColor,"font-weight":"500"});
+					}else{
+						$(".openOption").text(openOption).css("background","#"+selectColor);
+					}
+					
+					$(".cal-date").text(start.substring(0,4)+"년 "+start.substring(5,7)+"월 "+start.substring(8,10)+"일 "+start.substring(11,16)+" ~ "+end.substring(0,4)+"년 "+end.substring(5,7)+"월 "+end.substring(8,10)+"일 "+end.substring(11,16))
+					$(".cal-section").text(sectionName)
+					$(".cal-place").html(place)
+					$(".cal-openOption").text(openOption)
+					$(".cal-alarm").text(alarm)
+					$(".cal-memo").html(memo)
+					$(".calenderModal_BigDiv").css("display","flex");
+				},
+				err:function(){
+					console.log("실패")
+				}
+			})
+		}
 		
 		// 호버시 display : block
 		$("li").mouseenter(function(){
-			let block = $(this).attr("class").replace(/&nbsp/gi, "")
+			//var reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gim;
+			let block = $(this).attr("class")
+			block = block.replace(/&nbsp/gi, "").replace(/&nbsp;$/gi, "");
 			console.log(block)
 			$("."+block).not("li").css({"display": "block","height":"15%"})
 		})
 		
 		// 마우스가 떠났을 시 display : none
 		$("li").mouseleave(function(){
-			let none = $(this).attr("class").replace(/&nbsp/gi, "")
+			let none = $(this).attr("class")
+			none = none.replace(/&nbsp/gi, "").replace("&nbsp;$", "");
 			console.log(none)
 			$("."+none).not("li").css({"display": "none","height":"15%"})
 		})

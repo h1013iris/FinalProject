@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.uni.spring.calender.model.dao.CalenderDao;
 import com.uni.spring.calender.model.dto.Calender;
+import com.uni.spring.common.DepartmentManagement;
 import com.uni.spring.member.model.dto.Member;
 
 @Service
@@ -55,6 +56,32 @@ public class CalenderServiceImpl implements CalenderService {
 		list = calenderDao.selectList(data, sqlSession);
 		
 		return list;
+	}
+
+	@Override
+	public DepartmentManagement selectDepartment(String departmentNo) {
+		DepartmentManagement department = new DepartmentManagement();
+		
+		department = calenderDao.selectDepartment(departmentNo, sqlSession);
+		return department;
+	}
+
+	@Override
+	public Calender selectCalenderDetailView(String startDate, String endDate, String writerNo) {
+		Calender calender = new Calender();
+		Map<String, String> data = new HashMap<String, String>();
+		
+		startDate = startDate.replaceAll("-", "/").substring(0, 16);
+		endDate = endDate.replaceAll("-", "/").substring(0, 16);
+		
+		System.out.println("서비스 임플 시작일 == >"+startDate);
+		System.out.println("서비스 임플 종료일 == >"+endDate);
+		data.put("startDate", startDate);
+		data.put("endDate", endDate);
+		data.put("writerNo", writerNo);
+		calender = calenderDao.selectCalenderDetailView(data, sqlSession);
+		
+		return calender;
 	}
 
 

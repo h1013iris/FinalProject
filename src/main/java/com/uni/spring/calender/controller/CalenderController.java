@@ -14,11 +14,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.google.gson.Gson;
 import com.uni.spring.calender.model.dto.Calender;
 import com.uni.spring.calender.model.dto.DateData;
 import com.uni.spring.calender.model.service.CalenderService;
+import com.uni.spring.common.DepartmentManagement;
 import com.uni.spring.member.model.dto.Member;
 
 @SessionAttributes("loginUser")
@@ -44,6 +47,12 @@ public class CalenderController {
 		Map<String, Integer> today_info =  dateData.today_info(dateData);
 		List<DateData> dateList = new ArrayList<DateData>();
 		
+		DepartmentManagement department = new DepartmentManagement();
+		if(!loginUser.getDepartmentNo().isEmpty()) {// 부서 번호가 존재할 시
+			department = calenderService.selectDepartment(loginUser.getDepartmentNo());
+			department.getDepartmentTitle().replaceAll(" ", "&nbsp"); // 부서명가져올 때 replace
+
+		}
 		ArrayList<Calender> list = calenderService.selectList(loginUser, today_info); // 일정 리스트를 담음(팀,전체,개인 공개)
 		
 		//실질적인 달력 데이터 리스트에 데이터 삽입 시작.
@@ -84,6 +93,7 @@ public class CalenderController {
 		model.addAttribute("dateList", dateList);		//날짜 데이터 배열
 		model.addAttribute("today_info", today_info);
 		model.addAttribute("monthList", list); // 스케쥴 담음
+		model.addAttribute("department", department);
 		return "calender/calender";
 	}
 	
@@ -122,5 +132,25 @@ public class CalenderController {
 			calenderService.insertCalender(calender);
 		}
 		return "redirect:calendar.do";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="calenderDetailView.do", produces="application/json; charset=utf-8")
+	public String selectCalenderDetailView(String startDate, String endDate, String writerNo) {
+		System.out.println("시작 일 ==> "+startDate);
+		System.out.println("종료 일 ==> "+endDate);
+		System.out.println("작성자 번호 ==> "+writerNo);
+		
+		Calender calender = calenderService.selectCalenderDetailView(startDate, endDate, writerNo);
+		if(writerNo.length() == 1) { // 부서버노 이면
+			DepartmentManagement dapartment = calenderService.selectDepartment(writerNo);
+			calender.setDepartment(dapartment.getDepartmentTitle());
+		}
+//		calender.setTitle(calender.getTitle().replaceAll("&nbsp", " "));
+//		calender.setPlace(calender.getPlace().replaceAll("&nbsp", " "));
+//		calender.setMemo(calender.getMemo().replaceAll("&nbsp", " "));
+		System.out.println(calender);
+		
+		return new Gson().toJson(calender);
 	}
 }

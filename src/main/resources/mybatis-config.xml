@@ -38,6 +38,7 @@
   		<typeAlias type="com.uni.spring.department.model.dto.AttendLog" alias="AttendLog"/>
   		<!-- 캘린더 -->
   		<typeAlias type="com.uni.spring.calender.model.dto.Calender" alias="Calender"/>
+  		<typeAlias type="com.uni.spring.common.DepartmentManagement" alias="DepartmentManagement"/>
   		<!-- 주소록 -->
   		<typeAlias type="com.uni.spring.addressBook.model.dto.Dept" alias="Dept"/>
   		<typeAlias type="com.uni.spring.department.model.dto.ProjectClass" alias="ProjectClass"/>
