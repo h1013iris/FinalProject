@@ -15,9 +15,9 @@
     }
 </style>
 <body>
-    <div id="container">
+    <div id="container" method="post">
         <div id="main">
-            <form action="allAddSearch">
+            <form action="allAddSearch.do">
             <div id="searchDiv"><img id="search" src="돋보기 모양.png" alt="검색모양아이콘">
                 <input type="text" name="search" src="돋보기 모양.png">
                 <input type="submit" value="검색"></div>

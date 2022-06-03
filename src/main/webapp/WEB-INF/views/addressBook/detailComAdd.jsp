@@ -38,11 +38,6 @@
   /*  #selboxDirect{
     	display: none;
     }*/
-    
-    textarea{
-    resize: none;
-    }
-    
 </style>
 
 
@@ -138,11 +133,11 @@
             <!--내부폴더는 empNo로 distinct로 중복제거 select해서 목록띄우기-->
                 <tr> 
                     <td>회사명</td>
-                    <td><input type="text" name="comNm" required maxlength="20"></td>
+                    <td><input type="text" name="comNm" required></td>
                 </tr>
                 <tr>
                     <td>사업자번호</td>
-                    <td><input type="text" name="comNo"  class="inputlo" required maxlength="10" placeholder="하이픈빼고 10자리"></td>
+                    <td><input type="text" name="comNo"  class="inputlo" required maxlength="12"></td>
                 </tr>
                 <tr>
                     <td>대표번호</td>
@@ -162,10 +157,10 @@
                 </tr>
                 <tr>
                     <td>이메일</td>
-                    <td><input type="email" name="comEmail"></td>
+                    <td><input type="text" name="comEmail"></td>
                 <tr>
                     <td>기타</td>
-                    <td><textarea name="comMemo" class="inputlo" rows="5"  maxlength="50" ></textarea></td>
+                    <td><input type="text" name="comMemo" class="inputlo" required></td>
                 </tr>
                     
                     
@@ -182,25 +177,7 @@
         </div>
     </div>
   <script>
-  /*원본
-  $(function(){
-    
-        //직접입력시 인풋박스 기존에는 안보이는상태 
-   		$("#selboxDirect").hide();
-   
-    
-     $("#selbox").change(function() {
-    
-    	//직접입력을 누를 때 보임
-        if($("#selbox").val() == "direct") {
-        	$("#selboxDirect").show();
 
-        }  else {
-       		$("#selboxDirect").hide();
-        }
-
-    });
-    });*/
     
   const directBox = document.getElementById('selboxDirect')//selboxDirect id를 가진 태그를 선택한다
   directBox.addEventListener('keyup',function(e){//태그에 keyup이벤트를 추가한다 (keyup: 손가락을 키보드에서 떼면 함수가 실행됨)
