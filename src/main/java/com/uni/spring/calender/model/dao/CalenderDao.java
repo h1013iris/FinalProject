@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.uni.spring.calender.model.dto.Calender;
+import com.uni.spring.common.DepartmentManagement;
 
 @Repository
 public class CalenderDao {
@@ -19,6 +20,16 @@ public class CalenderDao {
 	public ArrayList<Calender> selectList(Map<String, String> data, SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("calenderMapper.selectList", data);
+	}
+
+	public DepartmentManagement selectDepartment(String departmentNo, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("calenderMapper.selectDepartment", departmentNo);
+	}
+
+	public Calender selectCalenderDetailView(Map<String, String> data, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("calenderMapper.selectCalenderDetailView", data);
 	}
 	
 	

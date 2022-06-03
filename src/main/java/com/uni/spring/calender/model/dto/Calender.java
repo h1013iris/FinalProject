@@ -8,6 +8,7 @@ public class Calender {
 	private String startDate;		// 시작일시 - not null
 	private String endDate;			// 종료일시 - not null
 	private String writerNo;		// 작성자번호 - not null
+	private String department;		// 부서명
 	private String sectionOption;	// 구분번호(업무,외근,회의,휴가,기타) - not null
 	private String selectColor;		// 범주번호(색상) - not null
 	private String title;			// 일정명 - not null
@@ -18,6 +19,7 @@ public class Calender {
 	private String status;			// 상태값(Y,N) - not null(default 'Y')
 	
 	private String oneday;			// 하루종일 체크여부
+	private String sectionName;		// 구분이름
 
 	
 	/*	START_DATE
