@@ -60,5 +60,9 @@ public interface DepartService {
 
 	SemiProject selectSemiDetailPro(int sino);
 
+	void updateSemiPro(SemiProject sp);
+
+	void updateSemiDueNull(int semiNo);
+
 
 }

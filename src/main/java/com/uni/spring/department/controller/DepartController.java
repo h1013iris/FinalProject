@@ -323,6 +323,7 @@ public class DepartController {
 		return "redirect:detailProject.do";
 	}
 	
+	//분류 delete
 	@RequestMapping("deleteTargetName.do")
 	public String deleteTargetName(int pcno, int sec, int pjno,String target, Model model) {
 		ProjectClass pc = new ProjectClass();
@@ -334,11 +335,28 @@ public class DepartController {
 		return "redirect:detailProject.do";
 	}
 	
+	//세부 프로젝트 내용 select
 	@ResponseBody
 	@RequestMapping(value="selectSemiDetailPro.do" , produces="application/json; charset=utf-8")
 	public String selectSemiDetailPro(int sino) {
 		SemiProject sp = departService.selectSemiDetailPro(sino);
 		
-		return new Gson().toJson(sp);
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(sp);
+	}
+	
+	//세부 프로젝트 기한일, 제목 update
+	@ResponseBody
+	@RequestMapping(value="updateSemi.do", produces="application/json; charset=utf-8")
+	public String updateSemiPro(SemiProject sp) {
+		departService.updateSemiPro(sp);
+		return String.valueOf("1") ;
+	}
+	
+	//세부 프로젝트 기한일 null update
+	@ResponseBody
+	@RequestMapping(value="updateSemiDueNull.do", produces="application/json; charset=utf-8")
+	public String updateSemiDueNull(int semiNo) {
+		departService.updateSemiDueNull(semiNo);
+		return String.valueOf("1") ;
 	}
 }

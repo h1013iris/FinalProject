@@ -70,10 +70,16 @@ $(function(){
 		$(".docEnrollModal").hide();
 	})
 	
-	$("#main_nav a").click(function(){
-
-    })
-
+	//확인창 취소버튼 - 공통
+	function confrimCancle(){
+		$("#helpmeCOnfirm").hide();
+	}
+	//확인창 나오게 
+	function confrimOpen(){
+		
+		$("#helpmeCOnfirm").css("display","block");
+		inputConfrimContent();
+	}
 
 
 	
