@@ -26,7 +26,9 @@ public class AddressBookController {
 	@Autowired 
 	public AddressBookService addressBookService;
 
+	/*전체주소록*/
 	//전체주소록 조회
+	
 	/*@GetMapping("addressMain.do")
 	public String mainAddress(WideMember wm, Model model) {
 		
@@ -55,7 +57,7 @@ public class AddressBookController {
 	}
 	*/
 	///부서별 버튼 + 전체주소록 내용조회 두개 합쳐보기
-@GetMapping("addressMain.do")
+	@GetMapping("addressMain.do")
 	public String mainAddress(WideMember wm, Dept dp, Model model) {
 		
 		ArrayList<WideMember> allAddList = addressBookService.selectAllAddList(wm);
@@ -84,6 +86,18 @@ public class AddressBookController {
 		return "addressBook/deptAdd";
 		
 	}
+	//검색창에서 전체검색으로진행됨 전체주소록이랑 같은 표에서 출력된다.
+	@PostMapping("allAddSearch.do")
+	public String selectAllAddSearch(WideMember wm, String search, Model model){
+		
+		ArrayList<WideMember> allAddList = addressBookService.selectAllAddSearch(wm,search);
+		model.addAttribute("allAddList",allAddList);
+		
+		System.out.println("검색결과는? "+allAddList);
+		return "addressBook/mainAdd";
+	}
+	
+	/*고객주소록*/
 	//고객주소록 메인화면으로 이동 ("목록조회된 화면")
 	@GetMapping("custoAdd.do")
 	public String selectCustoList(@ModelAttribute("loginUser") Member m,Customer custo, Model model) {
@@ -97,6 +111,25 @@ public class AddressBookController {
 		return "addressBook/custoAddList";
 	}
 	
+	//고객등록하기누르면 고객폴더리스트를 가지고 등록폼으로 이동
+		@PostMapping("cusAddWriter.do")
+		public String insertCusAdd(@ModelAttribute("loginUser") Member m, Customer custo, Model model) {
+			
+		int empNo=m.getEmpNo();
+		
+			//고객 폴더명들을 가져온다
+		ArrayList<Company> cusFolList = addressBookService.selectCusFolList(custo, empNo);
+		
+			//화면에 넘겨주기전에 확인
+		System.out.println("고객 폴더리스트가 잘 넘어 왔느뇨?: "+cusFolList);
+			
+		model.addAttribute("cusFolList",cusFolList);
+		
+		//가져온 거래처폴더명을 가지고 등록폼으로
+		return "addressBook/cusAddWriter";
+		}
+	
+	/*거래처주소록*/
 	//거래처주소록 메인화면("목록조회된 화면")
 	
 	@GetMapping("comAdd.do")
@@ -109,40 +142,38 @@ public class AddressBookController {
 		//m.getEmpNo() 잘됐는지 확인
 		System.out.println("로그인한 세션에서 가져온 사번"+empNo);
 		ArrayList<Company> comList = addressBookService.selectComList(com, empNo);
-		//고객주소록 리스트 model에 담기
+		//거래처주소록 리스트 model에 담기
 		model.addAttribute("comList",comList);
 		//리스트 제대로 들어왔는지 확인
 		System.out.println("comList가 제대로 들어왔니?" +comList);
 		//jsp로 넘겨주기
+		
+		//폴더 목록 불러오기
+		ArrayList<Company> comFolList = addressBookService.selectComFolList(com, empNo);
+		//화면에 넘겨주기전에 확인
+		System.out.println("폴더리스트가 잘 넘어 왔는가?: "+comFolList);
+		model.addAttribute("comFolList",comFolList);
+		
 		return "addressBook/comAddList";
 	
 	}
-	
-	//검색창에서 전체검색으로진행됨 전체주소록이랑 같은 표에서 출력된다.
-	@RequestMapping("allAddSearch.do")
-	public String selectAllAddSearch(WideMember wm, String search, Model model){
-		
-		ArrayList<WideMember> allAddList = addressBookService.selectAllAddSearch(wm,search);
-		model.addAttribute("allAddList",allAddList);
-		
-		System.out.println("검색결과는? "+allAddList);
-		return "addressBook/mainAdd";
-	}
+
+
 	//거래처등록하기누르면 등록폼으로 이동
 	@PostMapping("comAddWriter.do")
 	public String insertComAdd(@ModelAttribute("loginUser") Member m, Company com, Model model) {
 		
 	int empNo=m.getEmpNo();
 	
+		//거래처 폴더명들을 가져온다
 	ArrayList<Company> comFolList = addressBookService.selectComFolList(com, empNo);
 	
-	
-	//화면에 넘겨주기전에 확인
+		//화면에 넘겨주기전에 확인
 	System.out.println("폴더리스트가 잘 넘어 왔는가?: "+comFolList);
 		
 	model.addAttribute("comFolList",comFolList);
 	
-	
+	//가져온 거래처폴더명을 가지고 등록폼으로
 	return "addressBook/comAddWriter";
 	}
 	
@@ -157,6 +188,30 @@ public class AddressBookController {
 		return "redirect:comAdd.do";
 	}
 	
+	//고객 등록하고 고객리스트로 넘어가기
+	@PostMapping("insertCusAdd")
+	public String insertCusAdd(@ModelAttribute("loginUser") Member m, Customer cus) {
+
+		int empNo = m.getEmpNo();
+		
+		addressBookService.insertCusAdd(cus,empNo);
+		//redirect를 쓰는 이유: 뷰이름을 적어주는 포워딩 방식시 새로고침하면 똑같은글이 또 작성됨 
+		return "redirect:custoAdd.do";
+	
+	}
+	//거래처별 폴더명으로 조회 리스트
+	@PostMapping("selectSearchComFolList")
+	public String selectComFolList(@ModelAttribute("loginUser") Member m,String inFolder, Model model, Company com) {
+		
+		int empNo = m.getEmpNo();
+		
+		ArrayList<Company> comList = addressBookService.selectSearchComFolList(empNo , inFolder, com);
+		
+		System.out.println("폴더명으로 리스트 조회해온 결과는?!"+comList);
+		model.addAttribute("comList",comList);
+		//return "addressBook/comAddList";
+		return "addressBook/comAddList";
+	}
 	
 	
 	//임시보관함 화면으로 이동 

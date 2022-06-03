@@ -8,6 +8,9 @@
 <meta charset="UTF-8">
 <title>거래처 주소록 리스트조회</title>
 
+
+<body>
+<jsp:include page="../common/header.jsp"></jsp:include>
 <style>
     
     #container{
@@ -16,6 +19,9 @@
     #contain{
       margin:0;
         width: 1000px;
+    }
+    #left{
+    width:30%
     }
     td, th{
         border : 1px solid black;
@@ -34,10 +40,13 @@
         height: 30px;
         text-align: center;
     }
+    .comF{
+       	background-color: yellow;
+    
+    }
+    
 
 </style>
-<body>
-<jsp:include page="../common/header.jsp"></jsp:include>
 <div class="main_section">
 <div id="container">
     <div id="deptTitle">
@@ -45,7 +54,24 @@
 
 <div id="container">
 
+<!--고객 주소록 폴더들 표시될곳-->
 
+<div id="left">
+
+<!-- 유저별로 다른 폴더 리스트 -->
+<!-- 
+<form action="comAdd.do" method="get">
+<span><input type="submit" value="전체조회"></span><br>
+</form>
+<form action="selectSearchComFolList" method="post">
+<c:forEach items="${comFolList}" var="comF">
+<span class="comF" ><input type="submit" name= "inFolder" value="${comF.inFolder}"></span><br>
+</c:forEach>
+</form>
+-->
+
+</div>
+<jsp:include page="../addressBook/comAddTitle.jsp"></jsp:include>
 <!--고객 주소록 내용이 표시될곳-->
 <div id="addcon">
 <table>
@@ -54,8 +80,8 @@
 		<th>휴대폰</th>
 		<th>이메일</th>
 		<th>기타</th>
-		
 	</tr>
+	
 	<c:forEach items="${comList}" var="com" >
 	<tr>
 	<td>${com.comNm}</td>

@@ -82,7 +82,7 @@ public class MemberController {
 
 	}
 	//암호화 이후 로그인
-	@PostMapping("loginMember.do")
+	/*@PostMapping("loginMember.do")
 	public String loginMember(Member m, Model model) {
 		String encPw = bCryptPasswordEncoder.encode(m.getUserPw());//입력한userPw를 암호화
 		Member loginUser;
@@ -92,6 +92,27 @@ public class MemberController {
 		model.addAttribute("loginUser",loginUser);
 		
 		return "redirect:approvalMain.do";
+		
+	}*/
+	//암호화 이후 로그인 +
+	//로그인 실패시 alert뜨게
+	@PostMapping("loginMember.do")
+	public String loginMember(Member m, Model model) {
+		String encPw = bCryptPasswordEncoder.encode(m.getUserPw());//입력한userPw를 암호화
+		
+		Member loginUser;
+		
+		try {
+			loginUser=memberService.loginMember(bCryptPasswordEncoder, m);
+			
+			model.addAttribute("loginUser",loginUser);
+		
+			return "redirect:approvalMain.do";
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("msg","로그인실패");
+			return "redirect:main";
+		}
 		
 		
 	}

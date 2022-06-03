@@ -9,12 +9,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="endDate" column="END_DATE"/>
 		<result property="writerNo" column="WRITER_NO"/>
 		<result property="sectionOption" column="SECTION_NUM"/>
+		<result property="sectionName" column="SECTION_NAME"/>
 		<result property="selectColor" column="COLOR_CODE"/>
 		<result property="title" column="DATE_NAME"/>
 		<result property="openOption" column="PUBLIC_RANGE"/>
 		<result property="alarm" column="NOTICE_TIME"/>	
 		<result property="place" column="PLACE"/>
 		<result property="memo" column="MEMO"/>
+	</resultMap>
+	<resultMap type="DepartmentManagement" id="departmentResultSet">
+		<result property="departNo" column="DEPARTMENT_NO"/>
+		<result property="departmentTitle" column="DEPARTMENT_TITLE"/>
 	</resultMap>
 	
 	<insert id="insertCalender" parameterType="Calender">
@@ -43,6 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND EXTRACT(MONTH FROM START_DATE) <= #{month}
 			AND EXTRACT(YEAR FROM END_DATE) >= #{year}
 			AND EXTRACT(MONTH FROM END_DATE) >= #{month}
+			AND A.STATUS = 'Y'
 			)]]>
 		<if test="empNo != null">
 			<![CDATA[OR WRITER_NO = #{empNo}
@@ -50,6 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND EXTRACT(MONTH FROM START_DATE) <= #{month}
 			AND EXTRACT(YEAR FROM END_DATE) >= #{year}
 			AND EXTRACT(MONTH FROM END_DATE) >= #{month}
+			AND A.STATUS = 'Y'
 			)]]>
 		</if>
 		<if test="departmentNo != null">
@@ -58,7 +65,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND EXTRACT(MONTH FROM START_DATE) <= #{month}
 			AND EXTRACT(YEAR FROM END_DATE) >= #{year}
 			AND EXTRACT(MONTH FROM END_DATE) >= #{month}
+			AND A.STATUS = 'Y'
 			)]]>
 		</if>
+	</select>
+	<select id="selectDepartment" parameterType="string" resultMap="departmentResultSet">
+		SELECT *
+		FROM DEPARTMENT_MANAGEMENT
+		WHERE DEPARTMENT_NO = #{departmentNo}
+	</select>
+	<select id="selectCalenderDetailView" parameterType="Map" resultMap="calenderResultSet">
+		SELECT
+		    A.START_DATE,
+			A.END_DATE,
+			A.WRITER_NO,
+			C.SECTION_NAME,
+			B.COLOR_CODE,
+			A.DATE_NAME,
+			A.PUBLIC_RANGE,
+			A.NOTICE_TIME,
+			A.PLACE,
+			A.MEMO
+		FROM CALENDER A
+		JOIN CAL_COLOR B ON (A.COLOR_NUM = B.COLOR_NUM)
+		JOIN CAL_SECTION C ON (A.SECTION_NUM = C.SECTION_NUM)
+		WHERE 1=1
+		AND TO_CHAR(A.START_DATE,'YYYY/MM/DD HH24:MI') = #{startDate}
+		AND TO_CHAR(A.END_DATE,'YYYY/MM/DD HH24:MI') = #{endDate}
+		AND A.WRITER_NO = #{writerNo}
+		AND A.STATUS = 'Y'
 	</select>
 </mapper>

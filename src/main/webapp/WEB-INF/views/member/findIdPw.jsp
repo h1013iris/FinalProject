@@ -121,7 +121,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 		});
 	</script>
 	<script>
-	alert$'{msg}'';
+	alert$'{msg}';
 </script>
 	
 

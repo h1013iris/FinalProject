@@ -240,6 +240,23 @@ public class DepartServiceImpl implements DepartService {
 		return departDao.selectSemiDetailPro(sqlSession, sino);
 	}
 
+	@Override
+	public void updateSemiPro(SemiProject sp) {
+		int result = departDao.updateSemiPro(sqlSession, sp);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+		
+	}
+
+	@Override
+	public void updateSemiDueNull(int semiNo) {
+		int result = departDao.updateSemiDueNull(sqlSession, semiNo);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+	}
+
 	
 
 }

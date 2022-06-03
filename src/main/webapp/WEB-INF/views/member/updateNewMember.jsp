@@ -8,6 +8,10 @@
 <link rel="stylesheet"
 	href="${pageContext.servletContext.contextPath }/resources/css/member/newMember.css"
 	type="text/css">
+	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
+	<script	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<!-- 주소api -->
+	<script	src="${ pageContext.servletContext.contextPath }/resources/js/member/updateNewMember.js"></script>
 </head>
 
 <body>
@@ -25,7 +29,7 @@
 				* 프로필
 				<table id="mem">
 					<tr>
-						<td rowspan="3"><img src="스폰지밥.jpg" alt="프로필사진" width="105"
+						<td rowspan="3"><img src="" alt="프로필사진" width="105"
 							height="140"></td>
 						<td class="mem" width="450px"><input type="text" class="m"
 							value="${m.empName}" readonly></td>
@@ -90,12 +94,6 @@
 	</div>
 	<div class="outter"></div>
 
-	<script
-		src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
-	<script
-		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<!-- 주소api -->
-	<script
-		src="${ pageContext.servletContext.contextPath }/resources/js/member/updateNewMember.js"></script>
+	
 </body>
 </html>

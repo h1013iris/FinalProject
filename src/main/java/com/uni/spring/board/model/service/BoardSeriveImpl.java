@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.uni.spring.board.model.dao.BoardDao;
 import com.uni.spring.board.model.dto.Board;
+import com.uni.spring.board.model.dto.coment;
 import com.uni.spring.board.model.dto.searchcon;
 import com.uni.spring.common.PageInfo;
 import com.uni.spring.common.exception.CommException;
@@ -89,39 +90,32 @@ public class BoardSeriveImpl implements BoardService {
 
 	//글작성
 	@Override
-	public void insertnotice(Board b) {
+	public void insertboard(Board b) {
+	
+		
 		String con = b.getContent();
 		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
-        b.setContent(con);
-		int result = BoardDao.insertnotice(sqlSession, b);
-		if(result < 0) {
-			throw new CommException("게시글 추가 실패");
-		}
-	}
-
-	@Override
-	public void insertfree(Board b) {
-		String con = b.getContent();
-		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
-        b.setContent(con);
-		int result = BoardDao.insertfree(sqlSession, b);
-
-		if(result < 0) {
-			throw new CommException("게시글 추가 실패");
-		}
-	}
-	@Override
-	public void insertde(Board b, int deno) {
-		String con = b.getContent();
-		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
-        b.setContent(con);
-        b.setDeptno(deno);
-		int result = BoardDao.insertde(sqlSession, b );
+	    b.setContent(con);	    
+		int result = BoardDao.insertboard(sqlSession, b );
 		if(result < 0) {
 			throw new CommException("게시글 추가 실패");
 		}
 		
 	}
+	@Override
+	public void insertdept(Board b, int deno) {
+
+		String con = b.getContent();
+		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
+	    b.setContent(con);
+	    b.setDeptno(deno);
+		int result = BoardDao.insertdept(sqlSession, b );
+		if(result < 0) {
+			throw new CommException("게시글 추가 실패");
+		}
+		
+	}
+	
     
 	//부서게시판
 	@Override
@@ -160,15 +154,52 @@ public class BoardSeriveImpl implements BoardService {
 		
 		return BoardDao.selectstandupList(sqlSession, pi,b);
 	}
+  //댓글
+	@Override
+	public int insertReply(coment r) {		
+			
+			int result = BoardDao.insertReply(sqlSession, r);
+			if(result < 0) {
+				throw new CommException("댓글등록 실패");
+			}
+			return  result;
+		}
+
+	@Override
+	public ArrayList<coment> selectcomentList(int bno) {
+		// TODO Auto-generated method stub
+		return BoardDao.selectcomentList(sqlSession, bno);
+	}
+
+	@Override
+	public int deletecoment(int cno) {
+		
+	    return BoardDao.deletecoment(sqlSession, cno);
+	}
+
+	@Override
+	public void updatedetail(Board b) {
+		int result = BoardDao.updatedetail(sqlSession, b);
+		
+	     if(result < 0) {
+		throw new CommException("게시글 수정 실패");
+				}
+		
+	}
+	}
+
+
 
 	
 
 	
+
+	
 	
 
 
 
-}
+
 
 
 

@@ -27,6 +27,7 @@
 	    line-height: 4.5vh;
 	    font-size: 20px;
 	}
+	/*기한일 버튼*/
 	.outseeDuetime{
 		background-color: #85cdff;
 		height: 4.5vh;
@@ -37,6 +38,17 @@
     	text-align: center;
 	    line-height: 4.5vh;
 	    font-size: 20px;
+	}
+	.firstDuetime{
+		display: block !important;
+	}
+	.outseeDueTimeInsert{
+		display:none;
+		position: absolute;
+	    top: 19vh;
+	    right: 16.4vw;
+	    z-index: 10;
+	    width: 8.9vw;
 	}
 	.outseeChecklist{
 		background-color: #85cdff;
@@ -71,6 +83,7 @@
 	    line-height: 4.5vh;
 	    font-size: 20px;
 	}
+	 /*창닫기*/
 	.outdeletese{
 		background-color: #85cdff;
 		height: 4.5vh;
@@ -81,6 +94,11 @@
     	text-align: center;
 	    line-height: 4.5vh;
 	    font-size: 20px;
+	}
+	.outdeletese:hover{
+		cursor: pointer;
+		background-color: white;
+		color:black;
 	}
 	.outseeDelete{
 		background-color: #85cdff;
@@ -97,7 +115,6 @@
 		display: flex;
 	}
 	.headmodaltitle{
-		border: 1px solid;
 		width: 80%;
 		text-align: left;
 	}
@@ -106,11 +123,15 @@
    		position: static;
    		margin-right: 10px;
 	}
-	.detailSemiTitle, .detailSemiTitleCh{
+	.detailSemiTitle{
 		font-size: 19px;
 		line-height: 25px;
-		width: 90%;
 	}
+	.detailSemiTitleCh{
+	 	font-size: 19px;
+		line-height: 25px;
+		width: 85%;
+	 }
 	.outseeDelete{
 		display: none;
 	}
@@ -118,6 +139,72 @@
 		margin-top: 5px;
 		display:none;
 	}
+	.senddetailSemiTitle{
+		margin-top: 5px;
+		display: none;
+	}
+	.attendDuedate{
+		display: flex;
+		text-align: left;
+		line-height: 1.5;
+		width: 100%;
+		border-bottom: 1px solid;
+		padding-bottom: 10px;
+	}
+	.attendPersonShow, .dueDateShowDiv{
+		width: 50%;
+	}
+	.semiCheckListDiv{
+		margin-top :20px;
+		border: 1px solid;
+		text-align: left;
+	}
+	.checkListTitle{
+		font-size: 20px;
+		margin-bottom: 15px;
+	}
+	.semiCheckListDiv .checkBoxDiv{
+		width: 20px !important;
+		height: 20px !important;
+	}
+	.semiCheckListDiv .contentCheckBox{
+		font-size: 18px;
+		line-height: 25px;
+		margin-left: 8px;
+		word-break: break-all;
+	}
+	.checkBoxDIvflex{
+		display: flex;
+		margin-bottom: 5px;
+	}
+	.deleteCheckBox{
+		margin-top: 4px;
+		margin-left: 5px;
+	}
+	.deleteCheckBox:hover{
+		cursor: pointer;
+	}
+	.plusNewCheck{
+		background-color: #e4e4e4;
+		display: flex;
+		height: 3vh;
+	    line-height: 3vh;
+	    width: 16vh;
+	    border-radius: 3px;
+	    justify-content: center;
+	    margin-left: 35px;
+	}
+	.insertCheckinput{
+		width: 35vw;
+    	height: 2vh;
+    	margin-left: 10px;
+    	padding-top: 3px;
+	}
+	.insertCheckBox{
+		display: none;
+		margin-top: 15px;
+	}
+
 </style>
 </head>
 <body>
@@ -134,17 +221,77 @@
 	                <!-- 세부 프로젝트 분류명 -->
 	                <span class="semiProTar"></span>
                 </div>
+                <!--  -->
                 <div class="editdetailSemi">
                     <img src="${ pageContext.servletContext.contextPath }/resources/images/editName.png" alt="" width="20">
                 </div>
+                <div class="senddetailSemiTitle">
+                    <img src="${ pageContext.servletContext.contextPath }/resources/images/changeB.png" alt="" width="20">
+                </div>
             </div >
             <div class="modal_body">
-              <input type="hidden" id ="semiNoDETAIL">
+            	<!-- 프로젝트 번호 -->
+              	<input type="hidden" id ="semiNoDETAIL">
+              	<!-- 프로젝트 및 기한일 적는 div -->
+              	<div class="attendDuedate">
+	              	<!-- 참여자 -->
+	              	<div class="attendPersonShow">
+	              		<div><span>참여자</span></div>
+	              		<div>000/000/000</div>
+	              	</div>
+	              	<!-- 기한일 -->
+	              	<div class="dueDateShowDiv">
+	              		<div><span>기한일</span></div>
+	              		<div class="dueDateShow"></div>
+	              	</div>
+              	</div>
+              	<!-- 체크리스트 div -->
+              	<div class="semiCheckListDiv">
+              		<div class="checkListTitle"><span>체크 리스트</span></div>
+              		<div class="checkBoxDIvflex">
+              			<label><input type="checkbox" class="checkBoxDiv"></label>
+              			<div class="contentCheckBox"><span>check</span></div>
+              			<div class="deleteCheckBox">
+		                    <img src="${ pageContext.servletContext.contextPath }/resources/images/close.png" alt="" width="20">
+		                </div>
+              		</div>
+              		<div class="checkBoxDIvflex">
+              			<label><input type="checkbox" class="checkBoxDiv"></label>
+              			<div class="contentCheckBox"><span>checkcheckcheckcheckcheckcheckcheckcheckcheckcheckcheckcheckcheckcheckcheck</span></div>
+              			<div class="deleteCheckBox">
+		                    <img src="${ pageContext.servletContext.contextPath }/resources/images/close.png" alt="" width="20">
+		                </div>
+              		</div>
+              		<div class="checkBoxDIvflex">
+              			<label><input type="checkbox" class="checkBoxDiv"></label>
+              			<div class="contentCheckBox"><span>check</span></div>
+              			<div class="deleteCheckBox">
+		                    <img src="${ pageContext.servletContext.contextPath }/resources/images/close.png" alt="" width="20">
+		                </div>
+              		</div>
+              		<div class="checkBoxDIvflex">
+              			<label><input type="checkbox" class="checkBoxDiv"></label>
+              			<div class="contentCheckBox"><span>check</span></div>
+              			<div class="deleteCheckBox">
+		                    <img src="${ pageContext.servletContext.contextPath }/resources/images/close.png" alt="" width="20">
+		                </div>
+              		</div>
+              		<div class="checkBoxDIvflex insertCheckBox">
+              			<label><input type="checkbox" class="checkBoxDiv"></label>
+              			<div class="addinsertCheck"><input type="text" class="insertCheckinput"></div>
+              		</div>
+              		<!-- 체크리스트 항목 추가 버튼 -->
+        			<div class="plusNewCheck" id="insertNewCheck">
+        				<img src="${ pageContext.servletContext.contextPath }/resources/images/plus.png" width="25"> 
+        				<div ><span>항목 추가</span></div>
+       				</div>
+              	</div>
             </div>
         </div>
         <div class="outSectionDiv">
        	<div class="outSeeAttend"><span>참여자</span></div>
        	<div class="outseeDuetime"><span>기한일</span></div>
+       	<div><input type="date" class="outseeDueTimeInsert" id="currentDate"></div>
        	<div class="outseeChecklist"><span>체크리스트</span></div>
        	<div class="outseeFile"><span>파일첨부</span></div>
        	<div class="outseeMove"><span>이동</span></div>
@@ -155,10 +302,94 @@
      
 </body>
 <script type="text/javascript">
+	
+
+	//날짜 넣었을 시에 체크 
+	$(".outseeDueTimeInsert").change(function(){
+		$(".dueDateShow").empty();
+		var today=new Date().toISOString().substring(0, 10);//오늘 날짜
+		var semiDue = $("#currentDate").val();//넣어준 날짜
+		if(semiDue< today){//오늘날짜보다 넣은 날짜가 이전일때
+			var semiNo = $("#semiNoDETAIL").val();//세부 번호
+			$.ajax({
+				url:"updateSemiDueNull.do",
+				type:"post", 
+				data:{semiNo:semiNo}, 
+				success:(function(result){
+					if(result =="1"){
+						$(".dueDateShow").text("이전 날짜는 선택할 수 없습니다.");
+						$(".dueDateShow").css("color","#85cdff");
+						$("#currentDate").val("");
+					}
+				})
+			})
+		}else{
+			var semiNo = $("#semiNoDETAIL").val();//세부 번호
+			$.ajax({
+				url:"updateSemi.do",
+				type:"post", 
+				data:{semiNo:semiNo, semiDue:semiDue}, 
+				success:(function(result){
+					if(result =="1"){
+						$(".dueDateShow").text(semiDue);
+						$(".dueDateShow").css("color","black");
+					}
+				})
+			})
+		}
+	})
+	/*프로젝트 제목 수정 버튼 클릭했을 시*/
 	$(".editdetailSemi").click(function(){
+		//input hidden을 text로 변환
 		var f=document.getElementById("CHanTitle");
 		f.type="text";
 		$(".detailSemiTitle").css("display","none");
+		$(".editdetailSemi").css("display","none");
+		$(".senddetailSemiTitle").css("display","block");
+	})
+	/*세부 프로젝트 제목 바꾸기*/
+	$(".senddetailSemiTitle").click(function(){
+		var semiTitle = $(".detailSemiTitleCh").val();//바꿀 제목 이름
+		var semiNo = $("#semiNoDETAIL").val();//세부 번호
+		$.ajax({
+			url:"updateSemi.do", 
+			type:"post", 
+			data:{semiTitle:semiTitle, semiNo:semiNo}, 
+			success:(function(result){//성공했을시에 
+				if(result =="1"){
+					var f=document.getElementById("CHanTitle");
+					f.type="hidden";
+					$(".senddetailSemiTitle").css("display","none");
+					$(".detailSemiTitle").text(semiTitle);
+					$(".detailSemiTitle").show();
+					$(".editdetailSemi").css("display","block");
+					
+				}
+				
+			})
+		})
+	})
+	/*창닫기 클릭시 모달창 사라지게 하기*/
+	$(".outdeletese").click(function(){
+		$(".semiProModal").css("display","none");
+		location.reload();
+	})
+	/*기한일 버튼 클릭시 날짜 정하는거 나오기*/
+	$(".outseeDuetime").click(function(){
+		if($(".outseeDueTimeInsert").hasClass('firstDuetime')){
+			$(".outseeDueTimeInsert").removeClass('firstDuetime');
+		}else{
+			$(".outseeDueTimeInsert").addClass('firstDuetime');
+		}
+	})
+	//항목 추가 버튼 클릭시에(체크리스트)
+	$(".plusNewCheck").click(function(){
+		$(".insertCheckBox").css("display","flex");
+	})
+	
+	//체크리스트를 클릭하였을 시에 
+	$(".outseeChecklist").click(function(){
+		
 	})
 </script>
 </html>
