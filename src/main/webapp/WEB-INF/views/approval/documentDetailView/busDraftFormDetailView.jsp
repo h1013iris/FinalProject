@@ -223,7 +223,7 @@
 		 		$.ajax({
 		 			
 		 			type: "post",
- 	                url: "selectDeptApprover.do",
+ 	                url: "selectApprover.do",
  	                data: { deptNo : "${ loginUser.departmentNo }" },
  	                success: function (data) {
 						console.log(data);
@@ -234,7 +234,7 @@
  	                		$("#firstAprvJob").val(data[0].jobName);
  	                		$("#secondAprvName").val(data[1].empName);
  	                		$("#secondAprv").val(data[1].empNo);
- 	                		$("#secondAprvJob").val(data[1].jobName);
+ 	                		$("#secondAprvJob").val(data[1].jobName)
  	                	}
  	                }
 		 		})

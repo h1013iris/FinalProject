@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>결재 완료함</title>
 <style>
 	.main_section, .div, .table, .thead {
 		border: 1px solid black;

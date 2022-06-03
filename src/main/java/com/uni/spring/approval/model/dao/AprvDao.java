@@ -28,7 +28,6 @@ public class AprvDao {
 	public ArrayList<AprvDoc> completeSelectList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		
 		// 페이징처리 위해 오프셋, 로우바운즈
-		
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
@@ -36,9 +35,9 @@ public class AprvDao {
 		return (ArrayList)sqlSession.selectList("aprvMapper.selectList", null, rowBounds);
 	}
 
-	public ArrayList<Member> selectApprover(SqlSessionTemplate sqlSession, String deptNo) {
+	public ArrayList<Member> selectDeptApprover(SqlSessionTemplate sqlSession, String deptNo) {
 		
-		return (ArrayList)sqlSession.selectList("aprvMapper.selectApprover", deptNo);
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectDeptApprover", deptNo);
 	}
 	
 	public String selectDeptName(SqlSessionTemplate sqlSession, String deptNo) {
@@ -86,6 +85,35 @@ public class AprvDao {
 	public int insertBusCoop(SqlSessionTemplate sqlSession, BusCoopForm busCoopform) {
 		
 		return sqlSession.insert("aprvMapper.insertBusCoop", busCoopform);
+	}
+
+	public int requestListCount(SqlSessionTemplate sqlSession, Member loginUser) {
+		
+		return sqlSession.selectOne("aprvMapper.requestListCount", loginUser);
+	}
+
+	public ArrayList<AprvDoc> selectRequestList(SqlSessionTemplate sqlSession, PageInfo pi, Member loginUser) {
+		
+		// 페이징처리 위해 오프셋, 로우바운즈
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectRequestList", loginUser, rowBounds);
+	}
+
+	public int selectDocTypeNo(SqlSessionTemplate sqlSession, int docNo) {
+		
+		return sqlSession.selectOne("aprvMapper.selectDocTypeNo", docNo);
+	}
+
+	public LeaveForm selectLeaveForm(SqlSessionTemplate sqlSession, int docNo) {
+		
+		return sqlSession.selectOne("aprvMapper.selectLeaveForm", docNo);
+	}
+
+	public AprvDoc selectDocApprover(SqlSessionTemplate sqlSession, int docNo) {
+		
+		return sqlSession.selectOne("aprvMapper.selectDocApprover", docNo);
 	}
 	
 	

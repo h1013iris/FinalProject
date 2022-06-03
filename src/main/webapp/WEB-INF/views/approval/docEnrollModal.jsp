@@ -41,7 +41,7 @@
 		font-size: 16px;
 	}
 	
-	#docTitle {
+	#modalDocTitle {
 		width: 95%;
 		padding: 1%;
 		font-size: 16px;
@@ -61,6 +61,11 @@
 	
 	.modal_cascelBtn {
 		background-color: #c8c8c8 !important;
+		box-shadow: 0px 5px 0px 0px #afafaf !important;
+	}
+	
+	.modal_cascelBtn:hover {
+		box-shadow: 0px 0px 0px 0px #afafaf !important;
 	}
 	
 </style>
@@ -101,18 +106,16 @@
 				        <label class="select_title">문서 서식</label>
 
 				        <div class="dropdown docEnrollDropdown">
-
-					        <select id="docForm" name="docForm">
-					        </select>
+					        <select id="docForm" name="docForm"></select>
 					   	</div>
 			        </div>
 			        
-			        <hr class="select_div_hr">
+			        <hr class="select_div_hr end_hr">
 			        
-			        <div class="select_div">
+			        <div class="select_div docTitleArea">
 			        	<label class="select_title">문서 제목</label>
 			        	<div class="input_docTitle">
-			        		<input type="text" id="docTitle" name="docTitle" maxlength="100">
+			        		<input type="text" id="modalDocTitle" name="modalDocTitle" maxlength="100">
 			        	</div>
 			        </div>
 	            </div>
@@ -125,7 +128,26 @@
     </div>
     
     <script type="text/javascript">
-
+		
+    	// 문서 타입이 바뀌었는데 신청서인 경우
+    	$("#docType").change(function() {
+    		
+    		let docType = $(this).val();
+    		
+    		if(docType == 'app') {
+    			
+    			$(".docTitleArea").hide();
+    			$(".end_hr").hide();
+    		
+    		} else {
+    			
+    			$(".docTitleArea").show();
+    			$(".end_hr").show();
+    		}
+    		
+    	})
+    	
+    	
     
 	</script>
 	

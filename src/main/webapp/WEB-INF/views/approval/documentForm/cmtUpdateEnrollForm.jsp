@@ -21,6 +21,7 @@
 			<input type="hidden" name="drafterDept" value="${ loginUser.departmentNo }"/>
 			<input type="hidden" name="approver" value="${ loginUser.empNo }"/>
 			<input type="hidden" name="approverJob" value="${ loginUser.jobNo }"/>
+			<!-- <input type="hidden" id="docTitle" name="docTitle" value="${ docTitle }"/> -->
 			<input type="hidden" name="aprvPro" value="D"/>
 			
 			<div class="formArea" style="font-family:돋움; font-size:9pt;">
@@ -198,8 +199,8 @@
 			</div>
 			<div class="docEnrollBtnsArea">
 				<button class="commonButton1 submit_btn docEnrollBtn" type="button">결재요청</button> <br>
-				<button class="commonButton1 outbox_btn docEnrollBtn" type="button">임시저장</button> <br> <%-- 임시저장 기능 --%>
-				<button class="commonButton1 cancle_btn docEnrollBtn" type="button" style="background-color: #c8c8c8 !important;">취소</button>
+				<button class="commonButton1 outbox_btn docEnrollBtn donEnrollOutboxBtn" type="button">임시저장</button> <br> <%-- 임시저장 기능 --%>
+				<button class="commonButton1 cancle_btn docEnrollBtn donEnrollCancleBtn" type="button" style="background-color: #c8c8c8 !important;">취소</button>
 			</div>
 		</form>
  	</div>
@@ -238,7 +239,7 @@
 		 		$.ajax({
 		 			
 		 			type: "post",
- 	                url: "selectApprover.do",
+ 	                url: "selectDeptApprover.do",
  	                data: { deptNo : "${ loginUser.departmentNo }" },
  	                success: function (data) {
 						console.log(data);
@@ -246,8 +247,10 @@
  	                		
  	                		$("#firstAprvName").val(data[0].empName);
  	                		$("#firstAprv").val(data[0].empNo);
+ 	                		$("#firstAprvJob").val(data[0].jobName);
  	                		$("#secondAprvName").val(data[1].empName);
  	                		$("#secondAprv").val(data[1].empNo);
+ 	                		$("#secondAprvJob").val(data[1].jobName);
  	                	}
  	                }
 		 		})

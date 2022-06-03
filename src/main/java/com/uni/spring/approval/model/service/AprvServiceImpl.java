@@ -44,10 +44,10 @@ public class AprvServiceImpl implements AprvService {
 	}
 
 	
-	@Override // 결재자 조회
-	public ArrayList<Member> selectApprover(String deptNo) {
+	@Override // 문서 등록 시 결재선 조회
+	public ArrayList<Member> selectDeptApprover(String deptNo) {
 		
-		return aprvDao.selectApprover(sqlSession, deptNo);
+		return aprvDao.selectDeptApprover(sqlSession, deptNo);
 	}
 	
 	
@@ -168,6 +168,41 @@ public class AprvServiceImpl implements AprvService {
 			insertDoc(aprvDoc);
 			insertAprvHistory(aprvHistory);
 		}
+	}
+
+
+	@Override // 결재 요청 문서 리스트 개수
+	public int requestListCount(Member loginUser) {
+		
+		return aprvDao.requestListCount(sqlSession, loginUser);
+	}
+
+
+	@Override // 결재 요청 문서 리스트
+	public ArrayList<AprvDoc> selectRequestList(PageInfo pi, Member loginUser) {
+		
+		return aprvDao.selectRequestList(sqlSession, pi, loginUser);
+	}
+
+
+	@Override // 문서의 서식 번호 가져오기
+	public int selectDocTypeNo(int docNo) {
+		
+		return aprvDao.selectDocTypeNo(sqlSession, docNo);
+	}
+
+
+	@Override // 휴가 신청서 상세 조회
+	public LeaveForm selectLeaveForm(int docNo) {
+		
+		return aprvDao.selectLeaveForm(sqlSession, docNo);
+	}
+
+
+	@Override // 해당 문서 결재자 조회
+	public AprvDoc selectDocApprover(int docNo) {
+		
+		return aprvDao.selectDocApprover(sqlSession, docNo);
 	}
 
 
