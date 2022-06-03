@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.uni.spring.board.model.dto.Board;
+import com.uni.spring.board.model.dto.coment;
 import com.uni.spring.board.model.dto.searchcon;
 import com.uni.spring.common.PageInfo;
 
@@ -32,10 +33,11 @@ public interface BoardService {
 
 	ArrayList<Board> selectsearchfree(PageInfo pi, searchcon sc);
 	///글작성
-	void insertnotice(Board b);
-
-	void insertfree(Board b);
-
+	void insertboard(Board b );
+	
+	void insertdept(Board b, int deno);
+	
+     //부서 게시판
 	int selecdeparttListCount();
 
 
@@ -48,8 +50,24 @@ public interface BoardService {
 	int selectstandupListCount(int con);
 
 	ArrayList<Board> selectstandupList(PageInfo pi, Board b);
+	
+	//댓글
 
-	void insertde(Board b, int deno);
+	int insertReply(coment r);
+
+	ArrayList<coment> selectcomentList(int bno);
+
+	int deletecoment(int cno);
+
+	void updatedetail(Board b);
+
+	
+
+	
+
+	
+
+	
 
 
 

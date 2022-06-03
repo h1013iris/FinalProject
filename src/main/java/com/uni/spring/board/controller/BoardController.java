@@ -10,9 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.GsonBuilder;
 import com.uni.spring.board.model.dto.Board;
+import com.uni.spring.board.model.dto.coment;
 import com.uni.spring.board.model.dto.searchcon;
 import com.uni.spring.board.model.service.BoardService;
 import com.uni.spring.common.PageInfo;
@@ -167,27 +170,29 @@ public class BoardController {
 
 	@RequestMapping("insertenroll.do")
 	public String insertBoard(Board b , HttpServletRequest request ,@RequestParam("bo") int bo ,@RequestParam("deno") int deno)  {
-
+    
 	
-
+		System.out.println(bo+"나는 게시판 번호");
+		
+	    b.setBoardno(bo);
+       
 		System.out.println(b.toString());
+		 
+		System.out.println(deno+"나는 부서번호");
 
+		BoardService.insertboard(b);
+		
 		if(bo == 1) {
-			BoardService.insertnotice(b);
-
 
 			return "redirect:notice.do";
 		}
 		else if(bo == 2) {
-			BoardService.insertfree(b);
-
-
+		
 			return "redirect:free.do";
 		}	
 		else if(bo == 3) {
-			BoardService.insertde(b,deno);
 
-
+			BoardService.insertdept(b,deno);
 			return "redirect:depart.do";
 		}
 
@@ -281,5 +286,62 @@ public class BoardController {
 
 	
 	}
-
+	@ResponseBody
+	@RequestMapping(value = "insertcontent.do", produces="application/json; charset =utf-8")
+       public String insertReply(coment r ) {
+		
+		int result = BoardService.insertReply(r);
+		
+		return String.valueOf(result);
+		
+		}
+	@ResponseBody
+	@RequestMapping(value = "listcoment.do" , produces="application/json; charset =utf-8") 
+	public String selectReplyList(int bno) {
+		
+		ArrayList<coment> list = BoardService.selectcomentList(bno);
+		
+		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list); 
+		
+	}
+	
+	@RequestMapping("deletecoment.do")
+    public ModelAndView deletecoment(int cno, int bno , ModelAndView mv) {
+		
+		System.out.println(cno + "나는 cno야");
+		
+		int result = BoardService.deletecoment(cno);
+		
+		if(result>0) {
+			mv.addObject("bno", bno).setViewName("redirect:detailBoard.do");
+		}else {
+			mv.addObject("msg","댓글 삭제 실패").addObject("msgTitle", "댓글 삭제").setViewName("common/alert");
+		}
+		
+		return mv;
+	}   	
+	
+	@RequestMapping("updateFormBoard.do") 
+	public ModelAndView updateForm(int bno, ModelAndView mv) {
+		
+		mv.addObject("b" , BoardService.detailBoard(bno)) 
+		.setViewName("Board/boardupdate"); 
+		
+	
+		
+		return mv;
+	}
+	
+	@RequestMapping("updateboard.do")
+	public ModelAndView updatedetail(Board b , ModelAndView mv, HttpServletRequest request) {
+		
+		BoardService.updatedetail(b);
+		
+		System.out.println(b.getContent()+"이거도");
+		System.out.println(b.getWriteno()+"이거이거");
+		
+		mv.addObject("bno",b.getWriteno()).setViewName("redirect:detailBoard.do");
+		return mv;
+	}
 }
+
