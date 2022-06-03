@@ -8,6 +8,9 @@
 <meta charset="UTF-8">
 <title>고객 주소록 리스트조회</title>
 
+
+<body>
+<jsp:include page="../common/header.jsp"></jsp:include>
 <style>
     
     #container{
@@ -36,8 +39,6 @@
     }
 
 </style>
-<body>
-<jsp:include page="../common/header.jsp"></jsp:include>
 <div class="main_section">
 <div id="container">
     <div id="deptTitle">
@@ -56,16 +57,16 @@
 		<th>기타</th>
 		
 	</tr>
-	<c:forEach items="${custoList}" var="com" >
+	<c:forEach items="${custoList}" var="cus" >
 	<tr>
-	<td>${com.comNm}</td>
-	<td>${com.comPhone}</td>
-	<td>${com.comEmail}</td>
-	<td>${com.comMemo}</td>
+	<td>${cus.comNm}</td>
+	<td>${cus.comPhone}</td>
+	<td>${cus.comEmail}</td>
+	<td>${cus.comMemo}</td>
 	</tr>
 	</c:forEach>
 </table>
-<form action="comAddWriter.do" method="post">
+<form action="cusAddWriter.do" method="post">
 <input type="submit" value="고객등록">
 </form>
     </div>

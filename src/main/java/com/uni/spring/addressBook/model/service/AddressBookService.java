@@ -29,6 +29,15 @@ public interface AddressBookService {
 	//등록폼에 폴더뜨게하기
 	ArrayList<Company> selectComFolList(Company com, int empNo);
 
+	//거래처 폴더별로 조회하기
+	ArrayList<Company> selectSearchComFolList(int empNo, String inFolder, Company com);
+	//고객 폴더 조회하기
+	ArrayList<Company> selectCusFolList(Customer custo, int empNo);
+
+	
+	//고객 주소록 등록
+	void insertCusAdd(Customer cus, int empNo);
+
 	
 
 

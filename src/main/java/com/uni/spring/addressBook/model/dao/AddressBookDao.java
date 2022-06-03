@@ -2,7 +2,6 @@ package com.uni.spring.addressBook.model.dao;
 
 import java.util.ArrayList;
 
-import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -58,6 +57,23 @@ public class AddressBookDao {
 		com.setEmpNo(empNo);
 		return (ArrayList)sqlSession.selectList("addressBookMapper.selectComFolder",com);
 	}
-	
+
+	public ArrayList<Company> selectSearchComFolList(SqlSessionTemplate sqlSession,int empNo, String inFolder, Company com) {
+		// TODO Auto-generated method stub
+		com.setEmpNo(empNo);
+		com.setInFolder(inFolder);
+		return (ArrayList)sqlSession.selectList("addressBookMapper.selectSearchComFolList",com);
+	}
+
+	public ArrayList<Company> selectCusFolList(SqlSessionTemplate sqlSession, Customer custo, int empNo) {
+		custo.setEmpNo(empNo);
+		return (ArrayList)sqlSession.selectList("addressBookMapper.selectCusFolList" ,custo);
+	}
+
+	public void insertCusAdd(SqlSessionTemplate sqlSession, Customer cus, int empNo) {
+		cus.setEmpNo(empNo);
+		sqlSession.insert("addressBookMapper.insertCusAdd", cus);
+	}
+
 
 }
