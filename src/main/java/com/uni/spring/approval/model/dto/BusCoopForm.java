@@ -21,4 +21,8 @@ public class BusCoopForm { // 업무 협조문
 	private Date dftDate; // 기안일
 	private int receiveDept; // 수신 부서
 	private String coopContent; // 협조문 내용
+	
+	private String empName;
+	private String jobName;
+	private String departmentTitle;
 }

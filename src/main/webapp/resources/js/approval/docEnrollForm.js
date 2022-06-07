@@ -45,38 +45,7 @@
 		})
 	
 	}
-	
-	
-	// 기안일, 휴가 시작 날짜(휴가 신청서) 오늘 날짜로 설정
-	/*function todayFn() {
-	
-		let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
-		// 휴가 시작 날짜, 기안일 오늘 날짜로 기본값 설정
-		$("#draftDate").val(today);
-		$("#startDate").val(today);
-	
-	}*/
-	
-	
-	// 로그인 유저 부서명 조회
-	/*function selectDept() {
-		
-		// 로그인 유저 소속(부서명) 조회
- 		$.ajax({
- 			
- 			type: "post",
-            url: "selectDeptName.do",
-            data: { deptNo : "${ loginUser.departmentNo }" },
-            success: function (data) {
-				
-            	if(data != null || data != "") {
-            		
-            		$("#drafterDept").val(data);
-            	}
-            }
- 		})
-	
-	}*/
+
 	
 	
 	

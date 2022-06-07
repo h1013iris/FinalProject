@@ -25,4 +25,7 @@ public class LeaveForm { // 휴가 신청서
 	private Date endDate; // 휴가 종료일
 	private String vacUseDays; // 사용 일수
 	private String vacReason; // 휴가 사유
+	
+	private String empName;
+	private String jobName;
 }

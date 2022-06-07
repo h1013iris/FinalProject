@@ -9,19 +9,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="docNo" column="DOC_NO"/>
 		<result property="docType" column="DOC_TYPE"/>
 		<result property="docTitle" column="DOC_TITLE"/>
-		<result property="drafter" column="DRAFTER"/>
+		<result property="drafter" column="DRAFTER_NAME"/>
 		<result property="comDate" column="PRO_DATE"/>
 	</resultMap>
 	
-	<!-- 결재 요청 문서 -->
-	<resultMap type="AprvDoc" id="aprvRequestRSet">
-		<result property="docNo" column="DOC_NO"/>
-		<result property="docType" column="DOC_TYPE"/>
-		<result property="docTitle" column="DOC_TITLE"/>
-		<result property="drafter" column="EMP_NAME"/>
-		<result property="draftDate" column="기안일"/>
-		<result property="proDate" column="요청일"/>
+	<!-- 결재 대기, 요청 문서, 반려 리스트 -->
+	<resultMap type="AprvDoc" id="aprvListRSet">
+		<result property="drafter" column="DRAFTER_NAME"/>
+		<result property="draftDate" column="DFT_DATE"/>
 	</resultMap>
+	
+	<!-- 반류 사유 조회 -->
+	
+	
 	
 	<!-- 결재 완료 문서 총 개수 -->
 	<select id="selectListCount" resultType="_int">
@@ -39,16 +39,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 문서 등록 -->
 	
 	<!-- 결재선 조회 -->
-	<select id="selectDeptApprover" parameterType="string" resultType="Member">
+	<select id="selectDeptApprover" parameterType="Member" resultType="Member">
 		SELECT
 			A.EMP_NO,
 		    A.EMP_NAME,
 		    B.JOB_NAME
 		FROM USER_INFO A
 		JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO = B.JOB_NO
-		WHERE 1=1
-		AND A.DEPARTMENT_NO = #{deptNo}
-		AND A.JOB_NO IN (4, 7)
+		
+			<if test='jobNo lt "4"'>
+				WHERE A.JOB_NO IN (4, 7)
+			</if>
+			<if test='jobNo gte "4" and jobNo lt "7"'>
+				WHERE A.JOB_NO = 7
+			</if>
+		AND A.DEPARTMENT_NO = #{departmentNo}
 		ORDER BY B.JOB_NO
 	</select>
 	
@@ -62,7 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 결재 문서 등록 -->
 	<insert id="insertAprvDoc" parameterType="AprvDoc">
 		INSERT INTO APRV_DOCUMENT VALUES
-		(SEQ_DOC_NO.CURRVAL, #{docType}, #{docTitle}, #{drafter}, #{firstAprv}, #{secondAprv}, DEFAULT, DEFAULT)
+		(SEQ_DOC_NO.CURRVAL, #{docType}, #{docTitle}, #{drafter}, SYSDATE, #{firstAprv}, #{secondAprv}, DEFAULT, DEFAULT)
 	</insert>
 	
 	<!-- 결재 기록 등록 -->
@@ -113,18 +118,54 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(SEQ_BUSINESS_DFT.NEXTVAL, SEQ_DOC_NO.NEXTVAL, #{docTypeNo}, #{docTitle}, #{drafter}, #{drafterDept}, SYSDATE, #{receiveDept}, #{coopContent})
 	</insert>
 	
+	<!-- 결재 대기 리스트 개수 -->
+	<select id="waitingListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM V_APRV_HISTORY
+		WHERE 1=1
+		AND APRV_PRO IN ('A', 'D')
+		AND APRV_STATUS = 1
+		AND (APRV_HISTORY_NO, DOC_NO) IN (SELECT MAX(B.APRV_HISTORY_NO), B.DOC_NO
+                                  		  FROM APRV_DOCUMENT A
+                                  		  JOIN APRV_HISTORY B ON A.DOC_NO = B.DOC_NO
+                                  		  GROUP BY B.DOC_NO)
+		AND ((FIRST_APRV = #{empNo} AND APPROVER = DRAFTER)
+		OR (SECOND_APRV = #{empNo} AND APPROVER = FIRST_APRV))
+	</select>
+	
+	<!-- 결재 대기 리스트 조회 -->
+	<select id="selectWaitingList" parameterType="_int" resultMap="aprvListRSet">
+		SELECT *
+		FROM V_APRV_HISTORY
+		WHERE 1=1
+		AND APRV_PRO IN ('A', 'D')
+		AND APRV_STATUS = 1
+		AND (APRV_HISTORY_NO, DOC_NO) IN (SELECT MAX(B.APRV_HISTORY_NO), B.DOC_NO
+                                      FROM APRV_DOCUMENT A
+                                  	  JOIN APRV_HISTORY B ON A.DOC_NO = B.DOC_NO
+                                  	  GROUP BY B.DOC_NO)
+		AND ((FIRST_APRV = #{empNo} AND APPROVER = DRAFTER)
+		OR (SECOND_APRV = #{empNo} AND APPROVER = FIRST_APRV))
+		ORDER BY PRO_DATE DESC
+	</select>
+	
 	<!-- 결재 요청 리스트 개수 -->
 	<select id="requestListCount" parameterType="_int" resultType="_int">
 		SELECT COUNT(*)
-		FROM V_REQUEST_DOC
-		WHERE DRAFTER = #{empNo}
+		FROM V_APRV_HISTORY
+		WHERE 1=1
+		AND APRV_PRO IN ('A', 'D')
+		AND APPROVER = #{empNo}
 	</select>
 	
 	<!-- 결재 요청 리스트 조회  -->
-	<select id="selectRequestList" parameterType="_int" resultMap="aprvRequestRSet">
+	<select id="selectRequestList" parameterType="_int" resultMap="aprvListRSet">
 		SELECT *
-		FROM V_REQUEST_DOC
-		WHERE DRAFTER = #{empNo}
+		FROM V_APRV_HISTORY
+		WHERE 1=1
+		AND APRV_PRO IN ('A', 'D')
+		AND APPROVER = #{empNo}
+		ORDER BY PRO_DATE DESC
 	</select>
 	
 	<!-- 해당 문서의 서식 번호 조회 -->
@@ -144,18 +185,125 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    E.JOB_NAME AS SECOND_JOB
 		FROM APRV_DOCUMENT A
 		JOIN USER_INFO B ON A.FIRST_APRV = B.EMP_NO
-		JOIN USER_INFO C ON A.SECOND_APRV = C.EMP_NO
+		LEFT JOIN USER_INFO C ON A.SECOND_APRV = C.EMP_NO
 		JOIN JOB_RANK_MANAGEMENT D ON B.JOB_NO = D.JOB_NO
-		JOIN JOB_RANK_MANAGEMENT E ON C.JOB_NO = E.JOB_NO
+		LEFT JOIN JOB_RANK_MANAGEMENT E ON C.JOB_NO = E.JOB_NO
 		WHERE A.DOC_NO = #{docNo}
 	</select>
 	
 	<!-- 휴가 신청서 상세 조회 -->
 	<select id="selectLeaveForm" parameterType="_int" resultType="LeaveForm">
-		SELECT *
-		FROM LEAVE_APP
+		SELECT A.*, B.EMP_NAME, C.JOB_NAME
+		FROM LEAVE_APP A
+		JOIN USER_INFO B ON A.DRAFTER = B.EMP_NO
+		JOIN JOB_RANK_MANAGEMENT C ON A.DRAFTER_DEPT = C.JOB_NO
 		WHERE DOC_NO = #{docNo}
 	</select>
 	
+	<!-- 근태 기록 수정 신청서 상세 조회 -->
+	<select id="selectCmtUpdateForm" parameterType="_int" resultType="CmtUpdateForm">
+		SELECT
+		    A.DOC_NO,
+		    A.DOC_TYPE_NO,
+		    A.DRAFTER,
+		    A.DRAFTER_DEPT,
+		    A.DFT_DATE,
+		    A.UPDATE_DATE,
+		    SUBSTR(TO_CHAR(A.BE_ATTEND_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS BE_ATTEND_TIME,
+		    SUBSTR(TO_CHAR(A.BE_LEAVE_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS BE_LEAVE_TIME,
+		    SUBSTR(TO_CHAR(A.ATTEND_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS ATTEND_TIME,
+		    SUBSTR(TO_CHAR(A.LEAVE_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS LEAVE_TIME,
+		    A.UPDATE_REASON,
+		    B.EMP_NAME,
+		    C.JOB_NAME
+		FROM CMT_UPDATE_APP A
+		JOIN USER_INFO B ON A.DRAFTER = B.EMP_NO
+		JOIN JOB_RANK_MANAGEMENT C ON A.DRAFTER_DEPT = C.JOB_NO
+		WHERE DOC_NO = #{docNo}
+	</select>	
+	
+	<!-- 업무 기안서 상세 조회 -->
+	<select id="selectbusDraftForm" parameterType="_int" resultType="BusDraftForm">
+		SELECT A.*, B.EMP_NAME, C.JOB_NAME, D.DEPARTMENT_TITLE
+		FROM BUSINESS_DFT A
+		JOIN USER_INFO B ON A.DRAFTER = B.EMP_NO
+		JOIN JOB_RANK_MANAGEMENT C ON A.DRAFTER_DEPT = C.JOB_NO
+		JOIN DEPARTMENT_MANAGEMENT D ON A.COOP_DEPT = D.DEPARTMENT_NO
+		WHERE DOC_NO = #{docNo}
+	</select>	
+	
+	<!-- 업무 협조문 상세 조회 -->
+	<select id="selectbusCoopForm" parameterType="_int" resultType="BusCoopForm">
+		SELECT A.*, B.EMP_NAME, C.JOB_NAME, D.DEPARTMENT_TITLE
+		FROM BUSINESS_COOP A
+		JOIN USER_INFO B ON A.DRAFTER = B.EMP_NO
+		JOIN JOB_RANK_MANAGEMENT C ON A.DRAFTER_DEPT = C.JOB_NO
+		JOIN DEPARTMENT_MANAGEMENT D ON A.RECEIVE_DEPT = D.DEPARTMENT_NO
+		WHERE DOC_NO = #{docNo}
+	</select>
+	
+	<!-- 결재 반려, 승인, 임시저장 기록 등록 -->
+	<insert id="insertAprvHistory2" parameterType="AprvHistory">
+		INSERT INTO APRV_HISTORY VALUES
+		(SEQ_APRV_HISTORY.NEXTVAL, #{docNo}, #{approver}, #{approverJob}, #{aprvPro}, SYSDATE)
+	</insert>
+	
+	<!-- 문서 상테값 업데이트 -->
+	<update id="updateDoc" parameterType="AprvDoc">
+		UPDATE APRV_DOCUMENT
+		SET APRV_STATUS = #{aprvStatus}
+		WHERE DOC_NO = #{docNo}
+	</update>
+	
+	<!-- 반려 문서 등록 -->
+	<insert id="aprvReturn" parameterType="ReturnDoc">
+		INSERT INTO RETURN_DOC VALUES
+		(#{docNo}, #{reFrom}, #{reReason}, SYSDATE)
+	</insert>
+	
+	<!-- 결재 반려 리스트 개수 -->
+	<select id="returnListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM V_APRV_HISTORY A
+		JOIN RETURN_DOC B ON A.DOC_NO = B.DOC_NO
+		WHERE 1=1
+		AND A.APRV_STATUS = 4
+		AND A.APPROVER = #{empNo}
+		AND B.RE_FROM != #{empNo}
+	</select>
+	
+	<!-- 결재 반려 리스트 조회 -->
+	<select id="selectReturnList" parameterType="_int" resultMap="aprvListRSet">
+		SELECT *
+		FROM V_APRV_HISTORY A
+		JOIN RETURN_DOC B ON A.DOC_NO = B.DOC_NO
+		WHERE 1=1
+		AND A.APRV_STATUS = 4
+		AND A.APPROVER = #{empNo}
+		AND B.RE_FROM != #{empNo}
+		ORDER BY B.RE_DATE DESC
+	</select>
+	
+	<!-- 반려 사유 조회 -->
+	<select id="selectReReason" parameterType="_int" resultType="ReturnDoc">
+		SELECT A.DOC_NO, A.RE_FROM, B.EMP_NAME AS RE_FROM_NAME, A.RE_DATE, A.RE_REASON
+		FROM RETURN_DOC A
+		JOIN USER_INFO B ON A.RE_FROM = B.EMP_NO
+		WHERE A.DOC_NO = #{docNo}
+	</select>
+	
+	<!-- 기안자 조회 -->
+	<select id="selectDrafter" parameterType="_int" resultType="_int">
+		SELECT DRAFTER
+		FROM APRV_DOCUMENT
+		WHERE DOC_NO = #{docNo}
+	</select>
+	
+	<!-- 반려 문서 삭제 -->
+	<update id="deleteReturnDoc" parameterType="_int">
+		UPDATE APRV_DOCUMENT
+		SET STATUS = 'N'
+		WHERE DOC_NO = #{docNo}
+	</update>
 	
 </mapper>

@@ -26,4 +26,7 @@ public class CmtUpdateForm { // 근태 기록 수정 의뢰 신청서
 	private String attendTime; // 수정 출근 시간
 	private String leaveTime; // 수정 퇴근 시간
 	private String updateReason; // 수정 사유
+	
+	private String empName;
+	private String jobName;
 }

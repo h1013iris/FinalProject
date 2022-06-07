@@ -117,8 +117,8 @@
 													1차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input type="hidden" id="firstAprv" name="firstAprv" value=""/>
-													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly/>
+													<input type="hidden" id="firstAprv" name="firstAprv" value="" required/>
+													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly required/>
 													<input class="fix_input approverJop" id="firstAprvJob" value="" readonly/>
 												</td>
 											</tr>
@@ -242,7 +242,8 @@
 		 			
 		 			type: "post",
  	                url: "selectDeptApprover.do",
- 	                data: { deptNo : "${ loginUser.departmentNo }" },
+ 	                data: { deptNo : "${ loginUser.departmentNo }",
+ 	                		jobNo : "${ loginUser.jobNo }"},
  	                success: function (data) {
 						console.log(data);
  	                	if(data != null || data != "") {

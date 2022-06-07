@@ -22,4 +22,8 @@ public class BusDraftForm { // 업무 기안서
 	private Date enfDate; // 시행일
 	private int coopDept; // 협조 부서
 	private String dftContent; // 기안서 내용
+	
+	private String empName;
+	private String jobName;
+	private String departmentTitle;
 }

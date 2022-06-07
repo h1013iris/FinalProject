@@ -20,11 +20,12 @@
 	
 	.select_div {
 		/*border: 1px solid black;*/
-		/*margin-top: 12%;*/
+		margin-top: 6%;
 	}
 	
 	.select_title {
 		font-size: 17px;
+		font-weight: bold;
 	}
 	
 	.select_div_hr {
@@ -74,14 +75,14 @@
 
 	<div id="modal_background" class="modal_background docEnrollModal">
         <div id="modal_container" class="size500">
-            <div class="modal_header docEnrollheader">
+            <div class="modal_header docEnrollHeader">
                 <div class="logo">
                     <img src="${ pageContext.servletContext.contextPath }/resources/images/facebook_cover_photo_1.png" alt="">
                 </div>
                 <span class="modal_title docTitle">문서 작성</span>
             </div>
             
-            <hr>
+            
             
             <form class="documentTypeForm" method="post">
             	<input type="hidden" name="deptNo" value="${ loginUser.departmentNo }"/>
@@ -90,7 +91,6 @@
 				   		<label class="select_title">문서 타입</label>
 
 				        <div class="dropdown docEnrollDropdown">
-
 					        <select id="docType" name="docType" onchange="docFormChange(this)">
 					        	<option value="none">== 선택 ==</option>
 					           	<option value="app">신청서</option>
@@ -104,7 +104,6 @@
 			        
 			        <div class="select_div">
 				        <label class="select_title">문서 서식</label>
-
 				        <div class="dropdown docEnrollDropdown">
 					        <select id="docForm" name="docForm"></select>
 					   	</div>
@@ -121,7 +120,7 @@
 	            </div>
 	            <div class="modal_footer docEnrollFooter">
                 	<button class="commonButton1 modal_nextBtn next_btn" type="button">확인</button>
-                	<button class="commonButton1 modal_cascelBtn cancel_btn" type="button">취소</button>
+                	<button class="commonButton1 modal_cascelBtn cancel_btn" type="button" data-dismiss="modal">취소</button>
             	</div>
             </form>
         </div>

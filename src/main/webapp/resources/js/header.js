@@ -66,10 +66,6 @@ $(function(){
 		$("#modal_background").hide();
 	})
 	
-	$(document).on("click",".cancel_btn",function(){
-		$(".docEnrollModal").hide();
-	})
-	
 	//확인창 취소버튼 - 공통
 	function confrimCancle(){
 		$("#helpmeCOnfirm").hide();
