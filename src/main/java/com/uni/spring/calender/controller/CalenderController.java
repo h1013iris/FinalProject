@@ -124,6 +124,8 @@ public class CalenderController {
 			System.out.println("개인공개 선택함");
 			calender.setWriterNo(String.valueOf(loginUser.getEmpNo()));
 		}
+
+		calender.setRealWriter(String.valueOf(loginUser.getEmpNo()));
 		
 		if(calender.getOneday() == null) {
 			System.out.println("들어와라");
@@ -146,11 +148,100 @@ public class CalenderController {
 			DepartmentManagement dapartment = calenderService.selectDepartment(writerNo);
 			calender.setDepartment(dapartment.getDepartmentTitle());
 		}
-//		calender.setTitle(calender.getTitle().replaceAll("&nbsp", " "));
-//		calender.setPlace(calender.getPlace().replaceAll("&nbsp", " "));
-//		calender.setMemo(calender.getMemo().replaceAll("&nbsp", " "));
 		System.out.println(calender);
 		
 		return new Gson().toJson(calender);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="deleteCalender.do", produces="application/json; charset=utf-8")
+	public String deleteCalender(String startDate, String endDate, String realWriter) {
+		System.out.println("시작 일 ==> "+startDate);
+		System.out.println("종료 일 ==> "+endDate);
+		System.out.println("진짜 작성자 번호 ==> "+realWriter);
+		
+		int result = calenderService.deleteCalender(startDate, endDate, realWriter);
+		if(result > 0) {
+			return new Gson().toJson("성공");	
+		}
+		return "실패";
+	}
+
+	@RequestMapping(value = "updatedCalenderEnrollForm.do")
+	public String updateEnrollForm(Model model, String startDate, String endDate, String realWriter) {
+		System.out.println("시작 일 ==> "+startDate);
+		System.out.println("종료 일 ==> "+endDate);
+		System.out.println("진짜 작성자 번호 ==> "+realWriter);
+		
+		Calender calender = calenderService.selectCalenderDetailView(startDate, endDate, realWriter);
+		String colorCode = calenderService.selectColor(calender.getSelectColor());
+		
+		calender.setSelectColor(colorCode);
+		
+		model.addAttribute("calender", calender);
+		return "calender/updateCalenderEnrollform";
+	}
+	
+	@RequestMapping(value="updateCalender.do")
+	public String updateCalender(Calender calender, String startTime, String endTime, HttpSession session) {
+		
+		// 기존 값 확인 후
+		System.out.println("기존 시작 일 ==> "+calender.getEditStartDate());
+		System.out.println("기존 종료 일 ==> "+calender.getEditEndDate());
+		System.out.println("진짜 작성자 번호 ==> "+calender.getEditWriterNo());
+		
+		// 바꿀 캘린더 값 가져오기
+		Calender editcalender = calenderService.selectCalenderDetailView(calender.getEditStartDate(), calender.getEditEndDate(), calender.getEditWriterNo());
+		
+		// 존재 할 경우 진행
+		if(editcalender != null) {
+			// 업데이트 할 값들 확인
+			System.out.println("controller 캘린더 update ==> "+calender);
+			System.out.println("시작 시간 ==> "+startTime+" 종료시간 ==> " +endTime);
+			System.out.println(calender.getOneday());
+			
+			// 세션 값 가져오기
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			
+			// 제목 메모 장소 띄어쓰기, 엔터 바로잡기
+			calender.setTitle(calender.getTitle().replaceAll(" ", "&nbsp").replaceAll("\r\n", "<br>"));
+			calender.setMemo(calender.getMemo().replaceAll(" ", "&nbsp").replaceAll("\r\n", "<br>"));
+			calender.setPlace(calender.getPlace().replaceAll(" ", "&nbsp").replaceAll("\r\n", "<br>"));
+			
+			// 공개 여부에 따라서 보여지는게 달라지기 때문에 값 넣음
+			if(calender.getOpenOption().equals("전체공개")) {
+				System.out.println("전체공개 선택함");
+				calender.setWriterNo("10000");
+			}else if(calender.getOpenOption().equals("팀공개")) {
+				System.out.println("팀공개 선택함");
+				calender.setWriterNo(loginUser.getDepartmentNo());
+			}else {
+				System.out.println("개인공개 선택함");
+				calender.setWriterNo(String.valueOf(loginUser.getEmpNo()));
+			}
+	
+			// 진짜 작성자 사번
+			calender.setRealWriter(String.valueOf(loginUser.getEmpNo()));
+			
+			// 하루종일이 아닐 시 time을 들고 진행
+			if(calender.getOneday() == null) {
+				System.out.println("들어와라");
+				calenderService.updateCalender(calender, startTime, endTime);
+			}else {
+				// 하루종일 일 시 calender 객체만 담음
+				calenderService.updateCalender(calender);
+			}
+		}
+		return "redirect:calendar.do";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="searchCalender.do", produces="application/json; charset=utf-8")
+	public String selectCalenderSearchList(String searchWord) {
+		System.out.println("검색할 단어 ==> "+searchWord);
+		
+		ArrayList<Calender> cList = calenderService.selectCalenderSearchList(searchWord);
+		
+		return new Gson().toJson(cList);
 	}
 }

@@ -19,5 +19,15 @@ public interface CalenderService {
 
 	Calender selectCalenderDetailView(String startDate, String endDate, String writerNo);
 
+	int deleteCalender(String startDate, String endDate, String realwriter);
+
+	String selectColor(String selectColor);
+
+	void updateCalender(Calender calender, String startTime, String endTime);
+
+	void updateCalender(Calender calender);
+
+	ArrayList<Calender> selectCalenderSearchList(String searchWord);
+
 	
 }

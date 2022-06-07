@@ -27,6 +27,7 @@ public class CalenderServiceImpl implements CalenderService {
 		
 		calender = calender.changeDate(calender, startTime, endTime);
 		
+		
 		int result = calenderDao.insertCalender(calender, sqlSession);
 		
 	}
@@ -82,6 +83,53 @@ public class CalenderServiceImpl implements CalenderService {
 		calender = calenderDao.selectCalenderDetailView(data, sqlSession);
 		
 		return calender;
+	}
+
+	@Override
+	public int deleteCalender(String startDate, String endDate, String realWriter) {
+		Map<String, String> data = new HashMap<String, String>();
+		
+		startDate = startDate.replaceAll("-", "/").substring(0, 16);
+		endDate = endDate.replaceAll("-", "/").substring(0, 16);
+		
+		System.out.println("서비스 임플 시작일 == >"+startDate);
+		System.out.println("서비스 임플 종료일 == >"+endDate);
+		data.put("startDate", startDate);
+		data.put("endDate", endDate);
+		data.put("realWriter", realWriter);
+		int result = calenderDao.deleteCalender(data, sqlSession);
+		return result;
+	}
+
+	@Override
+	public String selectColor(String selectColor) {
+		return calenderDao.selectColor(selectColor, sqlSession);
+	}
+
+	@Override
+	public void updateCalender(Calender calender, String startTime, String endTime) {
+		calender = calender.changeDate(calender, startTime, endTime);
+		
+		int result = calenderDao.updateCalender(calender, sqlSession);
+	}
+
+	@Override
+	public void updateCalender(Calender calender) {
+		String startTime = "";
+		String endTime = "";
+		calender = calender.changeDate(calender, startTime, endTime);
+		
+		int result = calenderDao.updateCalender(calender, sqlSession);
+	}
+
+	@Override
+	public ArrayList<Calender> selectCalenderSearchList(String searchWord) {
+		
+		searchWord = searchWord.replaceAll(" ", "&nbsp");
+		
+		ArrayList<Calender> cList = calenderDao.selectCalenderSearchList(searchWord, sqlSession);
+		
+		return cList;
 	}
 
 
