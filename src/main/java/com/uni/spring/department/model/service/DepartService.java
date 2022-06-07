@@ -7,6 +7,8 @@ import com.uni.spring.department.model.dto.Department;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
 import com.uni.spring.department.model.dto.ProjectClass;
+import com.uni.spring.department.model.dto.SemiCheckList;
+import com.uni.spring.department.model.dto.SemiProject;
 import com.uni.spring.member.model.dto.Member;
 
 public interface DepartService {
@@ -48,6 +50,42 @@ public interface DepartService {
 	ProjectClass selectPC(int pjno);
 
 	ArrayList<Member> selectPW(int pjno);
+
+	void insertSemiPro(SemiProject sp);
+
+	ArrayList<SemiProject> selectSP(int pjno);
+
+	void updateprjectClass(ProjectClass pc);
+
+	void deleteTargetName(ProjectClass pc);
+
+	SemiProject selectSemiDetailPro(int sino);
+
+	void updateSemiPro(SemiProject sp);
+
+	void updateSemiDueNull(int semiNo);
+
+	void insertCheckList(SemiCheckList scl);
+
+	ArrayList<SemiCheckList> selectCheckList(SemiCheckList scl);
+
+	void deletecheckList(int ckeckNo);
+
+	void deleteTotcheckList(int refSemi);
+
+	void updateckeckList(int ckeckNo);
+
+	void updatereckeckList(int ckeckNo);
+
+	ArrayList<Member> selectTL(int pjno);
+
+	void deleteWatcher(Project p);
+
+	void insertWatcherP(Project p);
+
+	void updateComment(SemiProject sp);
+
+	void deleteComment(int semiNo);
 
 
 }

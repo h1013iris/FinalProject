@@ -52,7 +52,7 @@
 										</td>
 										<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle; border-image: none;">
 											<span contenteditable="false" class="comp_wrap" data-cid="0" data-dsl="{{label:draftUser}}" data-wrapper="" style="" data-value="" data-autotype="">
-												<input class="fix_input" id="drafter" name="drafter" value="${ loginUser.empNo }" readonly/>
+												<input class="fix_input" id="drafter" name="drafterName" value="${ loginUser.empName } (${ loginUser.empNo })" readonly/>
 											</span> 
 										</td>
 									</tr>
@@ -72,7 +72,7 @@
 										</td>
 										<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle; border-image: none;">
 											<span contenteditable="false">
-												<input class="fix_input" id="draftDate" name="draftDate" type="date" readonly/>
+												<input class="fix_input" id="dftDate" name="dftDate" type="date" readonly/>
 											</span>
 										</td>
 									</tr>
@@ -82,7 +82,7 @@
 										</td>
 										<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle; border-image: none;">
 											<span contenteditable="false">
-												<input class="fix_input" name="draftDate" value="문서번호" readonly/>
+												<input class="fix_input" value="문서번호" readonly/>
 											</span>
 										</td>
 									</tr>
@@ -105,8 +105,8 @@
 													1차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input type="hidden" id="firstAprv" name="firstAprv" value=""/>
-													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly/>
+													<input type="hidden" id="firstAprv" name="firstAprv" value="" required/>
+													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly required/>
 													<input class="fix_input approverJop" id="firstAprvJob" value="" readonly/>
 												</td>
 											</tr>
@@ -144,7 +144,10 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;" colspan="3">
 								<span contenteditable="false" style="width: 100%;">
-									<input class="fix_input" id="receiveDeptNo" name="receiveDeptNo" value="" readonly/>
+									<select class="ipt_editor" id="receiveDept" name="receiveDept" style="width: 30%;">
+										<option value="none">선택</option>
+										<!-- 부서 리스트 출력되는 부분 -->
+									</select>
 								</span> 
 							</td>
 						</tr>
@@ -154,13 +157,13 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;" colspan="3">
 								<span contenteditable="false" class="comp_wrap" data-cid="5" data-dsl="{{text}}" data-wrapper="" style="width: 100%;" data-value="" data-autotype="">
-									<input class="ipt_editor" id="coopTitle" name="coopTitle" value="${ docTitle }" style="width: 99%;" type="text" maxlength="100">
+									<input id="docTitle" name="docTitle" value="${ docTitle }" style="width: 99%;" type="text" maxlength="100">
 								</span>
 							</td>
 						</tr>
 						<tr>
 							<td style="background: rgb(255, 255, 255); border-width: medium 1px 1px; border-style: none solid solid; border-color: currentColor black black; padding: 5px; height: 300px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;" colspan="4" class="dext_table_border_t">
-								<span contenteditable="false" class="comp_wrap" data-cid="6" data-dsl="{{textarea:reason}}" data-wrapper="" style="width: 100%;" data-value="" data-autotype="">
+								<span contenteditable="false" style="width: 100%;">
 									<textarea class="txta_editor" id="coopContent" name="coopContent" style="width: 99%; height: 290px; resize: vertical;" maxlength="1000"></textarea>
 								</span>
 							</td>
@@ -170,8 +173,8 @@
 	 		</div>
  			<div class="docEnrollBtnsArea">
 				<button class="commonButton1 submit_btn docEnrollBtn" type="button">결재요청</button> <br>
-				<button class="commonButton1 outbox_btn docEnrollBtn" type="button">임시저장</button> <br> <%-- 임시저장 기능 --%>
-				<button class="commonButton1 cancle_btn docEnrollBtn" type="button" style="background-color: #c8c8c8 !important;">취소</button>
+				<button class="commonButton1 outbox_btn docEnrollBtn donEnrollOutboxBtn" type="button">임시저장</button> <br> <%-- 임시저장 기능 --%>
+				<button class="commonButton1 cancle_btn docEnrollBtn donEnrollCancleBtn" type="button" style="background-color: #c8c8c8 !important;">취소</button>
 			</div>
  		</form>
 	</div>
@@ -182,7 +185,7 @@
 	
 		// 화면 로드 시 가장 먼저 실행
 	 	$(document).ready(function() {
- 		
+	 		
 			// 로그인이 되어있지 않으면
 			if("${ loginUser.empNo }" == "") {
 				
@@ -192,7 +195,7 @@
 		 		
 				// 기안일 오늘 날짜로 설정				
 				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
-				$("#draftDate").val(today);				
+				$("#dftDate").val(today);				
 		 		
 				// 로그인 유저 소속(부서명) 조회
 		 		$.ajax({
@@ -213,56 +216,59 @@
 		 		$.ajax({
 		 			
 		 			type: "post",
-		                url: "selectApprover.do",
-		                data: { deptNo : "${ loginUser.departmentNo }" },
-		                success: function (data) {
-						console.log(data);
-		                	if(data != null || data != "") {
-		                		
-		                		$("#firstAprvName").val(data[0].empName);
-		                		$("#firstAprv").val(data[0].empNo);
-		                		$("#firstAprvJob").val(data[0].jobName);
-		                		$("#secondAprvName").val(data[1].empName);
-		                		$("#secondAprv").val(data[1].empNo);
-		                		$("#secondAprvJob").val(data[1].jobName)
-		                	}
-		                }
+	                url: "selectDeptApprover.do",
+	                data: { deptNo : "${ loginUser.departmentNo }",
+	                		jobNo : "${ loginUser.jobNo }"},
+	                success: function (data) {
+					console.log(data);
+	                	if(data != null || data != "") {
+	                		
+	                		$("#firstAprvName").val(data[0].empName);
+	                		$("#firstAprv").val(data[0].empNo);
+	                		$("#firstAprvJob").val(data[0].jobName);
+	                		$("#secondAprvName").val(data[1].empName);
+	                		$("#secondAprv").val(data[1].empNo);
+	                		$("#secondAprvJob").val(data[1].jobName)
+	                	}
+	                }
 		 		})
 		 		
-		 		
 		 		// 부서 조회해서 select에 넣기
-	 		
-	
-			}
-			
-		})
+				$.ajax({
+		 					 			
+		 			type: "post",
+ 	                url: "selectDeptList.do",
+ 	                success: function (list) {
+						console.log(list);
+ 	                	if(list != null || list != "") {
+ 	                		
+ 	                		$.each(list, function(i) {
+ 	                			$("#receiveDept").append("<option value='" + list[i].departmentNo + "'>" + list[i].departmentTitle + "</option>");
+ 	                		});
+ 	                	}
+ 	                }
+		 		});
+			}	
+		});
 		
 		
 		
 		// 결재 요청 버튼 클릭 시
 		$(".submit_btn").click(function() {
 			
-			let dftDate = $("#dftDate").val();
-			let receiveDeptNo = $("#receiveDeptNo").val();
+			let receiveDept = $("#receiveDept").val();
 			let coopContent = $("#coopContent").val();
 			
-			if(dftDate == null || dftDate == "") {
-				
-				let content = "시행일을 선택해주세요.";
-				let focus="#dftDate";
-				
- 				alertFn(content, focus);
-			
-			} else if(receiveDeptNo == "none") {
+			if(receiveDept == "none") {
 				
 				let content = "협조 부서를 선택해주세요.";
-				let focus="#receiveDeptNo";
+				let focus="#receiveDept";
 				
  				alertFn(content, focus);
  				
 			} else if(coopContent == null || coopContent == "") {
 				
-				let content = "기안서 내용을 작성해주세요.";
+				let content = "협조문 내용을 작성해주세요.";
 				let focus="#coopContent";
 				
  				alertFn(content, focus);
@@ -279,24 +285,33 @@
  	                url: "insertBusCoop.do",
  	                data: form,
  	                success: function (result) {
- 	                	console.log(result)
+ 	               		console.log(result)
  	                	
- 	                    if(result == "success") {
+ 	                   	if(result == "success") {
 							
  	                    	let content = "결재가 성공적으로 요청되었습니다.";
  	                    	resultFn(content);
 	 	           	 		
- 	                    } else if (result == "fail") {
+ 	                    } else {
  	                    	
  	                    	let content = "결재 요청에 실패하였습니다.";
  	                    	resultFn(content);
-
  	               		}
  	                }
-				})
+				});
 			}
+		});
+		
+		
+		// 임시저장 버튼 클릭 시 
+ 		$(".outbox_btn").click(function() {
 			
-		})
+ 			let coopTitle = $("#coopTitle").val();
+ 			$("#docTitle").val(coopTitle); // 결재 문서 객체에 저장하기 위해
+ 			
+ 			console.log(coopTitle);
+ 			console.log($("#docTitle").val());
+ 		});
 		
 		
 		

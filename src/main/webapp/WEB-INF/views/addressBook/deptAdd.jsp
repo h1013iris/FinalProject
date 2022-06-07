@@ -38,11 +38,38 @@
 </style>
 <body>
 <jsp:include page="../common/header.jsp"></jsp:include>
+<style>
+    
+    #container{
+        text-align: center;
+    }
+    #contain{
+      margin:0;
+        width: 1000px;
+    }
+    td, th{
+        border : 1px solid black;
+        width: 300px;
+    }
+    table{
+        margin: 0;
+        text-align: center;
+
+    }
+    .a{
+        width: 200px;
+        display: inline-block;
+       	background-color: aqua;
+        margin: 2px;
+        height: 30px;
+        text-align: center;
+    }
+
+</style>
 <div class="main_section">
 
 <div id="container">
-   
-    
+
 <!--전체 주소록 내용이 표시될곳-->
 <div id="addcon">
 <table>

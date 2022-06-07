@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.uni.spring.board.model.dao.BoardDao;
 import com.uni.spring.board.model.dto.Board;
+import com.uni.spring.board.model.dto.coment;
+import com.uni.spring.board.model.dto.pbox;
 import com.uni.spring.board.model.dto.searchcon;
 import com.uni.spring.common.PageInfo;
 import com.uni.spring.common.exception.CommException;
@@ -89,39 +91,44 @@ public class BoardSeriveImpl implements BoardService {
 
 	//글작성
 	@Override
-	public void insertnotice(Board b) {
+	public void insertboard(Board b) {
+	
+		
 		String con = b.getContent();
 		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
-        b.setContent(con);
-		int result = BoardDao.insertnotice(sqlSession, b);
+	    b.setContent(con);	    
+		int result = BoardDao.insertboard(sqlSession, b );
 		if(result < 0) {
 			throw new CommException("게시글 추가 실패");
 		}
+		
 	}
-
 	@Override
-	public void insertfree(Board b) {
+	public void insertdept(Board b, int deno) {
+
 		String con = b.getContent();
 		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
-        b.setContent(con);
-		int result = BoardDao.insertfree(sqlSession, b);
-
+	    b.setContent(con);
+	    b.setDeptno(deno);
+		int result = BoardDao.insertdept(sqlSession, b );
 		if(result < 0) {
 			throw new CommException("게시글 추가 실패");
 		}
+		
 	}
+	
     
 	//부서게시판
 	@Override
-	public int selecdeparttListCount(int dpt) {
+	public int selecdeparttListCount() {
 		// TODO Auto-generated method stub
-		return BoardDao.selecdeparttListCount(sqlSession,dpt);
+		return BoardDao.selecdeparttListCount(sqlSession);
 	}
 
 	@Override
-	public ArrayList<Board> selectdeptList(PageInfo pi, Board b) {
+	public ArrayList<Board> selectdeptList(PageInfo pi) {
 		
-		return BoardDao.selectdeptList(sqlSession,pi,b);
+		return BoardDao.selectdeptList(sqlSession,pi);
 	}
 
 
@@ -137,12 +144,101 @@ public class BoardSeriveImpl implements BoardService {
 		return BoardDao.detailBoard(sqlSession, bno);
 	}
 
+	@Override
+	public int selectstandupListCount(int con) {
+		
+		return BoardDao.selectstandupListCount(sqlSession,con);
+	}
+
+	@Override
+	public ArrayList<Board> selectstandupList(PageInfo pi, Board b) {
+		
+		return BoardDao.selectstandupList(sqlSession, pi,b);
+	}
+  //댓글
+	@Override
+	public int insertReply(coment r) {		
+			
+			int result = BoardDao.insertReply(sqlSession, r);
+			if(result < 0) {
+				throw new CommException("댓글등록 실패");
+			}
+			return  result;
+		}
+
+	@Override
+	public ArrayList<coment> selectcomentList(int bno) {
+		// TODO Auto-generated method stub
+		return BoardDao.selectcomentList(sqlSession, bno);
+	}
+
+	@Override
+	public int deletecoment(int cno) {
+		
+	    return BoardDao.deletecoment(sqlSession, cno);
+	}
+
+	@Override
+	public void updatedetail(Board b) {
+		int result = BoardDao.updatedetail(sqlSession, b);
+		
+	     if(result < 0) {
+		throw new CommException("게시글 수정 실패");
+				}
+		
+	}
+
+	@Override
+	public void deleteBoard(int bno) {
+        int result = BoardDao.deleteBoard(sqlSession, bno);
+		
+		if(result < 0) {
+			throw new CommException("게시글 삭제 실패");
+		}
+		
+	}
+	@Override
+	public int selectpboxCount(int userno) {
+		// TODO Auto-generated method stub
+		return BoardDao.selectpboxCount(sqlSession,userno);
+	}
+
+	
+	@Override
+	public ArrayList<Board> selectpbox(PageInfo pi,int userno) {
+		
+		return BoardDao.selectpbox(sqlSession,pi,userno);
+	}
+
+	@Override
+	public void saveboard(pbox p) {
+		String con = p.getContent();
+		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
+	    p.setContent(con);	    
+		int result = BoardDao.saveboard(sqlSession, p);
+		if(result < 0) {
+			throw new CommException("게시글 추가 실패");
+		}
+		
+	}
+
+
+
+	
+	}
+
+
+
+	
+
+	
+
 	
 	
 
 
 
-}
+
 
 
 

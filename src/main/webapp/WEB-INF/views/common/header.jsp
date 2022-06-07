@@ -27,6 +27,9 @@
 	                <button type="submit">이동</button>
 	            </div>
 	        </div>
+	        
+	        <span style="border: 1px solid black">${ loginUser.userId } ${ loginUser.empName }</span>
+	        
 	        <div class="page_title">
 	            <p class="title_name">페이지 이름</p>
 	        </div>
@@ -213,7 +216,10 @@
                     <li class="list_title"><a href="depart.do">부서 게시판</a></li>
                 </ul>
                 <ul>
-                    <li class="list_title"><a href="pbox.do">임시 보관함</a></li>
+                   
+                   
+                    <li class="list_title"><a href="pbox.do?userno=${loginUser.empNo}">임시 보관함</a></li>
+                   
                 </ul>
             </div>
         </li>
@@ -381,5 +387,6 @@
 	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
 
+ 
 </body>
 </html>

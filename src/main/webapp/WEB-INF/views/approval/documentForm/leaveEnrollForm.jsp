@@ -23,10 +23,6 @@
 </style>
 </head>
 <body>
-	<!-- 오늘 날짜 설정  -->
-	<c:set var="today" value="<%=new java.util.Date()%>"/> 
-	<!-- 날짜 구하기 -->
-	<c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd"/></c:set>
 
 	<div class="formMainArea">
 		
@@ -37,6 +33,7 @@
 			<input type="hidden" name="drafterDept" value="${ loginUser.departmentNo }"/>
 			<input type="hidden" name="approver" value="${ loginUser.empNo }"/>
 			<input type="hidden" name="approverJob" value="${ loginUser.jobNo }"/>
+			<!-- <input type="hidden" id="docTitle" name="docTitle" value="${ docTitle }"/> -->
 			<input type="hidden" name="aprvPro" value="D"/>
 			
 			<div class="formArea" style="font-family:돋움; font-size:9pt;">
@@ -89,7 +86,7 @@
 											</td>
 											<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
 												<div contenteditable="false">
-													<input class="fix_input" id="draftDate" name="draftDate" value="${ date }" readonly/>
+													<input class="fix_input" id="dftDate" name="dftDate" value="" readonly/>
 												</div>
 											</td>
 										</tr>
@@ -120,8 +117,8 @@
 													1차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input type="hidden" id="firstAprv" name="firstAprv" value=""/>
-													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly/>
+													<input type="hidden" id="firstAprv" name="firstAprv" value="" required/>
+													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly required/>
 													<input class="fix_input approverJop" id="firstAprvJob" value="" readonly/>
 												</td>
 											</tr>
@@ -202,8 +199,8 @@
 			</div>
 			<div class="docEnrollBtnsArea">
 				<button class="commonButton1 submit_btn docEnrollBtn" type="button">결재요청</button> <br>
-				<button class="commonButton1 outbox_btn docEnrollBtn" type="button">임시저장</button> <br> <%-- 임시저장 기능 --%>
-				<button class="commonButton1 cancle_btn docEnrollBtn" type="button" style="background-color: #c8c8c8 !important;">취소</button>
+				<button class="commonButton1 outbox_btn docEnrollBtn donEnrollOutboxBtn" type="button">임시저장</button> <br> <%-- 임시저장 기능 --%>
+				<button class="commonButton1 cancle_btn docEnrollBtn donEnrollCancleBtn" type="button">취소</button>
 			</div>
 		</form>
  	</div>
@@ -222,7 +219,7 @@
 				
  				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
  				// 휴가 시작 날짜, 기안일 오늘 날짜로 기본값 설정
- 	 			$("#draftDate").val(today);
+ 	 			$("#dftDate").val(today);
  	 			$("#startDate").val(today);
  	 			
  	 			// 소속 (로그인 유저의 부서 가져오기)
@@ -244,16 +241,19 @@
 		 		$.ajax({
 		 			
 		 			type: "post",
- 	                url: "selectApprover.do",
- 	                data: { deptNo : "${ loginUser.departmentNo }" },
+ 	                url: "selectDeptApprover.do",
+ 	                data: { deptNo : "${ loginUser.departmentNo }",
+ 	                		jobNo : "${ loginUser.jobNo }"},
  	                success: function (data) {
 						console.log(data);
  	                	if(data != null || data != "") {
  	                		
  	                		$("#firstAprvName").val(data[0].empName);
  	                		$("#firstAprv").val(data[0].empNo);
+ 	                		$("#firstAprvJob").val(data[0].jobName);
  	                		$("#secondAprvName").val(data[1].empName);
  	                		$("#secondAprv").val(data[1].empNo);
+ 	                		$("#secondAprvJob").val(data[1].jobName);
  	                	}
  	                }
 		 		})
@@ -339,9 +339,17 @@
 			
 				}
 				
-				$("#vacUseDays").val(count);
-				$("#vacUseDays").attr('readonly', true);
-			
+				// 휴가 11일 이상 사용 시
+				if(count > 10) {
+					$("#formErrorMsg").text("11일 이상 사용할 수 없습니다.");
+					$("#endDate").val(''); // 끝 날짜 비워주고
+	 				$("#endDate").focus(); // 포커싱
+	 				$("#vacUseDays").val(''); // 사용일수도 비우기
+				
+				} else {
+					$("#vacUseDays").val(count);
+					$("#vacUseDays").attr('readonly', true);
+				}
 			}
  		})
 		
@@ -434,7 +442,7 @@
  	                    	let content = "결재가 성공적으로 요청되었습니다.";
  	                    	resultFn(content);
 	 	           	 		
- 	                    } else if (result == "fail") {
+ 	                    } else {
  	                    	
  	                    	let content = "결재 요청에 실패하였습니다.";
  	                    	resultFn(content);

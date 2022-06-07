@@ -13,6 +13,8 @@ import com.uni.spring.department.model.dto.Department;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
 import com.uni.spring.department.model.dto.ProjectClass;
+import com.uni.spring.department.model.dto.SemiCheckList;
+import com.uni.spring.department.model.dto.SemiProject;
 import com.uni.spring.member.model.dto.Member;
 
 @Service
@@ -198,6 +200,148 @@ public class DepartServiceImpl implements DepartService {
 		return departDao.selectPW(sqlSession, pjno);
 	}
 
-	
+	@Override
+	public ArrayList<SemiProject> selectSP(int pjno) {
+		
+		return departDao.selectSP(sqlSession, pjno);
+	}
 
+
+	@Override
+	public ArrayList<Member> selectTL(int pjno) {
+		
+		return departDao.selectTL(sqlSession, pjno);
+	}
+
+	@Override
+	public void insertSemiPro(SemiProject sp) {
+		int result = departDao.insertSemiPro(sqlSession, sp);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+		
+	}
+
+	@Override
+	public void updateprjectClass(ProjectClass pc) {
+		int result = departDao.updateprjectClass(sqlSession, pc);//분류테이블 업데이트
+		int result1 = departDao.updateSemiProTar(sqlSession, pc);//세부프로젝트 
+		if(result * result1 <0) {
+			throw new CommException("세미프로젝트 분류 이름 수정 실패");
+		}
+	}
+
+	@Override
+	public void deleteTargetName(ProjectClass pc) {
+		
+		int result = departDao.deleteTargetName(sqlSession, pc);
+		int result1 = departDao.deleteSemiProTar(sqlSession, pc);
+		if(result *result1 <0) {
+			throw new CommException("세미프로젝트 분류 이름 수정 실패");
+		}
+	}
+
+	@Override
+	public SemiProject selectSemiDetailPro(int sino) {
+		
+		return departDao.selectSemiDetailPro(sqlSession, sino);
+	}
+
+	@Override
+	public void updateSemiPro(SemiProject sp) {
+		int result = departDao.updateSemiPro(sqlSession, sp);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+		
+	}
+
+	@Override
+	public void updateSemiDueNull(int semiNo) {
+		int result = departDao.updateSemiDueNull(sqlSession, semiNo);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+	}
+
+	@Override
+	public void insertCheckList(SemiCheckList scl) {
+		int result = departDao.insertCheckList(sqlSession, scl);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+	}
+
+	@Override
+	public ArrayList<SemiCheckList> selectCheckList(SemiCheckList scl) {
+		
+		return departDao.selectCheckList(sqlSession, scl);
+	}
+
+	@Override
+	public void deletecheckList(int ckeckNo) {
+		int result = departDao.deletecheckList(sqlSession, ckeckNo);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+	}
+
+	@Override
+	public void deleteTotcheckList(int refSemi) {
+		int result = departDao.deleteTotcheckList(sqlSession, refSemi);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+	}
+
+	@Override
+	public void updateckeckList(int ckeckNo) {
+		int result = departDao.updateckeckList(sqlSession, ckeckNo);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+	}
+
+	@Override
+	public void updatereckeckList(int ckeckNo) {
+		int result = departDao.updatereckeckList(sqlSession, ckeckNo);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+	}
+
+	@Override
+	public void deleteWatcher(Project p) {
+		int result = departDao.deleteWatcher(sqlSession, p);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+		
+	}
+
+	@Override
+	public void insertWatcherP(Project p) {
+		int result = departDao.insertWatcherP(sqlSession, p);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+	}
+
+	@Override
+	public void updateComment(SemiProject sp) {
+		int result = departDao.updateComment(sqlSession, sp);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+	}
+
+	@Override
+	public void deleteComment(int semiNo) {
+		int result = departDao.deleteComment(sqlSession, semiNo);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+	}
+
+	
 }

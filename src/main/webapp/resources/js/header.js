@@ -19,6 +19,10 @@ $(function(){
 	$(document).on("click",".simplepjMo", function(){
 		$(".simpleProjectCreateModal").css("display","flex");
 	})
+	//글확인자 버튼 클릭시 모달창
+		$(document).on("click",".checkman", function(){
+		$(".checkmans").css("display","flex");
+	})
 
     $("#main_nav img").mouseenter(function(){
         $(".detail_nav_content").removeClass("enter");
@@ -67,14 +71,16 @@ $(function(){
         $("#alertBackground").hide();
 	})
 	
-	$(document).on("click",".cancel_btn",function(){
-		$(".docEnrollModal").hide();
-	})
-	
-	$("#main_nav a").click(function(){
-
-    })
-
+	//확인창 취소버튼 - 공통
+	function confrimCancle(){
+		$("#helpmeCOnfirm").hide();
+	}
+	//확인창 나오게 
+	function confrimOpen(){
+		
+		$("#helpmeCOnfirm").css("display","block");
+		inputConfrimContent();
+	}
 
     
 	

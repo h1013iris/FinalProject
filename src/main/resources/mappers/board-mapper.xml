@@ -4,217 +4,352 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="boardMapper">
 
-   <resultMap type="Board" id="boardResultset">
-      <id property="writeno" column="WRITE_NO" />
-      <result property="title" column="TITLE" />
-      <result property="empno" column="EMP_NO" />
-      <result property="content" column="CONTENT" />
-      <result property="createDate" column="B_DATE" />
-      <result property="writer" column="EMP_NAME" />
-      <result property="deptno" column="DEPARTMENT_NO"/>
-      <result property="deptname" column="DEPARTMENT_TITLE"/>
-   </resultMap>
+	<resultMap type="Board" id="boardResultset">
+		<id property="writeno" column="WRITE_NO" />
+		<result property="title" column="TITLE" />
+		<result property="empno" column="EMP_NO" />
+		<result property="content" column="CONTENT" />
+		<result property="createDate" column="B_DATE" />
+		<result property="writer" column="EMP_NAME" />
+		<result property="deptno" column="DEPARTMENT_NO" />
+		<result property="deptname" column="DEPARTMENT_TITLE" />
+	</resultMap>
 
-   <!-- 노티스 -->
-   <select id="selectListCount" resultType="_int">
+   <resultMap type="coment" id="comentset">
+   <id property="cno" column="C_NUM"/>
+   <result property="writerno" column="EMP_NO"/>
+   <result property="ccontent" column="C_CONTENT"/>
+   <result property="cwriteno" column="WRITE_NO"/>
+   <result property="ccreateDate" column="C_DATE"/>
+   <result property="status" column="STATUS"/>
+   <result property="boardno" column="BOARD_NO"/>
+   <result property="cwirter" column="EMP_NAME"/>
+ </resultMap>
+ 
+  <resultMap type="pbox" id="pboxset">
+   <id property="pno" column="P_NUM"/>
+   <result property="empno" column="EMP_NO"/>
+   <result property="title" column="TITLE" />
+   <result property="content" column="CONTENT"/>
+   <result property="boardno" column="BOARD_NO"/>
+   <result property="status" column="STATUS"/>
+   <result property="pcreateDate" column="P_DATE"/>
+ 
+ </resultMap>
+ 
 
-      select count(*)
-      from notice
-      where status='Y'
+	<!-- 노티스 -->
+	<select id="selectListCount" resultType="_int">
 
-   </select>
+		select count(*)
+		from BOARD		
+		where status='Y'
+		AND BOARD_NO = 1
 
-
-   <select id="selectList" resultMap="boardResultset">
-
-
-      SELECT A.*,
-      B.EMP_NAME
-      FROM notice A
-      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
-      WHERE A.STATUS='Y'
-      ORDER BY
-      A.WRITE_NO DESC
-
-   </select>
-
-   <select id="selectsearchnotiCount" resultType="_int">
-      SELECT COUNT(*)
-      FROM NOTICE N
-      JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
-      WHERE N.STATUS='Y'
-      <if test="title != null">
-         AND N.TITLE LIKE '%' ||#{title}||'%'
-      </if>
-      <if test="content != null">
-         AND N.CONTENT LIKE '%' ||#{content}||'%'
-      </if>
-
-   </select>
-
-   <select id="selectnotiList" resultMap="boardResultset">
-      SELECT *
-      FROM NOTICE N
-      JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
-      WHERE N.STATUS='Y'
-      <if test="title != null">
-         AND N.TITLE LIKE '%' ||#{title}||'%'
-      </if>
-      <if test="content != null">
-         AND N.CONTENT LIKE '%' ||#{content}||'%'
-      </if>
-
-      ORDER BY WRITE_NO DESC
+	</select>
 
 
-
-   </select>
-   <select id="selectoldList" resultMap="boardResultset">
+	<select id="selectList" resultMap="boardResultset">
 
 
-      SELECT A.*,
-      B.EMP_NAME
-      FROM notice A
-      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
-      WHERE A.STATUS='Y'
-      ORDER BY A.WRITE_NO 
+		SELECT A.*,
+		B.EMP_NAME
+		FROM BOARD A
+		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+		WHERE A.STATUS='Y'
+		AND BOARD_NO = 1
+		ORDER BY
+		A.WRITE_NO DESC
 
-   </select>
-   <!-- 자유게시판 -->
-   <select id="selectfreeListCount" resultType="_int">
+	</select>
 
-      select count(*)
-      from free_board
-      where status='Y'
+	<select id="selectsearchnotiCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD N
+		JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
+		WHERE N.STATUS='Y'
+		AND BOARD_NO = 1
+		<if test="title != null">
+			AND N.TITLE LIKE '%' ||#{title}||'%'
+		</if>
+		<if test="content != null">
+			AND N.CONTENT LIKE '%' ||#{content}||'%'
+		</if>
 
-   </select>
+	</select>
 
+	<select id="selectnotiList" resultMap="boardResultset">
+		SELECT *
+		FROM BOARD N
+		JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
+		WHERE N.STATUS='Y'
+		AND BOARD_NO = 1
+		<if test="title != null">
+			AND N.TITLE LIKE '%' ||#{title}||'%'
+		</if>
+		<if test="content != null">
+			AND N.CONTENT LIKE '%' ||#{content}||'%'
+		</if>
 
-   <select id="selectfreeList" resultMap="boardResultset">
-
-      SELECT A.*,
-      B.EMP_NAME
-      FROM free_board A
-      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
-      WHERE A.STATUS='Y'
-      ORDER BY
-      A.WRITE_NO DESC
-
-   </select>
-
-   <select id="selectsearchfreeCount" resultType="_int">
-      SELECT COUNT(*)
-      FROM free_board N
-      JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
-      WHERE N.STATUS='Y'
-      <if test="title != null">
-         AND N.TITLE LIKE '%' ||#{title}||'%'
-      </if>
-      <if test="content != null">
-         AND N.CONTENT LIKE '%' ||#{content}||'%'
-      </if>
-
-   </select>
-
-   <select id="selectsearchfree" resultMap="boardResultset">
-      SELECT *
-      FROM free_board N
-      JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
-      WHERE N.STATUS='Y'
-      <if test="title != null">
-         AND N.TITLE LIKE '%' ||#{title}||'%'
-      </if>
-      <if test="content != null">
-         AND N.CONTENT LIKE '%' ||#{content}||'%'
-      </if>
-
-      ORDER BY WRITE_NO DESC
+		ORDER BY WRITE_NO DESC
 
 
 
-   </select>
+	</select>
+	<select id="selectoldList" resultMap="boardResultset">
+
+
+		SELECT A.*,
+		B.EMP_NAME
+		FROM BOARD A
+		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+		WHERE A.STATUS='Y'
+		AND BOARD_NO = 1
+		ORDER BY A.WRITE_NO
+
+	</select>
+	<!-- 자유게시판 -->
+	<select id="selectfreeListCount" resultType="_int">
+
+		select count(*)
+		from BOARD
+		where status='Y'
+		AND BOARD_NO = 2
+
+	</select>
+
+
+	<select id="selectfreeList" resultMap="boardResultset">
+
+		SELECT A.*,
+		B.EMP_NAME
+		FROM BOARD A
+		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+		WHERE A.STATUS='Y'
+		AND BOARD_NO = 2
+		ORDER BY
+		A.WRITE_NO DESC
+
+	</select>
+
+	<select id="selectsearchfreeCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD N
+		JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
+		WHERE N.STATUS='Y'
+		AND BOARD_NO = 2
+		<if test="title != null">
+			AND N.TITLE LIKE '%' ||#{title}||'%'
+		</if>
+		<if test="content != null">
+			AND N.CONTENT LIKE '%' ||#{content}||'%'
+		</if>
+
+	</select>
+
+	<select id="selectsearchfree" resultMap="boardResultset">
+		SELECT *
+		FROM BOARD N
+		JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
+		WHERE N.STATUS='Y'
+		AND BOARD_NO = 2
+		<if test="title != null">
+			AND N.TITLE LIKE '%' ||#{title}||'%'
+		</if>
+		<if test="content != null">
+			AND N.CONTENT LIKE '%' ||#{content}||'%'
+		</if>
+
+		ORDER BY WRITE_NO DESC
+
+
+
+	</select>
 
 
 
 
-   <select id="selectfreeoldList" resultMap="boardResultset">
+	<select id="selectfreeoldList" resultMap="boardResultset">
 
 
-      SELECT A.*,
-      B.EMP_NAME
-      FROM free_board A
-      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
-      WHERE A.STATUS='Y'
-      ORDER BY A.WRITE_NO 
+		SELECT A.*,
+		B.EMP_NAME
+		FROM BOARD A
+		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+		WHERE A.STATUS='Y'
+		AND BOARD_NO = 2
+		ORDER BY A.WRITE_NO
 
-   </select>
+	</select>
 
-   <!-- 글작성 -->
-   <insert id="insertnotice" parameterType="Board">
+	<!-- 글작성 -->
+	<insert id="insertboard" parameterType="Board">
 
-      INSERT INTO NOTICE
-      VALUES(SEQ_NOTI.NEXTVAL, #{title}, #{content}, SYSDATE, DEFAULT, #{empno})
+		INSERT INTO BOARD
+		VALUES(SEQ_NOTI.NEXTVAL, #{title}, #{content}, SYSDATE, DEFAULT, #{boardno} ,#{empno} ,NULL )
 
 
 
+	</insert>
+	<insert id="insertdept" parameterType="Board">
+
+		INSERT INTO BOARD
+		VALUES(SEQ_NOTI.NEXTVAL, #{title}, #{content}, SYSDATE, DEFAULT, #{boardno} ,#{empno} ,#{deptno} )
+
+
+
+	</insert>
+
+    <!-- 부서게시판 -->
+	<select id="selecdeparttListCount" resultType="_int">
+
+		select count(*)
+		from board
+		where status='Y'
+		AND BOARD_NO = 3
+		AND DEPARTMENT_NO = '1'
+
+	</select>
+
+
+
+	<select id="selectdeptList" resultMap="boardResultset">
+
+
+		SELECT A.*,
+		B.EMP_NAME
+		FROM board A
+		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+		WHERE A.STATUS='Y'
+		AND BOARD_NO = 3
+		AND A.DEPARTMENT_NO = '1'
+		ORDER BY A.WRITE_NO DESC
+
+	</select>
+
+
+	<select id="selectdeptnameList" resultMap="boardResultset">
+
+		SELECT *
+		FROM DEPARTMENT_MANAGEMENT
+
+	</select>
+
+	<select id="detailBoard" resultMap="boardResultset"
+		parameterType="_int">
+		SELECT a.*,
+		B.EMP_NAME
+		FROM BOARD A
+		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+		WHERE A.STATUS='Y'
+		AND WRITE_NO= #{bno}
+
+
+
+	</select>
+	
+	<select id="selectstandupList" resultMap="boardResultset">
+
+
+		SELECT A.*,
+		B.EMP_NAME
+		FROM BOARD A
+		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+		WHERE A.STATUS='Y'
+		AND BOARD_NO = 3
+		AND A.DEPARTMENT_NO = #{deptno}
+		<if test='status == "최신순"'>
+		ORDER BY A.WRITE_NO DESC
+        </if>
+        <if test='status == "오래된순"'>
+        ORDER BY A.WRITE_NO 
+        </if>
+        
+	</select>
+	
+	<select id="selectstandupListCount" resultType="_int" parameterType="_int">
+
+		select count(*)
+		from board
+		where status='Y'
+		AND BOARD_NO = 3
+		AND DEPARTMENT_NO = #{con}
+
+	</select>
+	<insert id="insertReply" parameterType="Board">
+   INSERT INTO COMMENTS 
+   VALUES(SEQ_COMEN.NEXTVAL, #{writerno}, #{ccontent}, #{cwriteno}, SYSDATE, DEFAULT,#{boardno})
+   
+   
+   
    </insert>
-
-   <insert id="insertfree" parameterType="Board">
-
-      INSERT INTO FREE_BOARD
-      VALUES(SEQ_NOTI.NEXTVAL, #{title}, #{content}, SYSDATE ,DEFAULT,#{empno})
-
-
-
-   </insert>
+    <select id="selectcomentList" parameterType="_int" resultMap="comentset">
+	SELECT
+	A.C_NUM,
+	A.C_CONTENT,
+	B.EMP_NAME,
+	A.C_DATE
+	FROM COMMENTS A
+	JOIN USER_INFO B ON (A.EMP_NO = B.EMP_NO)
+	WHERE A.WRITE_NO = #{bno}
+	AND A.STATUS ='Y'
+	ORDER BY A.C_NUM DESC
    
-      <select id="selecdeparttListCount" resultType="_int" parameterType="_int">
-
-      select count(*)
-      from dept_board
-      where status='Y'
-      AND DEPARTMENT_NO = #{dpt}
-
+   
    </select>
-
-
-   
-    <select id="selectdeptList" resultMap="boardResultset">
-
-
-      SELECT A.*,
-      B.EMP_NAME
-      FROM dept_board A
-      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
-      WHERE A.STATUS='Y'
-      AND A.DEPARTMENT_NO = #{deptno}
-      <if test='status == "최신순"'>
-      ORDER BY A.WRITE_NO DESC
-      </if>
-      <if test='status == "오래된순"'>
-      ORDER BY A.WRITE_NO 
-      </if>
-   </select>
-   
   
-   <select id="selectdeptnameList" resultMap="boardResultset">
-
-      SELECT *      
-      FROM DEPARTMENT_MANAGEMENT     
-
-   </select>
+   <update id="deletecoment" parameterType="_int">
+		UPDATE COMMENTS
+		SET STATUS = 'N'
+		WHERE C_NUM = #{cno}
+	</update>
+	
+	
+<update id="updatedetail" parameterType="Board"> <!-- 업데이트 할때 필요한것들만 담아야함  -->
+   UPDATE BOARD 
+   SET TITLE=#{title} , CONTENT=#{content}
+   WHERE BOARD_NO =#{boardno}
    
-   <select id="detailBoard" resultMap="boardResultset" parameterType="_int">
-        SELECT a.*,     
-         B.EMP_NAME
-      FROM notice A
-      JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
-      WHERE A.STATUS='Y'
-      AND WRITE_NO= #{bno}
-		
-		
    
-   </select>
+   </update>
+   
+    <update id="deleteBoard" parameterType="_int">
+   UPDATE BOARD 
+   SET STATUS='N' 
+   WHERE WRITE_NO= #{bno}
+   
+   </update>
+   
+	<select id="selectpboxCount" resultType="_int">
 
+		select count(*)
+		from P_BOX		
+		where status='Y'
+		AND EMP_NO = #{userno}	
+		
+	</select>
+
+
+	<select id="selectpbox" resultMap="pboxset">
+
+
+		SELECT A.*,
+		B.EMP_NAME
+		FROM P_BOX A
+		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+		WHERE A.STATUS='Y'
+		AND A.EMP_NO = #{userno}		
+		ORDER BY
+		A.P_NUM DESC
+ 
+ </select>
+ 
+ <insert id="saveboard" parameterType="pbox">
+   INSERT INTO P_BOX 
+   VALUES(SEQ_BOX.NEXTVAL, #{empno}, #{title}, #{content}, #{boardno} ,DEFAULT , SYSDATE)
+   
+   
+   
+   </insert>
 
 </mapper>

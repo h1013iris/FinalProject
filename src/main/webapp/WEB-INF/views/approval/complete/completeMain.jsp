@@ -4,157 +4,255 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-	.main_section, .div, .table, .thead {
-		border: 1px solid black;
+<title>결재 완료함</title>
+<style type="text/css">
+	
+	.mainDiv {
+		width: 84vw;
+		margin: auto;
+		text-align: center;
+	}
+	
+	.main_section {
+		/*border: 1px solid black;*/
+	}
+	
+	.completeList_area {
+		width: 100%;
+		border: 1px solid #e6e6e6;
+		background-color: #e6e6e6;
+		border-radius: 15px;
+		box-shadow: 0 0 8px #afafaf;
+	}
+	
+	.completeList_table>tbody>tr:hover {
+		background: rgb(174, 217, 248);
+		box-shadow: 0 0 8px #4c87b099;
+		
+		cursor: pointer;
+	}
+	
+	.completeList_table {
+		width: 97%;
+		margin: auto;
+		padding: auto;
+	}
+	
+	.completeList_table td {
+		border-top: 1px solid darkgray;
+		padding: 15px;
 		
 	}
 	
-	.mainDiv {
-		/*border: 1px solid black;*/
-		width: 84vw;
-	}
-	
-	.div {
-		padding: auto;
-		margin-bottom: 3%;
-	}
-	
-	.table {
-		width: 100%;
-		margin: auto;
-		padding: auto;
-		text-align: center;
-	}
-	
-	.table td, .table th {
-		border: 1px solid black;
+	.completeList_table th {
 		padding: 15px;
+		background-color: darogray;
 	}
 	
-	.search {
-		text-align: center;
-		margin-top: 5%;
-		margin-bottom: 4%;
-		padding: 1.5%;
+	.completeList_thead {
+		font-weight: 900;
+		font-size: 16px;
 	}
 	
-	.pagingArea{width:fit-content;margin:auto;}
+	.noCompleteList {
+		color: blue;
+	}
+	
+	.pagingArea {
+		/*border: 1px solid black;*/
+		width: fit-content;
+		margin: auto;
+		padding-top: 35px;
+	}
     /* #pagingArea a{color:black} */
+	
+	.pagingBtn {
+		width: 30px;
+		height: 45px;
+	}
+	
+	.searchArea {
+		/*border: 1px solid black;*/
+		margin: auto;
+		padding-top: 35px;
+	}
+	
+	.searchBtn {
+		width: 60px;
+		height: 45px;
+	}
+	
+	#condition {
+		width: 100px;
+		font-size: 15px;
+	}
+	
+	#search {
+		width: 300px;
+		margin: 0 10px 0 10px;
+	}
+	
+	#condition, #search {
+		border-radius: 5px;
+		height: 30px;
+		font-size: 15px;
+	}
 
 </style>
+
 </head>
 <body>
 
 	<jsp:include page="../../common/header.jsp"/>
 	
 	<div class="main_section">
-		<div class="mainDiv">
-        
-        	<div class="list div">
-        		<table class="table">
-	        		<thead class="thead">
-	   					<tr>
-	   						<th width="10%">문서 번호</th>
-	   						<th width="13%">유형</th>
-	   						<th width="50%">제목</th>
-	   						<th width="10%">기안자</th>
-	   						<th width="13%">완료일</th>
-	   					</tr>
-	   				</thead>
-	   				<tbody>
-						<c:forEach items="${ list }" var="list">
-		                    <tr>
-		                        <c:if test="${ !empty list }">
-		                        	<td>${ list.docNo }</td>
-			                        <td>${ list.docType }</td>
-			                        <td>${ list.docTitle }</td>
-			                        <td>${ list.drafter }</td>
-			                        <td>${ list.comDate }</td>
-		                        </c:if>
-		                        <c:if test="${ empty list }">
-		                        	<td>결재 완료된 문서가 없습니다.</td>
-		                        </c:if>
-		                    </tr>
-                    	</c:forEach>
-	   				</tbody>
-	        	</table>
-        	</div>
-        	
-        	
-      		<!-- 페이징바 만들기 -->
+        <div class="mainDiv">
+			<div class="completeList_area">
+				<table class="completeList_table">
+					<colgroup>
+						<col width="80px">
+						<col width="120px">
+						<col width="300px">
+						<col width="80px">
+						<col width="100px">
+						<col width="100px">
+					</colgroup>
+					
+					<thead class="completeList_thead">
+						<tr>
+	                 		<th>No</th>
+		                  	<th>문서 유형</th>
+		                   	<th>제목</th>
+		                   	<th>기안자</th>
+		                   	<th>기안일</th>
+		                   	<th>요청일</th>
+	                 	</tr>
+	       			</thead>
+	       			<tbody class="completeList_tbody">
+						
+	        		</tbody>
+	         	</table>
+	    	</div>
+	    	
+	    	<!-- 페이징바 만들기 -->
 			<div class="pagingArea" align="center">
-				<!-- 맨 처음으로 (<<) -->
-				<button class="btn" onclick="location.href='<%=request.getContextPath()%>/noticeList.do?currentPage=1'" > &lt;&lt; </button>
-			
-				<!-- 이전페이지로(<) -->
-				<c:choose>
-					<%-- 현재 페이지가 1인 경우 --%>
-					<c:when test="${pi.currentPage == 1}">
-						<%-- 이전 페이지로 가는 버튼 비활성화 --%>
-						<button class="btn" disabled> &lt; </button>
-					</c:when>
-					<%-- 그 외에는 --%>
-					<c:otherwise>
-						<%-- 현재 페이지에서 하나 뺀 페이지로 이동하도록 --%>
-						<button class="btn" onclick="location.href='<%= request.getContextPath() %>/noticeList.do?currentPage=${pi.currentPage - 1}'"> &lt; </button>
-					</c:otherwise>
-				</c:choose>
-				 
-				<!-- 페이지 목록 -->
-				<%-- var : for문 안에서 사용할 변수명 / begin : 초기값 / end : 최대값 / step : 증가값 --%>
-				<c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}" step="1">
-					<c:choose>
-						<%-- 현재 페이지에 해당하는 버튼 비활성화 --%>
-						<c:when test="${p == pi.currentPage}">
-							<button class="btn" disabled> ${p} </button>
-						</c:when>
-						<%-- 그 외에는 클릭하면 해당 페이지로 넘어가도록 --%>
-						<c:otherwise>
-							<button class="btn" onclick="location.href='<%=request.getContextPath() %>/noticeList.do?currentPage=${p}'"> ${p} </button>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-				
-				<!-- 다음페이지로(>) -->
-				<c:choose>
-					<%-- 현재 페이지가 마지막 페이지인 경우 --%>
-					<c:when test="${pi.currentPage == pi.maxPage}">
-						<%-- 다음 페이지로 가는 버튼 비활성화 --%>
-						<button class="btn" disabled> &gt; </button>
-					</c:when>
-					<%-- 그 외에는 --%>
-					<c:otherwise>
-						<%-- 현재 페이지에서 하나 더한 페이지로 이동하도록 --%>
-						<button class="btn" onclick="location.href='<%= request.getContextPath() %>/noticeList.do?currentPage=${pi.currentPage + 1}'"> &gt; </button>
-					</c:otherwise>
-				</c:choose>
-			
-				<!-- 맨 끝으로 (>>) -->
-				<button class="btn" onclick="location.href='<%=request.getContextPath()%>/noticeList.do?currentPage=${pi.maxPage}'"> &gt;&gt; </button>
+				<ul id="paginationBox" class="pagination">
+					<%-- 페이징바 들어갈 부분 --%>
+				</ul>
 			</div>
-           
-            
-        	<%-- 검색창 --%>
-        	<div class="search div">
-        		<%-- 검색하기 버튼 클릭 시 검색 서블릿으로 넘어가도록 --%>
-			   	<form class="searchArea" action="" method="get">
+	          
+	           
+	       	<%-- 검색창 --%>
+	       	<div class="searchArea">
+	       		<%-- 검색하기 버튼 클릭 시 검색 서블릿으로 넘어가도록 --%>
+			   	<form class="searchForm" action="" method="get">
 			   		<%-- 각 메뉴에 맞는 문서들만 조회하기 위해 히든으로 구분해서 넘기기 --%>
 			   		<input type="hidden" name="" value=""/>
 			        <select id="condition" name="condition">
 			        	<option>검색 조건</option>
 			           	<option value="docNo">문서 번호</option>
-	        			<option value="docType">유형</option>
+	        			<option value="docType">문서 유형</option>
 	        			<option value="docTitle">제목</option>
 			        </select>
-			        <input type="search" id="search" name="search">
-			        <button class="searchBtn" type="submit">검색</button>
+			        <input type="search" id="search" name="search" maxlength="100">
+			        <button class="commonButton1 searchBtn" type="button">검색</button>
 			  	</form>
-        	</div>
-        	
-        </div>
+	       	</div>
+	       	
+		</div>
     </div>
 
+
+	<script type="text/javascript">
+	
+		// 화면 로드 시 리스트 불러오기
+		$(document).ready(function() {
+			
+			// 로그인이 되어있지 않으면
+			if("${ loginUser.empNo }" == "") {
+				
+				loginFn(); // 로그인 먼저
+			
+			} else {
+				
+				$.ajax({
+					
+					type: "post",
+	                url: ".do",
+	                data: { empNo : "${ loginUser.empNo }",
+	                		jobNo : "${ loginUser.jobNo }" },
+	                success: function (list) {
+						
+	                	console.log(list)
+	                	
+	                	$tbody = $('.completeList_tbody'); // 리스트가 들어갈 tbody
+	                	$tbody.html('');
+	                	
+	                	if(list.length == 0) {
+	                		
+	                		var $noListTh = $("<th colspan='6'>").text("결재 요청한 문서가 존재하지 않습니다.").addClass("noCompleteList");
+	                		var $noListTr = $('<tr>').append($noListTh);
+	                		
+							$tbody.append($noListTr);
+	                	
+	                	} else {
+							
+	                		$.each(list, function(i, obj) {
+	                			
+	                			var $tr = $('<tr>');
+	                			var $docNo = $('<td>').text(obj.docNo);
+	                			var $docForm = $('<td>').text(obj.docForm);
+	                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
+	                			
+	                			if(obj.docTitle != null) {
+	                				var $docTitle = $('<td>').text(obj.docTitle);
+	                			
+	                			} else {
+	                				var $docTitle = $('<td>').text(obj.docForm);
+	                			}
+	                			
+	                			var $drafter = $('<td>').text(obj.drafter);
+	                			var $draftDate = $('<td>').text(obj.draftDate);
+	                			var $proDate = $('<td>').text(obj.proDate);
+	                			
+	                			$tr.append($docNo);
+	                			$tr.append($docForm);
+	                			$tr.append($docType);
+	                			$tr.append($docTitle);
+	                			$tr.append($drafter);
+	                			$tr.append($draftDate);
+	                			$tr.append($proDate);
+	                			
+	                			$tbody.append($tr);
+	                		});
+	                	}
+	                }
+				});
+			}
+
+		});
+		
+	
+		// 게시글 클릭 시
+		$(".completeList_table tbody").on("click", "tr", (function() {
+			
+			let docNo = $(this).find("td:eq(0)").text(); // 클릭한 문서의 문서 번호 가져와서 담기
+			let docType = $("#docType").val();
+			console.log(docNo);
+			console.log(docType);
+			
+			location.href = ".do?docNo=" + docNo;
+		}));
+		
+		
+		$(".searchBtn").click(function() {
+			
+		})
+		
+	
+	</script>
+
+	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
+	
 </body>
 </html>

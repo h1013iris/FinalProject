@@ -75,13 +75,52 @@ public class AddressBookServiceImpl implements AddressBookService {
 		addressBookDao.insertComAdd(sqlSession,com, empNo);
 		
 	}
+	//고객등록
+	@Override
+	public void insertCusAdd(Customer cus, int empNo) {		
+		addressBookDao.insertCusAdd(sqlSession,cus,empNo);
+	}
 
+	//거래처폴더 조회
 	@Override
 	public ArrayList<Company> selectComFolList(Company com, int empNo) {
 		// TODO Auto-generated method stub
-		return addressBookDao.selectComFolList(sqlSession,com,empNo);
+		return addressBookDao.selectComFolList(sqlSession, com, empNo);
 	}
 
+	
+	//사원마다 다른 폴더별 거래처 조회
+	@Override
+	public ArrayList<Company> selectSearchComFolList(int empNo, String inFolder, Company com) {
+		
+		return addressBookDao.selectSearchComFolList(sqlSession,empNo,inFolder,com);
+	}
+
+	//고객 등록폼 안의 폴더리스트
+	@Override
+	public ArrayList<Company> selectCusFolList(Customer custo, int empNo) {
+		// TODO Auto-generated method stub
+		return addressBookDao.selectCusFolList(sqlSession, custo, empNo);
+	}
+
+	//고객주소록 상세보기
+	@Override
+	public ArrayList<Customer> selectCustoDetailView(Customer custo, int cusNo) {
+		// TODO Auto-generated method stub
+		return addressBookDao.selectCustoDetailView(sqlSession, custo, cusNo);
+	}
+
+	@Override
+	public ArrayList<Company> selectComDetailView(Company com, int compNo) {
+		// TODO Auto-generated method stub
+		return addressBookDao.selectCustoDetailView(sqlSession, com, compNo);
+	}
+
+	@Override
+	public ArrayList<Customer> selectSearchCustoFolList(int empNo, String inFolder, Customer custo) {
+		// TODO Auto-generated method stub
+		return addressBookDao.selectSearchCustoFolList(sqlSession,empNo,inFolder,custo);
+	}
 
 
 }

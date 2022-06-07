@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 public class ProjectClass {
 	private int pcNo;//분류번호
 	private int refPro;//참조 프로젝트 번호 
+	private int sec;//분류 번호
+	private String originpc;//원래 분류명
+	private String changepc;//바꿀 분류
 	private String pcOne;//분류 1
 	private String pcTwo;//분류 2
 	private String pcThree;//분류 3
