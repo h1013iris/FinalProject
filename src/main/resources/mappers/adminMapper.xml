@@ -24,6 +24,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="jobNo" column="JOB_NO"/>
 		<result property="deptNo" column="DEPARTMENT_NO"/>
 	</resultMap>
+	<resultMap type="empInfo" id="empInfoResult">
+		<result property="empNo" column="EMP_NO"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="cityNo" column="USER_NO"/>
+		<result property="email" column="EMAIL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="hireDate" column="HIRE_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+		<result property="jobNo" column="JOB_NO"/>
+		<result property="deptNo" column="DEPARTMENT_NO"/>
+		<result property="carStatus" column="CAR_STATUS"/>
+		<result property="career" column="CAREER"/>
+		<result property="awards" column="AWARDS"/>
+		<result property="bankName" column="BANK_NAME"/>
+		<result property="bankNo" column="BANK_NO"/>
+		<result property="holderName" column="HOLDER_NAME"/>
+		<result property="homeStatus" column="HOME"/>
+		<result property="marriage" column="MARRIAGE"/>
+		<result property="childrenCount" column="CHILDREN_COUNT"/>
+		<result property="lastEducational" column="LAST_EDUCATIONAL"/>
+		<result property="deptName" column="DEPARTMENT_TITLE"/>
+		<result property="jobName" column="JOB_NAME"/>
+	</resultMap>
+	
+	<resultMap type="BManage" id="BManageResult">
+		<result property="boardNo" column="BOARD_NO"/>
+		<result property="boardName" column="BOARD_NAME"/>
+	</resultMap>
+	
+	<resultMap type="MRLC" id="MRLCResult">
+		<result property="roomNoLarge" column="ROOM_LARGE_NO"/>
+		<result property="LRoomName" column="LROOM_NAME"/>
+	</resultMap>
+	
+	<resultMap type="MR" id="MRResult">
+		<result property="roomNoLarge" column="ROOM_LARGE_NO"/>
+		<result property="LRoomName" column="LROOM_NAME"/>
+		<result property="roomNoSmall" column="ROOM_SMALL_NO"/>
+		<result property="SRoomName" column="SROOM_NAME"/>
+		<result property="maxCount" column="MAX_COUNT"/>
+	</resultMap>
 	
 	<select id="selectAllDeptList" resultMap="deptResult">
 		select * from DEPARTMENT_MANAGEMENT
@@ -43,4 +86,100 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="insertUserSelect" resultMap="EmpResult">
 		select EMP_NO, email, phone, EMP_NAME from USER_INFO where USER_NO = #{cityNo}
 	</select>
+	
+	<select id="selectEmpAllList" resultMap="EmpResult">
+		select * from USER_INFO order by JOB_NO
+	</select>
+	
+	<select id="selectSort" resultMap="EmpResult">
+		select * 
+		from USER_INFO
+		<if test="number == 1">
+			order by JOB_NO
+		</if> 
+		<if test="number == 2">
+			order by JOB_NO desc
+		</if>
+		<if test="number == 3">
+			order by HIRE_DATE
+		</if>
+		<if test="number == 4">
+			order by HIRE_DATE desc
+		</if>
+	</select>
+	
+	<select id="selectEmp" parameterType="string" resultMap="empInfoResult">
+		select *
+		from USER_INFO a
+		join EMPLOYEE_DETAIL_INFO b on a.EMP_NO = b.EMP_NO
+		join JOB_RANK_MANAGEMENT c on a.JOB_NO = c.JOB_NO
+		join DEPARTMENT_MANAGEMENT d on a.DEPARTMENT_NO = d.DEPARTMENT_NO
+		where a.EMP_NO = #{empNo}
+	</select>
+	
+	<select id="selectBoardAllList" resultMap="BManageResult">
+		select * from BOARD_MANAGEMENT
+	</select>
+	
+	<insert id="insertBoard">
+		insert into BOARD_MANAGEMENT
+		values
+		(SEQ_BOARDMANAGE.NEXTVAL, #{next})
+	</insert>
+	
+	<delete id="deleteBoard">
+		delete from BOARD_MANAGEMENT
+		where BOARD_NO = #{boardNo}
+	</delete>
+	
+	<update id="updateBoard" parameterType="BManage">
+		update BOARD_MANAGEMENT
+		set
+		BOARD_NAME = #{boardName}
+		where BOARD_NO = #{boardNo}
+	</update>
+	
+	<select id="selectBanWordsAllList" resultType="banword">
+		select * from FORBIDDEN_WORDS
+	</select>
+	
+	<insert id="insertBanWords">
+		insert into FORBIDDEN_WORDS
+		values
+		(#{words})
+	</insert>
+	
+	<delete id="deleteBanWords">
+		delete from FORBIDDEN_WORDS
+		where words = #{words}
+	</delete>
+	
+	<update id="updateBanWords">
+		update FORBIDDEN_WORDS
+		set words = #{newWords}
+		where words = #{words}
+	</update>
+	
+	<select id="selectMRAllList" resultMap="MRLCResult">
+		select *
+		from MEETINGROOM_CATEGORY_LARGE
+		order by ROOM_LARGE_NO
+	</select>
+	
+	<update id="updateMRLC" parameterType="MRLC">
+		update MEETINGROOM_CATEGORY_LARGE
+		set LROOM_NAME = #{LRoomName}
+		where ROOM_LARGE_NO = #{roomNoLarge}
+	</update>
+	
+	<insert id="insertMRLC">
+		insert into MEETINGROOM_CATEGORY_LARGE
+		values
+		(SEQ_ADMIN.nextval, #{LRoomName})
+	</insert>
+	
+	<delete id="deleteMRLC">
+		delete from MEETINGROOM_CATEGORY_LARGE
+		where ROOM_LARGE_NO = #{roomNoLarge}
+	</delete>
 </mapper>

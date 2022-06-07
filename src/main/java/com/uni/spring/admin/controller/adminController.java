@@ -1,16 +1,21 @@
 package com.uni.spring.admin.controller;
 
-import java.net.http.HttpHeaders;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.uni.spring.admin.model.dto.BanWords;
+import com.uni.spring.admin.model.dto.BoardManagement;
 import com.uni.spring.admin.model.dto.Department;
 import com.uni.spring.admin.model.dto.Job;
+import com.uni.spring.admin.model.dto.MeetingRoomLargeCategory;
 import com.uni.spring.admin.model.dto.employee;
+import com.uni.spring.admin.model.dto.employeeAllInfo;
 import com.uni.spring.admin.model.service.adminService;
 
 @Controller
@@ -20,11 +25,16 @@ public class adminController {
 	private adminService adminservice;
 	
 	@RequestMapping("empManagement")
-	public String empmanagement() {
-		return "admin/empManagement";
+	public ModelAndView empmanagement(ModelAndView mv) {
+		
+		ArrayList<employee> list = adminservice.selectEmpAllList();
+		
+		mv.addObject("empList", list).setViewName("admin/empManagement");;
+		
+		return mv;
 	}
 	
-	@RequestMapping("insertemp")
+	@RequestMapping("insertEmpPage")
 	public String empInsertPage(Model model) {
 		ArrayList<Department> deptList = adminservice.selectAllDeptList();
 		ArrayList<Job> jobList = adminservice.selectAllJobList();
@@ -34,23 +44,129 @@ public class adminController {
 		return "admin/empInsertForm";
 	}
 	
+	@ResponseBody
 	@RequestMapping("insertEmp")
-	public String insertEmp(employee emp, Model model) {
-		System.out.println(emp);
+	public String insertEmp(employee emp) {
+		System.out.println("controller"+emp);
 		
-		employee empInfo = adminservice.insertEmp(emp);
+		var emp_rnt= adminservice.insertEmp(emp);
 		
-		model.addAttribute("empInfo", empInfo);
+		return String.valueOf(emp_rnt.getEmpNo());
+
+	}
+	
+//	@RequestMapping("selectSort")
+//	public String selectSort(int number, ModelAndView mv) {
+//		System.out.println(number);
+//		
+//		ArrayList<employee> list = adminservice.selectSort(number);
+//		
+//		mv.addObject("empList",list).setViewName("admin/");;
+//		
+//		
+//	}
+	
+	@RequestMapping("empDetailPage")
+	public ModelAndView empDetailPage(String empNo, ModelAndView mv) {
 		
-		return "admin/empInsertSuccess";
+		employeeAllInfo emp = adminservice.selectEmp(empNo);
+		
+		mv.addObject("emp", emp).setViewName("admin/empDetailPage");;
+		
+		return mv;
+	}
+
+	@RequestMapping("boardManagement")
+	public String boardManagement(Model model){
+
+		ArrayList<BoardManagement> list = adminservice.selectBoardAllList();
+		
+		model.addAttribute("list", list);
+
+		return "admin/BoardManagement";
+	}
+
+
+	@ResponseBody
+	@RequestMapping("BoardInsert")
+	public void insertBoard(String text) {
+		
+		adminservice.insertBoard(text);
 		
 	}
 	
-//	@RequestMapping("smsSendRequest")
-//	public String smsSendRequest(String empNo, String empName, String phone) {
-//        // 헤더 설정값 세팅
-//        
-//
-//	}
-
+	@ResponseBody
+	@RequestMapping("BoardDelete")
+	public void deleteBoard(String boardNo) {
+		
+		adminservice.deleteBoard(Integer.parseInt(boardNo));
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping("BoardUpdate")
+	public void updateBoard(String text, String boardNo) {
+		
+		BoardManagement bm = new BoardManagement(Integer.parseInt(boardNo), text);
+		
+		
+		adminservice.updateBoard(bm);
+		
+	}
+	
+	@RequestMapping("banWordsPage")
+	public String BanWordsPage(Model model) {
+		
+		ArrayList<BanWords> list = adminservice.selectBanWordsAllList();
+		
+		model.addAttribute("list", list);
+		
+		return "admin/forbiddenWords";
+	}
+	
+	@ResponseBody
+	@RequestMapping("BanWordsInsert")
+	public void insertBanWords(String words) {
+		adminservice.insertBanWords(words);
+	}
+	
+	@ResponseBody
+	@RequestMapping("BanWordsDelete")
+	public void deleteBanWords(String words) {
+		System.out.println(words);
+		adminservice.deleteBanWords(words);
+	}
+	
+	@ResponseBody
+	@RequestMapping("BanWordsUpdate")
+	public void updateBanWords(BanWords bw) {
+		adminservice.updateBanWords(bw);
+	}
+	
+	@RequestMapping("meetingRoom")
+	public String meetingRoom(Model model) {
+		
+		model.addAttribute("list", adminservice.selectMRAllList());
+		
+		return "admin/meetingRoomManagement";
+	}
+	
+	@ResponseBody
+	@RequestMapping("MRLCUpdate")
+	public void updateMRLC(MeetingRoomLargeCategory MRLC) {
+		adminservice.updateMRLC(MRLC);
+	}
+	
+	@ResponseBody
+	@RequestMapping("MRLCInsert")
+	public void updateMRLC(String LRoomName) {
+		adminservice.insertMRLC(LRoomName);
+	}
+	
+	@ResponseBody
+	@RequestMapping("MRLCDelete")
+	public void deleteMRLC(String roomNoLarge) {
+		adminservice.deleteMRLC(Integer.parseInt(roomNoLarge));
+	}
+	
 }

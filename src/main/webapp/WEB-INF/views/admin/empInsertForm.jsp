@@ -45,7 +45,7 @@
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	<div class="main_section">
 	    <div class="insert_container">
-	        <form class="input_box" method="post" action="insertEmp">
+	        <form id="insert_from" class="input_box">
 	            <div>
 	                <span>이름</span>
 	                <input type="text" id="emp_name" name="empName">
@@ -83,15 +83,39 @@
 	                <input type="text" id="city_no" name="cityNo">
 	            </div>
 				<div class="btn_box">
-					<button type="submit">저장</button>
+					<button type="button">저장</button>
 				</div>
 	        </form>
 	    </div>
 	</div>
-	<script type="text/javascript">
+	<script>
 		$(".btn_box button").click(function(){
-			$("city_no").val(Number($("#city_no").val()));
+			var empName = $("#emp_name").val();
+			var deptNo = $("#dept option:selected").val();
+			var jobNo = $("#job_name option:selected").val();
+			var phone = $("#phone").val();
+			var email = $("#email").val();
+			var hireDate = $("#hire_date").val();
+			var cityNo = $("#city_no").val();
+			
+			$.ajax({
+				url:"insertEmp",
+				data:{
+					empName : empName,
+					deptNo : deptNo,
+					jobNo : jobNo,
+					phone : phone,
+					email : email,
+					hireDate : hireDate,
+					cityNo : cityNo
+				},
+				success : function(empNo){
+
+				myConfirm("사원 추가 성공","이메일로 사원번호를 전송 하시겠습니까?",myConfirmColback(empName, email, empNo));
+				}
+			})
 		})
 	</script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/js/API/emailAPI.js"></script>
 </body>
 </html>

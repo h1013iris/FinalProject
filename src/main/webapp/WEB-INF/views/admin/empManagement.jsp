@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,14 @@
     .main_section{
         padding-top: 50px !important;
         overflow-y: hidden !important;
+    }
+
+    .emp_list_content {
+        cursor: pointer;
+    }
+
+    .emp_list_content:hover{
+        background-color: rgba(243, 243, 243, 0.4);
     }
 </style>
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/admin/adminEmpManagementPage.css">
@@ -22,35 +31,31 @@
                 <div class="list_title">
                     <span>사원 목록</span>
                 </div>
-                <div class="list_sort">
-                    <span class="job_level">직위순</span>
-                    /
-                    <span class="insert_level">등록순</span>
-                </div>
                 <div class="list_container">
-                    <div class="emp_list_content">
-                        <div class="emp_profile_img"><img src="" alt="">ㅁㄴ</div>
-                        <div class="emp_name_box"><span class="emp_name">sss 사원</span></div>
-                    </div>
+                    <c:forEach items="${ empList }" var="e">
+                        <div class="emp_list_content">
+                            <input type="hidden" value=${ e.empNo }>
+                            <div class="emp_profile_img"><img src="" alt="">ㅁㄴ</div>
+                            <div class="emp_name_box"><span class="emp_name">${ e.empName }</span></div>
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
             <div class="emp_search">
                 <div class="list_title">
                     <span>사원 검색</span>
                 </div>
-                <div class="list_sort">
-                    <span class="job_level">직위순</span>
-                    /
-                    <span class="insert_level">등록순</span>
-                </div>
                 <div class="search_input_box">
-                    <input type="text" placeholder="검색">
+                    <input id="searchText" type="text" placeholder="검색">
                 </div>
                 <div class="list_container">
-                    <div class="emp_list_content">
-                        <div class="emp_profile_img"><img src="" alt="">asd</div>
-                        <div class="emp_name_box"><span class="emp_name">asd</span></div>
-                    </div>
+                    <c:forEach items="${ empList }" var="e">
+                        <div class="emp_list_content">
+                            <input type="hidden" value=${ e.empNo }>
+                            <div class="emp_profile_img"><img src="" alt="">ㅁㄴ</div>
+                            <div class="emp_name_box"><span class="emp_name">${ e.empName }</span></div>
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
             <div class="emp_insert">

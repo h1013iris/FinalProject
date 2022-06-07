@@ -13,12 +13,13 @@ a{
     text-decoration: none;
 }
 .main_section{
-    position: absolute;
-    top: 55px;
+    position: relative;
+    top: 0;
     left: 5vw;
-    padding: 100px;
     overflow-y: scroll;
-    height: 65vh;
+    display: inline-block;
+    width: 94.9vw;
+    height: 100vh;
 }
 
 .main_section::-webkit-scrollbar{
@@ -95,7 +96,10 @@ a{
 
 /* 네비게이션 */
    #main_nav {
-       width: 20vw;
+    position: absolute;
+    width: 20vw;
+    top: 55px;
+    display: inline-block;
    }
    
    #main_nav > ul{
@@ -115,8 +119,8 @@ a{
        background-color: rgb(174, 217, 248);
        position: absolute;
        left: 5vw;
-       top: 55px;
-       width: 15vw;
+       top: 0;
+       width: 20vw;
        height: 90vh;
        z-index: 9;
        overflow-y: scroll;
