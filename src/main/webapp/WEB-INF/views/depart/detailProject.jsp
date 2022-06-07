@@ -106,6 +106,38 @@
 		background-color: lightgray;
 		color: white;
 	}
+	.selectAddPer{
+		height: 50vh;
+	    border: 1px solid;
+	    position: absolute;
+	    width: 15vw;
+	    background-color: white;
+	}
+	.alreadyAttend, .addAttendPre{
+		height: 50%;
+		margin-left:5px;
+		margin-right:5px;
+	}
+	.selectAttenderP{
+		font-size: 20px;
+		padding-bottom: 10px;
+		margin-bottom:5px;
+		border-bottom: 1px solid;
+	}
+	.attendDiVn{
+		margin-top: 10px;
+	}
+	.attendPersonemp{
+		padding-bottom: 5px;
+		display: flex;
+	}
+	.deleteWatcherDIv, .deleteWatcherDIvw{
+		margin-left: 10px;
+		padding-top: 2px;
+	}
+	.deleteWatcherDIv:hover, .deleteWatcherDIvw:hover{
+		cursor: pointer;
+	}
 </style>
 </head>
 <body>
@@ -114,6 +146,31 @@
 	<jsp:include page="../depart/detailSemiProject.jsp"></jsp:include>
 	<div class="main_section">
         <div class="projectDetailBid">
+        	<div class="addProjectP">
+				<div class="imgClickBu"><img src="${ pageContext.servletContext.contextPath }/resources/images/addP.png" alt=""></div>
+				<div class="selectAddPer" id = "selectAddPer" style="display:none;">
+					<div class="alreadyAttend">
+						<div class="selectAttenderP attendDiVn"><span>참여자</span></div>
+						<c:forEach items="${list}" var="li">
+							<div class="list${li.empNo} attendPersonemp">
+								<div><span>${li.empName} ${li.jobName} _${li.address}</span></div>
+								<c:if test = "${p.proWriter ne li.empNo  && loginUser.empNo ne li.empNo}">
+								<div class="deleteWatcherDIv" onclick="deleteAttendP('${li.empNo}')"><img src="${ pageContext.servletContext.contextPath }/resources/images/close.png" alt="" width="15"></div>
+								</c:if>
+							</div>
+						</c:forEach>
+					</div>
+					<div class="addAttendPre">
+						<div class="selectAttenderP"><span>멤버 추가</span></div>
+						<c:forEach var="tl" items="${tlist}" >
+								<div class="list${tl.empNo} attendPersonemp">
+									<div><span>${tl.empName} ${tl.email} _${tl.status}</span></div>
+									<div class="deleteWatcherDIvw" onclick="addwatcherP('${tl.empNo}')"><img src="${ pageContext.servletContext.contextPath }/resources/images/plus.png" alt="" width="15"></div>
+								</div>
+						</c:forEach>
+					</div>
+				</div>
+        	</div>
         	<input type="hidden" id= "proTitleName" value="${p.proTitle}"> 
         	<div class="project_detailContain">
 	        	<div class="divonewP">
@@ -283,8 +340,6 @@
         	</div>
         </div>
     </div>
-    <div id=></div>
-   
     <script type="text/javascript">
 		/*클릭했을시 나오게*/
 		function openBurger(name){
@@ -295,6 +350,10 @@
 		/*바깥부분 클릭했을시 사라지게*/
 		$(document).click(function(){
 			$(".controlAnnoDetail").hide();	
+		})
+		//참여자 바깥부분 클릭했을시 사라지게
+		$(document).click(function(){
+    		$(".selectAddPer").hide();
 		})
     	$(function(){
     		$(".page_title > .title_name").text($("#proTitleName").val());
@@ -329,13 +388,14 @@
     			url:"selectSemiDetailPro.do", 
     			type:"post", 
     			data:{sino:sino},
-    			success:(function(sp){
+    			success:function(sp){
     				$(".semiProModal").css("display", "flex");
     				$(".modal_title").text(sp.semiTitle);
     				$(".semiProTar").text(" -"+sp.refPc);
     				$(".detailSemiTitleCh").val(sp.semiTitle);
     				$("#semiNoDETAIL").val(sp.semiNo);
     				$(".dueDateShow").text(sp.semiDue);
+    				$(".WriterNoSemiProject").val(sp.semiDue);
     				if(sp.semiDue == null){
     					$(".dueDateShow").empty();
     					//오늘 날짜 넣기
@@ -343,16 +403,42 @@
     				}else if(sp.semiDue != null){
     					document.getElementById('currentDate').value = sp.semiDue;
     				}
-    				
+    				if(sp.semiContent == null){
+    					$(".innerPartimgConn").css("display", "flex");
+   					}else{
+   						$(".commentText").html(sp.semiContent);
+   					}
     				if(sp.semiWriter == loginUser){
     					$(".outseeDelete").css("display","block");
     					$(".editdetailSemi").css("display","block");
+    					$(".checkListTotalDel").css("display","block");
     				}
-    			})
-    		})
-    		
-    		
+    				selectCheckList(sp.semiNo);
+    			}
+    		})	
     	}
+    	//프로젝트 참여자 삭제 
+    	function deleteAttendP(num){
+    		location.href="deleteWatcher.do?proNo="+${p.proNo}+"&proWriter="+num;
+    	}
+    	//프로젝트 참여자 추가 
+    	function addwatcherP(num){
+    		location.href="insertWatcherP.do?proNo="+${p.proNo}+"&proWriter="+num;
+    	}
+    	//추가 이미지 클릭하였을 시 
+    	$(function(){
+    		$(".imgClickBu img").click(function(){
+    			event.stopPropagation();
+        		var con = document.getElementById("selectAddPer");
+        		if(con.style.display =='none'){
+        			con.style.display="block";
+        		}else{
+        			con.style.display = 'none';
+        		}
+        	})
+    	})
+    	
+
     </script>
 </body>
 </html>

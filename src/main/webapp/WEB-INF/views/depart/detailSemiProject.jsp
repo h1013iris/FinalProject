@@ -9,7 +9,6 @@
 <style type="text/css">
 	.semiProModalSize{
 		height: 80vh;
-		text-align: center;
 		transform: translateX(85px);
 	}
 	.semiProTar{
@@ -157,17 +156,20 @@
 	.semiCheckListDiv{
 		margin-top :20px;
 		border: 1px solid;
-		text-align: left;
+		text-align: left !important;
 	}
 	.checkListTitle{
 		font-size: 20px;
-		margin-bottom: 15px;
+		margin-bottom: 10px;
+		text-align: left;
+		margin-top: 15px;
+		display: flex;
 	}
 	.semiCheckListDiv .checkBoxDiv{
 		width: 20px !important;
 		height: 20px !important;
 	}
-	.semiCheckListDiv .contentCheckBox{
+	.contentCheckBox{
 		font-size: 18px;
 		line-height: 25px;
 		margin-left: 8px;
@@ -179,7 +181,7 @@
 	}
 	.deleteCheckBox{
 		margin-top: 4px;
-		margin-left: 5px;
+		margin-left: 10px;
 	}
 	.deleteCheckBox:hover{
 		cursor: pointer;
@@ -189,10 +191,14 @@
 		display: flex;
 		height: 3vh;
 	    line-height: 3vh;
-	    width: 16vh;
+	    width: 14vh;
 	    border-radius: 3px;
 	    justify-content: center;
 	    margin-left: 35px;
+	}
+	.plusNewCheck:hover{
+		cursor: pointer;
+		background-color: #85cdff;
 	}
 	.insertCheckinput{
 		width: 35vw;
@@ -203,8 +209,104 @@
 	.insertCheckBox{
 		display: none;
 		margin-top: 15px;
+		margin-left: 25px;
 	}
-
+	.dtailSemiButtonEn{
+		width: 10%;
+	    height: 30px;
+	    line-height: 30px;
+	}
+	.dtailSemiButtonCan{
+		width: 10%;
+	    height: 30px;
+	    line-height: 30px;
+	    background-color: lightgray;
+	    box-shadow: 0px 5px 0px 0px #afafaf !important;
+	}
+	.dtailSemiButtonCan:hover{
+		box-shadow: 0px 0px 0px 0px #afafaf !important;
+	}
+	.CheckListEditButton{
+		margin-bottom: 15px;
+		margin-left: 35px;
+		display: none;
+		text-align: left !important;
+	}
+	input {
+	  	accent-color: #85cdff;
+	}
+	.checkListTotalDel{
+		text-align: right;
+		display: none;
+	}
+	.checkName{
+		width: 98%;
+	}
+	.textDecoration{
+		text-decoration: line-through;
+	}
+	.addWats{
+		border: 1px solid;
+		margin-bottom: 10px;
+	}
+	.addWats span{
+		line-height: 30px;
+	}
+	.innerPartimgConn{
+		width: 7vw;
+		display: none;
+		background-color: rgb(230, 229, 229);
+		justify-content: center;
+		border-radius: 5px;
+	}
+	.updateInnerPartCommne, .updatererPartCommne{
+		display: none;
+	}
+	.commentSubmi, .commentCancel, .commentCancel2{
+		margin-top:10px;
+	 	height: 3vh;
+	 	width: 5vw;
+	 	line-height: 3vh;
+	}
+	.commentCancel, .commentCancel2{
+		background-color: lightgray;
+	    box-shadow: 0px 5px 0px 0px #afafaf !important;
+	}
+	.commentCancel:hover, .commentCancel2:hover{
+		box-shadow: 0px 0px 0px 0px #afafaf !important;
+	}
+	.commentText{
+		border: 1px solid;
+		width: 97%;
+	}
+	.commentDvi{
+		display: flex;
+		width: 100%;
+	}
+	.semiCheckListDiv{
+		border: 1px solid;
+	}
+	.checkListTitle{
+		border: 1px solid red;
+	}
+	.semiReplyPartS{
+		border: 1px solid;
+		height:	250px;
+	}
+	.semiMainBody{
+		max-height: none !important;
+		overflow-y: scroll;
+	}
+	.semiMainBody::-webkit-scrollbar{
+       display: none;
+   }
+	.checkListDIvSemiPro{
+		height: 350px;
+		overflow-y: scroll;
+	}
+	.checkListDIvSemiPro::-webkit-scrollbar{
+       display: none;
+   }
 </style>
 </head>
 <body>
@@ -229,9 +331,26 @@
                     <img src="${ pageContext.servletContext.contextPath }/resources/images/changeB.png" alt="" width="20">
                 </div>
             </div >
-            <div class="modal_body">
+            <div class="modal_body semiMainBody" >
             	<!-- 프로젝트 번호 -->
               	<input type="hidden" id ="semiNoDETAIL">
+              	<input type="hidden" id ="WriterNoSemiProject">
+              	<!-- 설명 적는 부분 -->
+              	<div class="addWats" >
+              		<div class="innerPartimgConn">
+	       				<img src="${ pageContext.servletContext.contextPath }/resources/images/plus.png" width="25"> 
+	       				<div><span>설명 추가</span></div>
+       				</div>
+       				<div class="updateInnerPartCommne">
+       					<textarea rows="3" cols="101" style="resize:none;" id = "textareaCommnet"></textarea>
+       					<label><button type="button" class="commonButton1 commentSubmi">등록</button></label>
+           				<label><button type="button" class="commonButton1 commentCancel">취소</button></label>
+       				</div>
+       				<div class="commentDvi">
+       					<div class="commentText"></div>
+       					<div class="editCommnetch"><img src="${ pageContext.servletContext.contextPath }/resources/images/close.png" alt="" width="20"></div>
+       				</div>
+   				</div>
               	<!-- 프로젝트 및 기한일 적는 div -->
               	<div class="attendDuedate">
 	              	<!-- 참여자 -->
@@ -246,64 +365,44 @@
 	              	</div>
               	</div>
               	<!-- 체크리스트 div -->
-              	<div class="semiCheckListDiv">
-              		<div class="checkListTitle"><span>체크 리스트</span></div>
-              		<div class="checkBoxDIvflex">
-              			<label><input type="checkbox" class="checkBoxDiv"></label>
-              			<div class="contentCheckBox"><span>check</span></div>
-              			<div class="deleteCheckBox">
-		                    <img src="${ pageContext.servletContext.contextPath }/resources/images/close.png" alt="" width="20">
-		                </div>
-              		</div>
-              		<div class="checkBoxDIvflex">
-              			<label><input type="checkbox" class="checkBoxDiv"></label>
-              			<div class="contentCheckBox"><span>checkcheckcheckcheckcheckcheckcheckcheckcheckcheckcheckcheckcheckcheckcheck</span></div>
-              			<div class="deleteCheckBox">
-		                    <img src="${ pageContext.servletContext.contextPath }/resources/images/close.png" alt="" width="20">
-		                </div>
-              		</div>
-              		<div class="checkBoxDIvflex">
-              			<label><input type="checkbox" class="checkBoxDiv"></label>
-              			<div class="contentCheckBox"><span>check</span></div>
-              			<div class="deleteCheckBox">
-		                    <img src="${ pageContext.servletContext.contextPath }/resources/images/close.png" alt="" width="20">
-		                </div>
-              		</div>
-              		<div class="checkBoxDIvflex">
-              			<label><input type="checkbox" class="checkBoxDiv"></label>
-              			<div class="contentCheckBox"><span>check</span></div>
-              			<div class="deleteCheckBox">
-		                    <img src="${ pageContext.servletContext.contextPath }/resources/images/close.png" alt="" width="20">
-		                </div>
-              		</div>
-              		<div class="checkBoxDIvflex insertCheckBox">
-              			<label><input type="checkbox" class="checkBoxDiv"></label>
-              			<div class="addinsertCheck"><input type="text" class="insertCheckinput"></div>
-              		</div>
-              		<!-- 체크리스트 항목 추가 버튼 -->
-        			<div class="plusNewCheck" id="insertNewCheck">
-        				<img src="${ pageContext.servletContext.contextPath }/resources/images/plus.png" width="25"> 
-        				<div ><span>항목 추가</span></div>
-       				</div>
-              	</div>
+              	<div class="checkListDIvSemiPro">
+	              	<div class="checkListTitle">
+	              		<div class="checkName"><span>체크 리스트</span></div>
+	              		<div class="checkListTotalDel"><img src='${ pageContext.servletContext.contextPath }/resources/images/close.png' alt='' width='18'></div>
+	            	</div>
+	              	<div class="semiCheckListDiv">
+	              	</div>
+	              	<div class="checkBoxDIvflex insertCheckBox">
+	           			<div class="addinsertCheck"><input type="text" class="insertCheckinput"></div>
+	           		</div>
+	           		<!-- 체크리스트 항목 추가 버튼 -->
+	           		<div class="CheckListEditButton">
+	           			<label><button type="button" class="commonButton1 dtailSemiButtonEn">등록</button></label>
+	           			<label><button type="button" class="commonButton1 dtailSemiButtonCan">취소</button></label>
+	           		</div>
+	       			<div class="plusNewCheck" id="insertNewCheck">
+	       				<img src="${ pageContext.servletContext.contextPath }/resources/images/plus.png" width="25"> 
+	       				<div><span>항목 추가</span></div>
+	   				</div>
+   				</div>
+   				<div class="semiReplyPartS">
+   				
+   				</div>
             </div>
         </div>
         <div class="outSectionDiv">
-       	<div class="outSeeAttend"><span>참여자</span></div>
-       	<div class="outseeDuetime"><span>기한일</span></div>
-       	<div><input type="date" class="outseeDueTimeInsert" id="currentDate"></div>
-       	<div class="outseeChecklist"><span>체크리스트</span></div>
-       	<div class="outseeFile"><span>파일첨부</span></div>
-       	<div class="outseeMove"><span>이동</span></div>
-       	<div class="outdeletese"><span>창닫기</span></div>
-       	<div class="outseeDelete"><span>삭제하기</span></div>
+	       	<div class="outSeeAttend"><span>참여자</span></div>
+	       	<div class="outseeDuetime"><span>기한일</span></div>
+	       	<div><input type="date" class="outseeDueTimeInsert" id="currentDate"></div>
+	       	<div class="outseeChecklist"><span>체크리스트</span></div>
+	       	<div class="outseeFile"><span>파일첨부</span></div>
+	       	<div class="outseeMove"><span>이동</span></div>
+	       	<div class="outdeletese"><span>창닫기</span></div>
+	       	<div class="outseeDelete"><span>삭제하기</span></div>
        	</div>
     </div>
-     
 </body>
 <script type="text/javascript">
-	
-
 	//날짜 넣었을 시에 체크 
 	$(".outseeDueTimeInsert").change(function(){
 		$(".dueDateShow").empty();
@@ -315,13 +414,13 @@
 				url:"updateSemiDueNull.do",
 				type:"post", 
 				data:{semiNo:semiNo}, 
-				success:(function(result){
+				success:function(result){
 					if(result =="1"){
 						$(".dueDateShow").text("이전 날짜는 선택할 수 없습니다.");
 						$(".dueDateShow").css("color","#85cdff");
 						$("#currentDate").val("");
 					}
-				})
+				}
 			})
 		}else{
 			var semiNo = $("#semiNoDETAIL").val();//세부 번호
@@ -329,12 +428,12 @@
 				url:"updateSemi.do",
 				type:"post", 
 				data:{semiNo:semiNo, semiDue:semiDue}, 
-				success:(function(result){
+				success:function(result){
 					if(result =="1"){
 						$(".dueDateShow").text(semiDue);
 						$(".dueDateShow").css("color","black");
 					}
-				})
+				}
 			})
 		}
 	})
@@ -355,7 +454,7 @@
 			url:"updateSemi.do", 
 			type:"post", 
 			data:{semiTitle:semiTitle, semiNo:semiNo}, 
-			success:(function(result){//성공했을시에 
+			success:function(result){//성공했을시에 
 				if(result =="1"){
 					var f=document.getElementById("CHanTitle");
 					f.type="hidden";
@@ -363,10 +462,8 @@
 					$(".detailSemiTitle").text(semiTitle);
 					$(".detailSemiTitle").show();
 					$(".editdetailSemi").css("display","block");
-					
 				}
-				
-			})
+			}
 		})
 	})
 	/*창닫기 클릭시 모달창 사라지게 하기*/
@@ -385,11 +482,182 @@
 	//항목 추가 버튼 클릭시에(체크리스트)
 	$(".plusNewCheck").click(function(){
 		$(".insertCheckBox").css("display","flex");
+		$(".CheckListEditButton").css("display","block");
+		$(".plusNewCheck").css("display","none");
 	})
-	
+	//항목 추가 취소 버튼 클릭시에 (체크리스트)
+	$(".dtailSemiButtonCan").click(function(){
+		$(".insertCheckBox").css("display","none");
+		$(".CheckListEditButton").css("display","none");
+		$(".plusNewCheck").css("display","flex");
+	})
+	//체크리스트 입력후 등록버튼 클릭시에(체크리스트)
+	$(".dtailSemiButtonEn").click(function(){
+		var refSemi = $("#semiNoDETAIL").val();//세부 번호
+		var checkContent = $(".insertCheckinput").val();//체크리스트 내용
+		var writerNo = ${loginUser.empNo};
+		$.ajax({
+			url:"insertChecklist.do",
+			type:"post",
+			data:{refSemi:refSemi, checkContent:checkContent, writerNo:writerNo }, 
+			success:function(result){
+				if(result=="1"){
+					$(".insertCheckinput").val("");//댓글 작성부분 비워주기
+					selectCheckList(refSemi);
+				}
+			}
+		})
+	})
 	//체크리스트를 클릭하였을 시에 
 	$(".outseeChecklist").click(function(){
-		
+		$(".semiCheckListDiv").css("display", "block");
+		$(".checkListTitle").css("display", "flex");
+		$(".plusNewCheck").css("display", "flex");
+	})
+	function selectCheckList(num){
+		$.ajax({
+			url:"selectCheckList.do", 
+			type:"get", 
+			data: {refSemi:num}, 
+			success:function(list){
+				$checkBody = $(".semiCheckListDiv");
+				$checkBody.html('');
+				if(list.length == 0){//글이 없을시에 div 안보이게 하기 
+					$(".semiCheckListDiv").css("display", "none");
+					$(".insertCheckBox").css("display","none");
+					$(".plusNewCheck").css("display", "none");
+					$(".checkListTitle").css("display", "none");
+				}else if(list.length != 0){
+					$.each(list, function(i, obj){
+						var $fdiv = $('<div>').addClass("checkBoxDIvflex");
+						var $lain = $("<label><input type='checkbox' name ='checkBoxDiv' class='checkBoxDiv checkBoxDiv"+obj.ckeckNo+"' value='contentCheckBox"+obj.ckeckNo+"' >");
+						var $cont = $("<div class='contentCheckBox' id='contentCheckBox"+obj.ckeckNo+"'><span> ").text(obj.checkContent);
+						if("${loginUser.empNo}"==obj.writerNo){
+							var $dele = $("<div class='deleteCheckBox' id='deleteCheckBox' onclick='deleteChecklist("+obj.ckeckNo+")'><img src='${ pageContext.servletContext.contextPath }/resources/images/close.png' alt='' width='18'>");
+						}
+						var $checkNo = $('<input type="hidden" name="checkNo" value='+obj.ckeckNo+'>');
+						
+						$fdiv.append($lain);
+						$fdiv.append($cont);
+						$fdiv.append($dele);
+						$fdiv.append($checkNo);
+						$checkBody.append($fdiv);
+						if(obj.checkConfirm == 'Y'){
+							$("#contentCheckBox"+obj.ckeckNo).addClass("textDecoration");
+							$(".checkBoxDiv"+obj.ckeckNo).prop("checked", true);
+						}
+					})
+					
+				}
+			}
+		})
+    }
+	//자신이 작성한 체크리스트 삭제 
+	function deleteChecklist(ckeckNo){
+		var refSemi = $("#semiNoDETAIL").val();//세부 번호
+		$.ajax({
+			url:"deletecheckList.do", 
+			type:"post", 
+			data:{ckeckNo:ckeckNo}, 
+			success:function(result){
+				if(result =="1"){
+					console.log("성공")
+				}
+				selectCheckList(refSemi);
+			}
+		})
+	}
+	//체크리스트를 아예 삭제 할 때
+	$(".checkListTotalDel").click(function(){
+		var refSemi = $("#semiNoDETAIL").val();//세부 번호
+		var num = $("#semiNoDETAIL").val();
+		$.ajax({
+			url:"deleteTotcheckList.do", 
+			type:"post", 
+			data:{refSemi:refSemi},
+			success:function(result){
+				console.log("체크리스트 삭제 완료")
+				selectSemiDetailPro(num);
+				$(".semiCheckListDiv").css("display", "none");
+				$(".checkListTitle").css("display", "none");
+				$(".plusNewCheck").css("display", "none");
+				$(".checkListTitle").css("display", "none");
+				$(".CheckListEditButton").css("display","none");
+			}
+		})
+	})
+	//체크박스 클릭시에 글에 라인생기기
+	$(document).on("change",".checkBoxDiv",function(){
+		var ckeckNo = $(this).val();
+		ckeckNo = ckeckNo.replace("contentCheckBox"," ");
+		console.log(ckeckNo)
+		var refSemi = $("#semiNoDETAIL").val();//세부 번호
+		if($(this).is(":checked")==false){
+			$.ajax({
+				url:"updatereckeckList.do", 
+				type:"get",
+				data:{ckeckNo:ckeckNo}, 
+				success: function(result){
+					if(result =="1"){
+						selectCheckList(refSemi);
+					}
+				}
+			})
+		}else if($(this).is(":checked")==true){
+			
+			$.ajax({
+				url:"updateckeckList.do", 
+				type:"get",
+				data:{ckeckNo:ckeckNo}, 
+				success: function(result){
+					if(result =="1"){
+						selectCheckList(refSemi);
+					}
+				}
+			})
+		}
+	})
+	//설명추가 클릭시에 입력칸으로 변경
+	$(".innerPartimgConn").click(function(){
+		$(".updateInnerPartCommne").css("display", "block");
+		$(".innerPartimgConn").css("display","none");
+	})
+	//취소버튼 클릭시에 창닫기 
+	$(".commentCancel").click(function(){
+		$(".updateInnerPartCommne").css("display", "none");
+		$(".innerPartimgConn").css("display","flex");
+	})
+	//등록버튼 눌렀을시에 제출
+	$(".commentSubmi").click(function(){
+		var semiNo = $("#semiNoDETAIL").val();//세부 번호
+		var semiContent = $("#textareaCommnet").val();//
+		$.ajax({
+			url:"updateComment.do",
+			type:"get", 
+			data:{semiNo:semiNo, semiContent:semiContent}, 
+			success: function(result){
+				if(result == "1"){
+					console.log("설명 업데이트 성공")
+					$("#textareaCommnet").val('');
+					selectSemiDetailPro(semiNo);
+				}
+			}
+		})
+	})
+	//설명 삭제 클릭했을 시
+	$(".editCommnetch").click(function(){
+		var semiNo = $("#semiNoDETAIL").val();//세부 번호
+		$.ajax({
+			url:"updateComment.do",
+			type:"get", 
+			data:{semiNo:semiNo}, 
+			success:function(result){
+				console.log("성공")
+				$("#textareaCommnet").val('');
+				$(".commentDvi").css("display","none");
+				selectSemiDetailPro(semiNo);
+			}
+		})
 	})
 </script>
 </html>

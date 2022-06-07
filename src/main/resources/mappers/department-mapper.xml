@@ -57,15 +57,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="pcStatus" column="PC_STATUS"/>
 	</resultMap>
 	<resultMap type="Member" id="memberResultSet">
-	 	<id property="empNo" column="PW_ATTEN"/>
-	 	<result property="empName" column="EMP_NAME"/>
-	 	<result property="userNo" column="PW_NO"/>
-	 	<result property="email" column="REF_PRO"/>
-	 	<result property="status" column="PW_STATUS"/>
-	 	<result property="jobNo" column="JOB_NO"/>
-	 	<result property="departmentNo" column="DEPARTMENT_NO"/>
+	 	<id property="empNo" column="PW_ATTEN"/><!-- 프로젝트 참여자 -->
+	 	<result property="empName" column="EMP_NAME"/><!-- 이름 -->
+	 	<result property="userNo" column="PW_NO"/><!-- 참여번호 -->
+	 	<result property="email" column="REF_PRO"/><!-- 참여 프로젝트 -->
+	 	<result property="status" column="PW_STATUS"/><!-- 프로젝트 상태값 -->
+	 	<result property="jobName" column="JOB_NAME"/><!-- 직위명 -->
+	 	<result property="departmentNo" column="DEPARTMENT_NO"/><!-- 부서번호 -->
+	 	<result property="address"  column="DEPARTMENT_TITLE"/><!-- 부서명 -->
  	</resultMap>
-	
+	<resultMap type="Member" id="memberResultSet2">
+	 	<id property="empNo" column="EMP_NO"/><!-- 사원 번호 -->
+	 	<result property="empName" column="EMP_NAME"/><!-- 이름 -->
+	 	<result property="userNo" column="PW_NO"/><!-- 참여번호 -->
+	 	<result property="email" column="JOB_NAME"/><!-- 직위명 -->
+	 	<result property="status" column="DEPARTMENT_TITLE"/><!-- 부서명 -->
+ 	</resultMap>
 	<insert id="insertAnnoDepart" parameterType="Department">
 		INSERT INTO ANNOUNCE_DEPART
 		VALUES
@@ -175,7 +182,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM PROJECT 
 		WHERE PRO_NO IN(SELECT REF_PRO
 		                FROM PRO_WATCHER
-		                WHERE PW_ATTEN =#{emno})) J,  (SELECT COUNT(PW_ATTEN) AS COUNT, REF_PRO FROM PRO_WATCHER JOIN PROJECT ON(PRO_NO=REF_PRO) GROUP BY REF_PRO ) PW
+		                WHERE PW_ATTEN =#{emno}
+		                AND PW_STATUS = 'Y')) J,  (SELECT COUNT(PW_ATTEN) AS COUNT, REF_PRO FROM PRO_WATCHER JOIN PROJECT ON(PRO_NO=REF_PRO) WHERE PW_STATUS = 'Y' GROUP BY REF_PRO ) PW
 		WHERE J.PRO_NO = PW.REF_PRO
 		ORDER BY PRO_NO
 	</select>
@@ -190,7 +198,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM PROJECT 
 		WHERE PRO_NO IN(SELECT REF_PRO
 		                FROM PRO_WATCHER
-		                WHERE PW_ATTEN =#{emno})) J,  (SELECT COUNT(PW_ATTEN) AS COUNT, REF_PRO FROM PRO_WATCHER JOIN PROJECT ON(PRO_NO=REF_PRO) GROUP BY REF_PRO ) PW
+		                WHERE PW_ATTEN =#{emno}
+		                 AND PW_STATUS = 'Y')) J,  (SELECT COUNT(PW_ATTEN) AS COUNT, REF_PRO FROM PRO_WATCHER JOIN PROJECT ON(PRO_NO=REF_PRO)  WHERE PW_STATUS = 'Y' GROUP BY REF_PRO ) PW
 		WHERE J.PRO_NO = PW.REF_PRO
 		AND J.PRO_NO IN (SELECT FAV_PRO
 		                FROM PROJECT_FAV
@@ -221,9 +230,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND PC_STATUS = 'Y'
 	</select>
 	<select id="selectPW" parameterType="_int" resultMap="memberResultSet">
-		SELECT PW_NO, REF_PRO, PW_ATTEN, PW_STATUS
-		FROM PRO_WATCHER
-		JOIN USER_INFO ON (EMP_NO = PW_ATTEN)
+		SELECT PW_NO, REF_PRO, PW_ATTEN, PW_STATUS, EMP_NAME, JOB_NAME, U.DEPARTMENT_NO, DEPARTMENT_TITLE
+		FROM PRO_WATCHER P
+		JOIN USER_INFO U ON (U.EMP_NO = P.PW_ATTEN)
+		JOIN JOB_RANK_MANAGEMENT J ON(U.JOB_NO = J.JOB_NO)
+		JOIN DEPARTMENT_MANAGEMENT D ON (U.DEPARTMENT_NO = D.DEPARTMENT_NO)
 		WHERE REF_PRO = #{pjno}
 		AND PW_STATUS='Y'
 	</select>
@@ -254,12 +265,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			SET PC_FOUR = #{changepc}
 		</if>
 		WHERE PC_NO =#{pcNo}
+		AND PC_STATUS = 'Y'
 	</update>
 	<!-- 세부프로젝트 타겟 변경 -->
 	<update id="updateSemiProTar" parameterType="ProjectClass">
 		UPDATE SEMI_PRO
 		SET REF_PC=#{changepc}
 		WHERE REF_PC=#{originpc}
+		AND SEMI_STATUS = 'Y'
 	</update>
 	<update id="deleteTargetName" parameterType="ProjectClass">
 		UPDATE PRO_CLASS
@@ -276,16 +289,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			SET PC_FOUR = NULL
 		</if>
 		WHERE PC_NO =#{pcNo}
+		AND PC_STATUS = 'Y'
 	</update>
 	<update id="deleteSemiProTar" parameterType="ProjectClass">
 		UPDATE SEMI_PRO
 		SET SEMI_STATUS ='N'
 		WHERE REF_PC=#{originpc}
+		AND SEMI_STATUS = 'Y'
 	</update>
 	<select id="selectSemiDetailPro" parameterType="_int" resultType="SemiProject">
 		SELECT *
 		FROM SEMI_PRO
 		WHERE SEMI_NO = #{sino}
+		AND SEMI_STATUS = 'Y'
 	</select>
 	<update id="updateSemiPro" parameterType="SemiProject">
 		UPDATE SEMI_PRO
@@ -296,10 +312,83 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SET SEMI_DUE = #{semiDue}
 		</if>
 		WHERE SEMI_NO = #{semiNo}
+		AND SEMI_STATUS = 'Y'
 	</update>
 	<update id="updateSemiDueNull" parameterType="SemiProject">
 		UPDATE SEMI_PRO
 		SET SEMI_DUE = NULL
 		WHERE SEMI_NO = #{semiNo}
+		AND SEMI_STATUS = 'Y'
+	</update>
+	<insert id="insertCheckList" parameterType="SemiCheckList">
+		INSERT INTO PROJECT_CHECKLIST
+		VALUES
+		(SEQ_SEMICH.NEXTVAL, #{refSemi}, #{checkContent}, SYSDATE, DEFAULT, DEFAULT, #{writerNo})
+	</insert>
+	<select id="selectCheckList" parameterType="SemiCheckList" resultType="SemiCheckList">
+		SELECT *
+		FROM PROJECT_CHECKLIST
+		WHERE REF_SEMI = #{refSemi}
+		AND CHECK_STATUS='Y'
+	</select>
+	<update id="deletecheckList" parameterType="_int">
+		UPDATE PROJECT_CHECKLIST
+		SET CHECK_STATUS = 'N'
+		WHERE CKECK_NO = #{ckeckNo}
+		AND CHECK_STATUS='Y'
+	</update>
+	<update id="deleteTotcheckList" parameterType="_int">
+		UPDATE PROJECT_CHECKLIST
+		SET CHECK_STATUS = 'N'
+		WHERE REF_SEMI = #{refSemi}
+		AND CHECK_STATUS='Y'
+	</update>
+	<update id="updateckeckList" parameterType="_int">
+		UPDATE PROJECT_CHECKLIST
+		SET CHECK_CONFIRM = 'Y'
+		WHERE CKECK_NO = #{ckeckNo}
+		AND CHECK_STATUS='Y'
+		AND CHECK_CONFIRM ='N'
+	</update>
+	<update id="updatereckeckList" parameterType="_int">
+		UPDATE PROJECT_CHECKLIST
+		SET CHECK_CONFIRM = 'N'
+		WHERE CKECK_NO = #{ckeckNo}
+		AND CHECK_STATUS='Y'
+		AND CHECK_CONFIRM ='Y'
+	</update>
+	<select id="selectTL" resultMap="memberResultSet2" parameterType="_int">
+		SELECT EMP_NO, EMP_NAME, JOB_NAME, DEPARTMENT_TITLE
+		FROM USER_INFO U
+		JOIN JOB_RANK_MANAGEMENT J ON(U.JOB_NO = J.JOB_NO)
+		JOIN DEPARTMENT_MANAGEMENT D ON (U.DEPARTMENT_NO = D.DEPARTMENT_NO)
+		WHERE STATUS = 'N'
+		AND EMP_NO NOT IN (SELECT PW_ATTEN
+		                    FROM PRO_WATCHER
+		                    WHERE REF_PRO = #{pjno}
+		                    AND PW_STATUS = 'Y')
+	</select>
+	<update id="deleteWatcher" parameterType="Project">
+		UPDATE PRO_WATCHER
+		SET PW_STATUS = 'N'
+		WHERE REF_PRO = #{proNo}
+		AND PW_ATTEN = #{proWriter}
+		AND  PW_STATUS = 'Y'
+	</update>
+	<insert id="insertWatcherP" parameterType="Project">
+		INSERT INTO PRO_WATCHER
+		VALUES
+		(SEQ_PROWAT.NEXTVAL, #{proNo}, #{proWriter},DEFAULT)
+	</insert>
+	<update id="updateComment" parameterType="SemiProject">
+		UPDATE SEMI_PRO
+		<if test="semiContent != null">
+			SET SEMI_CONTENT = #{semiContent}
+		</if>
+		<if test="semiContent == null">
+			SET SEMI_CONTENT = NULL
+		</if>
+		WHERE SEMI_NO = #{semiNo}
+		AND SEMI_STATUS = 'Y'
 	</update>
 </mapper>
