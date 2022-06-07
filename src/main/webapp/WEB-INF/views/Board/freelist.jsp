@@ -166,8 +166,8 @@ img {
 						<span id="isRecents" class="dropbtn_icon">최신순</span>
 					</button>
 					<div class="dropdown-content" id="drp">
-						<a id="new" href="free.do">최신순</a> 
-						<a id="old" href="freeold.do">오래된순</a>
+						<a id="new" href="notice.do">최신순</a> 
+						<a id="old"	href="noticeold.do">오래된순</a>
 					</div>
 				</div>
 			</div>
@@ -183,6 +183,7 @@ img {
 						</tr>
 					</thead>
 					<tbody>
+
 						<c:forEach items="${ list }" var="n">
 							<tr>
 								<td style="height: 70px;">${ n.writeno }</td>
@@ -194,6 +195,7 @@ img {
 							</tr>
 
 						</c:forEach>
+
 					</tbody>
 					<c:if test="${ empty list }">
 						<tr>
@@ -207,7 +209,7 @@ img {
 						<c:choose>
 							<c:when test="${ pi.currentPage ne 1 }">
 								<a class="page-link"
-									href="free.do?currentPage=${ pi.currentPage-1 }"><button
+									href="notice.do?currentPage=${ pi.currentPage-1 }"><button
 										class="noticeButton2"><</button></a>
 							</c:when>
 							<c:otherwise>
@@ -220,7 +222,7 @@ img {
 						<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 							<c:choose>
 								<c:when test="${ pi.currentPage ne p }">
-									<a class="page-link" href="free.do?currentPage=${ p }"
+									<a class="page-link" href="notice.do?currentPage=${ p }"
 										style="color: white"><button class="noticeButton2">${ p }</button></a>
 								</c:when>
 								<c:otherwise>
@@ -234,20 +236,21 @@ img {
 						<c:choose>
 							<c:when test="${ pi.currentPage ne pi.maxPage }">
 								<a class="page-link"
-									href="free.do?currentPage=${ pi.currentPage+1 }"><button
+									href="notice.do?currentPage=${ pi.currentPage+1 }"><button
 										class="noticeButton2">></button></a>
 							</c:when>
 							<c:otherwise>
 								<a class="page-link"
-									href="free.do?currentPage=${ pi.currentPage+1 }"><button
+									href="notice.do?currentPage=${ pi.currentPage+1 }"><button
 										class="noticeButton2">></button></a>
 							</c:otherwise>
 						</c:choose>
 					</ul>
 				</div>
+				<br> <br>
 				<div class="serch">
 					<div class="dropdown1">
-						<form action="searchfree.do">
+						<form action="searchBoard.do">
 							<select name="condition">
 								<option value="title">제목</option>
 								<option value="content">내용</option>
@@ -256,8 +259,23 @@ img {
 						</form>
 					</div>
 
-
-
+					<script>
+			$(function(){
+				switch('${condition}'){				
+				case "title" : $("#searchArea option").eq(1).attr("selected", true); break; 
+				case "content" : $("#searchArea option").eq(2).attr("selected", true); break; 
+				}
+			})
+		
+          
+         if(window.location.pathname === "/spring/noticeold.do"){
+            document.getElementById("isRecents").innerText="오래된순";
+            }else{
+            document.getElementById("isRecents").innerText="최신순";
+            } 
+			
+          
+		</script>
 
 
 				</div>
@@ -265,22 +283,16 @@ img {
 
 
 			<script>
-    if(window.location.pathname === "/spring/freeold.do"){
-        document.getElementById("isRecents").innerText="오래된순";
-        }else{
-        document.getElementById("isRecents").innerText="최신순";
-        }
-    
-    
-    
-    
     
     	$(function(){
     		$("#boardList tbody tr").click(function(){
     			location.href="detailBoard.do?bno=" + $(this).children().eq(0).text();
-    			
+    			console.log(bno)
     		});
     	});
+    	
+         
     </script>
+</body>
 </body>
 </html>

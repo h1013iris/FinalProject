@@ -117,11 +117,12 @@
 			<div id="cocn">
 				<button class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</button>
 				<button class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</button>
+				<button type="button" class="checkman">읽은사람</button>
 			</div>
 		
 			<form id="postForm" action="" method="post">
 				<input type="hidden" name="bno" value="${ b.writeno }">
-
+                <input type="hidden" name="boardno" value="${ b.boardno }">
 			</form>
 			<script>
 					function postFormSubmit(num){
@@ -276,5 +277,7 @@
     	})
 	}  	
 </script>
+<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
 </body>
 </html>
