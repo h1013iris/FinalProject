@@ -19,6 +19,10 @@ $(function(){
 	$(document).on("click",".simplepjMo", function(){
 		$(".simpleProjectCreateModal").css("display","flex");
 	})
+	//글확인자 버튼 클릭시 모달창
+		$(document).on("click",".checkman", function(){
+		$(".checkmans").css("display","flex");
+	})
 
     $("#main_nav img").mouseenter(function(){
         $(".detail_nav_content").removeClass("enter");

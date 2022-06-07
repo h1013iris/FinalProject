@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.uni.spring.board.model.dto.Board;
 import com.uni.spring.board.model.dto.coment;
+import com.uni.spring.board.model.dto.pbox;
 import com.uni.spring.board.model.dto.searchcon;
 import com.uni.spring.common.PageInfo;
 
@@ -156,8 +157,33 @@ public int updatedetail(SqlSessionTemplate sqlSession, Board b) {
 	return sqlSession.update("boardMapper.updatedetail" , b);
 }
 
-
+public static int deleteBoard(SqlSessionTemplate sqlSession, int bno) {
+	// TODO Auto-generated method stub
+	return sqlSession.insert("boardMapper.deleteBoard" , bno);
 }
+
+//임시 보관함
+public int selectpboxCount(SqlSessionTemplate sqlSession, int userno) {
+	// TODO Auto-generated method stub
+	return sqlSession.selectOne("boardMapper.selectpboxCount",userno);
+}
+
+public ArrayList<Board> selectpbox(SqlSessionTemplate sqlSession, PageInfo pi, int userno) {
+	  int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+
+      RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+      return (ArrayList) sqlSession.selectList("boardMapper.selectpbox", userno, rowBounds);
+}
+
+public int saveboard(SqlSessionTemplate sqlSession, pbox p) {
+	// TODO Auto-generated method stub
+	 return sqlSession.insert("boardMapper.saveboard", p);
+}
+}
+
+
+
 
 
 

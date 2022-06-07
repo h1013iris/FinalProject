@@ -120,8 +120,9 @@
 				<div align="right" class="buttonSection">
 					<button type="submit" class="commonButton1">등록하기</button>
 					<button type="reset" class="commonButton1">취소하기</button>
-					<button type="submit" class="commonButton1">임시보관함</button>
-					<button type="submit" class="commonButton1">보관함에저장</button>
+					<button type="button" class="commonButton1"  id="saveboard">임시보관함</button>
+					<button type="button" class="commonButton1"  id="save" onclick="savebtn();" value ="2">보관함에저장</button>
+					<input type="hidden" name="save" id="saveval">
 				</div>
 			</form>
 		</div>
@@ -129,6 +130,12 @@
 
 	<script>
 CKEDITOR.replace('content');
+
+function savebtn(){
+    var btnValue =  document.getElementById("save")
+    document.getElementById("saveval").value = btnValue.value
+    document.getElementById('enrollFormAnnoDepart').submit();
+}
 
 
 </script>

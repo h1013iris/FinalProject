@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.GsonBuilder;
 import com.uni.spring.board.model.dto.Board;
 import com.uni.spring.board.model.dto.coment;
+import com.uni.spring.board.model.dto.pbox;
 import com.uni.spring.board.model.dto.searchcon;
 import com.uni.spring.board.model.service.BoardService;
 import com.uni.spring.common.PageInfo;
@@ -169,19 +170,27 @@ public class BoardController {
 	}
 
 	@RequestMapping("insertenroll.do")
-	public String insertBoard(Board b , HttpServletRequest request ,@RequestParam("bo") int bo ,@RequestParam("deno") int deno)  {
+	public String insertBoard(Board b ,pbox p,HttpServletRequest request ,@RequestParam("bo") int bo ,@RequestParam("deno") int deno ,@RequestParam("save") int save)  {
     
 	
 		System.out.println(bo+"나는 게시판 번호");
 		
 	    b.setBoardno(bo);
+	    p.setBoardno(bo);
        
 		System.out.println(b.toString());
 		 
 		System.out.println(deno+"나는 부서번호");
-
-		BoardService.insertboard(b);
 		
+		if(save == 2) {
+			System.out.println(b.toString());
+			BoardService.saveboard(p);
+						
+			return "Board/noticelist";
+
+		}else {
+		BoardService.insertboard(b);
+			
 		if(bo == 1) {
 
 			return "redirect:notice.do";
@@ -198,7 +207,7 @@ public class BoardController {
 
 		return null;
 
-
+		}
 
 	}
 //부서게시판
@@ -343,5 +352,44 @@ public class BoardController {
 		mv.addObject("bno",b.getWriteno()).setViewName("redirect:detailBoard.do");
 		return mv;
 	}
-}
 
+		@RequestMapping("deleteBoard.do")
+		public String deleteBoard(int bno, int boardno,String fileName, HttpServletRequest request) {
+			
+			BoardService.deleteBoard(bno); //지울 게시물 번호를 가져와서 지우기
+			
+			if(boardno == 1) {
+				return "redirect:notice.do";
+			}else if(boardno == 2) {
+				return "redirect:free.do";
+			}else if(boardno == 3) {
+				return "redirect:depart.do";
+			}else {
+				return "null";
+			}
+			
+			
+		}
+		@RequestMapping("pbox.do")
+       public String selectpbox(@RequestParam(value="currentPage" , required = false , defaultValue = "1") int currentPage, Model model
+    		   ,@RequestParam("userno") int userno) {
+			
+			System.out.println(userno+"나는 유저넘버");
+			
+			int listCount = BoardService.selectpboxCount(userno);
+			System.out.println(listCount);
+
+
+			PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
+
+			ArrayList<Board> list = BoardService.selectpbox(pi,userno);
+
+			System.out.println(list);
+
+			model.addAttribute("list",list);
+			model.addAttribute("pi",pi);
+			return "Board/pbox";
+		}
+	
+		
+}

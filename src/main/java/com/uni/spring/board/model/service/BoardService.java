@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.uni.spring.board.model.dto.Board;
 import com.uni.spring.board.model.dto.coment;
+import com.uni.spring.board.model.dto.pbox;
 import com.uni.spring.board.model.dto.searchcon;
 import com.uni.spring.common.PageInfo;
 
@@ -60,6 +61,16 @@ public interface BoardService {
 	int deletecoment(int cno);
 
 	void updatedetail(Board b);
+
+	void deleteBoard(int bno);
+	
+	//임시보관함
+
+	ArrayList<Board> selectpbox(PageInfo pi, int userno);
+
+	int selectpboxCount(int userno);
+
+	void saveboard(pbox p);
 
 	
 
