@@ -31,6 +31,26 @@ public class CalenderDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("calenderMapper.selectCalenderDetailView", data);
 	}
+
+	public int deleteCalender(Map<String, String> data, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("calenderMapper.deleteCalender", data);
+	}
+
+	public String selectColor(String selectColor, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("calenderMapper.selectColor", selectColor);
+	}
+
+	public int updateCalender(Calender calender, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("calenderMapper.updateCalender", calender);
+	}
+
+	public ArrayList<Calender> selectCalenderSearchList(String searchWord, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("calenderMapper.selectCalenderSearchList", searchWord);
+	}
 	
 	
 	

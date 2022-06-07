@@ -16,6 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="alarm" column="NOTICE_TIME"/>	
 		<result property="place" column="PLACE"/>
 		<result property="memo" column="MEMO"/>
+		<result property="realWriter" column="REALWRITER_NO"/>
 	</resultMap>
 	<resultMap type="DepartmentManagement" id="departmentResultSet">
 		<result property="departNo" column="DEPARTMENT_NO"/>
@@ -27,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES
 		(TO_DATE(#{startDate},'YYYY/MM/DD HH24:MI'), TO_DATE(#{endDate},'YYYY/MM/DD HH24:MI'), 
 		#{writerNo}, #{sectionOption}, #{selectColor},
-		#{title}, #{openOption}, #{alarm}, #{place}, #{memo}, 'Y')
+		#{title}, #{openOption}, #{alarm}, #{place}, #{memo}, 'Y', #{realWriter})
 	</insert>
 	<select id="selectList" parameterType="Map" resultMap="calenderResultSet">
 		SELECT
@@ -40,7 +41,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			A.PUBLIC_RANGE,
 			A.NOTICE_TIME,
 			A.PLACE,
-			A.MEMO
+			A.MEMO,
+			A.REALWRITER_NO
 		FROM CALENDER A
 		JOIN CAL_COLOR B ON (A.COLOR_NUM = B.COLOR_NUM)
 		 <![CDATA[WHERE WRITER_NO = 10000
@@ -85,7 +87,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			A.PUBLIC_RANGE,
 			A.NOTICE_TIME,
 			A.PLACE,
-			A.MEMO
+			A.MEMO,
+			A.REALWRITER_NO
 		FROM CALENDER A
 		JOIN CAL_COLOR B ON (A.COLOR_NUM = B.COLOR_NUM)
 		JOIN CAL_SECTION C ON (A.SECTION_NUM = C.SECTION_NUM)
@@ -93,6 +96,66 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND TO_CHAR(A.START_DATE,'YYYY/MM/DD HH24:MI') = #{startDate}
 		AND TO_CHAR(A.END_DATE,'YYYY/MM/DD HH24:MI') = #{endDate}
 		AND A.WRITER_NO = #{writerNo}
+		AND A.STATUS = 'Y'
+	</select>
+	<update id="deleteCalender" parameterType="Map">
+		UPDATE CALENDER SET
+		STATUS = 'N'
+		WHERE 1=1
+		AND TO_CHAR(START_DATE,'YYYY/MM/DD HH24:MI') = #{startDate}
+		AND TO_CHAR(END_DATE,'YYYY/MM/DD HH24:MI') = #{endDate}
+		AND REALWRITER_NO = #{realWriter}
+	</update>
+	<select id="selectColor" parameterType="string" resultType="string">
+		SELECT
+			COLOR_NUM
+		FROM CAL_COLOR
+		WHERE COLOR_CODE = #{selectColor}
+	</select>
+	<update id="updateCalender" parameterType="Calender">
+		UPDATE CALENDER SET
+		START_DATE = TO_DATE(#{startDate},'YYYY/MM/DD HH24:MI'), 
+		END_DATE = TO_DATE(#{endDate},'YYYY/MM/DD HH24:MI'),  
+		WRITER_NO = ${writerNo}, 
+		SECTION_NUM = ${sectionOption}, 
+		COLOR_NUM = ${selectColor},
+		DATE_NAME = #{title}, 
+		PUBLIC_RANGE = #{openOption}, 
+		NOTICE_TIME = #{alarm}
+		<if test="place != ''">
+			, PLACE = #{place} 
+		</if> 
+		<if test="place == ''">
+			, PLACE = NULL 
+		</if>
+		<if test="memo != ''">
+			, MEMO = #{memo} 
+		</if> 
+		<if test="memo == ''">
+			, MEMO = NULL 
+		</if> 
+		WHERE START_DATE = TO_DATE(#{editStartDate},'YYYY/MM/DD HH24:MI') 
+		AND END_DATE = TO_DATE(#{editEndDate},'YYYY/MM/DD HH24:MI') 
+		AND WRITER_NO = ${editWriterNo}
+	</update>
+	<select id="selectCalenderSearchList" parameterType="string" resultMap="calenderResultSet">
+		SELECT
+		    A.START_DATE,
+			A.END_DATE,
+			A.WRITER_NO,
+			C.SECTION_NAME,
+			B.COLOR_CODE,
+			A.DATE_NAME,
+			A.PUBLIC_RANGE,
+			A.NOTICE_TIME,
+			A.PLACE,
+			A.MEMO,
+			A.REALWRITER_NO
+		FROM CALENDER A
+		JOIN CAL_COLOR B ON (A.COLOR_NUM = B.COLOR_NUM)
+		JOIN CAL_SECTION C ON (A.SECTION_NUM = C.SECTION_NUM)
+		WHERE 1=1
+		AND A.DATE_NAME LIKE '%' ||#{searchWord}||'%' 
 		AND A.STATUS = 'Y'
 	</select>
 </mapper>

@@ -11,234 +11,7 @@
 <meta charset="UTF-8">
 <title>Latte-캘린더</title>
 </head>
-	<style TYPE="text/css">
-		
-		/*body {
-		scrollbar-face-color: #F6F6F6;
-		scrollbar-highlight-color: #bbbbbb;
-		scrollbar-3dlight-color: #FFFFFF;
-		scrollbar-shadow-color: #bbbbbb;
-		scrollbar-darkshadow-color: #FFFFFF;
-		scrollbar-track-color: #FFFFFF;
-		scrollbar-arrow-color: #bbbbbb;
-		}*/
-
-		/*행과 열*/
-		#calendarFrm td {font-family: "돋움"; font-size: 9pt; color:#595959;}
-		#calendarFrm th {font-family: "돋움"; font-size: 9pt; color:#000000;}
-		#calendarFrm select {font-family: "돋움"; font-size: 9pt; color:#595959;}
-
-
-		.divDotText {
-		overflow:hidden;
-		text-overflow:ellipsis;
-		}
-
-		#calendarFrm A:link { font-size:11pt; font-family:"돋움";color:#000000; text-decoration:none; }
-		#calendarFrm A:visited { font-size:9pt; font-family:"돋움";color:#000000; text-decoration:none; }
-		#calendarFrm A:active { font-family:"돋움";color:#17b6ff; text-decoration:none; }
-		#calendarFrm A:hover { font-family:"돋움";color:#17b6ff;text-decoration:none;}
-		.day{
-			width:100px; 
-			height:30px;
-		    vertical-align: middle;
-			font-size:15px;
-			font-weight:bold;
-			text-align: center;
-		}
-		.sat{
-			color:#3678f1;
-		}
-		.sun{
-			color:red;
-		}
-		.today_button_div{
-			float: right;
-		}
-		.today_button{
-			width: 100px; 
-			height:30px;
-		}
-		.calendar{
-			margin: auto;
-			width: 80%;
-		}
-		
-		.naviLine{
-			display: flex;
-		}
-		
-		/*네비*/
-		.navigation{
-			margin-bottom:15px;
-			text-align: right;
-			width: 60%;
-			font-size: 25px;
-		}
-		.searchLine{
-			width: 40%;
-			display: flex;
-		    justify-content: end;
-		}
-		.searchtext {
-		    width: 31%;
-		}
-		/*검색할 text*/
-		.searchSchedule {
-			width: 150px;
-			height: 25px;
-		}
-		/*검색하기 버튼*/
-		.searchcalender {
-			width: 30px;
-			height: 30px;	
-		}
-		
-		/*캘린더 바디부분*/
-		.calendar_body{
-			width:100%;
-			background-color: #FFFFFF;
-			border:1px solid white;
-			border-collapse: collapse;
-		}
-		.calendar_body .today{
-			border:1px solid white;
-			height:120px;
-			background-color:#b9eeff2e;
-			text-align: left;
-			vertical-align: top;
-		}
-		.calendar_body .date{
-			font-weight: bold;
-			font-size: 15px;
-			padding-left: 3px;
-			padding-top: 3px;
-		}
-		.calendar_body .sat_day{
-			border:1px solid white;
-			height:120px;
-			background-color:#f5F5F5;
-			text-align:left;
-			vertical-align: top;
-		}
-		.calendar_body .sat_day .sat{
-			color: #3678f1; 
-			font-weight: bold;
-			font-size: 15px;
-			padding-left: 3px;
-			padding-top: 3px;
-		}
-		.calendar_body .sun_day{
-			border:1px solid white;
-			height:120px;
-			background-color:#f5F5F5;
-			text-align: left;
-			vertical-align: top;
-		}
-		.calendar_body .sun_day .sun{
-			color: red; 
-			font-weight: bold;
-			font-size: 15px;
-			padding-left: 3px;
-			padding-top: 3px;
-		}
-		.calendar_body .normal_day{
-			border:1px solid white;
-			height:120px;
-			background-color:#f5F5F5;
-			vertical-align: top;
-			text-align: left;
-		}
-		.before_after_month{
-			margin: 10px;
-			font-weight: bold;
-		}
-		.before_after_year{
-			font-weight: bold;
-		}
-		.this_month{
-			margin: 10px;
-		}
-		form#calendarFrm {
-			padding-bottom: 30px;
-		}
-		.schedule-title{
-			margin-top: 12px;
-			margin-bottom: 12px;
-			font-size: 22px;
-			font-weight: bold;
-		    border-bottom: 1px solid;
-    		padding-bottom: 5px;
-		}
-		.scheduleList {
-			border-top: 1px solid black;
-		}
-		.today-Schedule {
-		    width: 15vw;
-		    height: 100%;
-		    margin-left: 20px;
-		    display: flex;
-		    flex-direction: column;
-		}
-		.title {
-			font-size: 17px;
-			font-weight: 300;
-		}
-		.line {
-			margin-bottom: 7px;
-		}
-		.title, .line{
-			margin-right: 7px;
-		}
-		.todayList li:hover, .monthSchedule li:hover{
-			background-color: #f5f5f5; 
-		}
-		.todayList a :hover{
-			color: black;
-		}
-		.main-caldiv {
-		    width: 83vw;
-		    display: flex;
-		    height: 100%;
-		}
-		.calendar { 
-			/*border: 1px solid black;*/
-			width: 65vw;
-		}
-		.todaySchedule{
-		    height: 40%;
-		}
-		.monthSchedule{
-			height: 60%;
-		}
-		.monthSchedule ul{
-		    overflow-y: scroll;
-    		height: 95%;
-		}
-		.todaySchedule ul{
-		    overflow-y: scroll;
-		    height: 75%;
-		}
-		.monthSchedule ul::-webkit-scrollbar, .todaySchedule ul::-webkit-scrollbar{
-		    display: none;
-		}
-		.schedule-this{
-			margin-top: 12px;
-	    	margin-bottom: 12px;
-	    	padding-bottom: 5px;
-			font-size: 22px;
-			font-weight: bold;
-			border-bottom: 1px solid;
-		}
-		.schedule-list{
-			margin-bottom:10px; 
-			border-bottom:1px solid;
-			padding-bottom:10px;
-		}
-		.font-small{
-			font-size: 12px;
-		}
-	</style>
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/calender/calender.css">
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	<jsp:include page="../calender/calenderDetailViewModal.jsp"></jsp:include>
@@ -270,10 +43,10 @@
 						&gt;&gt;
 					</a>
 				</div>
-					<div class="searchLine">
-						<div class="searchtext"><input type="text" placeholder="검색할 일정" class="searchSchedule"></div>
-						<div class="search"><button type="button" class="commonButton1 searchcalender"><img src="https://img.icons8.com/material/24/000000/search--v1.png"/></button></div>
-					</div>
+				<div class="searchLine">
+					<div class="searchtext"><input type="text" placeholder="검색할 일정" class="searchSchedule"></div>
+					<label class="search"><button type="button" class="commonButton1 searchcalender"><img src="https://img.icons8.com/material/24/000000/search--v1.png"/></button></label>
+				</div>
 			</div>
 			<table class="calendar_body">
 				<thead>
@@ -506,7 +279,49 @@
 	
 	</div>
 	<script>
-	
+		// 검색 버튼 클릭시 목록 조회하기
+		$(".searchcalender").on('click', function() {
+			console.log("검색 버튼 클릭")
+			
+			// 검색 값 받기
+			let searchWord = $(".searchSchedule").val()
+			
+			console.log(searchWord)
+			
+			// 빈 값이 아닌 경우
+			if(searchWord != ''){
+				console.log("들어옴")
+				
+				$.ajax({
+					url:"searchCalender.do",
+					data:{
+						searchWord : searchWord
+					},
+					type:"get",
+					success:function(search){
+						console.log("성공")
+						
+						if(search.length > 0){
+							search.forEach(function(val){
+								console.log(val)
+								
+								
+							})
+						}
+						
+					},
+					err:function(){
+						console.log("실패")
+					}
+				})
+			}else{ 
+					
+				$("#alert_title .title_name").text("검색어 확인");
+				$("#alert_body .alert_content").html("검색어가 존재 하지 않습니다.");
+				$("#alertBackground").css({"display":"block"})
+			}
+		})
+		
 		// 목록 클릭시 상세조회로 이동
 		function calenderDetail(startDate, endDate, writerNo) {
 			// ajax 를 먼저 실행 한 후에 그 값을 받아와서 
@@ -515,7 +330,7 @@
 			//display : flex; 해주고
 			console.log("시작일 : "+startDate)
 			console.log("종료일 : "+endDate)
-			console.log("작성자 번호 : "+writerNo)
+			console.log("진짜 작성자 번호 : "+writerNo)
 			$.ajax({
 				url:"calenderDetailView.do",
 				data:{
@@ -538,6 +353,7 @@
 					let place = value.place;			// 장소
 					let memo = value.memo;				// 메모
 					let sectionName = value.sectionName;// 구분명
+					let realWriter = value.realWriter;	// 진짜 작성자
 					
 					console.log(department);
 					console.log(alarm);
@@ -553,7 +369,11 @@
 						$(".openOption").text(openOption).css("background","#"+selectColor);
 					}
 					
+					$(".calhidden-writerNo").val(writerNo)
+					$('.calhidden-realwriter').val(realWriter).trigger('change');
 					$(".cal-date").text(start.substring(0,4)+"년 "+start.substring(5,7)+"월 "+start.substring(8,10)+"일 "+start.substring(11,16)+" ~ "+end.substring(0,4)+"년 "+end.substring(5,7)+"월 "+end.substring(8,10)+"일 "+end.substring(11,16))
+					$('.hidden-startDate').val(start)
+					$('.hidden-endDate').val(end)
 					$(".cal-section").text(sectionName)
 					$(".cal-place").html(place)
 					$(".cal-openOption").text(openOption)
@@ -566,6 +386,61 @@
 				}
 			})
 		}
+		
+		// alert 확인 버튼시
+		$(".cancel_btn").click(function(){
+			$("#alertBackground").hide();
+			location.reload();
+		})
+		
+		// 삭제하기 버튼 클릭 시 삭제되었습니다 alret
+		$(".calenderModal_Footer .delete_btn").click(function() {
+			
+			let startDate = $('.hidden-startDate').val()
+			let endDate = $('.hidden-endDate').val()
+			let realWriter = $(".calhidden-realwriter").val()
+			
+			console.log("시작일 : "+startDate)
+			console.log("종료일 : "+endDate)
+			console.log("작성자 번호 : "+realWriter)
+			
+			$.ajax({
+				url:"deleteCalender.do",
+				data:{
+					startDate:startDate,
+					endDate:endDate,
+					realWriter:realWriter
+				},
+				type:"get",
+				success:function(val){
+					
+					if(val == "성공"){
+						console.log(val)
+						$(".calenderModal_BigDiv").css("display","none");
+						$(".calenderModal_Title").empty();
+						$(".openOption").empty();
+						$(".openOption").empty();
+						$(".cal-date").empty();
+						$('.hidden-startDate').val("")
+						$('.hidden-endDate').val("")
+						$(".cal-section").empty();
+						$(".cal-place").empty();
+						$(".cal-openOption").empty();
+						$(".cal-alarm").empty();
+						$(".cal-memo").empty();
+						$('.calhidden-realwriter').val("")
+						
+						$("#alert_title .title_name").text("스케쥴 삭제 확인");
+						$("#alert_body .alert_content").html("삭제가 완료되었습니다.");
+						$("#alertBackground").css({"display":"block"})
+					}
+				},
+				err:function(){
+					console.log("실패")
+				}
+			})
+			
+		})
 		
 		// 호버시 display : block
 		$("li").mouseenter(function(){

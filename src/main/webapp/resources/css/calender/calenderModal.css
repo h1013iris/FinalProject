@@ -1,0 +1,71 @@
+@charset "UTF-8";
+/*detailview 모달 부분*/
+.calenderModal_Body{
+	margin-bottom: 96px;
+   	margin-top: 30px;
+}
+.calenderModal_Container {
+    height: 75%;
+}
+.calModalMiddle {
+    display: flex;
+}
+.calMiddleside {
+    font-size: 19px;
+    font-weight: 500;
+    margin-right: 20px;
+}
+.calMiddleside p, .calMiddleMain p {
+    margin-bottom: 15px;
+}
+.calenderModal_Body p.openOption {
+    width: 75px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    margin-bottom: 13px;
+    margin-left: 4px;
+    margin-top: 5px;
+}
+p.cal-date {
+    margin-top: 1px;
+}
+.cal-section, p.cal-place {
+    padding-top: 4px;
+}
+p.cal-openOption {
+    padding-top: 2px;
+}
+p.cal-alarm {
+    padding-top: 3px;
+}
+textarea.cal-memo {
+    margin-top: 3px;
+    resize: none;
+}
+.modal_footer.calenderModal_Footer {
+    text-align: end;
+    padding-right: 30px;
+}
+#modal_container .delete_btn, #modal_container .cal-cancel_btn, #modal_container .cal-update_btn{
+	width: 80px;
+  		height: 46px;
+}
+#modal_container .delete_btn{
+	background-color: #383838;
+	color: #fff;
+	box-shadow: 0px 5px 0px 0px #b4b4b4;
+}
+#modal_container .delete_btn:hover{
+	box-shadow: 0px 0px 0px 0px #b4b4b4;
+}
+#modal_container .cal-cancel_btn{
+	background-color: #9e9e9e;
+	box-shadow: 0px 5px 0px 0px #d3d3d3;
+}
+#modal_container .cal-cancel_btn:hover{
+	box-shadow: 0px 0px 0px 0px #d3d3d3;
+}
+/*detail모달 끝*/
+
+/*searchList 모달*/

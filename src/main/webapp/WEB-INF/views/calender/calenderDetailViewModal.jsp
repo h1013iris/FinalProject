@@ -7,74 +7,7 @@
 <meta charset="UTF-8">
 <title>Document</title>
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">
-<style>
-	.calenderModal_Body{
-		margin-bottom: 96px;
-    	margin-top: 30px;
-	}
-	.calenderModal_Container {
-	    height: 75%;
-	}
-	.calModalMiddle {
-	    display: flex;
-	}
-	.calMiddleside {
-	    font-size: 19px;
-	    font-weight: 500;
-        margin-right: 20px;
-	}
-	.calMiddleside p, .calMiddleMain p {
-	    margin-bottom: 15px;
-	}
-	.calenderModal_Body p.openOption {
-	    width: 75px;
-	    height: 25px;
-	    line-height: 25px;
-	    text-align: center;
-	    margin-bottom: 13px;
-	    margin-left: 4px;
-        margin-top: 5px;
-	}
-	p.cal-date {
-	    margin-top: 1px;
-	}
-	.cal-section, p.cal-place {
-	    padding-top: 4px;
-	}
-	p.cal-openOption {
-	    padding-top: 2px;
-	}
-	p.cal-alarm {
-	    padding-top: 3px;
-	}
-	textarea.cal-memo {
-	    margin-top: 3px;
-	    resize: none;
-	}
-	.modal_footer.calenderModal_Footer {
-	    text-align: end;
-	    padding-right: 30px;
-	}
-	#modal_container .delete_btn, #modal_container .cal-cancel_btn, #modal_container .update_btn{
-		width: 80px;
-   		height: 46px;
-	}
-	#modal_container .delete_btn{
-		background-color: #383838;
-		color: #fff;
-		box-shadow: 0px 5px 0px 0px #b4b4b4;
-	}
-	#modal_container .delete_btn:hover{
-		box-shadow: 0px 0px 0px 0px #b4b4b4;
-	}
-	#modal_container .cal-cancel_btn{
-		background-color: #9e9e9e;
-		box-shadow: 0px 5px 0px 0px #d3d3d3;
-	}
-	#modal_container .cal-cancel_btn:hover{
-		box-shadow: 0px 0px 0px 0px #d3d3d3;
-	}
-</style>
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/calenderModal.css">
 </head>
 <body>
     <div id="modal_background" class="calenderModal_BigDiv">
@@ -86,6 +19,8 @@
                 <span class="modal_title calenderModal_Title"></span>
             </div >
             <div class="modal_body calenderModal_Body">
+            	<input type="hidden" class="calhidden-writerNo"/>
+            	<input type="hidden" class="calhidden-realwriter"/>
            		<p class="openOption"></p>
             	<div class="calModalMiddle">
             		<div class="calMiddleside">
@@ -97,26 +32,46 @@
             			<p id="calModalmemoTitle">메모</p>
             		</div>
             		<div class="calMiddleMain">
-            			<p class="cal-date">일시</p>
+            			<p class="cal-date">읽어오기 실패하였습니다. 관리자에게 문의하세요.</p>
+            			<input type="hidden" class="hidden-startDate"/>
+            			<input type="hidden" class="hidden-endDate"/>
             			<p class="cal-section">구분</p>
-            			<p class="cal-place">정보가 존재하지 않습니다.</p>
+            			<p class="cal-place">정보가 존재 하지 않습니다.</p>
             			<p class="cal-openOption">공개여부</p>
-            			<p class="cal-alarm">없음</p>
-            			<p><textarea rows="18" cols="50" class="cal-memo" readonly>메모</textarea></p>
+            			<p class="cal-alarm">정보가 존재 하지 않습니다.</p>
+            			<p><textarea rows="18" cols="50" class="cal-memo" placeholder="메모가 존재하지 않습니다." readonly></textarea></p>
             		</div>
             	</div>
             </div>
             <div class="modal_footer calenderModal_Footer">
-                <button class="delete_btn commonButton1" type="button">삭제하기</button>
-                <button class="update_btn commonButton1" type="button">수정하기</button>
+                <button class="delete_btn commonButton1" type="button" style="display:none;">삭제하기</button>
+                <button class="cal-update_btn commonButton1" type="button" style="display:none;">수정하기</button>
                 <button class="cal-cancel_btn commonButton1" type="button">목록으로</button>
             </div>
         </div>
     </div>
 	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
   	<script>
+  		$(".calhidden-realwriter").change(function() {
+  			let loginUser = '${ loginUser.empNo }';
+  	  		let realWriter = $(".calhidden-realwriter").val()
+  	  		console.log("세션 확인 ==> "+loginUser)
+  	  		console.log("찐 작성자 확인 ==> "+realWriter)
+  			
+  	  		if(loginUser == realWriter){
+  	  			$(".calenderModal_Footer .delete_btn").css("display","inline")
+  	  			$(".calenderModal_Footer .cal-update_btn").css("display","inline")
+  	  		}
+		})
+  		
   		$(".calenderModal_Footer .cal-cancel_btn").click(function() {
   			$(".calenderModal_BigDiv").css("display","none");
+		})
+		$(".calenderModal_Footer .cal-update_btn").click(function() {
+			let startDate = $(".hidden-startDate").val()
+			let endDate = $(".hidden-endDate").val()
+			let realWriter = $('.calhidden-writerNo').val()
+  			location.href = "updatedCalenderEnrollForm.do?startDate="+startDate+"&endDate="+endDate+"&realWriter="+realWriter;
 		})
   	</script>
 </body>

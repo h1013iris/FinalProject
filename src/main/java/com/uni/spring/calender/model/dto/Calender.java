@@ -17,9 +17,13 @@ public class Calender {
 	private String place;			// 장소 - null
 	private String memo;			// 메모 - null
 	private String status;			// 상태값(Y,N) - not null(default 'Y')
+	private String realWriter;		// 진짜작성자
 	
 	private String oneday;			// 하루종일 체크여부
 	private String sectionName;		// 구분이름
+	private String editStartDate;	// 수정전 시작일
+	private String editEndDate;		// 수정전 종료일
+	private String editWriterNo;	// 수정전 공개여부 작성자번호
 
 	
 	/*	START_DATE
@@ -40,6 +44,20 @@ public class Calender {
 		//Calender day = date.replace("-", "/").concat(" "+time);
 		
 		Calender day = calender;
+		
+		// 수정하기여서 존재하면
+		if(!calender.getEditEndDate().isEmpty() && !calender.getEditStartDate().isEmpty() && !calender.getEditWriterNo().isEmpty()) {
+
+			System.out.println(day.getEditStartDate());
+			System.out.println(day.getEditEndDate());
+			
+			day.setEditStartDate(calender.getEditStartDate().replace("-", "/").replace(":00.0", ""));
+			day.setEditEndDate(calender.getEditEndDate().replace("-", "/").replace(":00.0", ""));
+			day.setEditWriterNo(calender.getEditWriterNo().replace("-", "/"));
+			
+			System.out.println(day.getEditStartDate());
+			System.out.println(day.getEditEndDate());
+		}
 		
 		if(!startTime.isEmpty() && !endTime.isEmpty()) {
 			day.setStartDate(calender.getStartDate().replace("-", "/").concat(" "+startTime));
