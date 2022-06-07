@@ -40,36 +40,18 @@
         height: 30px;
         text-align: center;
     }
-    .comF{
-       	background-color: yellow;
-    
-    }
+ 
     
 
 </style>
 <div class="main_section">
 <div id="container">
-    <div id="deptTitle">
+  
 
-
-<div id="container">
-
-<!--고객 주소록 폴더들 표시될곳-->
+<!--거래처 주소록 폴더들 표시될곳-->
 
 <div id="left">
-
-<!-- 유저별로 다른 폴더 리스트 -->
-<!-- 
-<form action="comAdd.do" method="get">
-<span><input type="submit" value="전체조회"></span><br>
-</form>
-<form action="selectSearchComFolList" method="post">
-<c:forEach items="${comFolList}" var="comF">
-<span class="comF" ><input type="submit" name= "inFolder" value="${comF.inFolder}"></span><br>
-</c:forEach>
-</form>
--->
-
+<!-- 거래처 주소록 메인으로 이동 -->
 </div>
 <jsp:include page="../addressBook/comAddTitle.jsp"></jsp:include>
 <!--고객 주소록 내용이 표시될곳-->
@@ -84,7 +66,7 @@
 	
 	<c:forEach items="${comList}" var="com" >
 	<tr>
-	<td>${com.comNm}</td>
+	<td><a href="comDetailView.do?compNo=${com.compNo}">${com.comNm}</a></td>
 	<td>${com.comPhone}</td>
 	<td>${com.comEmail}</td>
 	<td>${com.comMemo}</td>
@@ -96,8 +78,6 @@
 </form>
     </div>
     </div>
-</div>
-</div>
 </div>
 </body>
 </html>

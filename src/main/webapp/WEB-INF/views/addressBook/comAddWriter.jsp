@@ -48,50 +48,6 @@
 
   <body>
 
-    <!--  원본
-     <div id="container">
-        <div class="main">
-            <form action="insertComAdd" method="post">
-                <h3>거래처등록</h3>
-        <table class="main2">
-            <tr>
-                <td>
-            <select id="selbox" name="inFolder">
-                <option name ="inFolder" value="">폴더선택(x)</option>
-            <c:forEach items="${comFolList}" var="comF">
-                <option class="cho" name="inFolder" value="${comF.inFolder}">${comF.inFolder}</option>
-            </c:forEach>
-                   <option value="direct">직접입력</option>
-            </select>
-            </td>
-            <td>
-            <input type="text" id="selboxDirect" name="inFolder" value="${comF.inFolder}" />
-        </td>
-    </tr>
-    -->
-    
-    <!-- 이렇게하면 직접입력한거 값은 넘어가는데 기존폴더 선택하면 null로 날아감.. -->
-    <!-- <div id="container">
-        <div class="main">
-            <form action="insertComAdd" method="post">
-                <h3>거래처등록</h3>
-        <table class="main2">
-            <tr>
-                <td>
-            <select id="selbox">
-                <option name="inFolder" value="">폴더선택(x)</option>
-            <c:forEach items="${comFolList}" var="comF">
-                <option  name="inFolder" class="cho"value="${comF.inFolder}">${comF.inFolder}</option>
-            </c:forEach>
-                   <option value="direct">직접입력</option>
-                    <input type="text" id="selboxDirect" name="inFolder" value="${comF.inFolder}" />
-            </select>
-            </td>
-            <td>
-           
-        </td>
-    </tr>
-     -->
     <div id="container">
         <div class="main">
             <form action="insertComAdd" method="post">

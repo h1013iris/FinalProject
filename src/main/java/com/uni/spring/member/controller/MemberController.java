@@ -110,8 +110,8 @@ public class MemberController {
 			return "redirect:approvalMain.do";
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("msg","로그인실패");
-			return "redirect:main";
+			model.addAttribute("msg",e.getMessage());
+			return "main";
 		}
 		
 		

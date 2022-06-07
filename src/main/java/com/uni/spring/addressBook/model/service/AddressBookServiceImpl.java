@@ -103,5 +103,24 @@ public class AddressBookServiceImpl implements AddressBookService {
 		return addressBookDao.selectCusFolList(sqlSession, custo, empNo);
 	}
 
+	//고객주소록 상세보기
+	@Override
+	public ArrayList<Customer> selectCustoDetailView(Customer custo, int cusNo) {
+		// TODO Auto-generated method stub
+		return addressBookDao.selectCustoDetailView(sqlSession, custo, cusNo);
+	}
+
+	@Override
+	public ArrayList<Company> selectComDetailView(Company com, int compNo) {
+		// TODO Auto-generated method stub
+		return addressBookDao.selectCustoDetailView(sqlSession, com, compNo);
+	}
+
+	@Override
+	public ArrayList<Customer> selectSearchCustoFolList(int empNo, String inFolder, Customer custo) {
+		// TODO Auto-generated method stub
+		return addressBookDao.selectSearchCustoFolList(sqlSession,empNo,inFolder,custo);
+	}
+
 
 }

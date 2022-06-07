@@ -43,10 +43,11 @@
         </div>
         </div>
         <script type="text/javascript"> 
-        if(msg !null){
-			var msg = '${msg}';  
+        var msg = '${msg}';
+		if(msg)
+		{
 			alert(msg);
-        }
+		}
 	</script>
 </body>
 </html>
