@@ -288,13 +288,13 @@
 	                <ul>
 	                    <li class="list_title">게시판 관리</li>
 	                    <div class="hhh">
-	                    	<li><a href="#">게시판 관리</a></li>
+	                    	<li><a href="boardManagement">게시판 관리</a></li>
 	                    </div>
 	                </ul>
 	                <ul>
 	                    <li class="list_title">회의실 관리</li>
 						<div class="hhh">
-	                    	<li><a href="#">회의실 관리</a></li>
+	                    	<li><a href="meetingRoom">회의실 관리</a></li>
 	                    </div>
 	                </ul>
 	                <ul>
@@ -309,7 +309,7 @@
 	                    <div class="hhh">
 		                    <li><a href="#">주소록 관리</a></li>
 		                    <li><a href="#">권한 부여</a></li>
-		                    <li><a href="#">금지어 설정</a></li>
+		                    <li><a href="banWordsPage">금지어 설정</a></li>
 	                    </div>
 	                </ul>
 	            </div>

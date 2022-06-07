@@ -50,6 +50,15 @@
   		<typeAlias type="com.uni.spring.admin.model.dto.Job" alias="Job"/>
   		<!-- 부서 -->
   		<typeAlias type="com.uni.spring.admin.model.dto.Department" alias="DepartmentList"/>
+  		<!-- 사원상세정보 -->
+  		<typeAlias type="com.uni.spring.admin.model.dto.employeeAllInfo" alias="empInfo"/>
+  		<!-- 게시판관리 -->
+  		<typeAlias type="com.uni.spring.admin.model.dto.BoardManagement" alias="BManage"/>
+  		<!-- 금지어관리 -->
+  		<typeAlias type="com.uni.spring.admin.model.dto.BanWords" alias="banword"/>
+  		<!-- 회의실 관리 -->
+  		<typeAlias type="com.uni.spring.admin.model.dto.MeetingRoomLargeCategory" alias="MRLC"/>
+  		<typeAlias type="com.uni.spring.admin.model.dto.MeetingRoom" alias="MR"/>
   	</typeAliases>
   	
   	<!-- 
