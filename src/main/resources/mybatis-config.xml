@@ -53,6 +53,7 @@
   		<!-- 부서 -->
   		<typeAlias type="com.uni.spring.admin.model.dto.Department" alias="DepartmentList"/>
   		<typeAlias type="com.uni.spring.department.model.dto.SemiProject" alias="SemiProject"/>
+  		<typeAlias type="com.uni.spring.department.model.dto.SemiCheckList" alias="SemiCheckList"/>
   	</typeAliases>
   	
   	<!-- 

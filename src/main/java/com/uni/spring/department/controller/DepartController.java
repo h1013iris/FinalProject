@@ -25,6 +25,7 @@ import com.uni.spring.department.model.dto.Department;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
 import com.uni.spring.department.model.dto.ProjectClass;
+import com.uni.spring.department.model.dto.SemiCheckList;
 import com.uni.spring.department.model.dto.SemiProject;
 import com.uni.spring.department.model.service.DepartService;
 import com.uni.spring.member.model.dto.Member;
@@ -292,10 +293,13 @@ public class DepartController {
 			ProjectClass pc = departService.selectPC(pjno);//프로젝트 분류
 			ArrayList<Member> list = departService.selectPW(pjno);//참가자
 			ArrayList<SemiProject> slist = departService.selectSP(pjno);//세부 프로젝트
-			if(pc != null && list != null && slist != null) {
-				mv.addObject("p",p).addObject("pc",pc).addObject("list",list).addObject("slist",slist).setViewName("depart/detailProject");
-			}else if(pc != null && list != null && slist == null) {
-				mv.addObject("p",p).addObject("pc",pc).addObject("list",list).setViewName("depart/detailProject");
+			//멤버 전체 
+			ArrayList<Member> tlist = departService.selectTL(pjno);
+			
+			if(pc != null && list != null && slist != null && tlist != null) {
+				mv.addObject("p",p).addObject("pc",pc).addObject("list",list).addObject("slist",slist).addObject("tlist", tlist).setViewName("depart/detailProject");
+			}else if(pc != null && list != null && slist == null && tlist != null) {
+				mv.addObject("p",p).addObject("pc",pc).addObject("list",list).addObject("tlist", tlist).setViewName("depart/detailProject");
 			}else {
 				mv.addObject("msg","화면 전환 실패").addObject("msgTitle", "프로젝트 상세").setViewName("common/alert");
 			}
@@ -359,4 +363,88 @@ public class DepartController {
 		departService.updateSemiDueNull(semiNo);
 		return String.valueOf("1") ;
 	}
+	
+	//체크 리스트 입력후 등록
+	@ResponseBody
+	@RequestMapping(value="insertChecklist.do", produces="application/json; charset=utf-8")
+	public String insertCheckList(SemiCheckList scl) {
+		departService.insertCheckList(scl);
+		return String.valueOf("1") ;
+	}
+	
+	//체크리스트 목록 가져오기
+	@ResponseBody
+	@RequestMapping(value="selectCheckList.do", produces="application/json; charset=utf-8")
+	public String selectCheckList(SemiCheckList scl) {
+		ArrayList<SemiCheckList> list = departService.selectCheckList(scl);
+		return new Gson().toJson(list);
+	}
+	
+	//자신이 작성한 체크리스트 삭제 
+	@ResponseBody
+	@RequestMapping(value="deletecheckList.do", produces="application/json; charset=utf-8")
+	public String deletecheckList(int ckeckNo) {
+		departService.deletecheckList(ckeckNo);
+		return String.valueOf("1") ;
+	}
+	
+	//자신이 작성한 체크리스트 전체 삭제
+	@ResponseBody
+	@RequestMapping(value="deleteTotcheckList.do", produces="application/json; charset=utf-8")
+	public String deleteTotcheckList(int refSemi) {
+		departService.deleteTotcheckList(refSemi);
+		return String.valueOf("1") ;
+	}
+	
+	//체크했을시 작동
+	@ResponseBody
+	@RequestMapping(value="updateckeckList.do", produces="application/json; charset=utf-8")
+	public String updateckeckList(int ckeckNo) {
+		departService.updateckeckList(ckeckNo);
+		
+		return String.valueOf("1") ;
+	}
+	
+	//체크 제거했을시 작동
+	@ResponseBody
+	@RequestMapping(value="updatereckeckList.do", produces="application/json; charset=utf-8")
+	public String updatereckeckList(int ckeckNo) {
+		departService.updatereckeckList(ckeckNo);
+		
+		return String.valueOf("1") ;
+	}
+	
+	//프로젝트 참여자 삭제
+	@RequestMapping("deleteWatcher.do")
+	public String deleteWatcher(Project p, Model model) {
+		departService.deleteWatcher(p);
+		
+		model.addAttribute("pjno", p.getProNo());
+		return "redirect:detailProject.do";
+	}
+	
+	//프로젝트 참여자 추가 
+	@RequestMapping("insertWatcherP.do")
+	public String insertWatcherP(Project p, Model model) {
+		departService.insertWatcherP(p);
+		
+		model.addAttribute("pjno", p.getProNo());
+		return "redirect:detailProject.do";
+	}
+	
+	//등록 버튼을 눌렀을 시에 설명 업데이트 및 삭제 
+	@ResponseBody
+	@RequestMapping(value="updateComment.do", produces="application/json; charset=utf-8")
+	public String updateComment(SemiProject sp) {
+		if(sp.getSemiContent() != null) {
+			sp.setSemiContent(sp.getSemiContent().replaceAll("\u0020", "&nbsp;").replaceAll("\n", "<br>"));
+		}
+		
+		departService.updateComment(sp);
+		
+		return String.valueOf("1") ;
+	}
+	
+	
 }
+

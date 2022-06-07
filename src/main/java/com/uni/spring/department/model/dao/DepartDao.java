@@ -10,6 +10,7 @@ import com.uni.spring.department.model.dto.Department;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
 import com.uni.spring.department.model.dto.ProjectClass;
+import com.uni.spring.department.model.dto.SemiCheckList;
 import com.uni.spring.department.model.dto.SemiProject;
 import com.uni.spring.member.model.dto.Member;
 
@@ -193,6 +194,66 @@ public class DepartDao {
 	public int updateSemiDueNull(SqlSessionTemplate sqlSession, int semiNo) {
 		
 		return sqlSession.update("departMapper.updateSemiDueNull", semiNo);
+	}
+
+	public int insertCheckList(SqlSessionTemplate sqlSession, SemiCheckList scl) {
+		
+		return sqlSession.insert("departMapper.insertCheckList", scl);
+	}
+
+	public ArrayList<SemiCheckList> selectCheckList(SqlSessionTemplate sqlSession,SemiCheckList scl) {
+		
+		return (ArrayList)sqlSession.selectList("departMapper.selectCheckList", scl);
+	}
+
+	public int deletecheckList(SqlSessionTemplate sqlSession,  int ckeckNo) {
+		
+		return sqlSession.update("departMapper.deletecheckList",ckeckNo);
+	}
+
+	public int deleteTotcheckList(SqlSessionTemplate sqlSession, int refSemi) {
+		
+		return sqlSession.update("departMapper.deleteTotcheckList",refSemi);
+	}
+
+	public int updateckeckList(SqlSessionTemplate sqlSession, int ckeckNo) {
+		
+		return sqlSession.update("departMapper.updateckeckList", ckeckNo);
+	}
+
+	public int updatereckeckList(SqlSessionTemplate sqlSession, int ckeckNo) {
+		
+		return sqlSession.update("departMapper.updatereckeckList", ckeckNo);
+	}
+
+	public ArrayList<Member> selectTL(SqlSessionTemplate sqlSession, int pjno) {
+		
+		return (ArrayList)sqlSession.selectList("departMapper.selectTL", pjno);
+	}
+
+	public int deleteWatcher(SqlSessionTemplate sqlSession, Project p) {
+		
+		return sqlSession.update("departMapper.deleteWatcher", p);
+	}
+
+	public int insertWatcherP(SqlSessionTemplate sqlSession, Project p) {
+		
+		return sqlSession.insert("departMapper.insertWatcherP", p);
+	}
+
+	public int updateComment(SqlSessionTemplate sqlSession, SemiProject sp) {
+		
+		return sqlSession.update("departMapper.updateComment", sp);
+	}
+
+	public int updatereComment(SqlSessionTemplate sqlSession, int semiNo) {
+		
+		return sqlSession.update("departMapper.updatereComment", semiNo);
+	}
+
+	public int deleteComment(SqlSessionTemplate sqlSession, int semiNo) {
+		
+		return sqlSession.update("departMapper.deleteComment", semiNo);
 	}
 
 	
