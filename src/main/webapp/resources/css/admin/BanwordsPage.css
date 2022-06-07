@@ -1,0 +1,79 @@
+@charset "utf-8";
+.content_container{
+    border: 1px solid black;
+    height: 450px;
+    width: 400px;
+    margin: 70px auto;
+    border-radius: 10px;
+    box-shadow: 5px 5px 2px 3px #444;
+}
+
+.content_box{
+    width: 76.5%;
+    margin: 30px auto;
+    position: relative;
+}
+
+.bm_btn {
+    width: 20px;
+    height: 20px;
+    background-color: grey;
+    display: inline-block;
+    position: relative;
+}
+
+.delete_btn {
+    float: right;
+    display: none;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.insert_btn{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 30px;
+    cursor: pointer;
+}
+
+.banwords_box{
+    height: 40px;
+    width: 300px;
+    line-height: 40px;
+}
+
+.bm_btn::after{
+    content: "";
+    width: 13px;
+    height: 2px;
+    background-color: black;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+}
+
+.insert_btn::before{
+    content: "";
+    width: 2px;
+    height: 13px;
+    background-color: black;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+}
+
+.banwords_management_article {
+    max-height: 350px;
+    overflow-y: scroll;
+}
+
+.banwords_management_article::-webkit-scrollbar{
+    display: none;
+}
+
+.banwords_box:hover .delete_btn {
+    display: block;
+}
