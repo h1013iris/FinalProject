@@ -17,13 +17,20 @@
 		/*border: 1px solid blue;*/
 		margin-right: 3%;
 		width: 84vw;
-		
+	}
+	
+	.docEnrollBackground {
+		width: 1150px;
+		height: 720px;
+		border: 1px solid #e6e6e6;
+		background-color: #e6e6e6;
+		border-radius: 15px;
+		box-shadow: 0 0 8px #afafaf;	
 	}
 	
 	.formMainArea {
 		/*border: 1px solid red;*/
-		padding-left: 10%;
-		/*width: 1000px;*/
+		padding: 60px 0 60px 10%;
 		/*float: left;*/
 	}
 	
@@ -32,7 +39,8 @@
 	}
 	
 	.formArea {
-		border: 1px solid black;
+		border: 1px solid darkgray;
+		background-color: white;
 		padding: 0 25px 25px 25px;
 		float: left;
 	}
@@ -40,7 +48,7 @@
 	.docEnrollBtnsArea {
 		/*padding-top: 34%;*/
 		padding-left: 20px;
-		
+		/*padding-top: 60px;*/
 	}
 	
 	.docEnrollBtn {
@@ -63,21 +71,21 @@
 	}
 	
 	.donEnrollOutboxBtn {
-		background-color: rgb(174, 217, 248) !important;
-		box-shadow: 0px 5px 0px 0px #92bddc !important;
+		background-color: #6a6a6a !important;
+		box-shadow: 0px 5px 0px 0px #545454 !important;
 	}
 	
 	.donEnrollOutboxBtn:hover {
-		box-shadow: 0px 0px 0px 0px #92bddc !important;
+		box-shadow: 0px 0px 0px 0px #545454 !important;
 	}
 	
 	.donEnrollCancleBtn {
-		background-color: #c8c8c8 !important;
-		box-shadow: 0px 5px 0px 0px #afafaf !important;
+		background-color: darkgray !important;
+		box-shadow: 0px 5px 0px 0px #949494 !important;
 	}
 	
 	.donEnrollCancleBtn:hover {
-		box-shadow: 0px 0px 0px 0px #afafaf !important;
+		box-shadow: 0px 0px 0px 0px #949494 !important;
 	}
 	
 </style>
@@ -88,27 +96,29 @@
 
 	<div class="main_section">
         <div class="docEnrollFormDiv">
-	        <%-- 문서 서식에 맞게 폼 뜨도록 --%>
-	        <c:choose>
-	        	<c:when test="${ docForm == 10 }">
-	        		<jsp:include page="documentForm/leaveEnrollForm.jsp"/>
-	        	</c:when>
-	        	<c:when test="${ docForm == 11 }">
-	        		<jsp:include page="documentForm/cmtUpdateEnrollForm.jsp"/>
-	        	</c:when>
-	        	<c:when test="${ docForm == 20 }">
-	        		<jsp:include page="documentForm/busDraftEnrollForm.jsp"/>
-	        	</c:when>
-	        	<c:when test="${ docForm == 30 }">
-	        		<jsp:include page="documentForm/busCoopEnrollForm.jsp"/>
-	        	</c:when>
-        	</c:choose>
+	        <div class="docEnrollBackground">
+		        <%-- 문서 서식에 맞게 폼 뜨도록 --%>
+		        <c:choose>
+		        	<c:when test="${ docForm == 10 }">
+		        		<jsp:include page="documentForm/leaveEnrollForm.jsp"/>
+		        	</c:when>
+		        	<c:when test="${ docForm == 11 }">
+		        		<jsp:include page="documentForm/cmtUpdateEnrollForm.jsp"/>
+		        	</c:when>
+		        	<c:when test="${ docForm == 20 }">
+		        		<jsp:include page="documentForm/busDraftEnrollForm.jsp"/>
+		        	</c:when>
+		        	<c:when test="${ docForm == 30 }">
+		        		<jsp:include page="documentForm/busCoopEnrollForm.jsp"/>
+		        	</c:when>
+	        	</c:choose>
+        	</div>
 		</div>
     </div>
     
     <script type="text/javascript">
     	
-    	// 문서 등록 페이지에서 취소 버튼 클릭 시 이전 페이지로 이동
+    	// 문서 등록 페이지에서 취소 버튼 클릭 시
     	$(".cancle_btn").click(function() {
 			
     		$("#confirm_container .title_name").text("문서 등록 취소 확인");
@@ -120,14 +130,8 @@
      			
     			$("#helpmeCOnfirm").css("display","none");
     			
-    			location.href=document.referrer;
+    			location.href=document.referrer; //이전 페이지로 이동
     			// document.referrer : 마지막 페이지의 url을 가져오면 이전 정보는 가져올 수 없음
-     		})
-     		
-     		// 취소 버튼 클릭 시 모달 사라지고 다시 작성 가능
-     		$(document).on("click", ".false_btn", function() {
-     			
-    			$("#helpmeCOnfirm").css("display","none");
      		})
 			
 		})

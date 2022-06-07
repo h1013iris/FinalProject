@@ -240,7 +240,8 @@
 		 			
 		 			type: "post",
  	                url: "selectDeptApprover.do",
- 	                data: { deptNo : "${ loginUser.departmentNo }" },
+ 	               	data: { deptNo : "${ loginUser.departmentNo }",
+                			jobNo : "${ loginUser.jobNo }"},
  	                success: function (data) {
 						console.log(data);
  	                	if(data != null || data != "") {

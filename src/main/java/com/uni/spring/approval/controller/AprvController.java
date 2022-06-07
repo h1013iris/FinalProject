@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.uni.spring.admin.model.dto.Department;
 import com.uni.spring.approval.model.dto.AprvDoc;
 import com.uni.spring.approval.model.dto.AprvHistory;
@@ -20,6 +21,7 @@ import com.uni.spring.approval.model.dto.BusCoopForm;
 import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
 import com.uni.spring.approval.model.dto.LeaveForm;
+import com.uni.spring.approval.model.dto.ReturnDoc;
 import com.uni.spring.approval.model.service.AprvService;
 import com.uni.spring.common.PageInfo;
 import com.uni.spring.common.Pagination;
@@ -80,10 +82,15 @@ public class AprvController {
 	// 문서 등록 시 결재선 조회
 	@ResponseBody
 	@RequestMapping(value="selectDeptApprover.do", produces="application/json; charset=utf-8")
-	public String selectDeptApprover(String deptNo) {
+	public String selectDeptApprover(String deptNo, String jobNo) {
+		
+		Member loginUser = new Member();
+		loginUser.setDepartmentNo(deptNo);
+		loginUser.setJobNo(jobNo);
+		System.out.println(loginUser.toString());
 		
 		// 해당 부서 1차, 2차 결재자 조회해서 담기
-		ArrayList<Member> approver = aprvService.selectDeptApprover(deptNo);
+		ArrayList<Member> approver = aprvService.selectDeptApprover(loginUser);
 		
 		return new Gson().toJson(approver);
 	}
@@ -176,64 +183,6 @@ public class AprvController {
 	
 	
 	
-	@RequestMapping("outboxMain.do")
-	public ModelAndView outboxMain(ModelAndView mv) {
-		
-		
-		
-		mv.setViewName("approval/documentForm/test");
-		
-		return mv;
-	}
-	
-	
-	
-	// 결재 요청 메인
-	@RequestMapping("requestMain.do")
-	public ModelAndView requestMain(ModelAndView mv) {
-		
-		mv.setViewName("approval/request/requestMain");
-		
-		return mv;
-	}
-	
-	
-	
-	// 결재 요청 리스트
-	@ResponseBody
-	@RequestMapping(value="requestList.do", produces="application/json; charset=utf-8")
-	public String requestList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, Member loginUser, Model model) {
-		
-		System.out.println("controller ===========" + loginUser.toString());
-		
-		int listCount = aprvService.requestListCount(loginUser);
-		System.out.println("listCount ======== " + listCount);
-		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
-		
-		ArrayList<AprvDoc> list = aprvService.selectRequestList(pi, loginUser);
-		
-		return new Gson().toJson(list);
-	}
-	
-	
-	
-	// 문서 상세 조회
-	@RequestMapping("requestDetail.do")
-	public ModelAndView detailRequestDoc(int docNo, ModelAndView mv) {
-		
-		// 해당 문서의 서식 번호 가져오기
-		int docType = aprvService.selectDocTypeNo(docNo);
-		
-		mv.addObject("docNo", docNo)
-		.addObject("docType", docType)
-		.setViewName("approval/request/requestDetailView");
-		
-		return mv;
-	}
-	
-	
-	
 	// 해당 문서 결재자 조회
 	@ResponseBody
 	@RequestMapping(value="selectDocApprover.do", produces="application/json; charset=utf-8")
@@ -253,7 +202,195 @@ public class AprvController {
 		
 		LeaveForm leaveForm = aprvService.selectLeaveForm(docNo);
 		
-		return new Gson().toJson(leaveForm);
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(leaveForm);
+	}
+	
+	
+	
+	// 근태 기록 수정 신청서
+	@ResponseBody
+	@RequestMapping(value="selectCmtUpdateForm.do", produces="application/json; charset=utf-8")
+	public String selectCmtUpdateForm(int docNo) {
+		
+		CmtUpdateForm cmtUpdateForm = aprvService.selectCmtUpdateForm(docNo);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(cmtUpdateForm);
+	}
+	
+	
+	
+	// 업무 기안서 상세 조회
+	@ResponseBody
+	@RequestMapping(value="selectbusDraftForm.do", produces="application/json; charset=utf-8")
+	public String selectbusDftForm(int docNo) {
+		
+		BusDraftForm busDraftForm = aprvService.selectbusDraftForm(docNo);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(busDraftForm);
+	}
+	
+	
+	
+	// 업무 협조문 상세 조회
+	@ResponseBody
+	@RequestMapping(value="selectbusCoopForm.do", produces="application/json; charset=utf-8")
+	public String selectbusCoopForm(int docNo) {
+		
+		BusCoopForm busCoopForm = aprvService.selectbusCoopForm(docNo);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(busCoopForm);
+	}
+	
+	
+	
+	// 결재 대기함 메인
+	@RequestMapping("waitingMain.do")
+	public ModelAndView waitingMain(ModelAndView mv) {
+		
+		mv.setViewName("approval/waiting/waitingMain");
+		
+		return mv;
+	}
+	
+	
+	
+	// 결재 대기 리스트
+	@ResponseBody
+	@RequestMapping(value="waitingList.do", produces="application/json; charset=utf-8")
+	public String selectWaitingList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, Member loginUser) {
+				
+		int listCount = aprvService.waitingListCount(loginUser);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<AprvDoc> list = aprvService.selectWaitingList(pi, loginUser);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+	}
+	
+	
+	
+	// 결재 대기 문서 상세 조회
+	@RequestMapping("waitingDetail.do")
+	public ModelAndView detailWaitingDoc(int docNo, ModelAndView mv) {
+		
+		// 해당 문서의 서식 번호 가져오기
+		int docType = aprvService.selectDocTypeNo(docNo);
+		
+		mv.addObject("docNo", docNo)
+		.addObject("docType", docType)
+		.setViewName("approval/waiting/waitingDetailView");
+		
+		return mv;
+	}
+	
+	
+	
+	// 결재 승인 (중간 승인)
+	@ResponseBody
+	@RequestMapping(value="aprvApprove.do", produces="application/json; charset=utf-8")
+	public String aprvApprove(AprvHistory aprvHistory) {
+		
+		// 2차 결재자가 null이 아니고 본인이 1차 결재자일 경우 상태값 업데이트 없음
+		// -> 결재 기록만 등록
+		System.out.println(aprvHistory.toString());
+		
+		aprvService.aprvApprove(aprvHistory);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	
+	// 결재 승인 (최종 승인)
+	@ResponseBody
+	@RequestMapping(value="aprvApproveComplete.do", produces="application/json; charset=utf-8")
+	public String aprvApproveComplete(AprvHistory aprvHistory, AprvDoc aprvDoc) {
+		
+		// 2차 결재재일 경우, 또는 2차 결재자가  null인 문서의 1차 결재자일 경우 상태값 결재 완료로 업데이트
+		// -> 결재 기록 등록, 상태값 업데이트
+		System.out.println(aprvHistory.toString());
+		System.out.println(aprvDoc.toString());
+		
+		aprvService.aprvApproveComplete(aprvHistory, aprvDoc);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	
+	// 결재 반려
+	@ResponseBody
+	@RequestMapping(value="aprvReturn.do", produces="application/json; charset=utf-8")
+	public String aprvReturn(AprvHistory aprvHistory, AprvDoc aprvDoc, ReturnDoc returnDoc) {
+		
+		// 결재 기록에 등록
+		// 결재 상태 반려 중으로 변경
+		// 반려 문서에 등록
+		System.out.println(aprvHistory.toString());
+		System.out.println(returnDoc.toString());
+		System.out.println(aprvDoc.toString());
+		
+		aprvService.aprvReturn(aprvHistory, aprvDoc, returnDoc);
+		
+		return new Gson().toJson("success");
+	}
+
+	
+	
+	
+	// 결재 요청 메인
+	@RequestMapping("requestMain.do")
+	public ModelAndView requestMain(ModelAndView mv) {
+		
+		mv.setViewName("approval/request/requestMain");
+		
+		return mv;
+	}
+	
+	
+	
+	// 결재 요청 리스트
+	@ResponseBody
+	@RequestMapping(value="requestList.do", produces="application/json; charset=utf-8")
+	public String selectRequestList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, Member loginUser) {
+				
+		int listCount = aprvService.requestListCount(loginUser);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<AprvDoc> list = aprvService.selectRequestList(pi, loginUser);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+	}
+	
+	
+	
+	// 결재 요청 문서 상세 조회
+	@RequestMapping("requestDetail.do")
+	public ModelAndView detailRequestDoc(int docNo, ModelAndView mv) {
+		
+		// 해당 문서의 서식 번호 가져오기
+		int docType = aprvService.selectDocTypeNo(docNo);
+		
+		mv.addObject("docNo", docNo)
+		.addObject("docType", docType)
+		.setViewName("approval/request/requestDetailView");
+		
+		return mv;
+	}
+	
+	
+	
+	// 임시 보관함 메인
+	@RequestMapping("outboxMain.do")
+	public ModelAndView outboxMain(ModelAndView mv) {
+		
+		
+		
+		mv.setViewName("approval/documentForm/outboxMain");
+		
+		return mv;
 	}
 	
 	
@@ -261,15 +398,6 @@ public class AprvController {
 	// 결재완료 리스트
 	@RequestMapping("completeMain.do")
 	public ModelAndView completeMain(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, ModelAndView mv) {
-		
-		// @RequestParam(value="currentPage") int currentPage : 값이 넘어오지 않아서 에러
-		// @RequestParam(value="currentPage", required = false) int currentPage
-		
-		// required : 해당 파라미터 필수 여부 확인 (true면 필수)
-		// required = false 값을 꼭 받아 줄 필요가 없다고 선언. 그래서 null이 들어올 수 있음
-		// -> null 은 기본형 int에 들어갈 수 없기 때문에 에러 발생
-		
-		// defaultValue : 넘어오는 값이 null인 경우 해당 파라미터 기본값 지정
 		
 		int listCount = aprvService.completeListCount();
 		System.out.println("listCount ======== " + listCount);
@@ -286,6 +414,7 @@ public class AprvController {
 		
 	
 	
+	// 반려 문서함 메인
 	@RequestMapping("returnMain.do")
 	public ModelAndView returnMain(ModelAndView mv) {
 		
@@ -296,6 +425,75 @@ public class AprvController {
 	
 	
 	
+	// 결재 반려 리스트
+	@ResponseBody
+	@RequestMapping(value="returnList.do", produces="application/json; charset=utf-8")
+	public String selectReturnList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, int empNo) {
+				
+		int listCount = aprvService.returnListCount(empNo);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<AprvDoc> list = aprvService.selectReturnList(pi, empNo);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+	}
+	
+	
+	
+	// 결재 반려 문서 상세 조회
+	@RequestMapping("returnDetail.do")
+	public ModelAndView detailReturnDoc(int docNo, ModelAndView mv) {
+		
+		// 해당 문서의 서식 번호 가져오기
+		int docType = aprvService.selectDocTypeNo(docNo);
+		
+		mv.addObject("docNo", docNo)
+		.addObject("docType", docType)
+		.setViewName("approval/return/returnDetailView");
+		
+		return mv;
+	}
+	
+	
+	
+	// 반려 사유 조회
+	@ResponseBody
+	@RequestMapping(value="selectReReason.do", produces="application/json; charset=utf-8")
+	public String selectReReason(int docNo) {
+		
+		ReturnDoc returnDoc = aprvService.selectReReason(docNo);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(returnDoc);
+	}
+	
+	
+	
+	// 기안자 조회
+	@ResponseBody
+	@RequestMapping(value="selectDrafter.do", produces="application/json; charset=utf-8")
+	public String selectDrafter(int docNo) {
+		
+		int drafter  = aprvService.selectDrafter(docNo);
+		
+		return new Gson().toJson(drafter);
+	}
+	
+	
+	
+	// 반려 문서 삭제
+	@ResponseBody
+	@RequestMapping(value="deleteReturnDoc.do", produces="application/json; charset=utf-8")
+	public String deleteReturnDoc(int docNo) {
+		
+		aprvService.deleteReturnDoc(docNo);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	
+	// 진행 상태 확인함 메인
 	@RequestMapping("statusMain.do")
 	public ModelAndView statusMain(ModelAndView mv) {
 		
@@ -306,19 +504,9 @@ public class AprvController {
 	
 	
 	
-	@RequestMapping("waitingMain.do")
-	public ModelAndView waitingMain(ModelAndView mv) {
-		
-		mv.setViewName("approval/waiting/waitingMain");
-		
-		return mv;
-	}
+
 	
-	
-	
-	
-	
-	
+
 	
 	
 	

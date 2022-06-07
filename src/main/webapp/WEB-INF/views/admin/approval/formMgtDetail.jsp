@@ -20,5 +20,14 @@
         
     </div>
     
+    <script type="text/javascript">
+	    $(document).ready(function() {
+			// 로그인이 되어있지 않으면
+			if("${ loginUser.empNo }" == "") {	
+				
+				loginFn(); // 로그인 먼저
+			}
+		});
+    </script>
 </body>
 </html>

@@ -82,7 +82,7 @@
 										</td>
 										<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle; border-image: none;">
 											<span contenteditable="false">
-												<input class="fix_input" name="draftDate" value="문서번호" readonly/>
+												<input class="fix_input" value="문서번호" readonly/>
 											</span>
 										</td>
 									</tr>
@@ -105,8 +105,8 @@
 													1차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input type="hidden" id="firstAprv" name="firstAprv" value=""/>
-													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly/>
+													<input type="hidden" id="firstAprv" name="firstAprv" value="" required/>
+													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly required/>
 													<input class="fix_input approverJop" id="firstAprvJob" value="" readonly/>
 												</td>
 											</tr>
@@ -163,7 +163,7 @@
 						</tr>
 						<tr>
 							<td style="background: rgb(255, 255, 255); border-width: medium 1px 1px; border-style: none solid solid; border-color: currentColor black black; padding: 5px; height: 300px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;" colspan="4" class="dext_table_border_t">
-								<span contenteditable="false" class="comp_wrap" data-cid="6" data-dsl="{{textarea:reason}}" data-wrapper="" style="width: 100%;" data-value="" data-autotype="">
+								<span contenteditable="false" style="width: 100%;">
 									<textarea class="txta_editor" id="coopContent" name="coopContent" style="width: 99%; height: 290px; resize: vertical;" maxlength="1000"></textarea>
 								</span>
 							</td>
@@ -216,20 +216,21 @@
 		 		$.ajax({
 		 			
 		 			type: "post",
-		                url: "selectDeptApprover.do",
-		                data: { deptNo : "${ loginUser.departmentNo }" },
-		                success: function (data) {
-						console.log(data);
-		                	if(data != null || data != "") {
-		                		
-		                		$("#firstAprvName").val(data[0].empName);
-		                		$("#firstAprv").val(data[0].empNo);
-		                		$("#firstAprvJob").val(data[0].jobName);
-		                		$("#secondAprvName").val(data[1].empName);
-		                		$("#secondAprv").val(data[1].empNo);
-		                		$("#secondAprvJob").val(data[1].jobName)
-		                	}
-		                }
+	                url: "selectDeptApprover.do",
+	                data: { deptNo : "${ loginUser.departmentNo }",
+	                		jobNo : "${ loginUser.jobNo }"},
+	                success: function (data) {
+					console.log(data);
+	                	if(data != null || data != "") {
+	                		
+	                		$("#firstAprvName").val(data[0].empName);
+	                		$("#firstAprv").val(data[0].empNo);
+	                		$("#firstAprvJob").val(data[0].jobName);
+	                		$("#secondAprvName").val(data[1].empName);
+	                		$("#secondAprv").val(data[1].empNo);
+	                		$("#secondAprvJob").val(data[1].jobName)
+	                	}
+	                }
 		 		})
 		 		
 		 		// 부서 조회해서 select에 넣기

@@ -42,7 +42,12 @@
 	.requestList_table td {
 		border-top: 1px solid darkgray;
 		padding: 15px;
-		
+	}
+	
+	requestList_table .requestList_tbody td {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 	
 	.requestList_table th {
@@ -164,9 +169,6 @@
     </div>
 
 
-	
-	
-	
 	<script type="text/javascript">
 	
 		// 화면 로드 시 리스트 불러오기
