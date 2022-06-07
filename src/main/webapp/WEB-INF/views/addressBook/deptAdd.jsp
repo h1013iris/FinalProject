@@ -69,8 +69,7 @@
 <div class="main_section">
 
 <div id="container">
-   
-    
+
 <!--전체 주소록 내용이 표시될곳-->
 <div id="addcon">
 <table>

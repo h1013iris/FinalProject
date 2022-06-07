@@ -35,7 +35,9 @@ public class AddressBookDao {
 
 	public ArrayList<Company> selectComList(SqlSessionTemplate sqlSession, int empNo){
 		//System.out.println("서비스 임플에서 넘겨주는 empNo의 값은?"+empNo);
-		return (ArrayList)sqlSession.selectList("addressBookMapper.selectComList", empNo);
+		ArrayList<Company> a = (ArrayList)sqlSession.selectList("addressBookMapper.selectComList", empNo);
+		System.out.println("다오에서 거래처 리스트"+a);
+		return a;
 	}
 
 	public ArrayList<WideMember> selectAllAddSearch(SqlSessionTemplate sqlSession, String search) {
@@ -73,6 +75,24 @@ public class AddressBookDao {
 	public void insertCusAdd(SqlSessionTemplate sqlSession, Customer cus, int empNo) {
 		cus.setEmpNo(empNo);
 		sqlSession.insert("addressBookMapper.insertCusAdd", cus);
+	}
+
+	public ArrayList<Customer> selectCustoDetailView(SqlSessionTemplate sqlSession, Customer custo, int cusNo) {
+		custo.setCusNo(cusNo);
+		return (ArrayList)sqlSession.selectList("addressBookMapper.selectCustoDetailView",custo);
+	}
+
+	public ArrayList<Company> selectCustoDetailView(SqlSessionTemplate sqlSession, Company com, int compNo) {
+		com.setCompNo(compNo);
+		return (ArrayList)sqlSession.selectList("addressBookMapper.selectComDetailView",com);
+	}
+
+	public ArrayList<Customer> selectSearchCustoFolList(SqlSessionTemplate sqlSession, int empNo, String inFolder,
+			Customer custo) {
+		// TODO Auto-generated method stub
+		custo.setEmpNo(empNo);
+		custo.setInFolder(inFolder);
+		return (ArrayList)sqlSession.selectList("addressBookMapper.selectSearchCustoFolList",custo);
 	}
 
 

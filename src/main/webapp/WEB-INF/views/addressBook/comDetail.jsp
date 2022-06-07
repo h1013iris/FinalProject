@@ -47,7 +47,7 @@
             <!--내부폴더는 empNo로 distinct로 중복제거 select해서 목록띄우기-->
                 <tr> 
                     <td>회사명</td>
-                    <td><input type="text" name="comNm" required></td>
+                    <td><input type="text" name="comNm" required>${comDetail.comNm}</td>
                 </tr>
                 <tr>
                     <td>사업자번호</td>

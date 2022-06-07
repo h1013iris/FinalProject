@@ -20,6 +20,9 @@
       margin:0;
         width: 1000px;
     }
+    #left{
+    width:30%
+    }
     td, th{
         border : 1px solid black;
         width: 300px;
@@ -41,12 +44,12 @@
 </style>
 <div class="main_section">
 <div id="container">
-    <div id="deptTitle">
+    
+	<div id = "left">
+	<!-- 고객주소록 메인으로 이동 -->
 
-
-<div id="container">
-
-
+<jsp:include page="../addressBook/custoAddTitle.jsp"></jsp:include>
+ </div>
 <!--고객 주소록 내용이 표시될곳-->
 <div id="addcon">
 <table>
@@ -59,7 +62,7 @@
 	</tr>
 	<c:forEach items="${custoList}" var="cus" >
 	<tr>
-	<td>${cus.comNm}</td>
+	<td><a href="custoDetailView.do?cusNo=${cus.cusNo}">${cus.comNm}</a></td>
 	<td>${cus.comPhone}</td>
 	<td>${cus.comEmail}</td>
 	<td>${cus.comMemo}</td>
@@ -71,8 +74,7 @@
 </form>
     </div>
     </div>
-</div>
-</div>
-</div>
+    </div>
+   
 </body>
 </html>
