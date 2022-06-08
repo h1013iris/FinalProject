@@ -23,13 +23,13 @@
 			<img src="resources/images/member/nobackLogo.png" alt="회사로고"
 				style="width: 300px;">
 		</div>
-		<form action="updateNewMember2.do" method="post" id="updateMember">
+		<form action="updateNewMember2.do" method="post" enctype="multipart/form-data" id="updateMember">
 
 			<div class="title">
 				* 프로필
 				<table id="mem">
 					<tr>
-						<td rowspan="3"><img src="" alt="프로필사진" width="105"
+						<td rowspan="3"><img src="" id="preview" alt="프로필사진" width="105"
 							height="140"></td>
 						<td class="mem" width="450px"><input type="text" class="m"
 							value="${m.empName}" readonly></td>
@@ -43,8 +43,14 @@
 							value="${m.departmentTitle }" readonly></td>
 					</tr>
 					<tr>
-						<td colspan="2"><input type="file" value="사진등록" id="photo"></td>
+					
+						<!-- <td colspan="2"><input type="file" value="사진등록" id="photo"></td>-->
 						<!-- 프로필필수값은 일단 지움 -->
+					<!-- 파일올리면 미리 보여주기 -->
+					<td colspan="2"><input type="file" name="photo" value="사진등록" id="photo" onchange="readURL(this);">
+					
+					</td>
+					
 					</tr>
 				</table>
 			</div>
@@ -93,7 +99,23 @@
 		</form>
 	</div>
 	<div class="outter"></div>
-
+	
+	<!-- 선택한 사진 미리 보여주기 -->
+<script>
+function readURL(input){
+	if(input.files && input.files[0]){
+		let reader = new FileReader();
+		reader.onload=function(e){
+			document.getElementById('preview').src=e.target.result;
+		};
+		reader.readAsDataURL(input.files[0]);
+	}else{
+		document.getElementById('preview').src="";
+		
+		}
+	}
+		
+</script>
 	
 </body>
 </html>

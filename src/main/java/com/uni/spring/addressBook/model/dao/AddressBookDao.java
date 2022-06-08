@@ -30,13 +30,15 @@ public class AddressBookDao {
 
 	public ArrayList<Customer> selectCustoList(SqlSessionTemplate sqlSession, int empNo) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("addressBookMapper.selectCustoList",empNo);
+		ArrayList<Customer> a=(ArrayList)sqlSession.selectList("addressBookMapper.selectCustoList",empNo);
+		System.out.println("다오에서 고객 리스트"+a);//얘는 불러와지는데
+		return a;
+				
 	}
 
 	public ArrayList<Company> selectComList(SqlSessionTemplate sqlSession, int empNo){
-		//System.out.println("서비스 임플에서 넘겨주는 empNo의 값은?"+empNo);
 		ArrayList<Company> a = (ArrayList)sqlSession.selectList("addressBookMapper.selectComList", empNo);
-		System.out.println("다오에서 거래처 리스트"+a);
+		System.out.println("다오에서 거래처 리스트"+a);//거래처주소록 번호 안불러와짐.. 
 		return a;
 	}
 
@@ -82,7 +84,7 @@ public class AddressBookDao {
 		return (ArrayList)sqlSession.selectList("addressBookMapper.selectCustoDetailView",custo);
 	}
 
-	public ArrayList<Company> selectCustoDetailView(SqlSessionTemplate sqlSession, Company com, int compNo) {
+	public ArrayList<Company> selectComDetailView(SqlSessionTemplate sqlSession, Company com, int compNo) {
 		com.setCompNo(compNo);
 		return (ArrayList)sqlSession.selectList("addressBookMapper.selectComDetailView",com);
 	}
@@ -93,6 +95,25 @@ public class AddressBookDao {
 		custo.setEmpNo(empNo);
 		custo.setInFolder(inFolder);
 		return (ArrayList)sqlSession.selectList("addressBookMapper.selectSearchCustoFolList",custo);
+	}
+
+
+	public ArrayList<Company> selectupDetailCom(SqlSessionTemplate sqlSession, int compNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("addressBookMapper.selectupDetailCom",compNo);
+	}
+
+	//거래처주소록 수정하기
+	public void updateComList(SqlSessionTemplate sqlSession,Company com) {
+		// TODO Auto-generated method stub
+		
+		sqlSession.update("addressBookMapper.updateComList",com);
+	}
+
+	//고객주소록 수정하기
+	public void updateCustoList(SqlSessionTemplate sqlSession, Customer custo) {
+		// TODO Auto-generated method stub
+		sqlSession.update("addressBookMapper.updateCustoList",custo);
 	}
 
 

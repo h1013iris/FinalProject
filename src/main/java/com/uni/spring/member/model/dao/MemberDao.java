@@ -1,6 +1,7 @@
 package com.uni.spring.member.model.dao;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -60,5 +61,11 @@ public class MemberDao {
 	public String selectFindId(SqlSessionTemplate sqlSession, WideMember wm) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("memberMapper.selectFindId", wm);
+	}
+
+	public int insertMemberAttachFile(SqlSessionTemplate sqlSession, Map<String, Object> resultMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("memberMapper.insertMemberAttachFile", resultMap);
+		
 	}
 }

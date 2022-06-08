@@ -2,7 +2,10 @@ package com.uni.spring.member.model.service;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.uni.spring.addressBook.model.dto.Dept;
 import com.uni.spring.member.model.dto.Member;
@@ -24,6 +27,8 @@ public interface MemberService {
 
 	//아이디 찾기위함
 	String selectFindId(WideMember wm);
+
+	int insertMemberAttachFile(MultipartFile file, HttpServletRequest request, int empNo);
 	
 
 	
