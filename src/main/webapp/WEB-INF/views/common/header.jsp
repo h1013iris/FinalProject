@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>header</title>
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">
+<script src="https://kit.fontawesome.com/e25af1a6a2.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<jsp:include page="../depart/annoDepartList.jsp"/>
@@ -288,7 +289,6 @@
 	                    <div class="hhh">
 		                    <li><a href="empManagement">사원 관리</a></li>
 		                    <li><a href="#">부서 관리</a></li>
-		                    <li><a href="#">직책 관리</a></li>
 	                    </div>
 	                </ul>
 	                <ul>
@@ -313,8 +313,7 @@
 	                <ul>
 	                    <li class="list_title">기타</li>
 	                    <div class="hhh">
-		                    <li><a href="#">주소록 관리</a></li>
-		                    <li><a href="#">권한 부여</a></li>
+		                    <li><a href="authorityPage">권한 부여</a></li>
 		                    <li><a href="banWordsPage">금지어 설정</a></li>
 	                    </div>
 	                </ul>
