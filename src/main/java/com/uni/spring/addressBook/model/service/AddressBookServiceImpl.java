@@ -113,13 +113,32 @@ public class AddressBookServiceImpl implements AddressBookService {
 	@Override
 	public ArrayList<Company> selectComDetailView(Company com, int compNo) {
 		// TODO Auto-generated method stub
-		return addressBookDao.selectCustoDetailView(sqlSession, com, compNo);
+		return addressBookDao.selectComDetailView(sqlSession, com, compNo);
 	}
 
 	@Override
 	public ArrayList<Customer> selectSearchCustoFolList(int empNo, String inFolder, Customer custo) {
 		// TODO Auto-generated method stub
 		return addressBookDao.selectSearchCustoFolList(sqlSession,empNo,inFolder,custo);
+	}
+
+	@Override
+	public ArrayList<Company> selectupDetailCom(int compNo) {
+		// TODO Auto-generated method stub
+		return addressBookDao.selectupDetailCom(sqlSession, compNo);
+	}
+	//거래처주소록 수정하기
+	@Override
+	public void updateComList(Company com) {
+		// TODO Auto-generated method stub
+		addressBookDao.updateComList(sqlSession,com);
+	}
+	
+	//고객주소록 수정하기
+	@Override
+	public void updateCustoList(Customer custo) {
+		// TODO Auto-generated method stub
+	addressBookDao.updateCustoList(sqlSession,custo);
 	}
 
 

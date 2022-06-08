@@ -21,7 +21,7 @@
 </form>
 
 <form action="selectSearchCustoFolList" method="post">
-<c:forEach items="${custoFolList}" var="cusF">
+<c:forEach items="${cusFolList}" var="cusF">
 <span class="comF" ><input type="submit" name= "inFolder" value="${cusF.inFolder}"></span><br>
 </c:forEach>
 </form>

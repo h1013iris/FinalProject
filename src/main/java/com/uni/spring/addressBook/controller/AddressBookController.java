@@ -111,6 +111,10 @@ public class AddressBookController {
 		ArrayList<Customer> custoList = addressBookService.selectCustoList(custo, empNo);
 		model.addAttribute("custoList", custoList);
 		System.out.println("고객주소록이 잘 들어왔는가" + custoList);
+
+		// 고객 폴더명들을 가져온다
+		ArrayList<Company> cusFolList = addressBookService.selectCusFolList(custo, empNo);
+		model.addAttribute("cusFolList", cusFolList);
 		return "addressBook/custoAddList";
 	}
 
@@ -149,8 +153,7 @@ public class AddressBookController {
 		model.addAttribute("comList", comList);
 		// 리스트 제대로 들어왔는지 확인
 		System.out.println("comList가 제대로 들어왔니?" + comList);
-		// jsp로 넘겨주기
-
+		
 		// 폴더 목록 불러오기
 		ArrayList<Company> comFolList = addressBookService.selectComFolList(com, empNo);
 		// 화면에 넘겨주기전에 확인
@@ -212,7 +215,6 @@ public class AddressBookController {
 
 		System.out.println("폴더명으로 리스트 조회해온 결과는?!" + comList);
 		model.addAttribute("comList", comList);
-		// return "addressBook/comAddList";
 		// 폴더 목록 불러오기
 		ArrayList<Company> comFolList = addressBookService.selectComFolList(com, empNo);
 		// 화면에 넘겨주기전에 확인
@@ -220,25 +222,26 @@ public class AddressBookController {
 		model.addAttribute("comFolList", comFolList);
 		return "addressBook/comAddList";
 	}
-	
-	// 고객별 폴더명으로 조회 리스트
-		@PostMapping("selectSearchCustoFolList")
-		public String selectCustoFolList(@ModelAttribute("loginUser") Member m, String inFolder, Model model, Customer custo) {
 
-			int empNo = m.getEmpNo();
-			// 폴더 목록 불러오기
-			ArrayList<Company> custoFolList = addressBookService.selectCusFolList(custo, empNo);
-			
-			System.out.println("폴더목록?!" + custoFolList);
-			model.addAttribute("custoFolList", custoFolList);
-			// return "addressBook/comAddList";
-			
-			ArrayList<Customer> custoFolList = addressBookService.selectCustoFolList(custo, empNo);
-			// 화면에 넘겨주기전에 확인
-			System.out.println("폴더리스트가 잘 넘어 왔는가?: " + custoFolList);
-			model.addAttribute("custoFolList", custoFolList);
-			return "addressBook/custoAddList";
-		}
+	// 고객별 폴더명으로 조회 리스트
+	@PostMapping("selectSearchCustoFolList")
+	public String selectCustoFolList(@ModelAttribute("loginUser") Member m, String inFolder, Model model,
+			Customer custo) {
+
+		int empNo = m.getEmpNo();
+
+		// 고객 폴더명들을 가져온다
+		ArrayList<Company> cusFolList = addressBookService.selectCusFolList(custo, empNo);
+		System.out.println("폴더목록?!" + cusFolList);
+		model.addAttribute("cusFolList", cusFolList);
+		// return "addressBook/comAddList";
+
+		ArrayList<Customer> custoList = addressBookService.selectSearchCustoFolList(empNo, inFolder, custo);
+		// 화면에 넘겨주기전에 확인
+		System.out.println("리스트가 잘 넘어 왔는가?: " + custoList);
+		model.addAttribute("custoList", custoList);
+		return "addressBook/custoAddList";
+	}
 
 	// 임시보관함 화면으로 이동
 	@RequestMapping("boxAdd.do")
@@ -262,10 +265,53 @@ public class AddressBookController {
 
 		ArrayList<Company> comDetail = addressBookService.selectComDetailView(com, compNo);
 
-		System.out.println("거래처 주소록 상세클릭:" + comDetail);
+		System.out.println("거래처 주소록 상세조회클릭:" + comDetail);
 		model.addAttribute("comDetail", comDetail);
 
 		return "addressBook/comDetail";
 	}
+	
+	//거래처 주소록 업데이트하기전(변경전 내용 불러오기)
+	@PostMapping("selectupDetailCom.do")
+	public String updateDeatilCom(int compNo,int empNo, Company com, Model model) {
+		ArrayList<Company> comDetail = addressBookService.selectComDetailView(com, compNo);
 
+		System.out.println("거래처 주소록 업데이트전:" + comDetail);
+		model.addAttribute("comDetail", comDetail);
+		
+		ArrayList<Company> comFolList = addressBookService.selectComFolList(com, empNo);
+		// 화면에 넘겨주기전에 확인
+		System.out.println("업데이트용..폴더리스트가 잘 넘어 왔는가?: " + comFolList);
+		model.addAttribute("comFolList", comFolList);
+		return "addressBook/updateDetailCom";
+	}
+	
+	//고객주소록 업데이트하기전(변경전 내용 불러오기)
+	@PostMapping("selectupDetailCusto.do")
+	public String updateDeatilCom(int cusNo,int empNo, Customer custo, Model model) {
+
+		ArrayList<Customer> custoDetail = addressBookService.selectCustoDetailView(custo, cusNo);
+		System.out.println("고객주소록 상세클릭" + custoDetail);
+		model.addAttribute("custoDetail", custoDetail);
+
+		ArrayList<Company> cusFolList = addressBookService.selectCusFolList(custo, empNo);
+		System.out.println("폴더목록?!" + cusFolList);
+		model.addAttribute("cusFolList", cusFolList);
+		
+		return "addressBook/updateDetailCusto";
+	}
+	
+	//거래처 주소록 업데이트 하기
+	@PostMapping("updateComList.do")
+	public String updateComList(Company com) {
+		addressBookService.updateComList(com);
+		return "redirect:comAdd.do";
+	}
+	
+	//고객 주소록 업데이트 하기
+	@PostMapping("updateCustoList.do")
+	public String updateComList(Customer custo) {
+		addressBookService.updateCustoList(custo);
+		return "redirect:custoAdd.do";
+		}
 }

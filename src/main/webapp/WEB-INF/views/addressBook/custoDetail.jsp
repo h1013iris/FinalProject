@@ -7,10 +7,42 @@
 <meta charset="UTF-8">
 <title>고객주소록상세조회</title>
 </head>
+<style>
+<style>
+  *{margin: 0;
+        padding: 0;}
+    #container{
+        height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+
+    .main{
+      width: 500px;
+        margin:0 auto;
+        text-align: center;
+        border: solid 1px; 
+        
+    }
+    
+    .main2{
+        margin:0 auto;
+        text-align: center;
+      
+    }
+    #buttonLine{
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+      textarea{
+    resize: none;
+    }
+</style>
 <body>
 
     <div id="container">
         <div class="main">
+         <form action="selectupDetailCusto.do" method="post">
           
                 <h3>고객 상세조회</h3>
         <table class="main2">
@@ -51,6 +83,8 @@
                     <td>기타</td>
                     <td><textarea name="comMemo" class="inputlo" rows="5"  maxlength="50" readonly>"${cusD.comMemo }"</textarea></td>
                 </tr>
+                <input type="hidden" name="cusNo" value="${cusD.cusNo }">  
+                <input type="hidden" name="empNo" value="${cusD.empNo }"> 
                   </c:forEach>  
                     
                    
@@ -59,9 +93,10 @@
             </table>
             
                 <div id="buttonLine">
-                <input type="submit" value="등록"/>
+                <input type="submit" value="수정"/>
                 <input type="button" value="취소"/>
                 </div>
+                </form>
           
         </div>
     </div>
