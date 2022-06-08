@@ -159,7 +159,7 @@ public int updatedetail(SqlSessionTemplate sqlSession, Board b) {
 
 public static int deleteBoard(SqlSessionTemplate sqlSession, int bno) {
 	// TODO Auto-generated method stub
-	return sqlSession.insert("boardMapper.deleteBoard" , bno);
+	return sqlSession.update("boardMapper.deleteBoard" , bno);
 }
 
 //임시 보관함
@@ -179,6 +179,22 @@ public ArrayList<Board> selectpbox(SqlSessionTemplate sqlSession, PageInfo pi, i
 public int saveboard(SqlSessionTemplate sqlSession, pbox p) {
 	// TODO Auto-generated method stub
 	 return sqlSession.insert("boardMapper.saveboard", p);
+}
+
+public pbox detailpbox(SqlSessionTemplate sqlSession, int pno) {
+	// TODO Auto-generated method stub
+	return sqlSession.selectOne("boardMapper.detailpbox" , pno);
+}
+
+public int deletepbox(SqlSessionTemplate sqlSession, int pno) {
+	// TODO Auto-generated method stub
+	return sqlSession.update("boardMapper.deletepbox" , pno);
+}
+
+//게시글 유저 삽입
+public int insertuser(SqlSessionTemplate sqlSession, Board bo) {
+	
+	return sqlSession.insert("boardMapper.insertuser" , bo);
 }
 }
 

@@ -37,7 +37,7 @@
 <body>
 	<!-- 모달 시작부분 -->
 	<div id="modal_background" class="modal_background checkmans">
-        <div id="modal_container" class="size600 heightSizech" style="height: 250px;">
+        <div id="modal_container" class="size600 heightSizech" style="height: 600px;">
            	<!-- 모달 헤더 부분 -->
             <div class="modal_header">
                 <div class="logo">
@@ -48,7 +48,20 @@
             <!-- 모달 바디 부분 -->
             <div class="modal_body spmodal_body ">
             	<div class="spmodal_body_name"> <span>글을 확인한 사람</span></div>
-            	
+            	<table id="boardList" class="table table-hover" align="center">
+				
+					<tbody>
+
+						<c:forEach items="${ list }" var="n">
+							<tr>
+								
+								<td style="height: 70px;">${ n.writer }&nbsp; 읽음</td>
+
+							</tr>
+
+						</c:forEach>
+						</tbody>
+						</table>
             </div>
             <div class="modal_footer buttonSection">
 

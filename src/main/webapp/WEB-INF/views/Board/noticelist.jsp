@@ -66,11 +66,11 @@ img {
 }
 
 .all {
-	width: 84vw;
+	margin
 }
 
 .ham {
-	margin-left: 12%;
+	margin-left: 16%;
 }
 
 #bu1 {
@@ -81,7 +81,7 @@ img {
 	position: relative;
 	display: inline-block;
 	margin-left: 83%;
-	height: 150px;;
+	height: 110px;
 }
 
 .dropdown1 {
@@ -133,11 +133,13 @@ img {
 
 .noticelist {
 	width: 84vw;
-	margin-bottom: 100%;
+	margin-left : 5%;
+	margin-bottom:100%;
 }
 
 #pagingArea {
 	width: fit-content;
+	
 	margin-left: 28%;
 }
 
@@ -261,6 +263,8 @@ img {
 					</div>
 
 					<script>
+					
+					
 			$(function(){
 				switch('${condition}'){				
 				case "title" : $("#searchArea option").eq(1).attr("selected", true); break; 
@@ -284,10 +288,12 @@ img {
 
 
 			<script>
-    
+            
+			
     	$(function(){
     		$("#boardList tbody tr").click(function(){
-    			location.href="detailBoard.do?bno=" + $(this).children().eq(0).text();
+    			
+    			location.href="detailBoard.do?bno=" + $(this).children().eq(0).text()+"&uno="+${ loginUser.empNo }
     			console.log(bno)
     		});
     	});
