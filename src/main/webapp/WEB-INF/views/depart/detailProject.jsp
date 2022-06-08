@@ -8,8 +8,8 @@
 <title>프로젝트 상세 페이지</title>
 <style type="text/css">
 	.projectDetailBid{
-		border: 1px solid;
-		width: 83vw;
+		margin: 0 auto;
+		padding: 100px;
 	}
 	.project_detailContain{
 		width: 100%;
@@ -396,6 +396,7 @@
     				$("#semiNoDETAIL").val(sp.semiNo);
     				$(".dueDateShow").text(sp.semiDue);
     				$(".WriterNoSemiProject").val(sp.semiDue);
+    				$("#refProNum").val(${p.proNo});
     				if(sp.semiDue == null){
     					$(".dueDateShow").empty();
     					//오늘 날짜 넣기
@@ -405,15 +406,37 @@
     				}
     				if(sp.semiContent == null){
     					$(".innerPartimgConn").css("display", "flex");
+    					$(".updateInnerPartCommne").css("display", "none");
+    					$(".commentDvi").css("display","none");
    					}else{
    						$(".commentText").html(sp.semiContent);
+   						$(".commentDvi").css("display","flex");
+   						$(".updateInnerPartCommne").css("display", "none");
    					}
     				if(sp.semiWriter == loginUser){
     					$(".outseeDelete").css("display","block");
     					$(".editdetailSemi").css("display","block");
     					$(".checkListTotalDel").css("display","block");
     				}
+    				if(sp.refPc=='${pc.pcOne}'){
+    					$(".controllPF span").text('${pc.pcTwo}');
+    					$(".controllPS span").text('${pc.pcThree}');
+    					$(".controllPT span").text('${pc.pcFour}');
+    				}else if(sp.refPc=='${pc.pcTwo}'){
+    					$(".controllPF span").text('${pc.pcOne}');
+    					$(".controllPS span").text('${pc.pcThree}');
+    					$(".controllPT span").text('${pc.pcFour}');
+    				}else if(sp.refPc=='${pc.pcThree}'){
+    					$(".controllPF span").text('${pc.pcOne}');
+    					$(".controllPS span").text('${pc.pcTwo}');
+    					$(".controllPT span").text('${pc.pcFour}');
+    				}else if(sp.refPc=='${pc.pcFour}'){
+    					$(".controllPF span").text('${pc.pcOne}');
+    					$(".controllPS span").text('${pc.pcTwo}');
+    					$(".controllPT span").text('${pc.pcThree}');
+    				}
     				selectCheckList(sp.semiNo);
+    				selectAnnoReplyList();
     			}
     		})	
     	}

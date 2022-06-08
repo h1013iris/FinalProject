@@ -256,6 +256,31 @@ public class DepartDao {
 		return sqlSession.update("departMapper.deleteComment", semiNo);
 	}
 
+	public int insertSemiReply(SqlSessionTemplate sqlSession, DepartmentReply sr) {
+		
+		return sqlSession.insert("departMapper.insertSemiReply", sr);
+	}
+
+	public ArrayList<DepartmentReply> selectSemiReplyList(SqlSessionTemplate sqlSession, int refDepartNo) {
+		
+		return (ArrayList)sqlSession.selectList("departMapper.selectSemiReplyList",refDepartNo);
+	}
+
+	public int deleteReplySemi(SqlSessionTemplate sqlSession, DepartmentReply sr) {
+		
+		return sqlSession.update("departMapper.deleteReplySemi", sr);
+	}
+
+	public int insertSemiFileUpload(SqlSessionTemplate sqlSession, Attachment a) {
+		
+		return sqlSession.insert("departMapper.insertSemiFileUpload", a);
+	}
+
+	public int deleteSemiProject(SqlSessionTemplate sqlSession, SemiProject sp) {
+		
+		return sqlSession.update("departMapper.deleteSemiProject", sp);
+	}
+
 	
 
 }

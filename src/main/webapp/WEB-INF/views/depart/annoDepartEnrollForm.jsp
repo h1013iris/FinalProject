@@ -46,7 +46,8 @@
 		height: 70px;
 	}
 	.mainDivEnroll{
-		width: 83vw;
+		margin: 0 auto;
+		padding: 100px;
 	}
 </style>
 </head>

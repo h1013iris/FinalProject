@@ -38,6 +38,8 @@
   		<typeAlias type="com.uni.spring.department.model.dto.Department" alias="Department"/>
   		<typeAlias type="com.uni.spring.department.model.dto.Project" alias="Project"/>
   		<typeAlias type="com.uni.spring.department.model.dto.AttendLog" alias="AttendLog"/>
+  		<typeAlias type="com.uni.spring.department.model.dto.SemiProject" alias="SemiProject"/>
+  		<typeAlias type="com.uni.spring.department.model.dto.SemiCheckList" alias="SemiCheckList"/>
   		<!-- 캘린더 -->
   		<typeAlias type="com.uni.spring.calender.model.dto.Calender" alias="Calender"/>
   		<typeAlias type="com.uni.spring.common.DepartmentManagement" alias="DepartmentManagement"/>
@@ -65,11 +67,6 @@
   		<typeAlias type="com.uni.spring.admin.model.dto.MeetingRoom" alias="MR"/>
   		<!-- 권한 관리 -->
   		<typeAlias type="com.uni.spring.admin.model.dto.Authority" alias="Authority"/>
-  		
-  		
-  		<typeAlias type="com.uni.spring.department.model.dto.SemiProject" alias="SemiProject"/>
-  		<typeAlias type="com.uni.spring.department.model.dto.SemiCheckList" alias="SemiCheckList"/>
-
   	</typeAliases>
   	
   	<!-- 
