@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title> ]
+<title>Insert title here</title>
 <style>
 .main_section {
 	width: 83vw;
@@ -90,6 +90,7 @@
 </style>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
+	<jsp:include page="checkman.jsp"></jsp:include>
 	<div class="main_section">
 		<table id="contentArea" align="center" class="table">
 			<tr>
@@ -276,8 +277,13 @@
     		}
     	})
 	}  	
+	//글확인자 버튼 클릭시 모달창
+	$(document).on("click",".checkman", function(){
+	$(".checkmans").css("display","flex");
+})
 </script>
 <script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 <script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
+
 </body>
 </html>

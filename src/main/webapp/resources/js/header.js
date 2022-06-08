@@ -19,10 +19,7 @@ $(function(){
 	$(document).on("click",".simplepjMo", function(){
 		$(".simpleProjectCreateModal").css("display","flex");
 	})
-	//글확인자 버튼 클릭시 모달창
-		$(document).on("click",".checkman", function(){
-		$(".checkmans").css("display","flex");
-	})
+	
 
     $("#main_nav img").mouseenter(function(){
         $(".detail_nav_content").removeClass("enter");
@@ -69,6 +66,9 @@ $(function(){
 	$(document).on("click",".cancel_btn",function(){
 		$("#modal_background").hide();
         $("#alertBackground").hide();
+        $(".docEnrollModal").hide();
+        $(".returnReason_modal").hide();
+        $(".scrtyReq_modal").hide();
 	})
 	
 	//확인창 취소버튼 - 공통
@@ -137,4 +137,22 @@ function myAlert(msgTitle,msg){
     $("#alertBackground .title_name").text(msgTitle);
     $("#alertBackground .alert_content").text(msg);
     $("#alertBackground").show();
+}
+
+
+
+// 로그인 되어있지 않으면 로그인 먼저 하도록 모달 띄우고 화면 전환
+function loginFn() {
+
+	$("#alert_container .title_name").text("로그인 확인");
+	$("#alert_body .alert_content").text("로그인이 필요합니다.");
+	$("#alertBackground").css("display","block");
+	// 클릭 버튼 취소 시 모달 사라지고
+	$(document).on("click", ".cancel_btn", function() {
+		
+		$("#alertBackground").css("display","none")
+		// 로그인 화면으로 이동
+		location.href="/";
+	})
+
 }

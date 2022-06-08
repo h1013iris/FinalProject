@@ -46,7 +46,7 @@ public class Calender {
 		Calender day = calender;
 		
 		// 수정하기여서 존재하면
-		if(!calender.getEditEndDate().isEmpty() && !calender.getEditStartDate().isEmpty() && !calender.getEditWriterNo().isEmpty()) {
+		if(calender.getEditStartDate() != null && calender.getEditEndDate() != null) {
 
 			System.out.println(day.getEditStartDate());
 			System.out.println(day.getEditEndDate());

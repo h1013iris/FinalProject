@@ -237,10 +237,19 @@ public class CalenderController {
 	
 	@ResponseBody
 	@RequestMapping(value="searchCalender.do", produces="application/json; charset=utf-8")
-	public String selectCalenderSearchList(String searchWord) {
+	public String selectCalenderSearchList(String searchWord, HttpSession session) {
 		System.out.println("검색할 단어 ==> "+searchWord);
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		
-		ArrayList<Calender> cList = calenderService.selectCalenderSearchList(searchWord);
+		ArrayList<Calender> cList = calenderService.selectCalenderSearchList(searchWord, loginUser);
+		
+		for(Calender calender : cList) {
+			if(calender.getWriterNo().equals("1")) { // 부서버노 이면
+				DepartmentManagement dapartment = calenderService.selectDepartment(calender.getWriterNo());
+				calender.setDepartment(dapartment.getDepartmentTitle());
+			}
+		}
+		System.out.println(cList);
 		
 		return new Gson().toJson(cList);
 	}

@@ -98,7 +98,7 @@
 						<span class="titleNamePart mainStyleCh">제목</span>
 					</div>
 					<input type="text" name="title" id="title" class="inputTitlePart"
-						palaceholder="제목을 입력해주세요" required>
+						palaceholder="제목을 입력해주세요" value ="${b.title}" required>
 				</div>
 				<!-- 작성자 부분 session에서 값 받아오기 ${loginUser.empName} -->
 				<div class="enrollWriterSection">
@@ -115,12 +115,12 @@
 					<div id="description" class="contentPart mainStyleCh">
 						<span class="contentEn">내용</span>
 					</div>
-					<textarea name="content" id="content" required></textarea>
+					<textarea name="content" id="content" required>${ b.content }</textarea>
 				</div>
 				<div align="right" class="buttonSection">
 					<button type="submit" class="commonButton1">등록하기</button>
 					<button type="reset" class="commonButton1">취소하기</button>
-					<button type="button" class="commonButton1"  id="saveboard">임시보관함</button>
+					<button type="button" class="commonButton1"  id="saveboard" onclick="gopbox(${loginUser.empNo});">임시보관함</button>
 					<button type="button" class="commonButton1"  id="save" onclick="savebtn();" value ="2">보관함에저장</button>
 					<input type="hidden" name="save" id="saveval">
 				</div>
@@ -129,9 +129,14 @@
 	</div>
 
 	<script>
+	function gopbox(user){
+		location.href="pbox.do?userno="+user
+	}
+	
 CKEDITOR.replace('content');
 
 function savebtn(){
+
     var btnValue =  document.getElementById("save")
     document.getElementById("saveval").value = btnValue.value
     document.getElementById('enrollFormAnnoDepart').submit();

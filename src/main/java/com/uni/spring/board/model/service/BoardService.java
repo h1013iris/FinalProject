@@ -72,6 +72,12 @@ public interface BoardService {
 
 	void saveboard(pbox p);
 
+	pbox detailpbox(int pno);
+
+	void deletepbox(int pno);
+
+	void insertuser(Board bo);
+
 	
 
 	

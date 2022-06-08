@@ -222,6 +222,30 @@ public class BoardSeriveImpl implements BoardService {
 		
 	}
 
+	@Override
+	public pbox detailpbox(int pno) {
+	
+		return BoardDao.detailpbox(sqlSession, pno);
+	}
+
+	@Override
+	public void deletepbox(int pno) {
+int result = BoardDao.deletepbox(sqlSession, pno);
+		
+		if(result < 0) {
+			throw new CommException("게시글 삭제 실패");
+		}
+		
+	}
+
+	@Override
+	public void insertuser(Board bo) {
+		int result = BoardDao.insertuser(sqlSession, bo);
+		if(result < 0) {
+			throw new CommException("유저추가실패");
+		}
+	}
+
 
 
 	

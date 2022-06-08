@@ -14,27 +14,13 @@ import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
 import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.approval.model.dto.ReturnDoc;
+import com.uni.spring.approval.model.dto.SecurityDoc;
 import com.uni.spring.common.PageInfo;
 import com.uni.spring.department.model.dto.AttendLog;
 import com.uni.spring.member.model.dto.Member;
 
 @Repository // DB에 접근하는 클래스
 public class AprvDao {
-
-	public int completeListCount(SqlSessionTemplate sqlSession) {
-				
-		return sqlSession.selectOne("aprvMapper.selectListCount");
-	}
-
-	public ArrayList<AprvDoc> completeSelectList(SqlSessionTemplate sqlSession, PageInfo pi) {
-		
-		// 페이징처리 위해 오프셋, 로우바운즈
-		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
-		
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
-		return (ArrayList)sqlSession.selectList("aprvMapper.selectList", null, rowBounds);
-	}
 
 	public ArrayList<Member> selectDeptApprover(SqlSessionTemplate sqlSession, Member loginUser) {
 		
@@ -190,7 +176,26 @@ public class AprvDao {
 		return sqlSession.update("aprvMapper.deleteReturnDoc", docNo);
 	}
 
-	
+
+	public int completeListCount(SqlSessionTemplate sqlSession, int empNo) {
+				
+		return sqlSession.selectOne("aprvMapper.completeListCount", empNo);
+	}
+
+	public ArrayList<AprvDoc> selectCompleteList(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
+		
+		// 페이징처리 위해 오프셋, 로우바운즈
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectCompleteList", empNo, rowBounds);
+	}
+
+	public int docScrtyRequest(SqlSessionTemplate sqlSession, SecurityDoc securityDoc) {
+		
+		return sqlSession.insert("aprvMapper.docScrtyRequest", securityDoc);
+	}
 	
 	
 

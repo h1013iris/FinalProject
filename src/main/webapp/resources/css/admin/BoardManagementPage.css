@@ -24,9 +24,9 @@
 
 .delete_btn {
     float: right;
-    display: none;
     margin-top: 10px;
     cursor: pointer;
+    display: none;
 }
 
 .insert_btn{

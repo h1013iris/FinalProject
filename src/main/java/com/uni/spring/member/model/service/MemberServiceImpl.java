@@ -1,11 +1,20 @@
 package com.uni.spring.member.model.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.uni.spring.addressBook.model.dto.Dept;
 import com.uni.spring.common.exception.CommException;
@@ -109,6 +118,38 @@ public class MemberServiceImpl implements MemberService {
 		System.out.println("아이디는"+msg);//아이디가 잘 담겼는지 확인
 		return msg;
 		
+	}
+
+
+	@Override
+	public int insertMemberAttachFile(MultipartFile file, HttpServletRequest request, int empNo) {
+		//사원 프로필 사진 업로드
+		int success = 0;
+		String orgName = file.getOriginalFilename();
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());//년월일시분초
+		
+		//업로드 경로 - resources - upload_files
+		String filePath = request.getSession().getServletContext().getRealPath("resources")+"\\upload_files\\member\\";
+		
+		String ext = orgName.substring(orgName.lastIndexOf("."));
+		String chgName = currentTime+ext;
+		
+		try {
+			file.transferTo(new File(filePath + chgName));
+			success = 1;
+		} catch (IllegalStateException | IOException e) {
+			success = 0;
+			e.printStackTrace();
+			throw new CommException("file Upload error");
+		}
+		if(success > 0) {
+			Map <String,Object> resultMap = new HashMap<String,Object>();
+			resultMap.put("orgName", orgName);
+			resultMap.put("chgName", chgName);
+			resultMap.put("empNo",empNo);
+			memberDao.insertMemberAttachFile(sqlSession, resultMap);
+		}
+		return success;
 	}
 
 }

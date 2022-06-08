@@ -11,17 +11,17 @@
 
 	.main_section {
 		/*border: 1px solid black;*/
+		padding: 100px;
 	}
 	
 	.docEnrollFormDiv {
-		/*border: 1px solid blue;*/
-		margin-right: 3%;
-		width: 84vw;
+		/*margin-right: 3%;
+		width: 84vw;*/
 	}
 	
 	.docEnrollBackground {
 		width: 1150px;
-		height: 720px;
+		height: 780px;
 		border: 1px solid #e6e6e6;
 		background-color: #e6e6e6;
 		border-radius: 15px;
@@ -30,25 +30,23 @@
 	
 	.formMainArea {
 		/*border: 1px solid red;*/
-		padding: 60px 0 60px 10%;
-		/*float: left;*/
+		padding: 70px 0 0 100px;
+		float: left;
 	}
 	
 	.docEnrollForm {	
-		maring: 0 25px 25px 25px;
+		/*maring: 0 25px 25px 25px;*/
 	}
 	
 	.formArea {
 		border: 1px solid darkgray;
 		background-color: white;
 		padding: 0 25px 25px 25px;
-		float: left;
 	}
 	
 	.docEnrollBtnsArea {
 		/*padding-top: 34%;*/
-		padding-left: 20px;
-		/*padding-top: 60px;*/
+		padding-left: 82.5%;
 	}
 	
 	.docEnrollBtn {

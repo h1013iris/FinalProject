@@ -36,7 +36,10 @@
 }
 #pagingArea {
 	width: fit-content;
-	margin-left: 41%;
+	margin-left: 48%;
+}
+#pboxList{
+margin-left : 10%;
 }
 </style>
 </head>
@@ -45,11 +48,12 @@
 	<div class="main_section">
 	<div class="all">
 	<hr>
-		<div class="noticelist" style="padding: 5% 10%;">
+		<div class="boxlist" style="padding: 5% 10%;">
 				<table id="pboxList" class="table table-hover" align="center">
 
 					<thead>
-						<tr>						
+						<tr>		
+						    <th style="width: 150px; height: 40px;">보관번호</th>					
 							<th style="width: 700px; height: 40px;">제목</th>						
 							<th style="width: 150px; height: 40px;">작성일</th>
 						</tr>
@@ -57,12 +61,13 @@
 					<tbody>
 
 						<c:forEach items="${ list }" var="n">
-							<tr>								
-								<th style="height: 70px;"  >${ n.title }</th>							
+							<tr>		
+							    <th style="height: 70px;" onclick="pboxlist(${n.pno})" >${ n.pno }</th>						   				
+								<th style="height: 70px;" onclick="pboxlist(${n.pno})" >${ n.title }</th>							
 								<th style="height: 70px;">${ n.pcreateDate }</th>
-								
-								<th><a id="delete">삭제</a></th>
-								
+								 <div>
+								  <th><p id="delete" onclick="delpbox(${n.pno})">삭제</p></th>
+								 </div>
 
 
 							</tr>
@@ -124,5 +129,30 @@
 				</div>
 	
 	</div>
+			<script>
+    
+    			function pboxlist(num){
+    			location.href="detailpbox.do?pno=" + num
+    			console.log(pno)
+    		}
+    	
+    	
+    	function delpbox(num){
+    		$("#confirm_title .title_name").text("보관글 삭제");
+    		$("#confirm_body .confirm_content").text("보관글을 삭제하시겠습니까?");
+    		$("#helpmeCOnfirm").css("display","block");
+       		
+    		$("button[name='confirmBtn']").click(function(){
+        		console.log($(this).val())
+        		if($(this).val()=="true"){
+        			location.href="deletepbox.do?pno="+ num +"&userno="+${loginUser.empNo};
+        			$("#helpmeCOnfirm").css("display","none");
+        		}else{
+        			$("#helpmeCOnfirm").hide();
+        		}
+        	})
+    	}
+         
+    </script>
 </body>
 </html>

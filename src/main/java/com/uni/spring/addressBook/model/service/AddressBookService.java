@@ -47,6 +47,14 @@ public interface AddressBookService {
 	//고객 폴더별로 조회하기
 	ArrayList<Customer> selectSearchCustoFolList(int empNo, String inFolder, Customer custo);
 
+	ArrayList<Company> selectupDetailCom(int compNo);
+
+	//거래처주소록 수정하기
+	void updateComList(Company com);
+
+	//고객주소록 수정하기
+	void updateCustoList(Customer custo);
+
 	
 
 

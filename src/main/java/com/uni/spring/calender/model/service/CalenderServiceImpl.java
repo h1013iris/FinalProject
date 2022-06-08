@@ -123,11 +123,15 @@ public class CalenderServiceImpl implements CalenderService {
 	}
 
 	@Override
-	public ArrayList<Calender> selectCalenderSearchList(String searchWord) {
+	public ArrayList<Calender> selectCalenderSearchList(String searchWord, Member loginUser) {
 		
 		searchWord = searchWord.replaceAll(" ", "&nbsp");
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("searchWord", searchWord);
+		data.put("empNo", String.valueOf(loginUser.getEmpNo()));
+		data.put("departmentNo", loginUser.getDepartmentNo());
 		
-		ArrayList<Calender> cList = calenderDao.selectCalenderSearchList(searchWord, sqlSession);
+		ArrayList<Calender> cList = calenderDao.selectCalenderSearchList(data, sqlSession);
 		
 		return cList;
 	}

@@ -290,24 +290,30 @@
 			
 			if(enfDate == null || enfDate == "") {
 				
+				let title = "문서 작성 확인";
 				let content = "시행일을 선택해주세요.";
 				let focus="#enfDate";
 				
- 				alertFn(content, focus);
+				myAlert(title, content);
+				focusFn(focus);
 			
 			} else if(coopDept == "none") {
 				
+				let title = "문서 작성 확인";
 				let content = "협조 부서를 선택해주세요.";
 				let focus="#coopDeptNo";
 				
- 				alertFn(content, focus);
+				myAlert(title, content);
+				focusFn(focus);
  				
 			} else if(dftContent == null || dftContent == "") {
 				
+				let title = "문서 작성 확인";
 				let content = "기안서 내용을 작성해주세요.";
 				let focus="#dftContent";
 				
- 				alertFn(content, focus);
+				myAlert(title, content);
+				focusFn(focus);
 			
  			// 잘 작성되었으면 폼 제출
 			} else {
@@ -325,13 +331,19 @@
  	                	
  	                    if(result == "success") {
 							
+ 	                    	let title = "결재 요청 확인";
  	                    	let content = "결재가 성공적으로 요청되었습니다.";
- 	                    	resultFn(content);
+
+ 	                    	myAlert(title, content);
+ 	                    	resultFn();
 	 	           	 		
  	                    } else {
  	                    	
+ 	                    	let title = "결재 요청 확인";
  	                    	let content = "결재 요청에 실패하였습니다.";
- 	                    	resultFn(content);
+
+ 	                    	myAlert(title, content);
+ 	                    	resultFn();
  	               		}
  	                }
 				});

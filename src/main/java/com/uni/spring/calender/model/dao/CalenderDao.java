@@ -47,9 +47,9 @@ public class CalenderDao {
 		return sqlSession.update("calenderMapper.updateCalender", calender);
 	}
 
-	public ArrayList<Calender> selectCalenderSearchList(String searchWord, SqlSessionTemplate sqlSession) {
+	public ArrayList<Calender> selectCalenderSearchList(Map<String, String> data, SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("calenderMapper.selectCalenderSearchList", searchWord);
+		return (ArrayList)sqlSession.selectList("calenderMapper.selectCalenderSearchList", data);
 	}
 	
 	

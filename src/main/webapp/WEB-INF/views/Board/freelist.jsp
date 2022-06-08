@@ -65,11 +65,11 @@ img {
 }
 
 .all {
-	width: 84vw;
+	margin
 }
 
 .ham {
-	margin-left: 12%;
+	margin-left: 16%;
 }
 
 #bu2 {
@@ -80,7 +80,7 @@ img {
 	position: relative;
 	display: inline-block;
 	margin-left: 83%;
-	height: 150px;
+	height: 110px;
 }
 
 .dropdown1 {
@@ -132,11 +132,13 @@ img {
 
 .noticelist {
 	width: 84vw;
-	margin-bottom: 100%;
+	margin-left : 5%;
+	margin-bottom:100%;
 }
 
 #pagingArea {
 	width: fit-content;
+	
 	margin-left: 28%;
 }
 
@@ -166,8 +168,8 @@ img {
 						<span id="isRecents" class="dropbtn_icon">최신순</span>
 					</button>
 					<div class="dropdown-content" id="drp">
-						<a id="new" href="notice.do">최신순</a> 
-						<a id="old"	href="noticeold.do">오래된순</a>
+						<a id="new" href="free.do">최신순</a> 
+						<a id="old"	href="free.do">오래된순</a>
 					</div>
 				</div>
 			</div>
@@ -209,7 +211,7 @@ img {
 						<c:choose>
 							<c:when test="${ pi.currentPage ne 1 }">
 								<a class="page-link"
-									href="notice.do?currentPage=${ pi.currentPage-1 }"><button
+									href="free.do?currentPage=${ pi.currentPage-1 }"><button
 										class="noticeButton2"><</button></a>
 							</c:when>
 							<c:otherwise>
@@ -222,7 +224,7 @@ img {
 						<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 							<c:choose>
 								<c:when test="${ pi.currentPage ne p }">
-									<a class="page-link" href="notice.do?currentPage=${ p }"
+									<a class="page-link" href="free.do?currentPage=${ p }"
 										style="color: white"><button class="noticeButton2">${ p }</button></a>
 								</c:when>
 								<c:otherwise>
@@ -236,12 +238,12 @@ img {
 						<c:choose>
 							<c:when test="${ pi.currentPage ne pi.maxPage }">
 								<a class="page-link"
-									href="notice.do?currentPage=${ pi.currentPage+1 }"><button
+									href="free.do?currentPage=${ pi.currentPage+1 }"><button
 										class="noticeButton2">></button></a>
 							</c:when>
 							<c:otherwise>
 								<a class="page-link"
-									href="notice.do?currentPage=${ pi.currentPage+1 }"><button
+									href="free.do?currentPage=${ pi.currentPage+1 }"><button
 										class="noticeButton2">></button></a>
 							</c:otherwise>
 						</c:choose>
@@ -286,7 +288,7 @@ img {
     
     	$(function(){
     		$("#boardList tbody tr").click(function(){
-    			location.href="detailBoard.do?bno=" + $(this).children().eq(0).text();
+    			location.href="detailBoard.do?bno=" + $(this).children().eq(0).text()+"&uno="+${ loginUser.empNo }
     			console.log(bno)
     		});
     	});

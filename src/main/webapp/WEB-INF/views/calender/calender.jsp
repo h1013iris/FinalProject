@@ -15,6 +15,7 @@
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	<jsp:include page="../calender/calenderDetailViewModal.jsp"></jsp:include>
+	<jsp:include page="../calender/calenderSearchListModal.jsp"></jsp:include>
 	<div class="main_section">
 		<div class="main-caldiv">
 		<form name="calendarFrm" id="calendarFrm" action="" method="GET">
@@ -279,6 +280,28 @@
 	
 	</div>
 	<script>
+		// 상세조회로 이동
+		// 안들어와짐 
+		// 시도1. 모달에 스크립도 해도 안들어옴
+		// 시도2. click 함수로도 안들어옴
+		// 시도3. on해서 click도 안들어옴
+		// 시도4. 위치를 바꿔도 안들어옴
+		//".calenderSearchList_body .cal_document"
+		$(document).on('click',".calenderSearchList_body .cal_document",function() {
+			console.log("cal_document 클릭함!!!!!!!")
+			let startDate = $(this).children().eq(0).val()
+			let endDate = $(this).children().eq(1).val()
+			let writerNo = $(this).children().eq(2).val()
+			
+			calenderDetail(startDate, endDate, writerNo);
+		})	
+	
+		// 뒤로가기 클릭 시 닫힘
+		$('.backCalender-button').click(function() {
+			$('.calenderSearchList_body').empty()
+			$('.calenderSearchListModal').css("display","none");
+		})
+	
 		// 검색 버튼 클릭시 목록 조회하기
 		$(".searchcalender").on('click', function() {
 			console.log("검색 버튼 클릭")
@@ -302,9 +325,39 @@
 						console.log("성공")
 						
 						if(search.length > 0){
-							search.forEach(function(val){
+							search.forEach(function(val, index){
 								console.log(val)
 								
+								let calDocument = $('<div>').addClass("cal_document")
+								let top = $('<div>').addClass("cal-sList-top")
+								let title = $("<span>").addClass('cal-sList-title').html(val.title)
+								let open = $("<span>").addClass('cal-sList-open').text("내 할 일")
+								if(val.openOption == '팀공개'){
+									open.text(val.department)
+								}else if(val.openOption == '전체공개'){
+									open.text("전체공개")
+								}
+								let middle = $('<div>').addClass('cal-sList-middle')
+								let p1 = $('<p>').text("시간")
+								let p2 = $('<p>').text("장소")
+								
+								let input = $("<span>").addClass('cal-sList-input')
+								let time = $('<p>').addClass('cal-sList-time').text(val.startDate.substring(0,4)+"년 "+val.startDate.substring(5,7)+"월 "+val.startDate.substring(8,10)+"일 "+val.startDate.substring(11,16)+" ~ "+val.endDate.substring(0,4)+"년 "+val.endDate.substring(5,7)+"월 "+val.endDate.substring(8,10)+"일 "+val.endDate.substring(11,16))
+								let place = $('<p>').addClass('cal-sList-place').text(val.place)
+								
+								let span = $("<span>")
+								let hidStart = $("<input>").attr("type","hidden").val(val.startDate).attr("name","startDate"+index).addClass("startDate"+index)
+								let hidEnd = $("<input>").attr("type","hidden").val(val.endDate).attr('name',"endDate"+index).addClass("endDate"+index)
+								let hidWriter = $("<input>").attr("type","hidden").val(val.writerNo).attr('name',"writerNo"+index).addClass("writerNo"+index)
+								
+								input.append(time).append(place)
+								span.append(p1).append(p2)
+								middle.append(span).append(input)
+								top.append(title).append(open)
+								calDocument.append(hidStart).append(hidEnd).append(top).append(middle)
+								$('.calenderSearchList_body').append(calDocument)
+								
+								$(".calenderSearchListModal").css("display","flex")
 								
 							})
 						}

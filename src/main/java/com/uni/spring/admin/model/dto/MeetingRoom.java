@@ -19,6 +19,7 @@ public class MeetingRoom extends MeetingRoomLargeCategory{
 	private int roomNoSmall;
 	private String SRoomName;
 	private String maxCount;
+	private String status;
 	
 	@Builder
 	public MeetingRoom(int roomNoLarge, String LRoomName, int roomNoSmall, String sRoomName, String maxCount) {
@@ -30,12 +31,13 @@ public class MeetingRoom extends MeetingRoomLargeCategory{
 	}
 
 	@Builder
-	public MeetingRoom(String LRoomName, int roomNoSmall, String sRoomName, String maxCount) {
+	public MeetingRoom(String LRoomName, int roomNoSmall, String sRoomName, String maxCount, String status) {
 		super(LRoomName);
 		// TODO Auto-generated constructor stub
 		this.roomNoSmall = roomNoSmall;
 		this.SRoomName = sRoomName;
 		this.maxCount = maxCount;
+		this.status = status;
 	}
 	
 	@Builder

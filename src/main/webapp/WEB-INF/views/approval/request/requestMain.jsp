@@ -9,8 +9,7 @@
 <style type="text/css">
 	
 	.mainDiv {
-		width: 84vw;
-		margin: auto;
+		padding: 100px;
 		text-align: center;
 	}
 	
@@ -36,7 +35,6 @@
 	.requestList_table {
 		width: 97%;
 		margin: auto;
-		padding: auto;
 	}
 	
 	.requestList_table td {
@@ -67,7 +65,6 @@
 	.pagingArea {
 		/*border: 1px solid black;*/
 		width: fit-content;
-		margin: auto;
 		padding-top: 35px;
 	}
     /* #pagingArea a{color:black} */

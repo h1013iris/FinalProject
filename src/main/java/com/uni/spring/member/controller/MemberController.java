@@ -2,6 +2,8 @@ package com.uni.spring.member.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.uni.spring.addressBook.model.dto.Dept;
 import com.uni.spring.member.model.dto.Member;
@@ -61,10 +64,14 @@ public class MemberController {
 	
 	//회원가입
 	@PostMapping(value="updateNewMember2.do")//oneAddress twoAddress는 검색주소와 상세주소임
-	public String updateNewMember2(Member m, @RequestParam("oneAddress") String oneAddress, @RequestParam("twoAddress") String twoAddress) {//여기서는 불러온 정보 + 업테이트식으로 회원가입
+	public String updateNewMember2(Member m, @RequestParam("oneAddress") String oneAddress
+			, @RequestParam("twoAddress") String twoAddress
+			, @RequestParam(name="photo") MultipartFile file
+			, HttpServletRequest request
+			) {//여기서는 불러온 정보 + 업테이트식으로 회원가입
 		
 		m.setAddress(oneAddress+"/"+twoAddress);//주소 합쳐서Address에 넣어주기
-		
+		System.out.println(m);
 		//암호화 하기전 회원가입시 입력한 비밀번호
 		System.out.println("회원가입시 입력한 비밀번호: "+m.getUserPw());
 		
@@ -74,8 +81,14 @@ public class MemberController {
 		System.out.println("암호화한 비밀번호: "+encPwd);
 		
 		m.setUserPw(encPwd);//암호화한 비밀번호를 다시 넣어준다.
+		int empNo = m.getEmpNo();
 		
-		
+		int result = memberService.insertMemberAttachFile(file, request, empNo);
+		if(result > 0) {
+			System.out.println("성공");
+		} else {
+			System.out.println("실페");
+		}
 		memberService.updateNewMember(m);
 		
 		return "main";//회원가입 성공하면 로그인화면으로
