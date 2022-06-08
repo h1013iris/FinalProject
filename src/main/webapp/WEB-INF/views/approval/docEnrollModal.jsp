@@ -120,7 +120,7 @@
 	            </div>
 	            <div class="modal_footer docEnrollFooter">
                 	<button class="commonButton1 modal_nextBtn next_btn" type="button">확인</button>
-                	<button class="commonButton1 modal_cascelBtn cancel_btn" type="button" data-dismiss="modal">취소</button>
+                	<button class="commonButton1 modal_cascelBtn cancel_btn" type="button">취소</button>
             	</div>
             </form>
         </div>

@@ -9,16 +9,17 @@
 <style type="text/css">
 	.main_section {
 		/*border: 1px solid black;*/
+		padding: 100px;
 	}
 	
 	.docDetailViewDiv {
-		margin-right: 3%;
-		width: 84vw;
+		/*margin-right: 3%;
+		width: 84vw;*/
 	}
 	
 	.docDetailBackground {
 		width: 1150px;
-		height: 720px;
+		height: 780px;
 		border: 1px solid #e6e6e6;
 		background-color: #e6e6e6;
 		border-radius: 15px;
@@ -27,12 +28,12 @@
 	
 	.docDetailMainArea {
 		/*border: 1px solid red;*/
-		padding: 60px 0 60px 10%;
+		padding: 70px 0 0 100px;
 		float: left;
 	}
 	
-	.docDetailTable {	
-		padding: 0 25px 25px 25px;
+	.docDetailTable {
+		/*padding: 0 25px 25px 25px;*/
 	}
 	
 	.docDetailArea {
@@ -44,8 +45,8 @@
 	
 	.docDetailBtnsArea {
 		/*padding-top: 34%;*/
-		padding-left: 20px;
-		padding-top: 60px;
+		padding-left: 84%;
+		padding-top: 65px;
 	}
 	
 	.docDetailBtn {
@@ -139,12 +140,13 @@
   		// 결재 승인 버튼 클릭 시 confirm 창 띄우기
   		$(document).on("click", ".approve_btn", function() {
   			
-  			/*$("#confirm_container .title_name").text("결재 승인 확인");
-    		$("#confirm_body .confirm_content").text("결재를 승인하시겠습니까?");
-    		$("#helpmeCOnfirm").css("display","block");
-    		
-    		// 확인 버튼 클릭 시 모달 사라지고
-    		$(document).on("click", ".true_btn", function() {*/
+  			let title = "결재 승인 확인";
+  			let content = "결재를 승인하시겠습니까?";
+
+  			myConfirm(title, content);
+			
+    		// 확인 버튼 클릭 시 confirm 모달 사라지고 결재 승인 진행
+    		$(document).on("click", ".true_btn", function() {
      			
     			$("#helpmeCOnfirm").css("display","none");
 				
@@ -160,10 +162,14 @@
     			let secondAprv = $("#secondAprvName").val();
     			
     			console.log(loginUser == firstAprv);
+    			console.log(loginUser == secondAprv);
     			
     			// 중간 승인
     			// 2차 결재자가 null이 아니고, 본인이 1차 결재자일 경우 -> 결재 기록만 등록
-    			if(secondAprv != null && loginUser == firstAprv) {
+    			if((secondAprv != "" || secondAprv != null) && loginUser == firstAprv) {
+    				
+    				console.log("중간 승인");
+    				
     				// 결재 처리 코드 쿼리스트링으로 붙여서 같이 넘김
     				form += "&aprvPro=" + aprvPro;
     				
@@ -191,7 +197,10 @@
     			// 최종 승인
     			// 본인이 2차 결재자이거나, 2차 결재자가 null인 문서의 1차 결재자일 경우 -> 기록 등록, 상태값 변경
     			} else if(loginUser == secondAprv || 
-    						(secondAprv == null && loginUser == firstAprv)) {
+    						((secondAprv == "" || sdcondAprv == null) && loginUser == firstAprv)) {
+    				
+    				console.log("최종 승인");
+    				
     				// 결재 처리 코드, 결재 상태값 쿼리스트링으로 붙여서 같이 넘김
     				form += "&aprvPro=" + aprvPro + "&aprvStatus=" + aprvStatus;
     				
@@ -218,7 +227,12 @@
     			
     			}
     			
-     		//});
+     		});
+    		
+    		// 취소 클릭 시 confirm 모달 닫기만
+    		$(".false_btn").click(function() {
+    		    $("#helpmeCOnfirm").hide();
+    		})
   			
   		});
     	

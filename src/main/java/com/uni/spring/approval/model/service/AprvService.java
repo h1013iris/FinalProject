@@ -10,15 +10,12 @@ import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
 import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.approval.model.dto.ReturnDoc;
+import com.uni.spring.approval.model.dto.SecurityDoc;
 import com.uni.spring.common.PageInfo;
 import com.uni.spring.department.model.dto.AttendLog;
 import com.uni.spring.member.model.dto.Member;
 
 public interface AprvService {
-
-	int completeListCount();
-
-	ArrayList<AprvDoc> completeSelectList(PageInfo pi);
 
 	ArrayList<Member> selectDeptApprover(Member loginUser);
 	
@@ -72,7 +69,11 @@ public interface AprvService {
 
 	void deleteReturnDoc(int docNo);
 
-	
+	int completeListCount(int empNo);
+
+	ArrayList<AprvDoc> selectCompleteList(PageInfo pi, int empNo);
+
+	void docScrtyRequest(SecurityDoc securityDoc);
 
 	
 

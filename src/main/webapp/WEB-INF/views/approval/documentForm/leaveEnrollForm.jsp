@@ -382,45 +382,57 @@
  			
 			if(drafter == null || drafter == "" || drafterDept == null || drafterDept == "") {
  				
+				let title = "문서 작성 확인";
  				let content = "로그인이 필요합니다.";
 				let focus="";
 				
- 				alertFn(content, focus);
+				myAlert(title, content);
+				focusFn(focus);
  				
  			} else if(vacType == "none") {
  				 
+ 				let title = "문서 작성 확인";
  				let content = "휴가 종류를 선택해주세요.";
  				let focus = "#vacType";
 
- 				alertFn(content, focus);
+ 				myAlert(title, content);
+				focusFn(focus);
  				
  			} else if(startDate == null || startDate == "") {
  				
+ 				let title = "문서 작성 확인";
  				let content = "휴가 시작 날짜를 선택해주세요.";
  				let focus = "#startDate";
  
- 				alertFn(content, focus);
+ 				myAlert(title, content);
+				focusFn(focus);
  				
  			} else if(endDate == null || endDate == "") {
  				
+ 				let title = "문서 작성 확인";
  				let content = "휴가 마지막 날짜를 선택해주세요.";
  				let focus = "#endDate";
  				
- 				alertFn(content, focus);
+ 				myAlert(title, content);
+				focusFn(focus);
  				
  			} else if(vacUseDays == null || vacUseDays == "") {
  				
+ 				let title = "문서 작성 확인";
  				let content = "사용일수를 입력해주세요.";
  				let focus = "#vacUseDays";
  				
- 				alertFn(content, focus);
+ 				myAlert(title, content);
+				focusFn(focus);
  			
  			} else if(vacReason == null || vacReason == "") {
- 				 				
+ 				
+ 				let title = "문서 작성 확인";
  				let content = "휴가 사유를 작성해주세요.";
  				let focus = "#vacReason";
  				
- 				alertFn(content, focus);
+ 				myAlert(title, content);
+				focusFn(focus);
 			
  			// 모두 잘 입력되어 있는 경우
  			} else {
@@ -439,13 +451,19 @@
  	                	
  	                    if(result == "success") {
 							
+ 	                    	let title = "결재 요청 확인";
  	                    	let content = "결재가 성공적으로 요청되었습니다.";
- 	                    	resultFn(content);
-	 	           	 		
+ 	                    	
+ 	                    	myAlert(title, content);
+ 	                    	resultFn();
+ 	                    	
  	                    } else {
  	                    	
+ 	                    	let title = "결재 요청 확인";
  	                    	let content = "결재 요청에 실패하였습니다.";
- 	                    	resultFn(content);
+
+ 	                    	myAlert(title, content);
+ 	                    	resultFn();
  	               		}
  	                } 	                
  	            })

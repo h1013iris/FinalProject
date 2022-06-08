@@ -8,8 +8,7 @@
 <style type="text/css">
 	
 	.mainDiv {
-		width: 84vw;
-		margin: auto;
+		padding: 100px;
 		text-align: center;
 	}
 	
@@ -35,7 +34,6 @@
 	.docSecurityList_table {
 		width: 97%;
 		margin: auto;
-		padding: auto;
 	}
 	
 	.docSecurityList_table td {
@@ -61,7 +59,6 @@
 	.pagingArea {
 		/*border: 1px solid black;*/
 		width: fit-content;
-		margin: auto;
 		padding-top: 35px;
 	}
     /* #pagingArea a{color:black} */
@@ -73,7 +70,6 @@
 	
 	.searchArea {
 		/*border: 1px solid black;*/
-		margin: auto;
 		padding-top: 35px;
 	}
 	

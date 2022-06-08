@@ -22,6 +22,7 @@ import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
 import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.approval.model.dto.ReturnDoc;
+import com.uni.spring.approval.model.dto.SecurityDoc;
 import com.uni.spring.approval.model.service.AprvService;
 import com.uni.spring.common.PageInfo;
 import com.uni.spring.common.Pagination;
@@ -386,32 +387,54 @@ public class AprvController {
 	@RequestMapping("outboxMain.do")
 	public ModelAndView outboxMain(ModelAndView mv) {
 		
-		
-		
-		mv.setViewName("approval/documentForm/outboxMain");
+		mv.setViewName("approval/outbox/outboxMain");
 		
 		return mv;
 	}
 	
 	
 	
-	// 결재완료 리스트
+	// 결재 완료 메인
 	@RequestMapping("completeMain.do")
-	public ModelAndView completeMain(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, ModelAndView mv) {
+	public ModelAndView completeMain(ModelAndView mv) {
 		
-		int listCount = aprvService.completeListCount();
-		System.out.println("listCount ======== " + listCount);
-		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
-		
-		ArrayList<AprvDoc> list = aprvService.completeSelectList(pi);
-		
-		mv.addObject("list", list);
 		mv.setViewName("approval/complete/completeMain");
 		
 		return mv;
 	}
 		
+	
+	
+	// 결재 완료 리스트
+	@ResponseBody
+	@RequestMapping(value="completeList.do", produces="application/json; charset=utf-8")
+	public String selectCompleteList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, int empNo) {
+		
+		int listCount = aprvService.completeListCount(empNo);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<AprvDoc> list = aprvService.selectCompleteList(pi, empNo);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+	}
+	
+	
+	
+	// 결재 완료 문서 상세 조회
+	@RequestMapping("completeDetail.do")
+	public ModelAndView detailCompleteDoc(int docNo, ModelAndView mv) {
+		
+		// 해당 문서의 서식 번호 가져오기
+		int docType = aprvService.selectDocTypeNo(docNo);
+		
+		mv.addObject("docNo", docNo)
+		.addObject("docType", docType)
+		.setViewName("approval/complete/completeDetailView");
+		
+		return mv;
+	}
+	
 	
 	
 	// 반려 문서함 메인
@@ -491,6 +514,21 @@ public class AprvController {
 		return new Gson().toJson("success");
 	}
 	
+	
+	
+	// 보안 요청
+	@ResponseBody
+	@RequestMapping(value="scrtyRequest.do", produces="application/json; charset=utf-8")
+	public String docScrtyRequest(SecurityDoc securityDoc) {
+		
+		// 일단 보안 문서에 등록하고
+		// 관리자가 보안 처리한 문서만 문서 상태값 변경
+		System.out.println(securityDoc.toString());
+		
+		aprvService.docScrtyRequest(securityDoc);
+		
+		return new Gson().toJson("success");
+	}
 	
 	
 	// 진행 상태 확인함 메인

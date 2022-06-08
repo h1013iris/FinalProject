@@ -379,39 +379,49 @@
  			
 			if(updateDate == null || updateDate == "") {
  				
+				let title = "문서 작성 확인";
  				let content = "수정일을 선택해주세요.";
 				let focus="#updateDate";
 				
- 				alertFn(content, focus);
+				myAlert(title, content);
+				focusFn(focus);
  				
  			} else if((beAttendTime == null || beAttendTime == "" )
  						&& (beLeaveTime == null || beLeaveTime == "")) {
  				
+ 				let title = "문서 작성 확인";
  				let content = "수정할 근태 기록이 없습니다.";
 				let focus="#beAttendTime";
 				
-				alertFn(content, focus);
+				myAlert(title, content);
+				focusFn(focus);
  				
  			} else if(attendTime == null || attendTime == "") {
  				
+ 				let title = "문서 작성 확인";
  				let content = "수정 후 출근 시간을 기입해주세요.";
 				let focus="#attendTime";
 				
- 				alertFn(content, focus);
+				myAlert(title, content);
+				focusFn(focus);
  				
  			} else if(leaveTime == null || leaveTime == "") {
  				
+ 				let title = "문서 작성 확인";
  				let content = "수정 후 출근 시간을 기입해주세요.";
 				let focus="#leaveTime";
 				
- 				alertFn(content, focus);
+				myAlert(title, content);
+				focusFn(focus);
  			
  			} else if(updateReason == null || updateReason == "") {
  				
+ 				let title = "문서 작성 확인";
  				let content = "수정 사유를 작성해주세요.";
 				let focus="#updateReason";
 				
- 				alertFn(content, focus);
+				myAlert(title, content);
+				focusFn(focus);
  			
  			// 모두 잘 입력되어 있는 경우
  			} else {
@@ -430,13 +440,19 @@
  	                	
  	                    if(result == "success") {
 							
+ 	                    	let title = "결재 요청 확인";
  	                    	let content = "결재가 성공적으로 요청되었습니다.";
- 	                    	resultFn(content);
+
+ 	                    	myAlert(title, content);
+ 	                    	resultFn();
 	 	           	 		
  	                    } else {
  	                    	
+ 	                    	let title = "결재 요청 확인";
  	                    	let content = "결재 요청에 실패하였습니다.";
- 	                    	resultFn(content);
+
+ 	                    	myAlert(title, content);
+ 	                    	resultFn();
  	               		}
  	                }
  	        	});

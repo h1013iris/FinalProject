@@ -8,8 +8,7 @@
 <style type="text/css">
 	
 	.mainDiv {
-		width: 84vw;
-		margin: auto;
+		padding: 100px;
 		text-align: center;
 	}
 	
@@ -35,13 +34,11 @@
 	.completeList_table {
 		width: 97%;
 		margin: auto;
-		padding: auto;
 	}
 	
 	.completeList_table td {
 		border-top: 1px solid darkgray;
 		padding: 15px;
-		
 	}
 	
 	.completeList_table th {
@@ -73,7 +70,6 @@
 	
 	.searchArea {
 		/*border: 1px solid black;*/
-		margin: auto;
 		padding-top: 35px;
 	}
 	
@@ -178,7 +174,7 @@
 				$.ajax({
 					
 					type: "post",
-	                url: ".do",
+	                url: "completeList.do",
 	                data: { empNo : "${ loginUser.empNo }",
 	                		jobNo : "${ loginUser.jobNo }" },
 	                success: function (list) {
@@ -241,7 +237,7 @@
 			console.log(docNo);
 			console.log(docType);
 			
-			location.href = ".do?docNo=" + docNo;
+			location.href = "completeDetail.do?docNo=" + docNo;
 		}));
 		
 		
