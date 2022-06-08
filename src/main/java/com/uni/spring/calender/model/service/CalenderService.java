@@ -27,7 +27,7 @@ public interface CalenderService {
 
 	void updateCalender(Calender calender);
 
-	ArrayList<Calender> selectCalenderSearchList(String searchWord);
+	ArrayList<Calender> selectCalenderSearchList(String searchWord, Member loginUser);
 
 	
 }
