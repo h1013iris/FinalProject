@@ -138,7 +138,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND END_DATE = TO_DATE(#{editEndDate},'YYYY/MM/DD HH24:MI') 
 		AND WRITER_NO = ${editWriterNo}
 	</update>
-	<select id="selectCalenderSearchList" parameterType="string" resultMap="calenderResultSet">
+	<select id="selectCalenderSearchList" parameterType="Map" resultMap="calenderResultSet">
 		SELECT
 		    A.START_DATE,
 			A.END_DATE,
@@ -155,6 +155,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN CAL_COLOR B ON (A.COLOR_NUM = B.COLOR_NUM)
 		JOIN CAL_SECTION C ON (A.SECTION_NUM = C.SECTION_NUM)
 		WHERE 1=1
+		AND ( WRITER_NO = 10000
+		OR WRITER_NO = #{empNo}
+		OR WRITER_NO = #{departmentNo} )
 		AND A.DATE_NAME LIKE '%' ||#{searchWord}||'%' 
 		AND A.STATUS = 'Y'
 	</select>

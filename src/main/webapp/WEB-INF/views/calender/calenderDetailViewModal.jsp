@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Document</title>
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">
-<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/calenderModal.css">
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/calender/calenderModal.css">
 </head>
 <body>
     <div id="modal_background" class="calenderModal_BigDiv">

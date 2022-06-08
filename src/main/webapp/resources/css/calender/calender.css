@@ -176,6 +176,8 @@ form#calendarFrm {
     width: 83vw;
     display: flex;
     height: 100%;
+    margin: auto;
+    margin-top: 5%;
 }
 .calendar { 
 	/*border: 1px solid black;*/
