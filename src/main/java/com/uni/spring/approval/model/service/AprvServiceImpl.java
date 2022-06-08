@@ -15,6 +15,7 @@ import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
 import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.approval.model.dto.ReturnDoc;
+import com.uni.spring.approval.model.dto.SecurityDoc;
 import com.uni.spring.common.PageInfo;
 import com.uni.spring.common.exception.CommException;
 import com.uni.spring.department.model.dto.AttendLog;
@@ -29,20 +30,7 @@ public class AprvServiceImpl implements AprvService {
 	@Autowired
 	private AprvDao aprvDao;
 	
-
 	
-	@Override // 결재 완료 문서 리스트 개수
-	public int completeListCount() {
-				
-		return aprvDao.completeListCount(sqlSession);
-	}
-
-
-	@Override // 결재 완료 문서 리스트
-	public ArrayList<AprvDoc> completeSelectList(PageInfo pi) {
-		
-		return aprvDao.completeSelectList(sqlSession, pi);
-	}
 
 	
 	@Override // 문서 등록 시 결재선 조회
@@ -335,7 +323,29 @@ public class AprvServiceImpl implements AprvService {
 	}
 	
 
+	@Override // 결재 완료 문서 리스트 개수
+	public int completeListCount(int empNo) {
+				
+		return aprvDao.completeListCount(sqlSession, empNo);
+	}
 
+
+	@Override // 결재 완료 문서 리스트 조회
+	public ArrayList<AprvDoc> selectCompleteList(PageInfo pi, int empNo) {
+		
+		return aprvDao.selectCompleteList(sqlSession, pi, empNo);
+	}
+
+
+	@Override // 보안 요청
+	public void docScrtyRequest(SecurityDoc securityDoc) {
+		
+		int result = aprvDao.docScrtyRequest(sqlSession, securityDoc);
+		
+		if(result < 1) {
+			throw new CommException("문서 보안 요청 실패");
+		}
+	}
 	
 
 

@@ -8,8 +8,7 @@
 <style type="text/css">
 	
 	.mainDiv {
-		width: 84vw;
-		margin: auto;
+		padding: 100px;
 		text-align: center;
 	}
 	
@@ -35,7 +34,6 @@
 	.returnList_table {
 		width: 97%;
 		margin: auto;
-		padding: auto;
 	}
 	
 	.returnList_table td {
@@ -73,7 +71,6 @@
 	
 	.searchArea {
 		/*border: 1px solid black;*/
-		margin: auto;
 		padding-top: 35px;
 	}
 	
@@ -189,7 +186,7 @@
 	                	
 	                	if(list.length == 0) {
 	                		
-	                		var $noListTh = $("<th colspan='6'>").text("결재 요청한 문서가 존재하지 않습니다.").addClass("noReturnList");
+	                		var $noListTh = $("<th colspan='6'>").text("반려된 문서가 존재하지 않습니다.").addClass("noReturnList");
 	                		var $noListTr = $('<tr>').append($noListTh);
 	                		
 							$tbody.append($noListTr);

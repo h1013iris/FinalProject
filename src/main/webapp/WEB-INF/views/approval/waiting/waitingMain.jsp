@@ -9,13 +9,14 @@
 <style type="text/css">
 	
 	.mainDiv {
-		width: 84vw;
-		margin: auto;
+		/*margin: 0 auto;*/
+		padding: 100px;
 		text-align: center;
 	}
 	
 	.main_section {
 		/*border: 1px solid black;*/
+		
 	}
 	
 	.waitingList_area {
@@ -36,13 +37,11 @@
 	.waitingList_table {
 		width: 97%;
 		margin: auto;
-		padding: auto;
 	}
 	
 	.waitingList_table td {
 		border-top: 1px solid darkgray;
 		padding: 15px;
-		
 	}
 	
 	.waitingList_table th {
@@ -67,7 +66,6 @@
 	.pagingArea {
 		/*border: 1px solid black;*/
 		width: fit-content;
-		margin: auto;
 		padding-top: 35px;
 	}
     /* #pagingArea a{color:black} */
@@ -79,7 +77,6 @@
 	
 	.searchArea {
 		/*border: 1px solid black;*/
-		margin: auto;
 		padding-top: 35px;
 	}
 	

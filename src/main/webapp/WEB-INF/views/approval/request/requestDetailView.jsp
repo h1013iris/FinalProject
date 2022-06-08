@@ -9,16 +9,18 @@
 <style type="text/css">
 	.main_section {
 		/*border: 1px solid black;*/
+		padding: 100px;
+		/*text-align: center;*/
 	}
 	
 	.docDetailViewDiv {
-		margin-right: 3%;
-		width: 84vw;
+		/*margin-right: 3%;
+		width: 84vw;*/
 	}
 	
 	.docDetailBackground {
 		width: 1150px;
-		height: 720px;
+		height: 780px;
 		border: 1px solid #e6e6e6;
 		background-color: #e6e6e6;
 		border-radius: 15px;
@@ -27,12 +29,12 @@
 	
 	.docDetailMainArea {
 		/*border: 1px solid red;*/
-		padding: 60px 0 60px 10%;
+		padding: 70px 0 0 100px;
 		float: left;
 	}
 	
 	.docDetailTable {	
-		padding: 0 25px 25px 25px;
+		/*padding: 0 25px 25px 25px;*/
 	}
 	
 	.docDetailArea {
@@ -44,8 +46,8 @@
 	
 	.docDetailBtnsArea {
 		/*padding-top: 34%;*/
-		padding-left: 20px;
-		padding-top: 60px;
+		padding-left: 84%;
+		padding-top: 65px;
 	}
 	
 	.docDetailBtn {

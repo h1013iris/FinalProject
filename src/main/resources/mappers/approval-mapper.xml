@@ -4,36 +4,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="aprvMapper">
 	
-	<!-- 결재 완료 문서 -->
-	<resultMap type="AprvDoc" id="aprvCompleteRSet">
-		<result property="docNo" column="DOC_NO"/>
-		<result property="docType" column="DOC_TYPE"/>
-		<result property="docTitle" column="DOC_TITLE"/>
-		<result property="drafter" column="DRAFTER_NAME"/>
-		<result property="comDate" column="PRO_DATE"/>
-	</resultMap>
-	
-	<!-- 결재 대기, 요청 문서, 반려 리스트 -->
+	<!-- 결재 대기, 요청 문서, 반려, 완료 리스트 -->
 	<resultMap type="AprvDoc" id="aprvListRSet">
 		<result property="drafter" column="DRAFTER_NAME"/>
 		<result property="draftDate" column="DFT_DATE"/>
 	</resultMap>
 	
-	<!-- 반류 사유 조회 -->
 	
-	
-	
-	<!-- 결재 완료 문서 총 개수 -->
-	<select id="selectListCount" resultType="_int">
-		SELECT COUNT(*)
-		FROM V_COMPLETE_DOC
-	</select>
-	
-	<!-- 결재 완료 문서 리스트 -->
-	<select id="selectList" resultMap="aprvCompleteRSet">
-		SELECT *
-		FROM V_COMPLETE_DOC
-	</select>
 	
 	
 	<!-- 문서 등록 -->
@@ -305,5 +282,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SET STATUS = 'N'
 		WHERE DOC_NO = #{docNo}
 	</update>
+	
+	<!-- 결재 완료 문서 총 개수 -->
+	<select id="completeListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM V_APRV_HISTORY
+		WHERE 1=1
+		AND APRV_STATUS = 2
+		AND (APRV_HISTORY_NO, DOC_NO) IN (SELECT MAX(D.APRV_HISTORY_NO), D.DOC_NO
+		                                      FROM APRV_DOCUMENT C
+		                                      JOIN APRV_HISTORY D ON C.DOC_NO = D.DOC_NO
+		                                      GROUP BY D.DOC_NO)
+		AND (DRAFTER = #{empNo} OR FIRST_APRV = #{empNo} OR SECOND_APRV = #{empNo})
+	</select>
+	
+	<!-- 결재 완료 문서 리스트 -->
+	<select id="selectCompleteList" parameterType="_int" resultMap="aprvListRSet">
+		SELECT *
+		FROM V_APRV_HISTORY
+		WHERE 1=1
+		AND APRV_STATUS = 2
+		AND (APRV_HISTORY_NO, DOC_NO) IN (SELECT MAX(D.APRV_HISTORY_NO), D.DOC_NO
+		                                      FROM APRV_DOCUMENT C
+		                                      JOIN APRV_HISTORY D ON C.DOC_NO = D.DOC_NO
+		                                      GROUP BY D.DOC_NO)
+		AND (DRAFTER = #{empNo} OR FIRST_APRV = #{empNo} OR SECOND_APRV = #{empNo})
+		ORDER BY PRO_DATE DESC
+	</select>
+	
+	<!-- 문서 보안 요청 -->
+	<insert id="docScrtyRequest" parameterType="SecurityDoc">
+		INSERT INTO SECURITY_DOC VALUES
+		(#{docNo}, #{scrtyReason}, SYSDATE, NULL, DEFAULT)
+	</insert>
+	
 	
 </mapper>

@@ -9,16 +9,17 @@
 <style type="text/css">
 	.main_section {
 		/*border: 1px solid black;*/
+		padding: 100px;
 	}
 	
 	.docDetailViewDiv {
-		margin-right: 3%;
-		width: 84vw;
+		/*margin-right: 3%;
+		width: 84vw;*/
 	}
 	
 	.docDetailBackground {
-		width: 1400px;
-		height: 720px;
+		width: 1500px;
+		height: 790px;
 		border: 1px solid #e6e6e6;
 		background-color: #e6e6e6;
 		border-radius: 15px;
@@ -27,7 +28,7 @@
 	
 	.docDetailMainArea {
 		/*border: 1px solid red;*/
-		padding: 60px 0 60px 10%;
+		padding: 70px 0 0 100px;
 		float: left;
 	}
 	
@@ -44,8 +45,8 @@
 	
 	.docDetailBtnsArea {
 		/*padding-top: 34%;*/
-		margin-left: 72%;
-		padding-top: 60px;
+		margin-left: 64.5%;
+		padding-top: 65px;
 	}
 	
 	.docDetailBtn {
@@ -84,10 +85,14 @@
 	}
 	
 	.returnReasonArea {
-		background-color: #c0e3ff;
-		margin: 40px 20px 0 72.5%;
+		width: 400px;
+		height: 460px;
+		margin: 40px 20px 0 65%;
 		padding: 15px;
-		/*border: 1px solid blue;*/
+		border: 3px solid #85cdff;
+		background-color: #c0e3ff;
+		border-radius: 15px;
+		/*box-shadow: 0 0 8px #85cdff;*/
 		font-size: 17px;
 		font-weight: bold;
 	}
@@ -98,8 +103,17 @@
 		margin-top: 10px;
 	}
 	
+	.reDate_div {
+		padding-top: 10px;
+	}
+	
+	#reFrom, #reDate {
+		padding-left: 10px;
+	}
+	
 	hr {
 		margin: 15px 0 15px 0;
+		border: 1px solid #85cdff;
 	}
 	
 </style>
@@ -132,12 +146,19 @@
 				</div>
 				<div class="returnReasonArea">
 					<div class="returnReason_main">
-						반려자
-						<div class="returnText" id="reFrom"></div>
-						
+						<div class="reFrom_div">
+							반려자
+							<span class="returnText" id="reFrom"></span>
+						</div>
+						<div class="reDate_div">
+							반려일
+							<span class="returnText" id="reDate"></span>
+						</div>
 						<hr>
-						반려 사유
-						<div class="returnText" id="reReason"></div>
+						<div class="reReason_div">
+							반려 사유
+							<div class="returnText" id="reReason"></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -165,6 +186,7 @@
 	    				
 	    				document.getElementById("reFrom").innerHTML = data.reFromName;
 	    				document.getElementById("reReason").innerHTML = data.reReason;
+	    				document.getElementById("reDate").innerHTML = data.reDate;
 	    			}
 	    			
 	    		});
@@ -190,15 +212,19 @@
     				// 기안자와 로그인 유저가 일치하지 않으면
     				if(drafter != loginUser) {
     					
-    					let content = "해당 문서의 기안자만 삭제할 수 있습니다.";
-    					
-    					alertFn(content);
+    					let title = "반려 문서 삭제 확인";
+    		    		let content = "해당 문서의 기안자만 삭제할 수 있습니다.";
+    		    		
+    		    		myAlert(title, content);
     				
     				} else if(drafter == loginUser) {
     					
+    					let title = "반려 문서 삭제 확인";
     					let content = "문서를 삭제하시겠습니까?";
         					
-    					alertFn(content);
+    					myConfirm(title, content);
+    					
+    					resultFn();
        					
     				}
     			}
@@ -207,42 +233,64 @@
     	});
     	
     	
-    	function alertFn(content, result) {
+    	function resultFn() {
     		
-    		$("#alert_container .title_name").text("반려 문서 삭제");
-    		$("#alert_body .alert_content").text(content);
-    		$("#alertBackground").css("display","block");
-    		// 클릭 버튼 취소 시 모달 사라지고
+    		// 취소 버큰 클릭 시 confirm 모달창 닫기
+    		$(".false_btn").click(function() {
+    		    
+    			$("#helpmeCOnfirm").hide();
+    		})
+
+    		// 확인 버튼 클릭 시 해당 문서 삭제 진행
+    		$(".true_btn").click(function() {
+    			
+    			$("#helpmeCOnfirm").hide();
+    	        
+    			// 문서 삭제하는 ajax 실행
+				$.ajax({
+					
+					type: "post",
+					url: "deleteReturnDoc.do",
+					data: { docNo : ${ docNo } },
+					success: function(result) {
+						
+						if(result == "success") {
+							
+							let content = "반려 문서가 성공적으로 삭제되었습니다.";
+ 	                    	returnFn(content);
+	 	           	 		
+ 	                    } else {
+ 	                    	
+ 	                    	let content = "반려 문서 삭제에 실패하였습니다.";
+ 	                    	returnFn(content);
+ 	               		}
+					}
+
+				});
+    			
+    		})
+    		
+    	}
+    	
+    	
+    	// 알림 띄우고 반려함 메인으로 돌아가는 함수
+    	function returnFn(content) {
+    	    
+    		$("#alertBackground .title_name").text("반려 문서 삭제");
+    	    $("#alertBackground .alert_content").text(content);
+    	    $("#alertBackground").show();
+    	    
+    	 	// 확인 버튼 클릭 시 alert 모달 사라지고
     		$(document).on("click", ".cancel_btn", function() {
      			
-    			$("#alertBackground").css("display","none");
-    			
-    			if(result == 2) {
-    				// 문서 삭제하는 ajax 실행
-   					$.ajax({
-   						
-   						type: "post",
-   						url: "deleteReturnDoc.do",
-   						data: { docNo : ${ docNo } },
-   						success: function(result) {
-   							
-   							if(result == "success") {
-   								
-   	 	                    	let content = "문서가 성공적으로 삭제되었습니다.";
-   	 	                    	alertFn(content, 1);
-   		 	           	 		
-   	 	                    } else {
-   	 	                    	
-   	 	                    	let content = "문서 삭제에 실패하였습니다.";
-   	 	                    	alertFn(content, 2);
-   	 	               		}
-   						}
-
-   					});
-    			}
-     		})
+    			$("#alertBackground").css("display","none")
+    			// 반려 문서함 메인으로 이동
+    			location.href="returnMain.do";
+    		})
     	}
-    
+    	
+    	
+    	
     
     </script>
 </body>
