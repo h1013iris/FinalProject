@@ -120,7 +120,7 @@ a{
        position: absolute;
        left: 5vw;
        top: 0;
-       width: 20vw;
+       width: 250px;
        height: 90vh;
        z-index: 9;
        overflow-y: scroll;
@@ -328,7 +328,7 @@ a{
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 999 ;
+    z-index: 9999 ;
 }
 #alert_container{
     position: absolute;

@@ -63,6 +63,10 @@
   		<!-- 회의실 관리 -->
   		<typeAlias type="com.uni.spring.admin.model.dto.MeetingRoomLargeCategory" alias="MRLC"/>
   		<typeAlias type="com.uni.spring.admin.model.dto.MeetingRoom" alias="MR"/>
+  		<!-- 권한 관리 -->
+  		<typeAlias type="com.uni.spring.admin.model.dto.Authority" alias="Authority"/>
+  		
+  		
   		<typeAlias type="com.uni.spring.department.model.dto.SemiProject" alias="SemiProject"/>
   		<typeAlias type="com.uni.spring.department.model.dto.SemiCheckList" alias="SemiCheckList"/>
 

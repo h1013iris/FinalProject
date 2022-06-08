@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uni.spring.admin.model.dao.adminDao;
+import com.uni.spring.admin.model.dto.Authority;
 import com.uni.spring.admin.model.dto.BanWords;
 import com.uni.spring.admin.model.dto.BoardManagement;
 import com.uni.spring.admin.model.dto.Department;
 import com.uni.spring.admin.model.dto.Job;
+import com.uni.spring.admin.model.dto.MeetingRoom;
 import com.uni.spring.admin.model.dto.MeetingRoomLargeCategory;
 import com.uni.spring.admin.model.dto.employee;
 import com.uni.spring.admin.model.dto.employeeAllInfo;
@@ -152,11 +154,87 @@ public class adminServiceImpl implements adminService {
 	}
 
 	@Override
-	public void deleteMRLC(int parseInt) {
+	public void deleteMRLC(int roomNoLarge) {
 		// TODO Auto-generated method stub
 		int result = admindao.deleteMRLC(sqlSession,roomNoLarge);
 		
 		if(result <= 0)throw new CommException("회의실 삭제 실패");
+	}
+
+	@Override
+	public ArrayList<MeetingRoom> selectSmallList(String roomNoLarge) {
+		// TODO Auto-generated method stub
+		return admindao.selectSmallList(sqlSession, roomNoLarge);
+	}
+
+	@Override
+	public boolean insertMR(MeetingRoom mr) {
+		// TODO Auto-generated method stub
+		ArrayList<String> checkMR = admindao.selectMR(sqlSession, mr);
+		
+		
+		for(String a : checkMR) {
+			if(mr.getSRoomName().equals(a)) return false;
+		}
+		
+		int result = admindao.insertMR(sqlSession,mr);
+		
+		if(result <= 0)throw new CommException("회의실 추가 실패");
+		
+		return true;
+	}
+
+	@Override
+	public void deleteMR(String roomNoSmall) {
+		// TODO Auto-generated method stub
+		int result = admindao.deleteMR(sqlSession, roomNoSmall);
+		
+		if(result <= 0)throw new CommException("회의실 삭제 실패");
+
+	}
+
+	@Override
+	public boolean updateMR(MeetingRoom mr) {
+		ArrayList<String> checkMR = admindao.selectMR(sqlSession, mr);
+		
+		
+		for(String a : checkMR) {
+			if(mr.getSRoomName().equals(a)) return false;
+		}
+		
+		int result = admindao.updateMR(sqlSession,mr);
+		
+		if(result <= 0)throw new CommException("회의실 수정 실패");
+		
+		return true;
+	}
+
+	@Override
+	public MeetingRoom selectStatus(String roomNoSmall) {
+		// TODO Auto-generated method stub
+		return admindao.selectStatus(sqlSession, roomNoSmall);
+	}
+
+	@Override
+	public void maxCountUpdate(MeetingRoom mr) {
+		// TODO Auto-generated method stub
+		int result = admindao.maxCountUpdate(sqlSession, mr);
+		
+		if(result <= 0)throw new CommException("최대인원 수정 실패");
+	}
+
+	@Override
+	public void updateStatus(MeetingRoom mr) {
+		// TODO Auto-generated method stub
+		int result = admindao.updateStatus(sqlSession, mr);
+		
+		if(result <= 0)throw new CommException("회의실 상태 수정 실패");
+	}
+
+	@Override
+	public ArrayList<Authority> selectAuthorityAllList() {
+		// TODO Auto-generated method stub
+		return admindao.selectAuthorityAllList(sqlSession);
 	}
 
 }

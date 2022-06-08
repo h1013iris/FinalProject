@@ -68,6 +68,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="maxCount" column="MAX_COUNT"/>
 	</resultMap>
 	
+	<resultMap type="Authority" id="authResult">
+		<result property="authorityNo" column="AUTHORITY_NO"/>
+		<result property="authorityName" column="AUTHORITY_NAME"/>
+		<result property="empNo" column="EMP_NO"/>
+	</resultMap>
+	
 	<select id="selectAllDeptList" resultMap="deptResult">
 		select * from DEPARTMENT_MANAGEMENT
 	</select>
@@ -182,4 +188,72 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from MEETINGROOM_CATEGORY_LARGE
 		where ROOM_LARGE_NO = #{roomNoLarge}
 	</delete>
+	
+	<select id="selectSmallList" resultMap="MRResult">
+		select
+		    room_small_no,
+		    lroom_name,
+		    sroom_name,
+		    max_count,
+		    status,
+		    a.room_large_no
+		from MEETINGROOM_MANAGEMENT a
+		join MEETINGROOM_CATEGORY_LARGE b on a.ROOM_LARGE_NO = b.ROOM_LARGE_NO
+		where b.room_large_no = #{roomNoLarge}
+		order by b.room_large_no
+	</select>
+	
+	<insert id="insertMR" parameterType="MR">
+		insert into MEETINGROOM_MANAGEMENT
+		(ROOM_SMALL_NO, ROOM_LARGE_NO, SROOM_NAME, STATUS)
+		values
+		(seq_admin.nextval, #{roomNoLarge}, #{SRoomName}, 'Y')
+	</insert>
+	
+	<select id="selectMR" parameterType="MR" resultType="string">
+		select SROOM_NAME
+		from MEETINGROOM_MANAGEMENT
+		where ROOM_LARGE_NO = #{roomNoLarge}
+	</select>
+	
+	<delete id="deleteMR">
+		delete from MEETINGROOM_MANAGEMENT
+		where ROOM_SMALL_NO = #{roomNoSmall}
+	</delete>
+	
+	<update id="updateMR" parameterType="MR">
+		update MEETINGROOM_MANAGEMENT
+		set SROOM_NAME = #{SRoomName}
+		where ROOM_SMALL_NO = #{roomNoSmall}
+	</update>
+	
+	<select id="selectStatus" resultMap="MRResult">
+		select
+            lroom_name,
+		    room_small_no,
+		    sroom_name,
+		    max_count,
+		    status
+		from MEETINGROOM_MANAGEMENT a
+		join MEETINGROOM_CATEGORY_LARGE b on a.ROOM_LARGE_NO = b.ROOM_LARGE_NO
+		where room_small_no = #{roomNoSmall}
+		order by b.room_large_no 
+	</select>
+	
+	<update id="maxCountUpdate" parameterType="MR">
+		update MEETINGROOM_MANAGEMENT
+		set MAX_COUNT = #{maxCount}
+		where ROOM_SMALL_NO = #{roomNoSmall}
+	</update>
+	
+	<update id="updateStatus" parameterType="MR">
+		update MEETINGROOM_MANAGEMENT
+		set STATUS = #{status}
+		where ROOM_SMALL_NO = #{roomNoSmall}
+	</update>
+	
+	<select id="selectAuthorityAllList" resultMap="authResult">
+		select *
+		from AUTHORITY_MANAGEMENT
+	</select>
 </mapper>
