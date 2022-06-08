@@ -8,7 +8,8 @@
 <title>프로젝트 페이지</title>
 <style type="text/css">
 	.projectBigDiv{
-		width: 83vw;
+		margin: 0 auto;
+		padding: 100px;
 	}
 	.favProjectSection, .allProjectSection{
 		display: flex;

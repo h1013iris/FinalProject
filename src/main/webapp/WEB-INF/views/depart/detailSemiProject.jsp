@@ -11,6 +11,9 @@
 		height: 80vh;
 		transform: translateX(85px);
 	}
+	.semiProModalSize::-webkit-scrollbar{
+       display: none;
+   }
 	.semiProTar{
 		color:#85cdff;
 		font-size: 13px;
@@ -70,6 +73,11 @@
     	text-align: center;
 	    line-height: 4.5vh;
 	    font-size: 20px;
+	}
+	#upfile{
+		height: 4.5vh;
+		width: 9vw;
+		display: none;
 	}
 	.outseeMove{
 		background-color: #85cdff;
@@ -289,24 +297,83 @@
 	.checkListTitle{
 		border: 1px solid red;
 	}
-	.semiReplyPartS{
-		border: 1px solid;
-		height:	250px;
-	}
+
 	.semiMainBody{
-		max-height: none !important;
+		max-height: 670px !important;
 		overflow-y: scroll;
 	}
 	.semiMainBody::-webkit-scrollbar{
        display: none;
    }
 	.checkListDIvSemiPro{
-		height: 350px;
+		height: 270px;
 		overflow-y: scroll;
 	}
 	.checkListDIvSemiPro::-webkit-scrollbar{
        display: none;
    }
+  	.semiReplyPartHE{ 
+  		margin-top:15px;
+		display: flex;
+		font-size: 18px;
+		padding-bottom: 10px;
+		border-bottom: 1px solid;
+   }
+   .clickReplyPe{
+   		margin-right: 40px;
+   }
+   .replyButton{
+   		width: 9%;
+   		height: 27px;
+   		margin-bottom: -10px;
+   		transform: translateY(-2px);
+   }
+   #replySum{
+   		height: 28px;
+   		width: 87%;
+   		margin-right: 10px;
+   }
+   .replySubmitArea{
+   		margin-top:	5px;
+   		margin-bottom: 10px;
+   }
+   .replyWriterName{
+		font-size: 18px;
+	    height: 18px;
+	    float: left;
+	}
+	.replyTitleSe{
+		padding-top:4px;
+    	height: 27px;
+    	width: 92%;
+    	padding-bottom: 7px;
+	}
+	.replywrDateSe{
+		font-size: 13px;
+		width: 15%;
+	}
+	.clickReplyPe:hover, .clickAttachPe:hover, .outseeDelete:hover, .outseeDuetime:hover, .outseeFile:hover, .outseeChecklist:hover{
+		cursor: pointer;
+		background-color: white;
+		color:black;
+	}
+	.controllPostion{
+		position: absolute;
+	    top: 30.4vh;
+	    right: 6.8vw;
+	    z-index: 10;
+	    width: 8.9vw;
+	    text-align: center;
+	    line-height: 30px;
+	    background-color: white;
+	}
+	.controllPostion div{
+		border: 1px solid;
+	}
+	.semiAttachParts{
+		border: 1px solid red;
+		display: none;
+	}
 </style>
 </head>
 <body>
@@ -335,6 +402,7 @@
             	<!-- 프로젝트 번호 -->
               	<input type="hidden" id ="semiNoDETAIL">
               	<input type="hidden" id ="WriterNoSemiProject">
+              	<input type="hidden" id ="refProNum">
               	<!-- 설명 적는 부분 -->
               	<div class="addWats" >
               		<div class="innerPartimgConn">
@@ -385,7 +453,25 @@
 	       				<div><span>항목 추가</span></div>
 	   				</div>
    				</div>
+   				<!-- 댓글 윗부분 -->
+				<div class="semiReplyPartHE">
+					<div class="clickReplyPe"><span>댓글</span></div>
+					<div class="clickAttachPe"><span>첨부파일 모음</span></div>
+				</div>
+   				<!-- 댓글 보이는 부분 -->
    				<div class="semiReplyPartS">
+   					<!-- 댓글 등록 부분 -->
+   					<div class="replySubmitArea">
+	        			<input  type="text" id="replySum" placeholder="내용을 입력해주세요">
+	        			<button type="button" class="commonButton1 replyButton" style="line-height:normal;"> 등록 </button>
+	        		</div>
+	        		<div class="replyAREA">
+	        			<table id="replyList" >
+						</table>
+	        		</div>
+   				</div>
+  				<!-- 첨부파일 부분 -->
+   				<div class="semiAttachParts">
    				
    				</div>
             </div>
@@ -395,10 +481,20 @@
 	       	<div class="outseeDuetime"><span>기한일</span></div>
 	       	<div><input type="date" class="outseeDueTimeInsert" id="currentDate"></div>
 	       	<div class="outseeChecklist"><span>체크리스트</span></div>
-	       	<div class="outseeFile"><span>파일첨부</span></div>
+	       	<div class="outseeFile" onclick ="onclickUpload();"><span>파일첨부</span></div>
 	       	<div class="outseeMove"><span>이동</span></div>
+	       	<div class="controllPostion">
+	       		<div class="controllPF"><span></span></div>
+	       		<div class="controllPS"><span></span></div>
+	       		<div class="controllPT"><span></span></div>
+	       	</div>
 	       	<div class="outdeletese"><span>창닫기</span></div>
 	       	<div class="outseeDelete"><span>삭제하기</span></div>
+	       	<form id="insertSemiForm"  enctype="multipart/form-data">
+	       		<input type="file" id ="upfile" name="uploadFile"  onchange="fileUpload(this)">
+	       		<input type="hidden" id="largeCat" name="largeCat" >
+	       		<input type="hidden" id="originName" name="originName">
+	       	</form>
        	</div>
     </div>
 </body>
@@ -536,7 +632,6 @@
 							var $dele = $("<div class='deleteCheckBox' id='deleteCheckBox' onclick='deleteChecklist("+obj.ckeckNo+")'><img src='${ pageContext.servletContext.contextPath }/resources/images/close.png' alt='' width='18'>");
 						}
 						var $checkNo = $('<input type="hidden" name="checkNo" value='+obj.ckeckNo+'>');
-						
 						$fdiv.append($lain);
 						$fdiv.append($cont);
 						$fdiv.append($dele);
@@ -624,6 +719,7 @@
 	})
 	//취소버튼 클릭시에 창닫기 
 	$(".commentCancel").click(function(){
+		$("#textareaCommnet").val('');
 		$(".updateInnerPartCommne").css("display", "none");
 		$(".innerPartimgConn").css("display","flex");
 	})
@@ -639,8 +735,8 @@
 				if(result == "1"){
 					console.log("설명 업데이트 성공")
 					$("#textareaCommnet").val('');
-					selectSemiDetailPro(semiNo);
 				}
+				selectSemiDetailPro(semiNo);
 			}
 		})
 	})
@@ -658,6 +754,147 @@
 				selectSemiDetailPro(semiNo);
 			}
 		})
+	})
+	//댓글 등록 버튼을 눌렀을 시에
+	$(function(){
+   		$(".replyButton").click(function(){
+       		console.log($("#replySum").val())//값이 잘 나오는 것을 확인 완료
+       		console.log(${loginUser.empNo})
+       		var refDepartNo = $("#semiNoDETAIL").val();//세부 번호
+       		var replyWriter = ${loginUser.empNo};//댓글 작성자 
+       		if($("#replySum").val().trim().length != 0){
+       			$.ajax({
+       				url:"insertSemiReply.do", 
+       				type:"post", 
+       				data:{
+       					replyTitle:$("#replySum").val(), 
+       					refDepartNo:refDepartNo, 
+       					replyWriter:replyWriter}, 
+      					success:function(result){
+      						if(result>0){
+      							$("#replySum").val("");
+      							console.log("댓글 달기 성공")//댓글 다는거는 성공
+      							selectSemiDetailPro(refDepartNo);
+      						}else{
+      							myAlert("댓글 등록 실패","댓글을 등록을 실패하였습니다");
+      						
+      		        			$(".cancel_btn").click(function(){
+      		        				$("#alert_container .title_name").text("");
+      		            			$("#alert_body .alert_content").text("");
+      		        				$("#alertBackground").hide();
+      		        			})
+      						}
+      					}, error:function(){
+      						console.log("댓글 작성 ajax 실패")
+      					}
+       				
+       			});
+       			
+       		}else{//댓글 등록 안하고 클릭시
+       			myAlert("댓글 등록","댓글을 등록해주세요");
+       			
+       			$(".cancel_btn").click(function(){
+       				$("#alert_container .title_name").text("");
+           			$("#alert_body .alert_content").text("");
+       				$("#alertBackground").hide();
+       				$("#reply").focus();
+       			})
+       		}
+       	});
+   	});
+	function selectAnnoReplyList(){//댓글 리스트 가져오는 것
+		var semiNo = $("#semiNoDETAIL").val();//세부 번호
+		$.ajax({
+			url:"selectSemiReplyList.do",
+			data:{refDepartNo:semiNo}, 
+			type:"get", 
+			success:function(list){
+				if(list.lenght == 0){
+					$("#replyList").html('');
+				}else{
+					var value ="";
+				$.each(list, function(i, obj){
+					
+					value += "<tr class='replyListTr'>";
+
+					value += "<th class='replyWriterName'>" + obj.writerName +" "+ obj.writerJo + "</th>" ;
+					if("${loginUser.empNo}"==obj.replyWriter){
+					value += "<th class='replydelete'><img src='${ pageContext.servletContext.contextPath }/resources/images/close.png' alt='' onclick='deleteReply("+obj.replyNo+")' width='10'>"+"</th></tr>";
+					} 
+					value += "</tr><tr class='contenttot'><td class='replyTitleSe'>" + obj.replyTitle + "</td>" + 
+					 "<td class='replywrDateSe'>" + obj.wrDate + "</td>" +
+				 	"</tr>";
+				})
+				$("#replyList").html(value);
+				}
+			},error:function(){
+				console.log("댓글 리스트조회용 ajax 통신 실패");
+			}
+		})
+	}	
+	//댓글 삭제 
+   	function deleteReply(num){
+   		var semiNo = $("#semiNoDETAIL").val();//세부 번호
+		$.ajax({
+			url:"deleteReplySemi.do", 
+			type:"post",
+			data:{replyNo:num, refDepartNo:semiNo}, 
+			success:function(result){
+				if(result == "1"){
+					console.log("댓글 삭제 성공")
+					selectSemiDetailPro(semiNo);
+					$("#helpmeCOnfirm").css("display","none");
+				}
+			}
+		})
+   	}
+	//댓글을 클릭하였을 시에
+	function onclickUpload(){
+		let myInput = document.getElementById("upfile");
+        myInput.click();
+	}
+	//파일 확인 눌렀을 시에 파일 저장 성공
+	function fileUpload(fis){
+		$("#largeCat").val( $("#semiNoDETAIL").val());
+		var originName = fis.value;
+		originName = fis.value.substring(originName.lastIndexOf("\\")+1);
+		$("#originName").val(originName);
+		//let form = $("#insertSemiForm").serialize();
+		var form = $('#insertSemiForm')[0];
+		var data = new FormData(form);
+		$.ajax({
+			url:"insertSemiFileUpload.do",
+			type:"post",
+			processData: false,    
+			contentType: false,
+			dataType : 'json',
+			data:data, 
+			success:function(result){
+				if(result =="1"){
+					console.log("파일 보내기 성공")
+				}
+			}
+		})
+	}
+	//세부 프로젝트 삭제하기 
+	$(".outseeDelete").click(function(){
+		var semiNo = $("#semiNoDETAIL").val();//세부 번호
+		var refPro = $("#refProNum").val();//참조 프로젝트
+		location.href="deleteSemiPro.do?semiNo="+semiNo+"&refPro="+refPro;
+	})
+	//댓글창에서 첨부파일 창으로 전환
+	$(".clickAttachPe").click(function(){
+		$(".semiReplyPartS").css("display","none");
+		$(".semiAttachParts").css("display","block");
+	})
+	//첨부파일에서 댓글창으로 전환
+	$(".clickReplyPe").click(function(){
+		$(".semiReplyPartS").css("display","block");
+		$(".semiAttachParts").css("display","none");
+	})
+	//첨부파일 리스트 
+	$(function(){
+		
 	})
 </script>
 </html>

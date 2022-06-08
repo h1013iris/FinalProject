@@ -391,4 +391,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE SEMI_NO = #{semiNo}
 		AND SEMI_STATUS = 'Y'
 	</update>
+	<insert id="insertSemiReply" parameterType="DepartmentReply">
+		INSERT INTO SEMI_REPLY
+		VALUES
+		(SEQ_REPLY.NEXTVAL, #{refDepartNo}, #{replyWriter}, #{replyTitle}, SYSDATE, DEFAULT)
+	</insert>
+	<select id="selectSemiReplyList" resultType="DepartmentReply">
+		SELECT SR_NO AS REPLY_NO, REF_SEMIPRO AS REF_DEPARTNO, SR_WRITER AS REPLY_WRITER, EMP_NAME AS WRITER_NAME, SR_CONTENT AS REPLY_TITLE, TO_CHAR(SR_DATE, 'YYYY/MM/DD HH24:MI:SS') AS WR_DATE, SR_STATUS AS STATUS, JOB_NAME AS WRITER_JO
+		FROM SEMI_REPLY
+		JOIN USER_INFO UI ON(SR_WRITER=EMP_NO)
+        JOIN JOB_RANK_MANAGEMENT JR ON (UI.JOB_NO=JR.JOB_NO)
+		WHERE REF_SEMIPRO = #{refDepartNo}
+		AND SR_STATUS='Y'
+	</select>
+	<update id="deleteReplySemi" parameterType="DepartmentReply">
+		UPDATE SEMI_REPLY
+		SET SR_STATUS = 'N'
+		WHERE SR_NO = #{replyNo}
+		AND REF_SEMIPRO = #{refDepartNo}
+		AND  SR_STATUS = 'Y'
+	</update>
+	<insert id="insertSemiFileUpload" parameterType="Attachment">
+		INSERT INTO ATTACHMENT
+		VALUES
+		(SEQ_ATTACH.NEXTVAL,61,#{largeCat}, #{originName}, #{changeName}, SYSDATE, DEFAULT)
+	</insert>
+	<update id="deleteSemiProject" parameterType="SemiProject">
+		UPDATE SEMI_PRO
+		SET SEMI_STATUS = 'N'
+		WHERE SEMI_NO = #{semiNo}
+		AND REF_PRO = #{refPro}
+		AND  SEMI_STATUS = 'Y'
+	</update>
 </mapper>

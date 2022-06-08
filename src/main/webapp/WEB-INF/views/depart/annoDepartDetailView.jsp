@@ -8,7 +8,8 @@
 <title>공지사항 세부 페이지</title>
 <style type="text/css">
 	.annoDetailVeiw{
-		width: 83vw;
+		margin: 0 auto;
+		padding: 100px;
 	}
 	.annoDetailTitle{
 		margin-left : 20px;
@@ -274,10 +275,7 @@
        							console.log("댓글 달기 성공")//댓글 다는거는 성공
        							selectAnnoReplyList();
        						}else{
-       							$("#alert_container .title_name").text("댓글 등록 실패");
-       		        			$("#alert_body .alert_content").text("댓글을 등록을 실패하였습니다");
-       		        			$("#alertBackground").css("display","block");
-       		        			
+       							myAlert("댓글 등록 실패","댓글을 등록을 실패하였습니다");
        		        			$(".cancel_btn").click(function(){
        		        				$("#alert_container .title_name").text("");
        		            			$("#alert_body .alert_content").text("");
@@ -291,10 +289,7 @@
         			});
         			
         		}else{//댓글 등록 안하고 클릭시
-        			$("#alert_container .title_name").text("댓글 등록");
-        			$("#alert_body .alert_content").text("댓글을 등록해주세요");
-        			$("#alertBackground").css("display","block");
-        			
+        			myAlert("댓글 등록","댓글을 등록해주세요");
         			$(".cancel_btn").click(function(){
         				$("#alert_container .title_name").text("");
             			$("#alert_body .alert_content").text("");

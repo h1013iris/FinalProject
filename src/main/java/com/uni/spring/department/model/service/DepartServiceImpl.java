@@ -343,5 +343,41 @@ public class DepartServiceImpl implements DepartService {
 		}
 	}
 
+	@Override
+	public int insertSemiReply(DepartmentReply sr) {
+		int result = departDao.insertSemiReply(sqlSession, sr);
+		return result;
+	}
+
+	@Override
+	public ArrayList<DepartmentReply> selectSemiReplyList(int refDepartNo) {
+		
+		return departDao.selectSemiReplyList(sqlSession, refDepartNo);
+	}
+
+	@Override
+	public void deleteReplySemi(DepartmentReply sr) {
+		int result = departDao.deleteReplySemi(sqlSession, sr);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+	}
+
+	@Override
+	public void insertSemiFileUpload(Attachment a) {
+		int result = departDao.insertSemiFileUpload(sqlSession, a);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+	}
+
+	@Override
+	public void deleteSemiProject(SemiProject sp) {
+		int result = departDao.deleteSemiProject(sqlSession, sp);
+		if(result <0) {
+			throw new CommException("세미프로젝트 추가 실패");
+		}
+	}
+
 	
 }

@@ -445,6 +445,59 @@ public class DepartController {
 		return String.valueOf("1") ;
 	}
 	
+	//세부 프로젝트 댓글 달기
+	@ResponseBody
+	@RequestMapping(value="insertSemiReply.do", produces="application/json; charset=utf-8")
+	public String insertSemiReply(DepartmentReply sr) {
+		int result = departService.insertSemiReply(sr);
+		return String.valueOf(result);
+	}
 	
+	//세부 프로젝트 댓글 가져오기
+	@ResponseBody
+	@RequestMapping(value="selectSemiReplyList.do", produces="application/json; charset=utf-8")
+	public String selectSemiReplyList(int refDepartNo) {
+		ArrayList<DepartmentReply> list = departService.selectSemiReplyList(refDepartNo);
+		return new GsonBuilder().setDateFormat("yyyy/MM/dd HH:mm:ss").create().toJson(list);
+	}
+	
+	//세부프로젝트 댓글 삭제 
+	@ResponseBody
+	@RequestMapping(value="deleteReplySemi.do", produces="application/json; charset=utf-8")
+	public String deleteReplySemi(DepartmentReply sr) {
+		
+		departService.deleteReplySemi(sr);
+		
+		return String.valueOf("1") ;
+	}
+	
+	//세부프로젝트 첨부파일 저장
+	@ResponseBody
+	@RequestMapping(value="insertSemiFileUpload.do", produces="application/json; charset=utf-8")
+	public String insertSemiFileUpload(HttpServletRequest request, @RequestParam("uploadFile") MultipartFile file, Attachment a ) {
+		if(!file.getOriginalFilename().equals("")) {//파일이 있을시에
+			String changeName = saveFile(file, request);
+			
+			if(changeName != null) {
+				a.setOriginName(file.getOriginalFilename());
+				a.setChangeName(changeName);
+				
+			}
+			
+		}
+		departService.insertSemiFileUpload(a);
+		return String.valueOf("1") ;
+	}
+	
+	//세부 프로젝트 삭제 
+	@RequestMapping("deleteSemiPro.do")
+	public String deleteSemiProject(SemiProject sp, Model model) {
+		departService.deleteSemiProject(sp);
+		model.addAttribute("pjno",sp.getRefPro());
+		return "redirect:detailProject.do";
+	}
 }
+	
+	
+	
 

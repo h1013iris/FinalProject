@@ -87,5 +87,15 @@ public interface DepartService {
 
 	void deleteComment(int semiNo);
 
+	int insertSemiReply(DepartmentReply sr);
+
+	ArrayList<DepartmentReply> selectSemiReplyList(int refDepartNo);
+
+	void deleteReplySemi(DepartmentReply sr);
+
+	void insertSemiFileUpload(Attachment a);
+
+	void deleteSemiProject(SemiProject sp);
+
 
 }
