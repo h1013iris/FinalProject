@@ -10,6 +10,8 @@
 <style>
 #boardList {
 	text-align: center;
+	margin-left : 5%;
+	
 }
 
 #sort {
@@ -70,7 +72,7 @@ img {
 }
 
 .ham {
-	margin-left: 12%;
+	margin-left: 18%;
 }
 
 #bu3 {
@@ -80,12 +82,12 @@ img {
 
 .noticelist {
 	width: 84vw;
-	margin-bottom: 100%;
+	margin-left : 5%;
 }
 
 #pagingArea {
 	width: fit-content;
-	margin-left: 28%;
+	margin-left: 32%;
 }
 
 #tex {
@@ -110,11 +112,10 @@ img {
 
 }
 .dropdown{
-height:130px;
+height:110px;
 margin-top:1%;
 }
 .dropdown2{
-height:130px;
 margin-top:1%;
 }
 
@@ -153,7 +154,7 @@ margin-top:1%;
 			</form>
 			</div>
 			<div class="noticelist" style="padding: 5% 10%;">
-				<table id="boardList" class="table table-hover" align="center">
+				<table id="boardList" class="table table-hover" >
 					<thead>
 						<tr>
 							<th style="width: 50px; height: 50px;">글번호</th>
@@ -255,7 +256,7 @@ margin-top:1%;
 	
     	$(function(){
     		$("#boardList tbody tr").click(function(){
-    			location.href="detailBoard.do?bno=" + $(this).children().eq(0).text();
+    			location.href="detailBoard.do?bno=" + $(this).children().eq(0).text()+"&uno="+${ loginUser.empNo }
     			
     		});
     	});

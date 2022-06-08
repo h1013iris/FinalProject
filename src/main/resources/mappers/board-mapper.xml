@@ -351,5 +351,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    
    
    </insert>
+   
+   <select id="detailpbox" resultMap="pboxset" parameterType="_int">
+		SELECT A.*,
+		B.EMP_NAME
+		FROM P_BOX A
+		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+		WHERE A.STATUS='Y'
+		AND A.P_NUM= #{pno}
+
+
+
+	</select>
+	 <update id="deletepbox" parameterType="_int">
+   UPDATE P_BOX 
+   SET STATUS='N' 
+   WHERE P_NUM= #{pno}
+   
+   </update>
+  
+  
+  <insert id="insertuser" parameterType="Board">
+   INSERT INTO CHECK_MAN
+   VALUES(#{writeno}, DEFAULT ,#{empno})
+   
+   
+   
+   </insert>
 
 </mapper>

@@ -161,18 +161,20 @@ public class BoardController {
 
 	//글작성
 	@RequestMapping("enroll.do")
-	public ModelAndView enroll(ModelAndView mv) {
+	public ModelAndView enroll(Board b ,ModelAndView mv) {
 
-		mv.setViewName("Board/enroll");
+		mv.addObject("b" , b).setViewName("Board/enroll");
 
 		return mv;
 	}
 
 	@RequestMapping("insertenroll.do")
-	public String insertBoard(Board b ,pbox p,HttpServletRequest request ,@RequestParam("bo") int bo ,@RequestParam("deno") int deno ,@RequestParam("save") int save)  {
+	public String insertBoard(Board b ,pbox p,HttpServletRequest request ,@RequestParam("bo") int bo ,@RequestParam(value="deno",required = false ) int deno ,@RequestParam(value="save",required = false, defaultValue = "1") int save)  {
     
-	
+	    
 		System.out.println(bo+"나는 게시판 번호");
+		
+		b.setContent(b.getContent().replaceAll("\n", "<br>"));
 		
 	    b.setBoardno(bo);
 	    p.setBoardno(bo);
@@ -278,7 +280,7 @@ public class BoardController {
 	
 	
 	@RequestMapping("detailBoard.do")
-    public ModelAndView selectBoard(int bno, ModelAndView mv ) {
+    public ModelAndView selectBoard(int bno,int uno ,ModelAndView mv ) {
 		
 		
 		System.out.println(bno+"나는비앤오");
@@ -286,7 +288,13 @@ public class BoardController {
 		a.setWriteno(bno);	*/
 		
 		
+		
 		Board b = BoardService.detailBoard(bno);
+		
+		Board bo= new Board();
+		bo.setWriteno(bno);
+		bo.setEmpno(uno);
+		BoardService.insertuser(bo);
 		
 		mv.addObject("b" , b).setViewName("Board/boarddetail");
 		
@@ -369,6 +377,7 @@ public class BoardController {
 			
 			
 		}
+		//임시보관함
 		@RequestMapping("pbox.do")
        public String selectpbox(@RequestParam(value="currentPage" , required = false , defaultValue = "1") int currentPage, Model model
     		   ,@RequestParam("userno") int userno) {
@@ -389,6 +398,27 @@ public class BoardController {
 			model.addAttribute("pi",pi);
 			return "Board/pbox";
 		}
-	
-		
+       @RequestMapping("detailpbox.do")
+       public ModelAndView detailpbox(int pno, ModelAndView mv ) {
+   		
+   		
+   		System.out.println(pno+"나는피앤오");
+   		
+   		
+   		pbox p = BoardService.detailpbox(pno);
+   		
+   		mv.addObject("p" , p).setViewName("Board/pboxdetail");
+   		
+   		return mv;
+
+   	
+   	}
+     
+        @RequestMapping("deletepbox.do")
+        public String deletepbox(int pno, String fileName, HttpServletRequest request) {
+        
+         BoardService.deletepbox(pno);
+        	
+        return "redirect:pbox.do";
+        }
 }
