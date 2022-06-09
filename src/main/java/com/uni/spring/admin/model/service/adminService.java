@@ -2,7 +2,6 @@ package com.uni.spring.admin.model.service;
 
 import java.util.ArrayList;
 
-import com.uni.spring.admin.model.dto.Authority;
 import com.uni.spring.admin.model.dto.BanWords;
 import com.uni.spring.admin.model.dto.BoardManagement;
 import com.uni.spring.admin.model.dto.Department;
@@ -65,6 +64,17 @@ public interface adminService {
 
 	void updateStatus(MeetingRoom mr);
 
-	ArrayList<Authority> selectAuthorityAllList();
+	Department deptSelectPage(String deptName);
+
+	ArrayList<employee> deptMemberList(String deptNo);
+
+	void insertDept(String deptName);
+
+	void updateDept(Department dept);
+
+	void updateResponsible(employee emp);
+
+	void deleteDept(String deptNo);
+
 
 }

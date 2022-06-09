@@ -38,6 +38,7 @@
 </style>
 <body>
 <jsp:include page="../common/header.jsp"></jsp:include>
+
 <style>
     
     #container{
@@ -54,8 +55,18 @@
     table{
         margin: 0;
         text-align: center;
-
+		 
     }
+    #listAdd{
+    border: 1px solid;  
+    }
+    #listAdd td{
+     border: 1px solid; padding:10px 5px;
+    }
+    #listAdd th{
+     border: 1px solid; padding:10px 5px;
+    }
+    
     .a{
         width: 200px;
         display: inline-block;
@@ -64,12 +75,34 @@
         height: 30px;
         text-align: center;
     }
+    
+        #search{
+        width: 20px;
+        height: 20px;
+        }
+       #a{
+       border-style:solid 1px; 
+       }
 
 </style>
+
 <div class="main_section">
 
 <div id="container">
+<form action="addressMain.do" method="get" class="a">
+<div>
+<input type="submit" value="전체주소록" name="departmentTitle" class="a">
+</div>
+</form>
+<c:forEach items="${deptTitlList}" var="dept">
+<form action="deptAddList" method="get" class="a">
+	<div >
+	<input type="submit" value="${dept.departmentTitle}" name="departmentTitle">
+	</div>
+</form>
+</c:forEach>
 
+</div>
 <!--전체 주소록 내용이 표시될곳-->
 <div id="addcon">
 <table>
@@ -91,7 +124,6 @@
 	</c:forEach>
 </table>
     </div>
-</div>
 </div>
 
 </body>

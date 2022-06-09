@@ -78,12 +78,12 @@
 		box-shadow: 0px 0px 0px 0px #545454 !important;
 	}
 	
-	.requesstList_btn {
+	.requestList_btn {
 		background-color: darkgray !important;
 		box-shadow: 0px 5px 0px 0px #949494 !important;
 	}
 	
-	.requesstList_btn:hover {
+	.requestList_btn:hover {
 		box-shadow: 0px 0px 0px 0px #949494 !important;
 	}
 </style>
@@ -112,7 +112,7 @@
 	        	</c:choose>
 				<div class="docDetailBtnsArea">
 					<button class="commonButton1 aprvCancle_btn docDetailBtn" type="button">결재취소</button><br>
-					<button class="commonButton1 requesstList_btn docDetailBtn" onclick="location.href='requestMain.do'" type="button">목록으로</button>
+					<button class="commonButton1 requestList_btn docDetailBtn" onclick="location.href='requestMain.do'" type="button">목록으로</button>
 				</div>
 			</div>
 		</div>

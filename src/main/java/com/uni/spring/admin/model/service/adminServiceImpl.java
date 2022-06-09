@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uni.spring.admin.model.dao.adminDao;
-import com.uni.spring.admin.model.dto.Authority;
 import com.uni.spring.admin.model.dto.BanWords;
 import com.uni.spring.admin.model.dto.BoardManagement;
 import com.uni.spring.admin.model.dto.Department;
@@ -232,9 +231,48 @@ public class adminServiceImpl implements adminService {
 	}
 
 	@Override
-	public ArrayList<Authority> selectAuthorityAllList() {
+	public Department deptSelectPage(String deptName) {
 		// TODO Auto-generated method stub
-		return admindao.selectAuthorityAllList(sqlSession);
+		return admindao.deptSelectPage(sqlSession, deptName);
 	}
+
+	@Override
+	public ArrayList<employee> deptMemberList(String deptNo) {
+		// TODO Auto-generated method stub
+		return admindao.deptMemberList(sqlSession, deptNo);
+	}
+
+	@Override
+	public void insertDept(String deptName) {
+		// TODO Auto-generated method stub
+		int result = admindao.insertDept(sqlSession, deptName);
+		
+		if(result <= 0)throw new CommException("부서 추가 실패");
+	}
+
+	@Override
+	public void updateDept(Department dept) {
+		// TODO Auto-generated method stub
+		int result = admindao.updateDept(sqlSession, dept);
+		
+		if(result <= 0)throw new CommException("부서명 수정 실패");
+	}
+
+	@Override
+	public void updateResponsible(employee emp) {
+		// TODO Auto-generated method stub
+		int result = admindao.updateResponsible(sqlSession, emp);
+		
+		if(result <= 0)throw new CommException("책임자 수정 실패");
+	}
+
+	@Override
+	public void deleteDept(String deptNo) {
+		// TODO Auto-generated method stub
+		int result = admindao.deleteDept(sqlSession, deptNo);
+		
+		if(result <= 0)throw new CommException("부서 삭제 실패");
+	}
+
 
 }

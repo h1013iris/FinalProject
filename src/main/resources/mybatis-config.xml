@@ -65,8 +65,6 @@
   		<!-- 회의실 관리 -->
   		<typeAlias type="com.uni.spring.admin.model.dto.MeetingRoomLargeCategory" alias="MRLC"/>
   		<typeAlias type="com.uni.spring.admin.model.dto.MeetingRoom" alias="MR"/>
-  		<!-- 권한 관리 -->
-  		<typeAlias type="com.uni.spring.admin.model.dto.Authority" alias="Authority"/>
   	</typeAliases>
   	
   	<!-- 
@@ -83,6 +81,7 @@
   		<mapper resource="/mappers/calender-mapper.xml"/>
   		<mapper resource="/mappers/addressBook-mapper.xml"/>
   		<mapper resource="/mappers/adminMapper.xml"/>
+  		<mapper resource="/mappers/aprvMgt-mapper.xml"/>
   	</mappers>
   	
   </configuration>

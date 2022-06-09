@@ -87,6 +87,15 @@
 	.replydelete img{
 		width: 10px;
 	}
+	.userlistdetailtable{
+	height: 50px;
+	
+	}
+	.userlistdetailtabletd{
+	font-weight: 900; 
+	font-size:16px;
+	height: 50px;	
+	}
 </style>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
@@ -118,7 +127,7 @@
 			<div id="cocn">
 				<button class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</button>
 				<button class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</button>
-				<button type="button" class="checkman">읽은사람</button>
+				<button type="button" class="checkman" >읽은사람</button>
 			</div>
 		
 			<form id="postForm" action="" method="post">
@@ -136,6 +145,8 @@
 						}
 						postForm.submit();
 					}
+					
+					
 				</script>
 			<br>
 			<br>
@@ -279,8 +290,34 @@
 	}  	
 	//글확인자 버튼 클릭시 모달창
 	$(document).on("click",".checkman", function(){
+		var wno = ${ b.writeno }
+		$.ajax({
+			url:"readuser.do", 
+			data:{wno:wno}, 
+			type:"get", 
+			success:function(list){
+				$("#userList").html('');
+				console.log(list)
+				var ulist = list
+				var str = "";			
+				$.each(ulist, function(i){
+					
+					 str += "<tr class='userlistdetailtable'>"
+	                 str += "<th class='userlistdetailtabletd'>" +ulist[i].deptname +"&nbsp;"+'</th>'	                 
+	                 str += '<th>' +ulist[i].writer + '</th>'
+	                 str += '</tr>'
+				});		
+				$("#userList").append(str);
 	$(".checkmans").css("display","flex");
+	
+}
+			
+
 })
+		})
+
+
+
 </script>
 <script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 <script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
