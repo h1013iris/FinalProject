@@ -196,6 +196,16 @@ public int insertuser(SqlSessionTemplate sqlSession, Board bo) {
 	
 	return sqlSession.insert("boardMapper.insertuser" , bo);
 }
+
+public Board selectuser(SqlSessionTemplate sqlSession, Board bo) {
+	// TODO Auto-generated method stub
+	return sqlSession.selectOne("boardMapper.selectuser" , bo);
+}
+
+public ArrayList<Board> readuser(SqlSessionTemplate sqlSession, int wno) {
+	// TODO Auto-generated method stub
+	return (ArrayList) sqlSession.selectList("boardMapper.readuser", wno);
+}
 }
 
 

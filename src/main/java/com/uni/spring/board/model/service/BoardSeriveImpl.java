@@ -240,10 +240,20 @@ int result = BoardDao.deletepbox(sqlSession, pno);
 
 	@Override
 	public void insertuser(Board bo) {
-		int result = BoardDao.insertuser(sqlSession, bo);
-		if(result < 0) {
+	Board b = BoardDao.selectuser(sqlSession,bo);
+	    if(b == null) {
+		
+		 int result = BoardDao.insertuser(sqlSession, bo);
+		 if(result < 0) {
 			throw new CommException("유저추가실패");
-		}
+		   }	 
+	    }
+	}
+
+	@Override
+	public ArrayList<Board> readuser(int wno) {
+	
+		return BoardDao.readuser(sqlSession, wno);
 	}
 
 

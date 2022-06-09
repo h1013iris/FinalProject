@@ -176,5 +176,6 @@
     INSERT INTO ATTACHMENT
     (FILE_NO,REF_LIST_CAT_NO,LARGE_CAT,ORIGIN_NAME,CHANGE_NAME,UPLOAD_DATE)
     VALUES (SEQ_ATTACH.NEXTVAL,10,#{empNo},#{orgName},#{chgName},SYSDATE)
-</insert>
+ </insert>
+   
  </mapper>
