@@ -44,15 +44,15 @@ public class CalenderServiceImpl implements CalenderService {
 	}
 
 	@Override
-	public ArrayList<Calender> selectList(Member loginUser, Map<String, Integer> today_info) {
+	public ArrayList<Calender> selectList(Member m, Map<String, Integer> today_info) {
 		ArrayList<Calender> list = new ArrayList<Calender>();
 		
 		// 필요한 데이터 값을 담기
 		Map<String, String> data = new HashMap<String, String>();
 		data.put("year", String.valueOf(today_info.get("search_year")));
 		data.put("month", String.valueOf(today_info.get("search_month")));
-		data.put("empNo", String.valueOf(loginUser.getEmpNo()));
-		data.put("departmentNo", loginUser.getDepartmentNo());
+		data.put("empNo", String.valueOf(m.getEmpNo()));
+		data.put("departmentNo", m.getDepartmentNo());
 		
 		list = calenderDao.selectList(data, sqlSession);
 		

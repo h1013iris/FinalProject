@@ -13,7 +13,7 @@ public interface CalenderService {
 
 	void insertCalender(Calender calender, String startTime, String endTime);
 
-	ArrayList<Calender> selectList(Member loginUser, Map<String, Integer> today_info);
+	ArrayList<Calender> selectList(Member m, Map<String, Integer> today_info);
 
 	DepartmentManagement selectDepartment(String departmentNo);
 

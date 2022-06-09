@@ -40,6 +40,8 @@
 	}
 	.calenderSearchListModal .cal-sList-open {
 	    font-size: 15px;
+	    padding-left: 4px;
+    	padding-right: 4px;
 	}
 </style>
 </head>

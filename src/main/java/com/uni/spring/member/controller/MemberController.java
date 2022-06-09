@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.uni.spring.addressBook.model.dto.Dept;
+import com.uni.spring.calender.model.service.CalenderService;
+import com.uni.spring.common.DepartmentManagement;
 import com.uni.spring.member.model.dto.Member;
 import com.uni.spring.member.model.dto.WideMember;
 import com.uni.spring.member.model.service.MemberService;
@@ -27,6 +29,10 @@ public class MemberController {
 	
 	@Autowired //@Service 빈 주입
 	private MemberService memberService;
+	
+	// 김태연 => 상세메뉴 부서 캘린더를 위해서 내용 추가
+	@Autowired
+	CalenderService calenderService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -117,6 +123,10 @@ public class MemberController {
 		
 		try {
 			loginUser=memberService.loginMember(bCryptPasswordEncoder, m);
+			
+			// 김태연 => 상세메뉴 부서 캘린더를 위해서 내용 추가
+			DepartmentManagement depart = calenderService.selectDepartment(loginUser.getDepartmentNo()); // 객체를 받아와
+			loginUser.setDepartmentName(depart.getDepartmentTitle()); // setter를 이용해 값을 담음
 			
 			model.addAttribute("loginUser",loginUser);
 		

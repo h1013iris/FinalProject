@@ -52,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND EXTRACT(MONTH FROM END_DATE) >= #{month}
 			AND A.STATUS = 'Y'
 			)]]>
-		<if test="empNo != null">
+		<if test="empNo != 0">
 			<![CDATA[OR WRITER_NO = #{empNo}
 			AND (EXTRACT(YEAR FROM START_DATE) <= #{year}
 			AND EXTRACT(MONTH FROM START_DATE) <= #{month}

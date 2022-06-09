@@ -277,6 +277,7 @@
 			let color = $(this).css('backgroundColor');
 			color = rgb2hex(color);
 			
+			
 			if(color == 'ffb5c1'){
 				$('input[name = "selectColor"]').val('1')
 			}else if(color == 'dfccff'){
@@ -331,6 +332,9 @@
 			let val = $('input[name = "selectColor"]').val()
 			let color = "";
 			
+			console.log("색 바꾸ㅜ라!!!!!!!")
+			console.log(val)
+			
 			if(val == '1'){
 				color = 'ffb5c1';
 			}else if(val == '2'){
@@ -339,7 +343,7 @@
 				color = 'ffb9a4';
 			}else if(val == '4'){
 				color = '14ffb9';
-			}else if(val = '5'){
+			}else if(val == '5'){
 				color == 'fffec4';
 			}else if(val == '6'){
 				color = 'ff8d82';
@@ -360,7 +364,8 @@
 			}else if(val == '14'){
 				color = '00ffff';
 			}
-			
+
+			console.log(color)
 			$('.selectColor').css('backgroundColor','#'+color);
 			$('.colorPreview').css('backgroundColor','#'+color);
 		})
