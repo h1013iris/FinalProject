@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="writer" column="EMP_NAME" />
 		<result property="deptno" column="DEPARTMENT_NO" />
 		<result property="deptname" column="DEPARTMENT_TITLE" />
+	
 	</resultMap>
 
    <resultMap type="coment" id="comentset">
@@ -242,7 +243,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM BOARD A
 		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
 		WHERE A.STATUS='Y'
-		AND WRITE_NO= #{bno}
+		AND A.WRITE_NO= #{bno}
 
 
 
@@ -308,7 +309,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <update id="updatedetail" parameterType="Board"> <!-- 업데이트 할때 필요한것들만 담아야함  -->
    UPDATE BOARD 
    SET TITLE=#{title} , CONTENT=#{content}
-   WHERE BOARD_NO =#{boardno}
+   WHERE WRITE_NO = #{writeno}
    
    
    </update>
@@ -379,4 +380,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    
    </insert>
 
+
+<select id="selectuser" resultMap="boardResultset">
+		SELECT EMP_NO,WRITE_NO		
+		FROM CHECK_MAN 		
+		WHERE EMP_NO = #{empno}
+		AND WRITE_NO = #{writeno}
+
+
+
+	</select>
+	
+	<select id="readuser" resultMap="boardResultset" parameterType="_int">
+		SELECT 
+		B.EMP_NAME,
+		C.DEPARTMENT_TITLE
+		FROM CHECK_MAN A		
+		JOIN USER_INFO B ON (A.EMP_NO = B.EMP_NO) 
+        JOIN department_management C ON (B.DEPARTMENT_NO = C.DEPARTMENT_NO )
+		WHERE A.WRITE_NO = #{wno}		
+
+	</select>
 </mapper>

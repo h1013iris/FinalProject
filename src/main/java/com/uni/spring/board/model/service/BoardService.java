@@ -78,6 +78,8 @@ public interface BoardService {
 
 	void insertuser(Board bo);
 
+	ArrayList<Board> readuser(int wno);
+
 	
 
 	

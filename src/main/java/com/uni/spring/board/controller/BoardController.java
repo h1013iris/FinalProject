@@ -280,24 +280,23 @@ public class BoardController {
 	
 	
 	@RequestMapping("detailBoard.do")
-    public ModelAndView selectBoard(int bno,int uno ,ModelAndView mv ) {
+    public ModelAndView selectBoard(int bno ,int uno,ModelAndView mv ) {
 		
 		
 		System.out.println(bno+"나는비앤오");
 		/*Board a = new Board();
 		a.setWriteno(bno);	*/
 		
-		
-		
-		Board b = BoardService.detailBoard(bno);
-		
 		Board bo= new Board();
 		bo.setWriteno(bno);
 		bo.setEmpno(uno);
 		BoardService.insertuser(bo);
 		
-		mv.addObject("b" , b).setViewName("Board/boarddetail");
+		Board b = BoardService.detailBoard(bno);
 		
+		mv.addObject("b" , b).setViewName("Board/boarddetail");
+			    
+	
 		return mv;
 
 	
@@ -356,7 +355,7 @@ public class BoardController {
 		System.out.println(b.getContent()+"이거도");
 		System.out.println(b.getWriteno()+"이거이거");
 		
-		mv.addObject("bno",b.getWriteno()).setViewName("redirect:detailBoard.do");
+		mv.addObject("bno",b.getWriteno()).addObject("uno",b.getEmpno()).setViewName("redirect:detailBoard.do");
 		return mv;
 	}
 
@@ -413,7 +412,7 @@ public class BoardController {
 
    	
    	}
-     
+        
         @RequestMapping("deletepbox.do")
         public String deletepbox(int pno, String fileName, HttpServletRequest request) {
         
@@ -421,4 +420,19 @@ public class BoardController {
         	
         return "redirect:pbox.do";
         }
+        @ResponseBody
+        @RequestMapping(value="readuser.do" ,produces="application/json; charset=utf-8")
+        public String readuser(Model model,int wno) {
+        	
+        	System.out.println(wno+"나는wno");
+
+    		ArrayList<Board> list = BoardService.readuser(wno);
+
+    		System.out.println(list);
+
+    		
+    		return new GsonBuilder().create().toJson(list);
+        	
+        
+}
 }

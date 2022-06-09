@@ -32,6 +32,29 @@
 	    float:none;
 	    line-height: 20px;
 	}
+	.commonButton1{
+     padding: 0;
+     font-weight: 600;
+     text-align: center;
+     line-height: 50px;
+     color: #FFF;
+     border-radius: 5px;
+     transition: all 0.2s ;
+     background: #85cdff;
+     border: #85cdff;
+     box-shadow: 0px 5px 0px 0px #4c87b099;
+     width:60px;
+     height:50px;
+ }
+.commonButton1:hover{
+    position: relative;
+    top: 5px;
+    bottom: 5px;
+    box-shadow: 0px 0px 0px 0px #4c87b099;
+}
+.checkmanfootermodal{
+margin-top: 30%;
+}
 </style>
 </head>
 <body>
@@ -48,27 +71,22 @@
             <!-- 모달 바디 부분 -->
             <div class="modal_body spmodal_body ">
             	<div class="spmodal_body_name"> <span>글을 확인한 사람</span></div>
-            	<table id="boardList" class="table table-hover" align="center">
+            	<br><br>
+            	<table id="userList" class="table table-hover" align="center">
 				
-					<tbody>
-
-						<c:forEach items="${ list }" var="n">
-							<tr>
-								
-								<td style="height: 70px;">${ n.writer }&nbsp; 읽음</td>
-
-							</tr>
-
-						</c:forEach>
-						</tbody>
+					
 						</table>
             </div>
-            <div class="modal_footer buttonSection">
-
+            <div class="modal_footer buttonSection checkmanfootermodal">           
+                <button class="checkman_cancel_btn commonButton1" type="button">돌아가기</button>                    
             </div>
         </div>
     </div>
-
+    <script>
+    $(".checkman_cancel_btn").click(function() {
+    	$(".checkmans").hide();
+	})
+    </script>
   	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
   	<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
 	

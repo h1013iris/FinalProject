@@ -16,10 +16,7 @@
 	float: right;
 }
 
-img {
-	width: 50px;
-	height: 50px;
-}
+
 
 .noticeButton1 {
 	width: 250px;
