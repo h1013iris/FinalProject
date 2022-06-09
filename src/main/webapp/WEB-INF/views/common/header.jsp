@@ -288,7 +288,7 @@
 	                    <li class="list_title">조직 관리</li>
 	                    <div class="hhh">
 		                    <li><a href="empManagement">사원 관리</a></li>
-		                    <li><a href="#">부서 관리</a></li>
+		                    <li><a href="deptManagement">부서 관리</a></li>
 	                    </div>
 	                </ul>
 	                <ul>
@@ -313,7 +313,6 @@
 	                <ul>
 	                    <li class="list_title">기타</li>
 	                    <div class="hhh">
-		                    <li><a href="authorityPage">권한 부여</a></li>
 		                    <li><a href="banWordsPage">금지어 설정</a></li>
 	                    </div>
 	                </ul>
