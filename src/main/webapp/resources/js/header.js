@@ -20,6 +20,10 @@ $(function(){
 		$(".simpleProjectCreateModal").css("display","flex");
 	})
 	
+	// 예약하기 버튼 클릭 시 페이지 이동
+	$(document).on("click",".ReservationRoombtn", function(){
+		location.href="enrollFormReservation.do";
+	}) 
 
     $("#main_nav img").mouseenter(function(){
         $(".detail_nav_content").removeClass("enter");
