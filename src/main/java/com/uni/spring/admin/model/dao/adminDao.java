@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.uni.spring.admin.model.dto.Authority;
 import com.uni.spring.admin.model.dto.BanWords;
 import com.uni.spring.admin.model.dto.BoardManagement;
 import com.uni.spring.admin.model.dto.Department;
@@ -153,9 +152,35 @@ public class adminDao {
 		return sqlSession.update("adminMapper.updateStatus",mr);
 	}
 
-	public ArrayList<Authority> selectAuthorityAllList(SqlSessionTemplate sqlSession) {
+	public Department deptSelectPage(SqlSessionTemplate sqlSession, String deptName) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("adminMapper.selectAuthorityAllList");
+		return sqlSession.selectOne("adminMapper.deptSelectPage", deptName);
 	}
+
+	public ArrayList<employee> deptMemberList(SqlSessionTemplate sqlSession, String deptNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("adminMapper.deptMemberList", Integer.parseInt(deptNo));
+	}
+
+	public int insertDept(SqlSessionTemplate sqlSession, String deptName) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("adminMapper.insertDept", deptName);
+	}
+
+	public int updateDept(SqlSessionTemplate sqlSession, Department dept) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("adminMapper.updateDept", dept);
+	}
+
+	public int updateResponsible(SqlSessionTemplate sqlSession, employee emp) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("adminMapper.updateResponsible",emp);
+	}
+
+	public int deleteDept(SqlSessionTemplate sqlSession, String deptNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("adminMapper.deleteDept", Integer.parseInt(deptNo));
+	}
+
 
 }

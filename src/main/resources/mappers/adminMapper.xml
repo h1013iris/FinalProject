@@ -8,8 +8,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="jobName" column="JOB_NAME"/>
 	</resultMap>
 	<resultMap type="DepartmentList" id="deptResult">
-		<result property="departmentNo" column="DEPARTMENT_NO"/>
-		<result property="departmentTitle" column="DEPARTMENT_TITLE"/>
+		<result property="deptNo" column="DEPARTMENT_NO"/>
+		<result property="deptTitle" column="DEPARTMENT_TITLE"/>
+		<result property="deptResponsible" column="DEPARTMENT_RESPONSIBLE"/>
+		<result property="deptCreationDate" column="DEPARTMENT_CREATIONDATE"/>		
 	</resultMap>
 	<resultMap type="emp" id="EmpResult">
 		<result property="empNo" column="EMP_NO"/>
@@ -23,6 +25,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="endDate" column="END_DATE"/>
 		<result property="jobNo" column="JOB_NO"/>
 		<result property="deptNo" column="DEPARTMENT_NO"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="deptName" column="DEPARTMENT_TITLE"/>
 	</resultMap>
 	<resultMap type="empInfo" id="empInfoResult">
 		<result property="empNo" column="EMP_NO"/>
@@ -68,11 +72,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="maxCount" column="MAX_COUNT"/>
 	</resultMap>
 	
-	<resultMap type="Authority" id="authResult">
-		<result property="authorityNo" column="AUTHORITY_NO"/>
-		<result property="authorityName" column="AUTHORITY_NAME"/>
-		<result property="empNo" column="EMP_NO"/>
-	</resultMap>
 	
 	<select id="selectAllDeptList" resultMap="deptResult">
 		select * from DEPARTMENT_MANAGEMENT
@@ -94,7 +93,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectEmpAllList" resultMap="EmpResult">
-		select * from USER_INFO order by JOB_NO
+		select * 
+		from USER_INFO a
+		join JOB_RANK_MANAGEMENT c on a.JOB_NO = c.JOB_NO
+		join DEPARTMENT_MANAGEMENT d on a.DEPARTMENT_NO = d.DEPARTMENT_NO
+		order by a.JOB_NO
 	</select>
 	
 	<select id="selectSort" resultMap="EmpResult">
@@ -252,8 +255,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where ROOM_SMALL_NO = #{roomNoSmall}
 	</update>
 	
-	<select id="selectAuthorityAllList" resultMap="authResult">
+	<select id="deptSelectPage" resultMap="deptResult">
 		select *
-		from AUTHORITY_MANAGEMENT
+		from DEPARTMENT_MANAGEMENT
+		where DEPARTMENT_TITLE = #{deptName}
 	</select>
+	
+	<select id="deptMemberList" resultMap="EmpResult">
+		select
+			a.EMP_NO,
+			a.EMP_NAME,
+			b.JOB_NAME
+		from USER_INFO a
+		join JOB_RANK_MANAGEMENT b on a.job_no = b.job_no
+		where a.department_no = #{deptNo}
+		order by a.job_no
+	</select>
+	
+	<insert id="insertDept">
+		insert into DEPARTMENT_MANAGEMENT
+		(DEPARTMENT_NO, DEPARTMENT_TITLE, DEPARTMENT_CREATIONDATE)
+		values
+		(seq_admin.nextval, #{deptName}, SYSDATE)
+	</insert>
+	
+	<update id="updateDept" parameterType="DepartmentList">
+		update DEPARTMENT_MANAGEMENT
+		set DEPARTMENT_TITLE = #{deptTitle}
+		where DEPARTMENT_NO = #{deptNo}
+	</update>
+	
+	<update id="updateResponsible" parameterType="emp">
+		update DEPARTMENT_MANAGEMENT
+		set DEPARTMENT_RESPONSIBLE = #{empName}
+		where DEPARTMENT_TITLE = #{deptName}
+	</update>
+	
+	<delete id="deleteDept">
+		delete from DEPARTMENT_MANAGEMENT
+		where DEPARTMENT_NO = #{deptNo}
+	</delete>
 </mapper>

@@ -28,6 +28,7 @@ public class employee {
 	private int deptNo;
 	private String jobName;
 	private String deptName;
+	private String profileImg;
 	
 	public employee(int empNo2, String empName2, String cityNo2, String email2, String phone2, String address2,
 			Date hireDate2, int jobNo2, int deptNo2) {

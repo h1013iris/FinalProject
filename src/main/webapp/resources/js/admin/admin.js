@@ -597,3 +597,229 @@ $(document).on("keyup",".statusUpdateInput",function(e){
         }
     }
 })
+
+
+
+
+
+// 부서관리 페이지
+
+function deptInfo(deptName){
+    $.ajax({
+        type:"post",
+        url:"deptSelect",
+        dataType:"JSON",
+        data:{deptName : deptName},
+        success:function(list){
+            $("#dept_controll_box_title").text(list.deptTitle);
+            $("#dept_name").text(list.deptTitle);
+            $("#dept_code").text(list.deptNo);
+            if(typeof list.deptResponsible == "undefined"){
+                $("#dept_responsible").text("책임자 미지정")
+            } else {
+                $("#dept_responsible").text(list.deptResponsible);
+            }
+            $("#dept_create_date").text(list.deptCreationDate);
+            $("#dept_info_box").show();
+            $(".deleteClass").remove();
+
+
+
+            if(list.deptTitle != '영업팀' && list.deptTitle != "기술 지원팀" && list.deptTitle != "경영 지원팀"){
+                $("#deleteDept").show();
+            }
+
+        }
+    })
+}
+
+$(document).on("click",".dept_name",function(){
+    var deptName = $(this).text();
+    $(this).next().toggle();
+    $("#dept_controll_box_title span").text(deptName);
+
+    deptInfo(deptName);
+})
+
+$(document).on("click","#dept_member_nav",function(){
+    if(!$("#member_list_box").children().hasClass("member_lists")){
+        if($("#dept_info_box").css("display") != "none"){
+            var deptNo = $("#dept_code").text();
+            $.ajax({
+                type:"post",
+                url:"deptMemberList",
+                dataType:"JSON",
+                data:{deptNo : deptNo},
+                success:function(list){
+                    var html = $("#example").html();
+                    console.log(html)
+                    $.each(list, function(index, item){
+                        $("#member_list_box").append(html);
+                        //$(".dept_profile_img_box").eq(index).children().attr("src",item.profileImg);
+                        $(".dept_member_name").eq(index).text(item.empName+" "+item.jobName);
+                        $(".thisEmpNo").eq(index).val(item.empNo);
+                        $("#member_list_box").children().eq(index).addClass("deleteClass")
+                        $("#dept_info_box").hide();
+                        $("#member_list_box").show();
+                    })
+                }
+            })
+        }
+    } else {
+        $("#member_list_box").show();
+        $("#dept_info_box").hide();
+    }
+})
+
+$(document).on("click","#dept_info_nav",function(){
+    $("#member_list_box").hide();
+    $("#dept_info_box").show();
+})
+
+$(document).on("click",".member_lists",function(){
+    var empNo = $(this).children().eq(0).val();
+    
+    location.href = "empDetailPage?empNo="+empNo;
+})
+
+$(document).on("keyup","#insert_dept_input",function(e){
+    if(e.keyCode == 13){
+        var text = $(this).val();
+        if(deptNameOverlapCheck(text)){
+            $.ajax({
+                type:"post",
+                url:"insertDept",
+                data:{deptName : text},
+                success:function(){
+                    $("#dept_list_box").load(location.href + " #dept_list_box");
+                    deptInfo(text);
+                    $("#insert_dept_input").val("");
+                }
+            })
+        } else {
+            myAlert("중복체크","부서명이 중복되었습니다. 다시 입력해 주세요")
+        }
+    }
+})
+
+$(document).on("click","#dept_name",function(){
+    var text = $(this).text();
+    if(text != '영업팀' && text != "기술 지원팀" && text != "경영 지원팀"){
+        $(this).hide();
+        $(this).after("<input type=text id=dept_name_update>")
+        $("#dept_name_update").focus();
+    }
+})
+
+$(document).on("focusout","#dept_name_update",function(){
+    $("#dept_name").show();
+    $(this).remove();
+})
+
+$(document).on("keyup","#dept_name_update",function(e){
+    if(e.keyCode == 13){
+        var text = $(this).val();
+        var deptCode = $("#dept_code").text();
+        if(deptNameOverlapCheck(text)){
+            $.ajax({
+                type:"post",
+                url:"updateDept",
+                data:{
+                    deptTitle : text,
+                    deptNo : deptCode
+                },
+                success:function(){
+                    $("#dept_list_box").load(location.href + " #dept_list_box");
+                    $("#dept_list_box").css("margin-left","1px");
+                    deptInfo(text);
+                    $("#dept_name_update").remove();
+                    $("#dept_name").show();
+                }
+            })
+        } else {
+            myAlert("중복체크","부서명이 중복되었습니다. 다시 입력해 주세요")
+        }
+    }
+})
+
+
+$(document).on("click","#dept_responsible",function(){
+
+    var deptNo = $("#dept_code").text();
+
+    $.ajax({
+        type:"post",
+        url:"deptMemberList",
+        dataType:"JSON",
+        data:{deptNo : deptNo},
+        success:function(list){
+            $.each(list, function(index, item){
+                $("#responsibleUpdate").append("<option value="+item.empName+">"+item.empName+" "+item.jobName+"</option>");
+                $("#dept_responsible").hide();
+                $("#responsibleUpdate").show();
+            })
+        }
+    })
+})
+
+$(document).on("mouseout","#responsibleUpdate",function(){
+    $("#dept_responsible").show();
+    $(this).hide();
+    $(this).children().remove();
+})
+
+
+
+
+$(document).on("change","#responsibleUpdate",function(){
+    var empName = $(this).val();
+    var deptName = $("#dept_name").text();
+    $.ajax({
+        type:"post",
+        url:"responsibleUpdate",
+        data:{
+            empName:empName,
+            deptName : deptName
+        },
+        success:function(){
+            $("#responsibleUpdate").hide();
+            $("#responsibleUpdate").children().remove();
+            deptInfo(deptName);
+            $("#dept_responsible").show();
+        }
+    })
+})
+
+
+$(document).on("click","#deleteDept",function(){
+    if($("#dept_info_box").css("display") != "none"){
+        var deptNo = $("#dept_code").text();
+
+        $.ajax({
+            type:"post",
+            url:"deleteDept",
+            data:{deptNo : deptNo},
+            success:function(){
+                location.reload();
+            }
+        })
+    }
+})
+
+// 중복체크
+function deptNameOverlapCheck(text){
+    var arrlength = $(".dept_name").length;
+    var arr = new Array(arrlength);
+    for(let i = 0; i < arrlength; i++){
+        arr[i] = $(".dept_name").eq(i).text();
+    }
+
+    
+    for(let i = 0; i < arrlength; i++){
+        if(arr[i] === text){
+            return false;
+        }
+    }
+
+    return true;
+}
