@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,8 +39,11 @@ public class DepartController {
 	
 	//부서별 메인페이지로 전환
 	@RequestMapping("departmentPage.do")
-	public String departmentPage() {
-		return "depart/departmentMainPage";
+	public ModelAndView departmentPage(String departmentNo, ModelAndView mv) {
+		ArrayList<Department> dlist = departService.selectAnnoDepartListMain(Integer.parseInt(departmentNo));//부서 공지사항 5개
+		
+		mv.setViewName("depart/departmentMainPage");
+		return mv;
 	}
 	
 	//공지사항 등록하러 화면 전환
@@ -491,8 +495,38 @@ public class DepartController {
 	
 	//세부 프로젝트 삭제 
 	@RequestMapping("deleteSemiPro.do")
-	public String deleteSemiProject(SemiProject sp, Model model) {
+	public String deleteSemiProject(SemiProject sp, Model model, HttpServletRequest request) {
+		ArrayList<Attachment> list = departService.selectAttachList(sp.getSemiNo());
+		if(list != null) {
+			for (Attachment attachment : list) {
+				deleteFile(attachment.getChangeName(), request);
+			}
+		}
 		departService.deleteSemiProject(sp);
+		model.addAttribute("pjno",sp.getRefPro());
+		return "redirect:detailProject.do";
+	}
+	
+	//첨부파일 리스트 
+	@ResponseBody
+	@RequestMapping(value="selectlListAttach.do", produces="application/json; charset=utf-8")
+	public String selectListAttach(int largeCat) {
+		ArrayList<Attachment> list = departService.selectAttachList(largeCat);
+		return new GsonBuilder().setDateFormat("yyyy/MM/dd").create().toJson(list);
+	}
+	
+	//개별 첨부파일 삭제 
+	@ResponseBody
+	@RequestMapping(value="deleteAttachOne.do", produces="application/json; charset=utf-8")
+	public String deleteAttachOne( Attachment a,  HttpServletRequest request) {
+		deleteFile(a.getChangeName(), request);
+		departService.deleteAttachOne(a);
+		return String.valueOf("1") ;
+	}
+	
+	@RequestMapping("updateTagSemi.do")
+	public String updateTagSemi(SemiProject sp, Model model) {
+		departService.updateTagSemi(sp);
 		model.addAttribute("pjno",sp.getRefPro());
 		return "redirect:detailProject.do";
 	}

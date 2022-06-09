@@ -97,5 +97,13 @@ public interface DepartService {
 
 	void deleteSemiProject(SemiProject sp);
 
+	ArrayList<Attachment> selectAttachList(int semiNo);
+
+	void deleteAttachOne(Attachment a);
+
+	void updateTagSemi(SemiProject sp);
+
+	ArrayList<Department> selectAnnoDepartListMain(int departmentNo);
+
 
 }

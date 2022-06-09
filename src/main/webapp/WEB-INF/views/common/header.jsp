@@ -172,7 +172,7 @@
 	            </div>
 	        </li>
 	        <li>
-	            <a class="departmentpage" href="departmentPage.do"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/부서페이지.png" alt=""></a>
+	            <a class="departmentpage" href="departmentPage.do?departmentNo=${loginUser.departmentNo}"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/부서페이지.png" alt=""></a>
 	            <div class="detail_nav_content">
 	                <div class="nananan"><p class="detail_title">부서별 페이지</p></div>
 	                <button type="button" class="commonButton2 etcButton annoDepartEnrollButton"><span>공지사항 등록</span></button>
