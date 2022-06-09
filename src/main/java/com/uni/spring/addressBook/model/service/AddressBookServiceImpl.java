@@ -122,11 +122,6 @@ public class AddressBookServiceImpl implements AddressBookService {
 		return addressBookDao.selectSearchCustoFolList(sqlSession,empNo,inFolder,custo);
 	}
 
-	@Override
-	public ArrayList<Company> selectupDetailCom(int compNo) {
-		// TODO Auto-generated method stub
-		return addressBookDao.selectupDetailCom(sqlSession, compNo);
-	}
 	//거래처주소록 수정하기
 	@Override
 	public void updateComList(Company com) {
