@@ -15,21 +15,21 @@
 	
 	.docEnrollbody {
 		/*border: 1px solid black;*/
-		height: 65%;
+		height: 300px;
 	}
 	
-	.select_div {
+	.docEnroll_select_div {
 		/*border: 1px solid black;*/
-		margin-top: 6%;
+		margin-top: 25px;
 	}
 	
-	.select_title {
+	.docEnroll_select_title {
 		font-size: 17px;
 		font-weight: bold;
 	}
 	
 	.select_div_hr {
-		margin: 6% 0 6% 0;
+		margin: 25px 0 25px 0;
 	}
 	
 	.docEnrollDropdown, .input_docTitle {
@@ -54,18 +54,18 @@
 		margin-bottom: 6%;
 	}
 	
-	.modal_cascelBtn, .modal_nextBtn {
-		font-size: 14px;
-		height: 45px;
-		width: 60px;
+	.docEnrollNext_btn, .docEnrollCancle_btn {
+		font-size: 14px !important;
+		height: 45px !important;
+		width: 60px !important;
 	}
 	
-	.modal_cascelBtn {
+	.docEnrollCancle_btn {
 		background-color: #c8c8c8 !important;
 		box-shadow: 0px 5px 0px 0px #afafaf !important;
 	}
 	
-	.modal_cascelBtn:hover {
+	.docEnrollCancle_btn:hover {
 		box-shadow: 0px 0px 0px 0px #afafaf !important;
 	}
 	
@@ -87,10 +87,10 @@
             <form class="documentTypeForm" method="post">
             	<input type="hidden" name="deptNo" value="${ loginUser.departmentNo }"/>
             	<div class="modal_body docEnrollbody">
-			   		<div class="select_div">
-				   		<label class="select_title">문서 타입</label>
+			   		<div class="docEnroll_select_div">
+				   		<label class="docEnroll_select_title">문서 타입</label>
 
-				        <div class="dropdown docEnrollDropdown">
+				        <div class="docEnrollDropdown">
 					        <select id="docType" name="docType" onchange="docFormChange(this)">
 					        	<option value="none">== 선택 ==</option>
 					           	<option value="app">신청서</option>
@@ -102,9 +102,9 @@
 			        
 			        <hr class="select_div_hr">
 			        
-			        <div class="select_div">
-				        <label class="select_title">문서 서식</label>
-				        <div class="dropdown docEnrollDropdown">
+			        <div class="docEnroll_select_div">
+				        <label class="docEnroll_select_title">문서 서식</label>
+				        <div class="docEnrollDropdown">
 					        <select id="docForm" name="docForm"></select>
 					   	</div>
 			        </div>
@@ -112,15 +112,15 @@
 			        <hr class="select_div_hr end_hr">
 			        
 			        <div class="select_div docTitleArea">
-			        	<label class="select_title">문서 제목</label>
+			        	<label class="docEnroll_select_title">문서 제목</label>
 			        	<div class="input_docTitle">
 			        		<input type="text" id="modalDocTitle" name="modalDocTitle" maxlength="100">
 			        	</div>
 			        </div>
 	            </div>
 	            <div class="modal_footer docEnrollFooter">
-                	<button class="commonButton1 modal_nextBtn next_btn" type="button">확인</button>
-                	<button class="commonButton1 modal_cascelBtn cancel_btn" type="button">취소</button>
+                	<button class="commonButton1 modal_nextBtn next_btn docEnrollNext_btn" type="button">확인</button>
+                	<button class="commonButton1 modal_cascelBtn cancel_btn docEnrollCancle_btn" type="button">취소</button>
             	</div>
             </form>
         </div>

@@ -16,7 +16,7 @@
 		/*border: 1px solid black;*/
 	}
 	
-	.docSecurityList_area {
+	.docScrty_area {
 		width: 100%;
 		border: 1px solid #e6e6e6;
 		background-color: #e6e6e6;
@@ -24,35 +24,35 @@
 		box-shadow: 0 0 8px #afafaf;
 	}
 	
-	.docSecurityList_table>tbody>tr:hover {
+	.docScrty_table>tbody>tr:hover {
 		background: rgb(174, 217, 248);
 		box-shadow: 0 0 8px #4c87b099;
 		
 		cursor: pointer;
 	}
 	
-	.docSecurityList_table {
+	.docScrty_table {
 		width: 97%;
 		margin: auto;
 	}
 	
-	.docSecurityList_table td {
+	.docScrty_table td {
 		border-top: 1px solid darkgray;
 		padding: 15px;
 		
 	}
 	
-	.docSecurityList_table th {
+	.docScrty_table th {
 		padding: 15px;
 		background-color: darogray;
 	}
 	
-	.docSecurityList_thead {
+	.docScrty_thead {
 		font-weight: 900;
 		font-size: 16px;
 	}
 	
-	.noDocSecurityList {
+	.noDocScrtyReqList {
 		color: blue;
 	}
 	
@@ -93,6 +93,10 @@
 		height: 30px;
 		font-size: 15px;
 	}
+	
+	.scrtyList_hr {
+		margin: 25px 0 50px 0;
+	}
 
 </style>
 
@@ -103,8 +107,9 @@
 	
 	<div class="main_section">
         <div class="mainDiv">
-			<div class="docSecurityList_area">
-				<table class="docSecurityList_table">
+        
+        	<div class="docScrty_area docScrtyRequestList_area">
+				<table class="docScrty_table docScrtyRequestList_table">
 					<colgroup>
 						<col width="80px">
 						<col width="120px">
@@ -114,7 +119,7 @@
 						<col width="100px">
 					</colgroup>
 					
-					<thead class="docSecurityList_thead">
+					<thead class="docScrty_thead docScrtyRequestList_thead">
 						<tr>
 	                 		<th>No</th>
 		                  	<th>문서 유형</th>
@@ -124,14 +129,50 @@
 		                   	<th>요청일</th>
 	                 	</tr>
 	       			</thead>
-	       			<tbody class="docSecurityList_tbody">
+	       			<tbody class="docScrty_tbody docScrtyRequestList_tbody">
 						
 	        		</tbody>
 	         	</table>
 	    	</div>
 	    	
 	    	<!-- 페이징바 만들기 -->
-			<div class="pagingArea" align="center">
+			<div class="pagingArea docSeqRequestList_pagingArea" align="center">
+				<ul id="paginationBox" class="pagination">
+					<%-- 페이징바 들어갈 부분 --%>
+				</ul>
+			</div>
+			
+			<hr class="scrtyList_hr">
+	       	
+			<div class="docScrty_area docSecurityList_area">
+				<table class="docScrty_table docSecurityList_table">
+					<colgroup>
+						<col width="80px">
+						<col width="120px">
+						<col width="300px">
+						<col width="80px">
+						<col width="100px">
+						<col width="100px">
+					</colgroup>
+					
+					<thead class="docScrty_thead docSecurityList_thead">
+						<tr>
+	                 		<th>No</th>
+		                  	<th>문서 유형</th>
+		                   	<th>제목</th>
+		                   	<th>기안자</th>
+		                   	<th>기안일</th>
+		                   	<th>보안 설정일</th>
+	                 	</tr>
+	       			</thead>
+	       			<tbody class="docScrty_tbody docSecurityList_tbody">
+						
+	        		</tbody>
+	         	</table>
+	    	</div>
+	    	
+	    	<!-- 페이징바 만들기 -->
+			<div class="pagingArea docSequrityList_pagingArea" align="center">
 				<ul id="paginationBox" class="pagination">
 					<%-- 페이징바 들어갈 부분 --%>
 				</ul>
@@ -174,19 +215,18 @@
 				$.ajax({
 					
 					type: "post",
-	                url: ".do",
-	                data: { empNo : "${ loginUser.empNo }",
-	                		jobNo : "${ loginUser.jobNo }" },
+	                url: "docScrtyRequestList.do",
+	                /*data: { empNo : "${ loginUser.empNo }" },*/
 	                success: function (list) {
 						
 	                	console.log(list)
 	                	
-	                	$tbody = $('.docSecurityList_tbody'); // 리스트가 들어갈 tbody
+	                	$tbody = $('.docScrtyRequestList_tbody'); // 리스트가 들어갈 tbody
 	                	$tbody.html('');
 	                	
 	                	if(list.length == 0) {
 	                		
-	                		var $noListTh = $("<th colspan='6'>").text("결재 요청한 문서가 존재하지 않습니다.").addClass("noDocSecurityList");
+	                		var $noListTh = $("<th colspan='6'>").text("보안 요청된 문서가 존재하지 않습니다.").addClass("noDocScrtyReqList");
 	                		var $noListTr = $('<tr>').append($noListTh);
 	                		
 							$tbody.append($noListTr);
@@ -230,14 +270,14 @@
 		
 	
 		// 게시글 클릭 시
-		$(".docSecurityList_table tbody").on("click", "tr", (function() {
+		$(".docScrtyRequestList_table tbody").on("click", "tr", (function() {
 			
 			let docNo = $(this).find("td:eq(0)").text(); // 클릭한 문서의 문서 번호 가져와서 담기
 			let docType = $("#docType").val();
 			console.log(docNo);
 			console.log(docType);
 			
-			location.href = ".do?docNo=" + docNo;
+			location.href = "securityDetail.do?docNo=" + docNo;
 		}));
 		
 		

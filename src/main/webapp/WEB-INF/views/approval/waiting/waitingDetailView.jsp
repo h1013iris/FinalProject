@@ -145,6 +145,14 @@
 
   			myConfirm(title, content);
 			
+  			let loginUser = "${ loginUser.empName }";
+			let firstAprv = $("#firstAprvName").val();
+			let secondAprv = $("#secondAprvName").val();
+			
+			console.log(secondAprv != "" && loginUser == firstAprv);
+			console.log(loginUser == secondAprv || 
+					(secondAprv == "" && loginUser == firstAprv));
+			
     		// 확인 버튼 클릭 시 confirm 모달 사라지고 결재 승인 진행
     		$(document).on("click", ".true_btn", function() {
      			
@@ -161,12 +169,9 @@
     			let firstAprv = $("#firstAprvName").val();
     			let secondAprv = $("#secondAprvName").val();
     			
-    			console.log(loginUser == firstAprv);
-    			console.log(loginUser == secondAprv);
-    			
     			// 중간 승인
     			// 2차 결재자가 null이 아니고, 본인이 1차 결재자일 경우 -> 결재 기록만 등록
-    			if((secondAprv != "" || secondAprv != null) && loginUser == firstAprv) {
+    			if(secondAprv != "" && loginUser == firstAprv) {
     				
     				console.log("중간 승인");
     				
@@ -197,7 +202,7 @@
     			// 최종 승인
     			// 본인이 2차 결재자이거나, 2차 결재자가 null인 문서의 1차 결재자일 경우 -> 기록 등록, 상태값 변경
     			} else if(loginUser == secondAprv || 
-    						((secondAprv == "" || sdcondAprv == null) && loginUser == firstAprv)) {
+    						(secondAprv == "" && loginUser == firstAprv)) {
     				
     				console.log("최종 승인");
     				
