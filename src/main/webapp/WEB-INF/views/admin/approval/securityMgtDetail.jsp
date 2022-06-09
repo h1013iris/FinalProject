@@ -8,16 +8,17 @@
 <style type="text/css">
 	.main_section {
 		/*border: 1px solid black;*/
+		padding: 100px;
 	}
 	
 	.docDetailViewDiv {
-		margin-right: 3%;
-		width: 84vw;
+		/*margin-right: 3%;
+		width: 84vw;*/
 	}
 	
 	.docDetailBackground {
-		width: 1150px;
-		height: 720px;
+		width: 1500px;
+		height: 790px;
 		border: 1px solid #e6e6e6;
 		background-color: #e6e6e6;
 		border-radius: 15px;
@@ -26,7 +27,7 @@
 	
 	.docDetailMainArea {
 		/*border: 1px solid red;*/
-		padding: 60px 0 60px 10%;
+		padding: 70px 0 60px 10%;
 		float: left;
 	}
 	
@@ -43,8 +44,8 @@
 	
 	.docDetailBtnsArea {
 		/*padding-top: 34%;*/
-		padding-left: 20px;
-		padding-top: 60px;
+		margin-left: 67.8%;
+		padding-top: 65px;
 	}
 	
 	.docDetailBtn {
@@ -66,23 +67,56 @@
 		/*text-align: right;*/
 	}
 	
-	.aprvCancle_btn {
-		background-color: rgb(174, 217, 248) !important;
-		box-shadow: 0px 5px 0px 0px #92bddc !important;
+	.docscrtyList_btn {
+		background-color: darkgray !important;
+		box-shadow: 0px 5px 0px 0px #949494 !important;
 	}
 	
-	.aprvCancle_btn:hover {
-		box-shadow: 0px 0px 0px 0px #92bddc !important;
+	.docscrtyList_btn:hover {
+		box-shadow: 0px 0px 0px 0px #949494 !important;
 	}
 	
-	.requesstList_btn {
-		background-color: #c8c8c8 !important;
-		box-shadow: 0px 5px 0px 0px #afafaf !important;
+	.docSecurityCancel_btn {
+		background-color: #6a6a6a !important;
+		box-shadow: 0px 5px 0px 0px #545454 !important;
 	}
 	
-	.requesstList_btn:hover {
-		box-shadow: 0px 0px 0px 0px #afafaf !important;
+	.docSecurityCancel_btn:hover {
+		box-shadow: 0px 0px 0px 0px #545454 !important;
 	}
+	
+	.scrtyReasonArea {
+		width: 400px;
+		height: 460px;
+		margin: 40px 20px 0 68.2%;
+		padding: 15px;
+		border: 3px solid #85cdff;
+		background-color: #c0e3ff;
+		border-radius: 15px;
+		/*box-shadow: 0 0 8px #85cdff;*/
+		font-size: 17px;
+		font-weight: bold;
+	}
+	
+	.scrtyText {
+		font-size: 15px !important;
+		font-weight: normal !important;
+		margin-top: 10px;
+	}
+	
+	.scrtyReqDate_div {
+		padding-top: 10px;
+	}
+	
+	#scrtyReqDate, #scrtyReason {
+		padding-left: 10px;
+	}
+	
+	.scrtyReason_hr {
+		margin: 15px 0 15px 0;
+		border: 1px solid #85cdff;
+	}
+	 
 </style>
 </head>
 <body>
@@ -108,8 +142,22 @@
 		        	</c:when>
 	        	</c:choose>
 				<div class="docDetailBtnsArea">
-					<button class="commonButton1 aprvCancle_btn docDetailBtn" type="button">결재취소</button><br>
-					<button class="commonButton1 requesstList_btn docDetailBtn" onclick="location.href='.do'" type="button">목록으로</button>
+					<button class="commonButton1 docSecurity_btn docDetailBtn" type="button">보안설정</button><br>
+					<button class="commonButton1 docSecurityCancel_btn docDetailBtn" type="button">보안취소</button><br>
+					<button class="commonButton1 docscrtyList_btn docDetailBtn" onclick="location.href='securityMain.do'" type="button">목록으로</button>
+				</div>
+				<div class="scrtyReasonArea">
+					<div class="scrtyReason_main">
+						<div class="scrtyReqDate_div">
+							보안 요청일
+							<span class="scrtyText" id="scrtyReqDate"></span>
+						</div>
+						<hr class="scrtyReason_hr">
+						<div class="scrtyReason_div">
+							보안 요청 사유
+							<div class="scrtyText" id="scrtyReason"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -119,11 +167,58 @@
     
 	    $(document).ready(function() {
 			// 로그인이 되어있지 않으면
-			if("${ loginUser.empNo }" == "") {	
+			if("${ loginUser.empNo }" == "") {
 				
 				loginFn(); // 로그인 먼저
+			
+			} else {
+				
+				$(".docSecurityCancel_btn").hide(); // 처음에는 숨기고
+				
+				// 보안 요청 유무 확인 함수 실행
+				scrtyCheckFn();
 			}
+			
 		});
+	    
+	    
+	    
+	    
+	 	// 보안 요청 유무 확인 함수 실행
+	    function scrtyCheckFn() {
+	    	
+			$.ajax({
+    			
+    			type: "post",
+    			url: "docScrtyCheck.do",
+    			data: { docNo : "${ docNo }" },
+    			success: function(result) {
+    				console.log(result);
+    				
+    				// 조회 결과가 존재하면
+    				if(result == "yes") {
+    					console.log("보안 설정 불가능");
+    					
+    					$(".docSecurity_btn").hide(); // 보안 요청 버튼 숨기고
+    					$(".docSecurityCancel_btn").show(); // 보안 취소 버튼 띄우기
+    					/*$(".docDetailBtnsArea").css("padding-top", "0"); // 버튼 위치 조정
+    					$(".docDetailMainArea").css("padding", "0 0 0 100px");*/
+    					
+    				
+    				// 존재하지 않으면
+    				} else if(result == "no") {
+    					console.log("보안 설정 가능");
+    					
+    					//$(".scrtyCheckMsg").hide(); // 메시지 숨기기
+    				}
+    				
+    			}
+    			
+    		});
+	    	
+	    }
+	    
+	    
     </script>
 </body>
 </html>
