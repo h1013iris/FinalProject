@@ -113,7 +113,7 @@
             
                 <div id="buttonLine">
                 <input type="submit" value="등록"/>
-                <input type="button" value="취소"/>
+               <button type="button" onclick="location.href='comAdd.do'">취소</button>
                 </div>
            </form>
         </div>

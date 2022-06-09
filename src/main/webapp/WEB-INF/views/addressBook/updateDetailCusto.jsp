@@ -97,7 +97,7 @@
                     <td><input type="email" name="comEmail" value="${cus.comEmail}"></td>
                 <tr>
                     <td>기타</td>
-                    <td><textarea name="comMemo" class="inputlo" rows="5"  maxlength="50"  >${com.comMemo}</textarea></td>
+                    <td><textarea name="comMemo" class="inputlo" rows="5"  maxlength="50"  >${cus.comMemo}</textarea></td>
                 </tr>
                 <input type="hidden" name="cusNo" value="${cus.cusNo }">  
                 <input type="hidden" name="empNo" value="${cus.empNo }"> 
@@ -110,7 +110,7 @@
             
                 <div id="buttonLine">
                 <input type="submit" value="등록"/>
-                <input type="button" value="취소"/>
+               <button type="button" onclick="location.href='custoAdd.do'">취소</button>
                 </div>
            </form>
         </div>

@@ -87,7 +87,7 @@ public class MemberController {
 		if(result > 0) {
 			System.out.println("성공");
 		} else {
-			System.out.println("실페");
+			System.out.println("실패");
 		}
 		memberService.updateNewMember(m);
 		
@@ -145,10 +145,17 @@ public class MemberController {
 	@PostMapping("selectFindId.do")
 	public String selectFindId(WideMember wm, Model model) {
 		
-		System.out.println("jsp에서 값이 넘어왔나용?"+wm);//넘어옴..!!
+		System.out.println("jsp에서 값이 넘어왔나용?"+wm);
 		String msg = memberService.selectFindId(wm);
-		model.addAttribute("msg",msg);
-		return "member/findId";
+		//model.addAttribute("msg",msg);
+		//return "member/findId";
+		if(msg!=null){
+			model.addAttribute("msg","아이디는 "+msg+" 입니다");
+		}
+		else if(msg==null || msg.equals("")){
+			model.addAttribute("msg","아이디 찾기 정보를 다시 확인해주세요");
+		}
+		return "main";
 	}
 	
 	
