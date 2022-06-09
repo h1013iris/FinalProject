@@ -281,6 +281,37 @@ public class DepartDao {
 		return sqlSession.update("departMapper.deleteSemiProject", sp);
 	}
 
+	public int deleteSemiAttach(SqlSessionTemplate sqlSession, SemiProject sp) {
+		
+		return sqlSession.update("departMapper.deleteSemiAttach", sp);
+	}
+
+	public int deleteSemiReply(SqlSessionTemplate sqlSession, SemiProject sp) {
+		
+		return sqlSession.update("departMapper.deleteSemiReply", sp);
+	}
+
+	public ArrayList<Attachment> selectAttachList(SqlSessionTemplate sqlSession, int semiNo) {
+		
+		return (ArrayList)sqlSession.selectList("departMapper.selectAttachList",semiNo);
+	}
+
+	public int deleteAttachOne(SqlSessionTemplate sqlSession, Attachment a) {
+		
+		return sqlSession.update("departMapper.deleteAttachOne",a);
+	}
+
+	public int updateTagSemi(SqlSessionTemplate sqlSession, SemiProject sp) {
+		
+		return sqlSession.update("departMapper.updateTagSemi",sp);
+
+	}
+
+	public ArrayList<Department> selectAnnoDepartListMain(SqlSessionTemplate sqlSession, int departmentNo) {
+		
+		return (ArrayList)sqlSession.selectList("departMapper.selectAnnoDepartListMain",departmentNo);
+	}
+
 	
 
 }

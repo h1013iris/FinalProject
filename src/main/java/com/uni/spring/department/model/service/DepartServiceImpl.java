@@ -52,7 +52,7 @@ public class DepartServiceImpl implements DepartService {
 	}
 
 	@Override
-	public int increaseCount(int adno) {
+	public int increaseCount(int adno) {//이거 수정
 		
 		return departDao.increaseCount(sqlSession, adno);
 	}
@@ -359,7 +359,7 @@ public class DepartServiceImpl implements DepartService {
 	public void deleteReplySemi(DepartmentReply sr) {
 		int result = departDao.deleteReplySemi(sqlSession, sr);
 		if(result <0) {
-			throw new CommException("세미프로젝트 추가 실패");
+			throw new CommException("세미프로젝트 댓글 삭제 실패");
 		}
 	}
 
@@ -367,16 +367,51 @@ public class DepartServiceImpl implements DepartService {
 	public void insertSemiFileUpload(Attachment a) {
 		int result = departDao.insertSemiFileUpload(sqlSession, a);
 		if(result <0) {
-			throw new CommException("세미프로젝트 추가 실패");
+			throw new CommException("세미프로젝트 첨부파일 추가 실패");
 		}
 	}
 
 	@Override
 	public void deleteSemiProject(SemiProject sp) {
-		int result = departDao.deleteSemiProject(sqlSession, sp);
+		int result = departDao.deleteSemiProject(sqlSession, sp);//세부프로젝트 
+		
 		if(result <0) {
-			throw new CommException("세미프로젝트 추가 실패");
+			throw new CommException("세미프로젝트 삭제 실패");
+		}else {
+			int result2 = departDao.deleteSemiAttach(sqlSession, sp);//첨부파일
+			int reault3 = departDao.deleteSemiReply(sqlSession, sp);//댓글
+			if(result2*reault3<0) {
+				throw new CommException("세미프로젝트 삭제 실패");
+			}
 		}
+	}
+
+	@Override
+	public ArrayList<Attachment> selectAttachList(int semiNo) {
+		
+		return departDao.selectAttachList(sqlSession, semiNo);
+	}
+
+	@Override
+	public void deleteAttachOne(Attachment a) {
+		int result = departDao.deleteAttachOne(sqlSession, a);
+		if(result <0) {
+			throw new CommException("세미프로젝트 첨부파일 삭제 실패");
+		}
+	}
+
+	@Override
+	public void updateTagSemi(SemiProject sp) {
+		int result = departDao.updateTagSemi(sqlSession, sp);
+		if(result <0) {
+			throw new CommException("세미프로젝트 첨부파일 삭제 실패");
+		}
+	}
+
+	@Override
+	public ArrayList<Department> selectAnnoDepartListMain(int departmentNo) {
+		
+		return departDao.selectAnnoDepartListMain(sqlSession, departmentNo);
 	}
 
 	

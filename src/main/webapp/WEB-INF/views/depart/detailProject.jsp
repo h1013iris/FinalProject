@@ -395,8 +395,9 @@
     				$(".detailSemiTitleCh").val(sp.semiTitle);
     				$("#semiNoDETAIL").val(sp.semiNo);
     				$(".dueDateShow").text(sp.semiDue);
-    				$(".WriterNoSemiProject").val(sp.semiDue);
+    				$("#WriterNoSemiProject").val(sp.semiDue);
     				$("#refProNum").val(${p.proNo});
+    				$("#semiWriter").val(sp.semiWriter);
     				if(sp.semiDue == null){
     					$(".dueDateShow").empty();
     					//오늘 날짜 넣기
@@ -437,6 +438,7 @@
     				}
     				selectCheckList(sp.semiNo);
     				selectAnnoReplyList();
+    				selectAttachFile(sp.semiNo);
     			}
     		})	
     	}
