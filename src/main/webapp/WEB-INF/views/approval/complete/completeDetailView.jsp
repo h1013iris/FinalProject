@@ -76,6 +76,21 @@
 	.completeList_btn:hover {
 		box-shadow: 0px 0px 0px 0px #949494 !important;
 	}
+	
+	.scrtyCheckMsg {
+		/*border: 1px solid blue;*/
+		height: 25px;
+		width: 250px;
+		font-size: 20px;
+		font-weight: bold;
+		background-color: #a3d1ff;
+		color: #484848;
+		box-shadow: 0 0 8px #a3d1ff;
+		margin: 70px 0 10px 100px;
+		text-align: center;
+		line-height: 25px;
+	}
+	
 </style>
 </head>
 <body>
@@ -86,6 +101,11 @@
 	<div class="main_section">
         <div class="docDetailViewDiv">
         	<div class="docDetailBackground">
+        	
+        		<div class="scrtyCheckMsg">
+					보안 요청된 문서입니다.
+				</div>
+				
 		        <%-- 문서 서식에 맞게 폼 뜨도록 --%>
 		        <c:choose>
 		        	<c:when test="${ docType == 10 }">
@@ -101,6 +121,7 @@
 		        		<jsp:include page="../documentDetailView/busCoopFormDetailView.jsp"/>
 		        	</c:when>
 	        	</c:choose>
+	        	
 				<div class="docDetailBtnsArea">
 					<%-- 직급이 부장인 경우에만 버튼 활성화 --%>
 					<c:if test="${ loginUser.jobNo == 7}">
@@ -108,6 +129,7 @@
 					</c:if>
 					<button class="commonButton1 completeList_btn docDetailBtn" onclick="location.href='completeMain.do'" type="button">목록으로</button>
 				</div>
+				
 			</div>
 		</div>
     </div>
@@ -120,6 +142,10 @@
 				
 				loginFn(); // 로그인 먼저
 			}
+			
+			$(".scrtyCheckMsg").hide();
+			
+			scrtyCheckFn();
 		});
     	
     	
@@ -150,6 +176,42 @@
     		});
     		
     	});
+    	
+    	
+    	
+    	// 해당 문서가 보안 요청 되어있는지 확인하는 함수
+    	function scrtyCheckFn() {
+    		
+    		$.ajax({
+    			
+    			type: "post",
+    			url: "docScrtyReqCheck.do",
+    			data: { docNo : "${ docNo }" },
+    			success: function(result) {
+    				console.log(result);
+    				
+    				// 조회 결과가 존재하면
+    				if(result == "yes") {
+    					console.log("보안 요청 불가능");
+    					
+    					$(".sequrity_btn").hide(); // 해당 버튼 숨기고
+    					$(".scrtyCheckMsg").show(); // 메시지 띄우기
+    					$(".docDetailBtnsArea").css("padding-top", "0"); // 버튼 위치 조정
+    					$(".docDetailMainArea").css("padding", "0 0 0 100px");
+    					
+    				
+    				// 존재하지 않으면
+    				} else if(result == "no") {
+    					console.log("보안 요청 가능");
+    					
+    					//$(".scrtyCheckMsg").hide(); // 메시지 숨기기
+    				}
+    				
+    			}
+    			
+    		});
+    		
+    	}
     	
     	
     	

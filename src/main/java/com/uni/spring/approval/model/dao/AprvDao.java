@@ -196,6 +196,11 @@ public class AprvDao {
 		
 		return sqlSession.insert("aprvMapper.docScrtyRequest", securityDoc);
 	}
+
+	public int docScrtyReqCheck(SqlSessionTemplate sqlSession, int docNo) {
+		
+		return sqlSession.selectOne("aprvMapper.docScrtyReqCheck", docNo);
+	}
 	
 	
 

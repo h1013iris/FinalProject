@@ -75,6 +75,8 @@ public interface AprvService {
 
 	void docScrtyRequest(SecurityDoc securityDoc);
 
+	int docScrtyReqCheck(int docNo);
+
 	
 
 	
