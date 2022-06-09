@@ -8,7 +8,8 @@
 <title>Insert title here</title>
 <style>
 	.emp_detail_container{
-		width: 80vw;
+        width: 400px;
+        margin: 80px auto;
 	}
 	
     .emp_detail_label{
@@ -172,5 +173,6 @@
             </div>
         </div>
     </div> 
+    <script src="${ pageContext.servletContext.contextPath }/resources/js/admin/admin.js"></script>
 </body>
 </html>

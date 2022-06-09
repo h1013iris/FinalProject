@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.GsonBuilder;
-import com.uni.spring.admin.model.dto.Authority;
 import com.uni.spring.admin.model.dto.BanWords;
 import com.uni.spring.admin.model.dto.BoardManagement;
 import com.uni.spring.admin.model.dto.Department;
@@ -237,17 +236,67 @@ public class adminController {
 		adminservice.updateStatus(mr);
 	}
 	
-	@RequestMapping("authorityPage")
-	public ModelAndView authorityPage(ModelAndView mv) {
+	
+	@RequestMapping("deptManagement")
+	public ModelAndView deptManagement(ModelAndView mv) {
 		
-		ArrayList<employee> list = adminservice.selectEmpAllList();
+		ArrayList<Department> deptList = adminservice.selectAllDeptList();
+		ArrayList<employee> empList = adminservice.selectEmpAllList();
 		
-		ArrayList<Authority> authorityList = adminservice.selectAuthorityAllList();
-		
-		mv.addObject("authorityList", authorityList);
-		mv.addObject("empList", list).setViewName("admin/authorityManagement");
+		mv.addObject("deptList", deptList);
+		mv.addObject("empList", empList).setViewName("admin/deptManagement");
 		
 		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping("deptSelect")
+	public String deptSelectPage(String deptName) {
+		
+		Department dept = adminservice.deptSelectPage(deptName);
+		
+		return new GsonBuilder().setDateFormat("yy년 MM월 dd일").create().toJson(dept);
+	}
+
+	@ResponseBody
+	@RequestMapping("deptMemberList")
+	public String deptMemberList(String deptNo) {
+		
+		ArrayList<employee> emp = adminservice.deptMemberList(deptNo);
+		
+		return new GsonBuilder().create().toJson(emp);
+	}
+	
+	@ResponseBody
+	@RequestMapping("insertDept")
+	public void insertDept(String deptName) {
+		
+		adminservice.insertDept(deptName);
+		
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping("updateDept")
+	public void updateDept(Department dept) {
+		
+		adminservice.updateDept(dept);
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping("responsibleUpdate")
+	public void updateResponsible(employee emp) {
+		
+		adminservice.updateResponsible(emp);
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteDept")
+	public void deleteDept(String deptNo) {
+		
+		adminservice.deleteDept(deptNo);
 		
 	}
 	

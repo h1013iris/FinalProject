@@ -1,0 +1,159 @@
+@charset "utf-8";
+
+#organization_chart_section{
+    width: 85%;
+    margin: 50px auto;
+}
+
+#organization_chart{
+    width: 23vw;
+    border: 1px solid black;
+    height: 480px;
+    padding: 20px;
+    border-radius: 10px;
+    float: left;
+}
+
+#organization_chart_title_box{
+    font-size: 23px;
+    font-weight: 600;
+    text-align: center;
+}
+
+#dept_insert_box{
+    text-align: center;
+}
+
+#insert_dept_input{
+    width: 200px;
+    height: 35px;
+    border-radius: 10px;
+    margin-left: 20px;
+    margin-top: 30px;
+}
+
+#dept_insert_box > span{
+    font-weight: 600;
+}
+
+.dept_name{
+    margin-left: 50px;
+}
+
+.agency_member_list_box {
+    margin-left: 100px;
+}
+
+#dept_list_box{
+    overflow-y: scroll;
+    max-height: 370px;
+}
+
+#dept_list_box::-webkit-scrollbar{
+    display: none;
+}
+
+#dept_controll_box{
+    width: 50vw;
+    border: 1px solid black;
+    height: 500px;
+    padding: 10px;
+    border-radius: 10px;
+    float: left;
+    margin-left: 20px;
+}
+
+#dept_controll_box_title{
+    font-size: 23px;
+    font-weight: 600;
+    text-align: center;
+}
+
+#dept_controll_nav{
+    margin-left: 60px;
+    margin-top: 30px;
+}
+
+#dept_member_nav{
+    margin-left: 50px;
+}
+
+#dept_controll_nav > span {
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
+    text-align: center;
+}
+
+#dept_info_box{
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 1px;
+    display: none;
+}
+
+#dept_info_box span {
+    font-size: 20px;
+    font-weight: 400;
+    width: 200px;
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
+    text-align: center;
+}
+
+#dept_info_box div {
+    margin: 50px auto;
+    width: 406px;
+}
+
+.dept_profile_img_box{
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    line-height: 50px;
+    text-align: center;
+    margin-left: 170px;
+}
+
+#member_list_box{
+    margin-top: 50px;
+    overflow-y: scroll;
+    max-height: 350px;
+}
+
+#member_list_box::-webkit-scrollbar{
+    display: none;
+}
+
+.dept_member_name{
+    margin-left: 50px;
+}
+
+.agency_member_list_box {
+    display: none;
+}
+
+#member_list_box{
+    display: none;
+}
+
+#organization_chart p{
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+#example{
+    display: none;
+}
+
+#responsibleUpdate{
+    display: none;
+}
+
+#deleteDept{
+    position: relative;
+    right: -150px;
+    display: none;
+}
