@@ -94,7 +94,7 @@
             
                 <div id="buttonLine">
                 <input type="submit" value="수정"/>
-                <input type="button" value="취소"/>
+                <button type="button" onclick="location.href='custoAdd.do'">취소</button>
                 </div>
                 </form>
           

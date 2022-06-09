@@ -111,7 +111,7 @@
 		padding-left: 10px;
 	}
 	
-	hr {
+	.returnModal_hr {
 		margin: 15px 0 15px 0;
 		border: 1px solid #85cdff;
 	}
@@ -154,7 +154,7 @@
 							반려일
 							<span class="returnText" id="reDate"></span>
 						</div>
-						<hr>
+						<hr class="returnModal_hr">
 						<div class="reReason_div">
 							반려 사유
 							<div class="returnText" id="reReason"></div>

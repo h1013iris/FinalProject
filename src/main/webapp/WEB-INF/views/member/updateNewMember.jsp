@@ -47,7 +47,7 @@
 						<!-- <td colspan="2"><input type="file" value="사진등록" id="photo"></td>-->
 						<!-- 프로필필수값은 일단 지움 -->
 					<!-- 파일올리면 미리 보여주기 -->
-					<td colspan="2"><input type="file" name="photo" value="사진등록" id="photo" onchange="readURL(this);">
+					<td colspan="2"><input type="file" name="photo" value="사진등록" id="photo" required onchange="readURL(this);">
 					
 					</td>
 					
@@ -69,7 +69,7 @@
 			</div>
 			<div class="title">
 				* 비밀번호 재확인<br> <input type="password" id=ckPw class="inputlo"
-					required minlength="8" maxlength="20">
+					minlength="8" maxlength="20" required >
 				<div class="ckPw regex"></div>
 			</div>
 			<div class="title">

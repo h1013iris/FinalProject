@@ -170,11 +170,12 @@
     AND SUBSTR(USER_NO,1,6)= #{userNo}
     ]]>
 </select>
+
 <!-- 프로필 사진등록 -->
 <insert id="insertMemberAttachFile" parameterType="hashMap">
     INSERT INTO ATTACHMENT
     (FILE_NO,REF_LIST_CAT_NO,LARGE_CAT,ORIGIN_NAME,CHANGE_NAME,UPLOAD_DATE)
     VALUES (SEQ_ATTACH.NEXTVAL,10,#{empNo},#{orgName},#{chgName},SYSDATE)
  </insert>
- 
+   
  </mapper>

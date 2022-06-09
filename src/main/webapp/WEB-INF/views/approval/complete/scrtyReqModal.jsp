@@ -41,14 +41,24 @@
 		font-weight: bold;
 	}
 	
-	.commonButton1 {
-		width: 85px;
-	}
-	
 	.scrtyReq_footer {
 		height: 50px;
 		/*border: 1px solid black;*/
 		margin-bottom: 6%;
+	}
+	
+	.scrtyReq_footer .commonButton1 {
+		width: 75px;
+		height: 45px;
+	}
+	
+	.scrtyReq_footer .cancel_btn {
+		background-color: #c8c8c8 !important;
+		box-shadow: 0px 5px 0px 0px #afafaf !important;
+	}
+	
+	.scrtyReq_footer .cancel_btn:hover {
+		box-shadow: 0px 0px 0px 0px #afafaf !important;
 	}
 
 </style>
@@ -64,7 +74,7 @@
                 <span class="modal_title scrtyReq_title">문서 보안 요청</span>
             </div>
             
-            <form class="scrtyReq_form">            	            	
+            <form class="scrtyReq_form">
 	            <div class="modal_body scrtyReason_body">
 					<div class="scrtyReqDate_area">
 						<span class="scrtyReqText">문서 번호 :</span>
@@ -152,9 +162,9 @@
 			// 클릭 버튼 취소 시 모달 사라지고
 			$(document).on("click", ".cancel_btn", function() {
 	 			
-				$("#alertBackground").css("display","none")
-				// 결재 대기함 메인으로 이동
-				location.href="completeMain.do";
+				$("#alertBackground").css("display","none");
+				// 새로고침 (보안 설정 반영해주기 위해)
+				scrtyCheckFn();
 			})
 		
 		}

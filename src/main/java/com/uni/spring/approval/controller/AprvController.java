@@ -531,6 +531,26 @@ public class AprvController {
 	}
 	
 	
+	
+	// 보안 요청된 문서인지 조회
+	@ResponseBody
+	@RequestMapping(value="docScrtyReqCheck.do", produces="application/json; charset=utf-8")
+	public String docScrtyCheck(int docNo) {
+				
+		int result = aprvService.docScrtyReqCheck(docNo);
+		
+		// 조회 결과가 존재하면 yes 리턴, 아니면 no 리턴
+		if(result > 0) {
+			return new Gson().toJson("yes");
+		
+		} else {
+			return new Gson().toJson("no");
+		}
+		
+	}
+	
+	
+	
 	// 진행 상태 확인함 메인
 	@RequestMapping("statusMain.do")
 	public ModelAndView statusMain(ModelAndView mv) {

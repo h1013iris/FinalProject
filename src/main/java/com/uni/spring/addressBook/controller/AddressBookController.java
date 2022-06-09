@@ -77,13 +77,20 @@ public class AddressBookController {
 
 	// 부서명 버튼눌러서 각 부서별 주소록 조회
 	@GetMapping("deptAddList")
-	public String selectDeptAddList(@RequestParam("departmentTitle") String departmentTitle, WideMember wm,
+	public String selectDeptAddList(@RequestParam("departmentTitle") String departmentTitle,Dept dp, WideMember wm,
 			Model model) {
 
 		ArrayList<WideMember> deptList = addressBookService.selectDeptAddlist(departmentTitle);
 
 		model.addAttribute("deptList", deptList);
+		
 		System.out.println("조회해온리스트:" + deptList);
+		
+		ArrayList<Dept> deptTitleList = addressBookService.selectDeptTitleList(dp);
+
+		System.out.println("부서명 조회결과:" + deptTitleList);
+
+		model.addAttribute("deptTitlList", deptTitleList);
 
 		return "addressBook/deptAdd";
 
@@ -91,7 +98,7 @@ public class AddressBookController {
 
 	// 검색창에서 전체검색으로진행됨 전체주소록이랑 같은 표에서 출력된다.
 	@PostMapping("allAddSearch.do")
-	public String selectAllAddSearch(WideMember wm, String search, Model model) {
+	public String selectAllAddSearch(WideMember wm,  String search, Model model) {
 
 		ArrayList<WideMember> allAddList = addressBookService.selectAllAddSearch(wm, search);
 		model.addAttribute("allAddList", allAddList);
