@@ -172,7 +172,7 @@
 	            </div>
 	        </li>
 	        <li>
-	            <a class="departmentpage" href="departmentPage.do?departmentNo=${loginUser.departmentNo}"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/부서페이지.png" alt=""></a>
+	            <a class="departmentpage" href="departmentPage.do?departmentNo=${loginUser.departmentNo}&userNo=${loginUser.empNo}"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/부서페이지.png" alt=""></a>
 	            <div class="detail_nav_content">
 	                <div class="nananan"><p class="detail_title">부서별 페이지</p></div>
 	                <button type="button" class="commonButton2 etcButton annoDepartEnrollButton"><span>공지사항 등록</span></button>
@@ -248,14 +248,14 @@
 	            </div>
 	        </li>
 	        <li>
-	            <a class="operationpage" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/경영페이지.png" alt=""></a>
+	            <a class="operationpage" href="manangeMain.do"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/경영페이지.png" alt=""></a>
 	            <div class="detail_nav_content">
 	                <div class="nananan"><p class="detail_title">경영지원 페이지</p></div>
-	                <button type="button" class="commonButton2 etcButton"><span>공지사항 등록</span></button>
+	                <button type="button" class="commonButton2 etcButton annoDepartEnrollButton"><span>공지사항 등록</span></button>
 	                <ul> 
 	                    <li class="list_title">공지사항</li>
 	                    <div class="hhh">
-	                    	<li><a href="#">공지사항</a></li>
+	                    	<li><a href="#" class="annoDepart">공지사항</a></li>
 	                    </div>
 	                </ul>
 	                <ul>

@@ -102,7 +102,7 @@
 	    line-height: 4.5vh;
 	    font-size: 20px;
 	}
-	.outdeletese:hover, .outseeDelete:hover, .outseeDuetime:hover, .outseeFile:hover, .outseeChecklist:hover{
+	.outdeletese:hover, .outseeDelete:hover, .outseeDuetime:hover, .outseeFile:hover, .outseeChecklist:hover, .outseeMove:hover{
 		cursor: pointer;
 		background-color: white;
 		color:black;
@@ -366,9 +366,14 @@
 	    text-align: center;
 	    line-height: 30px;
 	    background-color: white;
+	    display: none;
 	}
 	.controllPostion div{
 		border: 1px solid;
+	}
+	.controllPostion div:hover{
+		background-color: #85cdff;
+		cursor: pointer;
 	}
 	.semiAttachParts{
 		border: 1px solid red;
@@ -975,6 +980,8 @@
 		var refPc = $(this).children().html();//분류 명
 		location.href="updateTagSemi.do?semiNo="+semiNo+"&refPc="+refPc+"&refPro="+$("#refProNum").val();
 	})
-
+	$(".outseeMove").click(function(){
+		$(".controllPostion").css("display","block");
+	})
 </script>
 </html>

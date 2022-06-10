@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.uni.spring.board.model.dto.Board;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.common.exception.CommException;
 import com.uni.spring.department.model.dto.Department;
@@ -39,10 +39,11 @@ public class DepartController {
 	
 	//부서별 메인페이지로 전환
 	@RequestMapping("departmentPage.do")
-	public ModelAndView departmentPage(String departmentNo, ModelAndView mv) {
+	public ModelAndView departmentPage(int userNo,String departmentNo, ModelAndView mv) {
 		ArrayList<Department> dlist = departService.selectAnnoDepartListMain(Integer.parseInt(departmentNo));//부서 공지사항 5개
-		
-		mv.setViewName("depart/departmentMainPage");
+		ArrayList<Board> blist = departService.selectBoardDepartListMain(Integer.parseInt(departmentNo));//부서 페이지
+		ArrayList<Project> plist = departService.selectProjectList(userNo);
+		mv.addObject("dlist",dlist).addObject("blist",blist).addObject("plist",plist).setViewName("depart/departmentMainPage");
 		return mv;
 	}
 	
@@ -54,7 +55,7 @@ public class DepartController {
 	
 	//공지사항 등록(첨부파일 있을시, 없을시 분류해서)
 	@RequestMapping("insertAnnoDepart.do")
-	public String insertAnnoDepart(Department d, HttpServletRequest request, @RequestParam(name="uploadFile", required = false) MultipartFile file, Attachment a) {
+	public String insertAnnoDepart(Department d, HttpServletRequest request, @RequestParam(name="uploadFile", required = false) MultipartFile file, Attachment a, Model model) {
 	
 		if(!file.getOriginalFilename().equals("")) {//파일이 있을시에
 			String changeName = saveFile(file, request);
@@ -70,7 +71,8 @@ public class DepartController {
 		}
 		
 		departService.insertAnnoDepart(d,a);
-		
+		model.addAttribute("departmentNo",d.getRefDepart());
+		model.addAttribute("userNo", d.getAnnoWR());
 		return "redirect:departmentPage.do";
 	}
 	

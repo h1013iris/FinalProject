@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uni.spring.board.model.dto.Board;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.common.exception.CommException;
 import com.uni.spring.department.model.dao.DepartDao;
@@ -412,6 +413,12 @@ public class DepartServiceImpl implements DepartService {
 	public ArrayList<Department> selectAnnoDepartListMain(int departmentNo) {
 		
 		return departDao.selectAnnoDepartListMain(sqlSession, departmentNo);
+	}
+
+	@Override
+	public ArrayList<Board> selectBoardDepartListMain(int departmentNo) {
+		
+		return departDao.selectBoardDepartListMain(sqlSession, departmentNo);
 	}
 
 	
