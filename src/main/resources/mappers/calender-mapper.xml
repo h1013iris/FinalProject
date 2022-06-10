@@ -158,7 +158,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND ( WRITER_NO = 10000
 		OR WRITER_NO = #{empNo}
 		OR WRITER_NO = #{departmentNo} )
-		AND A.DATE_NAME LIKE '%' ||#{searchWord}||'%' 
+		AND A.DATE_NAME LIKE '%' ||#{searchWord}||'%'
 		AND A.STATUS = 'Y'
 	</select>
 </mapper>
