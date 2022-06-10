@@ -13,6 +13,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="writer" column="EMP_NAME" />
 		<result property="deptno" column="DEPARTMENT_NO" />
 		<result property="deptname" column="DEPARTMENT_TITLE" />
+		<result property="originName" column="ORIGIN_NAME" />
+		<result property="changeName" column="CHANGE_NAME" />
 	
 	</resultMap>
 
@@ -37,6 +39,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    <result property="pcreateDate" column="P_DATE"/>
  
  </resultMap>
+ 
+ <resultMap type="Attachment" id="attachmentResultSet">
+		<id property="fileNo" column="FILE_NO"/>
+		<result property="refListCatNo" column="REF_LIST_CAT_NO"/>
+		<result property="largeCat" column="LARGE_CAT"/>
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+	</resultMap>
  
 
 	<!-- 노티스 -->
@@ -238,10 +248,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="detailBoard" resultMap="boardResultset"
 		parameterType="_int">
+		SELECT		
+        C.ORIGIN_NAME,
+        C.CHANGE_NAME
+		FROM BOARD A		
+        JOIN ATTACHMENT C ON A.WRITE_NO = C.LARGE_CAT
+		WHERE A.STATUS='Y'
+		AND A.WRITE_NO= #{bno}
+
+
+
+	</select>
+	
+		<select id="details" resultMap="boardResultset"
+		parameterType="_int">
 		SELECT a.*,
 		B.EMP_NAME
 		FROM BOARD A
-		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO       
 		WHERE A.STATUS='Y'
 		AND A.WRITE_NO= #{bno}
 
@@ -401,4 +425,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE A.WRITE_NO = #{wno}		
 
 	</select>
+	
+	 <insert id="savefiles" parameterType="Department">
+   INSERT INTO ATTACHMENT
+   VALUES(SEQ_ATTACH.NEXTVAL, 20 ,SEQ_NOTI.CURRVAL, #{originName}, #{changeName}, SYSDATE, DEFAULT)
+   
+   
+   
+   </insert>
+	
 </mapper>

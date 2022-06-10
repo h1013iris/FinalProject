@@ -71,6 +71,16 @@
 #bo {
 	margin-left: 85%;
 }
+#input_fileupload{
+    border: 1px solid black;
+    line-height: 88px;    
+    text-align: center;
+    width:623px;
+}
+.filestorege{
+
+}
+
 </style>
 
 </head>
@@ -110,25 +120,39 @@
 					<input type="hidden" name="deno" value="${loginUser.departmentNo}">
 
 				</div>
-				<!-- 내용 부분 -->
-				<div class="enrollContentSection">
-					<div id="description" class="contentPart mainStyleCh">
-						<span class="contentEn">내용</span>
+					<!-- 파일 부분 -->
+					<div class="enrollUpfileSection  filestorege">
+				  <div id="lets_go_files" class="go_files mainStyleCh">
+				     	<span class="uploadfilePart" >첨부파일</span>
+				    </div>	
+				    <input id="input_fileupload" name="file" type="file"  multiple >	
+				    </div>
+					<!-- 내용 부분 -->
+					<div class="enrollContentSection">
+						<div id="description" class="contentPart mainStyleCh">
+							<span class="contentEn">내용</span>
+						</div>
+						<textarea name="content" id="content" required>${ b.content }</textarea>
 					</div>
-					<textarea name="content" id="content" required>${ b.content }</textarea>
-				</div>
-				<div align="right" class="buttonSection">
-					<button type="submit" class="commonButton1">등록하기</button>
-					<button type="reset" class="commonButton1">취소하기</button>
-					<button type="button" class="commonButton1"  id="saveboard" onclick="gopbox(${loginUser.empNo});">임시보관함</button>
-					<button type="button" class="commonButton1"  id="save" onclick="savebtn();" value ="2">보관함에저장</button>
-					<input type="hidden" name="save" id="saveval">
-				</div>
+				
+					  
+				    
+					<div align="right" class="buttonSection">
+						<button type="submit" class="commonButton1">등록하기</button>
+						<button type="reset" class="commonButton1">취소하기</button>
+						<button type="button" class="commonButton1" id="saveboard"
+							onclick="gopbox(${loginUser.empNo});">임시보관함</button>
+						<button type="button" class="commonButton1" id="save"
+							onclick="savebtn();" value="2">보관함에저장</button>
+						<input type="hidden" name="save" id="saveval">
+					</div>
 			</form>
 		</div>
 	</div>
 
 	<script>
+	
+	
 	function gopbox(user){
 		location.href="pbox.do?userno="+user
 	}

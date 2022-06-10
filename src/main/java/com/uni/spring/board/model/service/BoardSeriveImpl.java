@@ -12,6 +12,7 @@ import com.uni.spring.board.model.dto.Board;
 import com.uni.spring.board.model.dto.coment;
 import com.uni.spring.board.model.dto.pbox;
 import com.uni.spring.board.model.dto.searchcon;
+import com.uni.spring.common.Attachment;
 import com.uni.spring.common.PageInfo;
 import com.uni.spring.common.exception.CommException;
 
@@ -91,31 +92,26 @@ public class BoardSeriveImpl implements BoardService {
 
 	//글작성
 	@Override
-	public void insertboard(Board b) {
-	
-		
-		String con = b.getContent();
-		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
-	    b.setContent(con);	    
-		int result = BoardDao.insertboard(sqlSession, b );
-		if(result < 0) {
-			throw new CommException("게시글 추가 실패");
-		}
-		
-	}
-	@Override
-	public void insertdept(Board b, int deno) {
+	public void insertboard(Board b ,int deno) {
+		if(deno > 0) {
+			String con = b.getContent();
+			con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
+			b.setContent(con);
+			b.setDeptno(deno);
+			int result = BoardDao.insertdept(sqlSession, b );
+		}else {
 
-		String con = b.getContent();
-		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
-	    b.setContent(con);
-	    b.setDeptno(deno);
-		int result = BoardDao.insertdept(sqlSession, b );
-		if(result < 0) {
-			throw new CommException("게시글 추가 실패");
-		}
+			String con = b.getContent();
+			con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
+			b.setContent(con);	    
+			int result = BoardDao.insertboard(sqlSession, b );
+			if(result < 0) {
+				throw new CommException("게시글 추가 실패");
+			}
+	    }
 		
 	}
+	
 	
     
 	//부서게시판
@@ -139,9 +135,14 @@ public class BoardSeriveImpl implements BoardService {
 	}
 
 	@Override
-	public Board detailBoard(int bno) {
+	public ArrayList<Board> detailBoard(int bno) {
 		
 		return BoardDao.detailBoard(sqlSession, bno);
+	}
+	@Override
+	public Board details(int bno) {
+		// TODO Auto-generated method stub
+		return BoardDao.details(sqlSession, bno);
 	}
 
 	@Override
@@ -256,10 +257,21 @@ int result = BoardDao.deletepbox(sqlSession, pno);
 		return BoardDao.readuser(sqlSession, wno);
 	}
 
-
+	@Override
+	public void savefiles(Attachment a) {
+	
+		 int result = BoardDao.savefiles(sqlSession, a);
+		 if(result < 0) {
+			throw new CommException("파일추가실패");
+		   }	 
+	    }
 
 	
 	}
+
+
+
+	
 
 
 
