@@ -201,6 +201,21 @@ public class AprvDao {
 		
 		return sqlSession.selectOne("aprvMapper.docScrtyReqCheck", docNo);
 	}
+
+	public int statusListCount(SqlSessionTemplate sqlSession, int empNo) {
+		
+		return sqlSession.selectOne("aprvMapper.statusListCount", empNo);
+	}
+
+	public ArrayList<AprvDoc> selectStatusList(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
+		
+		// 페이징처리 위해 오프셋, 로우바운즈
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectStatusList", empNo, rowBounds);
+	}
 	
 	
 

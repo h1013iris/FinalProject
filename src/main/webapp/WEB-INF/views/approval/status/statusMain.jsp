@@ -121,7 +121,7 @@
 		                   	<th>제목</th>
 		                   	<th>기안자</th>
 		                   	<th>기안일</th>
-		                   	<th>요청일</th>
+		                   	<th>상태</th>
 	                 	</tr>
 	       			</thead>
 	       			<tbody class="statusList_tbody">
@@ -174,9 +174,8 @@
 				$.ajax({
 					
 					type: "post",
-	                url: ".do",
-	                data: { empNo : "${ loginUser.empNo }",
-	                		jobNo : "${ loginUser.jobNo }" },
+	                url: "statusList.do",
+	                data: { empNo : "${ loginUser.empNo }" },
 	                success: function (list) {
 						
 	                	console.log(list)
@@ -237,7 +236,7 @@
 			console.log(docNo);
 			console.log(docType);
 			
-			location.href = ".do?docNo=" + docNo;
+			location.href = "statusnDetail.do?docNo=" + docNo;
 		}));
 		
 		

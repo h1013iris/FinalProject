@@ -4,10 +4,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="aprvMgtMapper">
 	
+	<!-- 보안 요청 리스트 -->
 	<resultMap type="AprvDoc" id="docScrtyRequest_resultMap">
 		<result property="drafter" column="EMP_NAME"/>
 		<result property="draftDate" column="DFT_DATE"/>
 		<result property="proDate" column="SCRTY_REQ_DATE"/>
+	</resultMap>
+	
+	<!-- 보안 설정 리스트 -->
+	<resultMap type="AprvDoc" id="scrtyDoc_resultMap">
+		<result property="drafter" column="EMP_NAME"/>
+		<result property="draftDate" column="DFT_DATE"/>
+		<result property="proDate" column="SCRTY_SET_DATE"/>
 	</resultMap>
 	
 
@@ -23,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT COUNT(*)
 		FROM APRV_DOCUMENT A
 		JOIN SECURITY_DOC B ON A.DOC_NO = B.DOC_NO
-		WHERE B.SCRTY_STATUS = 'R'
+		WHERE B.SCRTY_STATUS = 'N'
 	</select>
 	
 	<!-- 보안 요청 문서 리스트 조회 -->
@@ -39,31 +47,61 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN SECURITY_DOC B ON A.DOC_NO = B.DOC_NO
 		JOIN DOCUMENT_TYPE C ON A.DOC_TYPE = C.DOC_TYPE_NO
 		JOIN USER_INFO D ON A.DRAFTER = D.EMP_NO
-		WHERE B.SCRTY_STATUS = 'R'
+		WHERE B.SCRTY_STATUS = 'N'
 		ORDER BY 6 DESC
 	</select>
 
-	<!-- 보안 처리된 문서인지 조회 -->
-	<select id="docScrtyCheck" parameterType="_int" resultType="_int">
-		SELECT COUNT(*)
+	<!-- 보안 사유 조회 -->
+	<select id="selectScrtyReason" parameterType="_int" resultType="SecurityDoc">
+		SELECT *
 		FROM SECURITY_DOC
-		WHERE SCRTY_STATUS = 'Y'
-		AND DOC_NO = #{docNo}
+		WHERE DOC_NO = #{docNo}
 	</select>
-
-	<!-- 문서 보안 처리 : 보안 문서 상태값 변경 -->
-	<update id="docScrtyUpdate1" parameterType="_int">
+	
+	<!-- 문서 보안 처리 : 문서 보안 설정일, 상태값 변경 -->
+	<update id="docScrtySetUpdate" parameterType="SecurityDoc">
 		UPDATE SECURITY_DOC
-		SET SCRTY_STATUS = 'Y'
+		SET SCRTY_SET_DATE = SYSDATE, SCRTY_STATUS = #{scrtyStatus}
 		WHERE DOC_NO = #{docNo}
 	</update>
 	
-	<!-- 문서 보안 처리 : 결재 문서 상태값 변경 -->
-	<update id="docScrtyUpdate2" parameterType="_int">
+	<!-- 문서 보안 처리, 취소 : 결재 문서 상태값 변경 -->
+	<update id="aprvDocUpdate" parameterType="AprvDoc">
 		UPDATE APRV_DOCUMENT
-		SET APRV_STATUS = 3, STATUS = 'N'
+		SET APRV_STATUS = #{aprvStatus}, STATUS = #{status}
 		WHERE DOC_NO = #{docNo}
 	</update>
+	
+	<!-- 보안 처리된 문서 리스트 개수 -->
+	<select id="scrtyDocListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM APRV_DOCUMENT A
+		JOIN SECURITY_DOC B ON A.DOC_NO = B.DOC_NO
+		WHERE B.SCRTY_STATUS = 'Y'
+	</select>
+	
+	<!-- 보안 처리된 문서 리스트 조회 -->
+	<select id="selectScrtyDocList" parameterType="_int" resultMap="scrtyDoc_resultMap">
+		SELECT
+		    A.DOC_NO,
+		    C.DOC_FORM,
+		    A.DOC_TITLE,
+		    D.EMP_NAME,
+		    A.DFT_DATE,
+		    B.SCRTY_SET_DATE
+		FROM APRV_DOCUMENT A
+		JOIN SECURITY_DOC B ON A.DOC_NO = B.DOC_NO
+		JOIN DOCUMENT_TYPE C ON A.DOC_TYPE = C.DOC_TYPE_NO
+		JOIN USER_INFO D ON A.DRAFTER = D.EMP_NO
+		WHERE B.SCRTY_STATUS = 'Y'
+		ORDER BY 6 DESC
+	</select>
+	
+	<!-- 문서 보안 취소 처리 : 상태값 변경 -->
+	<delete id="deleteScrtyDoc" parameterType="SecurityDoc">
+		DELETE SECURITY_DOC
+		WHERE DOC_NO = #{docNo}
+	</delete>
 	
 	
 

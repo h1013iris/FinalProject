@@ -77,6 +77,10 @@ public interface AprvService {
 
 	int docScrtyReqCheck(int docNo);
 
+	int statusListCount(int empNo);
+
+	ArrayList<AprvDoc> selectStatusList(PageInfo pi, int empNo);
+
 	
 
 	

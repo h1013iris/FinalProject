@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문서 보안 관리 상세 페이지</title>
+<title>보안 요청 문서 상세 페이지</title>
 <style type="text/css">
 	.main_section {
 		/*border: 1px solid black;*/
@@ -44,8 +44,8 @@
 	
 	.docDetailBtnsArea {
 		/*padding-top: 34%;*/
-		margin-left: 67.8%;
-		padding-top: 65px;
+		margin-left: 67.7%;
+		padding-top: 68px;
 	}
 	
 	.docDetailBtn {
@@ -87,8 +87,8 @@
 	
 	.scrtyReasonArea {
 		width: 400px;
-		height: 460px;
-		margin: 40px 20px 0 68.2%;
+		height: 430px;
+		margin: 40px 20px 0 68.1%;
 		padding: 15px;
 		border: 3px solid #85cdff;
 		background-color: #c0e3ff;
@@ -143,7 +143,6 @@
 	        	</c:choose>
 				<div class="docDetailBtnsArea">
 					<button class="commonButton1 docSecurity_btn docDetailBtn" type="button">보안설정</button><br>
-					<button class="commonButton1 docSecurityCancel_btn docDetailBtn" type="button">보안취소</button><br>
 					<button class="commonButton1 docscrtyList_btn docDetailBtn" onclick="location.href='securityMain.do'" type="button">목록으로</button>
 				</div>
 				<div class="scrtyReasonArea">
@@ -172,51 +171,97 @@
 				loginFn(); // 로그인 먼저
 			
 			} else {
-				
-				$(".docSecurityCancel_btn").hide(); // 처음에는 숨기고
-				
-				// 보안 요청 유무 확인 함수 실행
-				scrtyCheckFn();
+								
+				scrtyReasonFn();  // 보안 요청 사유 조회하는 함수 실행
 			}
 			
 		});
 	    
 	    
 	    
-	    
-	 	// 보안 요청 유무 확인 함수 실행
-	    function scrtyCheckFn() {
+	    // 보안 요청 사유 조회하는 함수
+	    function scrtyReasonFn() {
 	    	
-			$.ajax({
-    			
-    			type: "post",
-    			url: "docScrtyCheck.do",
+	    	$.ajax({
+	    	
+	    		type: "post",
+    			url: "selectScrtyReason.do",
     			data: { docNo : "${ docNo }" },
-    			success: function(result) {
-    				console.log(result);
+    			success: function(data) {
     				
-    				// 조회 결과가 존재하면
-    				if(result == "yes") {
-    					console.log("보안 설정 불가능");
-    					
-    					$(".docSecurity_btn").hide(); // 보안 요청 버튼 숨기고
-    					$(".docSecurityCancel_btn").show(); // 보안 취소 버튼 띄우기
-    					/*$(".docDetailBtnsArea").css("padding-top", "0"); // 버튼 위치 조정
-    					$(".docDetailMainArea").css("padding", "0 0 0 100px");*/
-    					
+    				console.log(data);
     				
-    				// 존재하지 않으면
-    				} else if(result == "no") {
-    					console.log("보안 설정 가능");
-    					
-    					//$(".scrtyCheckMsg").hide(); // 메시지 숨기기
-    				}
-    				
+    				document.getElementById("scrtyReqDate").innerHTML = data.scrtyReqDate;
+    				document.getElementById("scrtyReason").innerHTML = data.scrtyReason;
     			}
-    			
-    		});
+	    	});
 	    	
 	    }
+	 	
+	 	
+	 	
+	 	// 보안 요청 버튼 클릭 시
+	 	$(document).on("click", ".docSecurity_btn", function() {
+	 		
+	 		let title = "문서 보안 설정";
+	 		let content = "보안을 설정하시겠습니까?";
+	 		
+	 		myConfirm(title, content);
+	 		
+	 		// 취소 버튼 클릭 시
+	 		$(".false_btn").click(function(){
+	 		    $("#helpmeCOnfirm").hide();
+	 		});
+	 		
+	 		// 확인 버튼 클릭 시
+	 		$(".true_btn").click(function(){
+	 			$("#helpmeCOnfirm").hide();
+	 	        
+	 			// 보안 설정하는 ajax 실행
+	 			$.ajax({
+	    			
+	    			type: "post",
+	    			url: "docScrtySet.do",
+	    			data: { docNo : "${ docNo }", 
+	    					scrtyStatus : "Y",
+	    					aprvStatus : 3,
+	    					status : "N" },
+	    			success: function(result) {
+	    				console.log(result);
+	    				
+	    				if(result == "success") {
+	                    	
+	                    	let content = "보안이 설정되었습니다.";
+	                    	reResultFn(content);
+		           	 		
+	                    } else {
+	                    	
+	                    	let content = "보안 설정에 실패하였습니다.";
+	                    	reResultFn(content);
+	               		}
+	    			}
+				});
+	 			
+	 		});
+    			
+	 	});
+	 	
+	 	
+		// 결재 버튼 클릭 시 결과에 따라 모달 띄우는 함수
+		function reResultFn(content) {
+		
+			$("#alert_container .title_name").text("보안 설정 확인");
+			$("#alert_body .alert_content").text(content);
+			$("#alertBackground").css("display","block");
+			// 클릭 버튼 취소 시 모달 사라지고
+			$(document).on("click", ".cancel_btn", function() {
+	 			
+				$("#alertBackground").css("display","none")
+				// 결재 대기함 메인으로 이동
+				location.href="securityMain.do";
+			})
+		
+		}
 	    
 	    
     </script>
