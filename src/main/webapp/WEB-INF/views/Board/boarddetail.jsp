@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -112,17 +113,40 @@
 				<th style="height: 50px;">작성일</th>
 				<td>${ b.createDate }</td>
 			</tr>
-
+			
+			
+			
+              <div>
+             
+             
+            
+             <tr>
+               <th style="height: 50px;" rowspan="${fn:length(list)}">첨부파일</th>
+             <c:forEach items="${ list }" var="f">
+             <td>
+                    	<c:if test="${ !empty f.originName }">
+                        	<a href="${ pageContext.servletContext.contextPath }/resources/upload_files/${f.changeName}" download="${ f.originName }">${ f.originName }</a>
+                        </c:if>
+                        <c:if test="${ empty f.originName }">
+                        	첨부파일이 없습니다.
+                        </c:if>
+                        </td>
+                    </tr>
+                     </c:forEach>
+                
+               
 			<tr>
 				<th style="height: 50px;">내용</th>
 				<td colspan="3"></td>
 			</tr>
-
+          
 		</table>
 		<div id="detailcontent">
 			<p style="height: 150px">${ b.content }</p>
 
 		</div>
+		
+		
 		<c:if test="${ loginUser.empNo eq b.empno }">
 			<div id="cocn">
 				<button class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</button>
