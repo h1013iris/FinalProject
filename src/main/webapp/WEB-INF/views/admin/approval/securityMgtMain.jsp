@@ -16,7 +16,7 @@
 		/*border: 1px solid black;*/
 	}
 	
-	.docScrty_area {
+	.scrtyDoc_area {
 		width: 100%;
 		border: 1px solid #e6e6e6;
 		background-color: #e6e6e6;
@@ -24,35 +24,35 @@
 		box-shadow: 0 0 8px #afafaf;
 	}
 	
-	.docScrty_table>tbody>tr:hover {
+	.scrtyDoc_table>tbody>tr:hover {
 		background: rgb(174, 217, 248);
 		box-shadow: 0 0 8px #4c87b099;
 		
 		cursor: pointer;
 	}
 	
-	.docScrty_table {
+	.scrtyDoc_table {
 		width: 97%;
 		margin: auto;
 	}
 	
-	.docScrty_table td {
+	.scrtyDoc_table td {
 		border-top: 1px solid darkgray;
 		padding: 15px;
 		
 	}
 	
-	.docScrty_table th {
+	.scrtyDoc_table th {
 		padding: 15px;
 		background-color: darogray;
 	}
 	
-	.docScrty_thead {
+	.scrtyDoc_thead {
 		font-weight: 900;
 		font-size: 16px;
 	}
 	
-	.noDocScrtyReqList {
+	.noScrtyDocList {
 		color: blue;
 	}
 	
@@ -108,8 +108,8 @@
 	<div class="main_section">
         <div class="mainDiv">
         
-        	<div class="docScrty_area docScrtyRequestList_area">
-				<table class="docScrty_table docScrtyRequestList_table">
+        	<div class="scrtyDoc_area docScrtyRequestList_area">
+				<table class="scrtyDoc_table docScrtyRequestList_table">
 					<colgroup>
 						<col width="80px">
 						<col width="120px">
@@ -119,7 +119,7 @@
 						<col width="100px">
 					</colgroup>
 					
-					<thead class="docScrty_thead docScrtyRequestList_thead">
+					<thead class="scrtyDoc_thead docScrtyRequestList_thead">
 						<tr>
 	                 		<th>No</th>
 		                  	<th>문서 유형</th>
@@ -129,7 +129,7 @@
 		                   	<th>요청일</th>
 	                 	</tr>
 	       			</thead>
-	       			<tbody class="docScrty_tbody docScrtyRequestList_tbody">
+	       			<tbody class="scrtyDoc_tbody docScrtyRequestList_tbody">
 						
 	        		</tbody>
 	         	</table>
@@ -144,8 +144,8 @@
 			
 			<hr class="scrtyList_hr">
 	       	
-			<div class="docScrty_area docSecurityList_area">
-				<table class="docScrty_table docSecurityList_table">
+			<div class="scrtyDoc_area scrtyDocList_area">
+				<table class="scrtyDoc_table scrtyDocList_table">
 					<colgroup>
 						<col width="80px">
 						<col width="120px">
@@ -155,7 +155,7 @@
 						<col width="100px">
 					</colgroup>
 					
-					<thead class="docScrty_thead docSecurityList_thead">
+					<thead class="scrtyDoc_thead scrtyDocList_thead">
 						<tr>
 	                 		<th>No</th>
 		                  	<th>문서 유형</th>
@@ -165,14 +165,14 @@
 		                   	<th>보안 설정일</th>
 	                 	</tr>
 	       			</thead>
-	       			<tbody class="docScrty_tbody docSecurityList_tbody">
+	       			<tbody class="scrtyDoc_tbody scrtyDocList_tbody">
 						
 	        		</tbody>
 	         	</table>
 	    	</div>
 	    	
 	    	<!-- 페이징바 만들기 -->
-			<div class="pagingArea docSequrityList_pagingArea" align="center">
+			<div class="pagingArea scrtyDocList_pagingArea" align="center">
 				<ul id="paginationBox" class="pagination">
 					<%-- 페이징바 들어갈 부분 --%>
 				</ul>
@@ -212,78 +212,153 @@
 			
 			} else {
 				
-				$.ajax({
-					
-					type: "post",
-	                url: "docScrtyRequestList.do",
-	                /*data: { empNo : "${ loginUser.empNo }" },*/
-	                success: function (list) {
-						
-	                	console.log(list)
-	                	
-	                	$tbody = $('.docScrtyRequestList_tbody'); // 리스트가 들어갈 tbody
-	                	$tbody.html('');
-	                	
-	                	if(list.length == 0) {
-	                		
-	                		var $noListTh = $("<th colspan='6'>").text("보안 요청된 문서가 존재하지 않습니다.").addClass("noDocScrtyReqList");
-	                		var $noListTr = $('<tr>').append($noListTh);
-	                		
-							$tbody.append($noListTr);
-	                	
-	                	} else {
-							
-	                		$.each(list, function(i, obj) {
-	                			
-	                			var $tr = $('<tr>');
-	                			var $docNo = $('<td>').text(obj.docNo);
-	                			var $docForm = $('<td>').text(obj.docForm);
-	                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
-	                			
-	                			if(obj.docTitle != null) {
-	                				var $docTitle = $('<td>').text(obj.docTitle);
-	                			
-	                			} else {
-	                				var $docTitle = $('<td>').text(obj.docForm);
-	                			}
-	                			
-	                			var $drafter = $('<td>').text(obj.drafter);
-	                			var $draftDate = $('<td>').text(obj.draftDate);
-	                			var $proDate = $('<td>').text(obj.proDate);
-	                			
-	                			$tr.append($docNo);
-	                			$tr.append($docForm);
-	                			$tr.append($docType);
-	                			$tr.append($docTitle);
-	                			$tr.append($drafter);
-	                			$tr.append($draftDate);
-	                			$tr.append($proDate);
-	                			
-	                			$tbody.append($tr);
-	                		});
-	                	}
-	                }
-				});
+				scrtyReqListFn(); // 보안 요청 리스트 조회하는 함수 실행
+				scrtyDocList(); // 보안 설정된 리스트 조회하는 함수 실행
 			}
 
 		});
 		
-	
-		// 게시글 클릭 시
+		
+		// 보안 요청 리스트 조회하는 함수
+		function scrtyReqListFn() {
+			
+			$.ajax({
+				
+				type: "post",
+                url: "docScrtyRequestList.do",
+                success: function (list) {
+					
+                	console.log(list)
+                	
+                	$tbody = $('.docScrtyRequestList_tbody'); // 리스트가 들어갈 tbody
+                	$tbody.html('');
+                	
+                	if(list.length == 0) {
+                		
+                		var $noListTh = $("<th colspan='6'>").text("보안 요청된 문서가 존재하지 않습니다.").addClass("noScrtyDocList");
+                		var $noListTr = $('<tr>').append($noListTh);
+                		
+						$tbody.append($noListTr);
+                	
+                	} else {
+						
+                		$.each(list, function(i, obj) {
+                			
+                			var $tr = $('<tr>');
+                			var $docNo = $('<td>').text(obj.docNo);
+                			var $docForm = $('<td>').text(obj.docForm);
+                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
+                			
+                			if(obj.docTitle != null) {
+                				var $docTitle = $('<td>').text(obj.docTitle);
+                			
+                			} else {
+                				var $docTitle = $('<td>').text(obj.docForm);
+                			}
+                			
+                			var $drafter = $('<td>').text(obj.drafter);
+                			var $draftDate = $('<td>').text(obj.draftDate);
+                			var $proDate = $('<td>').text(obj.proDate);
+                			
+                			$tr.append($docNo);
+                			$tr.append($docForm);
+                			$tr.append($docType);
+                			$tr.append($docTitle);
+                			$tr.append($drafter);
+                			$tr.append($draftDate);
+                			$tr.append($proDate);
+                			
+                			$tbody.append($tr);
+                		});
+                	}
+                }
+			});
+		}
+		
+		
+		
+		// 보안 설정된 리스트 조회하는 함수
+		function scrtyDocList() {
+			
+			$.ajax({
+				
+				type: "post",
+                url: "scrtyDocList.do",
+                success: function (list) {
+					
+                	console.log(list)
+                	
+                	$tbody = $('.scrtyDocList_tbody'); // 리스트가 들어갈 tbody
+                	$tbody.html('');
+                	
+                	if(list.length == 0) {
+                		
+                		var $noListTh = $("<th colspan='6'>").text("보안 요청된 문서가 존재하지 않습니다.").addClass("noScrtyDocList");
+                		var $noListTr = $('<tr>').append($noListTh);
+                		
+						$tbody.append($noListTr);
+                	
+                	} else {
+						
+                		$.each(list, function(i, obj) {
+                			
+                			var $tr = $('<tr>');
+                			var $docNo = $('<td>').text(obj.docNo);
+                			var $docForm = $('<td>').text(obj.docForm);
+                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
+                			
+                			if(obj.docTitle != null) {
+                				var $docTitle = $('<td>').text(obj.docTitle);
+                			
+                			} else {
+                				var $docTitle = $('<td>').text(obj.docForm);
+                			}
+                			
+                			var $drafter = $('<td>').text(obj.drafter);
+                			var $draftDate = $('<td>').text(obj.draftDate);
+                			var $proDate = $('<td>').text(obj.proDate);
+                			
+                			$tr.append($docNo);
+                			$tr.append($docForm);
+                			$tr.append($docType);
+                			$tr.append($docTitle);
+                			$tr.append($drafter);
+                			$tr.append($draftDate);
+                			$tr.append($proDate);
+                			
+                			$tbody.append($tr);
+                		});
+                	}
+                }
+			});
+			
+		}
+		
+		
+		
+		// 보안 요청 문서 게시글 클릭 시
 		$(".docScrtyRequestList_table tbody").on("click", "tr", (function() {
 			
 			let docNo = $(this).find("td:eq(0)").text(); // 클릭한 문서의 문서 번호 가져와서 담기
-			let docType = $("#docType").val();
-			console.log(docNo);
-			console.log(docType);
+			
+			location.href = "securityReqDetail.do?docNo=" + docNo;
+		}));
+		
+		
+		// 보안 설정된 문서 게시글 클릭 시
+		$(".scrtyDocList_table tbody").on("click", "tr", (function() {
+			
+			let docNo = $(this).find("td:eq(0)").text(); // 클릭한 문서의 문서 번호 가져와서 담기
 			
 			location.href = "securityDetail.do?docNo=" + docNo;
 		}));
 		
 		
-		$(".searchBtn").click(function() {
+		// 검색 버튼 클릭 시
+		$(document).on("click", ".searchBtn", (function() {
 			
-		})
+			
+		}));
 		
 	
 	</script>

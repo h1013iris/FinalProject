@@ -383,17 +383,6 @@ public class AprvController {
 	
 	
 	
-	// 임시 보관함 메인
-	@RequestMapping("outboxMain.do")
-	public ModelAndView outboxMain(ModelAndView mv) {
-		
-		mv.setViewName("approval/outbox/outboxMain");
-		
-		return mv;
-	}
-	
-	
-	
 	// 결재 완료 메인
 	@RequestMapping("completeMain.do")
 	public ModelAndView completeMain(ModelAndView mv) {
@@ -562,7 +551,35 @@ public class AprvController {
 	
 	
 	
-
+	// 진행 상태 확인 리스트
+	@ResponseBody
+	@RequestMapping(value="statusList.do", produces="application/json; charset=utf-8")
+	public String selectStatusList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, int empNo) {
+				
+		int listCount = aprvService.statusListCount(empNo);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<AprvDoc> list = aprvService.selectStatusList(pi, empNo);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+	}
+	
+	
+	
+	// 진행 상태 확인 상세 조회
+	@RequestMapping("statusnDetail.do")
+	public ModelAndView detailStatusDoc(int docNo, ModelAndView mv) {
+		
+		// 해당 문서의 서식 번호 가져오기
+		int docType = aprvService.selectDocTypeNo(docNo);
+		
+		mv.addObject("docNo", docNo)
+		.addObject("docType", docType)
+		.setViewName("approval/return/statusDetailView");
+		
+		return mv;
+	}
 	
 
 	
@@ -570,6 +587,16 @@ public class AprvController {
 	
 	
 	
+	
+	
+	// 임시 보관함 메인
+	@RequestMapping("outboxMain.do")
+	public ModelAndView outboxMain(ModelAndView mv) {
+		
+		mv.setViewName("approval/outbox/outboxMain");
+		
+		return mv;
+	}
 	
 	
 }

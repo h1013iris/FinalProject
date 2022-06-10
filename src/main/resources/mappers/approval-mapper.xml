@@ -324,4 +324,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND DOC_NO = #{docNo}
 	</select>
 	
+	<!-- 진행 상태 확인 리스트 개수 -->
+	<select id="statusListCount" parameterType="_int" resultType="_int">
+		
+	</select>
+	
+	<!-- 진행 상태 확인 리스트 조회 -->
+	<select id="selectStatusList" parameterType="_int" resultMap="aprvList_resultMap">
+		
+	</select>
+	
+	
+	
+	
 </mapper>

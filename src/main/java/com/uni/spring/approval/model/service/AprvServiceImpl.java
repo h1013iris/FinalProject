@@ -353,6 +353,20 @@ public class AprvServiceImpl implements AprvService {
 		
 		return aprvDao.docScrtyReqCheck(sqlSession, docNo);
 	}
+
+
+	@Override // 진행 상태 확인 리스트 개수
+	public int statusListCount(int empNo) {
+		
+		return aprvDao.statusListCount(sqlSession, empNo);
+	}
+
+
+	@Override // 진행 상태 확인 리스트 조회
+	public ArrayList<AprvDoc> selectStatusList(PageInfo pi, int empNo) {
+		
+		return aprvDao.selectStatusList(sqlSession, pi, empNo);
+	}
 	
 
 

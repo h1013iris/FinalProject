@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.uni.spring.admin.model.dao.approval.AprvMgtDao;
 import com.uni.spring.approval.model.dto.AprvDoc;
+import com.uni.spring.approval.model.dto.SecurityDoc;
 import com.uni.spring.common.PageInfo;
+import com.uni.spring.common.exception.CommException;
 
 
 
@@ -47,24 +49,79 @@ public class AprvMgtServiceImpl implements AprvMgtService {
 	}
 
 
-	@Override // 보안 처리된 문서인지 조회
-	public int docScrtyCheck(int docNo) {
+	@Override // 보안 사유 조회
+	public SecurityDoc selectScrtyReason(int docNo) {
 		
-		return aprvMgtDao.docScrtyCheck(sqlSession, docNo);
+		return aprvMgtDao.selectScrtyReason(sqlSession, docNo);
+	}
+	
+	
+	@Override // 문서 보안 처리
+	public void docScrtySet(SecurityDoc securityDoc, AprvDoc aprvDoc) {
+		
+		// 보안 문서 상태값 변경 - 보안 설정
+		docScrtySetUpdate(securityDoc);
+		
+		// 결재 문서 상태값 변경
+		aprvDocUpdate(aprvDoc);
+	}
+	
+	
+	// 보안 문서 상태값 변경 - 보안 설정
+	public void docScrtySetUpdate(SecurityDoc securityDoc) {
+		
+		int result = aprvMgtDao.docScrtySetUpdate(sqlSession, securityDoc);
+		
+		if(result < 1) {
+			throw new CommException("보안 문서 상태값 변경 실패");
+		}
+	}
+	
+	
+	// 결재 문서 상태값 변경
+	public void aprvDocUpdate(AprvDoc aprvDoc) {
+		
+		int result = aprvMgtDao.aprvDocUpdate(sqlSession, aprvDoc);
+		
+		if(result < 1) {
+			throw new CommException("보안 문서 상태값 변경 실패");
+		}
 	}
 
 
 	@Override // 보안 처리된 문서 리스트 개수
-	public int scrtyListCount() {
+	public int scrtyDocListCount() {
 		
-		return 0;
+		return aprvMgtDao.scrtyDocListCount(sqlSession);
 	}
-	
-	
+
+
 	@Override // 보안 처리된 문서 리스트 조회
-	public ArrayList<AprvDoc> selectDocScrtyList(PageInfo pi) {
+	public ArrayList<AprvDoc> selectScrtyDocList(PageInfo pi) {
 		
-		return null;
+		return aprvMgtDao.selectScrtyDocList(sqlSession, pi);
+	}
+
+
+	@Override // 보안 설정 취소
+	public void docScrtyCancel(SecurityDoc securityDoc, AprvDoc aprvDoc) {
+		
+		// 보안 문서 목록에서 삭제 - 보안 취소
+		deleteScrtyDoc(securityDoc);
+				
+		// 결재 문서 상태값 변경
+		aprvDocUpdate(aprvDoc);
+	}
+
+
+	// 보안 문서 목록에서 삭제 - 보안 취소
+	public void deleteScrtyDoc(SecurityDoc securityDoc) {
+		
+		int result = aprvMgtDao.deleteScrtyDoc(sqlSession, securityDoc);
+		
+		if(result < 1) {
+			throw new CommException("보안 문서 상태값 변경 실패");
+		}
 	}
 
 
