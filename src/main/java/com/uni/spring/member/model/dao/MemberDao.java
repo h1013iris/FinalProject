@@ -68,4 +68,16 @@ public class MemberDao {
 		return sqlSession.insert("memberMapper.insertMemberAttachFile", resultMap);
 		
 	}
+
+	//비밀번호 찾기시 인증번호 보내기전 사원정보 유무 확인
+	public int selectFindUser(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.selectFindUser",m);
+	}
+
+	//비밀번호 변경하기
+	public int updatePw(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.updatePw",m);
+	}
 }

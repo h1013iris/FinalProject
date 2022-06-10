@@ -152,4 +152,20 @@ public class MemberServiceImpl implements MemberService {
 		return success;
 	}
 
+
+	//이메일 인증번호 보내기전 사원정보 있는지 확인
+	@Override
+	public int selectFindUser(Member m) {
+		// TODO Auto-generated method stub
+		return memberDao.selectFindUser(sqlSession,m);
+	
+	}
+
+	//비밀번호 변경
+	@Override
+	public int updatePw(Member m) {
+		// TODO Auto-generated method stub
+		return memberDao.updatePw(sqlSession,m);
+	}
+
 }
