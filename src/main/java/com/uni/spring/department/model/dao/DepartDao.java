@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.uni.spring.board.model.dto.Board;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.department.model.dto.Department;
 import com.uni.spring.department.model.dto.DepartmentReply;
@@ -310,6 +311,11 @@ public class DepartDao {
 	public ArrayList<Department> selectAnnoDepartListMain(SqlSessionTemplate sqlSession, int departmentNo) {
 		
 		return (ArrayList)sqlSession.selectList("departMapper.selectAnnoDepartListMain",departmentNo);
+	}
+
+	public ArrayList<Board> selectBoardDepartListMain(SqlSessionTemplate sqlSession, int departmentNo) {
+		
+		return (ArrayList)sqlSession.selectList("departMapper.selectBoardDepartListMain", departmentNo);
 	}
 
 	
