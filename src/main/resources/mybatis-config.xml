@@ -65,6 +65,12 @@
   		<!-- 회의실 관리 -->
   		<typeAlias type="com.uni.spring.admin.model.dto.MeetingRoomLargeCategory" alias="MRLC"/>
   		<typeAlias type="com.uni.spring.admin.model.dto.MeetingRoom" alias="MR"/>
+  		
+  		<!-- 마이페이지 -->
+  		<!-- 업무일지 -->
+  		<typeAlias type="com.uni.spring.mypage.model.dto.Journal" alias="journal"/>
+  		<!-- todoList -->
+  		<typeAlias type="com.uni.spring.mypage.model.dto.ToDoList" alias="todolist"/>
   	</typeAliases>
   	
   	<!-- 
@@ -81,6 +87,7 @@
   		<mapper resource="/mappers/calender-mapper.xml"/>
   		<mapper resource="/mappers/addressBook-mapper.xml"/>
   		<mapper resource="/mappers/adminMapper.xml"/>
+  		<mapper resource="/mappers/mypageMapper.xml"/>
   		<mapper resource="/mappers/aprvMgt-mapper.xml"/>
   		<mapper resource="/mappers/manage-mapper.xml"/>
   	</mappers>

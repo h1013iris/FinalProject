@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #todoList_main_section{
+            width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+
+        #todayList_box{
+            width: 450px;
+            position: absolute;
+            top: 200px;
+            left: 50px;
+        }
+
+        #selectDayList_box{
+            width: 450px;
+            position: absolute;
+            top: 200px;
+            right: 0;
+        }
+
+        .checkboxInput{
+            width: 30px;
+        }
+
+        .percent_text{
+            width: 35px;
+            border: none;
+        }
+
+        #total_percent_box{
+            width: 500px;
+            height: 40px;
+            border: 1px solid black;
+            line-height: 40px;
+            position: absolute;
+            border-radius: 5px;
+            top: 50px;
+            left: 100px;
+        }
+
+        #total_percent_box span{
+            z-index: 99;
+            position: absolute;
+            top: 0;
+            right: 20px;
+        }
+
+        .leng{
+            border-right: 2px solid black;
+            width: 1px;
+            height: 10px;
+            display: inline-block;
+        }
+
+        #gauge_bar {
+            width: 0%;
+            height: 40px;
+            background-color: #85cdff;
+            z-index: -99;
+            border-radius: 5px;
+        }
+
+        #todoListSearch{
+            right: 0;
+            top: 60px;
+            position: absolute;
+        }
+
+        #searchDate{
+            margin-left: 20px;
+        }
+
+        .percent_text{
+            margin-left: 30px;
+        }
+
+        .work_time{
+            margin-left: 30px;
+        }
+
+        .todoTitle{
+            margin-left: 30px;
+        }
+        
+        .todayList{
+            margin-top: 30px;
+        }
+
+        #todoInsert{
+            position: absolute;
+            right: 60px;
+            top: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div id="todoList_main_section">
+        <div id="total_percent_box">
+            <div id="gauge_bar"></div>
+            <span id="percentaige">0%</span>
+        </div>
+        <div id="todoListSearch">
+            <span>검색</span>
+            <input type="date" id="searchDate">
+        </div>
+        <div>
+            <button id="todoInsert" type="button">할 일 추가</button>
+        </div>
+        <div id="todayList_box">
+            <p>오늘 할 일</p>
+            <div id="todayLists">
+                <div class="todayList">
+                    <input type="checkbox" class="checkboxInput">
+                    <span class="todoTitle">할일1</span>
+                    <span class="work_time">09시 20분</span>
+                    <input type="text" placeholder="0" class="percent_text" maxlength="3">%
+                </div>
+                <div class="todayList">
+                    <input type="checkbox" class="checkboxInput">
+                    <span class="todoTitle">할일1</span>
+                    <span class="work_time">09시 20분</span>
+                    <input type="text" placeholder="0" class="percent_text" maxlength="3">%
+                </div>
+            </div>
+        </div>
+        <div id="selectDayList_box">
+            <p>내일 할 일</p>
+            <div id="todayLists">
+                <div class="todayList">
+                    <span class="todoTitle">내일할일1</span>
+                    <span class="work_time">09시 20분</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../../resources/library/jquery-3.6.0.min.js"></script>
+    <script>
+        $("#searchDate").change(function(){
+            $("#selectDayList_box > p").text($(this).val());
+        })
+
+        $(document).on("change",".checkboxInput",function(){
+            if($(this).is(":checked")){
+                $(this).next().css("text-decoration","line-through")
+                $(this).next().next().next().val("100");
+            } else {
+                $(this).next().css("text-decoration","none")
+                $(this).next().next().next().val("");
+            }
+
+            percentCheck()
+        })
+
+        $(document).on("focusout",".percent_text",function(){
+            if($(this).val() > 100){
+                $(this).val("");
+            }
+            if($(this).val() == 100){
+                $(this).prev().prev().prev().prop("checked",true);
+                $(this).prev().prev().css("text-decoration","line-through");
+            } else {
+                $(this).prev().prev().prev().prop("checked",false);
+                $(this).prev().prev().css("text-decoration","none");
+            }
+            percentCheck()
+        })
+
+        $(document).on("keyup",".percent_text",function(e){
+            if(e.keyCode == 13){
+                $(this).blur();
+            }
+        })
+
+        function percentCheck(){
+            var AllLength = $(".percent_text").length;
+            console.log("length"+AllLength)
+
+            var avg = 0;
+            for(let i = 0; i < AllLength; i++){
+
+                avg += Number($(".percent_text").eq(i).val());
+                
+                console.log("담기냐"+avg)
+            }
+
+            console.log("최종계산전"+avg)
+            var avg = avg / AllLength;
+
+            $("#gauge_bar").css("width",avg+"%");
+            $("#percentaige").text(avg+"%");
+        }
+    </script>
+</body>
+</html>
