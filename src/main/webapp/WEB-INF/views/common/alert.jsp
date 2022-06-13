@@ -17,7 +17,7 @@
 	            <span class="alert_content">${msg}</span>
 	        </div>
 	        <div id="alert_footer">
-	            <button type="button" class="cancel_btn">확인</button>
+	            <button type="button" class="cancel_btn res-Cancel-btn">확인</button>
 	        </div>
 	    </div>
     </div>
