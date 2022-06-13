@@ -115,11 +115,11 @@ public class DateData {
 
 		// 만약 이전 달이 0보다 작으면
 		if(before_month<0){
-			before_month=11; // 12월로 넘어가기
+			before_month=11; // 11월로 넘어가기
 			before_year=search_year-1; // 검색 년도에서 -1 을 해 이전 년도에 넣기
 		}
 		
-		// 만약 다음 달이 12월보다 크면
+		// 만약 다음 달이 11월보다 크면
 		if(after_month>11){
 			after_month=0; // 다음달에 0을 담고
 			after_year=search_year+1; // 다음 년도에 +1해 다음년도에 넣기

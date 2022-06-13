@@ -15,7 +15,7 @@
 	<jsp:include page="./alert.jsp"/>
 	<jsp:include page="./confirm.jsp"/>
 	<jsp:include page="../depart/simpleProjectCreate.jsp"/>
-
+	<jsp:include page="../reservation/reservationEorollformModal.jsp"/>
 	
 	<header id="main_header">
 	    <div class="logo_header">
@@ -162,11 +162,7 @@
 	                <button type="button" class="commonButton2 etcButton ReservationRoombtn"><span>예약하기</span></button>
 	                <ul> 
 	                    <li class="list_title"><a href="#">회의실 예약 현황</a></li>
-	                    <div class="hhh">
-		                    <li><a href="#">예시 회의실1</a></li>
-		                    <li><a href="#">예시 회의실2</a></li>
-		                    <li><a href="#">예시 회의실3</a></li>
-		                    <li><a href="#">예시 회의실4</a></li>
+	                    <div class="hhh reservationRoom-biglist">
 	                    </div>
 	                </ul>
 	            </div>
@@ -320,6 +316,58 @@
 	</aside>
 	<script type="text/javascript">
 	
+	$(function(){
+		$(document).on('click','reservationRoom-smallList',function(){
+			cosole.log("이동")
+		})		
+		
+		$.ajax({
+			url:"selectReservationRoomList.do",  
+			type:"get", 
+			success:function(list){
+				if(list.length != 0){
+
+					let reservationRoomBiglist = $(".reservationRoom-biglist")
+					let bul = $("<ul>").addClass("reservation-Bigul")
+					reservationRoomBiglist.append(bul);
+					
+					console.log("값 뽑아유")
+					$.each(list, function(index, val){
+						
+						let largeNo = val.roomLargeNo;
+						let lRoom = val.lRoomName;
+						let sRoom = val.sRoomName;
+						let max = val.maxCount;
+						
+
+						let mli = $("<li>").addClass("reservationRoom-bigMiddel-List")
+						let p = $("<p>").addClass("reservation-middle")
+						let sli = $("<a>").addClass("reservationRoom-smallList")
+						
+						
+						// 큰 ul에 대분류 넣기
+						bul.append(mli)
+						if(bul.find("#"+lRoom).attr('id') != lRoom){
+							// id를 담고
+							mli.attr("id", lRoom);
+							// 대분류 룸명을 담음
+							p.append(lRoom)
+							mli.append(p).append(sli)
+							sli.append(sRoom).append(" - ").append(max)
+							
+						}else{
+							$("#"+lRoom).append(p).append(sli)
+							sli.append(sRoom).append(" - ").append(max)
+							bul.append(mli)
+						}
+					});
+				}
+			}, 
+			err:function(){
+				console.log("회의실 예약 리스트값 받기 실패")
+			}
+		})
+	})
 
 	$(function(){
 	//부서별 페이지 공지사항 클릭했을 시에 

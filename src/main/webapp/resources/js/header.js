@@ -22,7 +22,8 @@ $(function(){
 	
 	// 예약하기 버튼 클릭 시 페이지 이동
 	$(document).on("click",".ReservationRoombtn", function(){
-		location.href="enrollFormReservation.do";
+		
+		$(".reservationEnrollFormModal").css("display","flex");
 	}) 
 
     $("#main_nav img").mouseenter(function(){
