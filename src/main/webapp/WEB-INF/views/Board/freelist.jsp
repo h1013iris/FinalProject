@@ -60,9 +60,7 @@
 	box-shadow: 0px 0px 2px 2px #4c87b099;
 }
 
-.all {
-	margin
-}
+
 
 .ham {
 	margin-left: 16%;
@@ -133,14 +131,17 @@
 }
 
 #pagingArea {
-	width: fit-content;
+ 
+   text-align:center;
 	
-	margin-left: 28%;
 }
 
 #tex {
 	width: 300px;
 	height: 30px;
+}
+.freelistboardtable{
+ text-align: -webkit-center;
 }
 </style>
 </head>
@@ -169,7 +170,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="noticelist" style="padding: 5% 10%;">
+			<div class="noticelist" >
+			<div class="freelistboardtable">
 				<table id="boardList" class="table table-hover" align="center">
 
 					<thead>
@@ -201,6 +203,7 @@
 						</tr>
 					</c:if>
 				</table>
+				</div>
 				<br>
 				<div id="pagingArea">
 					<ul class="pagination">
