@@ -284,4 +284,22 @@
     WHERE CUS_NO=#{cusNo}
       ]]>
 	</update>
+	
+	<!-- 거래처 주소록 삭제하기(상태값 변경'Y') -->
+	<update id="deleteComAdd" parameterType="string">
+   <![CDATA[
+	 UPDATE COM_ADD
+    SET OUTBOX='Y'
+    WHERE COM_NO=#{compNo}
+      ]]>
+	</update>
+	
+	<!-- 고객 주소록 삭제하기(상태값 변경'Y') -->
+	<update id="deleteCusAdd" parameterType="string">
+   <![CDATA[
+	 UPDATE CUSTO_ADD
+    SET OUTBOX='Y'
+    WHERE CUS_NO=#{cusNo}
+      ]]>
+	</update>
 </mapper>

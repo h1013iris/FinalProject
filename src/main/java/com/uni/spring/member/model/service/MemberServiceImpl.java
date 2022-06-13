@@ -74,7 +74,8 @@ public class MemberServiceImpl implements MemberService {
 		int result = memberDao.selectEmpNoCount(sqlSession, empNo);
 		System.out.println("사번조회"+result);
 		if(result < 1){//조회한 사번이 조회되지 않으면 count한게 0 이라면
-			throw new CommException("사번을 확인해주세요");
+			//throw new CommException("사번을 확인해주세요");
+			System.out.println("사번 조회 안됨");
 		}
 		else {//조회한 사번이 있다면
 			m = memberDao.selectNewMember(sqlSession,empNo);
@@ -129,7 +130,8 @@ public class MemberServiceImpl implements MemberService {
 		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());//년월일시분초
 		
 		//업로드 경로 - resources - upload_files
-		String filePath = request.getSession().getServletContext().getRealPath("resources")+"\\upload_files";
+		String filePath = request.getSession().getServletContext().getRealPath("resources")+"\\upload_files\\";
+		
 		
 		String ext = orgName.substring(orgName.lastIndexOf("."));
 		String chgName = currentTime+ext;
