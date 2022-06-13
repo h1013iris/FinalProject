@@ -94,11 +94,7 @@ public class BoardDao {
 		// TODO Auto-generated method stub
 	   return sqlSession.insert("boardMapper.insertboard", b);
 	}
-   public int insertdept(SqlSessionTemplate sqlSession, Board b) {
-		// TODO Auto-generated method stub
-	   return sqlSession.insert("boardMapper.insertdept", b);
 
-   }
   //부서게시판
 
 public int selecdeparttListCount(SqlSessionTemplate sqlSession) {
@@ -216,6 +212,11 @@ public int savefiles(SqlSessionTemplate sqlSession, Attachment a) {
 public Board details(SqlSessionTemplate sqlSession, int bno) {
 	
 	return sqlSession.selectOne("boardMapper.details" , bno);
+}
+
+public int deletepno(SqlSessionTemplate sqlSession, Board b) {
+	// TODO Auto-generated method stub
+	return sqlSession.update("boardMapper.deletepno" , b);
 }
 }
 

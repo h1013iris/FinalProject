@@ -8,12 +8,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.codec.multipart.Part;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -172,6 +174,7 @@ public class BoardController {
 	//글작성
 	@RequestMapping("enroll.do")
 	public ModelAndView enroll(Board b ,ModelAndView mv) {
+		
 
 		mv.addObject("b" , b).setViewName("Board/enroll");
 
@@ -180,7 +183,7 @@ public class BoardController {
 
 	@RequestMapping("insertenroll.do")
 	public String insertBoard(Board b ,pbox p,HttpServletRequest request ,@RequestParam("bo") int bo ,@RequestParam(value="deno",required = false ) int deno ,@RequestParam(value="save",required = false, defaultValue = "1") int save
-			, @RequestParam(value="mtfRequest",required = false ) MultipartHttpServletRequest mtfRequest , Attachment a)  {
+			,MultipartHttpServletRequest mtfRequest , Attachment a)  {
 		
 
 		System.out.println(bo+"나는 게시판 번호");
@@ -198,14 +201,18 @@ public class BoardController {
 			System.out.println(b.toString());
 			BoardService.saveboard(p);
 						
-			return "Board/noticelist";
+			return "redirect:notice.do";
 
 		}else {
 		BoardService.insertboard(b,deno);
-		 if(mtfRequest != null) {
+		 
+			System.out.println("mtfRequest");
+			 
 		  String resources = request.getSession().getServletContext().getRealPath("resources");
 		
 		   List<MultipartFile> fileList = mtfRequest.getFiles("file");
+		   System.out.println();
+		   
 	        String src = mtfRequest.getParameter("src");
 	        System.out.println("src value : " + src);
 
@@ -213,6 +220,7 @@ public class BoardController {
 
 	        for (MultipartFile mf : fileList) {
 	            String originFileName = mf.getOriginalFilename(); // 원본 파일 명
+	            if(!originFileName.isEmpty()) {
 	            long fileSize = mf.getSize(); // 파일 사이즈
 
 	            System.out.println("originFileName : " + originFileName);
@@ -243,6 +251,7 @@ public class BoardController {
 	                e.printStackTrace();
 	            }
 	        }
+		   }
 		}
 		if(bo == 1) {
 
@@ -262,7 +271,7 @@ public class BoardController {
 
 		}
 
-	}
+	
 	
 	
 //부서게시판
@@ -491,4 +500,6 @@ public class BoardController {
         	
         
 }
-}
+        
+    
+        }

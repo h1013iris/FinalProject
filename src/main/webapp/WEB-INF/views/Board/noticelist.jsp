@@ -62,9 +62,6 @@
 	box-shadow: 0px 0px 2px 2px #4c87b099;
 }
 
-.all {
-	margin
-}
 
 .ham {
 	margin-left: 16%;
@@ -75,16 +72,16 @@
 }
 
 .dropdown {
-	position: relative;
-	display: inline-block;
-	margin-left: 83%;
-	height: 110px;
+      position: relative;
+    display: inline-block;
+    margin-left: 83%;
+    height: 110px;
 }
 
 .dropdown1 {
 	position: relative;
 	display: inline;
-	margin-left: 20%;
+	
 	height: 10%;
 }
 
@@ -135,15 +132,19 @@
 }
 
 #pagingArea {
-	width: fit-content;
+ 
+   text-align:center;
 	
-	margin-left: 28%;
 }
 
 #tex {
 	width: 300px;
 	height: 30px;
 }
+.noticelistboardtable{
+ text-align: -webkit-center;
+}
+
 </style>
 </head>
 <body>
@@ -159,8 +160,8 @@
 				<a href="depart.do"><button class="noticeButton1" id="bu3">부서게시판</button></a>
 				<a href="anonymous.do"><button class="noticeButton1" id="bu4">익명게시판</button></a>
 
-
-
+           </div>
+             
 				<div class="dropdown">
 					<button class="dropbtn">
 						<span id="isRecents" class="dropbtn_icon">최신순</span>
@@ -169,9 +170,11 @@
 						<a id="new" href="notice.do">최신순</a> 
 						<a id="old"	href="noticeold.do">오래된순</a>
 					</div>
-				</div>
-			</div>
-			<div class="noticelist" style="padding: 5% 10%;">
+				
+			   </div>
+			
+			<div class="noticelist" >
+				<div class ="noticelistboardtable">
 				<table id="boardList" class="table table-hover" align="center">
 
 					<thead>
@@ -203,6 +206,7 @@
 						</tr>
 					</c:if>
 				</table>
+				</div>
 				<br>
 				<div id="pagingArea">
 					<ul class="pagination">
@@ -218,7 +222,7 @@
 								</a>
 							</c:otherwise>
 						</c:choose>
-
+                    
 						<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 							<c:choose>
 								<c:when test="${ pi.currentPage ne p }">
@@ -231,7 +235,7 @@
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-
+                     
 
 						<c:choose>
 							<c:when test="${ pi.currentPage ne pi.maxPage }">
