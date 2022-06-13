@@ -24,11 +24,12 @@
   		<typeAlias type="com.uni.spring.approval.model.dto.LeaveForm" alias="LeaveForm"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.SecurityDoc" alias="SecurityDoc"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.ReturnDoc" alias="ReturnDoc"/>
-  		<typeAlias type="com.uni.spring.approval.model.dto.OutboxDoc" alias="OutboxDoc"/>
+  		<typeAlias type="com.uni.spring.approval.model.dto.DocOutbox" alias="DocOutbox"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.LeaveForm" alias="LeaveForm"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.CmtUpdateForm" alias="CmtUpdateForm"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.BusDraftForm" alias="BusDraftForm"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.BusCoopForm" alias="BusCoopForm"/>
+  		<typeAlias type="com.uni.spring.approval.model.dto.AprvStatus" alias="AprvStatus"/>
   		<!--  게시글 -->
   		<typeAlias type="com.uni.spring.board.model.dto.Board" alias="Board"/>
   		<typeAlias type="com.uni.spring.board.model.dto.coment" alias="coment"/>

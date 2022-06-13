@@ -19,7 +19,7 @@ public class BusCoopForm { // 업무 협조문
 	private int drafter; // 기안자
 	private int drafterDept; // 기안자 소속
 	private Date dftDate; // 기안일
-	private int receiveDept; // 수신 부서
+	private Integer receiveDept; // 수신 부서 (임시저장 시 null 값 넣기 위해 Integer로 수정)
 	private String coopContent; // 협조문 내용
 	
 	private String empName;

@@ -111,7 +111,6 @@
 						<col width="300px">
 						<col width="80px">
 						<col width="100px">
-						<col width="100px">
 					</colgroup>
 					
 					<thead class="outBoxList_thead">
@@ -120,8 +119,7 @@
 		                  	<th>문서 유형</th>
 		                   	<th>제목</th>
 		                   	<th>기안자</th>
-		                   	<th>기안일</th>
-		                   	<th>요청일</th>
+		                   	<th>최근 수정일</th>
 	                 	</tr>
 	       			</thead>
 	       			<tbody class="outBoxList_tbody">
@@ -171,73 +169,75 @@
 			
 			} else {
 				
-				$.ajax({
-					
-					type: "post",
-	                url: ".do",
-	                data: { empNo : "${ loginUser.empNo }",
-	                		jobNo : "${ loginUser.jobNo }" },
-	                success: function (list) {
-						
-	                	console.log(list)
-	                	
-	                	$tbody = $('.outBoxList_tbody'); // 리스트가 들어갈 tbody
-	                	$tbody.html('');
-	                	
-	                	if(list.length == 0) {
-	                		
-	                		var $noListTh = $("<th colspan='6'>").text("결재 요청한 문서가 존재하지 않습니다.").addClass("noOutBoxList");
-	                		var $noListTr = $('<tr>').append($noListTh);
-	                		
-							$tbody.append($noListTr);
-	                	
-	                	} else {
-							
-	                		$.each(list, function(i, obj) {
-	                			
-	                			var $tr = $('<tr>');
-	                			var $docNo = $('<td>').text(obj.docNo);
-	                			var $docForm = $('<td>').text(obj.docForm);
-	                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
-	                			
-	                			if(obj.docTitle != null) {
-	                				var $docTitle = $('<td>').text(obj.docTitle);
-	                			
-	                			} else {
-	                				var $docTitle = $('<td>').text(obj.docForm);
-	                			}
-	                			
-	                			var $drafter = $('<td>').text(obj.drafter);
-	                			var $draftDate = $('<td>').text(obj.draftDate);
-	                			var $proDate = $('<td>').text(obj.proDate);
-	                			
-	                			$tr.append($docNo);
-	                			$tr.append($docForm);
-	                			$tr.append($docType);
-	                			$tr.append($docTitle);
-	                			$tr.append($drafter);
-	                			$tr.append($draftDate);
-	                			$tr.append($proDate);
-	                			
-	                			$tbody.append($tr);
-	                		});
-	                	}
-	                }
-				});
+				outboxListFn();
 			}
 
 		});
+		
+		
+		// 리스트 조회하는 함수
+		function outboxListFn() {
+			
+			$.ajax({
+				
+				type: "post",
+                url: "selectOutboxList.do",
+                data: { empNo : "${ loginUser.empNo }" },
+                success: function (list) {
+					
+                	console.log(list)
+                	
+                	$tbody = $('.outBoxList_tbody'); // 리스트가 들어갈 tbody
+                	$tbody.html('');
+                	
+                	if(list.length == 0) {
+                		
+                		var $noListTh = $("<th colspan='6'>").text("임시 보관 중인 문서가 존재하지 않습니다.").addClass("noOutBoxList");
+                		var $noListTr = $('<tr>').append($noListTh);
+                		
+						$tbody.append($noListTr);
+                	
+                	} else {
+						
+                		$.each(list, function(i, obj) {
+                			
+                			var $tr = $('<tr>');
+                			var $docOutboxNo = $('<td>').text(obj.docOutboxNo);
+                			var $docForm = $('<td>').text(obj.docForm);
+                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
+                			
+                			if(obj.docTitle != null) {
+                				var $docTitle = $('<td>').text(obj.docTitle);
+                			
+                			} else {
+                				var $docTitle = $('<td>').text(obj.docForm);
+                			}
+                			
+                			var $drafter = $('<td>').text(obj.drafter);
+                			var $lastUdpDate = $('<td>').text(obj.lastUpdateDate);
+                			
+                			$tr.append($docOutboxNo);
+                			$tr.append($docForm);
+                			$tr.append($docType);
+                			$tr.append($docTitle);
+                			$tr.append($drafter);
+                			$tr.append($lastUdpDate);
+                			
+                			$tbody.append($tr);
+                		});
+                	}
+                }
+			});
+		}
 		
 	
 		// 게시글 클릭 시
 		$(".outBoxList_table tbody").on("click", "tr", (function() {
 			
-			let docNo = $(this).find("td:eq(0)").text(); // 클릭한 문서의 문서 번호 가져와서 담기
-			let docType = $("#docType").val();
-			console.log(docNo);
-			console.log(docType);
+			let outboxNo = $(this).find("td:eq(0)").text(); // 클릭한 문서의 문서 번호 가져와서 담기
+			console.log(outboxNo);
 			
-			location.href = ".do?docNo=" + docNo;
+			location.href = "outboxDetail.do?outboxNo=" + outboxNo;
 		}));
 		
 		
