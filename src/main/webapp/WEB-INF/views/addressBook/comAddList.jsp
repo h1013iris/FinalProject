@@ -80,5 +80,12 @@
     </div>
     </div>
 </div>
+
+ 	<script> 
+        var msg = '${msg}';
+		if(msg!=null && msg!=""){
+			alert(msg);
+		}
+	</script>
 </body>
 </html>

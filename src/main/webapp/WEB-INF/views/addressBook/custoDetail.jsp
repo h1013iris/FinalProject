@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>고객주소록상세조회</title>
+<script
+	src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 </head>
 <style>
 <style>
@@ -42,7 +44,7 @@
 
     <div id="container">
         <div class="main">
-         <form action="selectupDetailCusto.do" method="post">
+         <form id="custoDetail" action="" method="post">
           
                 <h3>고객 상세조회</h3>
         <table class="main2">
@@ -83,7 +85,7 @@
                     <td>기타</td>
                     <td><textarea name="comMemo" class="inputlo" rows="5"  maxlength="50" readonly>"${cusD.comMemo }"</textarea></td>
                 </tr>
-                <input type="hidden" name="cusNo" value="${cusD.cusNo }">  
+                <input type="hidden" id="cusNo" name="cusNo" value="${cusD.cusNo }">  
                 <input type="hidden" name="empNo" value="${cusD.empNo }"> 
                   </c:forEach>  
                     
@@ -93,13 +95,48 @@
             </table>
             
                 <div id="buttonLine">
-                <input type="submit" value="수정"/>
-                <button type="button" onclick="location.href='custoAdd.do'">취소</button>
-                </div>
+					<button type="button" onclick="choice(1)">수정</button>
+					<button type="button" onclick="location.href='custoAdd.do'">취소</button>
+					<button type="button" onclick="choice(2)">삭제</button>
+				</div>
                 </form>
           
         </div>
     </div>
-
+	<script>
+		function choice(num) {
+			var custoDetail = $("#custoDetail");
+			if (num === 1) {
+				custoDetail.prop("action", "selectupDetailCusto.do");
+				custoDetail.submit();
+			} 
+			if (num === 2) {
+				var cusNo = $("#cusNo").val();
+				$.ajax({
+					type : "POST",
+					url : "deleteCusAdd.do",
+					data : {cusNo:cusNo},
+					success : function(data) {
+						console.log("삭제 결과는?: " + data);
+						no = data;
+						if (no === '1') {
+							/*
+							모달창으로 바꾸고 나서 적용해보기
+							let title = '고객 주소록 삭제';
+							let content='고객 주소록 삭제에 성공했습니다';
+							myAlert(title,content);
+							*/
+							alert("삭제가 성공했습니다");
+							location.href="custoAdd.do";
+							
+						} else {
+							alert("삭제를 실패했습니다");
+							location.href="custoAdd.do";
+						}
+					}
+				})
+			}
+		};
+	</script>
 </body>
 </html>

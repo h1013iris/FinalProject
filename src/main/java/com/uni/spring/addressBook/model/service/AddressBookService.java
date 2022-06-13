@@ -53,6 +53,11 @@ public interface AddressBookService {
 	//고객주소록 수정하기
 	void updateCustoList(Customer custo);
 
+	//거래처주소록 삭제하기
+	int deleteComAdd(String compNo);
+
+	//고객주소록 삭제하기
+	int deleteCusAdd(String cusNo);
 	
 
 

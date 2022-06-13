@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.uni.spring.addressBook.model.dto.Company;
@@ -77,15 +78,15 @@ public class AddressBookController {
 
 	// 부서명 버튼눌러서 각 부서별 주소록 조회
 	@GetMapping("deptAddList")
-	public String selectDeptAddList(@RequestParam("departmentTitle") String departmentTitle,Dept dp, WideMember wm,
+	public String selectDeptAddList(@RequestParam("departmentTitle") String departmentTitle, Dept dp, WideMember wm,
 			Model model) {
 
 		ArrayList<WideMember> deptList = addressBookService.selectDeptAddlist(departmentTitle);
 
 		model.addAttribute("deptList", deptList);
-		
+
 		System.out.println("조회해온리스트:" + deptList);
-		
+
 		ArrayList<Dept> deptTitleList = addressBookService.selectDeptTitleList(dp);
 
 		System.out.println("부서명 조회결과:" + deptTitleList);
@@ -98,7 +99,7 @@ public class AddressBookController {
 
 	// 검색창에서 전체검색으로진행됨 전체주소록이랑 같은 표에서 출력된다.
 	@PostMapping("allAddSearch.do")
-	public String selectAllAddSearch(WideMember wm,  String search, Model model) {
+	public String selectAllAddSearch(WideMember wm, String search, Model model) {
 
 		ArrayList<WideMember> allAddList = addressBookService.selectAllAddSearch(wm, search);
 		model.addAttribute("allAddList", allAddList);
@@ -160,7 +161,7 @@ public class AddressBookController {
 		model.addAttribute("comList", comList);
 		// 리스트 제대로 들어왔는지 확인
 		System.out.println("comList가 제대로 들어왔니?" + comList);
-		
+
 		// 폴더 목록 불러오기
 		ArrayList<Company> comFolList = addressBookService.selectComFolList(com, empNo);
 		// 화면에 넘겨주기전에 확인
@@ -250,12 +251,6 @@ public class AddressBookController {
 		return "addressBook/custoAddList";
 	}
 
-	// 임시보관함 화면으로 이동
-	@RequestMapping("boxAdd.do")
-	public String selectBoxAdd() {
-		return "addressBook/boxAdd";
-	}
-
 	// 고객주소록 상세조회
 	@GetMapping("custoDetailView.do")
 	public String selectCustoDetailView(int cusNo, Customer custo, Model model) {
@@ -277,25 +272,25 @@ public class AddressBookController {
 
 		return "addressBook/comDetail";
 	}
-	
-	//거래처 주소록 업데이트하기전(변경전 내용 불러오기)
+
+	// 거래처 주소록 업데이트하기전(변경전 내용 불러오기)
 	@PostMapping("selectupDetailCom.do")
-	public String updateDeatilCom(int compNo,int empNo, Company com, Model model) {
+	public String updateDeatilCom(int compNo, int empNo, Company com, Model model) {
 		ArrayList<Company> comDetail = addressBookService.selectComDetailView(com, compNo);
 
 		System.out.println("거래처 주소록 업데이트전:" + comDetail);
 		model.addAttribute("comDetail", comDetail);
-		
+
 		ArrayList<Company> comFolList = addressBookService.selectComFolList(com, empNo);
 		// 화면에 넘겨주기전에 확인
 		System.out.println("업데이트용..폴더리스트가 잘 넘어 왔는가?: " + comFolList);
 		model.addAttribute("comFolList", comFolList);
 		return "addressBook/updateDetailCom";
 	}
-	
-	//고객주소록 업데이트하기전(변경전 내용 불러오기)
+
+	// 고객주소록 업데이트하기전(변경전 내용 불러오기)
 	@PostMapping("selectupDetailCusto.do")
-	public String updateDeatilCom(int cusNo,int empNo, Customer custo, Model model) {
+	public String updateDeatilCom(int cusNo, int empNo, Customer custo, Model model) {
 
 		ArrayList<Customer> custoDetail = addressBookService.selectCustoDetailView(custo, cusNo);
 		System.out.println("고객주소록 상세클릭" + custoDetail);
@@ -304,21 +299,57 @@ public class AddressBookController {
 		ArrayList<Company> cusFolList = addressBookService.selectCusFolList(custo, empNo);
 		System.out.println("폴더목록?!" + cusFolList);
 		model.addAttribute("cusFolList", cusFolList);
-		
+
 		return "addressBook/updateDetailCusto";
 	}
-	
-	//거래처 주소록 업데이트 하기
+
+	// 거래처 주소록 업데이트 하기
 	@PostMapping("updateComList.do")
 	public String updateComList(Company com) {
 		addressBookService.updateComList(com);
 		return "redirect:comAdd.do";
 	}
-	
-	//고객 주소록 업데이트 하기
+
+	// 고객 주소록 업데이트 하기
 	@PostMapping("updateCustoList.do")
 	public String updateComList(Customer custo) {
 		addressBookService.updateCustoList(custo);
 		return "redirect:custoAdd.do";
-		}
+	}
+
+	// 거래처 주소록 삭제
+	@PostMapping("deleteComAdd.do")
+	@ResponseBody
+	public String deleteComAdd(String compNo, Model model) {
+
+		// System.out.println("거래처주소록에서 삭제버튼 눌렀을때");
+		// System.out.println("compNo는?: "+compNo);
+
+		int num = addressBookService.deleteComAdd(compNo);
+
+		String result = Integer.toString(num);
+
+		return result;
+	}
+
+	// 고객 주소록 삭제
+	@PostMapping("deleteCusAdd.do")
+	@ResponseBody
+	public String deleteCusAdd(String cusNo, Model model) {
+
+		System.out.println("고객주소록에서 삭제버튼 눌렀을때");
+		System.out.println("cusNo는?: " + cusNo);
+
+		int num = addressBookService.deleteCusAdd(cusNo);
+
+		String result = Integer.toString(num);
+
+		return result;
+	}
+
+	// 임시보관함 화면으로 이동
+	@RequestMapping("boxAdd.do")
+	public String selectBoxAdd() {
+		return "addressBook/boxAdd";
+	}
 }

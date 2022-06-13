@@ -1,9 +1,21 @@
 @CHARSET "UTF-8";
- #container{
+* {
+	margin: 0;
+	padding: 0;
+}
+
+#all{
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+#container{
             width: 500px;
             margin:0 auto;
             text-align:center;
-    		position: left: 50%; top: 50%;
+    		    position: left 50%; top: 50%;
+            height: 1100px;
+
         }
         .title{
             text-align: left;
@@ -23,7 +35,7 @@
         .outter{
             background-color: #85cdff;
             height: 10px;  
-            width: 600px;  
+            width: 500px;  
             margin:40px auto;       
         }
         #logo{

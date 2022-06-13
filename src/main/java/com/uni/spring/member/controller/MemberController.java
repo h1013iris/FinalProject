@@ -38,6 +38,13 @@ public class MemberController {
 	@Autowired
 	private JavaMailSender mailSender;
 	
+	//로그인 페이지로 이동
+	@GetMapping("login.do")
+	public String main(){
+		return"main";
+	}
+	
+	
 	//회원가입 이전에 사번 입력하는 화면으로 이동
 	@GetMapping(value="empNo.do")
 	public String empNo() {
@@ -51,8 +58,17 @@ public class MemberController {
 		
 		WideMember m = memberService.selectNewMember(empNo);
 		
-		model.addAttribute("m", m);
-
+		System.out.println("m은?:"+m);
+		
+		if(m!=null){
+		
+			model.addAttribute("m", m);
+			model.addAttribute("msg","사번이 확인 되었습니다.");
+		
+		}else if(m==null) {
+			model.addAttribute("msg","사번을 다시 확인해주세요");
+			return "member/empNo";
+			}
 		return "member/updateNewMember";
 	}
 	
