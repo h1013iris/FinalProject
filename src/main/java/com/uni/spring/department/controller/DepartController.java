@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.uni.spring.board.model.dto.Board;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.common.exception.CommException;
 import com.uni.spring.department.model.dto.Department;
@@ -38,8 +39,12 @@ public class DepartController {
 	
 	//부서별 메인페이지로 전환
 	@RequestMapping("departmentPage.do")
-	public String departmentPage() {
-		return "depart/departmentMainPage";
+	public ModelAndView departmentPage(int userNo,String departmentNo, ModelAndView mv) {
+		ArrayList<Department> dlist = departService.selectAnnoDepartListMain(Integer.parseInt(departmentNo));//부서 공지사항 5개
+		ArrayList<Board> blist = departService.selectBoardDepartListMain(Integer.parseInt(departmentNo));//부서 페이지
+		ArrayList<Project> plist = departService.selectProjectList(userNo);
+		mv.addObject("dlist",dlist).addObject("blist",blist).addObject("plist",plist).setViewName("depart/departmentMainPage");
+		return mv;
 	}
 	
 	//공지사항 등록하러 화면 전환
@@ -50,7 +55,7 @@ public class DepartController {
 	
 	//공지사항 등록(첨부파일 있을시, 없을시 분류해서)
 	@RequestMapping("insertAnnoDepart.do")
-	public String insertAnnoDepart(Department d, HttpServletRequest request, @RequestParam(name="uploadFile", required = false) MultipartFile file, Attachment a) {
+	public String insertAnnoDepart(Department d, HttpServletRequest request, @RequestParam(name="uploadFile", required = false) MultipartFile file, Attachment a, Model model) {
 	
 		if(!file.getOriginalFilename().equals("")) {//파일이 있을시에
 			String changeName = saveFile(file, request);
@@ -66,7 +71,8 @@ public class DepartController {
 		}
 		
 		departService.insertAnnoDepart(d,a);
-		
+		model.addAttribute("departmentNo",d.getRefDepart());
+		model.addAttribute("userNo", d.getAnnoWR());
 		return "redirect:departmentPage.do";
 	}
 	
@@ -491,8 +497,38 @@ public class DepartController {
 	
 	//세부 프로젝트 삭제 
 	@RequestMapping("deleteSemiPro.do")
-	public String deleteSemiProject(SemiProject sp, Model model) {
+	public String deleteSemiProject(SemiProject sp, Model model, HttpServletRequest request) {
+		ArrayList<Attachment> list = departService.selectAttachList(sp.getSemiNo());
+		if(list != null) {
+			for (Attachment attachment : list) {
+				deleteFile(attachment.getChangeName(), request);
+			}
+		}
 		departService.deleteSemiProject(sp);
+		model.addAttribute("pjno",sp.getRefPro());
+		return "redirect:detailProject.do";
+	}
+	
+	//첨부파일 리스트 
+	@ResponseBody
+	@RequestMapping(value="selectlListAttach.do", produces="application/json; charset=utf-8")
+	public String selectListAttach(int largeCat) {
+		ArrayList<Attachment> list = departService.selectAttachList(largeCat);
+		return new GsonBuilder().setDateFormat("yyyy/MM/dd").create().toJson(list);
+	}
+	
+	//개별 첨부파일 삭제 
+	@ResponseBody
+	@RequestMapping(value="deleteAttachOne.do", produces="application/json; charset=utf-8")
+	public String deleteAttachOne( Attachment a,  HttpServletRequest request) {
+		deleteFile(a.getChangeName(), request);
+		departService.deleteAttachOne(a);
+		return String.valueOf("1") ;
+	}
+	
+	@RequestMapping("updateTagSemi.do")
+	public String updateTagSemi(SemiProject sp, Model model) {
+		departService.updateTagSemi(sp);
 		model.addAttribute("pjno",sp.getRefPro());
 		return "redirect:detailProject.do";
 	}

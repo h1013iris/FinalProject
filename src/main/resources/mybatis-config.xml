@@ -88,6 +88,8 @@
   		<mapper resource="/mappers/addressBook-mapper.xml"/>
   		<mapper resource="/mappers/adminMapper.xml"/>
   		<mapper resource="/mappers/mypageMapper.xml"/>
+  		<mapper resource="/mappers/aprvMgt-mapper.xml"/>
+  		<mapper resource="/mappers/manage-mapper.xml"/>
   	</mappers>
   	
   </configuration>

@@ -7,6 +7,7 @@ import com.uni.spring.board.model.dto.Board;
 import com.uni.spring.board.model.dto.coment;
 import com.uni.spring.board.model.dto.pbox;
 import com.uni.spring.board.model.dto.searchcon;
+import com.uni.spring.common.Attachment;
 import com.uni.spring.common.PageInfo;
 
 public interface BoardService {
@@ -34,9 +35,8 @@ public interface BoardService {
 
 	ArrayList<Board> selectsearchfree(PageInfo pi, searchcon sc);
 	///글작성
-	void insertboard(Board b );
+	void insertboard(Board b, int deno );
 	
-	void insertdept(Board b, int deno);
 	
      //부서 게시판
 	int selecdeparttListCount();
@@ -46,7 +46,7 @@ public interface BoardService {
 
 	ArrayList<Board> selectdeptList(PageInfo pi);
 
-	Board detailBoard(int bno);
+	ArrayList<Board> detailBoard(int bno);
 
 	int selectstandupListCount(int con);
 
@@ -77,6 +77,12 @@ public interface BoardService {
 	void deletepbox(int pno);
 
 	void insertuser(Board bo);
+
+	ArrayList<Board> readuser(int wno);
+
+	void savefiles(Attachment a);
+
+	Board details(int bno);
 
 	
 

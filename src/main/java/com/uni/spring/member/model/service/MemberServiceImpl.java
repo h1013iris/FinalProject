@@ -93,7 +93,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void updateNewMember(Member m){
 		int result = memberDao.updateNewMember(sqlSession, m);
-		if(result < 0) {//왜 여기 1이 아니고 0일까..?? 내일물어보자
+		if(result < 0) {
 			throw new CommException("회원가입에 실패했습니다");
 		}
 		
@@ -111,12 +111,12 @@ public class MemberServiceImpl implements MemberService {
 	public String selectFindId(WideMember wm) {
 		String msg = memberDao.selectFindId(sqlSession, wm);
 		System.out.println("아이디는"+msg);//아이디가 잘 담겼는지 확인
-		if(msg.isEmpty()) {
+		/*if(msg.isEmpty()) {
 			System.out.println("아이디가 없다.."+msg);//아이디가 잘 담겼는지 확인
 			throw new CommException("입력정보를 다시 확인해주세요");
 		}
 		System.out.println("아이디는"+msg);//아이디가 잘 담겼는지 확인
-		return msg;
+		*/return msg;
 		
 	}
 
@@ -129,7 +129,7 @@ public class MemberServiceImpl implements MemberService {
 		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());//년월일시분초
 		
 		//업로드 경로 - resources - upload_files
-		String filePath = request.getSession().getServletContext().getRealPath("resources")+"\\upload_files\\member\\";
+		String filePath = request.getSession().getServletContext().getRealPath("resources")+"\\upload_files";
 		
 		String ext = orgName.substring(orgName.lastIndexOf("."));
 		String chgName = currentTime+ext;
@@ -150,6 +150,22 @@ public class MemberServiceImpl implements MemberService {
 			memberDao.insertMemberAttachFile(sqlSession, resultMap);
 		}
 		return success;
+	}
+
+
+	//이메일 인증번호 보내기전 사원정보 있는지 확인
+	@Override
+	public int selectFindUser(Member m) {
+		// TODO Auto-generated method stub
+		return memberDao.selectFindUser(sqlSession,m);
+	
+	}
+
+	//비밀번호 변경
+	@Override
+	public int updatePw(Member m) {
+		// TODO Auto-generated method stub
+		return memberDao.updatePw(sqlSession,m);
 	}
 
 }

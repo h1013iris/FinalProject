@@ -26,4 +26,6 @@ public class Board {
 	private Date createDate;
 	private String status;
 	private int boardno;
+	private String originName;
+	private String changeName;
 }

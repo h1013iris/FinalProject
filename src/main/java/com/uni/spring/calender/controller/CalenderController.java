@@ -32,15 +32,56 @@ public class CalenderController {
 	public CalenderService calenderService;
 
 	@RequestMapping(value = "calendar.do", method = RequestMethod.GET)
-	public String calendar(Model model, HttpServletRequest request, DateData dateData, HttpSession session){
+	public String calendar(Model model, HttpServletRequest request, DateData dateData, String empNo, String departmentNo, HttpSession session){
 		
 		Calendar cal = Calendar.getInstance();
 		DateData calendarData;
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
+		// 세션이 안바뀌게 새 객체 생성
+		Member m = new Member();
+		m.setUserId(loginUser.getUserId());
+		m.setUserPw(loginUser.getUserPw());
+		m.setEmpName(loginUser.getEmpName());
+		m.setUserNo(loginUser.getUserNo());
+		m.setEmail(loginUser.getEmail());
+		m.setPhone(loginUser.getPhone());
+		m.setAddress(loginUser.getAddress());
+		m.setHireDate(loginUser.getHireDate());
+		m.setStatus(loginUser.getStatus());
+		m.setEndDate(loginUser.getEndDate());
+		m.setJobNo(loginUser.getJobNo());
+		
+		
+		// 리셋 시킴
+		m.setEmpNo(0);
+		m.setDepartmentNo(null);
+		
 		//검색 날짜(화살표표시 클릭하여 이동하기위한 검색날짜의 데이터[이전년도,이전달,다음년도,다음달])
 		if(dateData.getDate() == null &&dateData.getMonth() == null){
 			dateData = new DateData(String.valueOf(cal.get(Calendar.YEAR)),String.valueOf(cal.get(Calendar.MONTH)),String.valueOf(cal.get(Calendar.DATE)),null);
+		}
+		
+		boolean departmentCheck = false;
+		boolean empCheck = false;
+		// 팀과 개인 들어 있을 시
+		if(empNo != null || departmentNo != null) {
+			if(empNo != null && departmentNo == null) {
+				// 개인공개만이면
+				m.setEmpNo(Integer.parseInt(empNo));
+				empCheck = true;
+			}else if(empNo == null && departmentNo != null) {
+				// 팀 공개 만이면
+				departmentCheck = true;
+				m.setDepartmentNo(departmentNo);
+			}else {
+				// 둘다면
+				departmentCheck = true;
+				empCheck = true;
+				m.setEmpNo(Integer.parseInt(empNo));
+				m.setDepartmentNo(departmentNo);
+			}
+			// 둘다 null일 시에는 null로 들어가기 때문에 따로 입력 하지 않아도 된다.
 		}
 		
 		//검색 날짜 end
@@ -48,12 +89,12 @@ public class CalenderController {
 		List<DateData> dateList = new ArrayList<DateData>();
 		
 		DepartmentManagement department = new DepartmentManagement();
-		if(!loginUser.getDepartmentNo().isEmpty()) {// 부서 번호가 존재할 시
-			department = calenderService.selectDepartment(loginUser.getDepartmentNo());
+		if(m.getDepartmentNo() != null) {// 부서 번호가 존재할 시
+			department = calenderService.selectDepartment(m.getDepartmentNo());
 			department.getDepartmentTitle().replaceAll(" ", "&nbsp"); // 부서명가져올 때 replace
 
 		}
-		ArrayList<Calender> list = calenderService.selectList(loginUser, today_info); // 일정 리스트를 담음(팀,전체,개인 공개)
+		ArrayList<Calender> list = calenderService.selectList(m, today_info); // 일정 리스트를 담음(팀,전체,개인 공개)
 		
 		//실질적인 달력 데이터 리스트에 데이터 삽입 시작.
 		//일단 시작 인덱스까지 아무것도 없는 데이터 삽입 -- 앞에 이전달의 날을 비우기 위해
@@ -89,11 +130,19 @@ public class CalenderController {
 		}
 		System.out.println(dateList);
 		
+		// 다시 세팅 해주기
+		m.setEmpNo(loginUser.getEmpNo());
+		m.setDepartmentNo(loginUser.getDepartmentNo());
+		
 		//배열에 담음
 		model.addAttribute("dateList", dateList);		//날짜 데이터 배열
 		model.addAttribute("today_info", today_info);
 		model.addAttribute("monthList", list); // 스케쥴 담음
 		model.addAttribute("department", department);
+		model.addAttribute("empNo", m.getEmpNo());
+		model.addAttribute("departmentNo", m.getDepartmentNo());
+		model.addAttribute("departmentCheck", departmentCheck);
+		model.addAttribute("empCheck", empCheck);
 		return "calender/calender";
 	}
 	

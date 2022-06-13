@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,6 +88,15 @@
 	.replydelete img{
 		width: 10px;
 	}
+	.userlistdetailtable{
+	height: 50px;
+	
+	}
+	.userlistdetailtabletd{
+	font-weight: 900; 
+	font-size:16px;
+	height: 50px;	
+	}
 </style>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
@@ -103,22 +113,45 @@
 				<th style="height: 50px;">작성일</th>
 				<td>${ b.createDate }</td>
 			</tr>
-
+			
+			
+			
+              <div>
+             
+             
+            
+             <tr>
+               <th style="height: 50px;" rowspan="${fn:length(list)}">첨부파일</th>
+             <c:forEach items="${ list }" var="f">
+             <td>
+                    	<c:if test="${ !empty f.originName }">
+                        	<a href="${ pageContext.servletContext.contextPath }/resources/upload_files/${f.changeName}" download="${ f.originName }">${ f.originName }</a>
+                        </c:if>
+                        <c:if test="${ empty f.originName }">
+                        	첨부파일이 없습니다.
+                        </c:if>
+                        </td>
+                    </tr>
+                     </c:forEach>
+                
+               
 			<tr>
 				<th style="height: 50px;">내용</th>
 				<td colspan="3"></td>
 			</tr>
-
+          
 		</table>
 		<div id="detailcontent">
 			<p style="height: 150px">${ b.content }</p>
 
 		</div>
+		
+		
 		<c:if test="${ loginUser.empNo eq b.empno }">
 			<div id="cocn">
 				<button class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</button>
 				<button class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</button>
-				<button type="button" class="checkman">읽은사람</button>
+				<button type="button" class="checkman" >읽은사람</button>
 			</div>
 		
 			<form id="postForm" action="" method="post">
@@ -136,6 +169,8 @@
 						}
 						postForm.submit();
 					}
+					
+					
 				</script>
 			<br>
 			<br>
@@ -279,8 +314,34 @@
 	}  	
 	//글확인자 버튼 클릭시 모달창
 	$(document).on("click",".checkman", function(){
+		var wno = ${ b.writeno }
+		$.ajax({
+			url:"readuser.do", 
+			data:{wno:wno}, 
+			type:"get", 
+			success:function(list){
+				$("#userList").html('');
+				console.log(list)
+				var ulist = list
+				var str = "";			
+				$.each(ulist, function(i){
+					
+					 str += "<tr class='userlistdetailtable'>"
+	                 str += "<th class='userlistdetailtabletd'>" +ulist[i].deptname +"&nbsp;"+'</th>'	                 
+	                 str += '<th>' +ulist[i].writer + '</th>'
+	                 str += '</tr>'
+				});		
+				$("#userList").append(str);
 	$(".checkmans").css("display","flex");
+	
+}
+			
+
 })
+		})
+
+
+
 </script>
 <script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 <script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>

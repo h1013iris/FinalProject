@@ -130,22 +130,20 @@
 	            </div>
 	        </li>
 	        <li>
-            <a class="calender" href="calendar.do"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/캘린더.png" alt=""></a>
+            <a class="calender" href="calendar.do?empNo=${ loginUser.empNo }&departmentNo=${ loginUser.departmentNo }"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/캘린더.png" alt=""></a>
             <div class="detail_nav_content">
                 <div class="nananan"><p class="detail_title">캘린더</p></div>
                 <button type="button" class="commonButton2 etcButton calenderButton"><span>일정 추가하기</span></button>
 	                <ul> 
 	                    <li class="list_title">내 캘린더</li>
 	                    <div class="hhh">
-	                    	<li><input type="checkbox" name="" id="" checked>내 할 일</li>
+	                    	<li><label for="my"><input type="checkbox" name="my" id="my" checked>내 할 일</label></li>
 	                    </div>
 	                </ul>
 	                <ul>
 	                    <li class="list_title">부서 캘린더</li>
 	                    <div class="hhh">
-		                    <li><input type="checkbox" name="" id="" checked>예시 팀1</li>
-		                    <li><input type="checkbox" name="" id="" checked>예시 팀2</li>
-		                    <li><input type="checkbox" name="" id="" checked>예시 팀3</li>
+		                    <li><label for="team"><input type="checkbox" name="team" id="team" checked>${ loginUser.departmentName }</label></li>
 	                    </div>
 	                </ul>
 	                <ul>
@@ -159,10 +157,10 @@
 	            </div>
 	        </li>
 	        <li>
-	            <a class="reservation" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/회의실 예약.png" alt=""></a>
+	            <a class="reservation" href="roomReservation.do"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/회의실 예약.png" alt=""></a>
 	            <div class="detail_nav_content">
 	                <div class="nananan"><p class="detail_title">회의실 예약</p></div>
-	                <button type="button" class="commonButton2 etcButton"><span>예약하기</span></button>
+	                <button type="button" class="commonButton2 etcButton ReservationRoombtn"><span>예약하기</span></button>
 	                <ul> 
 	                    <li class="list_title"><a href="#">회의실 예약 현황</a></li>
 	                    <div class="hhh">
@@ -175,7 +173,7 @@
 	            </div>
 	        </li>
 	        <li>
-	            <a class="departmentpage" href="departmentPage.do"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/부서페이지.png" alt=""></a>
+	            <a class="departmentpage" href="departmentPage.do?departmentNo=${loginUser.departmentNo}&userNo=${loginUser.empNo}"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/부서페이지.png" alt=""></a>
 	            <div class="detail_nav_content">
 	                <div class="nananan"><p class="detail_title">부서별 페이지</p></div>
 	                <button type="button" class="commonButton2 etcButton annoDepartEnrollButton"><span>공지사항 등록</span></button>
@@ -251,14 +249,14 @@
 	            </div>
 	        </li>
 	        <li>
-	            <a class="operationpage" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/경영페이지.png" alt=""></a>
+	            <a class="operationpage" href="manangeMain.do"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/경영페이지.png" alt=""></a>
 	            <div class="detail_nav_content">
 	                <div class="nananan"><p class="detail_title">경영지원 페이지</p></div>
-	                <button type="button" class="commonButton2 etcButton"><span>공지사항 등록</span></button>
+	                <button type="button" class="commonButton2 etcButton annoDepartEnrollButton"><span>공지사항 등록</span></button>
 	                <ul> 
 	                    <li class="list_title">공지사항</li>
 	                    <div class="hhh">
-	                    	<li><a href="#">공지사항</a></li>
+	                    	<li><a href="#" class="annoDepart">공지사항</a></li>
 	                    </div>
 	                </ul>
 	                <ul>
@@ -322,6 +320,8 @@
 	    </ul>
 	</aside>
 	<script type="text/javascript">
+	
+
 	$(function(){
 	//부서별 페이지 공지사항 클릭했을 시에 
 	$(document).on("click",".annoDepart",function(){

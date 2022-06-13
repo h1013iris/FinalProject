@@ -23,26 +23,96 @@
 			<div class="naviLine">
 				<!--날짜 네비게이션  -->
 				<div class="navigation">
-					<a class="before_after_year" href="./calendar.do?year=${today_info.search_year-1}&month=${today_info.search_month-1}">
-						&lt;&lt;
-					<!-- 이전해 -->
-					</a> 
-					<a class="before_after_month" href="./calendar.do?year=${today_info.before_year}&month=${today_info.before_month}">
-						&lt;
-					<!-- 이전달 -->
-					</a> 
-					<span class="this_month">
-						&nbsp;${today_info.search_year}. 
-						<c:if test="${today_info.search_month<10}">0</c:if>${today_info.search_month}
-					</span>
-					<a class="before_after_month" href="/calendar.do?year=${today_info.after_year}&month=${today_info.after_month}">
-					<!-- 다음달 -->
-						&gt;
-					</a> 
-					<a class="before_after_year" href="/calendar.do?year=${today_info.search_year+1}&month=${today_info.search_month-1}">
-						<!-- 다음해 -->
-						&gt;&gt;
-					</a>
+					<c:choose>
+						<c:when test="${ empCheck == true && departmentCheck == true }">
+							<a class="before_after_year" href="./calendar.do?year=${today_info.search_year-1}&month=${today_info.search_month-1}&empNo=${empNo}&departmentNo=${departmentNo}">
+								&lt;&lt;
+							<!-- 이전해 -->
+							</a> 
+							<a class="before_after_month" href="./calendar.do?year=${today_info.before_year}&month=${today_info.before_month}&empNo=${empNo}&departmentNo=${departmentNo}">
+								&lt;
+							<!-- 이전달 -->
+							</a> 
+							<span class="this_month">
+								&nbsp;${today_info.search_year}. 
+								<c:if test="${today_info.search_month<10}">0</c:if>${today_info.search_month}
+							</span>
+							<a class="before_after_month" href="/calendar.do?year=${today_info.after_year}&month=${today_info.after_month}&empNo=${empNo}&departmentNo=${departmentNo}">
+							<!-- 다음달 -->
+								&gt;
+							</a> 
+							<a class="before_after_year" href="/calendar.do?year=${today_info.search_year+1}&month=${today_info.search_month-1}&empNo=${empNo}&departmentNo=${departmentNo}">
+								<!-- 다음해 -->
+								&gt;&gt;
+							</a>
+						</c:when>
+						<c:when test="${ empCheck == true && departmentCheck == false }">
+							<a class="before_after_year" href="./calendar.do?year=${today_info.search_year-1}&month=${today_info.search_month-1}&empNo=${empNo}">
+								&lt;&lt;
+							<!-- 이전해 -->
+							</a> 
+							<a class="before_after_month" href="./calendar.do?year=${today_info.before_year}&month=${today_info.before_month}&empNo=${empNo}">
+								&lt;
+							<!-- 이전달 -->
+							</a> 
+							<span class="this_month">
+								&nbsp;${today_info.search_year}. 
+								<c:if test="${today_info.search_month<10}">0</c:if>${today_info.search_month}
+							</span>
+							<a class="before_after_month" href="/calendar.do?year=${today_info.after_year}&month=${today_info.after_month}&empNo=${empNo}">
+							<!-- 다음달 -->
+								&gt;
+							</a> 
+							<a class="before_after_year" href="/calendar.do?year=${today_info.search_year+1}&month=${today_info.search_month-1}&empNo=${empNo}">
+								<!-- 다음해 -->
+								&gt;&gt;
+							</a>
+						</c:when>
+						<c:when test="${ empCheck == false && departmentCheck == true }">
+							<a class="before_after_year" href="./calendar.do?year=${today_info.search_year-1}&month=${today_info.search_month-1}&departmentNo=${departmentNo}">
+								&lt;&lt;
+							<!-- 이전해 -->
+							</a> 
+							<a class="before_after_month" href="./calendar.do?year=${today_info.before_year}&month=${today_info.before_month}&departmentNo=${departmentNo}">
+								&lt;
+							<!-- 이전달 -->
+							</a> 
+							<span class="this_month">
+								&nbsp;${today_info.search_year}. 
+								<c:if test="${today_info.search_month<10}">0</c:if>${today_info.search_month}
+							</span>
+							<a class="before_after_month" href="/calendar.do?year=${today_info.after_year}&month=${today_info.after_month}&departmentNo=${departmentNo}">
+							<!-- 다음달 -->
+								&gt;
+							</a> 
+							<a class="before_after_year" href="/calendar.do?year=${today_info.search_year+1}&month=${today_info.search_month-1}&departmentNo=${departmentNo}">
+								<!-- 다음해 -->
+								&gt;&gt;
+							</a>
+						</c:when>
+						<c:when test="${ empCheck == false && departmentCheck == false }">
+							<a class="before_after_year" href="./calendar.do?year=${today_info.search_year-1}&month=${today_info.search_month-1}">
+								&lt;&lt;
+							<!-- 이전해 -->
+							</a> 
+							<a class="before_after_month" href="./calendar.do?year=${today_info.before_year}&month=${today_info.before_month}">
+								&lt;
+							<!-- 이전달 -->
+							</a> 
+							<span class="this_month">
+								&nbsp;${today_info.search_year}. 
+								<c:if test="${today_info.search_month<10}">0</c:if>${today_info.search_month}
+							</span>
+							<a class="before_after_month" href="/calendar.do?year=${today_info.after_year}&month=${today_info.after_month}">
+							<!-- 다음달 -->
+								&gt;
+							</a> 
+							<a class="before_after_year" href="/calendar.do?year=${today_info.search_year+1}&month=${today_info.search_month-1}">
+								<!-- 다음해 -->
+								&gt;&gt;
+							</a>
+						</c:when>
+					</c:choose>
 				</div>
 				<div class="searchLine">
 					<div class="searchtext"><input type="text" placeholder="검색할 일정" class="searchSchedule"></div>
@@ -85,6 +155,8 @@
 											${dateList.date}
 										</div>
 										<c:forEach var="scheduleList" items="${monthList}">
+										<c:set var="list" value="${fn:replace(scheduleList.title, '&nbsp', '') }"/>
+										<c:set var="list1" value="${fn:replace(list, '.', '') }"/>
 											<c:choose>
 												<c:when test="${ fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
 												and fn:substring(scheduleList.endDate, 9, 10) == dateList.date  
@@ -92,7 +164,7 @@
 												or fn:substring(scheduleList.endDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
 												and fn:substring(scheduleList.endDate, 8, 10) == dateList.date 
 												or fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.endDate, 8, 10) == dateList.date}">
-													<div class="${ fn:replace(scheduleList.title, '&nbsp', '') }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px;">
+													<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black;">
 														${ scheduleList.title }
 													</div>
 												</c:when>
@@ -102,7 +174,7 @@
 												or fn:substring(scheduleList.startDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.startDate, 8, 10), '0') 
 												and fn:substring(scheduleList.startDate, 8, 10) == dateList.date 
 												or fn:substring(scheduleList.startDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.startDate, 8, 10) == dateList.date}">
-													<div class="${ fn:replace(scheduleList.title, '&nbsp', '') }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px;">
+													<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black;">
 														${ scheduleList.title }
 													</div>
 												</c:when>
@@ -116,6 +188,8 @@
 											${dateList.date}
 										</div>
 										<c:forEach var="scheduleList" items="${monthList}">
+										<c:set var="list" value="${fn:replace(scheduleList.title, '&nbsp', '') }"/>
+										<c:set var="list1" value="${fn:replace(list, '.', '') }"/>
 											<c:choose>
 												<c:when test="${ fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
 												and fn:substring(scheduleList.endDate, 9, 10) == dateList.date  
@@ -123,7 +197,7 @@
 												or fn:substring(scheduleList.endDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
 												and fn:substring(scheduleList.endDate, 8, 10) == dateList.date 
 												or fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.endDate, 8, 10) == dateList.date}">
-													<div class="${ fn:replace(scheduleList.title, '&nbsp', '') }" style="background-color: #${ scheduleList.selectColor}; display:none;">
+													<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black;">
 														${ scheduleList.title }
 													</div>
 												</c:when>
@@ -133,7 +207,7 @@
 												or fn:substring(scheduleList.startDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.startDate, 8, 10), '0') 
 												and fn:substring(scheduleList.startDate, 8, 10) == dateList.date 
 												or fn:substring(scheduleList.startDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.startDate, 8, 10) == dateList.date}">
-													<div class="${ fn:replace(scheduleList.title, '&nbsp', '') }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px;">
+													<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px;  color:black;">
 														${ scheduleList.title }
 													</div>
 												</c:when>
@@ -149,6 +223,8 @@
 								${dateList.date}
 							</div>
 								<c:forEach var="scheduleList" items="${monthList}">
+								<c:set var="list" value="${fn:replace(scheduleList.title, '&nbsp', '') }"/>
+								<c:set var="list1" value="${fn:replace(list, '.', '') }"/>
 									<c:choose>
 										<c:when test="${ fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
 										and fn:substring(scheduleList.endDate, 9, 10) == dateList.date  
@@ -156,7 +232,7 @@
 										or fn:substring(scheduleList.endDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
 										and fn:substring(scheduleList.endDate, 8, 10) == dateList.date 
 										or fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.endDate, 8, 10) == dateList.date}">
-											<div class="${ fn:replace(scheduleList.title, '&nbsp', '') }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px;">
+											<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black;">
 												${ scheduleList.title }
 											</div>
 										</c:when>
@@ -166,7 +242,7 @@
 										or fn:substring(scheduleList.startDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.startDate, 8, 10), '0') 
 										and fn:substring(scheduleList.startDate, 8, 10) == dateList.date 
 										or fn:substring(scheduleList.startDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.startDate, 8, 10) == dateList.date}">
-											<div class="${ fn:replace(scheduleList.title, '&nbsp', '') }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px;">
+											<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black;">
 												${ scheduleList.title }
 											</div>
 										</c:when>
@@ -180,6 +256,8 @@
 								${dateList.date}
 							</div>
 								<c:forEach var="scheduleList" items="${monthList}">
+								<c:set var="list" value="${fn:replace(scheduleList.title, '&nbsp', '') }"/>
+								<c:set var="list1" value="${fn:replace(list, '.', '') }"/>
 									<c:choose>
 										<c:when test="${ fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
 										and fn:substring(scheduleList.endDate, 9, 10) == dateList.date  
@@ -187,7 +265,7 @@
 										or fn:substring(scheduleList.endDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
 										and fn:substring(scheduleList.endDate, 8, 10) == dateList.date 
 										or fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.endDate, 8, 10) == dateList.date}">
-											<div class=" ${ fn:replace(scheduleList.title, '&nbsp', '') }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px;">
+											<div class=" ${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black;">
 												${ scheduleList.title }
 											</div>
 										</c:when>
@@ -197,7 +275,7 @@
 										or fn:substring(scheduleList.startDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.startDate, 8, 10), '0') 
 										and fn:substring(scheduleList.startDate, 8, 10) == dateList.date 
 										or fn:substring(scheduleList.startDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.startDate, 8, 10) == dateList.date}">
-											<div class=" ${ fn:replace(scheduleList.title, '&nbsp', '') }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px;">
+											<div class=" ${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black;">
 												${ scheduleList.title }
 											</div>
 										</c:when>
@@ -280,13 +358,32 @@
 	
 	</div>
 	<script>
+	
+		// 헤더 클릭 시 체크여부 확인 후 필터 적용하기
+		$(document).on("change",'#my, #team',function(){
+			let empNo = "";
+			let departmentNo = "";
+			
+			if($("#my").is(":checked") && $("#team").is(":checked")){ // 모두 체크 시
+				console.log("모두 체크!!!!!")
+				empNo = "${empNo}";
+				departmentNo = "${departmentNo}";
+				location.href = "calendar.do?empNo="+empNo+"&departmentNo="+departmentNo;
+			}else if($("#my").is(":checked") && !$("#team").is(":checked")){ // 내할일만 체크시
+	            console.log("내 할 일만 !! 체크박스 체크했음!");
+				empNo = "${empNo}";
+	            location.href = "calendar.do?empNo="+empNo;
+	        }else if($("#team").is(":checked") && !$("#my").is(":checked")){ // 부서만 체크시
+	            console.log("부서만 !! 체크박스 체크했음!");
+				departmentNo = "${departmentNo}";
+	            location.href = "calendar.do?departmentNo="+departmentNo;
+	        }else{ // 둘다 체크가 안되있을 시
+	            console.log("모두 !! 체크박스 체크 해제!");
+	            location.href = "calendar.do";
+	        }
+	    });
+	
 		// 상세조회로 이동
-		// 안들어와짐 
-		// 시도1. 모달에 스크립도 해도 안들어옴
-		// 시도2. click 함수로도 안들어옴
-		// 시도3. on해서 click도 안들어옴
-		// 시도4. 위치를 바꿔도 안들어옴
-		//".calenderSearchList_body .cal_document"
 		$(document).on('click',".calenderSearchList_body .cal_document",function() {
 			console.log("cal_document 클릭함!!!!!!!")
 			let startDate = $(this).children().eq(0).val()
@@ -294,6 +391,8 @@
 			let writerNo = $(this).children().eq(2).val()
 			
 			calenderDetail(startDate, endDate, writerNo);
+			$('.calenderSearchList_body').empty()
+			$('.calenderSearchListModal').css("display","none");
 		})	
 	
 		// 뒤로가기 클릭 시 닫힘
@@ -331,7 +430,7 @@
 								let calDocument = $('<div>').addClass("cal_document")
 								let top = $('<div>').addClass("cal-sList-top")
 								let title = $("<span>").addClass('cal-sList-title').html(val.title)
-								let open = $("<span>").addClass('cal-sList-open').text("내 할 일")
+								let open = $("<span>").addClass('cal-sList-open').text("내 할 일").css("background-color","#"+val.selectColor)
 								if(val.openOption == '팀공개'){
 									open.text(val.department)
 								}else if(val.openOption == '전체공개'){
@@ -354,7 +453,7 @@
 								span.append(p1).append(p2)
 								middle.append(span).append(input)
 								top.append(title).append(open)
-								calDocument.append(hidStart).append(hidEnd).append(top).append(middle)
+								calDocument.append(hidStart).append(hidEnd).append(hidWriter).append(top).append(middle)
 								$('.calenderSearchList_body').append(calDocument)
 								
 								$(".calenderSearchListModal").css("display","flex")
@@ -496,24 +595,47 @@
 		})
 		
 		// 호버시 display : block
-		$("li").mouseenter(function(){
+		$(".today-Schedule li").mouseenter(function(){
 			//var reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gim;
 			let block = $(this).attr("class")
-			block = block.replace(/&nbsp/gi, "").replace(/&nbsp;$/gi, "");
+			block = block.replace(/&nbsp/gi, "").replace(/&nbsp;$/gi, "").replace(/\./gi, "");
 			console.log(block)
 			$("."+block).not("li").css({"display": "block","height":"15%"})
 		})
 		
 		// 마우스가 떠났을 시 display : none
-		$("li").mouseleave(function(){
+		$(".today-Schedule li").mouseleave(function(){
 			let none = $(this).attr("class")
-			none = none.replace(/&nbsp/gi, "").replace("&nbsp;$", "");
+			none = none.replace(/&nbsp/gi, "").replace("&nbsp;$", "").replace(/\./gi, "");
 			console.log(none)
 			$("."+none).not("li").css({"display": "none","height":"15%"})
 		})
 		
-		// 시작날짜부터 종료날짜까지 색칠 하기
+		// 시작날짜부터 종료날짜까지 색칠 하기 및 필터 적용 한 체크 박스 값 넣기
 		$(function() {		
+			// 필터 적용한 체크 값 넣어주기
+			let empcheck = ${empCheck};
+			let departcheck = ${departmentCheck};
+			
+			// 둘다 체크가 되어 있으면
+			if(empcheck == true && departcheck == true){
+				// 체크박스 바꾸기
+				$("#my, #team").attr("checked", true)
+			}else if(empcheck == true && departcheck == false){
+				// 개인공개만 하면
+				$("#my").attr("checked", true)
+				$("#team").attr("checked", false)
+			}else if(empcheck == false && departcheck == true){
+				// 팀공개만 하면
+				$("#my").attr("checked", false)
+				$("#team").attr("checked", true)
+			}else{
+				// 둘다 체크 안했을 시 (전체만)
+				$("#my").attr("checked", false)
+				$("#team").attr("checked", false)
+			}
+			
+			// 시작 날짜부터 종료 날짜 까지 색칠
 			let arr = new Array();	
 			
 			<c:forEach items="${monthList}" var="scheduleList">
@@ -545,7 +667,7 @@
 						console.log(val.title+" 은 한달내에 끝남 " + start.getDate() + "일 ~ " + end.getDate() +"일")
 
 						for(let i = start.getDate()+1 ; i < end.getDate() ; i++){
-							let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp/gi, "")).append("ㅤ")
+							let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp/gi, "").replace(/\./gi, "")).append("ㅤ")
 							let td = $(".td"+i)//.append(div);
 							
 							console.log(colordiv)
@@ -561,7 +683,7 @@
 					
 					console.log("말 일 : "+lastDay)
 					for(let i = start.getDate()+1 ; i <= lastDay.getDate() ; i++){
-						let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp/gi, "")).append("ㅤ")
+						let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp/gi, "").replace(/\./gi, "")).append("ㅤ")
 						let td = $(".td"+i)//.append(div);
 						
 						console.log(colordiv)
@@ -575,7 +697,7 @@
 					
 					console.log("첫 일 : "+firstDay)
 					for(let i = firstDay.getDate()  ; i < end.getDate() ; i++){
-						let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp/gi, "")).append("ㅤ")
+						let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp/gi, "").replace(/\./gi, "")).append("ㅤ")
 						let td = $(".td"+i)//.append(div);
 						
 						console.log(colordiv)
@@ -587,7 +709,7 @@
 					let lastDay = new Date(${ today_info.search_year }, ${ today_info.search_month }+1, 0);
 					
 					for(let i = firstDay.getDate() ; i <= lastDay.getDate() ; i++){
-						let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp/gi, "")).append("ㅤ")
+						let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp/gi, "").replace(/\./gi, "")).append("ㅤ")
 						let td = $(".td"+i)//.append(div);
 						
 						console.log(colordiv)

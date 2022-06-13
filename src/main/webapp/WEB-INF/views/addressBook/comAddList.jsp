@@ -46,14 +46,15 @@
 </style>
 <div class="main_section">
 <div id="container">
-  
+
+<button type="button" onclick="location.href='comAdd.do'">거래처주소록</button>
+<button type="button" onclick="location.href='custoAdd.do'">고객주소록</button>
 
 <!--거래처 주소록 폴더들 표시될곳-->
-
 <div id="left">
-<!-- 거래처 주소록 메인으로 이동 -->
-</div>
+
 <jsp:include page="../addressBook/comAddTitle.jsp"></jsp:include>
+</div>
 <!--고객 주소록 내용이 표시될곳-->
 <div id="addcon">
 <table>

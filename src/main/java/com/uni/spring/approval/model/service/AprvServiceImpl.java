@@ -346,6 +346,27 @@ public class AprvServiceImpl implements AprvService {
 			throw new CommException("문서 보안 요청 실패");
 		}
 	}
+
+
+	@Override // 보안 요청된 문서인지 조회
+	public int docScrtyReqCheck(int docNo) {
+		
+		return aprvDao.docScrtyReqCheck(sqlSession, docNo);
+	}
+
+
+	@Override // 진행 상태 확인 리스트 개수
+	public int statusListCount(int empNo) {
+		
+		return aprvDao.statusListCount(sqlSession, empNo);
+	}
+
+
+	@Override // 진행 상태 확인 리스트 조회
+	public ArrayList<AprvDoc> selectStatusList(PageInfo pi, int empNo) {
+		
+		return aprvDao.selectStatusList(sqlSession, pi, empNo);
+	}
 	
 
 

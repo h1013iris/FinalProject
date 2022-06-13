@@ -1,10 +1,14 @@
 package com.uni.spring.member.controller;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +35,8 @@ public class MemberController {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	//회원가입 이전에 사번 입력하는 화면으로 이동
 	@GetMapping(value="empNo.do")
@@ -87,7 +93,7 @@ public class MemberController {
 		if(result > 0) {
 			System.out.println("성공");
 		} else {
-			System.out.println("실페");
+			System.out.println("실패");
 		}
 		memberService.updateNewMember(m);
 		
@@ -145,11 +151,125 @@ public class MemberController {
 	@PostMapping("selectFindId.do")
 	public String selectFindId(WideMember wm, Model model) {
 		
-		System.out.println("jsp에서 값이 넘어왔나용?"+wm);//넘어옴..!!
+		System.out.println("jsp에서 값이 넘어왔나용?"+wm);
 		String msg = memberService.selectFindId(wm);
-		model.addAttribute("msg",msg);
-		return "member/findId";
+		//model.addAttribute("msg",msg);
+		//return "member/findId";
+		if(msg!=null){
+			model.addAttribute("msg","아이디는 "+msg+" 입니다");
+		}
+		else if(msg==null || msg.equals("")){
+			model.addAttribute("msg","아이디 찾기 정보를 다시 확인해주세요");
+		}
+		return "main";
+	}
+	
+	/*비밀번호 찾기*/
+	
+	//이메일 인증전에 사원정보 확인하기
+	@PostMapping("selectFindUser")
+	@ResponseBody//ajax
+	public String selectFindUser(Member m) {
+		System.out.println("인증하기 버튼 누르면 값이 전달되는지");
+		
+		System.out.println("비밀번호 찾기시 입력한 정보: "+m);
+		//입력받은 정보로 사원정보가 있는지 확인해야함
+		
+		int userCount=0;
+		userCount = memberService.selectFindUser(m);
+		
+		String count = Integer.toString(userCount);
+		return count; 
 	}
 	
 	
+	
+	
+	//이메일 인증
+	@GetMapping("mailCheck")
+	@ResponseBody//ajax쓸때 잊지말기
+	public String mailCheckGET(String email) throws Exception{
+		
+		//view에서 데이터 넘어오는지 확인
+		System.out.println("이메일 데이터 전송 확인");
+		System.out.println("인증번호 전달할 이메일 : "+ email);
+		
+		/*인증번호 랜덤값 생성*/
+		//Random클래스 객체변수 random선언
+		Random random = new Random();
+		//111111부터 999999사이의 랜덤숫자를 얻기
+		int checkNum = random.nextInt(888888)+111111;
+		System.out.println("랜덤인증번호: "+checkNum);
+		
+		/*이메일 보내기*/
+		//메일 전송시 넣을 내용
+		String setFrom ="latte_co@naver.com";//root-context.xml에 넣은 이메일주소
+		String toMail = email;//메일 보낼 이메일 주소
+		String title = "<LATTE>비밀번호 찾기 인증번호 입니다";//메일 제목
+		String content =	//메일 내용
+				"안녕하세요 LATEE 비밀번호 찾기 서비스입니다~ " +
+				"<br><br>"+
+				"비밀번호 찾기 인증번호는 "+checkNum+"입니다. "+
+				"<br><br>"+
+				"전송된 인증번호를 인증번호 확인란에 정확히 입력 해주세요."+
+				"<br><br>"+
+				"감사합니다.";
+	
+		//실제 메일전송을 위함 MimeMessage : 멀티파트메일을 보낼때 사용
+		try {
+			
+			MimeMessage message = mailSender.createMimeMessage();			
+		
+			//여기서 true는 멀티파트메시지를 사용하겠다는 의미
+			MimeMessageHelper helper = new MimeMessageHelper(message,true,"utf-8");
+			
+			helper.setFrom(setFrom);//보내는이
+			helper.setTo(toMail);//받는이
+			
+			//여기서의 true는 html을 사용하겠다는 의미
+			helper.setSubject(title);//메일제목
+			helper.setText(content,true);//메일내용
+			mailSender.send(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//만든건 int인데 ajax는 String 타입만 가능하기 때문에 변환해서 뷰로 넘겨야함
+		String num = Integer.toString(checkNum);
+		
+		return num;
+	}
+	
+	@PostMapping("findPwForm.do")
+	public String findPwForm(@RequestParam("userId") String userId, Model model){
+		model.addAttribute("userId",userId);
+		return "member/newPwForm";
+	}
+	
+	//비밀번호 변경
+	@PostMapping("updatePw")
+	public String updatePw(Member m ,Model model) {
+		
+		//제대로 정보가 넘어왔는지 확인
+		System.out.println("비밀번호 변경창으로 넘어온 정보"+m);
+		//비밀번호 암호화
+		String newPw = m.getUserPw();
+		String id = m.getUserId();
+		String encPw = bCryptPasswordEncoder.encode(newPw);
+
+		System.out.println("암호화된 비밀번호 :" +encPw);
+		m.setUserPw(encPw);
+		m.setUserId(id);
+		
+		int result = memberService.updatePw(m);
+		
+		//System.out.println("result:" + result);
+		if(result > 0) {
+			model.addAttribute("msg","비밀번호가 변경되었습니다");
+		}else {
+			model.addAttribute("msg","문제가 생겼습니다 다시 시도해주시길 바랍니다");
+			return "findIdPw";
+		}
+		return "main";
+	}
 }

@@ -2,6 +2,7 @@ package com.uni.spring.member.model.dto;
 
 import java.sql.Date;
 
+
 import lombok.Data;
 
 @Data
@@ -23,7 +24,7 @@ public class Member {
 	private String departmentNo;//int
 	
 	private String jobName;
-	
+	private String departmentName;	// 부서명 (김태연 세션 저장시 필요함)
 	
 	/*
 	USER_INFO 컬럼명

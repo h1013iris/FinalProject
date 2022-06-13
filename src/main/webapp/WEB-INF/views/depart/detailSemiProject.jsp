@@ -102,7 +102,7 @@
 	    line-height: 4.5vh;
 	    font-size: 20px;
 	}
-	.outdeletese:hover{
+	.outdeletese:hover, .outseeDelete:hover, .outseeDuetime:hover, .outseeFile:hover, .outseeChecklist:hover, .outseeMove:hover{
 		cursor: pointer;
 		background-color: white;
 		color:black;
@@ -352,10 +352,10 @@
 		font-size: 13px;
 		width: 15%;
 	}
-	.clickReplyPe:hover, .clickAttachPe:hover, .outseeDelete:hover, .outseeDuetime:hover, .outseeFile:hover, .outseeChecklist:hover{
+	.clickReplyPe:hover, .clickAttachPe:hover{
 		cursor: pointer;
 		background-color: white;
-		color:black;
+		color:#85cdff;
 	}
 	.controllPostion{
 		position: absolute;
@@ -366,13 +366,38 @@
 	    text-align: center;
 	    line-height: 30px;
 	    background-color: white;
+	    display: none;
 	}
 	.controllPostion div{
 		border: 1px solid;
 	}
+	.controllPostion div:hover{
+		background-color: #85cdff;
+		cursor: pointer;
+	}
 	.semiAttachParts{
 		border: 1px solid red;
 		display: none;
+	} 
+	.firstAttactj{
+		display: flex;
+		width: 100%;
+		margin-top: 5px;
+	}
+	.attachFileName{
+		width: 87%;
+	}
+	.attachFileName a{
+		list-style: none;
+		text-decoration: none;
+		color: black;
+	}
+	.attachFileName a:hover{
+		cursor: pointer;
+		color:#85cdff;
+	}
+	.deleteCheckBox1:hover{
+		cursor: pointer;
 	}
 </style>
 </head>
@@ -403,6 +428,7 @@
               	<input type="hidden" id ="semiNoDETAIL">
               	<input type="hidden" id ="WriterNoSemiProject">
               	<input type="hidden" id ="refProNum">
+              	<input type="hidden" id ="semiWriter">
               	<!-- 설명 적는 부분 -->
               	<div class="addWats" >
               		<div class="innerPartimgConn">
@@ -472,7 +498,7 @@
    				</div>
   				<!-- 첨부파일 부분 -->
    				<div class="semiAttachParts">
-   				
+   				 	
    				</div>
             </div>
         </div>
@@ -484,9 +510,9 @@
 	       	<div class="outseeFile" onclick ="onclickUpload();"><span>파일첨부</span></div>
 	       	<div class="outseeMove"><span>이동</span></div>
 	       	<div class="controllPostion">
-	       		<div class="controllPF"><span></span></div>
-	       		<div class="controllPS"><span></span></div>
-	       		<div class="controllPT"><span></span></div>
+	       		<div class="controllPF changeTitle"><span></span></div>
+	       		<div class="controllPS changeTitle"><span></span></div>
+	       		<div class="controllPT changeTitle"><span></span></div>
 	       	</div>
 	       	<div class="outdeletese"><span>창닫기</span></div>
 	       	<div class="outseeDelete"><span>삭제하기</span></div>
@@ -494,7 +520,7 @@
 	       		<input type="file" id ="upfile" name="uploadFile"  onchange="fileUpload(this)">
 	       		<input type="hidden" id="largeCat" name="largeCat" >
 	       		<input type="hidden" id="originName" name="originName">
-	       	</form>
+	       	</form>+
        	</div>
     </div>
 </body>
@@ -872,6 +898,9 @@
 			success:function(result){
 				if(result =="1"){
 					console.log("파일 보내기 성공")
+					selectAttachFile($("#semiNoDETAIL").val());
+					$(".semiReplyPartS").css("display","none");
+					$(".semiAttachParts").css("display","block");
 				}
 			}
 		})
@@ -893,8 +922,66 @@
 		$(".semiAttachParts").css("display","none");
 	})
 	//첨부파일 리스트 
-	$(function(){
-		
+	function selectAttachFile(num){
+		$.ajax({
+			url:"selectlListAttach.do", 
+			type:"get",
+			data:{largeCat:num},
+			success:function(list){
+		 		$checkBody = $(".semiAttachParts");
+				$checkBody.html('');
+			 	if(list.lenght == 0){
+			 		$(".semiAttachParts").text("첨부 파일 없음");
+			 	}else{
+			 		$.each(list, function(i, obj){
+						var $fdiv1 = $('<div>').addClass("firstAttactj");
+
+						var $fdiv3 = $('<div>').addClass("attachFileName");
+						var $fdiv4 = $('<a href="${ pageContext.servletContext.contextPath }/resources/upload_files/'+obj.changeName+'" download="'+ obj.originName+'" title="클릭하시면 첨부파일 다운이 됩니다">').text(obj.originName);
+						var $fdiv2 = $('<div>').text(obj.uploadDate);
+						$fdiv3.append($fdiv4);
+						var $checkNo1 = $('<input type="hidden" name="changeName" value='+obj.changeName+'>');
+						var $checkNo2 = $('<input type="hidden" name="fileNo" value='+obj.fileNo+'>');
+						if("${loginUser.empNo}"==$("#semiWriter").val()){
+							var $dele = $("<div class='deleteCheckBox1' onclick='deleteAttachSectDi("+obj.fileNo+",`"+obj.changeName+"`)'><img src='${ pageContext.servletContext.contextPath }/resources/images/close.png' alt='' width='18'>");
+						}
+						$fdiv1.append($fdiv3);
+						$fdiv1.append($fdiv2);
+						$fdiv1.append($checkNo1);
+						$fdiv1.append($checkNo2);
+						$fdiv1.append($dele);
+						$checkBody.append($fdiv1);
+					})
+			 	}
+			}
+		})
+	}
+	//삭제 (첨부파일 개별)
+	function deleteAttachSectDi(fileNo, changeName){
+		var semiNo = $("#semiNoDETAIL").val();//세부 번호
+		console.log(fileNo)
+		console.log(changeName)
+		$.ajax({
+			url:"deleteAttachOne.do", 
+			type:"post", 
+			data:{fileNo:fileNo, changeName:changeName}, 
+			success: function(result){
+				if(result == "1"){
+					console.log("개별 삭제 ")
+					selectAttachFile(semiNo);
+					$(".semiReplyPartS").css("display","none");
+					$(".semiAttachParts").css("display","block");
+				}
+			}
+		})
+	}
+	$(".changeTitle").click(function(){
+		var semiNo =  $("#semiNoDETAIL").val();//세부 번호
+		var refPc = $(this).children().html();//분류 명
+		location.href="updateTagSemi.do?semiNo="+semiNo+"&refPc="+refPc+"&refPro="+$("#refProNum").val();
+	})
+	$(".outseeMove").click(function(){
+		$(".controllPostion").css("display","block");
 	})
 </script>
 </html>
