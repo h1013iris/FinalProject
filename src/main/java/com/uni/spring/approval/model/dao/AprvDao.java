@@ -9,9 +9,11 @@ import org.springframework.stereotype.Repository;
 import com.uni.spring.admin.model.dto.Department;
 import com.uni.spring.approval.model.dto.AprvDoc;
 import com.uni.spring.approval.model.dto.AprvHistory;
+import com.uni.spring.approval.model.dto.AprvStatus;
 import com.uni.spring.approval.model.dto.BusCoopForm;
 import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
+import com.uni.spring.approval.model.dto.DocOutbox;
 import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.approval.model.dto.ReturnDoc;
 import com.uni.spring.approval.model.dto.SecurityDoc;
@@ -59,9 +61,9 @@ public class AprvDao {
 		return sqlSession.insert("aprvMapper.insertCmtUpdateApp", cmtUpdateForm);
 	}
 
-	public ArrayList<Department> selectDeptList(SqlSessionTemplate sqlSession) {
+	public ArrayList<Department> selectDeptList(SqlSessionTemplate sqlSession, int deptNo) {
 		
-		return (ArrayList)sqlSession.selectList("aprvMapper.selectDeptList");
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectDeptList", deptNo);
 	}
 
 	public int insertBusDraft(SqlSessionTemplate sqlSession, BusDraftForm busDraftForm) {
@@ -202,21 +204,136 @@ public class AprvDao {
 		return sqlSession.selectOne("aprvMapper.docScrtyReqCheck", docNo);
 	}
 
-	public int statusListCount(SqlSessionTemplate sqlSession, int empNo) {
+	public int statusListCount(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
 		
-		return sqlSession.selectOne("aprvMapper.statusListCount", empNo);
+		return sqlSession.selectOne("aprvMapper.statusListCount", aprvDoc);
 	}
 
-	public ArrayList<AprvDoc> selectStatusList(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
+	public ArrayList<AprvDoc> selectStatusList(SqlSessionTemplate sqlSession, PageInfo pi, AprvDoc aprvDoc) {
 		
 		// 페이징처리 위해 오프셋, 로우바운즈
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("aprvMapper.selectStatusList", empNo, rowBounds);
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectStatusList", aprvDoc, rowBounds);
 	}
-	
+
+	public String selectApprover(SqlSessionTemplate sqlSession, int docNo) {
+		
+		return sqlSession.selectOne("aprvMapper.selectApprover", docNo);
+	}
+
+	public int selectAprvStatus(SqlSessionTemplate sqlSession, int docNo) {
+		
+		return sqlSession.selectOne("aprvMapper.selectAprvStatus", docNo);
+	}
+
+	public ArrayList<AprvStatus> aprvStatusList(SqlSessionTemplate sqlSession) {
+		
+		return (ArrayList)sqlSession.selectList("aprvMapper.aprvStatusList");
+	}
+
+	public int saveLeaveFormOutbox(SqlSessionTemplate sqlSession, LeaveForm leaveForm) {
+		
+		return sqlSession.insert("aprvMapper.saveLeaveFormOutbox", leaveForm);
+	}
+
+	public int saveDocOutbox(SqlSessionTemplate sqlSession, DocOutbox docOutbox) {
+		
+		return sqlSession.insert("aprvMapper.saveDocOutbox", docOutbox);
+	}
+
+	public int updateDateOutbox(SqlSessionTemplate sqlSession, DocOutbox docOutbox) {
+		
+		return sqlSession.update("aprvMapper.updateDateOutbox", docOutbox);
+	}
+
+	public int updateLeaveFormOutbox(SqlSessionTemplate sqlSession, LeaveForm leaveForm) {
+		
+		return sqlSession.update("aprvMapper.updateLeaveFormOutbox", leaveForm);
+	}
+
+	public int saveCmpUdpFormOutbox(SqlSessionTemplate sqlSession, CmtUpdateForm cmtUpdateForm) {
+		
+		return sqlSession.insert("aprvMapper.saveCmpUdpFormOutbox", cmtUpdateForm);
+	}
+
+	public int saveDraftFormOutbox(SqlSessionTemplate sqlSession, BusDraftForm busDraftForm) {
+		
+		return sqlSession.insert("aprvMapper.saveDraftFormOutbox", busDraftForm);
+	}
+
+	public int saveCoopFormOutbox(SqlSessionTemplate sqlSession, BusCoopForm busCoopForm) {
+		
+		return sqlSession.insert("aprvMapper.saveCoopFormOutbox", busCoopForm);
+	}
+
+	public int outboxListCount(SqlSessionTemplate sqlSession, int empNo) {
+		
+		return sqlSession.selectOne("aprvMapper.outboxListCount", empNo);
+	}
+
+	public ArrayList<DocOutbox> selectOutboxList(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
+		
+		// 페이징처리 위해 오프셋, 로우바운즈
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectOutboxList", empNo, rowBounds);
+	}
+
+	public int selectOutboxDocTypeNo(SqlSessionTemplate sqlSession, int outboxNo) {
+		
+		return sqlSession.selectOne("aprvMapper.selectOutboxDocTypeNo", outboxNo);
+	}
+
+	public LeaveForm selectLeaveFormOutbox(SqlSessionTemplate sqlSession, int outboxNo) {
+		
+		return sqlSession.selectOne("aprvMapper.selectLeaveFormOutbox", outboxNo);
+	}
+
+	public CmtUpdateForm selectCmtUdtFormOutbox(SqlSessionTemplate sqlSession, int outboxNo) {
+		
+		return sqlSession.selectOne("aprvMapper.selectCmtUdtFormOutbox", outboxNo);
+	}
+
+	public BusDraftForm selectDraftFormOutbox(SqlSessionTemplate sqlSession, int outboxNo) {
+		
+		return sqlSession.selectOne("aprvMapper.selectDraftFormOutbox", outboxNo);
+	}
+
+	public BusCoopForm selectCoopFormOutbox(SqlSessionTemplate sqlSession, int outboxNo) {
+		
+		return sqlSession.selectOne("aprvMapper.selectCoopFormOutbox", outboxNo);
+	}
+
+	public int deleteOutboxDoc(SqlSessionTemplate sqlSession, int outboxNo) {
+		
+		return sqlSession.delete("aprvMapper.deleteOutboxDoc", outboxNo);
+	}
+
+	public int deleteLeaveApp(SqlSessionTemplate sqlSession, int outboxNo) {
+		
+		return sqlSession.delete("aprvMapper.deleteLeaveApp", outboxNo);
+	}
+
+	public int deleteCmtUpdateApp(SqlSessionTemplate sqlSession, int outboxNo) {
+		
+		return sqlSession.delete("aprvMapper.deleteCmtUpdateApp", outboxNo);
+	}
+
+	public int deleteBusDraft(SqlSessionTemplate sqlSession, int outboxNo) {
+		
+		return sqlSession.delete("aprvMapper.deleteBusDraft", outboxNo);
+	}
+
+	public int deleteBusCoop(SqlSessionTemplate sqlSession, int outboxNo) {
+		
+		return sqlSession.delete("aprvMapper.deleteBusCoop", outboxNo);
+	}
+
 	
 
 }

@@ -24,11 +24,12 @@
   		<typeAlias type="com.uni.spring.approval.model.dto.LeaveForm" alias="LeaveForm"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.SecurityDoc" alias="SecurityDoc"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.ReturnDoc" alias="ReturnDoc"/>
-  		<typeAlias type="com.uni.spring.approval.model.dto.OutboxDoc" alias="OutboxDoc"/>
+  		<typeAlias type="com.uni.spring.approval.model.dto.DocOutbox" alias="DocOutbox"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.LeaveForm" alias="LeaveForm"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.CmtUpdateForm" alias="CmtUpdateForm"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.BusDraftForm" alias="BusDraftForm"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.BusCoopForm" alias="BusCoopForm"/>
+  		<typeAlias type="com.uni.spring.approval.model.dto.AprvStatus" alias="AprvStatus"/>
   		<!--  게시글 -->
   		<typeAlias type="com.uni.spring.board.model.dto.Board" alias="Board"/>
   		<typeAlias type="com.uni.spring.board.model.dto.coment" alias="coment"/>
@@ -55,7 +56,10 @@
   		<typeAlias type="com.uni.spring.admin.model.dto.Job" alias="Job"/>
   		<!-- 부서 -->
   		<typeAlias type="com.uni.spring.admin.model.dto.Department" alias="DepartmentList"/>
-
+  		<!-- 회의실룸 -->
+		<typeAlias type="com.uni.spring.reservation.model.dto.ReservationRoom" alias="ReservationRoom"/>
+		<!-- 회의실 예약정보 -->
+		<typeAlias type="com.uni.spring.reservation.model.dto.Reservation" alias="Reservation"/>
   		<!-- 사원상세정보 -->
   		<typeAlias type="com.uni.spring.admin.model.dto.employeeAllInfo" alias="empInfo"/>
   		<!-- 게시판관리 -->
@@ -68,6 +72,11 @@
   		<!-- 경영지원 -->
   		<typeAlias type="com.uni.spring.manageMent.model.dto.manageDepart" alias="manageDepart"/>
   		<typeAlias type="com.uni.spring.manageMent.model.dto.AttendlogMana" alias="AttendlogMana"/>
+  		<!-- 마이페이지 -->
+  		<!-- 업무일지 -->
+  		<typeAlias type="com.uni.spring.mypage.model.dto.Journal" alias="journal"/>
+  		<!-- todoList -->
+  		<typeAlias type="com.uni.spring.mypage.model.dto.ToDoList" alias="todolist"/>
   	</typeAliases>
   	
   	<!-- 
@@ -84,7 +93,9 @@
   		<mapper resource="/mappers/calender-mapper.xml"/>
   		<mapper resource="/mappers/addressBook-mapper.xml"/>
   		<mapper resource="/mappers/adminMapper.xml"/>
+  		<mapper resource="/mappers/mypageMapper.xml"/>
   		<mapper resource="/mappers/aprvMgt-mapper.xml"/>
+  		<mapper resource="/mappers/reservation-mapper.xml"/>
   		<mapper resource="/mappers/manage-mapper.xml"/>
   	</mappers>
   	

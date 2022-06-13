@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="reservationMapper">
+	<resultMap type="ReservationRoom" id="ReservationRoomResultSet">
+		<id property="roomLargeNo" column="ROOM_LARGE_NO"/>
+		<result property="roomSmallNo" column="ROOM_SMALL_NO"/>
+		<result property="lRoomName" column="LROOM_NAME"/>
+		<result property="sRoomName" column="SROOM_NAME"/>
+		<result property="maxCount" column="MAX_COUNT"/>
+		<result property="status" column="STATUS"/>
+	</resultMap>
+	<resultMap type="Reservation" id="ReservationResultSet">
+		<id property="reserveNo" column="RESERVE_NUM"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="roomSmallNo" column="ROOM_SMALL_NO"/>
+		<result property="startDate" column="START_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+		<result property="meetingName" column="MEETING_NAME"/>
+		<result property="status" column="STATUS"/>
+	</resultMap>
+	<resultMap type="DepartmentManagement" id="departmentResultSet">
+		<result property="departNo" column="DEPARTMENT_NO"/>
+		<result property="departmentTitle" column="DEPARTMENT_TITLE"/>
+	</resultMap>
+	<resultMap type="Member" id="memberResultSet">
+	 	<id property="empNo" column="EMP_NO"/>
+	 	<result property="empNo" column="EMP_NO"/>
+	 	<result property="empName" column="EMP_NAME"/>
+	</resultMap>
+	
+	
+	<select id="selectReservationRoomList" resultMap="ReservationRoomResultSet">
+		SELECT 
+			A.ROOM_LARGE_NO,
+			A.ROOM_SMALL_NO,
+			B.LROOM_NAME,
+			A.SROOM_NAME,
+			A.MAX_COUNT,
+			A.STATUS
+		FROM MEETINGROOM_MANAGEMENT A 
+		JOIN MEETINGROOM_CATEGORY_LARGE B ON (A.ROOM_LARGE_NO = B.ROOM_LARGE_NO)
+	</select>
+	<select id="selectList" resultMap="ReservationRoomResultSet">
+		SELECT 
+			A.RESERVE_NUM,
+	 		A.EMP_NO,
+	 		A.ROOM_SMALL_NO,
+	 		C.LROOM_NAME,
+	 		B.SROOM_NAME,
+	 		A.START_DATE,
+	 		A.END_DATE,
+	 		A.MEETING_NAME
+		FROM RESERVE_LIST A
+		JOIN MEETINGROOM_MANAGEMENT B ON (A.ROOM_SMALL_NO = B.ROOM_SMALL_NO)
+		JOIN MEETINGROOM_CATEGORY_LARGE C ON (B.ROOM_LARGE_NO = C.ROOM_LARGE_NO)
+		<where>
+			A.STATUS = 'Y'
+			<if test="empNo != null">
+				AND EMP_NO = #{empNo}
+			</if>
+			<if test="searchYear != null">
+				AND EXTRACT(YEAR FROM A.START_DATE) = #{searchYear}
+				AND EXTRACT(MONTH FROM A.START_DATE) = #{searchMonth}
+				AND EXTRACT(DAY FROM A.START_DATE) = #{searchDate}
+			</if>
+		</where>
+	</select>
+	<select id="selectLroomList" resultMap="ReservationRoomResultSet">
+		SELECT 
+			A.ROOM_LARGE_NO,
+			A.LROOM_NAME
+		FROM MEETINGROOM_CATEGORY_LARGE A 
+	</select>
+	<select id="selectSroomList" resultMap="ReservationRoomResultSet">
+		SELECT 
+			A.ROOM_SMALL_NO,
+			A.SROOM_NAME,
+			A.MAX_COUNT,
+			A.STATUS
+		FROM MEETINGROOM_MANAGEMENT A 
+		WHERE A.STATUS = 'Y'
+		AND A.ROOM_LARGE_NO = #{lNo}
+	</select>
+	<select id="selectResDepartment" resultMap="departmentResultSet">
+		SELECT *
+		FROM DEPARTMENT_MANAGEMENT
+	</select>
+	<select id="selectResAddress" resultMap="memberResultSet">
+	 	SELECT EMP_NO, EMP_NAME 
+	 	FROM USER_INFO
+	 	WHERE DEPARTMENT_NO=#{dNo}
+	 	AND STATUS='N'
+	 </select>
+ 	<insert id="insertReservation" parameterType="Reservation">
+		INSERT INTO RESERVE_LIST
+		VALUES
+		(SEQ_RESERVE.NEXTVAL, #{empNo}, #{roomSmallNo}, 
+		TO_DATE(#{startDate},'YYYY-MM-DD HH24:MI'), TO_DATE(#{endDate},'YYYY-MM-DD HH24:MI'), 
+		#{meetingName}, DEFAULT)
+	</insert>
+ 	<insert id="insertAttendee" parameterType="arraylist">
+	 	<foreach collection="list" item="item">
+			INSERT INTO ATTENDEE_LIST
+			VALUES
+			(SEQ_ATTE.NEXTVAL, #{item.attendeeNo}, SEQ_RESERVE.CURRVAL, DEFAULT)
+		</foreach>
+	</insert>
+</mapper>

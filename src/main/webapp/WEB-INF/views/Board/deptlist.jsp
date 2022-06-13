@@ -10,7 +10,7 @@
 <style>
 #boardList {
 	text-align: center;
-	margin-left : 5%;
+	
 	
 }
 
@@ -64,12 +64,9 @@
 	box-shadow: 0px 0px 2px 2px #4c87b099;
 }
 
-.all {
-	width: 84vw;
-}
 
 .ham {
-	margin-left: 18%;
+	margin-left: 16%;
 }
 
 #bu3 {
@@ -80,11 +77,11 @@
 .noticelist {
 	width: 84vw;
 	margin-left : 5%;
+	
 }
 
 #pagingArea {
-	width: fit-content;
-	margin-left: 32%;
+	text-align: center;
 }
 
 #tex {
@@ -95,6 +92,7 @@
 .dpAll {
 	display: flex;
 	justify-content: flex-end;
+    
 }
 .select {
   -o-appearance: none;
@@ -115,6 +113,11 @@ margin-top:1%;
 .dropdown2{
 margin-top:1%;
 }
+
+.deptlistboardtable{
+ text-align: -webkit-center;
+}
+
 
 </style>
 </head>
@@ -148,9 +151,11 @@ margin-top:1%;
 						</c:forEach>
 					</select>						
 				</div>
+				</div>
 			</form>
 			</div>
-			<div class="noticelist" style="padding: 5% 10%;">
+			<div class="noticelist">
+			 <div class="deptlistboardtable">
 				<table id="boardList" class="table table-hover" >
 					<thead>
 						<tr>
@@ -177,6 +182,7 @@ margin-top:1%;
 						</tr>
 					</c:if>
 				</table>
+				</div>
 				<br>
 				<div id="pagingArea">
 					<ul class="pagination">
@@ -238,7 +244,7 @@ margin-top:1%;
 
 				</div>
 			</div>
-
+</div>
 
 			<script>
 			

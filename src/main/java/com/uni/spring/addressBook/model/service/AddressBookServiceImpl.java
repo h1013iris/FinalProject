@@ -136,5 +136,18 @@ public class AddressBookServiceImpl implements AddressBookService {
 	addressBookDao.updateCustoList(sqlSession,custo);
 	}
 
+	//거래처 주소록 삭제하기
+	@Override
+	public int deleteComAdd(String compNo) {
+		// TODO Auto-generated method stub
+	return addressBookDao.deleteComAdd(sqlSession,compNo);	
+	}
+
+	@Override
+	public int deleteCusAdd(String cusNo) {
+		// TODO Auto-generated method stub
+		return addressBookDao.deleteCusAdd(sqlSession,cusNo);	
+	}
+
 
 }

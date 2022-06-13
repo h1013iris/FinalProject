@@ -1,4 +1,4 @@
-@CHARSET "UTF-8";
+@charset "UTF-8";
 
 /*header 부분*/
 
@@ -91,6 +91,10 @@ a{
 .title_name {
     font-size: 20px;
     font-weight: 600;
+}
+
+.pro_img{
+    cursor: pointer;
 }
 
 
@@ -320,7 +324,13 @@ a{
     margin-bottom: 35px;
  }
 
-
+ #journal_btn{
+     height: 50px;
+ }
+ 
+ #work_request_btn{
+     height: 50px;
+ }
 
 
 /* alert모달창 */
@@ -541,4 +551,17 @@ a{
 .ok_btn, .cancel_btn, .next_btn{
     width: 50px;
     height: 30px;
+}
+
+/*회의실 예약 상세메뉴*/
+ul.reservation-Bigul {
+    margin-top: 10px;
+    margin-left: 20px;
+    font-size: 18px;
+    font-weight: 600;
+}
+a.reservationRoom-smallList {
+    font-size: 17px;
+    margin-left: 15px;
+    font-weight: 400;
 }

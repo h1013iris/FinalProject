@@ -29,6 +29,7 @@ public class AprvDoc {
 	private String firstJob; // 1차 결재자 직급
 	private String secondJob; // 2차 결재자 직급
 	
+	private String aprvStatusName; // 결재 상태 이름
 	
 	
 	

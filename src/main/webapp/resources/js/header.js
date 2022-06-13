@@ -22,7 +22,8 @@ $(function(){
 	
 	// 예약하기 버튼 클릭 시 페이지 이동
 	$(document).on("click",".ReservationRoombtn", function(){
-		location.href="enrollFormReservation.do";
+		
+		$(".reservationEnrollFormModal").css("display","flex");
 	}) 
 	
 	//4대보험 계산기 모달창
@@ -45,8 +46,6 @@ $(function(){
         $(".count").hide();
     }
 
-
-    
     
 	// 모달창 취소 - 공통
 	$(document).on("click",".cancel_btn",function(){
@@ -71,6 +70,7 @@ $(function(){
     
 	
 })
+
 // 이메일API 스크립트
 // code fragment
 function emailAPI(empName, email, empNo){
@@ -165,4 +165,13 @@ $(".status_swap").click(function(){
             $(".login_status").css("display","none")
         }
     })
-    
+
+
+$("#journal_btn").click(function(){
+    location.href="journalInsertPage";
+})
+
+$("#work_request_btn").click(function(){
+    $(".work_request_modal").css("display","flex");
+})
+

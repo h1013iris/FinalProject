@@ -98,17 +98,12 @@ public class BoardSeriveImpl implements BoardService {
 			con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
 			b.setContent(con);
 			b.setDeptno(deno);
-			int result = BoardDao.insertdept(sqlSession, b );
-		}else {
-
-			String con = b.getContent();
-			con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
-			b.setContent(con);	    
+			BoardDao.deletepno(sqlSession, b );
 			int result = BoardDao.insertboard(sqlSession, b );
 			if(result < 0) {
 				throw new CommException("게시글 추가 실패");
 			}
-	    }
+		}
 		
 	}
 	

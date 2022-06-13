@@ -121,4 +121,16 @@ public class AddressBookDao {
 		sqlSession.update("addressBookMapper.updateCustoList", custo);
 	}
 
+	//거래처 주소록 삭제하기
+	public int deleteComAdd(SqlSessionTemplate sqlSession, String compNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("addressBookMapper.deleteComAdd",compNo);
+	}
+
+	//고객 주소록 삭제하기
+	public int deleteCusAdd(SqlSessionTemplate sqlSession, String cusNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("addressBookMapper.deleteCusAdd",cusNo);
+	}
+
 }

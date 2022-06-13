@@ -23,7 +23,7 @@
             width: 170px;
         }
 
-        span {
+        .insert_container span {
             display: inline-block;
             width: 200px;
             text-align: center;
@@ -32,13 +32,18 @@
 
         .input_box{
             text-align: center;
-            width: 75vw;
         }
 
         .btn_box {
             text-align: center;
-            margin-top: 50px;
+            margin-top: 50px !important;
         }
+
+		.insert_container{
+			width: 390px;
+			/* text-align: center; */
+			margin: 100px auto;
+		}
     </style>
 </head>
 <body>
@@ -54,7 +59,7 @@
 	                <span>부서</span>
 	                <select name="deptNo" id="dept">
 	                	<c:forEach items="${ deptList }" var="d">
-		                    <option value="${ d.departmentNo }">${ d.departmentTitle }</option>              	
+		                    <option value="${ d.deptNo }">${ d.deptTitle }</option>              	
 	                	</c:forEach>
 	                </select>
 	            </div>

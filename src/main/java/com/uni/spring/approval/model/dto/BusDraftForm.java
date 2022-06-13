@@ -19,8 +19,8 @@ public class BusDraftForm { // 업무 기안서
 	private int drafter; // 기안자
 	private int drafterDept; // 기안자 소속
 	private Date dftDate; // 기안일
-	private Date enfDate; // 시행일
-	private int coopDept; // 협조 부서
+	private String enfDate; // 시행일 (자바 클래스에서 null 값이 들어갈 수 있도록 String 으로 수정)
+	private Integer coopDept; // 협조 부서 (임시저장 시 null 값 넣기 위해 Integer로 수정)
 	private String dftContent; // 기안서 내용
 	
 	private String empName;

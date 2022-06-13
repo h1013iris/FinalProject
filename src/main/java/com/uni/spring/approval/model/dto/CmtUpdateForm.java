@@ -20,7 +20,7 @@ public class CmtUpdateForm { // 근태 기록 수정 의뢰 신청서
 	private int drafter; // 기안자
 	private int drafterDept; // 기안자 소속
 	private Date dftDate; // 기안일
-	private Date updateDate; // 수정일
+	private String updateDate; // 수정일 (자바 클래스에서 null 값이 들어갈 수 있도록 String 으로 수정)
 	private String beAttendTime; // 기존 출근 시간
 	private String beLeaveTime; // 기존 출근 시간
 	private String attendTime; // 수정 출근 시간

@@ -204,22 +204,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<!-- 글작성 -->
+	
 	<insert id="insertboard" parameterType="Board">
 
 		INSERT INTO BOARD
-		VALUES(SEQ_NOTI.NEXTVAL, #{title}, #{content}, SYSDATE, DEFAULT,
-		#{boardno} ,#{empno} ,NULL )
-
-
-
-	</insert>
-	<insert id="insertdept" parameterType="Board">
-
-		INSERT INTO BOARD
-		VALUES(SEQ_NOTI.NEXTVAL, #{title}, #{content}, SYSDATE, DEFAULT,
-		#{boardno} ,#{empno} ,#{deptno} )
-
-
+		VALUES(SEQ_NOTI.NEXTVAL, #{title}, #{content}, SYSDATE, DEFAULT, #{boardno} ,#{empno} ,#{deptno} )
 
 	</insert>
 
@@ -454,13 +443,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		A.WRITE_NO = #{wno}
 
 	</select>
-
-	<insert id="savefiles" parameterType="Attachment">
-		INSERT INTO ATTACHMENT
-		VALUES(SEQ_ATTACH.NEXTVAL, 20 ,SEQ_NOTI.CURRVAL, #{originName}, #{changeName}, SYSDATE, DEFAULT)
-
-
-
-	</insert>
+	
+	 <insert id="savefiles" parameterType="Attachment">
+   INSERT INTO ATTACHMENT
+   VALUES(SEQ_ATTACH.NEXTVAL, 20 ,SEQ_NOTI.CURRVAL, #{originName}, #{changeName}, SYSDATE, DEFAULT)
+   
+   
+   
+   </insert>
+   
+    <update id="deletepno" parameterType="Board">
+		UPDATE P_BOX 
+        SET STATUS='N' 
+        WHERE P_NUM= #{pno}
+	</update>
 
 </mapper>
