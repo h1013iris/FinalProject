@@ -17,9 +17,11 @@ import com.google.gson.GsonBuilder;
 import com.uni.spring.admin.model.dto.Department;
 import com.uni.spring.approval.model.dto.AprvDoc;
 import com.uni.spring.approval.model.dto.AprvHistory;
+import com.uni.spring.approval.model.dto.AprvStatus;
 import com.uni.spring.approval.model.dto.BusCoopForm;
 import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
+import com.uni.spring.approval.model.dto.DocOutbox;
 import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.approval.model.dto.ReturnDoc;
 import com.uni.spring.approval.model.dto.SecurityDoc;
@@ -151,9 +153,9 @@ public class AprvController {
 	// 부서 조회
 	@ResponseBody
 	@RequestMapping(value="selectDeptList.do", produces="application/json; charset=utf-8")
-	public String selectDeptList() {
+	public String selectDeptList(int deptNo) {
 		
-		ArrayList<Department> list = aprvService.selectDeptList();
+		ArrayList<Department> list = aprvService.selectDeptList(deptNo);
 		
 		return new Gson().toJson(list);
 	}
@@ -383,17 +385,6 @@ public class AprvController {
 	
 	
 	
-	// 임시 보관함 메인
-	@RequestMapping("outboxMain.do")
-	public ModelAndView outboxMain(ModelAndView mv) {
-		
-		mv.setViewName("approval/outbox/outboxMain");
-		
-		return mv;
-	}
-	
-	
-	
 	// 결재 완료 메인
 	@RequestMapping("completeMain.do")
 	public ModelAndView completeMain(ModelAndView mv) {
@@ -562,10 +553,262 @@ public class AprvController {
 	
 	
 	
-
+	// 진행 상태 확인 리스트
+	@ResponseBody
+	@RequestMapping(value="statusList.do", produces="application/json; charset=utf-8")
+	public String selectStatusList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, AprvDoc aprvDoc) {
+				
+		int listCount = aprvService.statusListCount(aprvDoc);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<AprvDoc> list = aprvService.selectStatusList(pi, aprvDoc);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+	}
+	
+	
+	
+	// 진행 상태 확인 상세 조회
+	@RequestMapping("statusnDetail.do")
+	public ModelAndView detailStatusDoc(int docNo, ModelAndView mv) {
+		
+		// 해당 문서의 서식 번호 가져오기
+		int docType = aprvService.selectDocTypeNo(docNo);
+		
+		// 해당 문서 상태값 조회
+		int aprvStatus = aprvService.selectAprvStatus(docNo);
+		
+		mv.addObject("docNo", docNo)
+		.addObject("docType", docType)
+		.addObject("aprvStatus", aprvStatus)
+		.setViewName("approval/status/statusDetailView");
+		
+		return mv;
+	}
 	
 
 	
+	// 상태값이 진행 중인 경우 현재 결재자 조회
+	@ResponseBody
+	@RequestMapping(value="selectApprover.do", produces="application/json; charset=utf-8")
+	public String selectApprover(int docNo) {
+				
+		String approver = aprvService.selectApprover(docNo);
+		
+		return new Gson().toJson(approver);
+	}
+	
+	
+	
+	// 결재 문서 상태값 리스트 조회
+	@ResponseBody
+	@RequestMapping(value="selectAprvStatusList.do", produces="application/json; charset=utf-8")
+	public String selectAprvStatusList() {
+		
+		ArrayList<AprvStatus> list = aprvService.aprvStatusList();
+		
+		return new Gson().toJson(list);
+	}
+	
+	
+	
+	// 진행 상태 확인함에서 선택한 상태값에 따른 리스트 조회
+	@ResponseBody
+	@RequestMapping(value="statusConditionList.do", produces="application/json; charset=utf-8")
+	public String selectStatusConditionList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, AprvDoc aprvDoc) {
+		
+		System.out.println(aprvDoc.toString());
+		
+		int listCount = aprvService.statusListCount(aprvDoc);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<AprvDoc> list = aprvService.selectStatusList(pi, aprvDoc);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+	}
+	
+	
+	
+	// 휴가 신청서 임시 보관함에 저장
+	@ResponseBody
+	@RequestMapping(value="saveLeaveFormOutbox.do", produces="application/json; charset=utf-8")
+	public String saveLeaveFormOutbox(DocOutbox docOutbox, LeaveForm leaveForm) {
+		
+		System.out.println(docOutbox.toString());
+		System.out.println(leaveForm.toString());
+		
+		aprvService.saveLeaveFormOutbox(docOutbox, leaveForm);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	
+	// 근태 기록 수정 신청서 임시 보관함에 저장
+	@ResponseBody
+	@RequestMapping(value="saveCmpUdpFormOutbox.do", produces="application/json; charset=utf-8")
+	public String saveCmpUdpFormOutbox(DocOutbox docOutbox, CmtUpdateForm cmtUpdateForm) {
+		
+		System.out.println(cmtUpdateForm.toString());
+		
+		aprvService.saveCmpUdpFormOutbox(docOutbox, cmtUpdateForm);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	
+	// 업무 기안서 임시 보관함에 저장
+	@ResponseBody
+	@RequestMapping(value="saveDraftFormOutbox.do", produces="application/json; charset=utf-8")
+	public String saveDraftFormOutbox(DocOutbox docOutbox, BusDraftForm busDraftForm) {
+		
+		System.out.println(busDraftForm.toString());
+		
+		aprvService.saveDraftFormOutbox(docOutbox, busDraftForm);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	
+	// 업무 협조문 신청서 임시 보관함에 저장
+	@ResponseBody
+	@RequestMapping(value="saveCoopFormOutbox.do", produces="application/json; charset=utf-8")
+	public String saveCoopFormOutbox(DocOutbox docOutbox, BusCoopForm busCoopForm) {
+		
+		System.out.println(busCoopForm.toString());
+		
+		aprvService.saveCoopFormOutbox(docOutbox, busCoopForm);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	
+	// 임시 보관함 메인
+	@RequestMapping("outboxMain.do")
+	public ModelAndView outboxMain(ModelAndView mv) {
+		
+		mv.setViewName("approval/outbox/outboxMain");
+		
+		return mv;
+	}
+	
+	
+	
+	// 임시 보관 리스트 조회
+	@ResponseBody
+	@RequestMapping(value="selectOutboxList.do", produces="application/json; charset=utf-8")
+	public String selectOutboxList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, int empNo) {
+				
+		int listCount = aprvService.outboxListCount(empNo);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<DocOutbox> list = aprvService.selectOutboxList(pi, empNo);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+	}
+	
+	
+	
+	// 임시 보관 문서 임시 보관함 상세 조회
+	@RequestMapping("outboxDetail.do")
+	public ModelAndView detailOutboxDetailDoc(int outboxNo, ModelAndView mv) {
+		
+		// 해당 문서의 서식 번호 가져오기
+		int docType = aprvService.selectOutboxDocTypeNo(outboxNo);
+		
+		mv.addObject("outboxNo", outboxNo)
+		.addObject("docType", docType)
+		.setViewName("approval/outbox/outboxDetailView");
+		
+		return mv;
+	}
+	
+	
+	
+	// 휴가 신청서 임시 보관함 상세 조회
+	@ResponseBody
+	@RequestMapping(value="selectLeaveFormOutbox.do", produces="application/json; charset=utf-8")
+	public String selectLeaveFormOutbox(int outboxNo) {
+		
+		LeaveForm leaveForm = aprvService.selectLeaveFormOutbox(outboxNo);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(leaveForm);
+	}
+	
+	
+	
+	// 근태 기록 수정 신청서 임시 보관함 상세 조회
+	@ResponseBody
+	@RequestMapping(value="selectCmtUdtFormOutbox.do", produces="application/json; charset=utf-8")
+	public String selectCmtUdtFormOutbox(int outboxNo) {
+		
+		CmtUpdateForm cmtUpdateForm = aprvService.selectCmtUdtFormOutbox(outboxNo);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(cmtUpdateForm);
+	}
+	
+	
+	
+	// 업무 기안서 임시 보관함 상세 조회
+	@ResponseBody
+	@RequestMapping(value="selectDraftFormOutbox.do", produces="application/json; charset=utf-8")
+	public String selectDraftFormOutbox(int outboxNo) {
+		
+		BusDraftForm busDraftForm = aprvService.selectDraftFormOutbox(outboxNo);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(busDraftForm);
+	}
+	
+	
+	
+	// 업무 협조문 상세 조회
+	@ResponseBody
+	@RequestMapping(value="selectCoopFormOutbox.do", produces="application/json; charset=utf-8")
+	public String selectCoopFormOutbox(int outboxNo) {
+		
+		BusCoopForm busCoopForm = aprvService.selectCoopFormOutbox(outboxNo);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(busCoopForm);
+	}
+	
+	
+	
+	// 임시 저장 문서 삭제
+	@ResponseBody
+	@RequestMapping(value="deleteOutboxDoc.do", produces="application/json; charset=utf-8")
+	public String deleteOutboxDoc(int outboxNo, int docType) {
+		
+		aprvService.deleteOutboxDoc(outboxNo, docType);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 휴가 신청서 업데이트
+	/*@ResponseBody
+	@RequestMapping(value="updateLeaveFormOutbox.do", produces="application/json; charset=utf-8")
+	public String updateLeaveFormOutbox(DocOutbox docOutbox, LeaveForm leaveForm) {
+
+		aprvService.updateLeaveFormOutbox(docOutbox, leaveForm);
+		
+		return new Gson().toJson("success");
+	}*/
 	
 	
 	

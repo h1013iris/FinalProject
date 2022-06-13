@@ -9,25 +9,21 @@
 <style type="text/css">
 	.main_section {
 		/*border: 1px solid black;*/
-	}
-	
-	.docDetailViewDiv {
-		margin-right: 3%;
-		width: 84vw;
+		padding: 100px;
 	}
 	
 	.docDetailBackground {
 		width: 1150px;
-		height: 720px;
+		height: 790px;
 		border: 1px solid #e6e6e6;
 		background-color: #e6e6e6;
 		border-radius: 15px;
-		box-shadow: 0 0 8px #afafaf;	
+		box-shadow: 0 0 8px #afafaf;
 	}
 	
 	.docDetailMainArea {
 		/*border: 1px solid red;*/
-		padding: 60px 0 60px 10%;
+		padding: 70px 0 60px 10%;
 		float: left;
 	}
 	
@@ -44,8 +40,8 @@
 	
 	.docDetailBtnsArea {
 		/*padding-top: 34%;*/
-		padding-left: 20px;
-		padding-top: 60px;
+		margin-left: 85.4%;
+		padding-top: 65px;
 	}
 	
 	.docDetailBtn {
@@ -67,21 +63,21 @@
 		/*text-align: right;*/
 	}
 	
-	.updateForm_btn {
+	.docUpdateForm_btn {
 		background-color: #6a6a6a !important;
 		box-shadow: 0px 5px 0px 0px #545454 !important;
 	}
 	
-	.updateForm_btn:hover {
+	.docUpdateForm_btn:hover {
 		box-shadow: 0px 0px 0px 0px #545454 !important;
 	}
 	
-	.delete_btn {
+	.outboxDocDelete_btn {
 		background-color: #6a6a6a !important;
 		box-shadow: 0px 5px 0px 0px #545454 !important;
 	}
 	
-	.delete_btn:hover {
+	.outboxDocDelete_btn:hover {
 		box-shadow: 0px 0px 0px 0px #545454 !important;
 	}
 	
@@ -105,22 +101,22 @@
 		        <%-- 문서 서식에 맞게 폼 뜨도록 --%>
 		        <c:choose>
 		        	<c:when test="${ docType == 10 }">
-		        		<jsp:include page="../documentDetailView/leaveFormDetailView.jsp"/>
+		        		<jsp:include page="../outboxDocDetailView/leaveOutboxDView.jsp"/>
 		        	</c:when>
 		        	<c:when test="${ docType == 11 }">
-		        		<jsp:include page="../documentDetailView/cmtUpdateFormDetailView.jsp"/>
+		        		<jsp:include page="../outboxDocDetailView/cmtUpdateOutboxDView.jsp"/>
 		        	</c:when>
 		        	<c:when test="${ docType == 20 }">
-		        		<jsp:include page="../documentDetailView/busDraftFormDetailView.jsp"/>
+		        		<jsp:include page="../outboxDocDetailView/busDraftOutboxDView.jsp"/>
 		        	</c:when>
 		        	<c:when test="${ docType == 30 }">
-		        		<jsp:include page="../documentDetailView/busCoopFormDetailView.jsp"/>
+		        		<jsp:include page="../outboxDocDetailView/busCoopOutboxDView.jsp"/>
 		        	</c:when>
 	        	</c:choose>
 				<div class="docDetailBtnsArea">
 					<button class="commonButton1 approve_btn docDetailBtn" type="button">결재요청</button><br>
-					<button class="commonButton1 updateForm_btn docDetailBtn" type="button">수정</button><br>
-					<button class="commonButton1 delete_btn docDetailBtn" type="button">삭제</button><br>
+					<button class="commonButton1 docUpdateForm_btn docDetailBtn" type="button">수정</button><br>
+					<button class="commonButton1 outboxDocDelete_btn docDetailBtn" type="button">삭제</button><br>
 					<button class="commonButton1 outboxList_btn docDetailBtn" onclick="location.href='outboxMain.do'" type="button">목록으로</button>
 				</div>
 			</div>
@@ -128,6 +124,7 @@
     </div>
     
     <script type="text/javascript">
+    
 	    $(document).ready(function() {
 			// 로그인이 되어있지 않으면
 			if("${ loginUser.empNo }" == "") {	
@@ -135,6 +132,71 @@
 				loginFn(); // 로그인 먼저
 			}
 		});
+	    
+	    
+	    // 삭제 버튼 클릭 시
+	    $(document).on("click", ".outboxDocDelete_btn", function() {
+	    	
+	    	let title = "임시 보관 삭제";
+	    	let content = "해당 문서를 임시 보관함에서 삭제하시겠습니까?";
+	    	
+	    	myConfirm(title, content);
+	    	
+	    	// 취소 버튼 클릭 시 모달 끄기
+	    	$(".false_btn").click(function(){
+	    	    $("#helpmeCOnfirm").hide();
+	    	})
+
+	    	// 확인 버튼 클릭 시 삭제 진행
+	    	$(".true_btn").click(function(){
+	    		$("#helpmeCOnfirm").hide();
+	            
+	    		$.ajax({
+	    			
+	    			type: "post",
+	    			url: "deleteOutboxDoc.do",
+	    			data: { outboxNo : ${ outboxNo },
+	    					docType : ${ docType } },
+	    			success: function(result) {
+						
+	    				if(result == "success") {
+							
+							let content = "임시 저장 문서가 성공적으로 삭제되었습니다.";
+ 	                    	returnFn(content);
+	 	           	 		
+ 	                    } else {
+ 	                    	
+ 	                    	let content = "임시 저장 문서 삭제에 실패하였습니다.";
+ 	                    	returnFn(content);
+ 	               		}
+	    			}
+	    			
+	    		});
+	    	})
+	    	
+	    });
+	    
+	    
+	    
+	    
+	    
+	    
+	 	// 알림 띄우고 임시 보관함 메인으로 돌아가는 함수
+    	function returnFn(content) {
+    	    
+    		$("#alertBackground .title_name").text("임시 저장 문서 삭제");
+    	    $("#alertBackground .alert_content").text(content);
+    	    $("#alertBackground").show();
+    	    
+    	 	// 확인 버튼 클릭 시 alert 모달 사라지고
+    		$(document).on("click", ".cancel_btn", function() {
+     			
+    			$("#alertBackground").css("display","none")
+    			// 반려 문서함 메인으로 이동
+    			location.href="outboxMain.do";
+    		})
+    	}
+	    
     </script>
     
 </body>

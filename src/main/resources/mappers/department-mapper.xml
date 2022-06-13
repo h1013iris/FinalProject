@@ -88,6 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM ANNOUNCE_DEPART AD
 		JOIN USER_INFO ON (ANNO_WR=EMP_NO)
 		WHERE REF_DEPART = #{adno}
+		AND REF_DEPART NOT LIKE 3
 		AND AD.STATUS='Y'
 	</select>
 	<select id="selectAnnoDepartListMain" parameterType="_int" resultMap="departmentResultSet">
@@ -99,6 +100,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				JOIN USER_INFO ON (ANNO_WR=EMP_NO)
 				WHERE REF_DEPART =  #{adno}
 				AND AD.STATUS='Y')
+		WHERE ROWNUM <=6
+		]]>
+	</select>
+	<select id="selectBoardDepartListMain" parameterType="_int" resultType="Board">
+		<![CDATA[
+		SELECT *
+		FROM(
+		SELECT WRITE_NO, TITLE, B_DATE AS CREATE_DATE, EMP_NO, DEPARTMENT_NO AS DEPT_NO
+		FROM BOARD
+		WHERE DEPARTMENT_NO = #{departmentNo}
+		AND BOARD_NO = 3)
 		WHERE ROWNUM <=5
 		]]>
 	</select>

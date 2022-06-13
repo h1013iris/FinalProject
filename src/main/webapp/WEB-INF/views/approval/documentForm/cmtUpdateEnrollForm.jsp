@@ -244,14 +244,18 @@
                 			jobNo : "${ loginUser.jobNo }"},
  	                success: function (data) {
 						console.log(data);
- 	                	if(data != null || data != "") {
+ 	                	
+						if(data != null || data != "") {
  	                		
  	                		$("#firstAprvName").val(data[0].empName);
  	                		$("#firstAprv").val(data[0].empNo);
  	                		$("#firstAprvJob").val(data[0].jobName);
- 	                		$("#secondAprvName").val(data[1].empName);
- 	                		$("#secondAprv").val(data[1].empNo);
- 	                		$("#secondAprvJob").val(data[1].jobName);
+ 	                		
+ 	                		if(data.length > 1) {
+ 	                			$("#secondAprvName").val(data[1].empName);
+ 	 	                		$("#secondAprv").val(data[1].empNo);
+ 	 	                		$("#secondAprvJob").val(data[1].jobName);
+ 	                		}
  	                	}
  	                }
 		 		})
@@ -351,22 +355,6 @@
  		})
  		
  		
- 		
- 		
- 		//
- 		$(".outbox_btn").click(function() {
- 			
- 			let attendTime = $("#attendTime").val();
- 			let leaveTime = $("#leaveTime").val();
- 			let today = new Date(+ new Date() + 3240 * 10000).toISOString();
- 			
- 			console.log(attendTime);
- 			console.log(taday);
- 			console.log(typeof(today));
- 		})
- 		
- 		
- 		
  		// 결재 요청 버튼 클릭 시
  		$(".submit_btn").click(function() {
  			
@@ -426,39 +414,92 @@
  			// 모두 잘 입력되어 있는 경우
  			} else {
  				
- 				// 폼의 모든 데이터 저장해서 변수로 선언
- 	 			let form = $(".docEnrollForm").serialize();
- 	 			
- 				// post 방식으로 폼 제출
- 	 			$.ajax({
- 	 				
- 	 				type: "post",
- 	                url: "insertCmtUpdateApp.do",
- 	                data: form,
- 	                success: function (result) {
- 	                	console.log(result)
- 	                	
- 	                    if(result == "success") {
-							
- 	                    	let title = "결재 요청 확인";
- 	                    	let content = "결재가 성공적으로 요청되었습니다.";
-
- 	                    	myAlert(title, content);
- 	                    	resultFn();
-	 	           	 		
- 	                    } else {
- 	                    	
- 	                    	let title = "결재 요청 확인";
- 	                    	let content = "결재 요청에 실패하였습니다.";
-
- 	                    	myAlert(title, content);
- 	                    	resultFn();
- 	               		}
- 	                }
- 	        	});
+				approveCheckFn(); // 결재 요청 확인 모달 띄우는 함수 실행
+				
+				// 확인 버튼 클릭 시 confirm 모달 사라지고 결재 승인 진행
+	    		$(document).on("click", ".true_btn", function() {
+	    			$("#helpmeCOnfirm").hide();
+	    			
+	    			cmpUpdateEnrollFn(); // 근태 기록 수정 신청서 결재 요청 함수
+	    		});
+	    		
+	    		// 취소 클릭 시 confirm 모달 닫기만
+	    		$(".false_btn").click(function() {
+	    		    $("#helpmeCOnfirm").hide();
+	    		});
  			}	
  		});
  		
+ 		
+ 		// 근태 기록 수정 신청서 결재 요청 함수
+ 		function cmpUpdateEnrollFn() {
+ 			
+ 			// 폼의 모든 데이터 저장해서 변수로 선언
+ 			let form = $(".docEnrollForm").serialize();
+ 			
+			// post 방식으로 폼 제출
+ 			$.ajax({
+ 				
+ 				type: "post",
+                url: "insertCmtUpdateApp.do",
+                data: form,
+                success: function (result) {
+                	console.log(result)
+                	
+                    if(result == "success") {
+					
+                    	let title = "결재 요청 확인";
+                    	let content = "결재가 성공적으로 요청되었습니다.";
+
+                    	myAlert(title, content);
+                    	resultFn();
+	           	 		
+                    } else {
+                    	
+                    	let title = "결재 요청 확인";
+                    	let content = "결재 요청에 실패하였습니다.";
+
+                    	myAlert(title, content);
+                    	resultFn();
+               		}
+                }
+        	});
+ 		}
+ 		
+ 		
+ 		// 임시저장 버튼 클릭 시 
+ 		$(document).on("click", ".donEnrollOutboxBtn", function() {
+ 		
+ 			// 폼의 모든 데이터 저장해서 변수로 선언
+ 			let form = $(".docEnrollForm").serialize();
+ 		
+ 			// 임시 보관함에 저장하는 ajax 실행
+    		$.ajax({
+    			
+    			type: "post",
+    			url: "saveCmpUdpFormOutbox.do",
+    			data: form,
+    			success: function(result) {
+    				console.log(result);
+    				
+    				if(result == "success") {
+    					let title = "임시 보관함 저장"
+    					let content = "해당 문서가 임시 보관함에 저장되었습니다."
+    					
+    					myAlert(title, content);
+    					resultFn(); // 취소 클릭 시 결재 메인으로 이동
+    					
+    				} else {
+    					let title = "임시 보관함 저장"
+   						let content = "임시 보관함에 저장을 실패하었습니다."
+   					
+   						myAlert(title, content);
+    					resultFn();
+    				}
+    			}
+    		});
+ 			
+ 		});
 		
  	</script>
  	

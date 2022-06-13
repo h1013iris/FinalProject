@@ -149,7 +149,7 @@
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;" colspan="3">
 								<span contenteditable="false" style="width: 100%;">
 									<select class="ipt_editor" id="receiveDept" name="receiveDept" style="width: 30%;">
-										<option value="none">선택</option>
+										<option value="">선택</option>
 										<!-- 부서 리스트 출력되는 부분 -->
 									</select>
 								</span> 
@@ -177,8 +177,10 @@
 	 		</div>
  			<div class="docEnrollBtnsArea">
 				<button class="commonButton1 submit_btn docEnrollBtn" type="button">결재요청</button> <br>
-				<button class="commonButton1 outbox_btn docEnrollBtn donEnrollOutboxBtn" type="button">임시저장</button> <br> <%-- 임시저장 기능 --%>
-				<button class="commonButton1 cancle_btn docEnrollBtn donEnrollCancleBtn" type="button" style="background-color: #c8c8c8 !important;">취소</button>
+				<button class="commonButton1 outbox_btn docEnrollBtn donEnrollOutboxBtn" 
+						type="button">임시저장</button> <br> <%-- 임시저장 기능 --%>
+				<button class="commonButton1 cancle_btn docEnrollBtn donEnrollCancleBtn" 
+						type="button" style="background-color: #c8c8c8 !important;">취소</button>
 			</div>
  		</form>
 	</div>
@@ -224,15 +226,19 @@
 	                data: { deptNo : "${ loginUser.departmentNo }",
 	                		jobNo : "${ loginUser.jobNo }"},
 	                success: function (data) {
-					console.log(data);
-	                	if(data != null || data != "") {
+						console.log(data);
+	                	
+						if(data != null || data != "") {
 	                		
 	                		$("#firstAprvName").val(data[0].empName);
 	                		$("#firstAprv").val(data[0].empNo);
 	                		$("#firstAprvJob").val(data[0].jobName);
-	                		$("#secondAprvName").val(data[1].empName);
-	                		$("#secondAprv").val(data[1].empNo);
-	                		$("#secondAprvJob").val(data[1].jobName)
+	                		
+	                		if(data.length > 1) {
+ 	                			$("#secondAprvName").val(data[1].empName);
+ 	 	                		$("#secondAprv").val(data[1].empNo);
+ 	 	                		$("#secondAprvJob").val(data[1].jobName);
+ 	                		}
 	                	}
 	                }
 		 		})
@@ -242,12 +248,16 @@
 		 					 			
 		 			type: "post",
  	                url: "selectDeptList.do",
+ 	               	data: { deptNo : "${ loginUser.departmentNo }" },
  	                success: function (list) {
-						console.log(list);
+						
+ 	                	console.log(list);
+ 	                	
  	                	if(list != null || list != "") {
  	                		
  	                		$.each(list, function(i) {
- 	                			$("#receiveDept").append("<option value='" + list[i].departmentNo + "'>" + list[i].departmentTitle + "</option>");
+ 	                			$("#receiveDept").append("<option value='" + list[i].deptNo + "'>" 
+ 	                									 + list[i].deptTitle + "</option>");
  	                		});
  	                	}
  	                }
@@ -284,49 +294,91 @@
  			// 잘 작성되었으면 폼 제출
 			} else {
 				
-				// 폼의 모든 데이터 저장해서 변수로 선언
- 	 			let form = $(".docEnrollForm").serialize();
+				approveCheckFn(); // 결재 요청 확인 모달 띄우는 함수 실행
 				
-				$.ajax({
-					
-					type: "post",
- 	                url: "insertBusCoop.do",
- 	                data: form,
- 	                success: function (result) {
- 	               		console.log(result)
- 	                	
- 	                   	if(result == "success") {
-							
- 	                   		let title = "결재 요청 확인";
- 	                    	let content = "결재가 성공적으로 요청되었습니다.";
- 	                    	
- 	                    	myAlert(title, content);
- 	                    	resultFn();
-	 	           	 		
- 	                    } else {
- 	                    	
- 	                    	let title = "결재 요청 확인";
- 	                    	let content = "결재 요청에 실패하였습니다.";
- 	                    	
- 	                    	myAlert(title, content);
- 	                    	resultFn();
- 	               		}
- 	                }
-				});
+				// 확인 버튼 클릭 시 confirm 모달 사라지고 결재 승인 진행
+	    		$(document).on("click", ".true_btn", function() {
+	    			$("#helpmeCOnfirm").hide();
+	    			
+					busCoopEnrollFn(); // 업무 협조문 결재 요청 함수
+	    		});
+	    		
+	    		// 취소 클릭 시 confirm 모달 닫기만
+	    		$(".false_btn").click(function() {
+	    		    $("#helpmeCOnfirm").hide();
+	    		});
 			}
 		});
 		
 		
-		// 임시저장 버튼 클릭 시 
- 		$(".outbox_btn").click(function() {
+		// 업무 협조문 결재 요청 함수
+		function busCoopEnrollFn() {
 			
- 			let coopTitle = $("#coopTitle").val();
- 			$("#docTitle").val(coopTitle); // 결재 문서 객체에 저장하기 위해
- 			
- 			console.log(coopTitle);
- 			console.log($("#docTitle").val());
- 		});
+			// 폼의 모든 데이터 저장해서 변수로 선언
+ 			let form = $(".docEnrollForm").serialize();
+			
+			$.ajax({
+				
+				type: "post",
+                url: "insertBusCoop.do",
+                data: form,
+                success: function (result) {
+               		console.log(result)
+                	
+                   	if(result == "success") {
+					
+                   		let title = "결재 요청 확인";
+                    	let content = "결재가 성공적으로 요청되었습니다.";
+                    	
+                    	myAlert(title, content);
+                    	resultFn();
+	           	 		
+                    } else {
+                    	
+                    	let title = "결재 요청 확인";
+                    	let content = "결재 요청에 실패하였습니다.";
+                    	
+                    	myAlert(title, content);
+                    	resultFn();
+               		}
+                }
+			});
+		}
 		
+		
+		// 임시저장 버튼 클릭 시 
+ 		$(document).on("click", ".donEnrollOutboxBtn", function() {
+ 		
+ 			// 폼의 모든 데이터 저장해서 변수로 선언
+ 			let form = $(".docEnrollForm").serialize();
+ 		
+ 			// 임시 보관함에 저장하는 ajax 실행
+    		$.ajax({
+    			
+    			type: "post",
+    			url: "saveCoopFormOutbox.do",
+    			data: form,
+    			success: function(result) {
+    				console.log(result);
+    				
+    				if(result == "success") {
+    					let title = "임시 보관함 저장"
+    					let content = "해당 문서가 임시 보관함에 저장되었습니다."
+    					
+    					myAlert(title, content);
+    					resultFn(); // 취소 클릭 시 결재 메인으로 이동
+    					
+    				} else {
+    					let title = "임시 보관함 저장"
+   						let content = "임시 보관함에 저장을 실패하었습니다."
+   					
+   						myAlert(title, content);
+    					resultFn();
+    				}
+    			}
+    		});
+ 			
+ 		});
 		
 		
 	</script>

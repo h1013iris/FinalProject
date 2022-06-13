@@ -42,27 +42,10 @@ $(function(){
     }
 
 
-    $(".status_swap").click(function(){
-        if($(".status_list").css("display") == "block"){
-            $(".status_list").css("display","none")
-        } else {
-            $(".status_list").css("display","block")
-        }
-    })
-
-    $(".status").click(function(){
-        alert($(this).text());
-        $(".login_status").hide();
-    })
-
-
     $(".pro_img").click(function(){
         if($(".login_status").css("display") == "none"){
-            $(".status_list").css("display","none")
-            $(".login_status").css("display","block")
+            $("login_status").show();
         } else {
-            $(".status_list").css("display","none")
-            $(".login_status").css("display","none")
         }
     })
     
@@ -90,6 +73,7 @@ $(function(){
     
 	
 })
+
 // 이메일API 스크립트
 // code fragment
 function emailAPI(empName, email, empNo){
@@ -161,3 +145,11 @@ function loginFn() {
 	})
 
 }
+
+$("#journal_btn").click(function(){
+    location.href="journalInsertPage";
+})
+
+$("#work_request_btn").click(function(){
+    $(".work_request_modal").css("display","flex");
+})

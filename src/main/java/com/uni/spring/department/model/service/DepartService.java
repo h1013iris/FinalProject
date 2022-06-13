@@ -2,6 +2,7 @@ package com.uni.spring.department.model.service;
 
 import java.util.ArrayList;
 
+import com.uni.spring.board.model.dto.Board;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.department.model.dto.Department;
 import com.uni.spring.department.model.dto.DepartmentReply;
@@ -104,6 +105,8 @@ public interface DepartService {
 	void updateTagSemi(SemiProject sp);
 
 	ArrayList<Department> selectAnnoDepartListMain(int departmentNo);
+
+	ArrayList<Board> selectBoardDepartListMain(int departmentNo);
 
 
 }

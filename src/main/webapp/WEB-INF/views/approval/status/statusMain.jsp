@@ -8,7 +8,7 @@
 <style type="text/css">
 	
 	.mainDiv {
-		padding: 100px;
+		padding: 50px 100px 80px 100px;
 		text-align: center;
 	}
 	
@@ -27,19 +27,24 @@
 	.statusList_table>tbody>tr:hover {
 		background: rgb(174, 217, 248);
 		box-shadow: 0 0 8px #4c87b099;
-		
 		cursor: pointer;
 	}
 	
 	.statusList_table {
 		width: 97%;
 		margin: auto;
+		table-layout: fixed;
 	}
 	
 	.statusList_table td {
 		border-top: 1px solid darkgray;
 		padding: 15px;
-		
+	}
+	
+	.docTitleTd {
+       	white-space: nowrap;
+       	text-overflow: ellipsis;
+       	overflow: hidden;
 	}
 	
 	.statusList_table th {
@@ -93,6 +98,26 @@
 		height: 30px;
 		font-size: 15px;
 	}
+	
+	.status1 {
+		color: blue;
+	}
+	
+	.status4 {
+		color: red;
+	}
+	
+	.statusfilter_area {
+		/*border: 1px solid black;*/
+		padding: 10px 0 15px 82.8%;
+	}
+	
+	.statusfilter_select {
+		width: 150px;
+		height: 25px;
+		font-size: 16px;
+		/*text-align: center;*/
+	}
 
 </style>
 
@@ -103,6 +128,12 @@
 	
 	<div class="main_section">
         <div class="mainDiv">
+        	<div class="statusfilter_area">
+        		<select class="statusfilter_select">
+        			<option value="all">전체</option>
+        			<%-- 문서 상태값 출력 --%>
+        		</select>
+        	</div>
 			<div class="statusList_area">
 				<table class="statusList_table">
 					<colgroup>
@@ -111,7 +142,7 @@
 						<col width="300px">
 						<col width="80px">
 						<col width="100px">
-						<col width="100px">
+						<col width="130px">
 					</colgroup>
 					
 					<thead class="statusList_thead">
@@ -121,7 +152,7 @@
 		                   	<th>제목</th>
 		                   	<th>기안자</th>
 		                   	<th>기안일</th>
-		                   	<th>요청일</th>
+		                   	<th>상태</th>
 	                 	</tr>
 	       			</thead>
 	       			<tbody class="statusList_tbody">
@@ -171,22 +202,150 @@
 			
 			} else {
 				
+				// 문서 상태값 리스트 조회해서 select에 넣는 함수 실행
+				aprvStatusFn(); 
+				
+				// 리스트 조회하는 ajax
+				statusListFn();
+			}
+
+		});
+		
+		
+		// 진행 상태 확인 리스트 조회하는 함수
+		function statusListFn() {
+			
+			$.ajax({
+				
+				type: "post",
+                url: "statusList.do",
+                data: { drafter : "${ loginUser.empNo }" },
+                success: function (list) {
+					
+                	console.log(list)
+                	
+                	$tbody = $('.statusList_tbody'); // 리스트가 들어갈 tbody
+                	$tbody.html('');
+                	
+                	if(list.length == 0) {
+                		
+                		var $noListTh = $("<th colspan='6'>").text("진행 상태를 확인할 문서가 존재하지 않습니다.").addClass("noStatusList");
+                		var $noListTr = $('<tr>').append($noListTh);
+                		
+						$tbody.append($noListTr);
+                	
+                	} else {
+						
+                		$.each(list, function(i, obj) {
+                			
+                			var $tr = $('<tr>');
+                			var $docNo = $('<td>').text(obj.docNo);
+                			var $docForm = $('<td>').text(obj.docForm);
+                			var $docType = $('<input type="hidden" id="docType" name="docType" value=' 
+                								+ obj.docType+'/>');
+                			
+                			if(obj.docTitle != null) {
+                				var $docTitle = $('<td>').text(obj.docTitle).addClass("docTitleTd").attr("title", obj.docTitle);
+                			
+                			} else {
+                				var $docTitle = $('<td>').text(obj.docForm).addClass("docTitleTd");
+                			}
+                			
+                			var $drafter = $('<td>').text(obj.drafter);
+                			var $draftDate = $('<td>').text(obj.draftDate);
+                			var $aprvStatusName = $('<td>').text(obj.aprvStatusName).addClass("statusName");
+                			
+                			// 진행 상태에 따른 글자색 변경 위해
+                			if(obj.aprvStatus == 1) {
+                				$aprvStatusName.addClass("status1");
+                				
+                				// 상태가 진행 중인 경우 현재 결재자 조회하는 ajax
+                				$.ajax({
+                					
+                					type: "post",
+                					url: "selectApprover.do",
+                					data: { docNo : obj.docNo },
+                					success: function(approver) {
+                						console.log(approver);
+                						
+                						$aprvStatusName.append(" (" + approver + ")");	                					}
+                					
+                				});
+                				
+                			} else if(obj.aprvStatus == 4) {
+                				$aprvStatusName.addClass("status4");
+                			}
+                			
+                			$tr.append($docNo);
+                			$tr.append($docForm);
+                			$tr.append($docType);
+                			$tr.append($docTitle);
+                			$tr.append($drafter);
+                			$tr.append($draftDate);
+                			$tr.append($aprvStatusName);
+                			
+                			$tbody.append($tr);
+                		});
+                	}
+                }
+			});
+			
+		}
+		
+		
+		// 상태값 리스트 조회하는 함수
+		function aprvStatusFn() {
+			
+			$.ajax({
+		 			
+	 			type: "post",
+                url: "selectAprvStatusList.do",
+                success: function (list) {
+					
+                	console.log(list);
+                	
+                	if(list != null || list != "") {
+                		
+                		$.each(list, function(i) {
+                			$(".statusfilter_select").append("<option value='" + list[i].aprvStatusNo + "'>" 
+                									 + list[i].aprvStatus + "</option>");
+                		});
+                	}
+                }
+	 		});
+		}
+		
+		
+		
+		// 상태값 option 바뀔 때마다 해당하는 상태값에 따라 리스트 조회
+		$(document).on("change", ".statusfilter_select", function() {
+			
+			// 전체 선택하는 경우
+			if($(this).val() == "all") {
+				statusListFn(); // 전체 리스트 조회하는 함수 실행
+			
+			} else {
+				
+				let aprvStatus = $(".statusfilter_select").val(); // 상태값 변수에 담기
+				
 				$.ajax({
 					
 					type: "post",
-	                url: ".do",
-	                data: { empNo : "${ loginUser.empNo }",
-	                		jobNo : "${ loginUser.jobNo }" },
-	                success: function (list) {
+					url: "statusConditionList.do",
+					data: { aprvStatus : aprvStatus,
+							drafter : "${ loginUser.empNo }" },
+							// AprvDoc 에 있는 필드 이용하기 위해 이름 drafter 로 넘기기
+					success: function(list) {
+					
+						console.log(list);
 						
-	                	console.log(list)
-	                	
-	                	$tbody = $('.statusList_tbody'); // 리스트가 들어갈 tbody
-	                	$tbody.html('');
+						$tbody = $('.statusList_tbody'); // 리스트가 들어갈 tbody
+		            	$tbody.html('');
+						
 	                	
 	                	if(list.length == 0) {
 	                		
-	                		var $noListTh = $("<th colspan='6'>").text("결재 요청한 문서가 존재하지 않습니다.").addClass("noStatusList");
+	                		var $noListTh = $("<th colspan='6'>").text("해당 상태에 대한 문서가 존재하지 않습니다.").addClass("noStatusList");
 	                		var $noListTr = $('<tr>').append($noListTh);
 	                		
 							$tbody.append($noListTr);
@@ -198,18 +357,40 @@
 	                			var $tr = $('<tr>');
 	                			var $docNo = $('<td>').text(obj.docNo);
 	                			var $docForm = $('<td>').text(obj.docForm);
-	                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
+	                			var $docType = $('<input type="hidden" id="docType" name="docType" value=' 
+	                								+ obj.docType+'/>');
 	                			
 	                			if(obj.docTitle != null) {
-	                				var $docTitle = $('<td>').text(obj.docTitle);
+	                				var $docTitle = $('<td>').text(obj.docTitle).addClass("docTitleTd").attr("title", obj.docTitle);
 	                			
 	                			} else {
-	                				var $docTitle = $('<td>').text(obj.docForm);
+	                				var $docTitle = $('<td>').text(obj.docForm).addClass("docTitleTd");
 	                			}
 	                			
 	                			var $drafter = $('<td>').text(obj.drafter);
 	                			var $draftDate = $('<td>').text(obj.draftDate);
-	                			var $proDate = $('<td>').text(obj.proDate);
+	                			var $aprvStatusName = $('<td>').text(obj.aprvStatusName).addClass("statusName");
+	                			
+	                			// 진행 상태에 따른 글자색 변경 위해
+	                			if(obj.aprvStatus == 1) {
+	                				$aprvStatusName.addClass("status1");
+	                				
+	                				// 상태가 진행 중인 경우 현재 결재자 조회하는 ajax
+	                				$.ajax({
+	                					
+	                					type: "post",
+	                					url: "selectApprover.do",
+	                					data: { docNo : obj.docNo },
+	                					success: function(approver) {
+	                						console.log(approver);
+	                						
+	                						$aprvStatusName.append(" (" + approver + ")");	                					}
+	                					
+	                				});
+	                				
+	                			} else if(obj.aprvStatus == 4) {
+	                				$aprvStatusName.addClass("status4");
+	                			}
 	                			
 	                			$tr.append($docNo);
 	                			$tr.append($docForm);
@@ -217,16 +398,19 @@
 	                			$tr.append($docTitle);
 	                			$tr.append($drafter);
 	                			$tr.append($draftDate);
-	                			$tr.append($proDate);
+	                			$tr.append($aprvStatusName);
 	                			
 	                			$tbody.append($tr);
 	                		});
 	                	}
-	                }
+						
+					}
+					
 				});
 			}
-
+			
 		});
+		
 		
 	
 		// 게시글 클릭 시
@@ -237,7 +421,7 @@
 			console.log(docNo);
 			console.log(docType);
 			
-			location.href = ".do?docNo=" + docNo;
+			location.href = "statusnDetail.do?docNo=" + docNo;
 		}));
 		
 		

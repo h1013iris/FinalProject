@@ -24,11 +24,12 @@
   		<typeAlias type="com.uni.spring.approval.model.dto.LeaveForm" alias="LeaveForm"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.SecurityDoc" alias="SecurityDoc"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.ReturnDoc" alias="ReturnDoc"/>
-  		<typeAlias type="com.uni.spring.approval.model.dto.OutboxDoc" alias="OutboxDoc"/>
+  		<typeAlias type="com.uni.spring.approval.model.dto.DocOutbox" alias="DocOutbox"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.LeaveForm" alias="LeaveForm"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.CmtUpdateForm" alias="CmtUpdateForm"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.BusDraftForm" alias="BusDraftForm"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.BusCoopForm" alias="BusCoopForm"/>
+  		<typeAlias type="com.uni.spring.approval.model.dto.AprvStatus" alias="AprvStatus"/>
   		<!--  게시글 -->
   		<typeAlias type="com.uni.spring.board.model.dto.Board" alias="Board"/>
   		<typeAlias type="com.uni.spring.board.model.dto.coment" alias="coment"/>
@@ -68,6 +69,12 @@
   		<!-- 회의실 관리 -->
   		<typeAlias type="com.uni.spring.admin.model.dto.MeetingRoomLargeCategory" alias="MRLC"/>
   		<typeAlias type="com.uni.spring.admin.model.dto.MeetingRoom" alias="MR"/>
+  		
+  		<!-- 마이페이지 -->
+  		<!-- 업무일지 -->
+  		<typeAlias type="com.uni.spring.mypage.model.dto.Journal" alias="journal"/>
+  		<!-- todoList -->
+  		<typeAlias type="com.uni.spring.mypage.model.dto.ToDoList" alias="todolist"/>
   	</typeAliases>
   	
   	<!-- 
@@ -84,8 +91,10 @@
   		<mapper resource="/mappers/calender-mapper.xml"/>
   		<mapper resource="/mappers/addressBook-mapper.xml"/>
   		<mapper resource="/mappers/adminMapper.xml"/>
+  		<mapper resource="/mappers/mypageMapper.xml"/>
   		<mapper resource="/mappers/aprvMgt-mapper.xml"/>
   		<mapper resource="/mappers/reservation-mapper.xml"/>
+  		<mapper resource="/mappers/manage-mapper.xml"/>
   	</mappers>
   	
   </configuration>

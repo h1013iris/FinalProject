@@ -199,7 +199,6 @@
     					$(".docDetailBtnsArea").css("padding-top", "0"); // 버튼 위치 조정
     					$(".docDetailMainArea").css("padding", "0 0 0 100px");
     					
-    				
     				// 존재하지 않으면
     				} else if(result == "no") {
     					console.log("보안 요청 가능");

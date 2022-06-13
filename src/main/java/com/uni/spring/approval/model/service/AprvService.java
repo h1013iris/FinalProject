@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import com.uni.spring.admin.model.dto.Department;
 import com.uni.spring.approval.model.dto.AprvDoc;
 import com.uni.spring.approval.model.dto.AprvHistory;
+import com.uni.spring.approval.model.dto.AprvStatus;
 import com.uni.spring.approval.model.dto.BusCoopForm;
 import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
+import com.uni.spring.approval.model.dto.DocOutbox;
 import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.approval.model.dto.ReturnDoc;
 import com.uni.spring.approval.model.dto.SecurityDoc;
@@ -27,7 +29,7 @@ public interface AprvService {
 
 	void insertCmtUpdateApp(AprvDoc aprvDoc, AprvHistory aprvHistory, CmtUpdateForm cmtUpdateForm);
 
-	ArrayList<Department> selectDeptList();
+	ArrayList<Department> selectDeptList(int deptNo);
 
 	void insertBusDraft(AprvDoc aprvDoc, AprvHistory aprvHistory, BusDraftForm busDraftForm);
 
@@ -76,6 +78,42 @@ public interface AprvService {
 	void docScrtyRequest(SecurityDoc securityDoc);
 
 	int docScrtyReqCheck(int docNo);
+
+	int statusListCount(AprvDoc aprvDoc);
+
+	ArrayList<AprvDoc> selectStatusList(PageInfo pi, AprvDoc aprvDoc);
+
+	String selectApprover(int docNo);
+
+	int selectAprvStatus(int docNo);
+
+	ArrayList<AprvStatus> aprvStatusList();
+
+	void saveLeaveFormOutbox(DocOutbox docOutbox, LeaveForm leaveForm);
+
+	void updateLeaveFormOutbox(DocOutbox docOutbox, LeaveForm leaveForm);
+
+	void saveCmpUdpFormOutbox(DocOutbox docOutbox, CmtUpdateForm cmtUpdateForm);
+
+	void saveDraftFormOutbox(DocOutbox docOutbox, BusDraftForm busDraftForm);
+
+	void saveCoopFormOutbox(DocOutbox docOutbox, BusCoopForm busCoopForm);
+
+	int outboxListCount(int empNo);
+
+	ArrayList<DocOutbox> selectOutboxList(PageInfo pi, int empNo);
+
+	int selectOutboxDocTypeNo(int outboxNo);
+
+	LeaveForm selectLeaveFormOutbox(int outboxNo);
+
+	CmtUpdateForm selectCmtUdtFormOutbox(int outboxNo);
+
+	BusDraftForm selectDraftFormOutbox(int outboxNo);
+
+	BusCoopForm selectCoopFormOutbox(int outboxNo);
+
+	void deleteOutboxDoc(int outboxNo, int docType);
 
 	
 

@@ -10,9 +10,11 @@ import com.uni.spring.admin.model.dto.Department;
 import com.uni.spring.approval.model.dao.AprvDao;
 import com.uni.spring.approval.model.dto.AprvDoc;
 import com.uni.spring.approval.model.dto.AprvHistory;
+import com.uni.spring.approval.model.dto.AprvStatus;
 import com.uni.spring.approval.model.dto.BusCoopForm;
 import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
+import com.uni.spring.approval.model.dto.DocOutbox;
 import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.approval.model.dto.ReturnDoc;
 import com.uni.spring.approval.model.dto.SecurityDoc;
@@ -118,9 +120,9 @@ public class AprvServiceImpl implements AprvService {
 
 
 	@Override // 부서 리스트 조회
-	public ArrayList<Department> selectDeptList() {
+	public ArrayList<Department> selectDeptList(int deptNo) {
 		
-		return aprvDao.selectDeptList(sqlSession);
+		return aprvDao.selectDeptList(sqlSession, deptNo);
 	}
 
 
@@ -353,12 +355,247 @@ public class AprvServiceImpl implements AprvService {
 		
 		return aprvDao.docScrtyReqCheck(sqlSession, docNo);
 	}
+
+
+	@Override // 진행 상태 확인 리스트 개수
+	public int statusListCount(AprvDoc aprvDoc) {
+		
+		return aprvDao.statusListCount(sqlSession, aprvDoc);
+	}
+
+
+	@Override // 진행 상태 확인 리스트 조회
+	public ArrayList<AprvDoc> selectStatusList(PageInfo pi, AprvDoc aprvDoc) {
+		
+		return aprvDao.selectStatusList(sqlSession, pi, aprvDoc);
+	}
+
+
+	@Override // 상태값이 진행 중인 경우 현재 결재자 조회
+	public String selectApprover(int docNo) {
+		
+		return aprvDao.selectApprover(sqlSession, docNo);
+	}
+
+
+	@Override // 해당 문서 상태값 조회
+	public int selectAprvStatus(int docNo) {
+		
+		return aprvDao.selectAprvStatus(sqlSession, docNo);
+	}
+
+
+	@Override // 결재 문서 상태값 리스트 조회
+	public ArrayList<AprvStatus> aprvStatusList() {
+		
+		return aprvDao.aprvStatusList(sqlSession);
+	}
+
+
+	@Override // 휴가 신청서 임시 보관함에 처음으로 저장
+	public void saveLeaveFormOutbox(DocOutbox docOutbox, LeaveForm leaveForm) {
+		
+		saveDocOutbox(docOutbox);
+		
+		int result = aprvDao.saveLeaveFormOutbox(sqlSession, leaveForm);
+		
+		if(result < 1) {
+			throw new CommException("문서 서식 저장 실패");
+		}
+	}
+	
+	
+	// 임시 보관함에 저장
+	public void saveDocOutbox(DocOutbox docOutbox) {
+		
+		int result = aprvDao.saveDocOutbox(sqlSession, docOutbox);
+		
+		if(result < 1) {
+			throw new CommException("임시 보관함 저장 실패");
+		}
+	}
+
+	
+	// 임시 보관 문서 최근 수정일 업데이트
+	public void updateDateOutbox(DocOutbox docOutbox) {
+		
+		int result = aprvDao.updateDateOutbox(sqlSession, docOutbox);
+		
+		if(result < 1) {
+			throw new CommException("임시 보관 문서 최근 수정일 업데이트 실패");
+		}
+	}
+	
+	
+	@Override // 휴가 신청서 업데이트
+	public void updateLeaveFormOutbox(DocOutbox docOutbox, LeaveForm leaveForm) {
+		
+		int result = aprvDao.updateLeaveFormOutbox(sqlSession, leaveForm);
+		
+		if(result < 1) {
+			throw new CommException("휴가 신청서 업데이트 실패");
+		} else {
+			
+		}
+	}
+
+
+	@Override // 근태 기록 수정 신청서 임시 보관함에 저장
+	public void saveCmpUdpFormOutbox(DocOutbox docOutbox, CmtUpdateForm cmtUpdateForm) {
+
+		saveDocOutbox(docOutbox);
+		
+		int result = aprvDao.saveCmpUdpFormOutbox(sqlSession, cmtUpdateForm);
+		
+		if(result < 1) {
+			throw new CommException("문서 서식 저장 실패");
+		}
+	}
+
+
+	@Override // 업무 기안서 임시 보관함에 저장
+	public void saveDraftFormOutbox(DocOutbox docOutbox, BusDraftForm busDraftForm) {
+		
+		saveDocOutbox(docOutbox);
+		
+		int result = aprvDao.saveDraftFormOutbox(sqlSession, busDraftForm);
+		
+		if(result < 1) {
+			throw new CommException("문서 서식 저장 실패");
+		}
+	}
+
+
+	@Override // 업무 협조문 신청서 임시 보관함에 저장
+	public void saveCoopFormOutbox(DocOutbox docOutbox, BusCoopForm busCoopForm) {
+		
+		saveDocOutbox(docOutbox);
+		
+		int result = aprvDao.saveCoopFormOutbox(sqlSession, busCoopForm);
+		
+		if(result < 1) {
+			throw new CommException("문서 서식 저장 실패");
+		}
+	}
+
+
+	@Override // 임시 보관 리스트 개수
+	public int outboxListCount(int empNo) {
+		
+		return aprvDao.outboxListCount(sqlSession, empNo);
+	}
+
+
+	@Override // 임시 보관 리스트 조회
+	public ArrayList<DocOutbox> selectOutboxList(PageInfo pi, int empNo) {
+		
+		return aprvDao.selectOutboxList(sqlSession, pi, empNo);
+	}
+
+
+	@Override // 임시 보관 문서 타입 조회
+	public int selectOutboxDocTypeNo(int outboxNo) {
+		
+		return aprvDao.selectOutboxDocTypeNo(sqlSession, outboxNo);
+	}
+
+
+	@Override // 휴가 신청서 임시 보관함 상세 조회
+	public LeaveForm selectLeaveFormOutbox(int outboxNo) {
+		
+		return aprvDao.selectLeaveFormOutbox(sqlSession, outboxNo);
+	}
+
+
+	@Override // 근태 기록 수정 신청서 임시 보관함 상세 조회
+	public CmtUpdateForm selectCmtUdtFormOutbox(int outboxNo) {
+		
+		return aprvDao.selectCmtUdtFormOutbox(sqlSession, outboxNo);
+	}
+
+
+	@Override // 업무 기안서 임시 보관함 상세 조회
+	public BusDraftForm selectDraftFormOutbox(int outboxNo) {
+		
+		return aprvDao.selectDraftFormOutbox(sqlSession, outboxNo);
+	}
+
+
+	@Override // 업무 협조문 상세 조회
+	public BusCoopForm selectCoopFormOutbox(int outboxNo) {
+		
+		return aprvDao.selectCoopFormOutbox(sqlSession, outboxNo);
+	}
+
+
+	@Override // 임시 저장 문서 삭제
+	public void deleteOutboxDoc(int outboxNo, int docType) {
+		
+		int result = aprvDao.deleteOutboxDoc(sqlSession, outboxNo);
+		
+		if(result < 1) {
+			throw new CommException("임시 저장 문서 삭제 실패");
+		
+		} else {
+			
+			if(docType == 10) {
+				deleteLeaveApp(outboxNo);
+			
+			} else if(docType == 11) {
+				deleteCmtUpdateApp(outboxNo);
+			
+			} else if(docType == 20) {
+				deleteBusDraft(outboxNo);
+			
+			} else if(docType == 20) {
+				deleteBusCoop(outboxNo);
+			}
+		}
+	}
+
+	
+	// 휴가 신청서 임시 저장 문서 삭제
+	public void deleteLeaveApp(int outboxNo) {
+		
+		int result = aprvDao.deleteLeaveApp(sqlSession, outboxNo);
+		
+		if(result < 1) {
+			throw new CommException("휴가 신청서 임시 저장 삭제 실패");
+		}
+	}
 	
 
-
+	// 근태 기록 수정 신청서 임시 저장 문서 삭제
+	public void deleteCmtUpdateApp(int outboxNo) {
+		
+		int result = aprvDao.deleteCmtUpdateApp(sqlSession, outboxNo);
+		
+		if(result < 1) {
+			throw new CommException("근태 기록 수정 신청서 임시 저장 삭제 실패");
+		}
+	}
 	
 
-
+	// 업무 기안서 임시 저장 문서 삭제
+	public void deleteBusDraft(int outboxNo) {
+		
+		int result = aprvDao.deleteBusDraft(sqlSession, outboxNo);
+		
+		if(result < 1) {
+			throw new CommException("업무 기안서 임시 저장 삭제 실패");
+		}
+	}
+	
+	
+	// 업무 협조문 임시 저장 문서 삭제
+	public void deleteBusCoop(int outboxNo) {
+		
+		int result = aprvDao.deleteBusCoop(sqlSession, outboxNo);
+		
+		if(result < 1) {
+			throw new CommException("업무 협조문 임시 저장 삭제 실패");
+		}
+	}
 	
 
 	

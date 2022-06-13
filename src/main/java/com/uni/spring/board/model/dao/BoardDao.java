@@ -11,6 +11,7 @@ import com.uni.spring.board.model.dto.Board;
 import com.uni.spring.board.model.dto.coment;
 import com.uni.spring.board.model.dto.pbox;
 import com.uni.spring.board.model.dto.searchcon;
+import com.uni.spring.common.Attachment;
 import com.uni.spring.common.PageInfo;
 
 @Repository
@@ -93,11 +94,7 @@ public class BoardDao {
 		// TODO Auto-generated method stub
 	   return sqlSession.insert("boardMapper.insertboard", b);
 	}
-   public int insertdept(SqlSessionTemplate sqlSession, Board b) {
-		// TODO Auto-generated method stub
-	   return sqlSession.insert("boardMapper.insertdept", b);
 
-   }
   //부서게시판
 
 public int selecdeparttListCount(SqlSessionTemplate sqlSession) {
@@ -120,9 +117,9 @@ public ArrayList<Board> selectdeptList(SqlSessionTemplate sqlSession, PageInfo p
 
 
 
-public Board detailBoard(SqlSessionTemplate sqlSession, int bno) {
+public ArrayList<Board> detailBoard(SqlSessionTemplate sqlSession, int bno) {
 	// TODO Auto-generated method stub
-	return sqlSession.selectOne("boardMapper.detailBoard" , bno);
+	return (ArrayList)sqlSession.selectList("boardMapper.detailBoard" , bno);
 }
 
 public int selectstandupListCount(SqlSessionTemplate sqlSession, int con) {
@@ -205,6 +202,21 @@ public Board selectuser(SqlSessionTemplate sqlSession, Board bo) {
 public ArrayList<Board> readuser(SqlSessionTemplate sqlSession, int wno) {
 	// TODO Auto-generated method stub
 	return (ArrayList) sqlSession.selectList("boardMapper.readuser", wno);
+}
+
+public int savefiles(SqlSessionTemplate sqlSession, Attachment a) {
+	// TODO Auto-generated method stub
+	return sqlSession.insert("boardMapper.savefiles" , a);
+}
+
+public Board details(SqlSessionTemplate sqlSession, int bno) {
+	
+	return sqlSession.selectOne("boardMapper.details" , bno);
+}
+
+public int deletepno(SqlSessionTemplate sqlSession, Board b) {
+	// TODO Auto-generated method stub
+	return sqlSession.update("boardMapper.deletepno" , b);
 }
 }
 

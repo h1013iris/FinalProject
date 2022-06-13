@@ -1,0 +1,153 @@
+@charset "utf-8";
+
+#todoList_main_section{
+    width: 1000px;
+    margin: 0 auto;
+    position: relative;
+}
+
+
+#todayList_box{
+    width: 450px;
+    position: absolute;
+    top: 200px;
+    left: 50px;
+}
+
+#selectDayList_box{
+    width: 450px;
+    position: absolute;
+    top: 200px;
+    right: 0;
+}
+
+.checkboxInput{
+    width: 30px;
+}
+
+.percent_text{
+    width: 35px;
+    border: none;
+}
+
+#total_percent_box{
+    width: 500px;
+    height: 40px;
+    border: 1px solid black;
+    line-height: 40px;
+    position: absolute;
+    border-radius: 5px;
+    top: 50px;
+    left: 100px;
+}
+
+#total_percent_box span{
+    z-index: 99;
+    position: absolute;
+    top: 0;
+    right: 20px;
+}
+
+.leng{
+    border-right: 2px solid black;
+    width: 1px;
+    height: 10px;
+    display: inline-block;
+}
+
+#gauge_bar {
+    width: 0%;
+    height: 40px;
+    background-color: #85cdff;
+    z-index: -99;
+    border-radius: 5px;
+}
+
+#todoListSearch{
+    right: 0;
+    top: 60px;
+    position: absolute;
+}
+
+#searchDate{
+    margin-left: 20px;
+}
+
+.percent_text{
+    margin-left: 30px;
+}
+
+.work_time{
+    margin-left: 30px;
+}
+
+.todoTitle{
+    margin-left: 30px;
+    width: 100px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.todayList{
+    margin-top: 30px;
+}
+
+#todoInsert{
+    position: absolute;
+    right: 60px;
+    top: 150px;
+}
+
+#todayLists{
+    overflow-y: scroll;
+    max-height: 300px;
+}
+
+#todayLists::-webkit-scrollbar{
+    display: none;
+}
+
+
+
+/* insert 모달 */
+
+.insertToDoListModal #work_date{
+    display: inline-block;
+}
+
+.insertToDoListModal #work_time {
+    display: inline-block;
+    margin-left: 30px;
+}
+
+.insertToDoListModal #main_content_box{
+    margin-top: 50px;
+}
+
+#main_content_box #content{
+    width: 100%;
+    height: 300px;
+    resize: none;
+}
+
+/* detail 모달 */
+
+.detailToDoListModal #work_date{
+    display: inline-block;
+}
+
+.detailToDoListModal #work_time {
+    display: inline-block;
+    margin-left: 30px;
+}
+
+.detailToDoListModal #main_content_box{
+    margin-top: 50px;
+}
+
+#main_content_box #content{
+    width: 100%;
+    height: 300px;
+    resize: none;
+}

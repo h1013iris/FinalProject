@@ -117,6 +117,7 @@
 			</div>
 		
 			<form id="postForm" action="" method="post">
+			    <input type="hidden" name="pno" value="${ p.pno }">
                 <input type="hidden" name="title" value="${ p.title }">
                 <input type="hidden" name="content" value="${ p.content }">
                 <input type="hidden" name="userno" value="${loginUser.empNo}">

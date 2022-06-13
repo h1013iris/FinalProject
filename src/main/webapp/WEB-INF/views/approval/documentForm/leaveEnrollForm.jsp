@@ -33,7 +33,6 @@
 			<input type="hidden" name="drafterDept" value="${ loginUser.departmentNo }"/>
 			<input type="hidden" name="approver" value="${ loginUser.empNo }"/>
 			<input type="hidden" name="approverJob" value="${ loginUser.jobNo }"/>
-			<!-- <input type="hidden" id="docTitle" name="docTitle" value="${ docTitle }"/> -->
 			<input type="hidden" name="aprvPro" value="D"/>
 			
 			<div class="formArea" style="font-family:돋움; font-size:9pt;">
@@ -206,7 +205,10 @@
  	</div>
  	
  	<script type="text/javascript">
- 	
+ 		
+ 		// 임시저장 버튼 클릭 시 카운팅될 변수 선언
+ 		let count = 0;
+ 		
  		// 화면 로드 시 가장 먼저 실행
  		$(document).ready(function() {
  			
@@ -217,10 +219,13 @@
  			
 			} else {
 				
+				count = 0; // 화면 로드 시마다 임시저장 버튼 클릭 시 카운팅될 변수 0으로 초기화
+				
  				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
  				// 휴가 시작 날짜, 기안일 오늘 날짜로 기본값 설정
  	 			$("#dftDate").val(today);
  	 			$("#startDate").val(today);
+ 	 			//$("#endDate").val(today);
  	 			
  	 			// 소속 (로그인 유저의 부서 가져오기)
 		 		$.ajax({
@@ -244,16 +249,20 @@
  	                url: "selectDeptApprover.do",
  	                data: { deptNo : "${ loginUser.departmentNo }",
  	                		jobNo : "${ loginUser.jobNo }"},
- 	                success: function (data) {
-						console.log(data);
- 	                	if(data != null || data != "") {
+ 	                success: function (list) {
+						console.log(list);
+ 	                	
+						if(list != null || list != "") {
  	                		
- 	                		$("#firstAprvName").val(data[0].empName);
- 	                		$("#firstAprv").val(data[0].empNo);
- 	                		$("#firstAprvJob").val(data[0].jobName);
- 	                		$("#secondAprvName").val(data[1].empName);
- 	                		$("#secondAprv").val(data[1].empNo);
- 	                		$("#secondAprvJob").val(data[1].jobName);
+ 	                		$("#firstAprvName").val(list[0].empName);
+ 	                		$("#firstAprv").val(list[0].empNo);
+ 	                		$("#firstAprvJob").val(list[0].jobName);
+ 	                		
+ 	                		if(data.length > 1) {
+ 	                			$("#secondAprvName").val(data[1].empName);
+ 	 	                		$("#secondAprv").val(data[1].empNo);
+ 	 	                		$("#secondAprvJob").val(data[1].jobName);
+ 	                		}
  	                	}
  	                }
 		 		})
@@ -437,46 +446,135 @@
  			// 모두 잘 입력되어 있는 경우
  			} else {
  				
- 				// 폼의 모든 데이터 저장해서 변수로 선언
- 	 			let form = $(".docEnrollForm").serialize();
- 	 			
- 				// post 방식으로 폼 제출
- 	 			$.ajax({
- 	 				
- 	 				type: "post",
- 	                url: "insertLeaveApp.do",
- 	                data: form,
- 	                success: function (result) {
- 	                	console.log(result)
- 	                	
- 	                    if(result == "success") {
-							
- 	                    	let title = "결재 요청 확인";
- 	                    	let content = "결재가 성공적으로 요청되었습니다.";
- 	                    	
- 	                    	myAlert(title, content);
- 	                    	resultFn();
- 	                    	
- 	                    } else {
- 	                    	
- 	                    	let title = "결재 요청 확인";
- 	                    	let content = "결재 요청에 실패하였습니다.";
+				approveCheckFn(); // 결재 요청 확인 모달 띄우는 함수 실행
+				
+				// 확인 버튼 클릭 시 confirm 모달 사라지고 결재 승인 진행
+	    		$(document).on("click", ".true_btn", function() {
+	    			$("#helpmeCOnfirm").hide();
+	    			
+	    			leaveEnrollFn(); // 휴가 신청서 결재 요청 함수
+	    		});
+	    		
+	    		// 취소 클릭 시 confirm 모달 닫기만
+	    		$(".false_btn").click(function() {
+	    		    $("#helpmeCOnfirm").hide();
+	    		});
 
- 	                    	myAlert(title, content);
- 	                    	resultFn();
- 	               		}
- 	                } 	                
- 	            })
  			}
 		
  		})
  		
  		
- 		// 임시저장 버튼 클릭 시 
- 		$(".outbox_btn").click(function() {
-		
+ 		// 휴가 신청서 결재 요청 함수
+ 		function leaveEnrollFn() {
+			
+ 			// 폼의 모든 데이터 저장해서 변수로 선언
+ 			let form = $(".docEnrollForm").serialize();
  			
- 		})
+			// post 방식으로 폼 제출
+ 			$.ajax({
+ 				
+ 				type: "post",
+                url: "insertLeaveApp.do",
+                data: form,
+                success: function (result) {
+                	console.log(result)
+                	
+                    if(result == "success") {
+					
+                    	let title = "결재 요청 확인";
+                    	let content = "결재가 성공적으로 요청되었습니다.";
+                    	
+                    	myAlert(title, content);
+                    	resultFn();
+                    	
+                    } else {
+                    	
+                    	let title = "결재 요청 확인";
+                    	let content = "결재 요청에 실패하였습니다.";
+
+                    	myAlert(title, content);
+                    	resultFn();
+               		}
+                } 	                
+            });
+		}
+ 		
+ 		// 임시저장 버튼 클릭 시 
+ 		$(document).on("click", ".donEnrollOutboxBtn", function() {
+			
+ 			/*count++;
+ 			console.log(count);*/
+ 			
+ 			// 날짜 비워져있으면 타입 미스매치 애러 발생하기 때문에 임의로 시작 날짜와 동일하게 설정해줌
+ 			/*let endDate = $("#endDate").val();
+ 			let startDate = $("#startDate").val();
+ 			
+ 			if(endDate == null || endDate == "") {
+ 				console.log("끝 날짜 null");
+ 				$("#endDate").val(startDate);
+ 			}*/
+ 			
+ 			// 폼의 모든 데이터 저장해서 변수로 선언
+ 			let form = $(".docEnrollForm").serialize();
+ 		
+ 			/*if(count == 1) {
+ 				console.log("임시 보관함에 등록");*/
+ 				
+ 	 			// 임시 보관함에 저장하는 ajax 실행
+ 	    		$.ajax({
+ 	    			
+ 	    			type: "post",
+ 	    			url: "saveLeaveFormOutbox.do",
+ 	    			data: form,
+ 	    			success: function(result) {
+ 	    				console.log(result);
+ 	    				
+ 	    				if(result == "success") {
+ 	    					let title = "임시 보관함 저장"
+ 	    					let content = "해당 문서가 임시 보관함에 저장되었습니다."
+ 	    					
+ 	    					myAlert(title, content);
+ 	    					resultFn(); // 취소 클릭 시 결재 메인으로 이동
+ 	    					
+ 	    				} else {
+ 	    					let title = "임시 보관함 저장"
+	    					let content = "임시 보관함에 저장을 실패하었습니다."
+	    					
+	    					myAlert(title, content);
+ 	    					resultFn();
+ 	    				}
+ 	    			}
+ 	    		});
+ 			
+ 			/*} else if(count > 1) {
+ 				
+ 				// 해당 임시 보관함 번호 가져와서 업데이트하는 ajax 실행
+ 				$.ajax({
+ 				
+ 					type: "post",
+ 	    			url: "updateLeaveFormOutbox.do",
+ 	    			data: form,
+ 	    			success: function(result) {
+ 	    				console.log(result);
+ 	    				
+ 	    				if(result == "success") {
+ 	    					let title = "임시 보관함 저장"
+ 	    					let content = "해당 문서가 임시 보관함에 저장되었습니다."
+ 	    					
+ 	    					myAlert(title, content);
+ 	    					
+ 	    				} else {
+ 	    					let title = "임시 보관함 저장"
+	    					let content = "임시 보관함에 저장을 실패하었습니다."
+	    					
+	    					myAlert(title, content);
+ 	    				}
+ 	    			}
+ 				});
+ 			}*/
+ 			
+ 		});
  		
  		
  	</script>
