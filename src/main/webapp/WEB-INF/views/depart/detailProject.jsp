@@ -138,6 +138,13 @@
 	.deleteWatcherDIv:hover, .deleteWatcherDIvw:hover{
 		cursor: pointer;
 	}
+	.dovchap{
+		height: 20vh;
+		overflow-y:scroll;
+	}
+	.dovchap::-webkit-scrollbar{
+    	display: none;
+	}
 </style>
 </head>
 <body>
@@ -151,23 +158,27 @@
 				<div class="selectAddPer" id = "selectAddPer" style="display:none;">
 					<div class="alreadyAttend">
 						<div class="selectAttenderP attendDiVn"><span>참여자</span></div>
-						<c:forEach items="${list}" var="li">
-							<div class="list${li.empNo} attendPersonemp">
-								<div><span>${li.empName} ${li.jobName} _${li.address}</span></div>
-								<c:if test = "${p.proWriter ne li.empNo  && loginUser.empNo ne li.empNo}">
-								<div class="deleteWatcherDIv" onclick="deleteAttendP('${li.empNo}')"><img src="${ pageContext.servletContext.contextPath }/resources/images/close.png" alt="" width="15"></div>
-								</c:if>
-							</div>
-						</c:forEach>
+						<div class="dovchap">
+							<c:forEach items="${list}" var="li">
+								<div class="list${li.empNo} attendPersonemp">
+									<div><span>${li.empName} ${li.jobName} _${li.address}</span></div>
+									<c:if test = "${p.proWriter ne li.empNo  && loginUser.empNo ne li.empNo}">
+									<div class="deleteWatcherDIv" onclick="deleteAttendP('${li.empNo}')"><img src="${ pageContext.servletContext.contextPath }/resources/images/close.png" alt="" width="15"></div>
+									</c:if>
+								</div>
+							</c:forEach>
+						</div>
 					</div>
 					<div class="addAttendPre">
 						<div class="selectAttenderP"><span>멤버 추가</span></div>
-						<c:forEach var="tl" items="${tlist}" >
-								<div class="list${tl.empNo} attendPersonemp">
-									<div><span>${tl.empName} ${tl.email} _${tl.status}</span></div>
-									<div class="deleteWatcherDIvw" onclick="addwatcherP('${tl.empNo}')"><img src="${ pageContext.servletContext.contextPath }/resources/images/plus.png" alt="" width="15"></div>
-								</div>
-						</c:forEach>
+						<div class="dovchap">
+							<c:forEach var="tl" items="${tlist}" >
+									<div class="list${tl.empNo} attendPersonemp">
+										<div><span>${tl.empName} ${tl.email} _${tl.status}</span></div>
+										<div class="deleteWatcherDIvw" onclick="addwatcherP('${tl.empNo}')"><img src="${ pageContext.servletContext.contextPath }/resources/images/plus.png" alt="" width="15"></div>
+									</div>
+							</c:forEach>
+						</div>
 					</div>
 				</div>
         	</div>

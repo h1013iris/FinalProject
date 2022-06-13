@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.uni.spring.board.model.dto.Board;
 import com.uni.spring.common.Attachment;
-import com.uni.spring.department.model.dto.Department;
+import com.uni.spring.department.model.dto.DepartmentAnno;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
 import com.uni.spring.department.model.dto.ProjectClass;
@@ -14,19 +14,19 @@ import com.uni.spring.member.model.dto.Member;
 
 public interface DepartService {
 
-	void insertAnnoDepart(Department d, Attachment a);
+	void insertAnnoDepart(DepartmentAnno d, Attachment a);
 
-	ArrayList<Department> selectAnnoDepartList(int adno);
+	ArrayList<DepartmentAnno> selectAnnoDepartList(int adno);
 
 	int increaseCount(int adno);
 
-	Department selectDepartmentAnno(int adno);
+	DepartmentAnno selectDepartmentAnno(int adno);
 
 	Attachment selectAttachmentAnno(int adno);
 
 	void deletAnnoDepart(int adno, String rlcn);
 
-	void updateAnnoDepart(Department d, Attachment a);
+	void updateAnnoDepart(DepartmentAnno d, Attachment a);
 
 	void insertAtta(Attachment a);
 
@@ -104,7 +104,7 @@ public interface DepartService {
 
 	void updateTagSemi(SemiProject sp);
 
-	ArrayList<Department> selectAnnoDepartListMain(int departmentNo);
+	ArrayList<DepartmentAnno> selectAnnoDepartListMain(int departmentNo);
 
 	ArrayList<Board> selectBoardDepartListMain(int departmentNo);
 

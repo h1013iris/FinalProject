@@ -15,6 +15,7 @@
 	<jsp:include page="./alert.jsp"/>
 	<jsp:include page="./confirm.jsp"/>
 	<jsp:include page="../depart/simpleProjectCreate.jsp"/>
+	<jsp:include page="../manage/calculateModal.jsp"/>
 	<jsp:include page="../reservation/reservationEorollformModal.jsp"/>
 	<jsp:include page="../mypage/workRequestModal.jsp"/>
 	
@@ -41,7 +42,7 @@
 	                <div class="count">1</div>
 	            </div>
 	            <div class="pro_img">
-	                <img class="alarm_img" src="${ pageContext.servletContext.contextPath }/resources/images/관리자 프로필.png"/>
+	                <img class="alarm_img" src="${ pageContext.servletContext.contextPath }/resources/upload_files/${loginUser.changeName}"/>
 	            </div>
 	        </div>
 	    </div>
@@ -246,7 +247,7 @@
 	            </div>
 	        </li>
 	        <li>
-	            <a class="operationpage" href="manangeMain.do"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/경영페이지.png" alt=""></a>
+	            <a class="operationpage" href="manangeMain.do?departmentNo=${loginUser.departmentNo}&userNo=${loginUser.empNo}"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/경영페이지.png" alt=""></a>
 	            <div class="detail_nav_content">
 	                <div class="nananan"><p class="detail_title">경영지원 페이지</p></div>
 	                <button type="button" class="commonButton2 etcButton annoDepartEnrollButton"><span>공지사항 등록</span></button>
@@ -261,14 +262,14 @@
 	                    <div class="hhh">
 		                    <li><a href="#">근태 관리</a></li>
 		                    <li><a href="#">휴가 관리</a></li>
-		                    <li><a href="#">인사 정보</a></li>
+		                    <li><a href="selectDepartInfo.do?deptNo=${loginUser.departmentNo}&deptTitle=">인사 정보</a></li>
 		                    <li><a href="#">증명서 관리</a></li>
 	                    </div>
 	                </ul>
 	                <ul>
 	                    <li class="list_title">급여</li>
 	                    <div class="hhh">
-		                    <li><a href="#">4대 보험 계산기</a></li>
+		                    <li><a href="#" class="calculate4ALl">4대 보험 계산기</a></li>
 		                    <li><a href="#">급여 명세서 관리</a></li>
 		                    <li><a href="#">지출 관리</a></li>
 		                    <li><a href="#">외부 계약 관리</a></li>

@@ -91,7 +91,7 @@
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_career emp_title">경력</span>
-                    <c:if test="${ emp.career eq null} ">
+                    <c:if test="${ emp.career ne null} ">
                     	<span class="emp_career">${ emp.career }</span>
                     </c:if>
                     <c:if test="${ emp.career eq null}">
@@ -101,7 +101,7 @@
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_awards emp_title">수상경력</span>
-                    <c:if test="${ emp.awards eq null}">
+                    <c:if test="${ emp.awards ne null}">
                     	<span class="emp_awards">${ emp.awards }</span>
                     </c:if>
 					<c:if test="${ emp.awards eq null}">
@@ -110,8 +110,8 @@
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_bank_name emp_title">거래은행</span>
-                    <c:if test="${ emp.bankName eq null}">
-                    	<span class="emp_bank_name">${ emp.awards }</span>
+                    <c:if test="${ emp.bankName ne null}">
+                    	<span class="emp_bank_name">${ emp.bankName }</span>
                     </c:if>
 					<c:if test="${ emp.bankName eq null}">
 						<span class="emp_bank_name">정보없음</span>
@@ -119,8 +119,8 @@
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_bank_no emp_title">계좌번호</span>
-                    <c:if test="${ emp.bankNo eq null}">
-                    	<span class="emp_bank_no">${ emp.awards }</span>
+                    <c:if test="${ emp.bankNo ne null}">
+                    	<span class="emp_bank_no">${ emp.bankNo }</span>
                     </c:if>
 					<c:if test="${ emp.bankNo eq null}">
 						<span class="emp_bank_no">정보없음</span>
@@ -128,7 +128,7 @@
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_holder_name emp_title">계좌주</span>
-                    <c:if test="${ emp.holderName eq null}">
+                    <c:if test="${ emp.holderName ne null}">
                     	<span class="emp_holder_name">${ emp.holderName }</span>
                     </c:if>
 					<c:if test="${ emp.holderName eq null}">
@@ -137,7 +137,7 @@
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_home_status emp_title">자택 유무</span>
-                    <c:if test="${ emp.homeStatus eq null}">
+                    <c:if test="${ emp.homeStatus ne null}">
                     	<span class="emp_home_status">${ emp.homeStatus }</span>
                     </c:if>
 					<c:if test="${ emp.homeStatus eq null}">
@@ -146,7 +146,7 @@
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_marriage emp_title">결혼 유무</span>
-                    <c:if test="${ emp.marriage eq null}">
+                    <c:if test="${ emp.marriage ne null}">
                     	<span class="emp_marriage">${ emp.marriage }</span>
                     </c:if>
 					<c:if test="${ emp.marriage eq null}">
@@ -160,7 +160,7 @@
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_last_educational emp_title">최종학력</span>
-                    <c:if test="${ emp.lastEducational eq null}">
+                    <c:if test="${ emp.lastEducational ne null}">
                     	<span class="emp_last_educational">${ emp.lastEducational }</span>
                     </c:if>
 					<c:if test="${ emp.lastEducational eq null}">

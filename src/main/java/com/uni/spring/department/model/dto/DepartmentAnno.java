@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data//setter, getter, tostring생성
 @NoArgsConstructor//파라미터가 없는 기본생성자 생성
 @AllArgsConstructor//모든 파라미터가 있는 기본 생성자 생성
-public class Department {
+public class DepartmentAnno {
 
 	private int annoNo;//게시판 번호
 	private int refDepart;//참조 부서 코드 

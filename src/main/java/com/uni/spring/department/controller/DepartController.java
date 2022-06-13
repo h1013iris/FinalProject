@@ -22,7 +22,7 @@ import com.google.gson.GsonBuilder;
 import com.uni.spring.board.model.dto.Board;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.common.exception.CommException;
-import com.uni.spring.department.model.dto.Department;
+import com.uni.spring.department.model.dto.DepartmentAnno;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
 import com.uni.spring.department.model.dto.ProjectClass;
@@ -40,7 +40,7 @@ public class DepartController {
 	//부서별 메인페이지로 전환
 	@RequestMapping("departmentPage.do")
 	public ModelAndView departmentPage(int userNo,String departmentNo, ModelAndView mv) {
-		ArrayList<Department> dlist = departService.selectAnnoDepartListMain(Integer.parseInt(departmentNo));//부서 공지사항 5개
+		ArrayList<DepartmentAnno> dlist = departService.selectAnnoDepartListMain(Integer.parseInt(departmentNo));//부서 공지사항 5개
 		ArrayList<Board> blist = departService.selectBoardDepartListMain(Integer.parseInt(departmentNo));//부서 페이지
 		ArrayList<Project> plist = departService.selectProjectList(userNo);
 		mv.addObject("dlist",dlist).addObject("blist",blist).addObject("plist",plist).setViewName("depart/departmentMainPage");
@@ -55,7 +55,7 @@ public class DepartController {
 	
 	//공지사항 등록(첨부파일 있을시, 없을시 분류해서)
 	@RequestMapping("insertAnnoDepart.do")
-	public String insertAnnoDepart(Department d, HttpServletRequest request, @RequestParam(name="uploadFile", required = false) MultipartFile file, Attachment a, Model model) {
+	public ModelAndView insertAnnoDepart(DepartmentAnno d, HttpServletRequest request, @RequestParam(name="uploadFile", required = false) MultipartFile file, Attachment a, ModelAndView mv) {
 	
 		if(!file.getOriginalFilename().equals("")) {//파일이 있을시에
 			String changeName = saveFile(file, request);
@@ -71,9 +71,13 @@ public class DepartController {
 		}
 		
 		departService.insertAnnoDepart(d,a);
-		model.addAttribute("departmentNo",d.getRefDepart());
-		model.addAttribute("userNo", d.getAnnoWR());
-		return "redirect:departmentPage.do";
+		mv.addObject("departmentNo",d.getRefDepart()).addObject("userNo",d.getAnnoWR());
+		if(d.getRefDepart() != 3) {
+			mv.setViewName("redirect:departmentPage.do");
+		}else if(d.getRefDepart() ==3) {
+			mv.setViewName("redirect:manangeMain.do");
+		}
+		return mv;
 	}
 	
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
@@ -106,7 +110,7 @@ public class DepartController {
 	@ResponseBody
 	@RequestMapping(value="annoDepartListView.do", produces="application/json; charset=utf-8")
 	private String selectAnnoDepartList(int adno) {
-		ArrayList<Department> list = departService.selectAnnoDepartList(adno);
+		ArrayList<DepartmentAnno> list = departService.selectAnnoDepartList(adno);
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
 	}
 	
@@ -120,7 +124,7 @@ public class DepartController {
 		}
 		
 
-		Department d = departService.selectDepartmentAnno(adno);
+		DepartmentAnno d = departService.selectDepartmentAnno(adno);
 		if(d!= null) {
 			if(d.getAttachStatus().equals("Y")) {
 				Attachment a = departService.selectAttachmentAnno(adno);
@@ -162,7 +166,7 @@ public class DepartController {
 	/*수정하기 페이지 전환*/
 	@RequestMapping("updateAnnoDepartForm.do")
 	private ModelAndView updateAnnoDepart(int adno, ModelAndView mv) {
-		Department d = departService.selectDepartmentAnno(adno);
+		DepartmentAnno d = departService.selectDepartmentAnno(adno);
 		if(d.getAttachStatus().equals("Y")) {
 			Attachment a = departService.selectAttachmentAnno(adno);
 			mv.addObject("d",d).addObject("a",a).setViewName("depart/updateAnnoDepart");
@@ -174,7 +178,7 @@ public class DepartController {
 	
 	/*수정내용 들고온것*/
 	@RequestMapping("updateAnnoDepart.do")
-	private ModelAndView updateAnnoDepart(Department d, ModelAndView mv, HttpServletRequest request, @RequestParam(name="reUploadFile", required = false) MultipartFile file, Attachment a ) {
+	private ModelAndView updateAnnoDepart(DepartmentAnno d, ModelAndView mv, HttpServletRequest request, @RequestParam(name="reUploadFile", required = false) MultipartFile file, Attachment a ) {
 		String orgChangeName = a.getChangeName();//기존 파일의 수정명
 		
 		if(!file.getOriginalFilename().equals("")) {//새로 넘어온 파일이 있는 경우
