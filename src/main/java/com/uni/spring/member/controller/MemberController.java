@@ -150,7 +150,9 @@ public class MemberController {
 				manageService.insertAttendlog(loginUser.getEmpNo());
 			}
 			Attachment a = manageService.selectInfoEmployeeAtt(String.valueOf(loginUser.getEmpNo()));
-			loginUser.setChangeName(a.getChangeName());
+	         if(a != null) {
+	             loginUser.setChangeName(a.getChangeName());
+	          }
 			model.addAttribute("loginUser",loginUser);
 		
 			return "redirect:approvalMain.do";

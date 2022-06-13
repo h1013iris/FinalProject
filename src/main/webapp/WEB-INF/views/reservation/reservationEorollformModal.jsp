@@ -343,7 +343,7 @@
 		})
 
 		// alert 확인 버튼시
-		$(".cancel_btn").click(function(){
+		$(".res-Cancel-btn").click(function(){
 			$("#alertBackground").hide();
 			$(".reservationEnrollFormModal").show();
 		})
