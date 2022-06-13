@@ -31,7 +31,6 @@
 	.formMainArea {
 		/*border: 1px solid red;*/
 		padding: 70px 0 0 100px;
-		float: left;
 	}
 	
 	.docEnrollForm {	
@@ -42,10 +41,11 @@
 		border: 1px solid darkgray;
 		background-color: white;
 		padding: 0 25px 25px 25px;
+		float: left;
 	}
 	
 	.docEnrollBtnsArea {
-		/*padding-top: 34%;*/
+		padding-top: 0;
 		padding-left: 82.5%;
 	}
 	

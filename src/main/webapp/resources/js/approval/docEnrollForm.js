@@ -9,6 +9,16 @@
 	}
 	
 	
+	// 결재 요청하겠냐는 모달 띄우는 함수
+	function approveCheckFn() {
+	
+		let title = "결재 요청 확인";
+		let content = "결재를 요청하시겠습니까?";
+
+		myConfirm(title, content);
+	}
+	
+	
 	
 	// 결재 요청 alert 모달에서 확인 클릭 시 결과에 따라 모달 띄우는 함수
 	function resultFn() {

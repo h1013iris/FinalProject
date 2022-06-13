@@ -226,19 +226,15 @@
 	                data: { deptNo : "${ loginUser.departmentNo }",
 	                		jobNo : "${ loginUser.jobNo }"},
 	                success: function (data) {
-						console.log(data);
-	                	
-						if(data != null || data != "") {
+					console.log(data);
+	                	if(data != null || data != "") {
 	                		
 	                		$("#firstAprvName").val(data[0].empName);
 	                		$("#firstAprv").val(data[0].empNo);
 	                		$("#firstAprvJob").val(data[0].jobName);
-	                		
-	                		if(data.length > 1) {
- 	                			$("#secondAprvName").val(data[1].empName);
- 	 	                		$("#secondAprv").val(data[1].empNo);
- 	 	                		$("#secondAprvJob").val(data[1].jobName);
- 	                		}
+	                		$("#secondAprvName").val(data[1].empName);
+	                		$("#secondAprv").val(data[1].empNo);
+	                		$("#secondAprvJob").val(data[1].jobName)
 	                	}
 	                }
 		 		})

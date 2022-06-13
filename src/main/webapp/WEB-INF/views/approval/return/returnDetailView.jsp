@@ -142,7 +142,8 @@
 	        	</c:choose>
 				<div class="docDetailBtnsArea">
 					<button class="commonButton1 delete_btn docDetailBtn" type="button">삭제</button><br>
-					<button class="commonButton1 returnList_btn docDetailBtn" onclick="location.href='returnMain.do'" type="button">목록으로</button>
+					<button class="commonButton1 returnList_btn docDetailBtn" 
+							onclick="location.href='returnMain.do'" type="button">목록으로</button>
 				</div>
 				<div class="returnReasonArea">
 					<div class="returnReason_main">
@@ -175,7 +176,8 @@
 				loginFn(); // 로그인 먼저
 			
 			} else {
-			
+				
+				// 반려 관련 내용 가져오는 ajax
 				$.ajax({
 	    			
 	    			type: "post",
@@ -233,6 +235,7 @@
     	});
     	
     	
+    	// confirm 결과에 따라 문서 삭제 진행하는 함수
     	function resultFn() {
     		
     		// 취소 버큰 클릭 시 confirm 모달창 닫기

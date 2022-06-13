@@ -251,18 +251,17 @@
  	                		jobNo : "${ loginUser.jobNo }"},
  	                success: function (list) {
 						console.log(list);
- 	                	
-						if(list != null || list != "") {
+ 	                	if(list != null || list != "") {
  	                		
  	                		$("#firstAprvName").val(list[0].empName);
  	                		$("#firstAprv").val(list[0].empNo);
  	                		$("#firstAprvJob").val(list[0].jobName);
- 	                		
- 	                		if(data.length > 1) {
- 	                			$("#secondAprvName").val(data[1].empName);
- 	 	                		$("#secondAprv").val(data[1].empNo);
- 	 	                		$("#secondAprvJob").val(data[1].jobName);
- 	                		}
+ 	                	}
+ 	                	
+ 	                	if(list.length == 2) {
+ 	                		$("#secondAprvName").val(list[1].empName);
+ 	                		$("#secondAprv").val(list[1].empNo);
+ 	                		$("#secondAprvJob").val(list[1].jobName);
  	                	}
  	                }
 		 		})

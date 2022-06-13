@@ -5,48 +5,37 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>휴가 신청서</title>
+<title>근태 기록 수정 신청서</title>
 <style type="text/css">
-	
-	.drafterArea {
-		/*border: 1px solid blue;*/
-	}
-	
-	.drafterAreaTable {
-		/*float: right;*/
-	}
-	
-	/*#vacUseDays:invalid  {
-		background-color: #e79fa5;
-	}*/
 	
 </style>
 </head>
 <body>
 
+	
 	<div class="formMainArea">
-		
-		<form class="docEnrollForm" action="insertLeaveApp.do" method="post">
+		<form class="docEnrollForm" action="insertCmtUpdateApp.do" method="post">
 			<input type="hidden" name="docTypeNo" value="${ docForm }"/>
 			<input type="hidden" name="docType" value="${ docForm }"/>
 			<input type="hidden" name="drafter" value="${ loginUser.empNo }"/>
 			<input type="hidden" name="drafterDept" value="${ loginUser.departmentNo }"/>
 			<input type="hidden" name="approver" value="${ loginUser.empNo }"/>
 			<input type="hidden" name="approverJob" value="${ loginUser.jobNo }"/>
+			<!-- <input type="hidden" id="docTitle" name="docTitle" value="${ docTitle }"/> -->
 			<input type="hidden" name="aprvPro" value="D"/>
 			
 			<div class="formArea" style="font-family:돋움; font-size:9pt;">
-		
+			
 				<table style="border: 0px solid rgb(0, 0, 0); width: 800px; font-family: malgun gothic, dotum, arial, tahoma; margin-top: 1px; border-collapse: collapse;"><!-- Header --> 
 				    <colgroup> 
-				     <col width="310"> 
-				     <col width="490"> 
+				     	<col width="310"> 
+				     	<col width="490"> 
 				    </colgroup> 
 		    
 					<tbody>
 						<tr>
 							<td style="background: white; padding: 0px !important; border: 0px currentColor; height: 90px; text-align: center; color: black; font-size: 36px; font-weight: bold; vertical-align: middle;" colspan="2" class="dext_table_border_t dext_table_border_r dext_table_border_b dext_table_border_l">
-								휴가 신청서
+								근태 기록 수정 신청서
 							</td>
 						</tr>
 						<tr>
@@ -64,9 +53,9 @@
 												기안자
 											</td>
 											<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-												<div contenteditable="false" data-cid="0" data-dsl="{{label:draftUser}}" data-wrapper="" style="" data-value="" data-autotype="">
-													<input class="fix_input" id="drafter" name="drafterName" value="${ loginUser.empName }" readonly/>
-												</div> 
+												<span contenteditable="false">
+													<input class="fix_input" id="drafter" name="drafterName" value="${ loginUser.empName } (${ loginUser.empNo })" readonly/>
+												</span> 
 											</td>
 										</tr>
 										<tr>
@@ -74,9 +63,9 @@
 												소속
 											</td>
 											<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-												<div contenteditable="false" data-cid="1" data-dsl="{{label:draftDept}}" data-wrapper="" style="" data-value="" data-autotype="">
-													<input class="fix_input" id="drafterDept" name="drafterDeptName" value="" readonly/>
-												</div>
+												<span contenteditable="false">
+													<input class="fix_input" id="drafterDept" name="drafterDept" value="" readonly/>
+												</span>
 											</td>
 										</tr>
 										<tr>
@@ -84,9 +73,9 @@
 												기안일 
 											</td>
 											<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-												<div contenteditable="false">
-													<input class="fix_input" id="dftDate" name="dftDate" value="" readonly/>
-												</div>
+												<span contenteditable="false">
+													<input class="fix_input" id="draftDate" name="draftDate" type="date" readonly/>
+												</span>
 											</td>
 										</tr>
 										<tr>
@@ -94,9 +83,9 @@
 												문서번호 
 											</td>
 											<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-												<div contenteditable="false">
+												<span contenteditable="false">
 													<input class="fix_input" value="문서번호" readonly/>
-												</div>
+												</span>
 											</td>
 										</tr>
 									</tbody>
@@ -116,8 +105,8 @@
 													1차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input type="hidden" id="firstAprv" name="firstAprv" value="" required/>
-													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly required/>
+													<input type="hidden" id="firstAprv" name="firstAprv" value=""/>
+													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly/>
 													<input class="fix_input approverJop" id="firstAprvJob" value="" readonly/>
 												</td>
 											</tr>
@@ -149,47 +138,59 @@
 					<tbody>
 						<tr>
 							<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;">
-								<b style="color: rgb(255, 0, 0);">*</b> 휴가 종류
+								<b style="color: rgb(255, 0, 0);">*</b> 수정일
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; height: 25px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle;">
-								<div contenteditable="false">
-									<select id="vacType" name="vacType" style="width:40%">
-										<option value="none">선택</option>
-										<option value="연차">연차</option>
-										<option value="오전반차">오전반차</option>
-										<option value="오후반차">오후반차</option>
-										<option value="보건휴가">보건휴가</option>
-										<option value="병가(무급휴가)">병가(무급휴가)</option>
-									</select>
-								</div>
+								<span style="font-weight: normal;">
+									<span contenteditable="false">
+										<input id="updateDate" name="updateDate" type="date">
+									</span>
+									<span id="formErrorMsg" style="color: red; margin-left: 5px;"></span>
+								</span>
 							</td>
 						</tr>
 						<tr>
 							<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;">
-								<b style="color: rgb(255, 0, 0);">*</b> 휴가 기간
+								<b style="color: rgb(255, 0, 0);">*</b> 수정 전 시간
 							</td>
 							<td style="padding: 5px; border: 1px solid black; height: 25px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; vertical-align: middle; background-color: rgb(255, 255, 255);">
 								<span style="font-weight: normal;">
-									<span contenteditable="false" data-cid="5" data-dsl="{{period}}" data-wrapper="" style="" data-value="" data-autotype="">
-										<input id="startDate" name="startDate" type="date" readonly> ~ 
-										<input id="endDate" name="endDate" type="date">
-									</span> &nbsp;
-								</span> &nbsp;
-								<b>사용일수 : </b>
-								<span contenteditable="false">
-									<input id="vacUseDays" name="vacUseDays" type="number" min="0.5" step="0.5" style="width: 15%" readonly>
-								</span>일
-								<span id="formErrorMsg" style="color: red; margin-left: 5px;"></span>
+									<span contenteditable="false">
+										출근 :
+										<input id="beAttendTime" type="time" value ="" readonly> &nbsp; &nbsp;
+										<input type="hidden" id="beAttendTime2" name="beAttendTime"/>
+										퇴근 :
+										<input id="beLeaveTime" type="time" value ="" readonly>
+										<input type="hidden" id="beLeaveTime2" name="beLeaveTime"/>
+									</span>
+								</span>
+							</td>
+						</tr>
+						<tr>
+							<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;">
+								<b style="color: rgb(255, 0, 0);">*</b> 수정 후 시간
+							</td>
+							<td style="padding: 5px; border: 1px solid black; height: 25px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; vertical-align: middle; background-color: rgb(255, 255, 255);">
+								<span style="font-weight: normal;">
+									<span contenteditable="false">
+										출근 :
+										<input id="attendTime" type="time"> &nbsp; &nbsp;
+										<input type="hidden" id="attendTime2" name="attendTime"/>
+										퇴근 :
+										<input id="leaveTime" type="time">
+										<input type="hidden" id="leaveTime2" name="leaveTime"/>
+									</span>
+								</span>
 							</td>
 						</tr>
 						<tr>
 							<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 250px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;">
-								<b style="color: rgb(255, 0, 0);">*</b> 휴가 사유
+								<b style="color: rgb(255, 0, 0);">*</b> 수정 사유
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;">
-								<div contenteditable="false" style="width: 100%;">
-									<textarea class="txta_editor" id="vacReason" name="vacReason" style="width: 99%; height: 240px; resize: vertical;" maxlength="500"></textarea>
-								</div> 
+								<span contenteditable="false" style="width: 100%;">
+									<textarea class="txta_editor" id="updateReason" name="updateReason" style="width: 99%; height: 240px; resize: vertical;" maxlength="500"></textarea>
+								</span> 
 							</td>
 						</tr>
 					</tbody>
@@ -199,35 +200,27 @@
 			<div class="docEnrollBtnsArea">
 				<button class="commonButton1 submit_btn docEnrollBtn" type="button">결재요청</button> <br>
 				<button class="commonButton1 outbox_btn docEnrollBtn donEnrollOutboxBtn" type="button">임시저장</button> <br> <%-- 임시저장 기능 --%>
-				<button class="commonButton1 cancle_btn docEnrollBtn donEnrollCancleBtn" type="button">취소</button>
+				<button class="commonButton1 cancle_btn docEnrollBtn donEnrollCancleBtn" type="button" style="background-color: #c8c8c8 !important;">취소</button>
 			</div>
 		</form>
  	</div>
  	
+ 	
  	<script type="text/javascript">
  		
- 		// 임시저장 버튼 클릭 시 카운팅될 변수 선언
- 		let count = 0;
- 		
  		// 화면 로드 시 가장 먼저 실행
- 		$(document).ready(function() {
- 			
-			// 로그인이 되어있지 않으면
-			if("${ loginUser.empNo }" == "") {
+	 	$(document).ready(function() {
+	 		
+ 			// 로그인이 되어있지 않으면
+ 			if("${ loginUser.empNo }" == "") {
  				
-				loginFn(); // 로그인 먼저
+ 				loginFn(); // 로그인 먼저
  			
-			} else {
-				
-				count = 0; // 화면 로드 시마다 임시저장 버튼 클릭 시 카운팅될 변수 0으로 초기화
-				
- 				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
- 				// 휴가 시작 날짜, 기안일 오늘 날짜로 기본값 설정
- 	 			$("#dftDate").val(today);
- 	 			$("#startDate").val(today);
- 	 			//$("#endDate").val(today);
- 	 			
- 	 			// 소속 (로그인 유저의 부서 가져오기)
+ 			} else {
+ 		 		// 기안일 오늘 날짜로 설정
+				$("#draftDate").val(new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10));
+ 			
+				// 소속 (로그인 유저의 부서 가져오기)
 		 		$.ajax({
 		 			
 		 			type: "post",
@@ -247,202 +240,173 @@
 		 			
 		 			type: "post",
  	                url: "selectDeptApprover.do",
- 	                data: { deptNo : "${ loginUser.departmentNo }",
- 	                		jobNo : "${ loginUser.jobNo }"},
- 	                success: function (list) {
-						console.log(list);
- 	                	
-						if(list != null || list != "") {
+ 	               	data: { deptNo : "${ loginUser.departmentNo }",
+                			jobNo : "${ loginUser.jobNo }"},
+ 	                success: function (data) {
+						console.log(data);
+ 	                	if(data != null || data != "") {
  	                		
- 	                		$("#firstAprvName").val(list[0].empName);
- 	                		$("#firstAprv").val(list[0].empNo);
- 	                		$("#firstAprvJob").val(list[0].jobName);
- 	                		
- 	                		if(data.length > 1) {
- 	                			$("#secondAprvName").val(data[1].empName);
- 	 	                		$("#secondAprv").val(data[1].empNo);
- 	 	                		$("#secondAprvJob").val(data[1].jobName);
- 	                		}
+ 	                		$("#firstAprvName").val(data[0].empName);
+ 	                		$("#firstAprv").val(data[0].empNo);
+ 	                		$("#firstAprvJob").val(data[0].jobName);
+ 	                		$("#secondAprvName").val(data[1].empName);
+ 	                		$("#secondAprv").val(data[1].empNo);
+ 	                		$("#secondAprvJob").val(data[1].jobName);
  	                	}
  	                }
 		 		})
  			}
  			
- 		})
-		
+	 	})
  		
-		
-		// 휴가 종류에 따른 기간 유효성 검사
-		$("#vacType").change(function() {
-			
-			reset();
-			
-			let thisVal = $(this).val();
-			
-			// 반차 선택 시 시작 날짜와 끝 날짜 일치, 사용일수 0.5로 고정
-			if(thisVal.indexOf("반차") > 0) {
-				
-				document.getElementById("endDate").value = $("#startDate").val();
-				$("#endDate").attr('readonly', true);
-				
-				document.getElementById("vacUseDays").value = 0.5;
-				$("#vacUseDays").attr('readonly', true);
-			}
-		})
-		
-		
-		
-		// 끝 날짜 수정 시
- 		$("#endDate").change(function() {
+ 		
+	 	// 수정일 변경 시
+ 		$("#updateDate").change(function() {
  			
- 			$("#formErrorMsg").empty(); // 날짜 바뀌면 text 비워주기
-			
-			let startDate = new Date($("#startDate").val());
- 			let endDate = new Date($("#endDate").val());
+ 			$("#formErrorMsg").empty();
  			
- 			console.log(startDate)
- 			console.log(endDate)
+ 			let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10); // 오늘 날짜
+ 			let updateDate = new Date($(this).val());
  			
-			// 휴가 날짜 유효성 검사 위해
-			let diffDate = endDate.getTime() - startDate.getTime();
-			let dateDays = diffDate / (1000 * 3600 * 24);
-			
-			//console.log(dateDays);
-			
-			// 휴가 시작 날짜가 끝 날짜보다 큰 경우
-			if(dateDays < 0) {
+ 			
+ 			if(updateDate > today) {
+ 				$("#formErrorMsg").text("내일 이후는 선택할 수 없습니다.");
+				$("#updateDate").val(''); // 날짜 비워주고
+ 				$("#updateDate").focus(); // 포커싱
+ 			
+ 			
+ 			} else if(updateDate == today) {
+ 				$("#formErrorMsg").text("오늘 근태 기록은 수정할 수 없습니다.");
+				$("#updateDate").val(''); // 날짜 비워주고
+ 				$("#updateDate").focus(); // 포커싱
+ 			
+ 			// 해당 날짜 출퇴근 기록 가져와서 수정 전 시간에 출력하기
+ 			} else {
 				
-				$("#formErrorMsg").text("시작일보다 빠를 수 없습니다.");
-				$("#endDate").val(''); // 끝 날짜 비워주고
- 				$("#endDate").focus(); // 포커싱
- 				$("#vacUseDays").val(''); // 사용일수도 비우기
+ 				$.ajax({
+ 					
+ 	 				type: "post",
+ 	                url: "selectCmt.do",
+ 	                data: { userNo : "${ loginUser.empNo }",
+ 	                		date : $("#updateDate").val()
+ 	                	  },
+ 	                success: function (attendLog) {
+ 	                	
+ 	                	if(attendLog != null) {
+ 	                		
+ 	                		$("#beAttendTime").val(attendLog.attendTime2);
+ 	 	                	$("#beLeaveTime").val(attendLog.leaveTime2);
+ 	 	                	
+ 	 	                	beforeTimeFn(); // 수정 전 시간 날짜와 합치는 함수 호출
+ 	 	                	// 꼭 ajax 안에서 해야 함 !!!!!!!!!!!!!!!!!!!
+ 	 	                	// 아니면 value 값 못 가져오 ㅁ...................
+ 	                	
+ 	                	} else {
+
+ 	                		$("#formErrorMsg").text("해당 날짜는 근태 기록이 없습니다.");
+ 	                		$("#updateDate").val(''); // 날짜 비워주고
+ 	                		$("#updateDate").focus(); // 포커싱
+ 	                	}
+ 	             		
+ 	                }	
+ 	                	
+ 				});
+ 			}
+		
+ 		});
+ 		
+ 		
+ 		// ----------- 시간 데이터 넘기기 위해 날짜 합쳐서 hidden 으로 넘겨줌
+ 		// 객체에서 해당 타입 Stringd으로 바꾸고 insert 시 to_date 로 형변환
+ 		
+ 		// 수정 전 시간 날짜와 합치는 함수
+ 		function beforeTimeFn() {
+ 			
+ 			let updateDate = $("#updateDate").val();
+ 	 			
+			let beAttendTime = $("#beAttendTime").val();
+			let beLeaveTime = $("#beLeaveTime").val();
+			
+			$("#beAttendTime2").val(updateDate + " " + beAttendTime);
+			$("#beLeaveTime2").val(updateDate + " " + beLeaveTime);
+			
+			console.log($("#beAttendTime2").val());
+			console.log($("#beLeaveTime2").val());
+ 		}
+ 		
+ 		// 수정 후 출근 시간 변경 시
+ 		$("#attendTime").change(function() {
+ 			
+ 			let updateDate = $("#updateDate").val();
  				
-				
- 			// 휴가 기간 잘 입력한 경우
-			} else {
-				
-				var count = 0; // 주말 제외 평일 카운트할 변수 선언
-				
-				while(true) {  
-				    
-					var temp_date = startDate;
-					
-				    if(temp_date.getTime() > endDate.getTime()) {
-				        //console.log("count : " + count);
-				        break;
-				    
-				 	} else {
-				        
-				    	var tmp = temp_date.getDay();
-				        
-						if(tmp == 0 || tmp == 6) { // 주말
-				            //console.log("주말");
-
-				        } else { // 평일
-				            //console.log("평일");
-				            count++;
-				        }
-						
-				        temp_date.setDate(startDate.getDate() + 1); 
-				    }						
-			
-				}
-				
-				// 휴가 11일 이상 사용 시
-				if(count > 10) {
-					$("#formErrorMsg").text("11일 이상 사용할 수 없습니다.");
-					$("#endDate").val(''); // 끝 날짜 비워주고
-	 				$("#endDate").focus(); // 포커싱
-	 				$("#vacUseDays").val(''); // 사용일수도 비우기
-				
-				} else {
-					$("#vacUseDays").val(count);
-					$("#vacUseDays").attr('readonly', true);
-				}
-			}
+			$("#attendTime2").val(updateDate + " " + $("#attendTime").val());
  		})
-		
  		
-		
-		// 날짜, 사용일수 리셋하는 함수
-		function reset() {
-			
-			document.getElementById("endDate").value = "";
-			document.getElementById("vacUseDays").value = "";
-			$("#endDate").removeAttr('readonly');
-			$("#vacUseDays").removeAttr('readonly');
-			$("#formErrorMsg").empty();
-		}
-
-		
-		
-		// 결재 요청 버튼 클릭 시
+ 		// 수정 후 퇴근 시간 변경 시
+ 		$("#leaveTime").change(function() {
+ 			
+ 			let updateDate = $("#updateDate").val();
+ 			
+ 			$("#leaveTime2").val(updateDate + " " + $("#leaveTime").val());
+ 		})
+ 		
+ 		
+ 		// 결재 요청 버튼 클릭 시
  		$(".submit_btn").click(function() {
  			
- 			let drafter = $("#drafter").val();
- 			let drafterDept = $("#drafterDept").val();
- 			let draftDate = $("#draftDate").val();
- 			let vacType = $("#vacType").val();
- 			let startDate = $("#startDate").val();
- 			let endDate = $("#endDate").val();
- 			let vacUseDays = $("#vacUseDays").val();
- 			let vacReason = $("#vacReason").val();
+ 			let updateDate = $("#updateDate").val();
+ 			let beAttendTime = $("#beAttendTime").val();
+ 			let beLeaveTime = $("#beLeaveTime").val();
+ 			let attendTime = $("#attendTime").val();
+ 			let leaveTime = $("#leaveTime").val();
+ 			let updateReason = $("#updateReason").val();
  			
- 			
-			if(drafter == null || drafter == "" || drafterDept == null || drafterDept == "") {
+			if(updateDate == null || updateDate == "") {
  				
 				let title = "문서 작성 확인";
- 				let content = "로그인이 필요합니다.";
-				let focus="";
+ 				let content = "수정일을 선택해주세요.";
+				let focus="#updateDate";
 				
 				myAlert(title, content);
 				focusFn(focus);
  				
- 			} else if(vacType == "none") {
- 				 
+ 			} else if((beAttendTime == null || beAttendTime == "" )
+ 						&& (beLeaveTime == null || beLeaveTime == "")) {
+ 				
  				let title = "문서 작성 확인";
- 				let content = "휴가 종류를 선택해주세요.";
- 				let focus = "#vacType";
-
- 				myAlert(title, content);
+ 				let content = "수정할 근태 기록이 없습니다.";
+				let focus="#beAttendTime";
+				
+				myAlert(title, content);
 				focusFn(focus);
  				
- 			} else if(startDate == null || startDate == "") {
+ 			} else if(attendTime == null || attendTime == "") {
  				
  				let title = "문서 작성 확인";
- 				let content = "휴가 시작 날짜를 선택해주세요.";
- 				let focus = "#startDate";
- 
- 				myAlert(title, content);
+ 				let content = "수정 후 출근 시간을 기입해주세요.";
+				let focus="#attendTime";
+				
+				myAlert(title, content);
 				focusFn(focus);
  				
- 			} else if(endDate == null || endDate == "") {
+ 			} else if(leaveTime == null || leaveTime == "") {
  				
  				let title = "문서 작성 확인";
- 				let content = "휴가 마지막 날짜를 선택해주세요.";
- 				let focus = "#endDate";
- 				
- 				myAlert(title, content);
-				focusFn(focus);
- 				
- 			} else if(vacUseDays == null || vacUseDays == "") {
- 				
- 				let title = "문서 작성 확인";
- 				let content = "사용일수를 입력해주세요.";
- 				let focus = "#vacUseDays";
- 				
- 				myAlert(title, content);
+ 				let content = "수정 후 출근 시간을 기입해주세요.";
+				let focus="#leaveTime";
+				
+				myAlert(title, content);
 				focusFn(focus);
  			
- 			} else if(vacReason == null || vacReason == "") {
+ 			} else if(updateReason == null || updateReason == "") {
  				
  				let title = "문서 작성 확인";
- 				let content = "휴가 사유를 작성해주세요.";
- 				let focus = "#vacReason";
- 				
- 				myAlert(title, content);
+ 				let content = "수정 사유를 작성해주세요.";
+				let focus="#updateReason";
+				
+				myAlert(title, content);
 				focusFn(focus);
-			
+ 			
  			// 모두 잘 입력되어 있는 경우
  			} else {
  				
@@ -452,22 +416,20 @@
 	    		$(document).on("click", ".true_btn", function() {
 	    			$("#helpmeCOnfirm").hide();
 	    			
-	    			leaveEnrollFn(); // 휴가 신청서 결재 요청 함수
+	    			cmpUpdateEnrollFn(); // 근태 기록 수정 신청서 결재 요청 함수
 	    		});
 	    		
 	    		// 취소 클릭 시 confirm 모달 닫기만
 	    		$(".false_btn").click(function() {
 	    		    $("#helpmeCOnfirm").hide();
 	    		});
-
- 			}
-		
- 		})
+ 			}	
+ 		});
  		
  		
- 		// 휴가 신청서 결재 요청 함수
- 		function leaveEnrollFn() {
-			
+ 		// 근태 기록 수정 신청서 결재 요청 함수
+ 		function cmpUpdateEnrollFn() {
+ 			
  			// 폼의 모든 데이터 저장해서 변수로 선언
  			let form = $(".docEnrollForm").serialize();
  			
@@ -475,7 +437,7 @@
  			$.ajax({
  				
  				type: "post",
-                url: "insertLeaveApp.do",
+                url: "insertCmtUpdateApp.do",
                 data: form,
                 success: function (result) {
                 	console.log(result)
@@ -484,10 +446,10 @@
 					
                     	let title = "결재 요청 확인";
                     	let content = "결재가 성공적으로 요청되었습니다.";
-                    	
+
                     	myAlert(title, content);
                     	resultFn();
-                    	
+	           	 		
                     } else {
                     	
                     	let title = "결재 요청 확인";
@@ -496,90 +458,50 @@
                     	myAlert(title, content);
                     	resultFn();
                		}
-                } 	                
-            });
-		}
+                }
+        	});
+ 		}
+ 		
  		
  		// 임시저장 버튼 클릭 시 
  		$(document).on("click", ".donEnrollOutboxBtn", function() {
-			
- 			/*count++;
- 			console.log(count);*/
- 			
- 			// 날짜 비워져있으면 타입 미스매치 애러 발생하기 때문에 임의로 시작 날짜와 동일하게 설정해줌
- 			/*let endDate = $("#endDate").val();
- 			let startDate = $("#startDate").val();
- 			
- 			if(endDate == null || endDate == "") {
- 				console.log("끝 날짜 null");
- 				$("#endDate").val(startDate);
- 			}*/
- 			
+ 		
  			// 폼의 모든 데이터 저장해서 변수로 선언
  			let form = $(".docEnrollForm").serialize();
  		
- 			/*if(count == 1) {
- 				console.log("임시 보관함에 등록");*/
- 				
- 	 			// 임시 보관함에 저장하는 ajax 실행
- 	    		$.ajax({
- 	    			
- 	    			type: "post",
- 	    			url: "saveLeaveFormOutbox.do",
- 	    			data: form,
- 	    			success: function(result) {
- 	    				console.log(result);
- 	    				
- 	    				if(result == "success") {
- 	    					let title = "임시 보관함 저장"
- 	    					let content = "해당 문서가 임시 보관함에 저장되었습니다."
- 	    					
- 	    					myAlert(title, content);
- 	    					resultFn(); // 취소 클릭 시 결재 메인으로 이동
- 	    					
- 	    				} else {
- 	    					let title = "임시 보관함 저장"
-	    					let content = "임시 보관함에 저장을 실패하었습니다."
-	    					
-	    					myAlert(title, content);
- 	    					resultFn();
- 	    				}
- 	    			}
- 	    		});
- 			
- 			/*} else if(count > 1) {
- 				
- 				// 해당 임시 보관함 번호 가져와서 업데이트하는 ajax 실행
- 				$.ajax({
- 				
- 					type: "post",
- 	    			url: "updateLeaveFormOutbox.do",
- 	    			data: form,
- 	    			success: function(result) {
- 	    				console.log(result);
- 	    				
- 	    				if(result == "success") {
- 	    					let title = "임시 보관함 저장"
- 	    					let content = "해당 문서가 임시 보관함에 저장되었습니다."
- 	    					
- 	    					myAlert(title, content);
- 	    					
- 	    				} else {
- 	    					let title = "임시 보관함 저장"
-	    					let content = "임시 보관함에 저장을 실패하었습니다."
-	    					
-	    					myAlert(title, content);
- 	    				}
- 	    			}
- 				});
- 			}*/
+ 			// 임시 보관함에 저장하는 ajax 실행
+    		$.ajax({
+    			
+    			type: "post",
+    			url: "saveCmpUdpFormOutbox.do",
+    			data: form,
+    			success: function(result) {
+    				console.log(result);
+    				
+    				if(result == "success") {
+    					let title = "임시 보관함 저장"
+    					let content = "해당 문서가 임시 보관함에 저장되었습니다."
+    					
+    					myAlert(title, content);
+    					resultFn(); // 취소 클릭 시 결재 메인으로 이동
+    					
+    				} else {
+    					let title = "임시 보관함 저장"
+   						let content = "임시 보관함에 저장을 실패하었습니다."
+   					
+   						myAlert(title, content);
+    					resultFn();
+    				}
+    			}
+    		});
  			
  		});
- 		
- 		
+		
  	</script>
  	
 	<script src="${ pageContext.servletContext.contextPath }/resources/js/approval/docEnrollForm.js"></script>
+ 	
+ 	
  	
 </body>
 </html>
