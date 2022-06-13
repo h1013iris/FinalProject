@@ -20,12 +20,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.uni.spring.addressBook.model.dto.Dept;
+import com.uni.spring.common.Attachment;
+import com.uni.spring.manageMent.model.service.ManageService;
 import com.uni.spring.member.model.dto.Member;
 import com.uni.spring.member.model.dto.WideMember;
 import com.uni.spring.member.model.service.MemberService;
 
 //로그인용
 @SessionAttributes("loginUser")//SessionAttribute는 세션에 있는 데이터도 바인딩하며 여러화면에서 사용하는 객체를 공유할때 사용(여러화면에 나눠진 회원가입,장바구니등)
+
 @Controller
 public class MemberController {
 	
@@ -37,6 +40,10 @@ public class MemberController {
 	
 	@Autowired
 	private JavaMailSender mailSender;
+	
+	@Autowired
+	public ManageService manageService;
+	
 	
 	//회원가입 이전에 사번 입력하는 화면으로 이동
 	@GetMapping(value="empNo.do")
@@ -123,7 +130,11 @@ public class MemberController {
 		
 		try {
 			loginUser=memberService.loginMember(bCryptPasswordEncoder, m);
-			
+			if(loginUser != null) {//로그인 유저가 널이 아니면
+				manageService.insertAttendlog(loginUser.getEmpNo());
+			}
+			Attachment a = manageService.selectInfoEmployeeAtt(String.valueOf(loginUser.getEmpNo()));
+			loginUser.setChangeName(a.getChangeName());
 			model.addAttribute("loginUser",loginUser);
 		
 			return "redirect:approvalMain.do";

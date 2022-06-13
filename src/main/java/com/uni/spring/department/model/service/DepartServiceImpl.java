@@ -10,7 +10,7 @@ import com.uni.spring.board.model.dto.Board;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.common.exception.CommException;
 import com.uni.spring.department.model.dao.DepartDao;
-import com.uni.spring.department.model.dto.Department;
+import com.uni.spring.department.model.dto.DepartmentAnno;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
 import com.uni.spring.department.model.dto.ProjectClass;
@@ -28,7 +28,7 @@ public class DepartServiceImpl implements DepartService {
 	private DepartDao departDao;
 
 	@Override
-	public void insertAnnoDepart(Department d, Attachment a) {
+	public void insertAnnoDepart(DepartmentAnno d, Attachment a) {
 		int result = departDao.insertAnnoDepart(sqlSession, d);//공지사항 넣기
 		
 		if(result>0) {
@@ -46,8 +46,8 @@ public class DepartServiceImpl implements DepartService {
 	}
 
 	@Override
-	public ArrayList<Department> selectAnnoDepartList(int adno) {
-		ArrayList<Department> list = departDao.selectAnnoDepartList(sqlSession, adno);
+	public ArrayList<DepartmentAnno> selectAnnoDepartList(int adno) {
+		ArrayList<DepartmentAnno> list = departDao.selectAnnoDepartList(sqlSession, adno);
 		System.out.println("공지사항 리스트 가져와"+list.toString());
 		return list;
 	}
@@ -59,7 +59,7 @@ public class DepartServiceImpl implements DepartService {
 	}
 
 	@Override
-	public Department selectDepartmentAnno(int adno) {
+	public DepartmentAnno selectDepartmentAnno(int adno) {
 		
 		return departDao.selectDepartmentAnno(sqlSession, adno);
 	}
@@ -87,7 +87,7 @@ public class DepartServiceImpl implements DepartService {
 	
 
 	@Override
-	public void updateAnnoDepart(Department d, Attachment a) {
+	public void updateAnnoDepart(DepartmentAnno d, Attachment a) {
 		int result = departDao.updateAnnoDepart(sqlSession, d);//공지사항 수정
 		if(result>0) {
 			if(a.getOriginName()!=null) {
@@ -410,7 +410,7 @@ public class DepartServiceImpl implements DepartService {
 	}
 
 	@Override
-	public ArrayList<Department> selectAnnoDepartListMain(int departmentNo) {
+	public ArrayList<DepartmentAnno> selectAnnoDepartListMain(int departmentNo) {
 		
 		return departDao.selectAnnoDepartListMain(sqlSession, departmentNo);
 	}

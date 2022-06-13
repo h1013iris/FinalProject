@@ -3,5 +3,106 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="manageMapper">
-
+	 <resultMap type="Member" id="wideMemberResultSet">
+	 	<id property="empNo" column="EMP_NO"/>
+	 	<result property="userId" column="USER_ID"/>
+	 	<result property="userPw" column="USER_PW"/>
+	 	<result property="empName" column="EMP_NAME"/>
+	 	<result property="userNo" column="USER_NO"/>
+	 	<result property="email" column="EMAIL"/>
+	 	<result property="phone" column="PHONE"/>
+	 	<result property="address" column="ADDRESS"/>
+	 	<result property="hireDate" column="HIRE_DATE"/>
+	 	<result property="status" column="STATUS"/>
+	 	<result property="endDate" column="END_DATE"/>
+	 	<result property="jobNo" column="JOB_NO"/>
+	 	<result property="departmentNo" column="DEPARTMENT_NO"/>
+	 	<result property="jobName" column="JOB_NAME"/>
+	 	<result property="departmentName" column="DEPARTMENT_TITLE"/>
+	 </resultMap> 
+ 	<resultMap type="Attachment" id="attachmentResultSet">
+		<id property="fileNo" column="FILE_NO"/>
+		<result property="refListCatNo" column="REF_LIST_CAT_NO"/>
+		<result property="largeCat" column="LARGE_CAT"/>
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+	</resultMap>
+	<resultMap type="Project" id="projectResultSet">
+		<id property="proNo" column="PRO_NO"/>
+		<result property="proWriter" column="PRO_WRITER"/>
+		<result property="proDepart" column="PRO_DEPART"/>
+		<result property="proTitle" column="PRO_TITLE"/>
+		<result property="count" column="COUNT"/>
+		<result property="proDate" column="PRO_DATE"/>
+		<result property="proStatus" column="PRO_STATUS"/>
+	</resultMap>
+	<select id="selectDepartInfo" parameterType="DepartmentList" resultMap="wideMemberResultSet">
+		SELECT *
+		FROM USER_INFO A
+		JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO =B.JOB_NO
+   		JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO = C.DEPARTMENT_NO 
+   		WHERE A.DEPARTMENT_NO = #{deptNo}
+   		AND STATUS = 'N'
+	</select>
+	<select id="selectInfofilter" parameterType="manageDepart" resultMap="wideMemberResultSet" >
+		SELECT *
+		FROM USER_INFO A
+		JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO =B.JOB_NO
+   		JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO = C.DEPARTMENT_NO 
+   		WHERE STATUS = 'N'
+   		<if test="depNo != null and depNo != 0">
+   			AND A.DEPARTMENT_NO = #{depNo}
+   		</if>
+   		<if test="ord == '이름'">
+   			AND A.EMP_NAME LIKE '%' ||#{searchli}||'%' 
+   		</if>
+   		<if test="ord =='사원번호'">
+   			AND A.EMP_NO LIKE '%' ||#{searchli}||'%' 
+   		</if>
+   		<if test="fil == '직급순'">
+   			ORDER BY C.DEPARTMENT_NO
+   		</if>
+   		<if test="fil == '이름순'">
+   			ORDER BY A.EMP_NAME
+   		</if>
+   		<if test="fil == '입사순'">
+   			ORDER BY A.HIRE_DATE
+   		</if>
+	</select>
+	<select id="selectInfoEmployeeAtt" parameterType="string" resultMap="attachmentResultSet">
+		SELECT *
+		FROM ATTACHMENT
+		WHERE REF_LIST_CAT_NO = 10
+		AND LARGE_CAT = #{empNo}
+		AND STATUS = 'Y'
+	</select>
+	<select id="selectListProject" parameterType="string" resultMap="projectResultSet">
+		SELECT J.PRO_NO, J.PRO_WRITER, J.PRO_DEPART, J.PRO_TITLE, PW.COUNT, J.PRO_DATE, J.PRO_STATUS
+		FROM(SELECT *
+		FROM PROJECT 
+		WHERE PRO_NO IN(SELECT REF_PRO
+		                FROM PRO_WATCHER
+		                WHERE PW_ATTEN =#{empNo}
+		                AND PW_STATUS = 'Y')) J,  (SELECT COUNT(PW_ATTEN) AS COUNT, REF_PRO FROM PRO_WATCHER JOIN PROJECT ON(PRO_NO=REF_PRO) WHERE PW_STATUS = 'Y' GROUP BY REF_PRO ) PW
+		WHERE J.PRO_NO = PW.REF_PRO
+		ORDER BY PRO_NO
+	</select>
+	<select id="countSelect" resultType="_int">
+		SELECT COUNT(*)
+		FROM USER_INFO
+		WHERE STATUS = 'N'
+	</select>
+	<select id = "selectLogInfo" parameterType="_int" resultType="AttendlogMana">
+		SELECT *
+		FROM ATTEND_LOG
+		WHERE EMP_NO = #{empNo}
+		AND TO_DATE(ATTEND_DATE, 'YYYY-mm-dd') = TO_DATE(SYSDATE, 'YYYY-mm-dd')
+		AND STATUS = 'Y'
+	</select>
+	<insert id="insertLogInfo" parameterType="_int">
+		INSERT INTO ATTEND_LOG
+		(ATTEND_NO, EMP_NO, ATTEND_DATE, ATTEND_TIME, ATTEND_STATUS, STATUS)
+		VALUES
+		(SEQ_ATTEND.NEXTVAL, #{empNo}, SYSDATE, SYSDATE, DEFAULT, DEFAULT)
+	</insert>
 </mapper>

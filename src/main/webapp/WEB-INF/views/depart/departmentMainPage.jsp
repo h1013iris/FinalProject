@@ -14,7 +14,6 @@
 		padding-right: 100px;
 	}
 	.upperDivDepart{
-		border: 1px solid red;
 		width: 100%;
 		height: 37vh;
 		display: flex;
@@ -22,7 +21,6 @@
 	}
 	.lowerDivDepart{
 		margin-top:15px;
-		border: 1px solid blue;
 		width: 100%;
 		display:flex;
 		height: 45vh;
@@ -30,24 +28,29 @@
 	}
 	.annoDepartSection{
 		width: 30%;
-		background-color:#e7f1f6;
+		background-color:#f3f3f3;
 		padding: 15px;
+		border: 1px solid;
+   	 	border-radius: 5px;
 	}
 	.boardDepartSection{
 		width: 30%;
-		background-color:#e7f1f6;
+		background-color:#f3f3f3;
 		padding: 15px;
-		border: 1px solid red;
+		border: 1px solid;
+   	 	border-radius: 5px;
 	}
 	.memberDepartSection{
 		width: 32%;
-		border: 1px solid red;
+		border: 1px solid;
+   	 	border-radius: 5px;
 	}
 	.projectDepartSection{
 		width: 64%;
-		background-color:#e7f1f6;
+		background-color:#f3f3f3;
 		padding: 15px;
-		border: 1px solid blue;
+		border: 1px solid;
+   	 	border-radius: 5px;
 	}
 	.projectSDi{
 		overflow-y: scroll;
@@ -57,13 +60,13 @@
 	}
 	.chatDepartSection{
 		width: 32%;
-		border: 1px solid blue;
 	}
 	.annoDepartUpperS{
 		display: flex;
 		justify-content: space-between;
 		height: 10%;
 		margin-bottom: 5%;
+		border-bottom: 1px solid;
 	}
 	.annoDepart_Name{
 		font-size: 23px;

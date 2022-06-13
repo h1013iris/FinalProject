@@ -80,7 +80,8 @@ a{
 }
 
 .pro_img > img{
-    width: 40px;
+    width: 45px;
+    height: 45px;
 }
 
 .page_title{
@@ -200,9 +201,9 @@ a{
     text-align: center;
     border: 1px solid black;
     width: 150px;
+    display:none;
     border-radius: 10px;
     user-select:none;
-    display:none;
     z-index: 99;
     background-color: #fff;
 }
@@ -224,7 +225,12 @@ a{
     display: none;
 }
 
-
+.loginShowP{
+	display: block !important;
+}
+.loginHideP{
+	display: none !important;
+}
 
 .login_status li {
     width: 80%;

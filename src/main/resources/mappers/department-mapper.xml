@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="departMapper">
-	<resultMap type="Department" id="departmentResultSet">
+	<resultMap type="DepartmentAnno" id="departmentResultSet">
 		<id property="annoNo" column="ANNO_NO"/>
 		<result property="refDepart" column="REF_DEPART"/>
 		<result property="annoWR" column="ANNO_WR"/>
@@ -73,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	<result property="email" column="JOB_NAME"/><!-- 직위명 -->
 	 	<result property="status" column="DEPARTMENT_TITLE"/><!-- 부서명 -->
  	</resultMap>
-	<insert id="insertAnnoDepart" parameterType="Department">
+	<insert id="insertAnnoDepart" parameterType="DepartmentAnno">
 		INSERT INTO ANNOUNCE_DEPART
 		VALUES
 		(SEQ_ANNO.NEXTVAL, #{refDepart}, #{annoWR}, #{annoTitle}, #{annoContent}, #{accessReply}, SYSDATE, DEFAULT, DEFAULT, #{attachStatus})
@@ -88,7 +88,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM ANNOUNCE_DEPART AD
 		JOIN USER_INFO ON (ANNO_WR=EMP_NO)
 		WHERE REF_DEPART = #{adno}
-		AND REF_DEPART NOT LIKE 3
 		AND AD.STATUS='Y'
 	</select>
 	<select id="selectAnnoDepartListMain" parameterType="_int" resultMap="departmentResultSet">
@@ -149,7 +148,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND REF_LIST_CAT_NO=60
 		AND STATUS='Y'
 	</update>
-	<update id="updateAnnoDepart" parameterType="Department">
+	<update id="updateAnnoDepart" parameterType="DepartmentAnno">
 		UPDATE ANNOUNCE_DEPART
 		SET ANNO_TITLE =#{annoTitle}, ANNO_CONTENT=#{annoContent}, ACCESS_REPLY=#{accessReply}, ATTACH_STATUS=#{attachStatus}
 		WHERE ANNO_NO = #{annoNo}

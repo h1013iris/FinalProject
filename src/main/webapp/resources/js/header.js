@@ -24,6 +24,11 @@ $(function(){
 	$(document).on("click",".ReservationRoombtn", function(){
 		location.href="enrollFormReservation.do";
 	}) 
+	
+	//4대보험 계산기 모달창
+	$(document).on("click", ".calculate4ALl", function(){
+		$(".calculatemodal").css("display","flex");
+	})
 
     $("#main_nav img").mouseenter(function(){
         $(".detail_nav_content").removeClass("enter");
@@ -41,29 +46,6 @@ $(function(){
     }
 
 
-    $(".status_swap").click(function(){
-        if($(".status_list").css("display") == "block"){
-            $(".status_list").css("display","none")
-        } else {
-            $(".status_list").css("display","block")
-        }
-    })
-
-    $(".status").click(function(){
-        alert($(this).text());
-        $(".login_status").hide();
-    })
-
-
-    $(".pro_img").click(function(){
-        if($(".login_status").css("display") == "none"){
-            $(".status_list").css("display","none")
-            $(".login_status").css("display","block")
-        } else {
-            $(".status_list").css("display","none")
-            $(".login_status").css("display","none")
-        }
-    })
     
     
 	// 모달창 취소 - 공통
@@ -160,3 +142,27 @@ function loginFn() {
 	})
 
 }
+$(".status_swap").click(function(){
+        if($(".status_list").css("display") == "block"){
+            $(".status_list").css("display","none")
+        } else {
+            $(".status_list").css("display","block")
+        }
+    })
+
+    $(".status").click(function(){
+        alert($(this).text());
+        $(".login_status").hide();
+    })
+
+
+    $(".pro_img").click(function(){
+        if($(".login_status").css("display") == "none"){
+            $(".status_list").css("display","none")
+            $(".login_status").css("display","block")
+        } else {
+            $(".status_list").css("display","none")
+            $(".login_status").css("display","none")
+        }
+    })
+    

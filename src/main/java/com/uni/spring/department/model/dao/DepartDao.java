@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.uni.spring.board.model.dto.Board;
 import com.uni.spring.common.Attachment;
-import com.uni.spring.department.model.dto.Department;
+import com.uni.spring.department.model.dto.DepartmentAnno;
 import com.uni.spring.department.model.dto.DepartmentReply;
 import com.uni.spring.department.model.dto.Project;
 import com.uni.spring.department.model.dto.ProjectClass;
@@ -19,7 +19,7 @@ import com.uni.spring.member.model.dto.Member;
 public class DepartDao {
 	
 	//공지사항 넣는 부분
-	public int insertAnnoDepart(SqlSessionTemplate sqlSession, Department d) {
+	public int insertAnnoDepart(SqlSessionTemplate sqlSession, DepartmentAnno d) {
 		return sqlSession.insert("departMapper.insertAnnoDepart", d);
 	}
 
@@ -29,17 +29,17 @@ public class DepartDao {
 	}
 
 	//통합분류에 넣는 부분
-	public int insertAnnoNum(SqlSessionTemplate sqlSession, Department d) {
+	public int insertAnnoNum(SqlSessionTemplate sqlSession, DepartmentAnno d) {
 		
 		return sqlSession.insert("departMapper.insertAnnoNum", d);
 	}
 
-	public int insertAnnoDepartNoAttach(SqlSessionTemplate sqlSession, Department d) {
+	public int insertAnnoDepartNoAttach(SqlSessionTemplate sqlSession, DepartmentAnno d) {
 		
 		return sqlSession.insert("departMapper.insertAnnoDepartNoAttach", d);
 	}
 
-	public ArrayList<Department> selectAnnoDepartList(SqlSessionTemplate sqlSession, int adno) {
+	public ArrayList<DepartmentAnno> selectAnnoDepartList(SqlSessionTemplate sqlSession, int adno) {
 		
 		return (ArrayList)sqlSession.selectList("departMapper.selectAnnoDepartList", adno);
 	}
@@ -49,7 +49,7 @@ public class DepartDao {
 		return sqlSession.update("departMapper.increaseCount",adno);
 	}
 
-	public Department selectDepartmentAnno(SqlSessionTemplate sqlSession, int adno) {
+	public DepartmentAnno selectDepartmentAnno(SqlSessionTemplate sqlSession, int adno) {
 		
 		return sqlSession.selectOne("departMapper.selectDepartmentAnno",adno);
 	}
@@ -68,7 +68,7 @@ public class DepartDao {
 		return sqlSession.update("departMapper.deleteAnnoDepartRef",rlcn);
 	}
 
-	public int updateAnnoDepart(SqlSessionTemplate sqlSession, Department d) {
+	public int updateAnnoDepart(SqlSessionTemplate sqlSession, DepartmentAnno d) {
 		
 		return sqlSession.update("departMapper.updateAnnoDepart", d);
 	}
@@ -308,7 +308,7 @@ public class DepartDao {
 
 	}
 
-	public ArrayList<Department> selectAnnoDepartListMain(SqlSessionTemplate sqlSession, int departmentNo) {
+	public ArrayList<DepartmentAnno> selectAnnoDepartListMain(SqlSessionTemplate sqlSession, int departmentNo) {
 		
 		return (ArrayList)sqlSession.selectList("departMapper.selectAnnoDepartListMain",departmentNo);
 	}
