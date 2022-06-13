@@ -1,0 +1,197 @@
+@charset "UTF-8";
+
+#main_journal_container{
+    width: 80%;
+    margin: 100px auto;
+}
+
+#main_title_container{
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.title_content{
+    display: inline-block;
+    border-left: 1px solid black;
+    width: 24.39%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+
+.title_content:last-of-type{
+    border-right: 1px solid black;
+}
+
+#main_journal{
+    float: left;
+    width: 70%;
+    border: 1px solid black;
+}
+
+#side_note{
+    float: left;
+    width: 29%;
+}
+
+.content{
+    width: 100px;
+    height: 200px;
+}
+
+#main_content_title{
+    margin-left: 100px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+#main_content{
+    width: 90%;
+    margin: 0 auto;
+}
+
+#main_journal_title{
+    border-bottom: 1px solid black;
+    height: 50px;
+    line-height: 50px;
+}
+
+#main_journal_title span{
+    margin-left: 50px;
+}
+
+#side_note_title{
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+}
+
+#side_note_title span{
+    margin-left: 50px;
+}
+
+#side_note{
+    width: 29.77%;
+}
+
+#main_journal_content{
+    width: 99%;
+    height: 492px;
+}
+
+#side_note_content{
+    width: 99%;
+    height: 496px;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+
+#uniqueness_content{
+    width: 100%;
+    height: 300px;
+    border: 1px solid black;
+}
+
+#uniqueness_title{
+    width: 100%;
+
+    height: 50px;
+    line-height: 50px;
+}
+
+#uniqueness_title span {
+    margin-left: 50px;
+}
+
+#uniqueness{
+    clear: both;
+    width: 100%;
+}
+
+textarea {
+    border: none;
+    resize: none;
+}
+
+#main_journal_content_textarea:focus{
+    outline: none;
+}
+
+.input_box{
+    width: 90%;
+    height: 80%;
+    border: none;
+}
+
+.input_box:focus{
+    outline: none;
+}
+
+#journal_insert_btn{
+    position: fixed;
+    bottom: 100px;
+    right: 100px;
+    width: 50px;
+    height: 50px;
+    background-color: #85cdff;
+    border-radius: 100%;
+    border: none;
+    cursor: pointer;
+}
+
+#journal_insert_btn:hover{
+    color: #fff;
+}
+
+#journal_update_btn{
+    position: fixed;
+    bottom: 100px;
+    right: 100px;
+    width: 50px;
+    height: 50px;
+    background-color: #85cdff;
+    border-radius: 100%;
+    border: none;
+    cursor: pointer;
+}
+
+#journal_update_btn:hover{
+    color: #fff;
+}
+
+#journal_delete_btn{
+    position: fixed;
+    bottom: 170px;
+    right: 100px;
+    width: 50px;
+    height: 50px;
+    background-color: #85cdff;
+    border-radius: 100%;
+    border: none;
+    cursor: pointer;
+}
+
+#journal_delete_btn:hover{
+    color: #fff;
+}
+
+#journal_update_submit_btn{
+    position: fixed;
+    bottom: 170px;
+    right: 100px;
+    width: 50px;
+    height: 50px;
+    background-color: #85cdff;
+    border-radius: 100%;
+    border: none;
+    cursor: pointer;
+}
+
+#journal_update_submit_btn:hover{
+    color: #fff;
+}

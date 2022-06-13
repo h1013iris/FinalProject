@@ -15,7 +15,7 @@
 	<jsp:include page="./alert.jsp"/>
 	<jsp:include page="./confirm.jsp"/>
 	<jsp:include page="../depart/simpleProjectCreate.jsp"/>
-
+	<jsp:include page="../mypage/workRequestModal.jsp"/>
 	
 	<header id="main_header">
 	    <div class="logo_header">
@@ -45,7 +45,7 @@
 	        </div>
 	    </div>
 	</header>
-	<div class="login_status">
+	<div id="login_status" class="login_status">
 	    <div class="status_swap">
 	        <p>상태변경</p>
 	        <div class="status_list">
@@ -66,11 +66,13 @@
 	        <li>
 	            <a class="mypage" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/개인페이지.png" alt=""></a>
 	            <div class="detail_nav_content">
+					<div class="nananan"><p class="detail_title">마이페이지</p></div>
+					<button id="journal_btn" class="commonButton2 etcButton" type="button">업무일지작성</button>
+					<button id="work_request_btn" class="commonButton2 etcButton" type="button">업무요청</button>
 	                <ul> 
 	                    <li class="list_title">업무 관리</li>
 	                    <div class="hhh">
-		                    <li><a href="#">업무 관리</a></li>
-		                    <li><a href="#">업무 요청</a></li>
+		                    <li><a href="journalList">업무일지 관리</a></li>
 		                    <li><a href="#">받은 업무</a></li>
 		                    <li><a href="#">보낸 업무</a></li>
 	                    </div>
@@ -78,13 +80,13 @@
 	                <ul>
 	                    <li class="list_title">ToDo</li>
 	                    <div class="hhh">
-	                    	<li><a href="#">List</a></li>
+	                    	<li><a href="ToDoListPage">List</a></li>
 	                    </div>
 	                </ul>
 	                <ul>
 	                    <li class="list_title">전자명함</li>
 	                    <div class="hhh">
-	                    	<li><a href="#">전자명함</a></li>
+	                    	<li><a href="myBusinessCard">전자명함</a></li>
 	                    </div>
 	                </ul>
 	                <ul>
@@ -98,7 +100,6 @@
 	                    <div class="hhh">
 		                    <li><a href="#">내 근태 보기</a></li>
 		                    <li><a href="#">내 정보 변경</a></li>
-		                    <li><a href="#">내 정보(상세) 변경</a></li>
 	                    </div>
 	                </ul>
 	            </div>
@@ -385,6 +386,7 @@
 	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
 
- 
+	<script src="https://cdn.rawgit.com/eligrey/FileSaver.js/5ed507ef8aa53d8ecfea96d96bc7214cd2476fd2/FileSaver.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
 </body>
 </html>

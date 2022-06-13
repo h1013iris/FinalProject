@@ -1,4 +1,4 @@
-@CHARSET "UTF-8";
+@charset "UTF-8";
 
 /*header 부분*/
 
@@ -90,6 +90,10 @@ a{
 .title_name {
     font-size: 20px;
     font-weight: 600;
+}
+
+.pro_img{
+    cursor: pointer;
 }
 
 
@@ -314,7 +318,13 @@ a{
     margin-bottom: 35px;
  }
 
-
+ #journal_btn{
+     height: 50px;
+ }
+ 
+ #work_request_btn{
+     height: 50px;
+ }
 
 
 /* alert모달창 */

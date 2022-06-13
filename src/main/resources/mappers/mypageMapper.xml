@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mypageMapper">
+
+	<resultMap type="journal" id="journalResult">
+		<result property="journalNo" column="JOURNAL_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="content" column="JOURNAL_CONTENT"/>
+		<result property="sideNote" column="SIDE_NOTE"/>
+		<result property="uniqueness" column="UNIQUENESS"/>
+	</resultMap>
+	
+	<resultMap type="todolist" id="todolistResult">
+		<result property="listNo" column="LIST_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="todoDate" column="TODO_DATE"/>
+		<result property="content" column="LIST_CONTENT"/>
+		<result property="status" column="STATUS"/>
+		<result property="percent" column="PERCENT"/>
+		<result property="time" column="WORK_TIME"/>
+	</resultMap>
+	
+	<insert id="InsertJournal" parameterType="journal">
+		insert into JOURNAL
+		values
+		(seq_journal.nextval, #{empNo}, SYSDATE, #{content}, #{sideNote}, #{uniqueness})
+	</insert>
+	
+	<select id="selectJournalList" parameterType="journal" resultMap="journalResult">
+		select *
+		from journal
+		where emp_no = #{empNo}
+	</select>
+	
+	<select id="selectJournal" resultMap="journalResult">
+		select *
+		from journal
+		where JOURNAL_NO = #{journalNo}
+	</select>
+	
+	<delete id="deleteJournal">
+		delete journal
+		where JOURNAL_NO = #{journalNo}
+	</delete>
+	
+	<update id="updateJournal" parameterType="journal">
+		update journal
+		set JOURNAL_CONTENT = #{content},
+		SIDE_NOTE = #{sideNote},
+		UNIQUENESS = #{uniqueness}
+		where JOURNAL_NO = #{journalNo}
+	</update>
+	
+	<select id="searchDateFrom" parameterType="journal" resultMap="journalResult">
+		select *
+		from journal
+		where 1 = 1
+		and EMP_NO = #{empNo}
+		<choose>
+			<when test="fromDate neq '' and toDate neq ''">
+				and create_date between to_date(#{fromDate},'YYYY-MM-DD') and to_date(#{toDate})
+			</when>
+			<when test="fromDate neq '' and toDate eq ''">
+				and <![CDATA[CREATE_DATE > to_date(#{fromDate},'YYYY-MM-DD')]]>				
+			</when>
+			<when test="fromDate eq '' and toDate neq ''">
+				and <![CDATA[CREATE_DATE <= to_date(#{toDate})]]>
+			</when>
+		</choose>
+	</select>
+	
+	<select id="selectToDoAllList" resultMap="todolistResult">
+		select *
+		from todolist
+		where EMP_NO = #{empNo}
+	</select>
+	
+	<insert id="insertTodolist" parameterType="todolist">
+		insert into todolist
+		values
+		(seq_mypage.nextval, #{empNo}, #{todoDate}, #{content}, default, default, #{time})
+	</insert>
+	
+	<update id="updateToDoList" parameterType="todolist">
+		update todolist
+		set status = #{status}
+		<if test='status == "Y"'>
+			, percent = '100'
+		</if>
+		<if test='status == "N" and percent == null'>
+			, percent = '0'
+		</if>
+		<if test='status == "N" and percent != null'>
+			, percent = #{percent}
+		</if>
+		where list_no = #{listNo}
+	</update>
+	
+	<select id="selectToDoList" resultMap="todolistResult">
+		select *
+		from todolist
+		where list_no = #{listNo}
+	</select>
+	
+	<update id="updateToDoListContent" parameterType="todolist">
+		update todolist
+		set LIST_CONTENT = #{content},
+		TODO_DATE = #{todoDate},
+		WORK_TIME = #{time}
+		where list_no = #{listNo}
+	</update>
+	
+	<select id="todoDateSelectList" parameterType="todolist" resultMap="todolistResult">
+		select *
+		from todolist
+		where emp_no = #{empNo}
+		and todo_date = #{todoDate}
+	</select>
+
+</mapper>
