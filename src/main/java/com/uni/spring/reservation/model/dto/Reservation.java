@@ -65,4 +65,38 @@ public class Reservation {
 		System.out.println(reservation);
 		return reservation;
 	}
+
+	// 예약포함 날짜 넣기
+	public Map<String, String> putMap(String startDate, String sRoom) {
+		Map<String, String> map = new HashMap<String, String>();
+		String date; // 일자
+		String[] day; // 년,월,일 나누기 위한 것
+		
+		date = startDate; // (시간포함)
+
+		// 일자 분리
+		day = date.split(" ");
+		
+		// 날짜담음
+		date = day[0];
+		
+		// 년 월 일 분리
+		day = date.split("-");
+		
+		//임의 값 확인
+		for(int i = 0 ; i < day.length ; i++) {
+			System.out.println("년 월 일 확인 ==> "+day[i]);
+			if(i == 0) {
+				map.put("searchYear", day[i]);
+			}else if(i == 1) {
+				map.put("searchMonth", day[i]);
+			}else if(i == 2) {
+				map.put("searchDate", day[i]);
+			}
+		}
+		map.put("sRoom", sRoom);
+		System.out.println(map);
+		
+		return map;
+	}
 }

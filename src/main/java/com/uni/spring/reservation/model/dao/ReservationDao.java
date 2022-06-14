@@ -50,8 +50,16 @@ public class ReservationDao {
 		return sqlSession.insert("reservationMapper.insertReservation", reservation);
 	}
 
-	public void insertAttendee(ArrayList<AttendeeList> list, SqlSessionTemplate sqlSession) {
+	public int insertAttendee(ArrayList<AttendeeList> list, SqlSessionTemplate sqlSession) {
+		int count = 0;
+		for(AttendeeList attend : list) {
+			count += sqlSession.insert("reservationMapper.insertAttendee", attend);
+		}
+		return count;
+	}
+
+	public ArrayList<Reservation> selectRoomReservation(Map<String, String> map, SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
-		sqlSession.insert("reservationMapper.insertAttendee", list);
+		return (ArrayList)sqlSession.selectList("reservationMapper.selectRoomReservation", map);
 	}
 }
