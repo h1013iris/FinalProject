@@ -31,7 +31,7 @@
 }
 
 .enrollContentSection, .enrollTitleSection, .enrollWriterSection,
-	 .enrollReplyStatusSection{
+	 .enrollReplyStatusSection, .anonypasswordSection{
 	display: flex;
 	margin-bottom: 20px;
 }
@@ -68,9 +68,7 @@
 	height: 70px;
 }
 
-#bo {
-	margin-left: 87%;
-}
+
 #input_fileupload{
      
     line-height: 22px;    
@@ -105,17 +103,12 @@
 	<div class="main_section">
 		<div class="middleEnrollForm">
 
-			<form id="enrollFormAnnoDepart" action="insertenroll.do" method="post" enctype="multipart/form-data">
+			<form id="enrollFormAnnoDepart" action="insertanony.do" method="post" enctype="multipart/form-data">
 				<div class="annoDepartEnrollHeader">
 					<h2>글 작성</h2>
 				</div>
 
-				<select name="bo" id="bo">
-					<option value="1">공지사항</option>
-					<option value="2">자유게시판</option>
-					<option value="3">부서게시판</option>					
-				</select>
-
+				
 				<!-- 제목 부분 -->
 				<div class="enrollTitleSection">
 					<div class="mainStyleCh">
@@ -131,11 +124,9 @@
 						<span class="writerPart">작성자</span>
 					</div>
 					
-					<input type="text" id="writer" name="writerName" value="${loginUser.empName}" readonly> 
-					<input type="hidden" name="empno" value="${loginUser.empNo}"> 
-					<input type="hidden" name="deno" value="${loginUser.departmentNo}">
-					<input type="hidden" name="pno" value="${b.pno}">
-                   
+					<input type="text" id="writer" name="nickname"> 
+					
+							                
 				</div>
 					<!-- 파일 부분 -->
 					
@@ -161,17 +152,19 @@
 						</div>
 						<textarea name="content" id="content" required>${ b.content }</textarea>
 					</div>
-				
+				    <div class="anonypasswordSection">
+				    <div class="mainStyleCh">
+				    <span class="uploadfilePart" >비밀번호</span>
+				    </div>
+				    <input type="password" name="password" maxlength="4"  required>
+				    </div>
 					  
 				    
 					<div align="right" class="buttonSection">
 						<button type="submit" class="commonButton1" >등록하기</button>
 						<button type="button" class="commonButton1" onclick="history.back()">뒤로가기</button>
-						<button type="button" class="commonButton1" id="saveboard"
-							onclick="gopbox(${loginUser.empNo});">임시보관함</button>
-						<button type="button" class="commonButton1" id="save"
-							onclick="savebtn();" value="2">보관함에저장</button>
-						<input type="hidden" name="save" id="saveval">
+					
+					
 					</div>
 			</form>
 		</div>

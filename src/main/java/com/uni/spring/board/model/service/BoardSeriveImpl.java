@@ -261,6 +261,58 @@ int result = BoardDao.deletepbox(sqlSession, pno);
 		   }	 
 	    }
 
+	//익명게시판
+	@Override
+	public int selectanonymousCount() {
+		// TODO Auto-generated method stub
+		return BoardDao.selectanonymousCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Board> selectanonymous(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return BoardDao.selectanonymous(sqlSession,pi);
+	}
+
+	@Override
+	public void insertanony(Board b) {
+		String con = b.getContent();
+		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
+		b.setContent(con);				
+		int result = BoardDao.insertanony(sqlSession, b );
+		if(result < 0) {
+			throw new CommException("게시글 추가 실패");
+		}
+	}
+
+	@Override
+	public ArrayList<Board> detailanonyfiles(int bno) {
+		
+		return BoardDao.detailanonyfiles(sqlSession, bno);
+	}
+
+	@Override
+	public Board detailanony(int bno) {
+		
+		return BoardDao.detailanony(sqlSession, bno);
+	}
+
+	@Override
+	public int insertanonycoment(coment r) {
+		int result = BoardDao.insertanonycoment(sqlSession, r);
+		if(result < 0) {
+			throw new CommException("댓글등록 실패");
+		}
+		return result;
+	
+	}
+
+	@Override
+	public ArrayList<coment> listcomentanony(int bno) {
+		// TODO Auto-generated method stub
+		return BoardDao.listcomentanony(sqlSession, bno);
+	}
+
 	
 	}
 

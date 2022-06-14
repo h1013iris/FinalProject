@@ -21,4 +21,5 @@ public class coment {
 	private Timestamp ccreateDate; //timestamp로 하면 시간까지 다 잘 나옴 
 	private String status;
 	private int boardno;
+	private String conmentnickname;
 }
