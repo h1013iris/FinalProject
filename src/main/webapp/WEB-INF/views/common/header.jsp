@@ -42,7 +42,12 @@
 	                <div class="count">1</div>
 	            </div>
 	            <div class="pro_img">
+	            	<c:if test="${loginUser.changeName ne null}">
 	                <img class="alarm_img" src="${ pageContext.servletContext.contextPath }/resources/upload_files/${loginUser.changeName}"/>
+	                </c:if>
+	                <c:if test="${loginUser.changeName == null}">
+	                <img class="alarm_img" src="${ pageContext.servletContext.contextPath }/resources/images/관리자 프로필.png"/>
+	                </c:if>
 	            </div>
 	        </div>
 	    </div>

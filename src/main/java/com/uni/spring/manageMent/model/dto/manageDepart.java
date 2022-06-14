@@ -13,5 +13,11 @@ public class manageDepart {
 	private String fil;//순서 필터 (직급순, 이름순, 입사순)
 	private String ord;//검색분류(이름, 사원번호)
 	private String searchli;//검색 내용
+	
+	private String weeko;//이번주의 월요일 일월년
+	private String weekt;
+	private String weekh;
+	private String weeku;
+	private String weekf;//이번주의 월요일 일월년
 }
  

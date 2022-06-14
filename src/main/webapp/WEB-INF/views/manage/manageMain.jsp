@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,10 +13,8 @@
 		padding-top: 30px;
 		padding-left: 100px;
 		padding-right: 100px;
-		border: 1px solid;
 	}
 	.manageUpper{
-		border: 1px solid red;
 		width: 100%;
 		height: 32vh;
 		display: flex;
@@ -88,7 +87,7 @@
 	}
 	.manageLower{
 		margin-top:15px;
-		border: 1px solid blue;
+
 		width: 100%;
 		display:flex;
 		height: 53vh;
@@ -198,6 +197,138 @@
 		cursor: pointer;
 		background-color: rgb(174, 217, 248);
 	}
+	.divPartSerT{
+		margin-left: 15px;
+	}
+	.defalutDepart{
+		line-height:30px;
+		font-size: 18px;
+		background-color: white;
+		border: 1px solid lightgrey;
+		border-radius: 5px;
+		height: 30px;
+	    width: 150px;
+	    text-align: center;
+	}
+	.departTitleList{
+		margin-top: 5px;
+	    position: absolute;
+	    height: 90px;
+	    width: 150px;
+	    text-align: center;
+	    overflow-y: scroll;
+	    background-color: #f3f3f3;
+	    border-radius: 5px;
+	    box-shadow: 1px 2px 5px 0px lightgrey;
+	    display: none;
+	    transform: translateX(81px);
+	}
+	.departTitleList1{
+		margin-top: 5px;
+	    position: absolute;
+	    height: 60px;
+	    width: 150px;
+	    text-align: center;
+	    background-color: #f3f3f3;
+	    border-radius: 5px;
+	    box-shadow: 1px 2px 5px 0px lightgrey;
+	    display: none;`
+	}
+	.block{
+		display: block !important;
+	}
+	.none{
+		display: none;
+	}
+	.departTitleList::-webkit-scrollbar{
+    	display: none;
+	}
+	.departTitleList div, .departTitleList1 div{
+		height: 30px;
+		line-height:30px;
+		font-size: 18px;
+	}
+	.departTitleList div:hover, .departTitleList1 div:hover{
+		cursor: pointer;
+		background-color: rgb(174, 217, 248);
+	}
+	.searchTitleDivSe{
+		display: flex;
+		justify-content: flex-end;
+	}
+	.divPartSerTdiv1{
+		margin-left: 80px;
+	}
+	.divPartserDIv2{
+		margin-right: 75px;
+	}
+	.divPartSerT11{
+		display: flex;
+		margin-left: 15px;
+	}
+	.divPartSerT11 img{
+		line-height: 20px;
+	}
+	.divImgWri{
+		transform: translateY(4px);
+	}
+	.defalutDepart45{
+		display: none;
+	}
+	.block{
+		display: block !important;
+	}
+	.none{
+		display: none;
+	}
+	.defalutDepart1{
+		border: 1px solid lightgrey;
+		border-radius: 5px;
+		height: 27px;
+	    width: 270px;
+	}
+	.caleHeader{
+		display: flex;
+		flex-wrap: wrap;
+		align-content: center;
+	    text-align: center;
+	    line-height: 3vh;
+	}
+	.caleHeaderMAIN{
+		display: flex;
+		flex-wrap: wrap;
+		align-content: center;
+	    text-align: center;
+	    line-height: 3vh;
+	}
+	
+	.caleHeaderMAIN div{
+		border: 1px solid darkgray;
+	    flex: 1 1 13%;
+	    height: 3vh;
+	    background-color: white;
+	}
+	.caleHeader div{
+		border: 1px solid darkgray;
+	    flex: 1 1 13%;
+	    height: 3vh;
+	    background-color: lightgray;
+	}
+	.haphfb{
+		display: flex;
+	}
+	.happyhlist{
+		height: 14.5vh;
+		overflow-y : scroll;
+	}
+	.happyhlist::-webkit-scrollbar{
+    	display: none;
+	}
+	.noInfo{
+		text-align: center;
+		font-size: 20px;
+		margin-top: 20px;
+	}
 </style>
 </head>
 <body>
@@ -231,6 +362,9 @@
 	        		<div class="infoUSerSectionUnder">
 		        		<c:forEach items="${dplist}" var="dp">
 	        				<div class="deptTitleNameSection" onclick="selectInfoDepart('${dp.deptNo}','${dp.deptTitle}')"><span>${dp.deptTitle}</span></div>
+	        				<c:if test="${dp.deptNo eq loginUser.departmentNo }">
+	        					<input type="hidden" class="hiddenDepartTitle" value='${dp.deptTitle }'>
+	        				</c:if>
 	        			</c:forEach>
         			</div>
 	        	</div>
@@ -241,20 +375,103 @@
 			</div>
 			<!-- lower -->
 			<div class="manageLower">
+				<!-- 근태관리 및 휴가 정보 -->
 				<div class="infoUserLowerFirstc">
+					<!-- 근태관리 -->
 					<div class="attendlogSection">
 						<div class="annoDepartUpperS1">
 		        			<div class="annoDepart_Name1"><span>근태관리</span></div>
-		        			<div><a class="annoDepart etcAnnoDepartSe">>더보기</a></div>
+		        			<div class="divPartSerT">
+							<!-- 디폴트 -->
+							<div class="defalutDepart defalutDepart11 divPartSerTdiv1 divPartSerTdiv23">부서 분류</div>
+							<input type="hidden" class="deptTitleNo1" >
+							<!-- 클릭시 보인는 곳 -->
+							<div class="departTitleList departTitleListone">
+									<div onclick="titleD('0','전체',1,'0','0')"><span>전체</span></div>
+									<c:forEach items="${dplist}" var="dp">
+										<div onclick="titleD('${dp.deptNo}','${dp.deptTitle}',1,'0','0')"><span>${dp.deptTitle}</span></div>
+									</c:forEach>
+								</div>
+							</div>	
+							<div class="divPartSerT">
+								<!-- 디폴트 -->
+								<div class="defalutDepart searchFilterL1">검색</div>
+								<!-- 클릭시 보인는 곳 -->
+								<div class="departTitleList1 departTitleListthree1">
+									<div onclick="searchFilter('이름',1)"><span>이름</span></div>
+									<div onclick="searchFilter('사원번호',1)"><span>사원번호</span></div>
+								</div>
+							</div>
+							<div class="divPartSerT11 divPartserDIv2">
+								<!-- 디폴트 -->
+								<div><input type="text" class="inputSearchMane defalutDepart1 defalutDepart42 defualtone"></div>
+								<div><input type="text" placeholder="숫자만 입력해주세요" class="inputSearchMane defalutDepart1 defalutDepart45 defualttwo" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></div>
+								<div class="divImgWri clickpehv"><img src="https://img.icons8.com/material/24/000000/search--v1.png"></div>
+							</div>
+		        			<div><a class="AttendInfoEtc">>더보기</a></div>
 		        		</div>
+		        		<!-- 내용부분 -->
+		        		<div>
+		        			<div class="caleHeader">
+		        				<div> 이름 </div>
+		        				<div>${cw.monWeek}</div>
+		        				<div>${cw.tueWeek}</div>
+		        				<div>${cw.wenWeek}</div>
+		        				<div>${cw.thiWeek}</div>
+		        				<div>${cw.friWeek}</div>
+		        				<div> 주간 합계 </div>
+		        			</div>
+		        			<div class="happyhlist">
+		        			<c:forEach items="${att}" var="all">
+			        			<div class="caleHeaderMAIN">
+			        				<div>${all.emp}</div>
+			        				<div>${all.mon1}</div>
+			        				<div>${all.tue2}</div>
+			        				<div>${all.wen3}</div>
+			        				<div>${all.tur4}</div>
+			        				<div>${all.fri5}</div>
+			        				<div>${all.tot}</div>
+			        			</div>
+		        			</c:forEach>
+		        			</div>
 					</div>
+					</div>
+					<!-- 휴가 정보 -->
 					<div class="vacationLogSection">
 						<div class="annoDepartUpperS1">
 		        			<div class="annoDepart_Name1"><span>휴가정보</span></div>
-		        			<div><a class="annoDepart etcAnnoDepartSe">>더보기</a></div>
+		        			<div class="divPartSerT">
+							<!-- 디폴트 -->
+							<div class="defalutDepart defalutDepart12 divPartSerTdiv1 divPartSerTdiv24">부서 분류</div>
+							<input type="hidden" class="deptTitleNo2" >
+							<!-- 클릭시 보인는 곳 -->
+							<div class="departTitleList departTitleListtwo">
+									<div onclick="titleD('0','전체',2,'0','0')"><span>전체</span></div>
+									<c:forEach items="${dplist}" var="dp">
+										<div onclick="titleD('${dp.deptNo}','${dp.deptTitle}',2,'0','0')"><span>${dp.deptTitle}</span></div>
+									</c:forEach>
+								</div>
+							</div>
+							<div class="divPartSerT">
+								<!-- 디폴트 -->
+								<div class="defalutDepart searchFilterL2">검색</div>
+								<!-- 클릭시 보인는 곳 -->
+								<div class="departTitleList1 departTitleListthree2">
+									<div onclick="searchFilter('이름',2)"><span>이름</span></div>
+									<div onclick="searchFilter('사원번호',2)"><span>사원번호</span></div>
+								</div>
+							</div>
+							<div class="divPartSerT11 divPartserDIv2">
+								<!-- 디폴트 -->
+								<div><input type="text" class="inputSearchMane defalutDepart1 defalutDepart42 defualtthree"></div>
+								<div><input type="text" placeholder="숫자만 입력해주세요" class="inputSearchMane defalutDepart1 defalutDepart45 defualtfour" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></div>
+								<div class="divImgWri"><img src="https://img.icons8.com/material/24/000000/search--v1.png"></div>
+							</div>
+		        			<div><a class="vacationLIstetc">>더보기</a></div>
 		        		</div>
 					</div>
 				</div>
+				<!-- 4대 보험 계산기 -->
 				<div class="calCu4Section">
 					<div class="headNameCalcu"><span>4대 보험 모의 계산기</span></div>
 					<div>
@@ -356,6 +573,151 @@
 			$(".gunjang").text('');
 			$(".gowong").text('');
 			$(".totalALl").text('');
+		})
+		$(".defalutDepart11").click(function(){
+			event.stopPropagation();
+			$(".departTitleListone").toggle();
+			$(".departTitleListtwo").hide();
+		})
+		$(".defalutDepart12").click(function(){
+			event.stopPropagation();
+			$(".departTitleListtwo").toggle();
+			$(".departTitleListone").hide();	
+		})
+		/*디폴트로 사라지게*/
+	    $(document).click(function(){
+			$(".departTitleListone").hide();	
+			$(".departTitleListtwo").hide();
+		})
+		
+		$(".searchFilterL1").click(function(){
+			$(".departTitleListthree1").toggle();
+		})
+		$(".searchFilterL2").click(function(){
+			$(".departTitleListthree2").toggle();
+		})
+		function searchFilter(tex, num){
+			event.stopPropagation();
+			
+			if(num ==1){
+				$(".searchFilterL1").text(tex);
+				
+				if(tex=="사원번호"){
+					
+					$(".defualtone").addClass("none");
+					$(".defualttwo").addClass("block");
+				}else{
+					$(".defualtone").removeClass("none");
+					$(".defualttwo").removeClass("block");
+				}
+				$(".departTitleListthree1").hide();	
+			}else if(num ==2){
+				$(".searchFilterL2").text(tex);
+			
+				if(tex=="사원번호"){
+					
+					$(".defualtthree").addClass("none");
+					$(".defualtfour").addClass("block");
+				}else{
+					$(".defualtthree").removeClass("none");
+					$(".defualtfour").removeClass("block");
+				}
+				$(".departTitleListthree2").hide();	
+			}
+			
+		}
+		function titleD(deptNo, deptTitle, num, ord, searchli){
+			var ordq = $(".searchFilterL1").text();
+			if(ord != 0){
+				if(ordq =='검색'){
+					myAlert("선택", "검색을 선택해주세요");
+				}else if(ordq == '이름'){
+					searchli = $(".defualtone").val();
+				}else if(ordq == '사원번호'){
+					searchli = $(".defualttwo").val();
+				}
+			}
+			if(deptNo == 0){
+				if($(".defualtone").val() == null || $(".defualttwo").val() == null){
+					ordq=null;
+					searchli=null;
+				}
+			}
+			$.ajax({
+				url:"filterCheckMianPage.do",
+				type:"get",
+				data:{dep:deptTitle, depNo:deptNo, ord:ordq, searchli:searchli},
+				success:function(list){
+					console.log("성공")
+					$tableBody = $(' .happyhlist');
+					$tableBody.html('');
+					if(list.length ==0){
+						var $tt=$("<div>").text("사원 없음").addClass("noInfo");
+						$tableBody.append($tt);
+						$(".defualtone").val('');
+						$(".defualttwo").val('');
+					}else if(list.length != 0){
+						$.each(list, function(i, obj){
+							
+							var $tr = $('<div>').addClass("caleHeaderMAIN");
+							var $dTitle = $('<div>').text(obj.emp);
+							var $dWriterName = $('<div>').text(obj.mon1);
+							var $dwatcher = $('<div>').text(obj.tue2);
+							var $dAnnoDate = $('<div>').text(obj.wen3);
+							var $dAnnoNo = $('<div>').text(obj.tur4);
+							var $dAnnoW = $('<div>').text(obj.fri5);
+							var $dAnnweoW = $('<div>').text(obj.tot);
+							$tr.append($dTitle);
+							$tr.append($dWriterName);
+							$tr.append($dwatcher);
+							$tr.append($dAnnoDate);
+							$tr.append($dAnnoNo);
+							$tr.append($dAnnoW);
+							$tr.append($dAnnweoW);
+							$tableBody.append($tr);
+							$(".defualtone").val('');
+							$(".defualttwo").val('');
+						})
+					}
+					if(num ==1){
+						$(".divPartSerTdiv23").text(deptTitle);
+						$(".deptTitleNo1").val(deptNo);
+						$(".departTitleListone").hide();	
+					}else if(num ==2){
+						$(".divPartSerTdiv24").text(deptTitle);
+						$(".deptTitleNo2").val(deptNo);
+						$(".departTitleListtwo").hide();	
+						
+					}
+				}
+			})
+		}
+		$(".clickpehv").click(function(){
+			var dep = $(".divPartSerTdiv23").text();//부서명
+			var depNo = '';
+			if(dep =="부서 분류"){
+				dep= $(".hiddenDepartTitle").val();//부서명
+				depNo= ${loginUser.departmentNo};//부서번호 
+			}else{
+				depNo =$(".deptTitleNo1").val();
+			}
+			var ordq = $(".searchFilterL1").text();
+			var searchli ='';
+			if(ordq =='검색'){
+				myAlert("선택", "검색을 선택해주세요");
+			}else if(ordq == '이름'){
+				searchli = $(".defualtone").val();
+			}else if(ordq == '사원번호'){
+				searchli = $(".defualttwo").val();
+			}
+			console.log(dep);
+			console.log(depNo);
+			console.log(ordq);
+			console.log(searchli)
+			titleD(depNo, dep, 0, ordq, searchli);
+		})
+		$(".AttendInfoEtc").click(function(){
+			location.href="selectListDepartInfo.do?deptNo="+${loginUser.departmentNo};
 		})
 	</script>
 </body>

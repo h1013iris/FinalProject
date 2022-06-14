@@ -155,7 +155,9 @@ public class MemberController {
 	         if(a != null) {
 	             loginUser.setChangeName(a.getChangeName());
 	          }
-			model.addAttribute("loginUser",loginUser);
+	        String statuslogin = manageService.selectSatatusLog(loginUser.getEmpNo());
+			loginUser.setStatuslogin(statuslogin);
+	        model.addAttribute("loginUser",loginUser);
 		
 			return "redirect:approvalMain.do";
 		} catch (Exception e) {

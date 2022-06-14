@@ -92,7 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM USER_INFO
 		WHERE STATUS = 'N'
 	</select>
-	<select id = "selectLogInfo" parameterType="_int" resultType="AttendlogMana">
+	<select id = "selectLogInfo" parameterType="_int" resultType="AttendLog">
 		SELECT *
 		FROM ATTEND_LOG
 		WHERE EMP_NO = #{empNo}
@@ -105,4 +105,64 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES
 		(SEQ_ATTEND.NEXTVAL, #{empNo}, SYSDATE, SYSDATE, DEFAULT, DEFAULT)
 	</insert>
+	<select id="selectStatusLog" parameterType="_int" resultType="string">
+		SELECT ATTEND_STATUS
+		FROM ATTEND_LOG
+		WHERE EMP_NO = #{empNo}
+		AND TO_DATE(ATTEND_DATE, 'YYYY-mm-dd') = TO_DATE(SYSDATE, 'YYYY-mm-dd')
+		AND STATUS = 'Y'
+	</select>
+	<select id="selectListAttendLog" parameterType="calendarWeek" resultType="AttendLog">
+		SELECT C.*, U.EMP_NAME AS EMP
+		FROM
+		(SELECT S.EMP_NO, SUM(MON) AS MON, SUM(TUE) AS TUE, SUM(WEN) AS WEN, SUM(TUR) AS TUR, SUM(FRI) AS FRI
+		FROM
+		(SELECT K.EMP_NO, 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weeko} THEN K.CAL ELSE 0 END "MON", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weekt} THEN K.CAL ELSE 0 END "TUE", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weekh} THEN K.CAL ELSE 0 END "WEN", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weeku} THEN K.CAL ELSE 0 END "TUR", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weekf} THEN K.CAL ELSE 0 END "FRI"
+		FROM (SELECT A.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
+		FROM ATTEND_LOG A
+		WHERE (ATTEND_DATE BETWEEN #{weeko} AND #{weekf})
+		AND A.STATUS = 'Y'
+		ORDER BY A.EMP_NO) K
+		ORDER BY K.EMP_NO)S
+		GROUP BY S.EMP_NO
+		ORDER BY S.EMP_NO)C
+		JOIN USER_INFO U ON (C.EMP_NO =U.EMP_NO)
+		WHERE U.STATUS = 'N'
+	</select>
+	<select id="selectFilterInfo" parameterType="manageDepart" resultType="AttendLog">
+		SELECT C.*, U.EMP_NAME AS EMP
+		FROM
+		(SELECT S.EMP_NO, SUM(MON) AS MON, SUM(TUE) AS TUE, SUM(WEN) AS WEN, SUM(TUR) AS TUR, SUM(FRI) AS FRI
+		FROM
+		(SELECT K.EMP_NO, 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weeko} THEN K.CAL ELSE 0 END "MON", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weekt} THEN K.CAL ELSE 0 END "TUE", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weekh} THEN K.CAL ELSE 0 END "WEN", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weeku} THEN K.CAL ELSE 0 END "TUR", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weekf} THEN K.CAL ELSE 0 END "FRI"
+		FROM (SELECT A.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
+		FROM ATTEND_LOG A
+		WHERE (ATTEND_DATE BETWEEN #{weeko} AND #{weekf})
+		AND A.STATUS = 'Y'
+		ORDER BY A.EMP_NO) K
+		ORDER BY K.EMP_NO)S
+		GROUP BY S.EMP_NO
+		ORDER BY S.EMP_NO)C
+		JOIN USER_INFO U ON (C.EMP_NO =U.EMP_NO)
+		WHERE U.STATUS = 'N'
+		<if test="depNo != null and depNo != 0">
+   			AND U.DEPARTMENT_NO = #{depNo}
+   		</if>
+   		<if test="ord == '이름'">
+   			AND U.EMP_NAME LIKE '%' ||#{searchli}||'%' 
+   		</if>
+   		<if test="ord =='사원번호'">
+   			AND U.EMP_NO LIKE '%' ||#{searchli}||'%' 
+   		</if>
+	</select>
 </mapper>

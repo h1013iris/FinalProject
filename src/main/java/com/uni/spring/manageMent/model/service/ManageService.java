@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import com.uni.spring.admin.model.dto.Department;
 import com.uni.spring.common.Attachment;
+import com.uni.spring.department.model.dto.AttendLog;
 import com.uni.spring.department.model.dto.Project;
+import com.uni.spring.manageMent.model.dto.calendarWeek;
 import com.uni.spring.manageMent.model.dto.manageDepart;
 import com.uni.spring.member.model.dto.Member;
 
@@ -21,4 +23,10 @@ public interface ManageService {
 	int countSelect();
 
 	void insertAttendlog(int empNo);
+
+	String selectSatatusLog(int empNo);
+
+	ArrayList<AttendLog> selectListAttendLog(calendarWeek cw);
+
+	ArrayList<AttendLog> selectFilterInfo(manageDepart md);
 }
