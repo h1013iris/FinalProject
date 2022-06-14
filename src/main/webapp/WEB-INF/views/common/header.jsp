@@ -65,7 +65,7 @@
 	        </div>
 	    </div>
 	    <div>
-	        <p>로그아웃</p>
+	        <p><a href="logout.do">로그아웃</p>
 	    </div>
 	</div>
 	<aside id="main_nav">

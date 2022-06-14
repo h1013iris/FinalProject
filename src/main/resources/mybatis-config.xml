@@ -60,6 +60,8 @@
 		<typeAlias type="com.uni.spring.reservation.model.dto.ReservationRoom" alias="ReservationRoom"/>
 		<!-- 회의실 예약정보 -->
 		<typeAlias type="com.uni.spring.reservation.model.dto.Reservation" alias="Reservation"/>
+		<!-- 회의실 예약참가자정보 -->
+		<typeAlias type="com.uni.spring.reservation.model.dto.AttendeeList" alias="AttendeeList"/>
   		<!-- 사원상세정보 -->
   		<typeAlias type="com.uni.spring.admin.model.dto.employeeAllInfo" alias="empInfo"/>
   		<!-- 게시판관리 -->

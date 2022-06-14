@@ -133,4 +133,21 @@ public class AddressBookDao {
 		return sqlSession.update("addressBookMapper.deleteCusAdd",cusNo);
 	}
 
+	//부서별 주소록 검색
+	public ArrayList<WideMember> selectDeptAddSearch(SqlSessionTemplate sqlSession, int departmentNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("addressBookMapper.selectDeptAddSearch",departmentNo);
+	}
+
+	//거래처주소록 임시보관함
+	public ArrayList<Company> selectComBoxAdd(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return(ArrayList)sqlSession.selectList("addressBookMapper.selectComBoxAdd",empNo);
+	}
+
+	//고객주소록 임시보관함
+	public ArrayList<Customer> selectCustoBoxAdd(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return(ArrayList)sqlSession.selectList("addressBookMapper.selectCustoBoxAdd",empNo);
+	}
 }

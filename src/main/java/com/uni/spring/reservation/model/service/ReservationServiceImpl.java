@@ -81,17 +81,28 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public int insertReservation(Reservation reservation, String startTime, String endTime) {
-		reservation = reservation.concatDate(reservation, startTime, endTime);
+	public int insertReservation(Reservation reservation) {
 		
 		int result = reservationDao.insertReservation(reservation, sqlSession);
 		return result;
 	}
 
 	@Override
-	public void insertAttendee(ArrayList<AttendeeList> list) {
+	public int insertAttendee(ArrayList<AttendeeList> list) {
 		// TODO Auto-generated method stub
-		reservationDao.insertAttendee(list, sqlSession);
+		int result = reservationDao.insertAttendee(list, sqlSession);
+		
+		return result;
+	}
+
+	@Override
+	public ArrayList<Reservation> selectRoomReservation(String startDate, String sRoom) {
+		// TODO Auto-generated method stub
+		Reservation res = new Reservation();
+		Map<String, String> map = res.putMap(startDate, sRoom);
+
+		ArrayList<Reservation> list = reservationDao.selectRoomReservation(map, sqlSession);
+		return list;
 	}
 
 }

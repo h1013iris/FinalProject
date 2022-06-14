@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.uni.spring.addressBook.model.dto.Dept;
@@ -302,5 +304,14 @@ public class MemberController {
 			return "findIdPw";
 		}
 		return "main";
+	}
+	
+	//로그아웃
+	@GetMapping("logout.do")
+	public String logout(SessionStatus status, Model model){
+		status.setComplete();
+		//session.invalidate();	
+		model.addAttribute("msg","로그아웃 했습니다!");
+		return "main"; //로그아웃후 메인으로 이동
 	}
 }

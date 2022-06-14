@@ -71,7 +71,7 @@ public class AddressBookController {
 		System.out.println("부서명 조회결과:" + deptTitleList);
 
 		model.addAttribute("allAddList", allAddList);
-		model.addAttribute("deptTitlList", deptTitleList);
+		model.addAttribute("deptTitleList", deptTitleList);
 
 		return "addressBook/mainAdd";
 	}
@@ -85,13 +85,13 @@ public class AddressBookController {
 
 		model.addAttribute("deptList", deptList);
 
-		System.out.println("조회해온리스트:" + deptList);
+		System.out.println("부서별 리스트 조회 결과:" + deptList);
 
 		ArrayList<Dept> deptTitleList = addressBookService.selectDeptTitleList(dp);
 
 		System.out.println("부서명 조회결과:" + deptTitleList);
 
-		model.addAttribute("deptTitlList", deptTitleList);
+		model.addAttribute("deptTitleList", deptTitleList);
 
 		return "addressBook/deptAdd";
 
@@ -106,6 +106,19 @@ public class AddressBookController {
 
 		System.out.println("검색결과는? " + allAddList);
 		return "addressBook/mainAdd";
+	}
+	
+	// 부서별 검색 부서별주소록 리스트랑 같은 표에서 출력된다.
+	@PostMapping("deptAddSearch.do")
+	public String selectDeptAddSearch(int departmentNo, Model model) {
+
+		ArrayList<WideMember> deptList = addressBookService.selectDeptAddSearch(departmentNo);
+
+		System.out.println("검색결과는? " + deptList);
+
+		model.addAttribute("deptAddList", deptList);
+
+		return "addressBook/deptAdd";
 	}
 
 	/* 고객주소록 */
@@ -251,7 +264,6 @@ public class AddressBookController {
 		return "addressBook/custoAddList";
 	}
 
-	// 고객주소록 상세조회
 	@GetMapping("custoDetailView.do")
 	public String selectCustoDetailView(int cusNo, Customer custo, Model model) {
 
@@ -349,7 +361,32 @@ public class AddressBookController {
 
 	// 임시보관함 화면으로 이동
 	@RequestMapping("boxAdd.do")
-	public String selectBoxAdd() {
+	public String selectBoxAdd(Company com,@ModelAttribute("loginUser") Member m,Model model) {
+		
+		int empNo = m.getEmpNo();
+		ArrayList<Company>comBoxList = addressBookService.selectComBoxAdd(empNo);
+		//거래처 임시보관함 잘 넘어왔는지
+		System.out.println("거래처 주소록 임시보관함 리스트 : "+comBoxList);
+		model.addAttribute("comBoxList", comBoxList);
+		
+		ArrayList<Customer>custoBoxList = addressBookService.selectCustoBoxAdd(empNo);
+		//고객 임시보관함 잘 넘어왔는지
+		System.out.println("고객 주소록 임시보관함 리스트 : "+custoBoxList);
+		model.addAttribute("custoBoxList", custoBoxList);
+		
 		return "addressBook/boxAdd";
 	}
+	
+
+	//고객 임시보관함 삭제
+	@GetMapping("deleteCustoBox.do")
+	@ResponseBody
+	public void deleteCustoBox(@RequestParam(value="cusNoArr") ArrayList<String> cusNoArr) {
+		
+	System.out.println("cusNoArr의 값 : " + cusNoArr);
+	//int deletecount=addressBookService.deleteCustoBox(cusNo);
+	
+	//return "deletecount"; 
+	
+}
 }

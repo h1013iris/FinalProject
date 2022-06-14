@@ -78,11 +78,10 @@
 <input type="submit" value="전체주소록" name="departmentTitle" class="a">
 </div>
 </form>
-<c:forEach items="${deptTitlList}" var="dept">
+<c:forEach items="${deptTitleList}" var="dept">
 <form action="deptAddList" method="get" class="a">
 	<div >
 	<input type="submit" value="${dept.departmentTitle}" name="departmentTitle">
-	<!-- <input type="hidden" value="${dept.departmentTitle}" name="departmentTitle"/>-->
 	</div>
 </form>
 </c:forEach>

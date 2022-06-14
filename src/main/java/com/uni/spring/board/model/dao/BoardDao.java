@@ -218,6 +218,46 @@ public int deletepno(SqlSessionTemplate sqlSession, Board b) {
 	// TODO Auto-generated method stub
 	return sqlSession.update("boardMapper.deletepno" , b);
 }
+
+
+//익명게시판
+public int selectanonymousCount(SqlSessionTemplate sqlSession) {
+	// TODO Auto-generated method stub
+	 return sqlSession.selectOne("boardMapper.selectanonymousCount");
+}
+
+public ArrayList<Board> selectanonymous(SqlSessionTemplate sqlSession, PageInfo pi) {
+	 int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+
+     RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+     return (ArrayList) sqlSession.selectList("boardMapper.selectanonymous", null, rowBounds);
+}
+
+public int insertanony(SqlSessionTemplate sqlSession, Board b) {
+	// TODO Auto-generated method stub
+	return sqlSession.insert("boardMapper.insertanony", b);
+}
+
+public ArrayList<Board> detailanonyfiles(SqlSessionTemplate sqlSession, int bno) {
+	// TODO Auto-generated method stub
+	return (ArrayList)sqlSession.selectList("boardMapper.detailanonyfiles" , bno);
+}
+
+public Board detailanony(SqlSessionTemplate sqlSession, int bno) {
+	// TODO Auto-generated method stub
+	return sqlSession.selectOne("boardMapper.detailanony" , bno);
+}
+
+public int insertanonycoment(SqlSessionTemplate sqlSession, coment r) {
+	// TODO Auto-generated method stub
+	return sqlSession.insert("boardMapper.insertanonycoment" , r);
+}
+
+public ArrayList<coment> listcomentanony(SqlSessionTemplate sqlSession, int bno) {
+	// TODO Auto-generated method stub
+	return (ArrayList)sqlSession.selectList("boardMapper.listcomentanony",bno);
+}
 }
 
 
