@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,12 +12,12 @@
 		padding: 100px;
 	}
 	
-	.docEnrollFormDiv {
+	.docUpdateFormDiv {
 		/*margin-right: 3%;
 		width: 84vw;*/
 	}
 	
-	.docEnrollBackground {
+	.docUpdateBackground {
 		width: 1150px;
 		height: 780px;
 		border: 1px solid #e6e6e6;
@@ -31,7 +31,7 @@
 		padding: 70px 0 0 100px;
 	}
 	
-	.docEnrollForm {	
+	.docUpdateForm {	
 		/*maring: 0 25px 25px 25px;*/
 	}
 	
@@ -42,12 +42,12 @@
 		float: left;
 	}
 	
-	.docEnrollBtnsArea {
+	.docUpdateBtnsArea {
 		padding-top: 0;
 		padding-left: 82.5%;
 	}
 	
-	.docEnrollBtn {
+	.docUpdateFormBtn {
 		margin: 5px;
 		width: 80px;
 		height: 50px;
@@ -66,22 +66,27 @@
 		/*text-align: right;*/
 	}
 	
-	.donEnrollOutboxBtn {
+	.docUpdate_btn {
 		background-color: #6a6a6a !important;
 		box-shadow: 0px 5px 0px 0px #545454 !important;
 	}
 	
-	.donEnrollOutboxBtn:hover {
+	.docUpdate_btn:hover {
 		box-shadow: 0px 0px 0px 0px #545454 !important;
 	}
 	
-	.donEnrollCancleBtn {
+	.cancle_btn {
 		background-color: darkgray !important;
 		box-shadow: 0px 5px 0px 0px #949494 !important;
 	}
 	
-	.donEnrollCancleBtn:hover {
+	.cancle_btn:hover {
 		box-shadow: 0px 0px 0px 0px #949494 !important;
+	}
+	
+	.outboxNo_div {
+		/*border: 1px solid blue;*/
+		padding: 5px;
 	}
 	
 </style>
@@ -91,8 +96,8 @@
 	<jsp:include page="../common/header.jsp"/>
 
 	<div class="main_section">
-        <div class="docEnrollFormDiv">
-	        <div class="docEnrollBackground">
+        <div class="docUpdateFormDiv">
+	        <div class="docUpdateBackground">
 		        <%-- 문서 서식에 맞게 폼 뜨도록 --%>
 		        <c:choose>
 		        	<c:when test="${ docForm == 10 }">

@@ -791,6 +791,91 @@ public class AprvController {
 	
 	
 	
+	// 임시 저장 문서 수정 페이지로 이동
+	@ResponseBody
+	@RequestMapping("docUpdateForm.do")
+	public ModelAndView docUpdateForm(Integer docType, int outboxNo, ModelAndView mv) {
+		
+		System.out.println("outboxNo ========" + outboxNo);
+		System.out.println("docForm ========" + docType);
+		
+		// 폼 유형, 임시 저장 문서 번호 넘기기 - 메소드 체이닝으로
+		mv.addObject("docForm", docType)
+		.addObject("outboxNo", outboxNo)
+		.setViewName("approval/docUpdateForm");
+		
+		return mv;
+	}
+	
+	
+	
+	// 휴가 신청서 업데이트
+	@ResponseBody
+	@RequestMapping(value="updateLeaveApp.do", produces="application/json; charset=utf-8")
+	public String updateLeaveApp(LeaveForm leaveForm) {
+		
+		System.out.println(leaveForm.toString());
+		
+		// 최근 수정일 변경하기 위해 임시 보관 번호 선언해서 넘기기
+		int outboxNo = leaveForm.getOutboxNo();
+		
+		aprvService.updateLeaveApp(leaveForm, outboxNo);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	
+	// 근태 기록 수정 신청서 업데이트
+	@ResponseBody
+	@RequestMapping(value="updateCmtUpdateApp.do", produces="application/json; charset=utf-8")
+	public String updateCmtUpdateApp(CmtUpdateForm cmtUpdateForm) {
+		
+		System.out.println(cmtUpdateForm.toString());
+		
+		// 최근 수정일 변경하기 위해 임시 보관 번호 선언해서 넘기기
+		int outboxNo = cmtUpdateForm.getOutboxNo();
+		
+		aprvService.updateCmtUpdateApp(cmtUpdateForm, outboxNo);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	
+	// 업무 기안서 업데이트
+	@ResponseBody
+	@RequestMapping(value="updateBusDraft.do", produces="application/json; charset=utf-8")
+	public String updateBusDraft(BusDraftForm busDraftForm) {
+		
+		System.out.println(busDraftForm.toString());
+		
+		// 최근 수정일 변경하기 위해 임시 보관 번호 선언해서 넘기기
+		int outboxNo = busDraftForm.getOutboxNo();
+		
+		aprvService.updateBusDraft(busDraftForm, outboxNo);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	
+	// 업무 협조문 업데이트
+	@ResponseBody
+	@RequestMapping(value="updateBusCoop.do", produces="application/json; charset=utf-8")
+	public String updateBusCoop(BusCoopForm busCoopForm) {
+		
+		System.out.println(busCoopForm.toString());
+		
+		// 최근 수정일 변경하기 위해 임시 보관 번호 선언해서 넘기기
+		int outboxNo = busCoopForm.getOutboxNo();
+		
+		aprvService.updateBusCoop(busCoopForm, outboxNo);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
 	
 	
 	

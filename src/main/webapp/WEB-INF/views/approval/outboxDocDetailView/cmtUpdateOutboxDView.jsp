@@ -14,6 +14,11 @@
 
 	
 	<div class="docDetailMainArea">
+		<div class="outboxNo_div">
+			임시 보관 번호 : 
+			<span id="outboxNo"></span>			
+		</div>
+		
 		<form class="detailViewForm">
 			<input type="hidden" name="approver" value="${ loginUser.empNo }"/>
 			<input type="hidden" name="approverJob" value="${ loginUser.jobNo }"/>
@@ -204,8 +209,8 @@
 				success: function(data) {
 					
 					console.log(data)
-					$("#drafter").val(data.empName + " (" + data.drafter + ")");
-					$("#drafterDept").val(data.jobName);
+					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
+					$("#drafterDept").val(data.drafterDept);
 					$("#draftDate").val(data.dftDate);
 					$("#docNo").val(data.docNo);
 					$("#updateDate").val(data.updateDate);
@@ -214,6 +219,7 @@
 					$("#attendTime").val(data.attendTime);
 					$("#leaveTime").val(data.leaveTime);
 					$("#updateReason").val(data.updateReason);
+					$("#outboxNo").text(data.outboxNo);
 					
 					// 결재선 조회
 			 		$.ajax({
