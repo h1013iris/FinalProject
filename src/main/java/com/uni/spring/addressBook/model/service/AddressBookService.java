@@ -58,6 +58,15 @@ public interface AddressBookService {
 
 	//고객주소록 삭제하기
 	int deleteCusAdd(String cusNo);
+
+	//부서벽 주소록 검색
+	ArrayList<WideMember> selectDeptAddSearch(int departmentNo);
+
+	//거래처 주소록 임시보관함 조회
+	ArrayList<Company> selectComBoxAdd(int empNo);
+
+	//고객 주소록 임시보관함 조회
+	ArrayList<Customer> selectCustoBoxAdd(int empNo);
 	
 
 
