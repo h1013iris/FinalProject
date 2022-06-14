@@ -108,8 +108,8 @@
 				<td colspan="3" style="height: 50px;">${ b.title }</td>
 			</tr>
 			<tr>
-				<th style="height: 50px;">작성자</th>						
-				<td>${ b.writer }</td>							
+				<th style="height: 50px;">작성자</th>				
+				<td>${ b.nickname }</td>										
 				<th style="height: 50px;">작성일</th>
 				<td>${ b.createDate }</td>
 			</tr>
@@ -133,11 +133,11 @@
                         </td>
                     </tr>
                      </c:forEach>
-                
-               
-			
-          
+                                      
 		</table>
+		
+		
+		
 		<div id="detailcontent">
 			<p style="height: 150px">${ b.content }</p>
 
@@ -147,12 +147,11 @@
 		<c:if test="${ loginUser.empNo eq b.empno }">
 			<div id="cocn">
 				<button class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</button>
-				<button class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</button>	
-				<button type="button" class="checkman" >읽은사람</button>			
+				<button class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</button>
+				
 			</div>
 		
-			<form id="postForm" action="" method="post">
-				<input type="hidden" name="bno" value="${ b.writeno }">
+			<form id="postForm" action="" method="post">				
                 <input type="hidden" name="boardno" value="${ b.boardno }">
 			</form>
 			<script>
@@ -181,13 +180,9 @@
 
 				<button class="commonButton1" id="addcom">등록하기</button>
 			</c:if>
-			<c:if test="${ empty loginUser }">
-
-				<textarea class="form-control" readonly rows="2"
-					style="resize: none; width: 70%"> 로그인 후 이용가능해요.</textarea>
-
-				<button id="addcom" class="commonButton1" disabled>등록하기</button>
-			</c:if>
+		   <br>		
+		   <span>닉네임</span>
+		   <input type="text" name=conmentnickname id="conmentnickname" required>
 		</div>
 
 		<div class="replyAREA">
@@ -222,12 +217,12 @@
 			if ($("#Content").val().trim().length != 0) {
 
 				$.ajax({
-					url : "insertcontent.do",
+					url : "insertcontentanony.do",
 					type : "post",
 					data : {
 						ccontent : $("#Content").val(),
-						cwriteno : bno,
-						writerno : "${loginUser.empNo}",
+						cwriteno : bno,						
+						conmentnickname : $("#conmentnickname").val(),
 						boardno : realbno
 					},
 
@@ -252,7 +247,7 @@
 	function selectcomList() {
 		var bno = ${b.writeno};
 				$.ajax({
-					url : "listcoment.do",
+					url : "listcomentanony.do",
 					data : {
 						bno : bno
 					},
@@ -266,13 +261,10 @@
 										list,
 										function(i, c) {
 
-											if ("${loginUser.empName}" == c.cwirter) {
-												value += "<tr>";
-											} else {
-												value += "<tr>";
-											}
+										
+											value += "<tr>";											
 											value += "<th class='replyWriterName'>"
-													+ c.cwirter
+													+ c.conmentnickname
 													+ " "
 													+ "</th>";
 											value += "<th class='replydelete'><img src='${ pageContext.servletContext.contextPath }/resources/images/close.png' alt='' onclick='deleteReply("+c.cno+")' width='10'>"+"</th></tr>";

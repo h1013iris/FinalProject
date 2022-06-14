@@ -2,7 +2,6 @@ package com.uni.spring.board.model.dto;
 
 import java.sql.Date;
 
-import com.uni.spring.department.model.dto.Department;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,4 +28,6 @@ public class Board {
 	private String originName;
 	private String changeName;
 	private int pno;
+	private String passward;
+	private String nickname;
 }

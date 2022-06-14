@@ -84,6 +84,20 @@ public interface BoardService {
 
 	Board details(int bno);
 
+	int selectanonymousCount();
+
+	ArrayList<Board> selectanonymous(PageInfo pi);
+
+	void insertanony(Board b);
+
+	ArrayList<Board> detailanonyfiles(int bno);
+
+	Board detailanony(int bno);
+
+	int insertanonycoment(coment r);
+
+	ArrayList<coment> listcomentanony(int bno);
+
 	
 
 	
