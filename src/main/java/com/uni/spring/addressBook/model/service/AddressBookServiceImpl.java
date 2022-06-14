@@ -149,5 +149,26 @@ public class AddressBookServiceImpl implements AddressBookService {
 		return addressBookDao.deleteCusAdd(sqlSession,cusNo);	
 	}
 
+	//부서별 주소록 검색
+	@Override
+	public ArrayList<WideMember> selectDeptAddSearch(int departmentNo) {
+		// TODO Auto-generated method stub
+		return addressBookDao.selectDeptAddSearch(sqlSession,departmentNo);
+	}
+
+	//거래처 주소록 임시보관함
+	@Override
+	public ArrayList<Company> selectComBoxAdd(int empNo) {
+		// TODO Auto-generated method stub
+		return addressBookDao.selectComBoxAdd(sqlSession, empNo);
+	}
+
+	//고객주소록 임시 보관함
+	@Override
+	public ArrayList<Customer> selectCustoBoxAdd(int empNo) {
+		// TODO Auto-generated method stub
+		return addressBookDao.selectCustoBoxAdd(sqlSession, empNo);
+	}
+
 
 }
