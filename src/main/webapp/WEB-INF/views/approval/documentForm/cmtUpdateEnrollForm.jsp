@@ -270,7 +270,7 @@
  			$("#formErrorMsg").empty();
  			
  			let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10); // 오늘 날짜
- 			let updateDate = new Date($(this).val());
+ 			let updateDate = new Date($(this).val()).toISOString().substring(0, 10);
  			
  			
  			if(updateDate > today) {

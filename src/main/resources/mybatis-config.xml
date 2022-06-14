@@ -71,7 +71,7 @@
   		<typeAlias type="com.uni.spring.admin.model.dto.MeetingRoom" alias="MR"/>
   		<!-- 경영지원 -->
   		<typeAlias type="com.uni.spring.manageMent.model.dto.manageDepart" alias="manageDepart"/>
-  		<typeAlias type="com.uni.spring.manageMent.model.dto.AttendlogMana" alias="AttendlogMana"/>
+  		<typeAlias type="com.uni.spring.manageMent.model.dto.calendarWeek" alias="calendarWeek"/>
   		<!-- 마이페이지 -->
   		<!-- 업무일지 -->
   		<typeAlias type="com.uni.spring.mypage.model.dto.Journal" alias="journal"/>

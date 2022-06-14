@@ -75,7 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM ATTEND_LOG
 		WHERE 1=1
 		AND EMP_NO = #{empNo}
-		AND ATTEND_DATE = TO_DATE(#{attendDate})
+		AND TO_DATE(ATTEND_DATE) = TO_DATE(#{attendDate})
 	</select>
 	
 	<!-- 근태 기록 수정 의뢰 신청서 등록 -->

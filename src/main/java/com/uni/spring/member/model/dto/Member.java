@@ -26,6 +26,7 @@ public class Member {
 	private String jobName;
 	private String departmentName;	// 부서명 (김태연 세션 저장시 필요함)
 	private String changeName;//이미지 명
+	private String statuslogin;//로그인 상태값
 	/*
 	USER_INFO 컬럼명
 	

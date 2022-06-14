@@ -15,10 +15,12 @@ import com.uni.spring.admin.model.dto.Department;
 import com.uni.spring.admin.model.dto.employeeAllInfo;
 import com.uni.spring.admin.model.service.adminService;
 import com.uni.spring.common.Attachment;
+import com.uni.spring.department.model.dto.AttendLog;
 import com.uni.spring.department.model.dto.DepartmentAnno;
 import com.uni.spring.department.model.dto.Project;
 import com.uni.spring.department.model.service.DepartService;
 import com.uni.spring.manageMent.model.dto.calculateSalary;
+import com.uni.spring.manageMent.model.dto.calendarWeek;
 import com.uni.spring.manageMent.model.dto.manageDepart;
 import com.uni.spring.manageMent.model.service.ManageService;
 import com.uni.spring.member.model.dto.Member;
@@ -40,7 +42,14 @@ public class ManageController {
 	public ModelAndView manangeMain(int userNo,String departmentNo, ModelAndView mv) {
 		ArrayList<DepartmentAnno> dlist = departService.selectAnnoDepartListMain(Integer.parseInt(departmentNo));//부서 공지사항 5개
 		ArrayList<Department> dplist = adminService.selectAllDeptList();
-		mv.addObject("dplist",dplist).addObject("dlist", dlist).setViewName("manage/manageMain");
+		calendarWeek cw = new calendarWeek().selectThisWeek();
+		ArrayList<AttendLog> al = manageService.selectListAttendLog(cw);
+		ArrayList<AttendLog> att = new ArrayList<AttendLog>();
+		for (AttendLog at : al) {
+			att.add(new AttendLog().attendList(at));
+		}
+		System.out.println(al);
+		mv.addObject("dplist",dplist).addObject("dlist", dlist).addObject("cw",cw).addObject("att",att).setViewName("manage/manageMain");
 		return mv;
 	}
 	
@@ -76,5 +85,26 @@ public class ManageController {
 		int count = manageService.countSelect();//사원수
 		calculateSalary cs = new calculateSalary().calcugukmin(salary, count);
 		return new Gson().toJson(cs);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="filterCheckMianPage.do", produces="application/json; charset=utf-8")
+	public String selectFilterInfo(manageDepart md) {
+		calendarWeek cw = new calendarWeek().selectThisWeek();
+		md.setWeeko(cw.getWeeko());md.setWeekt(cw.getWeekt()); md.setWeekh(cw.getWeekh());
+		md.setWeeku(cw.getWeeku()); md.setWeekf(cw.getWeekf());
+		ArrayList<AttendLog> al = manageService.selectFilterInfo(md);
+		ArrayList<AttendLog> list = new ArrayList<AttendLog>();
+		for (AttendLog at : al) {
+			list.add(new AttendLog().attendList(at));
+		}
+		return new Gson().toJson(list);
+	}
+	
+	@RequestMapping("selectListDepartInfo.do")
+	public ModelAndView selectListDepartInfo(int deptNo, ModelAndView mv ) {
+		
+		
+		return mv;
 	}
 }
