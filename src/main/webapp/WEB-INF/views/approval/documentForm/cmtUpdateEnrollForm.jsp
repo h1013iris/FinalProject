@@ -64,7 +64,7 @@
 											</td>
 											<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
 												<span contenteditable="false">
-													<input class="fix_input" id="drafterDept" name="drafterDept" value="" readonly/>
+													<input class="fix_input" id="drafterDeptName" name="drafterDeptName" value="" readonly/>
 												</span>
 											</td>
 										</tr>
@@ -230,7 +230,7 @@
 						
  	                	if(data != null || data != "") {
  	                		
- 	                		$("#drafterDept").val(data);
+ 	                		$("#drafterDeptName").val(data);
  	                	}
  	                }
 		 		})
@@ -270,8 +270,13 @@
  			$("#formErrorMsg").empty();
  			
  			let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10); // 오늘 날짜
- 			let updateDate = new Date($(this).val());
+ 			let updateDate = new Date($(this).val()).toISOString().substring(0, 10);
  			
+ 			console.log(today);
+ 			console.log(updateDate);
+ 			
+ 			console.log(updateDate > today);
+ 			console.log(updateDate == today);
  			
  			if(updateDate > today) {
  				$("#formErrorMsg").text("내일 이후는 선택할 수 없습니다.");

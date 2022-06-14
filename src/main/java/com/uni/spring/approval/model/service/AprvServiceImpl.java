@@ -596,6 +596,73 @@ public class AprvServiceImpl implements AprvService {
 			throw new CommException("업무 협조문 임시 저장 삭제 실패");
 		}
 	}
+
+
+	@Override // 휴가 신청서 업데이트
+	public void updateLeaveApp(LeaveForm leaveForm, int outboxNo) {
+		
+		int result = aprvDao.updateLeaveApp(sqlSession, leaveForm);
+		
+		if(result < 1) {
+			throw new CommException("휴가 신청서 업데이트 실패");
+		
+		} else {
+			updateLastUpdateDate(outboxNo);
+		}
+	}
+
+	
+	// 임시 저장 문서 최근 수정일 업데이트
+	private void updateLastUpdateDate(int outboxNo) {
+		
+		int result = aprvDao.updateLastUpdateDate(sqlSession, outboxNo);
+		
+		if(result < 1) {
+			throw new CommException("임시 보관 문서 최근 수정일 업데이트 실패");
+		}
+	}
+
+
+	@Override // 근태 기록 수정 신청서 업데이트
+	public void updateCmtUpdateApp(CmtUpdateForm cmtUpdateForm, int outboxNo) {
+		
+		int result = aprvDao.updateCmtUpdateApp(sqlSession, cmtUpdateForm);
+		
+		if(result < 1) {
+			throw new CommException("근태 기록 수정 신청서 업데이트 실패");
+		
+		} else {
+			updateLastUpdateDate(outboxNo);
+		}
+	}
+
+
+	@Override // 업무 기안서 업데이트
+	public void updateBusDraft(BusDraftForm busDraftForm, int outboxNo) {
+		
+		int result = aprvDao.updateBusDraft(sqlSession, busDraftForm);
+		
+		if(result < 1) {
+			throw new CommException("근태 기록 수정 신청서 업데이트 실패");
+		
+		} else {
+			updateLastUpdateDate(outboxNo);
+		}
+	}
+
+
+	@Override // 업무 협조문 업데이트
+	public void updateBusCoop(BusCoopForm busCoopForm, int outboxNo) {
+		
+		int result = aprvDao.updateBusCoop(sqlSession, busCoopForm);
+		
+		if(result < 1) {
+			throw new CommException("근태 기록 수정 신청서 업데이트 실패");
+		
+		} else {
+			updateLastUpdateDate(outboxNo);
+		}
+	}
 	
 
 	

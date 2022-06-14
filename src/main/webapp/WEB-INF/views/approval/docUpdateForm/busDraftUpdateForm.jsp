@@ -13,7 +13,12 @@
 <body>
 	
 	<div class="formMainArea">
-		<form class="docEnrollForm" action="insertBusDraft.do" method="post">
+		<div class="outboxNo_div">
+			임시 보관 번호 : 
+			<span id="outboxNo"></span>			
+		</div>
+		
+		<form class="docUpdateForm">
 		  	<input type="hidden" name="docTypeNo" value="${ docForm }"/>
 			<input type="hidden" name="docType" value="${ docForm }"/>
 			<input type="hidden" name="drafter" value="${ loginUser.empNo }"/>
@@ -179,10 +184,10 @@
 					</tbody>
 				</table>
 				</div>
-	 		<div class="docEnrollBtnsArea">
-				<button class="commonButton1 submit_btn docEnrollBtn" type="button">결재요청</button> <br>
-				<button class="commonButton1 outbox_btn docEnrollBtn donEnrollOutboxBtn" type="button">임시저장</button> <br> <%-- 임시저장 기능 --%>
-				<button class="commonButton1 cancle_btn docEnrollBtn donEnrollCancleBtn" type="button" style="background-color: #c8c8c8 !important;">취소</button>
+	 		<div class="docUpdateBtnsArea">
+				<button class="commonButton1 docUpdateFormBtn docSubmit_btn" type="button">결재요청</button> <br>
+				<button class="commonButton1 docUpdateFormBtn docUpdate_btn" type="button">수정</button> <br> <%-- 임시저장 기능 --%>
+				<button class="commonButton1 docUpdateFormBtn cancle_btn" type="button" style="background-color: #c8c8c8 !important;">취소</button>
 			</div>
  		</form>
 	</div>
@@ -204,62 +209,140 @@
 				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
 				$("#dftDate").val(today);				
 		 		
-				// 로그인 유저 소속(부서명) 조회
-		 		$.ajax({
-		 			
-		 			type: "post",
-		            url: "selectDeptName.do",
-		            data: { deptNo : "${ loginUser.departmentNo }" },
-		            success: function (data) {
-						
-		            	if(data != null || data != "") {
-		            		
-		            		$("#drafterDept").val(data);
-		            	}
-		            }
-		 		})
+				selectDeptFn(); // 기안자 부서 가져오는 함수
 		 		
-		 		// 결재선 조회
-		 		$.ajax({
-		 			
-		 			type: "post",
- 	                url: "selectDeptApprover.do",
- 	               	data: { deptNo : "${ loginUser.departmentNo }",
-                			jobNo : "${ loginUser.jobNo }"},
- 	                success: function (data) {
-						console.log(data);
- 	                	if(data != null || data != "") {
- 	                		
- 	                		$("#firstAprvName").val(data[0].empName);
- 	                		$("#firstAprv").val(data[0].empNo);
- 	                		$("#firstAprvJob").val(data[0].jobName);
- 	                		$("#secondAprvName").val(data[1].empName);
- 	                		$("#secondAprv").val(data[1].empNo);
- 	                		$("#secondAprvJob").val(data[1].jobName);
- 	                	}
- 	                }
-		 		})
+ 	 			selectApproverFn(); // 결재자 조회하는 함수
+ 	 			
+ 	 			selectDeptListFn(); // 부서 리스트 조회하는 함수
+ 	 			
+		 		selectBusDraftOutboxFn(); // 기존 내용 조회
 		 		
-		 		// 부서 조회해서 select에 넣기
-		 		$.ajax({
-		 			
-		 			type: "post",
- 	                url: "selectDeptList.do",
- 	                data: { deptNo : "${ loginUser.departmentNo }" },
- 	                success: function (list) {
-						console.log(list);
- 	                	if(list != null || list != "") {
- 	                		
- 	                		$.each(list, function(i) {
- 	                			$("#coopDept").append("<option value='" + list[i].deptNo + "'>" 
- 	                								  + list[i].deptTitle + "</option>");
- 	                		});
- 	                	}
- 	                }
-		 		});
 			}
 			
  		});
+		
+		
+	 	// 기안자 부서 가져오는 함수
+ 		function selectDeptFn() {
+ 			
+ 			// 소속 (로그인 유저의 부서 가져오기)
+	 		$.ajax({
+	 			
+	 			type: "post",
+                url: "selectDeptName.do",
+                data: { deptNo : "${ loginUser.departmentNo }" },
+                success: function (data) {
+				
+                	if(data != null || data != "") {
+                		
+                		$("#drafterDept").val(data);
+                	}
+                }
+	 		});
+ 		}
+ 		
+ 		
+ 		// 결재자 조회하는 함수
+ 		function selectApproverFn() {
+ 			
+ 			// 결재선 조회
+	 		$.ajax({
+	 			
+	 			type: "post",
+                url: "selectDeptApprover.do",
+                data: { deptNo : "${ loginUser.departmentNo }",
+                		jobNo : "${ loginUser.jobNo }"},
+                success: function (list) {
+				console.log(list);
+                	if(list != null || list != "") {
+                		
+                		$("#firstAprvName").val(list[0].empName);
+                		$("#firstAprv").val(list[0].empNo);
+                		$("#firstAprvJob").val(list[0].jobName);
+                	}
+                	
+                	if(list.length == 2) {
+                		$("#secondAprvName").val(list[1].empName);
+                		$("#secondAprv").val(list[1].empNo);
+                		$("#secondAprvJob").val(list[1].jobName);
+                	}
+                }
+	 		});
+ 		}
+ 		
+ 		
+ 		// 부서 리스트 조회하는 함수
+ 		function selectDeptListFn() {
+ 			
+ 			// 부서 조회해서 select에 넣기
+	 		$.ajax({
+	 			
+	 			type: "post",
+	                url: "selectDeptList.do",
+	                data: { deptNo : "${ loginUser.departmentNo }" },
+	                success: function (list) {
+					console.log(list);
+	                	if(list != null || list != "") {
+	                		
+	                		$.each(list, function(i) {
+	                			$("#coopDept").append("<option value='" + list[i].deptNo + "'>" 
+	                								  + list[i].deptTitle + "</option>");
+	                		});
+	                	}
+	                }
+	 		});
+ 		}
+ 		
+ 		
+ 		// 기존 내용 조회
+ 		function selectBusDraftOutboxFn() {
+ 			
+ 			// 문서 내용 조회
+			$.ajax({
+			
+				type: "post",
+				url: "selectDraftFormOutbox.do",
+				data: { outboxNo : ${ outboxNo } },
+				success: function(data) {
+					
+					console.log(data)
+					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
+					$("#drafterDept").val(data.drafterDept);
+					$("#dftDate").val(data.dftDate);
+					$("#enfDate").val(data.enfDate);
+					$("#coopDept").val(data.coopDept);
+					$("#docTitle").val(data.docTitle);
+					$("#dftContent").val(data.dftContent);
+					$("#outboxNo").text(data.outboxNo);
+					
+					// 결재선 조회
+			 		/*$.ajax({
+			 			
+			 			type: "post",
+		                url: "selectDeptApprover.do",
+		                data: { deptNo : "${ loginUser.departmentNo }",
+		                		jobNo : "${ loginUser.jobNo }"},
+		                success: function (data) {
+							console.log(data);
+		                	if(data != null || data != "") {
+		                		
+		                		$("#firstAprvName").val(data[0].empName);
+		                		$("#firstAprv").val(data[0].empNo);
+		                		$("#firstAprvJob").val(data[0].jobName);
+		                		
+		                		if(data.length > 1) {
+		                			$("#secondAprvName").val(data[1].empName);
+			                		$("#secondAprv").val(data[1].empNo);
+			                		$("#secondAprvJob").val(data[1].jobName);
+		                		}
+		                	}
+		                }
+			 		});*/
+					
+				}
+			});
+ 		}
+ 		
  		
  		
  		// 시행일자 수정 시
@@ -284,7 +367,7 @@
  		
  		
  		// 결재 요청 버튼 클릭 시
-		$(".submit_btn").click(function() {
+		$(".docSubmit_btn").click(function() {
 			
 			let enfDate = $("#enfDate").val();
 			let coopDept = $("#coopDept").val();
@@ -375,38 +458,40 @@
  		}
  		
  		
- 		// 임시저장 버튼 클릭 시 
- 		$(document).on("click", ".donEnrollOutboxBtn", function() {
- 		
+ 		// 수정 버튼 클릭 시 
+ 		$(document).on("click", ".docUpdate_btn", function() {
+ 			
  			// 폼의 모든 데이터 저장해서 변수로 선언
- 			let form = $(".docEnrollForm").serialize();
- 		
- 			// 임시 보관함에 저장하는 ajax 실행
+ 			let form = $(".docUpdateForm").serialize();
+ 			let outboxNo = ${ outboxNo };
+ 			// 쿼리스트링으로 임시 보관 번호 추가
+ 			form += "&outboxNo=" + outboxNo;
+
+ 			// 해당 문서 내용 업데이트 진행하는 ajax
     		$.ajax({
     			
     			type: "post",
-    			url: "saveDraftFormOutbox.do",
+    			url: "updateBusDraft.do",
     			data: form,
     			success: function(result) {
     				console.log(result);
     				
+    				// 저장 여부만 알려주고 페이지 이동은 없음 -> 계속 작성할 수 있도록
     				if(result == "success") {
     					let title = "임시 보관함 저장"
-    					let content = "해당 문서가 임시 보관함에 저장되었습니다."
+    					let content = "저장이 완료되었습니다."
     					
     					myAlert(title, content);
-    					resultFn(); // 취소 클릭 시 결재 메인으로 이동
     					
     				} else {
     					let title = "임시 보관함 저장"
-   						let content = "임시 보관함에 저장을 실패하었습니다."
-   					
-   						myAlert(title, content);
-    					resultFn();
+	   					let content = "저장에 실패하었습니다."
+	   					
+	   					myAlert(title, content);
     				}
     			}
     		});
- 			
+			
  		});
 		
 	

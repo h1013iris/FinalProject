@@ -23,7 +23,7 @@ $(function(){
 	// 예약하기 버튼 클릭 시 페이지 이동
 	$(document).on("click",".ReservationRoombtn", function(){
 		
-		$(".reservationEnrollFormModal").css("display","flex");
+		//$(".reservationEnrollFormModal").css("display","flex");
 	}) 
 	
 	//4대보험 계산기 모달창
