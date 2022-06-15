@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="changeName" column="CHANGE_NAME" />
 		<result property="passward" column="PASSWARD" />
 		<result property="nickname" column="NICKNAME" />
+		<result property="boardname" column="BOARD_NAME" />
 		
 
 	</resultMap>
@@ -566,6 +567,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WRITE_NO 
 
 	</select>
+	<select id="allboard" resultMap="boardResultset">
+	select *
+	from BOARD_MANAGEMENT
+	where BOARD_NO > 4
+	
+	</select>
+	
 
 	
 </mapper>

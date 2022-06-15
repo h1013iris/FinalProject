@@ -219,6 +219,11 @@
                 <ul>
                     <li class="list_title"><a href="depart.do">부서 게시판</a></li>
                 </ul>
+                <c:forEach items="${ blist }" var="a">
+                <ul>                          
+                    <li class="list_title"><a href="allboard.do">${ a.boardname }</a></li>
+                </ul>               
+                </c:forEach>
                 <ul>
                                      
                     <li class="list_title"><a href="pbox.do?userno=${loginUser.empNo}">임시 보관함</a></li>

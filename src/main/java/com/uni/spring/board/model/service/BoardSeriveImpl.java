@@ -310,6 +310,12 @@ int result = BoardDao.deletepbox(sqlSession, pno);
 		return BoardDao.selectanonymousold(sqlSession,pi);
 	}
 
+	@Override
+	public ArrayList<Board> allboard() {
+		
+		return BoardDao.allboard(sqlSession);
+	}
+
 
 
 	
