@@ -9,7 +9,7 @@
 <style type="text/css">
 	.attendLogBigDiv{
 		margin: 0 auto;
-		padding: 100px;
+		padding: 50px 100px 100px 100px ;
 		border: 1px solid;
 	}
 	.upperDeptinfo{
@@ -92,9 +92,42 @@
 		cursor: pointer;
 		background-color: rgb(174, 217, 248);
 	}
-	.underHivHeaved{
+	.underHivHeaved, .underHivHeavedGet{
 		display: flex;
 		width: 100%;
+	}
+	.underHivHeavedGet{
+		flex-wrap: wrap;
+    	align-items: center;
+	}
+	.underHivHeaved div{
+		flex: 1;
+	    border: 1px solid;
+	    text-align: center;
+	    height: 30px;
+	    line-height: 30px;
+	}
+	.underHivHeavedGet>div{
+		flex: 1;
+	    text-align: center;
+	    line-height: 60px;
+	    border-bottom: 1px solid;
+	    height: 60px;
+	}
+	.underHivHeavedGet:hover{
+		cursor: pointer;
+		background-color: rgb(174, 217, 248);
+	}
+	.underGetEmpName{
+		text-align: left !important;
+		line-height: 30px !important;
+	}
+	.scrolldivse{
+	 	overflow-y:scroll;
+	 	height: 610px;
+	}
+	.scrolldivse::-webkit-scrollbar{
+    	display: none;
 	}
 </style>
 </head>
@@ -146,6 +179,7 @@
 				<div class="headerNameSw"><span>2022-06</span></div>
 			</div>
 			<!-- 아래 부분  -->
+		
 			<div class="underHivHeaved">
 				<div>이름</div>
 				<div>이번주 누적 근무시간</div>
@@ -155,7 +189,26 @@
 				<div>4주</div>
 				<div>5주</div>
 			</div>
-		
+			<div class="scrolldivse">
+				<c:forEach items="${att}" var="a" varStatus="status" >
+					<div class="underHivHeavedGet" onclick="selectDetailInfo('${a.empNo}')">
+						<div class="underGetEmpName">
+							<div>${a.empName}</div>
+							<div>${a.cal} / ${a.status}</div>
+						</div>
+						<c:forEach items="${att2}"  var = "a2">
+							<c:if test="${a.empName eq a2.empName }">
+								<div>${a2.tot}</div>
+							</c:if>
+						</c:forEach>
+						<div>${a.tot}</div>
+						<div>${a.tot2}</div>
+						<div>${a.tot3}</div>
+						<div>${a.tot4}</div>
+						<div>${a.tot5}</div>
+					</div>
+				</c:forEach>
+			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -203,7 +256,9 @@
 			
 			
 		}
-		
+		function selectDetailInfo(empNo){
+			location.href="selectDetailAttendLog.do?empNo="+empNo;
+		}
 	</script>
 </body>
 </html>

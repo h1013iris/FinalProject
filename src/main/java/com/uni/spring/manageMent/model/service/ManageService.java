@@ -33,4 +33,6 @@ public interface ManageService {
 	String selectFirstday();
 
 	ArrayList<AttendLog> selectAttendAvg(calendarWeek cd);
+
+	ArrayList<AttendLog> selectListAttendLogAVG(calendarWeek cw);
 }

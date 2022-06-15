@@ -76,4 +76,9 @@ public class ManageDao {
 		return (ArrayList)sqlSession.selectList("manageMapper.selectAttendAvg", cd);
 	}
 
+	public ArrayList<AttendLog> selectListAttendLogAVG(SqlSessionTemplate sqlSession, calendarWeek cw) {
+		
+		return (ArrayList)sqlSession.selectList("manageMapper.selectListAttendLogAVG",cw);
+	}
+
 }
