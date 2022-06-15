@@ -115,7 +115,45 @@ public class ManageController {
 		}
 		System.out.println(att);
 		ArrayList<Department> dplist = adminService.selectAllDeptList();
-		mv.addObject("att",att).addObject("dplist",dplist).setViewName("manage/attendlogListView");
+		calendarWeek cw2 = new calendarWeek().selectThisWeek();
+		ArrayList<AttendLog> al = manageService.selectListAttendLogAVG(cw2);
+		
+		ArrayList<AttendLog> att2 = new ArrayList<AttendLog>();
+		for (AttendLog at : al) {
+			att2.add(new AttendLog().attendAVGLISTAV(at));
+		}
+		System.out.println(att2);
+		mv.addObject("att",att).addObject("dplist",dplist).addObject("att2", att2).setViewName("manage/attendlogListView");
+		return mv;
+	}
+	
+	@RequestMapping("selectDetailAttendLog.do")
+	public ModelAndView selectDetailAttendLog(int empNo, ModelAndView mv) {
+		//가져와야 할 것 
+		//부서, 직급, 이름, 이번주 누적, 월별 누적
+		//주차별 업무 시작 종료 근무시간나오는 리스트 
+		String fd = manageService.selectFirstday();//이번달 주 월요일들 모음
+		System.out.println(fd);
+		calendarWeek cw = new calendarWeek().changeList(fd);//주 가져오
+		System.out.println(cw);
+		cw.setEmpNo(empNo);//넘버 같이 보내주기 
+		ArrayList<AttendLog> list = manageService.selectAttendAvg(cw);//평균들 
+		System.out.println(list);//성공
+		AttendLog att = new AttendLog();
+		for (AttendLog at : list) {
+			att = new AttendLog().attendAVGLIST(at);
+		}
+		System.out.println("개인?!?!"+att);//성공함
+		ArrayList<Department> dplist = adminService.selectAllDeptList();
+		calendarWeek cw2 = new calendarWeek().selectThisWeek();
+		cw2.setEmpNo(empNo);//넘버 같이 보내주기 
+		ArrayList<AttendLog> al = manageService.selectListAttendLogAVG(cw2);
+		AttendLog att2 = new AttendLog();
+		for (AttendLog at : al) {
+			att2 =new AttendLog().attendAVGLISTAV(at);
+		}
+		System.out.println(att2);//성공인지 확인하기 
+		mv.addObject("att",att).addObject("att2",att2).setViewName("manage/detailAttendLogView");
 		return mv;
 	}
 }

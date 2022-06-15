@@ -95,4 +95,10 @@ public class ManageServiceImpl implements ManageService {
 		
 		return manageDao.selectAttendAvg(sqlSession, cd);
 	}
+
+	@Override
+	public ArrayList<AttendLog> selectListAttendLogAVG(calendarWeek cw) {
+		
+		return manageDao.selectListAttendLogAVG(sqlSession, cw);
+	}
 }

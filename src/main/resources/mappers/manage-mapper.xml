@@ -243,6 +243,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN USER_INFO K ON (K.EMP_NO = S.EMP_NO)
 		JOIN JOB_RANK_MANAGEMENT JR ON (K.JOB_NO=JR.JOB_NO)
 		JOIN DEPARTMENT_MANAGEMENT D ON (K.DEPARTMENT_NO = D.DEPARTMENT_NO)
+		<if test= "empNo != 0">
+			WHERE K.EMP_NO = #{empNo}
+		</if>
 		ORDER BY k.EMP_NO
 	</select> 
+	<select id="selectListAttendLogAVG" parameterType="calendarWeek" resultType="AttendLog">
+		SELECT K.EMP_NO, K.EMP_NAME, S.TOT
+		FROM(SELECT SUM(CAL) AS TOT, Q.EMP_NO
+		FROM(
+		SELECT A.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
+		FROM ATTEND_LOG A
+		WHERE (ATTEND_DATE BETWEEN #{weeko} AND #{weekf})
+		AND A.STATUS = 'Y'
+		ORDER BY A.EMP_NO)Q
+		GROUP BY Q.EMP_NO)S
+		JOIN USER_INFO K ON (K.EMP_NO = S.EMP_NO)
+		<if test= "empNo != 0">
+			WHERE K.EMP_NO = #{empNo}
+		</if>
+		ORDER BY S.EMP_NO
+	</select>
 </mapper>
