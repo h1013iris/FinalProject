@@ -29,4 +29,8 @@ public interface ManageService {
 	ArrayList<AttendLog> selectListAttendLog(calendarWeek cw);
 
 	ArrayList<AttendLog> selectFilterInfo(manageDepart md);
+
+	String selectFirstday();
+
+	ArrayList<AttendLog> selectAttendAvg(calendarWeek cd);
 }

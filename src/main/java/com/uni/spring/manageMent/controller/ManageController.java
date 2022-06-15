@@ -103,8 +103,19 @@ public class ManageController {
 	
 	@RequestMapping("selectListDepartInfo.do")
 	public ModelAndView selectListDepartInfo(int deptNo, ModelAndView mv ) {
-		
-		
+		String fd = manageService.selectFirstday();//이번달 주 월요일들 모음
+		System.out.println(fd);
+		calendarWeek cw = new calendarWeek().changeList(fd);
+		System.out.println(cw);
+		ArrayList<AttendLog> list = manageService.selectAttendAvg(cw);
+		System.out.println(list);//성공
+		ArrayList<AttendLog> att = new ArrayList<AttendLog>();
+		for (AttendLog at : list) {
+			att.add(new AttendLog().attendAVGLIST(at));
+		}
+		System.out.println(att);
+		ArrayList<Department> dplist = adminService.selectAllDeptList();
+		mv.addObject("att",att).addObject("dplist",dplist).setViewName("manage/attendlogListView");
 		return mv;
 	}
 }

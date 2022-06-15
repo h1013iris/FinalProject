@@ -83,4 +83,16 @@ public class ManageServiceImpl implements ManageService {
 		
 		return manageDao.selectFilterInfo(sqlSession, md);
 	}
+
+	@Override
+	public String selectFirstday() {
+		
+		return manageDao.selectFirstday(sqlSession);
+	}
+
+	@Override
+	public ArrayList<AttendLog> selectAttendAvg(calendarWeek cd) {
+		
+		return manageDao.selectAttendAvg(sqlSession, cd);
+	}
 }

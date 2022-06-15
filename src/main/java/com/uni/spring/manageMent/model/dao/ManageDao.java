@@ -66,4 +66,14 @@ public class ManageDao {
 		return (ArrayList)sqlSession.selectList("manageMapper.selectFilterInfo",md);
 	}
 
+	public String selectFirstday(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("manageMapper.selectFirstday");
+	}
+
+	public ArrayList<AttendLog> selectAttendAvg(SqlSessionTemplate sqlSession, calendarWeek cd) {
+		
+		return (ArrayList)sqlSession.selectList("manageMapper.selectAttendAvg", cd);
+	}
+
 }
