@@ -18,6 +18,7 @@
 	<jsp:include page="../manage/calculateModal.jsp"/>
 	<jsp:include page="../reservation/reservationEorollformModal.jsp"/>
 	<jsp:include page="../mypage/workRequestModal.jsp"/>
+	<jsp:include page="../mypage/empSearchModal.jsp"/>
 	
 	<header id="main_header">
 	    <div class="logo_header">
@@ -80,8 +81,8 @@
 	                    <li class="list_title">업무 관리</li>
 	                    <div class="hhh">
 		                    <li><a href="journalList">업무일지 관리</a></li>
-		                    <li><a href="#">받은 업무</a></li>
-		                    <li><a href="#">보낸 업무</a></li>
+		                    <li><a href="workreceivedPage">받은 업무</a></li>
+		                    <li><a href="requestWorkList">보낸 업무</a></li>
 	                    </div>
 	                </ul>
 	                <ul>

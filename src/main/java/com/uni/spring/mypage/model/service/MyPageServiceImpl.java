@@ -6,10 +6,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uni.spring.admin.model.dto.employee;
 import com.uni.spring.common.exception.CommException;
 import com.uni.spring.mypage.model.dao.MyPageDao;
 import com.uni.spring.mypage.model.dto.Journal;
 import com.uni.spring.mypage.model.dto.ToDoList;
+import com.uni.spring.mypage.model.dto.WorkRequest;
 
 @Service
 public class MyPageServiceImpl implements MyPageService {
@@ -103,6 +105,38 @@ public class MyPageServiceImpl implements MyPageService {
 	public ArrayList<ToDoList> todoDateSelectList(ToDoList toList) {
 		// TODO Auto-generated method stub
 		return MPDao.todoDateSelectList(sqlSession, toList);
+	}
+
+	@Override
+	public ArrayList<employee> selectRequestEmpSearch(int[] checkval) {
+		// TODO Auto-generated method stub
+		return MPDao.selectRequestEmpSearch(sqlSession, checkval);
+	}
+
+	@Override
+	public ArrayList<employee> EmpSelectAllList() {
+		// TODO Auto-generated method stub
+		return MPDao.EmpSelectAllList(sqlSession);
+	}
+
+	@Override
+	public void insertWorkRequest(WorkRequest wr) {
+		// TODO Auto-generated method stub
+		int result = MPDao.insertWorkRequest(sqlSession, wr);
+		
+		if(result <= 0) throw new CommException("업무요청 실패"); 
+	}
+
+	@Override
+	public ArrayList<WorkRequest> selectWorkReceivedList(int empNo) {
+		// TODO Auto-generated method stub
+		return MPDao.selectWorkReceivedList(empNo, sqlSession);
+	}
+
+	@Override
+	public ArrayList<WorkRequest> selectrequestWorkList(int empNo) {
+		// TODO Auto-generated method stub
+		return MPDao.selectrequestWorkList(empNo, sqlSession);
 	}
 
 }

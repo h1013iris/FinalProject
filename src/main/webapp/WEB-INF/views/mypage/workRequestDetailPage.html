@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            height: 50px;
+            line-height: 50px;
+            margin-top: 30px;
+        }
+
+        .content_deadline{
+            display: inline-block;
+        }
+
+        #request_content_container{
+            height: 150px;
+            position: relative;
+            line-height: 150px;
+        }
+
+        #work_request_detail_section>div>span:nth-child(1){
+            width: 200px;
+            display: inline-block;
+        }
+
+        .content_content{
+            position: absolute;
+            top: 10px;
+            height: 150px;
+            width: 250px;
+        }
+
+        #work_request_detail_section{
+            border-right: 1px solid black;
+            width: 40vw;
+            padding: 20px;
+            float: left;
+        }
+
+        #request_reply_section{
+            width: 40vw;
+            padding: 20px;
+            float: left;
+            margin-left: 20px;
+        }
+
+        #request_reply_section>div>span:nth-child(1){
+            display: inline-block;
+            width: 200px;
+        }
+
+        #request_reply_section > div{
+            margin-top: 50px;
+        }
+
+        #reply_content_container{
+            position: relative;
+            height: 200px;
+            line-height: 200px;
+        }
+
+        .reply_content{
+            width: 300px;
+            height: 200px;
+            position: absolute;
+            left: 205px;
+        }
+
+        .reply_content_title{
+            position: absolute;
+            top: 0;
+        }
+
+        textarea{
+            resize: none;
+        }
+
+        #btn_box{
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+    <div id="detail_page_main_section">
+        <div id="work_request_detail_section">
+            <p class="container_title">업무 상세</p>
+            <div class="container">
+                <span class="request_title title_title">제목</span>
+                <span class="request_title content_title">제목</span>
+            </div>
+            <div class="container">
+                <span class="request_emp_list title_emp_list">업무요청사원</span>
+                <span class="request_emp_list content_emp_list">업무요청사원</span>
+            </div>
+            <div id="request_content_container">
+                <span class="request_content title_content">요청내용</span>
+                <textarea class="request_content content_content">요청내용</textarea>
+            </div>
+            <div class="container">
+                <span class="request_deadline title_deadline">요청기한</span>
+                <div class="request_deadline content_deadline">
+                    <span id="formDate">12.12.12 부터</span>
+                    ~
+                    <span id="toDate">12.12.12 까지</span>
+                </div>
+            </div>
+            <div class="container">
+                <span class="attachments title_attachment">첨부파일</span>
+                <span class="attachments content_attachment">첨부파일명</span>
+            </div>
+        </div>
+        <div id="request_reply_section"> 
+            <p class="container_title">요청 회신</p>
+            <div class="container">
+                <span class="request_title title_title">제목</span>
+                <input type="text" id="reply_title_input">
+            </div>
+            <div id="reply_content_container">
+                <span class="reply_content_title">회신내용</span>
+                <textarea class="reply_content">요청내용</textarea>
+            </div>
+            <div class="container">
+                <span class="attachments title_attachment">첨부파일</span>
+                <input type="file" id="reply_file_input">
+            </div>
+        </div>
+        <div id="btn_box">
+            <button type="button">되돌아기</button>
+            <button type="button">업무완료</button>
+        </div>
+    </div>
+</body>
+</html>

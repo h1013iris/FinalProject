@@ -512,7 +512,7 @@ a{
 
 #modal_background .modal_body{
     overflow-y: scroll;
-    max-height: 500px;
+    max-height: 65vh;
     padding: 20px 50px;
 }
 

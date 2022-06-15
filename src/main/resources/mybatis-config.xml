@@ -79,6 +79,8 @@
   		<typeAlias type="com.uni.spring.mypage.model.dto.Journal" alias="journal"/>
   		<!-- todoList -->
   		<typeAlias type="com.uni.spring.mypage.model.dto.ToDoList" alias="todolist"/>
+  		<!-- 업무요청 -->
+  		<typeAlias type="com.uni.spring.mypage.model.dto.WorkRequest" alias="workRequest"/>
   	</typeAliases>
   	
   	<!-- 
