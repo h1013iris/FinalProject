@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,12 +12,12 @@
 		padding: 100px;
 	}
 	
-	.docEnrollFormDiv {
+	.docUpdateFormDiv {
 		/*margin-right: 3%;
 		width: 84vw;*/
 	}
 	
-	.docEnrollBackground {
+	.docUpdateBackground {
 		width: 1150px;
 		height: 780px;
 		border: 1px solid #e6e6e6;
@@ -31,7 +31,7 @@
 		padding: 70px 0 0 100px;
 	}
 	
-	.docEnrollForm {	
+	.docUpdateForm {	
 		/*maring: 0 25px 25px 25px;*/
 	}
 	
@@ -42,12 +42,12 @@
 		float: left;
 	}
 	
-	.docEnrollBtnsArea {
+	.docUpdateBtnsArea {
 		padding-top: 0;
 		padding-left: 82.5%;
 	}
 	
-	.docEnrollBtn {
+	.docUpdateFormBtn {
 		margin: 5px;
 		width: 80px;
 		height: 50px;
@@ -66,22 +66,27 @@
 		/*text-align: right;*/
 	}
 	
-	.donEnrollOutboxBtn {
+	.docUpdate_btn {
 		background-color: #6a6a6a !important;
 		box-shadow: 0px 5px 0px 0px #545454 !important;
 	}
 	
-	.donEnrollOutboxBtn:hover {
+	.docUpdate_btn:hover {
 		box-shadow: 0px 0px 0px 0px #545454 !important;
 	}
 	
-	.donEnrollCancleBtn {
+	.cancle_btn {
 		background-color: darkgray !important;
 		box-shadow: 0px 5px 0px 0px #949494 !important;
 	}
 	
-	.donEnrollCancleBtn:hover {
+	.cancle_btn:hover {
 		box-shadow: 0px 0px 0px 0px #949494 !important;
+	}
+	
+	.outboxNo_div {
+		/*border: 1px solid blue;*/
+		padding: 5px;
 	}
 	
 </style>
@@ -91,8 +96,8 @@
 	<jsp:include page="../common/header.jsp"/>
 
 	<div class="main_section">
-        <div class="docEnrollFormDiv">
-	        <div class="docEnrollBackground">
+        <div class="docUpdateFormDiv">
+	        <div class="docUpdateBackground">
 		        <%-- 문서 서식에 맞게 폼 뜨도록 --%>
 		        <c:choose>
 		        	<c:when test="${ docForm == 10 }">
@@ -117,8 +122,8 @@
     	// 문서 등록 페이지에서 취소 버튼 클릭 시
     	$(".cancle_btn").click(function() {
 			
-    		$("#confirm_container .title_name").text("문서 등록 취소 확인");
-    		$("#confirm_body .confirm_content").text("문서 작성을 취소하시겠습니까?");
+    		$("#confirm_container .title_name").text("문서 수정 취소 확인");
+    		$("#confirm_body .confirm_content").text("문서 수정을 취소하시겠습니까?");
     		$("#helpmeCOnfirm").css("display","block");
     		
     		// 확인 버튼 클릭 시 모달 사라지고
@@ -128,7 +133,11 @@
     			
     			location.href=document.referrer; //이전 페이지로 이동
     			// document.referrer : 마지막 페이지의 url을 가져오면 이전 정보는 가져올 수 없음
-     		})
+     		});
+    		
+    		$(document).on("click", ".false_btn", function() {
+    			$("#helpmeCOnfirm").css("display","none");
+    		});
 			
 		})
 		

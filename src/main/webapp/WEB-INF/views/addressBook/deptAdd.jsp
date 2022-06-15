@@ -89,12 +89,25 @@
 <div class="main_section">
 
 <div id="container">
+
+ <div id="container">
+        <div id="main">
+            <form action="deptAddSearch.do" method="post">
+            <div id="searchDiv"><img id="search" src="" alt="검색모양아이콘">
+                <input type="text" name="search">
+                <input type="submit" value="검색">
+                </div>
+            </form>
+        </div>
+    </div>
+
+<div id="deptTitle">
 <form action="addressMain.do" method="get" class="a">
 <div>
 <input type="submit" value="전체주소록" name="departmentTitle" class="a">
 </div>
 </form>
-<c:forEach items="${deptTitlList}" var="dept">
+<c:forEach items="${deptTitleList}" var="dept">
 <form action="deptAddList" method="get" class="a">
 	<div >
 	<input type="submit" value="${dept.departmentTitle}" name="departmentTitle">
@@ -103,7 +116,9 @@
 </c:forEach>
 
 </div>
-<!--전체 주소록 내용이 표시될곳-->
+
+
+<!--부서별 주소록 내용이 표시될곳-->
 <div id="addcon">
 <table>
 	<tr>
@@ -125,6 +140,6 @@
 </table>
     </div>
 </div>
-
+</div>
 </body>
 </html>

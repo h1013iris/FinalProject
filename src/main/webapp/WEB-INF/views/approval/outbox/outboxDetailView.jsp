@@ -63,15 +63,6 @@
 		/*text-align: right;*/
 	}
 	
-	.docUpdateForm_btn {
-		background-color: #6a6a6a !important;
-		box-shadow: 0px 5px 0px 0px #545454 !important;
-	}
-	
-	.docUpdateForm_btn:hover {
-		box-shadow: 0px 0px 0px 0px #545454 !important;
-	}
-	
 	.outboxDocDelete_btn {
 		background-color: #6a6a6a !important;
 		box-shadow: 0px 5px 0px 0px #545454 !important;
@@ -88,6 +79,11 @@
 	
 	.outboxList_btn:hover {
 		box-shadow: 0px 0px 0px 0px #949494 !important;
+	}
+	
+	.outboxNo_div {
+		/*border: 1px solid blue;*/
+		padding: 5px 0;
 	}
 </style>
 </head>
@@ -114,8 +110,7 @@
 		        	</c:when>
 	        	</c:choose>
 				<div class="docDetailBtnsArea">
-					<button class="commonButton1 approve_btn docDetailBtn" type="button">결재요청</button><br>
-					<button class="commonButton1 docUpdateForm_btn docDetailBtn" type="button">수정</button><br>
+					<button class="commonButton1 docUpdateForm_btn docDetailBtn" type="button">수정하기</button><br>
 					<button class="commonButton1 outboxDocDelete_btn docDetailBtn" type="button">삭제</button><br>
 					<button class="commonButton1 outboxList_btn docDetailBtn" onclick="location.href='outboxMain.do'" type="button">목록으로</button>
 				</div>
@@ -177,6 +172,15 @@
 	    });
 	    
 	    
+	    
+	    // 수정 버튼 클릭 시
+	    $(document).on("click", ".docUpdateForm_btn", function() {
+	    	
+	    	let docType = ${ docType };
+	    	let outboxNo = ${ outboxNo };
+	    	
+	    	location.href = "docUpdateForm.do?outboxNo=" + outboxNo + "&docType=" + docType;
+	    });
 	    
 	    
 	    

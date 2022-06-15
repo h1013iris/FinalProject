@@ -75,7 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM ATTEND_LOG
 		WHERE 1=1
 		AND EMP_NO = #{empNo}
-		AND ATTEND_DATE = TO_DATE(#{attendDate})
+		AND TO_DATE(ATTEND_DATE) = #{attendDate}
 	</select>
 	
 	<!-- 근태 기록 수정 의뢰 신청서 등록 -->
@@ -182,10 +182,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 휴가 신청서 상세 조회 -->
 	<select id="selectLeaveForm" parameterType="_int" resultType="LeaveForm">
-		SELECT A.*, B.EMP_NAME, C.JOB_NAME
+		SELECT
+			A.DOC_NO, A.OUTBOX_NO, B.EMP_NAME AS DRAFTER_NAME, A.DRAFTER, 
+			C.DEPARTMENT_TITLE AS DRAFTER_DEPT, A.DFT_DATE, A.VAC_TYPE, A.START_DATE, 
+			TO_CHAR(A.END_DATE, 'YYYY-MM-DD') AS END_DATE, 
+			A.VAC_USE_DAYS, A.VAC_REASON
 		FROM LEAVE_APP A
 		JOIN USER_INFO B ON A.DRAFTER = B.EMP_NO
-		JOIN JOB_RANK_MANAGEMENT C ON A.DRAFTER_DEPT = C.JOB_NO
+		JOIN DEPARTMENT_MANAGEMENT C ON A.DRAFTER_DEPT = C.DEPARTMENT_NO
 		WHERE DOC_NO = #{docNo}
 	</select>
 	
@@ -195,6 +199,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    A.DOC_NO,
 		    A.DOC_TYPE_NO,
 		    A.DRAFTER,
+		    B.EMP_NAME AS DRAFTER_NAME,
 		    A.DRAFTER_DEPT,
 		    A.DFT_DATE,
 		    A.UPDATE_DATE,
@@ -202,12 +207,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    SUBSTR(TO_CHAR(A.BE_LEAVE_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS BE_LEAVE_TIME,
 		    SUBSTR(TO_CHAR(A.ATTEND_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS ATTEND_TIME,
 		    SUBSTR(TO_CHAR(A.LEAVE_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS LEAVE_TIME,
-		    A.UPDATE_REASON,
-		    B.EMP_NAME,
-		    C.JOB_NAME
-		FROM CMT_UPDATE_APP A
+		    TO_CHAR()A.UPDATE_DATE, 'YYYY-MM-DD') AS UPDATE_DATE
+  		FROM CMT_UPDATE_APP A
 		JOIN USER_INFO B ON A.DRAFTER = B.EMP_NO
-		JOIN JOB_RANK_MANAGEMENT C ON A.DRAFTER_DEPT = C.JOB_NO
 		WHERE DOC_NO = #{docNo}
 	</select>	
 	
@@ -471,53 +473,64 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 휴가 신청서 임시 보관함 상세 조회 -->
 	<select id="selectLeaveFormOutbox" parameterType="_int" resultType="LeaveForm">
-		SELECT A.*, B.EMP_NAME, C.JOB_NAME
+		SELECT
+			A.DOC_NO, A.OUTBOX_NO, B.EMP_NAME AS DRAFTER_NAME, A.DRAFTER, 
+			C.DEPARTMENT_TITLE AS DRAFTER_DEPT, A.DFT_DATE, A.VAC_TYPE, A.START_DATE, 
+			TO_CHAR(A.END_DATE, 'YYYY-MM-DD') AS END_DATE, 
+			A.VAC_USE_DAYS, A.VAC_REASON
 		FROM LEAVE_APP A
 		JOIN USER_INFO B ON A.DRAFTER = B.EMP_NO
-		JOIN JOB_RANK_MANAGEMENT C ON A.DRAFTER_DEPT = C.JOB_NO
-		WHERE REF_OUTBOX_NO = #{outboxNo}
+		JOIN DEPARTMENT_MANAGEMENT C ON A.DRAFTER_DEPT = C.DEPARTMENT_NO
+		WHERE OUTBOX_NO = #{outboxNo}
 	</select>
 	
 	<!-- 근태 기록 수정 신청서 임시 보관함 상세 조회 -->
 	<select id="selectCmtUdtFormOutbox" parameterType="_int" resultType="CmtUpdateForm">
 		SELECT
 		    A.DOC_NO,
+		    A.OUTBOX_NO,
 		    A.DOC_TYPE_NO,
+		    B.EMP_NAME AS DRAFTER_NAME,
 		    A.DRAFTER,
-		    A.DRAFTER_DEPT,
+		    C.DEPARTMENT_TITLE AS DRAFTER_DEPT,
 		    A.DFT_DATE,
-		    A.UPDATE_DATE,
+		    TO_CHAR(A.UPDATE_DATE, 'YYYY-MM-DD') AS UPDATE_DATE,
 		    SUBSTR(TO_CHAR(A.BE_ATTEND_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS BE_ATTEND_TIME,
 		    SUBSTR(TO_CHAR(A.BE_LEAVE_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS BE_LEAVE_TIME,
 		    SUBSTR(TO_CHAR(A.ATTEND_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS ATTEND_TIME,
 		    SUBSTR(TO_CHAR(A.LEAVE_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS LEAVE_TIME,
-		    A.UPDATE_REASON,
-		    B.EMP_NAME,
-		    C.JOB_NAME
+		    A.UPDATE_REASON
 		FROM CMT_UPDATE_APP A
 		JOIN USER_INFO B ON A.DRAFTER = B.EMP_NO
-		JOIN JOB_RANK_MANAGEMENT C ON A.DRAFTER_DEPT = C.JOB_NO
-		WHERE REF_OUTBOX_NO = #{outboxNo}
+		JOIN DEPARTMENT_MANAGEMENT C ON A.DRAFTER_DEPT = C.DEPARTMENT_NO
+		WHERE OUTBOX_NO = #{outboxNo}
 	</select>	
 	
 	<!-- 업무 기안서 임시 보관함 상세 조회 -->
 	<select id="selectDraftFormOutbox" parameterType="_int" resultType="BusDraftForm">
-		SELECT A.*, B.EMP_NAME, C.JOB_NAME, D.DEPARTMENT_TITLE
+		SELECT
+			A.DOC_NO, A.OUTBOX_NO, A.DOC_TITLE, B.EMP_NAME AS DRAFTER_NAME, 
+			A.DRAFTER, D.DEPARTMENT_TITLE AS DRAFTER_DEPT, A.DFT_DATE,
+			TO_CHAR(A.ENF_DATE, 'YYYY-MM-DD') AS ENF_DATE,  A.COOP_DEPT,
+			C.DEPARTMENT_TITLE AS COOP_DEPT_NAME, A.DFT_CONTENT
 		FROM BUSINESS_DFT A
 		JOIN USER_INFO B ON A.DRAFTER = B.EMP_NO
-		JOIN JOB_RANK_MANAGEMENT C ON A.DRAFTER_DEPT = C.JOB_NO
-		LEFT JOIN DEPARTMENT_MANAGEMENT D ON A.COOP_DEPT = D.DEPARTMENT_NO
-		WHERE REF_OUTBOX_NO = #{outboxNo}
+		LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.COOP_DEPT = C.DEPARTMENT_NO
+		JOIN DEPARTMENT_MANAGEMENT D ON A.DRAFTER_DEPT = D.DEPARTMENT_NO
+		WHERE OUTBOX_NO = #{outboxNo}
 	</select>
 	
 	<!-- 업무 협조문 임시 보관함 상세 조회 -->
 	<select id="selectCoopFormOutbox" parameterType="_int" resultType="BusCoopForm">
-		SELECT A.*, B.EMP_NAME, C.JOB_NAME, D.DEPARTMENT_TITLE
+		SELECT
+			A.DOC_NO, A.OUTBOX_NO, A.DOC_TITLE, B.EMP_NAME AS DRAFTER_NAME, A.DRAFTER, 
+			D.DEPARTMENT_TITLE AS DRAFTER_DEPT, A.DFT_DATE, A.RECEIVE_DEPT,
+			C.DEPARTMENT_TITLE AS RECEIVE_DEPT_NAME, A.COOP_CONTENT
 		FROM BUSINESS_COOP A
 		JOIN USER_INFO B ON A.DRAFTER = B.EMP_NO
-		JOIN JOB_RANK_MANAGEMENT C ON A.DRAFTER_DEPT = C.JOB_NO
-		LEFT JOIN DEPARTMENT_MANAGEMENT D ON A.RECEIVE_DEPT = D.DEPARTMENT_NO
-		WHERE REF_OUTBOX_NO = #{outboxNo}
+		LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.RECEIVE_DEPT = C.DEPARTMENT_NO
+		JOIN DEPARTMENT_MANAGEMENT D ON A.DRAFTER_DEPT = D.DEPARTMENT_NO
+		WHERE OUTBOX_NO = #{outboxNo}
 	</select>
 	
 	<!-- 임시 저장 문서 삭제 -->
@@ -527,23 +540,104 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 휴가 신청서 삭제 -->
 	<delete id="deleteLeaveApp" parameterType="_int">
-		DELETE FROM LEAVE_APP WHERE REF_OUTBOX_NO = #{outboxNo}
+		DELETE FROM LEAVE_APP WHERE OUTBOX_NO = #{outboxNo}
 	</delete>
 	
 	<!-- 근태 기록 수정 신청서 삭제 -->
 	<delete id="deleteCmtUpdateApp" parameterType="_int">
-		DELETE FROM CMT_UPDATE_APP WHERE REF_OUTBOX_NO = #{outboxNo}
+		DELETE FROM CMT_UPDATE_APP WHERE OUTBOX_NO = #{outboxNo}
 	</delete>
 	
 	<!-- 업무 기안서 삭제 -->
 	<delete id="deleteBusDraft" parameterType="_int">
-		DELETE FROM BUSINESS_DFT WHERE REF_OUTBOX_NO = #{outboxNo}
+		DELETE FROM BUSINESS_DFT WHERE OUTBOX_NO = #{outboxNo}
 	</delete>
 	
 	<!-- 업무 협조문 삭제 -->
 	<delete id="deleteBusCoop" parameterType="_int">
-		DELETE FROM BUSINESS_COOP WHERE REF_OUTBOX_NO = #{outboxNo}
+		DELETE FROM BUSINESS_COOP WHERE OUTBOX_NO = #{outboxNo}
 	</delete>
+	
+	<!-- 임시 보관 문서 최근 수정일 업데이트 -->
+	<update id="updateLastUpdateDate" parameterType="_int">
+		UPDATE DOC_OUTBOX
+		SET LAST_UPDATE_DATE = SYSDATE
+		WHERE DOC_OUTBOX_NO = #{ outboxNo }
+	</update>
+	
+	<!-- 휴가 신청서 업데이트 -->
+	<update id="updateLeaveApp" parameterType="LeaveForm">
+		UPDATE LEAVE_APP
+		SET VAC_TYPE = #{vacType}, DFT_DATE = SYSDATE, START_DATE = #{startDate}, 
+			END_DATE = #{endDate}, VAC_USE_DAYS = #{vacUseDays}, VAC_REASON = #{vacReason}
+		WHERE OUTBOX_NO = #{outboxNo}
+	</update>
+	
+	<!-- 근태 기록 수정 신청서 업데이트 -->
+	<update id="updateCmtUpdateApp" parameterType="CmtUpdateForm">
+		UPDATE CMT_UPDATE_APP
+		SET UPDATE_DATE = #{updateDate}, 
+			BE_ATTEND_TIME = TO_DATE(#{beAttendTime}, 'YYYY-MM-DD HH24:MI'), 
+			BE_LEAVE_TIME = TO_DATE(#{beLeaveTime}, 'YYYY-MM-DD HH24:MI'), 
+			ATTEND_TIME = TO_DATE(#{attendTime}, 'YYYY-MM-DD HH24:MI'), 
+			LEAVE_TIME = TO_DATE(#{leaveTime}, 'YYYY-MM-DD HH24:MI'), 
+			UPDATE_REASON = #{updateReason}
+		WHERE OUTBOX_NO = #{outboxNo}
+	</update>
+	
+	<!-- 업무 기안서 업데이트 -->
+	<update id="updateBusDraft" parameterType="CmtUpdateForm">
+		UPDATE BUSINESS_DFT
+		SET DOC_TITLE = #{docTitle}, ENF_DATE = #{enfDate}, 
+			COOP_DEPT = #{coopDept}, DFT_CONTENT = #{dftContent}
+		WHERE OUTBOX_NO = #{outboxNo}
+	</update>
+	
+	<!-- 업무 협조문 업데이트 -->
+	<update id="updateBusCoop" parameterType="CmtUpdateForm">
+		UPDATE BUSINESS_COOP
+		SET DOC_TITLE = #{docTitle}, RECEIVE_DEPT = #{receiveDept}, COOP_CONTENT = #{coopContent}
+		WHERE OUTBOX_NO = #{outboxNo}
+	</update>
+	
+	<!-- 임시 저장 문서 - 휴가 신청서 결재 요청 및 업데이트 -->
+	<update id="oboxAprvReqLeaveApp" parameterType="LeaveForm">
+		UPDATE LEAVE_APP
+		SET DOC_NO = SEQ_DOC_NO.NEXTVAL, DFT_DATE = SYSDATE, VAC_TYPE = #{vacType},
+			START_DATE = #{startDate}, END_DATE = #{endDate}, VAC_USE_DAYS = #{vacUseDays}, 
+			VAC_REASON = #{vacReason}, OUTBOX_NO = NULL
+		WHERE OUTBOX_NO = #{outboxNo}
+	</update>
+	
+	<!-- 임시 저장 문서 - 근태 기록 수정 신청서 결재 요청 -->
+	<update id="oboxAprvReqCmtApp" parameterType="CmtUpdateForm">
+		UPDATE CMT_UPDATE_APP
+		SET DOC_NO = SEQ_DOC_NO.NEXTVAL, DFT_DATE = SYSDATE, UPDATE_DATE = #{updateDate},
+			BE_ATTEND_TIME = TO_DATE(#{beAttendTime}, 'YYYY-MM-DD HH24:MI'), 
+			BE_LEAVE_TIME = TO_DATE(#{beLeaveTime}, 'YYYY-MM-DD HH24:MI'), 
+			ATTEND_TIME = TO_DATE(#{attendTime}, 'YYYY-MM-DD HH24:MI'), 
+			LEAVE_TIME = TO_DATE(#{leaveTime}, 'YYYY-MM-DD HH24:MI'), 
+			UPDATE_REASON = #{updateReason}, OUTBOX_NO = NULL
+		WHERE OUTBOX_NO = #{outboxNo}
+	</update>
+	
+	<!-- 임시 저장 문서 - 업무 기안서 결재 요청 -->
+	<update id="oboxAprvReqBusDft" parameterType="BusDraftForm">
+		UPDATE BUSINESS_DFT
+		SET DOC_NO = SEQ_DOC_NO.NEXTVAL, DFT_DATE = SYSDATE, DOC_TITLE = #{docTitle}, 
+			ENF_DATE = #{enfDate}, COOP_DEPT = #{coopDept}, DFT_CONTENT = #{dftContent},
+			OUTBOX_NO = NULL
+		WHERE OUTBOX_NO = #{outboxNo}
+	</update>
+	
+	<!-- 임시 저장 문서 - 업무 협조문 결재 요청 -->
+	<update id="oboxAprvReqBusCoop" parameterType="BusCoopForm">
+		UPDATE BUSINESS_COOP
+		SET DOC_NO = SEQ_DOC_NO.NEXTVAL, DFT_DATE = SYSDATE, DOC_TITLE = #{docTitle}, 
+			RECEIVE_DEPT = #{receiveDept}, COOP_CONTENT = #{coopContent}, OUTBOX_NO = NULL
+		WHERE OUTBOX_NO = #{outboxNo}
+	</update>
+	
 	
 	
 	

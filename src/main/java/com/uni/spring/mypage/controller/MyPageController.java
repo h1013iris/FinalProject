@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.GsonBuilder;
+import com.uni.spring.admin.model.dto.employee;
 import com.uni.spring.member.model.dto.Member;
 import com.uni.spring.mypage.model.dto.Journal;
 import com.uni.spring.mypage.model.dto.ToDoList;
+import com.uni.spring.mypage.model.dto.WorkRequest;
 import com.uni.spring.mypage.model.service.MyPageService;
 
 @SessionAttributes("loginUser")
@@ -37,8 +39,8 @@ public class MyPageController {
 	
 	@RequestMapping("journalList")
 	public ModelAndView journalList(ModelAndView mv, Model model) {
-		Member member = (Member) model.getAttribute("loginUser");
-		int empNo = member.getEmpNo();
+		int empNo = ((Member) model.getAttribute("loginUser")).getEmpNo();
+		
 		ArrayList<Journal> list = MPService.selectJournalList(empNo);
 		
 		mv.addObject("list", list).setViewName("mypage/journalList");
@@ -92,8 +94,7 @@ public class MyPageController {
 	@RequestMapping("searchDateFrom")
 	public String searchDateFrom(String fromDate, String toDate , Model model) {
 		
-		Member member = (Member) model.getAttribute("loginUser");
-		int empNo = member.getEmpNo();
+		int empNo = ((Member) model.getAttribute("loginUser")).getEmpNo();
 		
 		Journal journal = new Journal();
 		
@@ -117,8 +118,7 @@ public class MyPageController {
 	
 	@RequestMapping("ToDoListPage")
 	public String myToDoListPage(Model model) {
-		Member member = (Member) model.getAttribute("loginUser");
-		int empNo = member.getEmpNo();
+		int empNo = ((Member) model.getAttribute("loginUser")).getEmpNo();
 		
 		ArrayList<ToDoList> list = MPService.selectToDoAllList(empNo);
 		
@@ -130,8 +130,7 @@ public class MyPageController {
 	@ResponseBody
 	@RequestMapping(value="todolistInsert",produces = "application/text;charset=utf8")
 	public String insertTodolist(Model model, ToDoList toList) {
-		Member member = (Member) model.getAttribute("loginUser");
-		int empNo = member.getEmpNo();
+		int empNo = ((Member) model.getAttribute("loginUser")).getEmpNo();
 
 		toList.setEmpNo(empNo);
 		MPService.insertTodolist(toList);
@@ -177,5 +176,54 @@ public class MyPageController {
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
 	}
 	
+	@ResponseBody
+	@RequestMapping("selectRequestEmpSearch")
+	public String selectRequestEmpSearch(int[] checkval) {
+		
+		ArrayList<employee> list = MPService.selectRequestEmpSearch(checkval);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping("EmpSelectAllList")
+	public String EmpSelectAllList() {
+		
+		ArrayList<employee> list = MPService.EmpSelectAllList();
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping("insertWorkRequest")
+	public void insertWorkRequest(WorkRequest wr, Model model) {
+		int empNo = ((Member) model.getAttribute("loginUser")).getEmpNo();
+		
+		wr.setEmpNo(empNo);
+		System.out.println(wr.getEStatus());
+		MPService.insertWorkRequest(wr);
+	}
+	
+	@RequestMapping("workreceivedPage")
+	public String workreceivedPage(Model model) {
+		int empNo = ((Member) model.getAttribute("loginUser")).getEmpNo();
+		
+		ArrayList<WorkRequest> list = MPService.selectWorkReceivedList(empNo);
+		
+		model.addAttribute("list", list);
+		
+		return "mypage/workReceived";
+	}
+	
+	@RequestMapping("requestWorkList")
+	public String requestWorkList(Model model) {
+		int empNo = ((Member) model.getAttribute("loginUser")).getEmpNo();
+		
+		ArrayList<WorkRequest> list = MPService.selectrequestWorkList(empNo);
+		
+		model.addAttribute("list", list);
+		
+		return "mypage/requestWorkList";
+	}
 
 }

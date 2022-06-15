@@ -3,6 +3,7 @@ package com.uni.spring.reservation.controller;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -110,9 +112,9 @@ public class ReservationController {
 	
 	@ResponseBody
 	@RequestMapping(value = "selectreservation.do", produces="application/json; charset=utf-8")
-	public String selectreservation(String startDate) {
+	public String selectreservation(String startDate, String sRoom) {
 		
-		ArrayList<Reservation> list = reservationService.selectreservation(startDate);
+		ArrayList<Reservation> list = reservationService.selectRoomReservation(startDate, sRoom);
 		
 		System.out.println(list);
 		return new Gson().toJson(list);
@@ -138,22 +140,42 @@ public class ReservationController {
 		return new Gson().toJson(list);
 	}
 	
-	@RequestMapping(value = "insertReservation.do", method = RequestMethod.POST)
-	public String insertReservation(Reservation reservation, String startTime, String endTime, ArrayList<AttendeeList> list) {
+	@ResponseBody
+	@RequestMapping(value = "insertReservation.do", method = { RequestMethod.POST })
+	public String insertReservation(@RequestParam HashMap<String, Object> map) {
 		
-		System.out.println(reservation);
-		System.out.println("시작 시간 ==> "+startTime);
-		System.out.println("종료 시간 ==> "+endTime);
+		System.out.println("참석자 ==>" + map);
 		
 		// 회의실 예약 db저장
-		int result = reservationService.insertReservation(reservation, startTime, endTime);
+		Reservation reservation = new Reservation();
 		
-		// 참석자 db 저장 (참석자 list를 가져오지 못함) 6/13
+		reservation.setEmpNo(String.valueOf(map.get("reservation[empNo]")));
+		reservation.setRoomSmallNo(String.valueOf(map.get("reservation[roomSmallNo]")));
+		reservation.setStartDate(String.valueOf(map.get("reservation[startDate]")));
+		reservation.setEndDate(String.valueOf(map.get("reservation[endDate]")));
+		reservation.setMeetingName(String.valueOf(map.get("reservation[meetingName]")));
+		int result = reservationService.insertReservation(reservation);
+		
+		int resultNum = 0;
+		// 참석자 db 저장 
 		if(result > 0) {
+			ArrayList<AttendeeList> list = new ArrayList<AttendeeList>();
+			for(int i = 0; i < map.size() ; i++) {
+				AttendeeList att = new AttendeeList();
+				
+				// get한게 null이 아니면 실행
+				if(map.get("attendeeNo["+i+"]") != null) {
+					
+					att.setAttendeeNo(String.valueOf(map.get("attendeeNo["+i+"]")));
+
+					System.out.println(att.getAttendeeNo());
+					list.add(att);
+				}
+			}
 			System.out.println("참석자 ==>" + list);
-			reservationService.insertAttendee(list);
+			resultNum = reservationService.insertAttendee(list);
 		}
 		
-		return null;//"redirect:reservation/reservationMain";
+		return new Gson().toJson(resultNum);
 	}
 }

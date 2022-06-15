@@ -14,12 +14,17 @@
 <body>
 
 	<div class="docDetailMainArea">
+		<div class="outboxNo_div">
+			임시 보관 번호 : 
+			<span id="outboxNo"></span>			
+		</div>
+		
 		<form class="detailViewForm">
 			<input type="hidden" name="approver" value="${ loginUser.empNo }"/>
 			<input type="hidden" name="approverJob" value="${ loginUser.jobNo }"/>
 			
 			<div class="docDetailArea" style="font-family:돋움; font-size:9pt;">
-		
+				
 				<table class="docDetailTable" style="width: 800px; font-family: malgun gothic, dotum, arial, tahoma; margin-top: 1px; border-collapse: collapse;"><!-- Header --> 
 				    <colgroup> 
 				     <col width="310"> 
@@ -188,8 +193,8 @@
 				success: function(data) {
 					
 					console.log(data)
-					$("#drafter").val(data.empName + " (" + data.drafter + ")");
-					$("#drafterDept").val(data.jobName);
+					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
+					$("#drafterDept").val(data.drafterDept);
 					$("#dftDate").val(data.dftDate);
 					$("#docNo").val(data.docNo);
 					$("#vacType").val(data.vacType);
@@ -197,6 +202,7 @@
 					$("#endDate").val(data.endDate);
 					$("#vacUseDays").val(data.vacUseDays);
 					$("#vacReason").val(data.vacReason);
+					$("#outboxNo").text(data.outboxNo);
 					
 					// 결재선 조회
 			 		$.ajax({

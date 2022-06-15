@@ -334,6 +334,51 @@ public class AprvDao {
 		return sqlSession.delete("aprvMapper.deleteBusCoop", outboxNo);
 	}
 
+	public int updateLeaveApp(SqlSessionTemplate sqlSession, LeaveForm leaveForm) {
+		
+		return sqlSession.update("aprvMapper.updateLeaveApp", leaveForm);
+	}
+
+	public int updateLastUpdateDate(SqlSessionTemplate sqlSession, int outboxNo) {
+		
+		return sqlSession.update("aprvMapper.updateLastUpdateDate", outboxNo);
+	}
+
+	public int updateCmtUpdateApp(SqlSessionTemplate sqlSession, CmtUpdateForm cmtUpdateForm) {
+		
+		return sqlSession.update("aprvMapper.updateCmtUpdateApp", cmtUpdateForm);
+	}
+
+	public int updateBusDraft(SqlSessionTemplate sqlSession, BusDraftForm busDraftForm) {
+		
+		return sqlSession.update("aprvMapper.updateBusDraft", busDraftForm);
+	}
+
+	public int updateBusCoop(SqlSessionTemplate sqlSession, BusCoopForm busCoopForm) {
+		
+		return sqlSession.update("aprvMapper.updateBusCoop", busCoopForm);
+	}
+
+	public int oboxAprvReqLeaveApp(SqlSessionTemplate sqlSession, LeaveForm leaveForm) {
+		
+		return sqlSession.update("aprvMapper.oboxAprvReqLeaveApp", leaveForm);
+	}
+
+	public int oboxAprvReqCmtApp(SqlSessionTemplate sqlSession, CmtUpdateForm cmtUpdateForm) {
+		
+		return sqlSession.update("aprvMapper.oboxAprvReqCmtApp", cmtUpdateForm);
+	}
+
+	public int oboxAprvReqBusDft(SqlSessionTemplate sqlSession, BusDraftForm busDraftForm) {
+		
+		return sqlSession.update("aprvMapper.oboxAprvReqBusDft", busDraftForm);
+	}
+
+	public int oboxAprvReqBusCoop(SqlSessionTemplate sqlSession, BusCoopForm busCoopForm) {
+		
+		return sqlSession.update("aprvMapper.oboxAprvReqBusCoop", busCoopForm);
+	}
+
 	
 
 }

@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM MEETINGROOM_MANAGEMENT A 
 		JOIN MEETINGROOM_CATEGORY_LARGE B ON (A.ROOM_LARGE_NO = B.ROOM_LARGE_NO)
 	</select>
-	<select id="selectList" resultMap="ReservationRoomResultSet">
+	<select id="selectList" resultMap="ReservationResultSet">
 		SELECT 
 			A.RESERVE_NUM,
 	 		A.EMP_NO,
@@ -100,11 +100,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		TO_DATE(#{startDate},'YYYY-MM-DD HH24:MI'), TO_DATE(#{endDate},'YYYY-MM-DD HH24:MI'), 
 		#{meetingName}, DEFAULT)
 	</insert>
- 	<insert id="insertAttendee" parameterType="arraylist">
-	 	<foreach collection="list" item="item">
+ 	<insert id="insertAttendee" parameterType="AttendeeList">
 			INSERT INTO ATTENDEE_LIST
 			VALUES
-			(SEQ_ATTE.NEXTVAL, #{item.attendeeNo}, SEQ_RESERVE.CURRVAL, DEFAULT)
-		</foreach>
+			(SEQ_ATTE.NEXTVAL, #{attendeeNo}, SEQ_RESERVE.CURRVAL, DEFAULT)
 	</insert>
+	
+	<select id="selectRoomReservation" parameterType="Map" resultMap="ReservationResultSet">
+		SELECT 
+			A.RESERVE_NUM,
+	 		A.EMP_NO,
+	 		A.ROOM_SMALL_NO,
+	 		C.LROOM_NAME,
+	 		B.SROOM_NAME,
+	 		A.START_DATE,
+	 		A.END_DATE,
+	 		A.MEETING_NAME
+		FROM RESERVE_LIST A
+		JOIN MEETINGROOM_MANAGEMENT B ON (A.ROOM_SMALL_NO = B.ROOM_SMALL_NO)
+		JOIN MEETINGROOM_CATEGORY_LARGE C ON (B.ROOM_LARGE_NO = C.ROOM_LARGE_NO)
+		<where>
+			A.STATUS = 'Y'
+			AND EXTRACT(YEAR FROM A.START_DATE) = #{searchYear}
+			AND EXTRACT(MONTH FROM A.START_DATE) = #{searchMonth}
+			AND EXTRACT(DAY FROM A.START_DATE) = #{searchDate}
+			AND A.ROOM_SMALL_NO = #{sRoom}
+		</where>
+	</select>
 </mapper>

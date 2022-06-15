@@ -7,8 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import com.uni.spring.admin.model.dto.Department;
 import com.uni.spring.common.Attachment;
+import com.uni.spring.department.model.dto.AttendLog;
 import com.uni.spring.department.model.dto.Project;
-import com.uni.spring.manageMent.model.dto.AttendlogMana;
+import com.uni.spring.manageMent.model.dto.calendarWeek;
 import com.uni.spring.manageMent.model.dto.manageDepart;
 import com.uni.spring.member.model.dto.Member;
 
@@ -40,7 +41,7 @@ public class ManageDao {
 		return sqlSession.selectOne("manageMapper.countSelect");
 	}
 
-	public AttendlogMana selectLogInfo(SqlSessionTemplate sqlSession , int empNo) {
+	public AttendLog selectLogInfo(SqlSessionTemplate sqlSession , int empNo) {
 		
 		return sqlSession.selectOne( "manageMapper.selectLogInfo", empNo);
 	}
@@ -48,6 +49,31 @@ public class ManageDao {
 	public int insertLogInfo(SqlSessionTemplate sqlSession, int empNo) {
 		
 		return sqlSession.insert("manageMapper.insertLogInfo", empNo);
+	}
+
+	public String selectSatatusLog(SqlSessionTemplate sqlSession, int empNo) {
+		
+		return sqlSession.selectOne("manageMapper.selectStatusLog", empNo);
+	}
+
+	public ArrayList<AttendLog> selectListAttendLog(SqlSessionTemplate sqlSession, calendarWeek cw) {
+		
+		return (ArrayList)sqlSession.selectList("manageMapper.selectListAttendLog",cw);
+	}
+
+	public ArrayList<AttendLog> selectFilterInfo(SqlSessionTemplate sqlSession, manageDepart md) {
+		
+		return (ArrayList)sqlSession.selectList("manageMapper.selectFilterInfo",md);
+	}
+
+	public String selectFirstday(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("manageMapper.selectFirstday");
+	}
+
+	public ArrayList<AttendLog> selectAttendAvg(SqlSessionTemplate sqlSession, calendarWeek cd) {
+		
+		return (ArrayList)sqlSession.selectList("manageMapper.selectAttendAvg", cd);
 	}
 
 }

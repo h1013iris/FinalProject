@@ -18,6 +18,7 @@
 	<jsp:include page="../manage/calculateModal.jsp"/>
 	<jsp:include page="../reservation/reservationEorollformModal.jsp"/>
 	<jsp:include page="../mypage/workRequestModal.jsp"/>
+	<jsp:include page="../mypage/empSearchModal.jsp"/>
 	
 	<header id="main_header">
 	    <div class="logo_header">
@@ -42,7 +43,12 @@
 	                <div class="count">1</div>
 	            </div>
 	            <div class="pro_img">
+	            	<c:if test="${loginUser.changeName ne null}">
 	                <img class="alarm_img" src="${ pageContext.servletContext.contextPath }/resources/upload_files/${loginUser.changeName}"/>
+	                </c:if>
+	                <c:if test="${loginUser.changeName == null}">
+	                <img class="alarm_img" src="${ pageContext.servletContext.contextPath }/resources/images/관리자 프로필.png"/>
+	                </c:if>
 	            </div>
 	        </div>
 	    </div>
@@ -60,7 +66,7 @@
 	        </div>
 	    </div>
 	    <div>
-	        <p>로그아웃</p>
+	        <p><a href="logout.do">로그아웃</p>
 	    </div>
 	</div>
 	<aside id="main_nav">
@@ -75,8 +81,8 @@
 	                    <li class="list_title">업무 관리</li>
 	                    <div class="hhh">
 		                    <li><a href="journalList">업무일지 관리</a></li>
-		                    <li><a href="#">받은 업무</a></li>
-		                    <li><a href="#">보낸 업무</a></li>
+		                    <li><a href="workreceivedPage">받은 업무</a></li>
+		                    <li><a href="requestWorkList">보낸 업무</a></li>
 	                    </div>
 	                </ul>
 	                <ul>

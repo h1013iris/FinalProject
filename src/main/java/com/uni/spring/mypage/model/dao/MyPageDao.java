@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.uni.spring.admin.model.dto.employee;
 import com.uni.spring.mypage.model.dto.Journal;
 import com.uni.spring.mypage.model.dto.ToDoList;
+import com.uni.spring.mypage.model.dto.WorkRequest;
 
 @Repository
 public class MyPageDao {
@@ -70,6 +72,33 @@ public class MyPageDao {
 	public ArrayList<ToDoList> todoDateSelectList(SqlSessionTemplate sqlSession, ToDoList toList) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("mypageMapper.todoDateSelectList", toList);
+	}
+
+	public ArrayList<employee> selectRequestEmpSearch(SqlSessionTemplate sqlSession, int[] checkval) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("mypageMapper.selectRequestEmpSearch",checkval);
+	}
+
+	public ArrayList<employee> EmpSelectAllList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("mypageMapper.EmpSelectAllList");
+	}
+
+	public int insertWorkRequest(SqlSessionTemplate sqlSession, WorkRequest wr) {
+		// TODO Auto-generated method stub
+		int a = sqlSession.insert("mypageMapper.insertWorkRequest", wr);
+		int b = sqlSession.insert("mypageMapper.insertWorkRequestEmp", wr);
+		return a * b;
+	}
+
+	public ArrayList<WorkRequest> selectWorkReceivedList(int empNo, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("mypageMapper.selectWorkReceivedList",Integer.valueOf(empNo));
+	}
+
+	public ArrayList<WorkRequest> selectrequestWorkList(int empNo, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("mypageMapper.selectrequestWorkList", empNo);
 	}
 	
 	

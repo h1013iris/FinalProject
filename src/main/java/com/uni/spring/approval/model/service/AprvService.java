@@ -115,6 +115,22 @@ public interface AprvService {
 
 	void deleteOutboxDoc(int outboxNo, int docType);
 
+	void updateLeaveApp(LeaveForm leaveForm, int outboxNo);
+
+	void updateCmtUpdateApp(CmtUpdateForm cmtUpdateForm, int outboxNo);
+
+	void updateBusDraft(BusDraftForm busDraftForm, int outboxNo);
+
+	void updateBusCoop(BusCoopForm busCoopForm, int outboxNo);
+
+	void oboxAprvReqLeaveApp(AprvDoc aprvDoc, AprvHistory aprvHistory, LeaveForm leaveForm, int outboxNo);
+
+	void oboxAprvReqCmtApp(AprvDoc aprvDoc, AprvHistory aprvHistory, CmtUpdateForm cmtUpdateForm, int outboxNo);
+
+	void oboxAprvReqBusDft(AprvDoc aprvDoc, AprvHistory aprvHistory, BusDraftForm busDraftForm, int outboxNo);
+
+	void oboxAprvReqBusCoop(AprvDoc aprvDoc, AprvHistory aprvHistory, BusCoopForm busCoopForm, int outboxNo);
+
 	
 
 	

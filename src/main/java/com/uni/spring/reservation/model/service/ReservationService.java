@@ -25,8 +25,10 @@ public interface ReservationService {
 
 	ArrayList<Member> selectResAddress(String dNo);
 
-	int insertReservation(Reservation reservation, String startTime, String endTime);
+	int insertReservation(Reservation reservation);
 
-	void insertAttendee(ArrayList<AttendeeList> list);
+	int insertAttendee(ArrayList<AttendeeList> list);
+
+	ArrayList<Reservation> selectRoomReservation(String startDate, String sRoom);
 
 }

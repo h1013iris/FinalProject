@@ -3,7 +3,7 @@
 	function docFormChange(type) {
 	    		
 		var app = ["== 선택 ==", "휴가 신청서", "근태 기록 수정 의뢰 신청서"];
-		var appVal = ["none", 10, 11];
+		var appVal = ["", 10, 11];
 		var draft = ["== 선택 ==", "업무 기안서"];
 		var dftVal = ["none", 20];
 		var coop = ["== 선택 ==", "업무 협조문"];

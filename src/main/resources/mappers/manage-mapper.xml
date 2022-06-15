@@ -36,6 +36,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="proDate" column="PRO_DATE"/>
 		<result property="proStatus" column="PRO_STATUS"/>
 	</resultMap>
+	<resultMap type="calendarWeek" id="avgdayList">
+		<result property="monWeek" column="TOT"/>
+	</resultMap>
 	<select id="selectDepartInfo" parameterType="DepartmentList" resultMap="wideMemberResultSet">
 		SELECT *
 		FROM USER_INFO A
@@ -92,7 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM USER_INFO
 		WHERE STATUS = 'N'
 	</select>
-	<select id = "selectLogInfo" parameterType="_int" resultType="AttendlogMana">
+	<select id = "selectLogInfo" parameterType="_int" resultType="AttendLog">
 		SELECT *
 		FROM ATTEND_LOG
 		WHERE EMP_NO = #{empNo}
@@ -105,4 +108,141 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES
 		(SEQ_ATTEND.NEXTVAL, #{empNo}, SYSDATE, SYSDATE, DEFAULT, DEFAULT)
 	</insert>
+	<select id="selectStatusLog" parameterType="_int" resultType="string">
+		SELECT ATTEND_STATUS
+		FROM ATTEND_LOG
+		WHERE EMP_NO = #{empNo}
+		AND TO_DATE(ATTEND_DATE, 'YYYY-mm-dd') = TO_DATE(SYSDATE, 'YYYY-mm-dd')
+		AND STATUS = 'Y'
+	</select>
+	<select id="selectListAttendLog" parameterType="calendarWeek" resultType="AttendLog">
+		SELECT C.*, U.EMP_NAME AS EMP
+		FROM
+		(SELECT S.EMP_NO, SUM(MON) AS MON, SUM(TUE) AS TUE, SUM(WEN) AS WEN, SUM(TUR) AS TUR, SUM(FRI) AS FRI
+		FROM
+		(SELECT K.EMP_NO, 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weeko} THEN K.CAL ELSE 0 END "MON", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weekt} THEN K.CAL ELSE 0 END "TUE", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weekh} THEN K.CAL ELSE 0 END "WEN", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weeku} THEN K.CAL ELSE 0 END "TUR", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weekf} THEN K.CAL ELSE 0 END "FRI"
+		FROM (SELECT A.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
+		FROM ATTEND_LOG A
+		WHERE (ATTEND_DATE BETWEEN #{weeko} AND #{weekf})
+		AND A.STATUS = 'Y'
+		ORDER BY A.EMP_NO) K
+		ORDER BY K.EMP_NO)S
+		GROUP BY S.EMP_NO
+		ORDER BY S.EMP_NO)C
+		JOIN USER_INFO U ON (C.EMP_NO =U.EMP_NO)
+		WHERE U.STATUS = 'N'
+	</select>
+	<select id="selectFilterInfo" parameterType="manageDepart" resultType="AttendLog">
+		SELECT C.*, U.EMP_NAME AS EMP
+		FROM
+		(SELECT S.EMP_NO, SUM(MON) AS MON, SUM(TUE) AS TUE, SUM(WEN) AS WEN, SUM(TUR) AS TUR, SUM(FRI) AS FRI
+		FROM
+		(SELECT K.EMP_NO, 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weeko} THEN K.CAL ELSE 0 END "MON", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weekt} THEN K.CAL ELSE 0 END "TUE", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weekh} THEN K.CAL ELSE 0 END "WEN", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weeku} THEN K.CAL ELSE 0 END "TUR", 
+		        CASE WHEN TO_CHAR(K.ATTEND_DATE,'YYYY-MM-DD') = #{weekf} THEN K.CAL ELSE 0 END "FRI"
+		FROM (SELECT A.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
+		FROM ATTEND_LOG A
+		WHERE (ATTEND_DATE BETWEEN #{weeko} AND #{weekf})
+		AND A.STATUS = 'Y'
+		ORDER BY A.EMP_NO) K
+		ORDER BY K.EMP_NO)S
+		GROUP BY S.EMP_NO
+		ORDER BY S.EMP_NO)C
+		JOIN USER_INFO U ON (C.EMP_NO =U.EMP_NO)
+		WHERE U.STATUS = 'N'
+		<if test="depNo != null and depNo != 0">
+   			AND U.DEPARTMENT_NO = #{depNo}
+   		</if>
+   		<if test="ord == '이름'">
+   			AND U.EMP_NAME LIKE '%' ||#{searchli}||'%' 
+   		</if>
+   		<if test="ord =='사원번호'">
+   			AND U.EMP_NO LIKE '%' ||#{searchli}||'%' 
+   		</if>
+	</select>
+	<select id="selectFirstday" resultType="string">
+	<![CDATA[
+		SELECT LISTAGG(TOT,',')WITHIN GROUP(ORDER BY TOT )
+		AS LIST_N FROM (
+		SELECT COALESCE(MON, TUE, WED, THU, FRI) AS TOT
+		FROM(
+		SELECT  MIN(DECODE(d, 2, day)) mon,
+		       MIN(DECODE(d, 3, day)) tue, MIN(DECODE(d, 4, day)) wed,
+		       MIN(DECODE(d, 5, day)) thu, MIN(DECODE(d, 6, day)) fri
+		FROM 
+		(SELECT TO_DATE(TO_CHAR(SYSDATE, 'YYYYMM'), 'YYYYMM') + LEVEL-1 day,
+		        TO_CHAR(TO_DATE(TO_CHAR(SYSDATE, 'YYYYMM'), 'YYYYMM') + LEVEL-1, 'd') d,
+		        TO_CHAR(TO_DATE(TO_CHAR(SYSDATE, 'YYYYMM'), 'YYYYMM') + LEVEL-1, 'iw') iw
+		 FROM dual
+		 CONNECT BY LEVEL <= TO_CHAR(LAST_DAY(TO_DATE(TO_CHAR(SYSDATE, 'YYYYMM'), 'YYYYMM')), 'DD'))
+		GROUP BY DECODE(d, 1, iw+1, iw)
+		ORDER BY DECODE(d, 1, iw+1, iw))A)
+		]]>
+	</select>
+	<select id="selectAttendAvg" parameterType="calendarWeek" resultType="AttendLog">
+		SELECT DISTINCT K.EMP_NO, K.EMP_NAME, JR.JOB_NAME AS CAL,DEPARTMENT_TITLE AS STATUS,
+        NVL((SELECT SUM(CAL) AS TOT1
+        FROM(
+        SELECT A.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
+        FROM ATTEND_LOG A
+        WHERE (ATTEND_DATE BETWEEN '22/06/01' AND '22/06/03')
+        AND A.STATUS = 'Y'
+        ORDER BY A.EMP_NO)Q
+        WHERE Q.EMP_NO = S.EMP_NO
+        GROUP BY Q.EMP_NO
+         ),0) as tot, 
+        NVL((SELECT SUM(CAL) AS TOT2
+        FROM(
+        SELECT U.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
+        FROM ATTEND_LOG U
+        WHERE (ATTEND_DATE BETWEEN '22/06/06' AND '22/06/10')
+        AND U.STATUS = 'Y'
+        ORDER BY U.EMP_NO)T
+         WHERE T.EMP_NO = S.EMP_NO
+        GROUP BY T.EMP_NO
+        ),0) as tot2, 
+        NVL((SELECT SUM(CAL) AS TOT2
+        FROM(
+        SELECT U.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
+        FROM ATTEND_LOG U
+        WHERE (ATTEND_DATE BETWEEN '22/06/13' AND '22/06/17')
+        AND U.STATUS = 'Y'
+        ORDER BY U.EMP_NO)T
+         WHERE T.EMP_NO = S.EMP_NO
+        GROUP BY T.EMP_NO
+        ),0) as tot3, 
+        NVL((SELECT SUM(CAL) AS TOT2
+        FROM(
+        SELECT U.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
+        FROM ATTEND_LOG U
+        WHERE (ATTEND_DATE BETWEEN '22/06/20' AND '22/06/24')
+        AND U.STATUS = 'Y'
+        ORDER BY U.EMP_NO)T
+         WHERE T.EMP_NO = S.EMP_NO
+        GROUP BY T.EMP_NO
+        ),0) as tot4, 
+        NVL((SELECT SUM(CAL) AS TOT2
+        FROM(
+        SELECT U.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
+        FROM ATTEND_LOG U
+        WHERE (ATTEND_DATE BETWEEN '22/06/27' AND '22/06/30')
+        AND U.STATUS = 'Y'
+        ORDER BY U.EMP_NO)T
+         WHERE T.EMP_NO = S.EMP_NO
+        GROUP BY T.EMP_NO
+        ),0) as tot5
+		from attend_log S
+		JOIN USER_INFO K ON (K.EMP_NO = S.EMP_NO)
+		JOIN JOB_RANK_MANAGEMENT JR ON (K.JOB_NO=JR.JOB_NO)
+		JOIN DEPARTMENT_MANAGEMENT D ON (K.DEPARTMENT_NO = D.DEPARTMENT_NO)
+		ORDER BY k.EMP_NO
+	</select> 
 </mapper>
