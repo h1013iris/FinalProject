@@ -17,9 +17,9 @@ public interface BoardService {
 
 	ArrayList<Board> selectList(PageInfo pi);
 
-	ArrayList<Board> selectsearchnoti(PageInfo pi, searchcon sc);
+	ArrayList<Board> selectsearchboard(PageInfo pi, Board b);
 
-	int selectsearchnotiCount(searchcon sc);
+	int selectsearchboardCount(Board b);
 
 	ArrayList<Board> selectoldList(PageInfo pi);
 
@@ -30,10 +30,7 @@ public interface BoardService {
 	ArrayList<Board> selectfreeList(PageInfo pi);
 
 	ArrayList<Board> selectfreeoldList(PageInfo pi);
-
-	int selectsearchfreeCount(searchcon sc);
-
-	ArrayList<Board> selectsearchfree(PageInfo pi, searchcon sc);
+	
 	///글작성
 	void insertboard(Board b, int deno );
 	
@@ -97,6 +94,10 @@ public interface BoardService {
 	int insertanonycoment(coment r);
 
 	ArrayList<coment> listcomentanony(int bno);
+
+	ArrayList<Board> selectanonymousold(PageInfo pi);
+
+	
 
 	
 

@@ -17,4 +17,5 @@ public class searchcon {
 
 	private String title;
 	private String content;
+	private int cfbo;
 }

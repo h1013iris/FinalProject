@@ -22,4 +22,5 @@ public class coment {
 	private String status;
 	private int boardno;
 	private String conmentnickname;
+	private String anonypassword;
 }

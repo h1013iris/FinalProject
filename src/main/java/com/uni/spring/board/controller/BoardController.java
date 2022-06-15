@@ -76,33 +76,52 @@ public class BoardController {
 	}
 	@RequestMapping("searchBoard.do")
 	public String search(@RequestParam(value="currentPage" , required = false , defaultValue = "1")int currentPage
-			,@RequestParam("condition") String condition , @RequestParam("search") String search,searchcon sc, Model model) {
+			,@RequestParam("condition") String condition , @RequestParam("search") String search,Board b,int cfbo, Model model
+			,@RequestParam(value="userdept" , required = false, defaultValue = "0") int userdept) {
 
 
 		switch(condition) { //선택한거 넘겨주기
 		case "content" : 
-			sc.setContent(search);
+			b.setContent(search);
 			break;
 		case "title" : 
-			sc.setTitle(search);
+			b.setTitle(search);
 			break;
 		}
-		int listCount = BoardService.selectsearchnotiCount(sc);
+		b.setBoardno(cfbo);
+		b.setDeptno(userdept);
+		
+		
+		
+		int listCount = BoardService.selectsearchboardCount(b);
 		System.out.println(listCount);
-
+		ArrayList<Board> conditions =BoardService.selectdeptnameList();
 
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 5);
 
-		ArrayList<Board> list = BoardService.selectsearchnoti(pi,sc);
+		ArrayList<Board> list = BoardService.selectsearchboard(pi,b);
 
 		System.out.println(list);
 
+		int con = b.getDeptno();
 		model.addAttribute("list",list);
 		model.addAttribute("pi",pi);
 		model.addAttribute("search",search);
 		model.addAttribute("condition",condition);
-
+		model.addAttribute("conditions",conditions);
+		model.addAttribute("con",con);
+        if(cfbo == 1) {
 		return "Board/noticelist";
+		
+        }else if(cfbo == 2){
+        	return "Board/freelist";
+        }else if(cfbo == 3){           		
+        	return "Board/deptlist";
+        }else if(cfbo == 4){
+        	return "Board/anonymous";
+        }else {
+        	return "Board/noticelist";
+        }
 	}
 
 	//freeboard
@@ -140,36 +159,8 @@ public class BoardController {
 		model.addAttribute("pi",pi);
 		return "Board/freelist";
 	}
-	@RequestMapping("searchfree.do")
-	public String searchfree(@RequestParam(value="currentPage" , required = false , defaultValue = "1")int currentPage
-			,@RequestParam("condition") String condition , @RequestParam("search") String search,searchcon sc, Model model) {
-
-
-		switch(condition) { //선택한거 넘겨주기
-		case "content" : 
-			sc.setContent(search);
-			break;
-		case "title" : 
-			sc.setTitle(search);
-			break;
-		}
-		int listCount = BoardService.selectsearchfreeCount(sc);
-		System.out.println(listCount);
-
-
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 5);
-
-		ArrayList<Board> list = BoardService.selectsearchfree(pi,sc);
-
-		System.out.println(list);
-
-		model.addAttribute("list",list);
-		model.addAttribute("pi",pi);
-		model.addAttribute("search",search);
-		model.addAttribute("condition",condition);
-
-		return "Board/freelist";
-	}
+	
+	
 
 	//글작성
 	@RequestMapping("enroll.do")
@@ -387,14 +378,19 @@ public class BoardController {
 	}
 	
 	@RequestMapping("deletecoment.do")
-    public ModelAndView deletecoment(int cno, int bno , ModelAndView mv) {
+    public ModelAndView deletecoment(int cno, int bno ,@RequestParam(value="realbno",required = false , defaultValue = "1")int realbno, @RequestParam(value="uno",required = false ,defaultValue = "1")int uno, ModelAndView mv) {
 		
 		System.out.println(cno + "나는 cno야");
 		
+		
 		int result = BoardService.deletecoment(cno);
 		
-		if(result>0) {
-			mv.addObject("bno", bno).setViewName("redirect:detailBoard.do");
+		
+		if(result>0 && realbno == 4) {			
+			mv.addObject("bno", bno).setViewName("redirect:detailanony.do");
+		}else if(result>0) {		
+			mv.addObject("bno", bno).addObject("uno", uno).setViewName("redirect:detailBoard.do");
+			
 		}else {
 			mv.addObject("msg","댓글 삭제 실패").addObject("msgTitle", "댓글 삭제").setViewName("common/alert");
 		}
@@ -405,7 +401,7 @@ public class BoardController {
 	@RequestMapping("updateFormBoard.do") 
 	public ModelAndView updateForm(int bno, ModelAndView mv) {
 		
-		mv.addObject("b" , BoardService.detailBoard(bno)) 
+		mv.addObject("b" , BoardService.details(bno)) 
 		.setViewName("Board/boardupdate"); 
 		
 	
@@ -414,16 +410,22 @@ public class BoardController {
 	}
 	
 	@RequestMapping("updateboard.do")
-	public ModelAndView updatedetail(Board b , ModelAndView mv, HttpServletRequest request) {
+	public ModelAndView updatedetail(Board b , ModelAndView mv,@RequestParam(value="cf",required = false , defaultValue = "1")int cf, HttpServletRequest request) {
 		
 		BoardService.updatedetail(b);
 		
 		System.out.println(b.getContent()+"이거도");
 		System.out.println(b.getWriteno()+"이거이거");
 		
+		if(cf == 1) {
 		mv.addObject("bno",b.getWriteno()).addObject("uno",b.getEmpno()).setViewName("redirect:detailBoard.do");
+		}else {
+		mv.addObject("bno",b.getWriteno()).setViewName("redirect:detailanony.do");
+		}
 		return mv;
 	}
+	
+	
 
 		@RequestMapping("deleteBoard.do")
 		public String deleteBoard(int bno, int boardno,String fileName, HttpServletRequest request) {
@@ -436,8 +438,10 @@ public class BoardController {
 				return "redirect:free.do";
 			}else if(boardno == 3) {
 				return "redirect:depart.do";
+			}else if(boardno == 4){
+				return "redirect:anonymous.do";
 			}else {
-				return "null";
+				return "redirect:notice.do";
 			}
 			
 			
@@ -519,6 +523,24 @@ public class BoardController {
     		model.addAttribute("pi",pi);
     		return "Board/anonymous";
     	}
+        @RequestMapping("anonymousold.do")
+    	public String selectanonymousold(@RequestParam(value="currentPage" , required = false , defaultValue = "1") int currentPage, Model model) {
+
+    		int listCount = BoardService.selectanonymousCount();
+    		System.out.println(listCount);
+
+
+    		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 5);
+
+    		ArrayList<Board> list = BoardService.selectanonymousold(pi);
+
+    		System.out.println(list);
+
+    		model.addAttribute("list",list);
+    		model.addAttribute("pi",pi);
+    		return "Board/anonymous";
+    	}
+        
     	@RequestMapping("erollanonymous.do")
     	public ModelAndView erollanonymous(Board b ,ModelAndView mv) {
     		
@@ -623,5 +645,16 @@ public class BoardController {
     				return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list); 
     				
     			}
+    			@RequestMapping("updateanony.do") 
+    			public ModelAndView updateanony(int bno, ModelAndView mv) {
+    				
+    				mv.addObject("b" , BoardService.detailanony(bno)) 
+    				.setViewName("Board/updateanony"); 
+    				
+    			
+    				
+    				return mv;
+    			}
+    			
     		
 }

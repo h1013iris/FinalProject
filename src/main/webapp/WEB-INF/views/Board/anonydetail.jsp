@@ -8,9 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-.main_section {
-	width: 83vw;
-}
+
 
 #contentArea {
 	margin-left: 15%;
@@ -33,6 +31,7 @@
 
 .mainDivEnroll {
 	width: 83vw;
+	
 }
 
 .commonButton1 {
@@ -55,9 +54,10 @@
 	box-shadow: 0px 0px 0px 0px #4c87b099;
 }
 
-.replyAREA{
-        width: 60%;  
+.replyAREAboard{
+         width: 60%;  
 		margin-top: 10px;
+		overflow-y: scroll;
 		height: 30vh;
 		margin-left : 17%;
 	}
@@ -144,7 +144,7 @@
 		</div>
 		
 		
-		<c:if test="${ loginUser.empNo eq b.empno }">
+		
 			<div id="cocn">
 				<button class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</button>
 				<button class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</button>
@@ -152,6 +152,7 @@
 			</div>
 		
 			<form id="postForm" action="" method="post">				
+                <input type="hidden" name="bno" value="${ b.writeno }">
                 <input type="hidden" name="boardno" value="${ b.boardno }">
 			</form>
 			<script>
@@ -159,7 +160,7 @@
 						var postForm = $("#postForm");
 						
 						if(num == 1){
-							postForm.attr("action", "updateFormBoard.do");
+							postForm.attr("action", "updateanony.do");
 						}else{
 							postForm.attr("action", "deleteBoard.do");
 						}
@@ -170,7 +171,7 @@
 				</script>
 			<br>
 			<br>
-		</c:if>
+		
 
 		<div id=concontents>
 			<c:if test="${ !empty loginUser }">
@@ -183,9 +184,11 @@
 		   <br>		
 		   <span>닉네임</span>
 		   <input type="text" name=conmentnickname id="conmentnickname" required>
+		   <span>비밀번호</span>
+		   <input type="password" name=anonypassword id="anonypassword" value="" maxlength="4" required>
 		</div>
 
-		<div class="replyAREA">
+		<div class="replyAREAboard">
 			<table id="replyList">
 				<thead>
 					<tr>
@@ -223,6 +226,7 @@
 						ccontent : $("#Content").val(),
 						cwriteno : bno,						
 						conmentnickname : $("#conmentnickname").val(),
+						anonypassword : $("#anonypassword").val(),
 						boardno : realbno
 					},
 
@@ -267,7 +271,9 @@
 													+ c.conmentnickname
 													+ " "
 													+ "</th>";
-											value += "<th class='replydelete'><img src='${ pageContext.servletContext.contextPath }/resources/images/close.png' alt='' onclick='deleteReply("+c.cno+")' width='10'>"+"</th></tr>";
+											value += "<th class='replydelete'><img src='${ pageContext.servletContext.contextPath }/resources/images/close.png' alt='' onclick='deleteReply("+c.cno+','+c.anonypassword+")' width='10'>"+"</th></tr>";
+											
+											      
 											value += "</tr><tr class='contenttot'><td class='replyTitleSe'>"
 													+ c.ccontent
 													+ "</td>"
@@ -286,21 +292,25 @@
 				});
 	}
 	
-	function deleteReply(num){
+	function deleteReply(num , pass){		
+		var anopass = $("#anonypassword").val();		
+		console.log(anopass);
+		console.log(pass);
+		if(anopass == pass){
 		$("#confirm_title .title_name").text("댓글 삭제");
-		$("#confirm_body .confirm_content").text("댓글을 삭제하시겠습니까?");
-		$("#helpmeCOnfirm").css("display","block");
-   		
+		$("#confirm_body .confirm_content").text("댓글을 삭제하시겠습니까?");		
+		$("#helpmeCOnfirm").css("display","block");		
 		$("button[name='confirmBtn']").click(function(){
-    		console.log($(this).val())
-    		if($(this).val()=="true"){
-    			location.href="deletecoment.do?cno="+num+"&bno="+${b.writeno}
-    			$("#helpmeCOnfirm").css("display","none");
+    		console.log($(this).val())   			
+    		if($(this).val()=="true"){    			
+    			location.href="deletecoment.do?cno="+num+"&bno="+${b.writeno}+"&realbno="+4
+    			$("#helpmeCOnfirm").css("display","none");       		
     		}else{
     			$("#helpmeCOnfirm").hide();
     		}
     	})
-	}  	
+		}
+	}
 	//글확인자 버튼 클릭시 모달창
 	$(document).on("click",".checkman", function(){
 		var wno = ${ b.writeno }
