@@ -37,16 +37,17 @@ public class BoardSeriveImpl implements BoardService {
 
 		return BoardDao.selectListCount(sqlSession , pi);
 	}
+	//검색
 	@Override
-	public ArrayList<Board> selectsearchnoti(PageInfo pi, searchcon sc) {
-
-		return BoardDao.selectsearchnoti(sqlSession,pi ,sc);
+	public ArrayList<Board> selectsearchboard(PageInfo pi, Board b) {
+        
+		return BoardDao.selectsearchboard(sqlSession,pi ,b);
 	}
 
 	@Override
-	public int selectsearchnotiCount(searchcon sc) {
+	public int selectsearchboardCount(Board b) {
 		// TODO Auto-generated method stub
-		return BoardDao.selectsearchnotiCount(sqlSession, sc);
+		return BoardDao.selectsearchboardCount(sqlSession, b);
 	}
 
 
@@ -70,17 +71,7 @@ public class BoardSeriveImpl implements BoardService {
 		return BoardDao.selectfreeList(sqlSession , pi);
 	}
 
-	@Override
-	public int selectsearchfreeCount(searchcon sc) {
-		// TODO Auto-generated method stub
-		return BoardDao.selectsearchfreeCount(sqlSession, sc);
-	}
 
-	@Override
-	public ArrayList<Board> selectsearchfree(PageInfo pi, searchcon sc) {
-		// TODO Auto-generated method stub
-		return BoardDao.selectsearchfree(sqlSession,pi ,sc);
-	}
 
 
 
@@ -312,6 +303,18 @@ int result = BoardDao.deletepbox(sqlSession, pno);
 		// TODO Auto-generated method stub
 		return BoardDao.listcomentanony(sqlSession, bno);
 	}
+
+	@Override
+	public ArrayList<Board> selectanonymousold(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return BoardDao.selectanonymousold(sqlSession,pi);
+	}
+
+
+
+	
+
+
 
 	
 	}

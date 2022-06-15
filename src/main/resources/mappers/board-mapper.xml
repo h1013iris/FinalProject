@@ -32,6 +32,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="cwirter" column="EMP_NAME" />
 		<result property="comentpassword" column="PASSWARD" />
 		<result property="conmentnickname" column="NICKNAME" />
+		<result property="anonypassword" column="ANONYPASSWORD" />
+		
 	</resultMap>
 
 	<resultMap type="pbox" id="pboxset">
@@ -81,13 +83,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		A.WRITE_NO DESC
 
 	</select>
-
-	<select id="selectsearchnotiCount" resultType="_int">
+<!-- 검색 -->
+	<select id="selectsearchboardCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM BOARD N
 		JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
 		WHERE N.STATUS='Y'
-		AND BOARD_NO = 1
+		AND BOARD_NO = #{boardno}
+		<if test="deptno != 0">
+			AND N.DEPARTMENT_NO LIKE '%' ||#{deptno}||'%'
+		</if>
 		<if test="title != null">
 			AND N.TITLE LIKE '%' ||#{title}||'%'
 		</if>
@@ -97,13 +102,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</select>
 
-	<select id="selectnotiList" resultMap="boardResultset">
-		SELECT *
+	<select id="selectsearchboard" resultMap="boardResultset">
+		SELECT N.*,
+		D.DEPARTMENT_TITLE
 		FROM BOARD N
 		JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
+		JOIN DEPARTMENT_MANAGEMENT D ON (N.DEPARTMENT_NO=D.DEPARTMENT_NO)
 		WHERE
 		N.STATUS='Y'
-		AND BOARD_NO = 1
+		AND BOARD_NO = #{boardno}
+		<if test="deptno != 0">
+			AND N.DEPARTMENT_NO LIKE '%' ||#{deptno}||'%'
+		</if>
 		<if test="title != null">
 			AND N.TITLE LIKE '%' ||#{title}||'%'
 		</if>
@@ -522,7 +532,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertanonycoment" parameterType="coment">
 		INSERT INTO COMMENTS
-		VALUES(SEQ_COMEN.NEXTVAL, null, #{ccontent}, #{cwriteno}, SYSDATE, DEFAULT,#{boardno},#{conmentnickname})
+		VALUES(SEQ_COMEN.NEXTVAL, null, #{ccontent}, #{cwriteno}, SYSDATE, DEFAULT,#{boardno},#{conmentnickname},#{anonypassword})
 
 
 
@@ -533,6 +543,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT
 		C_NUM,
 		NICKNAME,
+		ANONYPASSWORD,
 		C_CONTENT,		
 		C_DATE
 		FROM COMMENTS 		
@@ -542,5 +553,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	</select>
+	
+	<select id="selectanonymousold" resultMap="boardResultset">
+
+
+		SELECT *		
+		FROM	BOARD 	
+		WHERE STATUS='Y'
+		AND
+		BOARD_NO = 4
+		ORDER BY
+		WRITE_NO 
+
+	</select>
+
 	
 </mapper>

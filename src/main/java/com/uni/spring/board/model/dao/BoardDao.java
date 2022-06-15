@@ -31,18 +31,19 @@ public class BoardDao {
       return (ArrayList) sqlSession.selectList("boardMapper.selectList", null, rowBounds);
       // 파라미터값 null
    }
-
-   public ArrayList<Board> selectsearchnoti(SqlSessionTemplate sqlSession, PageInfo pi, searchcon sc) {
+   
+ //검색
+   public ArrayList<Board> selectsearchboard(SqlSessionTemplate sqlSession, PageInfo pi, Board b) {
       int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 
       RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 
-      return (ArrayList) sqlSession.selectList("boardMapper.selectnotiList", sc, rowBounds);
+      return (ArrayList) sqlSession.selectList("boardMapper.selectsearchboard", b, rowBounds);
    }
 
-   public int selectsearchnotiCount(SqlSessionTemplate sqlSession, searchcon sc) {
+   public int selectsearchboardCount(SqlSessionTemplate sqlSession, Board b) {
       // TODO Auto-generated method stub
-      return sqlSession.selectOne("boardMapper.selectsearchnotiCount", sc);
+      return sqlSession.selectOne("boardMapper.selectsearchboardCount", b);
    }
 
    public ArrayList<Board> selectoldListCount(SqlSessionTemplate sqlSession, PageInfo pi) {
@@ -68,18 +69,7 @@ public class BoardDao {
       return (ArrayList) sqlSession.selectList("boardMapper.selectfreeList", null, rowBounds);
    }
 
-   public int selectsearchfreeCount(SqlSessionTemplate sqlSession, searchcon sc) {
-
-      return sqlSession.selectOne("boardMapper.selectsearchfreeCount", sc);
-   }
-
-   public ArrayList<Board> selectsearchfree(SqlSessionTemplate sqlSession, PageInfo pi, searchcon sc) {
-      int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-
-      RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-
-      return (ArrayList) sqlSession.selectList("boardMapper.selectsearchfree", sc, rowBounds);
-   }
+  
 
    public ArrayList<Board> selectfreeoldList(SqlSessionTemplate sqlSession, PageInfo pi) {
       int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
@@ -258,6 +248,16 @@ public ArrayList<coment> listcomentanony(SqlSessionTemplate sqlSession, int bno)
 	// TODO Auto-generated method stub
 	return (ArrayList)sqlSession.selectList("boardMapper.listcomentanony",bno);
 }
+
+public ArrayList<Board> selectanonymousold(SqlSessionTemplate sqlSession, PageInfo pi) {
+	int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+
+    RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+    return (ArrayList) sqlSession.selectList("boardMapper.selectanonymousold", null, rowBounds);
+}
+
+
 }
 
 

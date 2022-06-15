@@ -255,7 +255,9 @@
 							<select name="condition">
 								<option value="title">제목</option>
 								<option value="content">내용</option>
-							</select> <input type="search" name="search" value="${ search }">
+							</select> 
+							<input type="search" name="search" value="${ search }">
+							<input type="hidden" name="cfbo" value=2>
 							<button type="submit">검색하기</button>
 						</form>
 					</div>

@@ -169,7 +169,7 @@ margin-left: 83%;
 					</button>
 					<div class="dropdown-content" id="drp">
 						<a id="new" href="anonymous.do">최신순</a> 
-						<a id="old"	href="anonymous.do">오래된순</a>
+						<a id="old"	href="anonymousold.do">오래된순</a>
 					</div>
 				</div>
 			</div>
@@ -259,6 +259,7 @@ margin-left: 83%;
 								<option value="title">제목</option>
 								<option value="content">내용</option>
 							</select> <input type="search" name="search" value="${ search }">
+							<input type="hidden" name="cfbo" value=4>
 							<button type="submit">검색하기</button>
 						</form>
 						 <div class="gogoanonymou">
@@ -275,7 +276,7 @@ margin-left: 83%;
 			})
 		
           
-         if(window.location.pathname === "/spring/noticeold.do"){
+         if(window.location.pathname === "/spring/anonymousold.do"){
             document.getElementById("isRecents").innerText="오래된순";
             }else{
             document.getElementById("isRecents").innerText="최신순";

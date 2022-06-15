@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 <style>
 .main_section {
-	width: 83vw;
+	width: 83vw;	
 }
 
 #contentArea {
@@ -55,9 +55,10 @@
 	box-shadow: 0px 0px 0px 0px #4c87b099;
 }
 
-.replyAREA{
-        width: 60%;  
+.replyAREAboard{
+         width: 60%;  
 		margin-top: 10px;
+		overflow-y: scroll;
 		height: 30vh;
 		margin-left : 17%;
 	}
@@ -190,7 +191,7 @@
 			</c:if>
 		</div>
 
-		<div class="replyAREA">
+		<div class="replyAREAboard">
 			<table id="replyList">
 				<thead>
 					<tr>
@@ -275,7 +276,9 @@
 													+ c.cwirter
 													+ " "
 													+ "</th>";
+													if("${loginUser.empName}" == c.cwirter){
 											value += "<th class='replydelete'><img src='${ pageContext.servletContext.contextPath }/resources/images/close.png' alt='' onclick='deleteReply("+c.cno+")' width='10'>"+"</th></tr>";
+													}
 											value += "</tr><tr class='contenttot'><td class='replyTitleSe'>"
 													+ c.ccontent
 													+ "</td>"
@@ -302,7 +305,7 @@
 		$("button[name='confirmBtn']").click(function(){
     		console.log($(this).val())
     		if($(this).val()=="true"){
-    			location.href="deletecoment.do?cno="+num+"&bno="+${b.writeno}
+    			location.href="deletecoment.do?cno="+num+"&bno="+${b.writeno}+"&uno="+${b.empno}
     			$("#helpmeCOnfirm").css("display","none");
     		}else{
     			$("#helpmeCOnfirm").hide();
