@@ -379,6 +379,11 @@ public class AprvDao {
 		return sqlSession.update("aprvMapper.oboxAprvReqBusCoop", busCoopForm);
 	}
 
+	public AprvDoc lastAprvHistory(SqlSessionTemplate sqlSession, int docNo) {
+		
+		return sqlSession.selectOne("aprvMapper.lastAprvHistory", docNo);
+	}
+
 	
 
 }

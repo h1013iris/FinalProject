@@ -181,11 +181,11 @@
 				success: function(data) {
 					
 					console.log(data)
-					$("#drafter").val(data.empName + " (" + data.drafter + ")");
-					$("#drafterDept").val(data.jobName);
+					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
+					$("#drafterDept").val(data.drafterDept);
 					$("#dftDate").val(data.dftDate);
 					$("#docNo").val(data.docNo);
-					$("#receiveDept").val(data.departmentTitle);
+					$("#receiveDept").val(data.receiveDeptName);
 					$("#docTitle").val(data.docTitle);
 					$("#coopContent").val(data.coopContent);
 					

@@ -131,6 +131,8 @@ public interface AprvService {
 
 	void oboxAprvReqBusCoop(AprvDoc aprvDoc, AprvHistory aprvHistory, BusCoopForm busCoopForm, int outboxNo);
 
+	AprvDoc lastAprvHistory(int docNo);
+
 	
 
 	

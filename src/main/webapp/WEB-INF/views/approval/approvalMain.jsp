@@ -310,7 +310,7 @@
                 		var $noListTd = $("<div>").text("결재 요청한 문서가 존재하지 않습니다.").addClass("noRequestList");
                 		var $noListTr = $('<div>').append($noListTd);
                 		
-						$mainDiv.append($noListTr);
+						$tbody.append($noListTr);
                 	
                 	} else {
 						
@@ -413,7 +413,7 @@
                 	
                 	if(list.length == 0) {
                 		
-                		var $noListTd = $("<div>").text("결재 요청한 문서가 존재하지 않습니다.").addClass("noCompleteList");
+                		var $noListTd = $("<div>").text("결재 완료된 문서가 존재하지 않습니다.").addClass("noCompleteList");
                 		var $noListTr = $('<div>').append($noListTd);
                 		
 						$tbody.append($noListTr);
