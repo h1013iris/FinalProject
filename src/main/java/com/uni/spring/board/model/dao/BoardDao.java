@@ -257,6 +257,11 @@ public ArrayList<Board> selectanonymousold(SqlSessionTemplate sqlSession, PageIn
     return (ArrayList) sqlSession.selectList("boardMapper.selectanonymousold", null, rowBounds);
 }
 
+public ArrayList<Board> allboard(SqlSessionTemplate sqlSession) {
+	
+	 return (ArrayList) sqlSession.selectList("boardMapper.allboard");
+}
+
 
 }
 

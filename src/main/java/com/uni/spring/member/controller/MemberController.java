@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.uni.spring.addressBook.model.dto.Dept;
+import com.uni.spring.board.model.dto.Board;
+import com.uni.spring.board.model.service.BoardService;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.manageMent.model.service.ManageService;
 import com.uni.spring.member.model.dto.Member;
@@ -43,6 +45,9 @@ public class MemberController {
 	
 	@Autowired
 	public ManageService manageService;
+	
+	@Autowired
+	public BoardService BoardService;
 
 	//로그인 페이지로 이동
 	@GetMapping("login.do")
@@ -153,7 +158,9 @@ public class MemberController {
 	         if(a != null) {
 	             loginUser.setChangeName(a.getChangeName());
 	          }
+	        ArrayList<Board> blist  = BoardService.allboard(); 
 			model.addAttribute("loginUser",loginUser);
+			model.addAttribute("blist",blist);
 		
 			return "redirect:approvalMain.do";
 		} catch (Exception e) {
