@@ -37,7 +37,11 @@ public class AttendLog {
 	private String wen3;//수요일
 	private String tur4;//목요일
 	private String fri5;//금요일
-	private String tot;//최종
+	private String tot;//최종(한주 뽑는용)
+	private String tot2;
+	private String tot3;
+	private String tot4;
+	private String tot5;
 	
 	//받아온 값을 h m형식으로 변환
 	public AttendLog attendList(AttendLog a) {
@@ -54,6 +58,26 @@ public class AttendLog {
 		al.setMon1(mon1);al.setTue2(tue2);al.setWen3(wen3);
 		al.setTur4(tur4); al.setFri5(fri5);
 		al.setTot(tot); al.setEmpNo(a.getEmpNo());
+		return al;
+	}
+	
+	public AttendLog attendAVGLIST(AttendLog a) {
+		
+		
+		AttendLog al = new AttendLog();
+		if(a == null) {
+			al.setTot("0");al.setTot2("0");al.setTot3("0");al.setTot4("0");al.setTot5("0");al.setEmp(a.getEmp()); al.setEmpNo(a.getEmpNo());
+			al.setCal(a.getCal());al.setStatus(a.getStatus());
+		}else {
+			String tot = String.valueOf( Math.round(Double.parseDouble(a.getTot())/60)) +"H " +String.valueOf(Integer.parseInt(a.getTot())%60) +"m";
+			String tot2 = String.valueOf(Math.round(Double.parseDouble(a.getTot2())/60)) +"H " +String.valueOf(Integer.parseInt(a.getTot2())%60) +"m";
+			String tot3 = String.valueOf(Math.round(Double.parseDouble(a.getTot3())/60)) +"H " +String.valueOf(Integer.parseInt(a.getTot3())%60) +"m";
+			String tot4 = String.valueOf(Math.round(Double.parseDouble(a.getTot4())/60)) +"H " +String.valueOf(Integer.parseInt(a.getTot4())%60) +"m";
+			String tot5 = String.valueOf(Math.round(Double.parseDouble(a.getTot5())/60)) +"H " +String.valueOf(Integer.parseInt(a.getTot5())%60) +"m";
+			al.setTot(tot);al.setTot2(tot2);al.setTot3(tot3);al.setTot4(tot4);al.setTot5(tot5);al.setEmp(a.getEmp()); al.setEmpNo(a.getEmpNo());
+			al.setCal(a.getCal());al.setStatus(a.getStatus());
+		}
+		
 		return al;
 	}
 }
