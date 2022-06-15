@@ -945,6 +945,18 @@ public class AprvController {
 	
 	
 	
+	// 결재 취소 위해 해당 문서 가장 최근 기록 조회
+	@ResponseBody
+	@RequestMapping(value="lastAprvHistory.do", produces="application/json; charset=utf-8")
+	public String aprvLastHistory(int docNo) {
+
+		AprvDoc lastHistory = aprvService.lastAprvHistory(docNo);
+		
+		return new Gson().toJson(lastHistory);
+	}
+	
+	
+	
 	
 	
 	

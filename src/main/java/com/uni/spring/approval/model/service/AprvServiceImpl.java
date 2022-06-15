@@ -779,6 +779,13 @@ public class AprvServiceImpl implements AprvService {
 			}
 		}
 	}
+
+
+	@Override // 결재 취소 위해 해당 문서 가장 최근 기록 조회
+	public AprvDoc lastAprvHistory(int docNo) {
+		
+		return aprvDao.lastAprvHistory(sqlSession, docNo);
+	}
 	
 
 	
