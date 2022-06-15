@@ -66,7 +66,7 @@
 										</td>
 										<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle; border-image: none;">
 											<span contenteditable="false" class="comp_wrap" data-cid="1" data-dsl="{{label:draftDept}}" data-wrapper="" style="" data-value="" data-autotype="">
-												<input class="fix_input" id="drafterDept" name="drafterDept" value="" readonly/>
+												<input class="fix_input" id="drafterDeptName" name="drafterDeptName" value="" readonly/>
 											</span> 
 										</td>
 									</tr>
@@ -213,7 +213,7 @@
 						
 		            	if(data != null || data != "") {
 		            		
-		            		$("#drafterDept").val(data);
+		            		$("#drafterDeptName").val(data);
 		            	}
 		            }
 		 		})
@@ -273,7 +273,7 @@
 			let receiveDept = $("#receiveDept").val();
 			let coopContent = $("#coopContent").val();
 			
-			if(receiveDept == "none") {
+			if(receiveDept == null || receiveDept == "") {
 				
 				let title = "문서 작성 확인";
 				let content = "협조 부서를 선택해주세요.";

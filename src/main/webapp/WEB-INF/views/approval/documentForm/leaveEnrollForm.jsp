@@ -381,7 +381,7 @@
  			
  			let drafter = $("#drafter").val();
  			let drafterDept = $("#drafterDept").val();
- 			let draftDate = $("#draftDate").val();
+ 			//let draftDate = $("#draftDate").val();
  			let vacType = $("#vacType").val();
  			let startDate = $("#startDate").val();
  			let endDate = $("#endDate").val();

@@ -204,6 +204,7 @@
 				<button class="commonButton1 docUpdateFormBtn docSubmit_btn" type="button">결재요청</button> <br>
 				<button class="commonButton1 docUpdateFormBtn docUpdate_btn" type="button">수정</button> <br> <%-- 임시저장 기능 --%>
 				<button class="commonButton1 docUpdateFormBtn cancle_btn" type="button">취소</button>
+				<button class="commonButton1 valueCheck" type="button">값 확인</button>
 			</div>
 		</form>
  	</div>
@@ -449,7 +450,7 @@
  			
  			let drafter = $("#drafter").val();
  			let drafterDept = $("#drafterDept").val();
- 			let draftDate = $("#draftDate").val();
+ 			//let draftDate = $("#draftDate").val();
  			let vacType = $("#vacType").val();
  			let startDate = $("#startDate").val();
  			let endDate = $("#endDate").val();
@@ -530,20 +531,22 @@
 
  			}
 		
- 		})
+ 		});
  		
  		
  		// 휴가 신청서 결재 요청 함수
  		function leaveEnrollFn() {
 			
  			// 폼의 모든 데이터 저장해서 변수로 선언
- 			let form = $(".docEnrollForm").serialize();
+ 			let form = $(".docUpdateForm").serialize();
+ 			let outboxNo = ${ outboxNo };
+ 			form += "&outboxNo=" + outboxNo;
  			
 			// post 방식으로 폼 제출
  			$.ajax({
  				
  				type: "post",
-                url: "insertLeaveApp.do",
+                url: "oboxAprvReqLeaveApp.do",
                 data: form,
                 success: function (result) {
                 	console.log(result)
@@ -603,7 +606,6 @@
     		});
 			
  		});
- 		
  		
  	</script>
  	

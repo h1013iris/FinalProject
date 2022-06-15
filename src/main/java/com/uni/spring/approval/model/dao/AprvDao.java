@@ -359,6 +359,26 @@ public class AprvDao {
 		return sqlSession.update("aprvMapper.updateBusCoop", busCoopForm);
 	}
 
+	public int oboxAprvReqLeaveApp(SqlSessionTemplate sqlSession, LeaveForm leaveForm) {
+		
+		return sqlSession.update("aprvMapper.oboxAprvReqLeaveApp", leaveForm);
+	}
+
+	public int oboxAprvReqCmtApp(SqlSessionTemplate sqlSession, CmtUpdateForm cmtUpdateForm) {
+		
+		return sqlSession.update("aprvMapper.oboxAprvReqCmtApp", cmtUpdateForm);
+	}
+
+	public int oboxAprvReqBusDft(SqlSessionTemplate sqlSession, BusDraftForm busDraftForm) {
+		
+		return sqlSession.update("aprvMapper.oboxAprvReqBusDft", busDraftForm);
+	}
+
+	public int oboxAprvReqBusCoop(SqlSessionTemplate sqlSession, BusCoopForm busCoopForm) {
+		
+		return sqlSession.update("aprvMapper.oboxAprvReqBusCoop", busCoopForm);
+	}
+
 	
 
 }

@@ -877,6 +877,73 @@ public class AprvController {
 	
 	
 	
+	// 임시 저장 문서 - 휴가 신청서 결재 요청
+	@ResponseBody
+	@RequestMapping(value="oboxAprvReqLeaveApp.do", produces="application/json; charset=utf-8")
+	public String oboxAprvReqLeaveApp(AprvDoc aprvDoc, AprvHistory aprvHistory, 
+								LeaveForm leaveForm, int outboxNo) {
+		
+		System.out.println(aprvDoc.toString());
+		System.out.println(aprvHistory.toString());
+		System.out.println(leaveForm.toString());
+		
+		aprvService.oboxAprvReqLeaveApp(aprvDoc, aprvHistory, leaveForm, outboxNo);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	
+	// 임시 저장 문서 - 근태 기록 수정 신청서 결재 요청
+	@ResponseBody
+	@RequestMapping(value="oboxAprvReqCmtApp.do", produces="application/json; charset=utf-8")
+	public String oboxAprvReqCmtApp(AprvDoc aprvDoc, AprvHistory aprvHistory, 
+								CmtUpdateForm cmtUpdateForm, int outboxNo) {
+		
+		System.out.println(aprvDoc.toString());
+		System.out.println(aprvHistory.toString());
+		System.out.println(cmtUpdateForm.toString());
+		
+		aprvService.oboxAprvReqCmtApp(aprvDoc, aprvHistory, cmtUpdateForm, outboxNo);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	
+	// 임시 저장 문서 - 근태 기록 수정 신청서 결재 요청
+	@ResponseBody
+	@RequestMapping(value="oboxAprvReqBusDft.do", produces="application/json; charset=utf-8")
+	public String oboxAprvReqBusDft(AprvDoc aprvDoc, AprvHistory aprvHistory, 
+								BusDraftForm busDraftForm, int outboxNo) {
+		
+		System.out.println(aprvDoc.toString());
+		System.out.println(aprvHistory.toString());
+		System.out.println(busDraftForm.toString());
+		
+		aprvService.oboxAprvReqBusDft(aprvDoc, aprvHistory, busDraftForm, outboxNo);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	
+	// 임시 저장 문서 - 근태 기록 수정 신청서 결재 요청
+	@ResponseBody
+	@RequestMapping(value="oboxAprvReqBusCoop.do", produces="application/json; charset=utf-8")
+	public String oboxAprvReqBusCoop(AprvDoc aprvDoc, AprvHistory aprvHistory, 
+								BusCoopForm busCoopForm, int outboxNo) {
+		
+		System.out.println(aprvDoc.toString());
+		System.out.println(aprvHistory.toString());
+		System.out.println(busCoopForm.toString());
+		
+		aprvService.oboxAprvReqBusCoop(aprvDoc, aprvHistory, busCoopForm, outboxNo);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
 	
 	
 	
