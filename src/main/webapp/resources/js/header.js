@@ -175,3 +175,95 @@ $("#work_request_btn").click(function(){
     $(".work_request_modal").css("display","flex");
 })
 
+$("#search_emp").click(function(){
+
+    $.ajax({
+        type:"post",
+        url:"EmpSelectAllList",
+        dataType:"JSON",
+        success:function(list){
+            var html = $("#empsearchhtmlbox").html();
+            $(".work_request_emp_search_modal .modal_body").children().remove();
+            $.each(list,function(index,item){
+                $(".work_request_emp_search_modal .modal_body").append(html);
+                $(".modal_body .emp_name").eq(index).text(item.empName +" "+item.jobName)
+                $(".modal_body .emp_checkbox_input").eq(index).val(item.empNo);
+            })
+
+        }
+    })
+    $(".work_request_emp_search_modal").css("display","flex");
+    $(".work_request_modal").hide();
+})
+
+$(".empSearch_next_btn").click(function(){
+    let checkval = [];
+
+    $(".modal_body .emp_checkbox_input:checked").each(function(i){
+        checkval[i] = $(".emp_checkbox_input:checked").eq(i).val();
+    })
+
+    $.ajax({
+        type:"post",
+        url:"selectRequestEmpSearch",
+        traditional: true,
+        data : {checkval : checkval},
+        dataType:"JSON",
+        success:function(list){
+            var html = $("#requestModalHtml").html();
+            $("#emp_list ul").children().remove();
+            $.each(list,function(index,item){
+                $("#emp_list ul").append(html);
+                $("#emp_list .emp_name").eq(index).text(item.empName+" "+item.jobName)
+                $("#emp_list .empNoInput").eq(index).val(item.empNo);
+            })
+
+            $(".work_request_emp_search_modal .modal_body").children().remove();
+            $(".work_request_emp_search_modal").hide();
+            $(".work_request_modal").css("display","flex");
+        },
+        fail:function(){
+            alert("실패")
+        }
+    })
+})
+
+$(".work_request_insert_btn").click(function(){
+    var title = $("#work_request_title").val();
+    var content = $(".work_request_modal #content").val();
+    let checkval = [];
+
+    $(".work_request_modal .modal_body .empNoInput").each(function(i){
+        checkval[i] = $(".empNoInput").eq(i).val();
+    })
+
+    var empNoArr = checkval.toString();
+    var fromDate = $("#from_date_input").val();
+    var toDate = $("#to_date_input").val();
+    var EStatus;
+    if($("#EStatus_check_box").prop("checked")){
+        EStatus = "Y";
+    } else {
+        EStatus = "N";
+    }
+
+    var ar = {
+        title : title,
+        content : content,
+        empNoArr : empNoArr,
+        fromDate : fromDate,
+        toDate : toDate,
+        EStatus : EStatus
+    }
+
+    $.ajax({
+        type:"post",
+        url:"insertWorkRequest",
+        data : ar,
+        success : function(){
+            $(".work_request_modal").hide();
+            location.reload();
+        }
+    })
+})
+

@@ -24,6 +24,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="time" column="WORK_TIME"/>
 	</resultMap>
 	
+	<resultMap type="emp" id="EmpResult">
+		<result property="empNo" column="EMP_NO"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="cityNo" column="USER_NO"/>
+		<result property="email" column="EMAIL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="hireDate" column="HIRE_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+		<result property="jobNo" column="JOB_NO"/>
+		<result property="deptNo" column="DEPARTMENT_NO"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="deptName" column="DEPARTMENT_TITLE"/>
+	</resultMap>
+	
+	<resultMap type="workRequest" id="workRequestResult">
+		<result property="raskNo" column="RASK_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="title" column="RASK_TITLE"/>
+		<result property="content" column="RASK_CONTENT"/>
+		<result property="fromDate" column="DAY_FROM"/>
+		<result property="toDate" column="DAY_TO"/>
+		<result property="EStatus" column="EMERGENCY_STATUS"/>
+	</resultMap>
+	
 	<insert id="InsertJournal" parameterType="journal">
 		insert into JOURNAL
 		values
@@ -120,5 +146,85 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where emp_no = #{empNo}
 		and todo_date = #{todoDate}
 	</select>
+	
+	<select id="selectRequestEmpSearch" parameterType="map" resultMap="EmpResult">
+		select *
+		from USER_INFO a
+		join JOB_RANK_MANAGEMENT c on a.JOB_NO = c.JOB_NO
+		join DEPARTMENT_MANAGEMENT d on a.DEPARTMENT_NO = d.DEPARTMENT_NO
+		where emp_no in (
+		<foreach collection="array" item="eNo" separator=",">
+			#{eNo} 		
+		</foreach>
+		)
+	</select>
+	
+	<select id="EmpSelectAllList" resultMap="EmpResult">
+		select * 
+		from USER_INFO a
+		join JOB_RANK_MANAGEMENT c on a.JOB_NO = c.JOB_NO
+		join DEPARTMENT_MANAGEMENT d on a.DEPARTMENT_NO = d.DEPARTMENT_NO
+	</select>
+	
+	<insert id="insertWorkRequest" parameterType="workRequest">
+	
+		<selectKey keyProperty="raskNo" resultType="int" order="BEFORE">
+			select seq_mypage.nextval from dual
+		</selectKey>
+	
+		insert into WORK_REQUEST
+		values
+		(#{raskNo}, #{empNo}, #{title}, #{content}, #{fromDate}, #{toDate}, #{EStatus}, default)			
+	</insert>
+	
+	<insert id="insertWorkRequestEmp" parameterType="workRequest">
+		insert into WORK_REQUEST_EMP
+		values
+		(#{raskNo}, #{empNoArr}, SYSDATE)
+	</insert>
+	
+	<select id="selectWorkReceivedList" resultMap="workRequestResult">
+		select *
+		from WORK_REQUEST 
+		where rask_no in(
+			select
+				rask_no
+			from WORK_REQUEST_EMP
+			where emp_no like '%'||#{empNo}||'%'
+		)
+	</select>
+	
+	<select id="selectrequestWorkList" resultMap="workRequestResult">
+		select *
+		from WORK_REQUEST
+		where emp_no = #{empNo}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 </mapper>

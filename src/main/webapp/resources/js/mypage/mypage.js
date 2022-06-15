@@ -266,3 +266,8 @@ $(".detailToDoListModal .update_btn").click(function(){
     $(".update_btn").text("저장");
 })
 
+$(".empSearch_next_btn").click(function(){
+    var a = $(".emp_checkbox_input:checked").val()
+    alert(a)
+})
+
