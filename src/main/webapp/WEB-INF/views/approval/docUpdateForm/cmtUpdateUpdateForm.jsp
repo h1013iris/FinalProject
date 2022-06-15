@@ -503,13 +503,15 @@
  		function cmpUpdateEnrollFn() {
  			
  			// 폼의 모든 데이터 저장해서 변수로 선언
- 			let form = $(".docEnrollForm").serialize();
+ 			let form = $(".docUpdateForm").serialize();
+ 			let outboxNo = ${ outboxNo };
+ 			form += "&outboxNo=" + outboxNo;
  			
 			// post 방식으로 폼 제출
  			$.ajax({
  				
  				type: "post",
-                url: "insertCmtUpdateApp.do",
+                url: "oboxAprvReqCmtApp.do",
                 data: form,
                 success: function (result) {
                 	console.log(result)

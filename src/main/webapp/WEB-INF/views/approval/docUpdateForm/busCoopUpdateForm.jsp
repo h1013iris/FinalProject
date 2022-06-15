@@ -346,7 +346,7 @@
 			let receiveDept = $("#receiveDept").val();
 			let coopContent = $("#coopContent").val();
 			
-			if(receiveDept == "none") {
+			if(receiveDept == null || receiveDept == "") {
 				
 				let title = "문서 작성 확인";
 				let content = "협조 부서를 선택해주세요.";
@@ -432,7 +432,7 @@
     		$.ajax({
     			
     			type: "post",
-    			url: "updateBusCoop.do",
+    			url: "oboxAprvReqBusCoop.do",
     			data: form,
     			success: function(result) {
     				console.log(result);

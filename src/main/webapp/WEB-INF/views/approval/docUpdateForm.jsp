@@ -122,8 +122,8 @@
     	// 문서 등록 페이지에서 취소 버튼 클릭 시
     	$(".cancle_btn").click(function() {
 			
-    		$("#confirm_container .title_name").text("문서 등록 취소 확인");
-    		$("#confirm_body .confirm_content").text("문서 작성을 취소하시겠습니까?");
+    		$("#confirm_container .title_name").text("문서 수정 취소 확인");
+    		$("#confirm_body .confirm_content").text("문서 수정을 취소하시겠습니까?");
     		$("#helpmeCOnfirm").css("display","block");
     		
     		// 확인 버튼 클릭 시 모달 사라지고
@@ -133,7 +133,11 @@
     			
     			location.href=document.referrer; //이전 페이지로 이동
     			// document.referrer : 마지막 페이지의 url을 가져오면 이전 정보는 가져올 수 없음
-     		})
+     		});
+    		
+    		$(document).on("click", ".false_btn", function() {
+    			$("#helpmeCOnfirm").css("display","none");
+    		});
 			
 		})
 		

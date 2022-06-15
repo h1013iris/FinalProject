@@ -123,6 +123,14 @@ public interface AprvService {
 
 	void updateBusCoop(BusCoopForm busCoopForm, int outboxNo);
 
+	void oboxAprvReqLeaveApp(AprvDoc aprvDoc, AprvHistory aprvHistory, LeaveForm leaveForm, int outboxNo);
+
+	void oboxAprvReqCmtApp(AprvDoc aprvDoc, AprvHistory aprvHistory, CmtUpdateForm cmtUpdateForm, int outboxNo);
+
+	void oboxAprvReqBusDft(AprvDoc aprvDoc, AprvHistory aprvHistory, BusDraftForm busDraftForm, int outboxNo);
+
+	void oboxAprvReqBusCoop(AprvDoc aprvDoc, AprvHistory aprvHistory, BusCoopForm busCoopForm, int outboxNo);
+
 	
 
 	

@@ -382,11 +382,11 @@
 				myAlert(title, content);
 				focusFn(focus);
 			
-			} else if(coopDept == "none") {
+			} else if(coopDept == null || coopDept == "") {
 				
 				let title = "문서 작성 확인";
 				let content = "협조 부서를 선택해주세요.";
-				let focus="#coopDeptNo";
+				let focus="#coopDept";
 				
 				myAlert(title, content);
 				focusFn(focus);
@@ -427,12 +427,14 @@
  		function busDftEnrollFn() {
  			
  			// 폼의 모든 데이터 저장해서 변수로 선언
- 			let form = $(".docEnrollForm").serialize();
+ 			let form = $(".docUpdateForm").serialize();
+ 			let outboxNo = ${ outboxNo };
+ 			form += "&outboxNo=" + outboxNo;
  		
  			$.ajax({
 				
 				type: "post",
-                url: "insertBusDraft.do",
+                url: "oboxAprvReqBusDft.do",
                 data: form,
                 success: function (result) {
                 	console.log(result)

@@ -568,8 +568,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 휴가 신청서 업데이트 -->
 	<update id="updateLeaveApp" parameterType="LeaveForm">
 		UPDATE LEAVE_APP
-		SET VAC_TYPE = #{vacType}, START_DATE = #{startDate}, END_DATE = #{endDate},
-			VAC_USE_DAYS = #{vacUseDays}, VAC_REASON = #{vacReason}
+		SET VAC_TYPE = #{vacType}, DFT_DATE = SYSDATE, START_DATE = #{startDate}, 
+			END_DATE = #{endDate}, VAC_USE_DAYS = #{vacUseDays}, VAC_REASON = #{vacReason}
 		WHERE OUTBOX_NO = #{outboxNo}
 	</update>
 	
@@ -599,6 +599,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SET DOC_TITLE = #{docTitle}, RECEIVE_DEPT = #{receiveDept}, COOP_CONTENT = #{coopContent}
 		WHERE OUTBOX_NO = #{outboxNo}
 	</update>
+	
+	<!-- 임시 저장 문서 - 휴가 신청서 결재 요청 및 업데이트 -->
+	<update id="oboxAprvReqLeaveApp" parameterType="LeaveForm">
+		UPDATE LEAVE_APP
+		SET DOC_NO = SEQ_DOC_NO.NEXTVAL, DFT_DATE = SYSDATE, VAC_TYPE = #{vacType},
+			START_DATE = #{startDate}, END_DATE = #{endDate}, VAC_USE_DAYS = #{vacUseDays}, 
+			VAC_REASON = #{vacReason}, OUTBOX_NO = NULL
+		WHERE OUTBOX_NO = #{outboxNo}
+	</update>
+	
+	<!-- 임시 저장 문서 - 근태 기록 수정 신청서 결재 요청 -->
+	<update id="oboxAprvReqCmtApp" parameterType="CmtUpdateForm">
+		UPDATE CMT_UPDATE_APP
+		SET DOC_NO = SEQ_DOC_NO.NEXTVAL, DFT_DATE = SYSDATE, UPDATE_DATE = #{updateDate},
+			BE_ATTEND_TIME = TO_DATE(#{beAttendTime}, 'YYYY-MM-DD HH24:MI'), 
+			BE_LEAVE_TIME = TO_DATE(#{beLeaveTime}, 'YYYY-MM-DD HH24:MI'), 
+			ATTEND_TIME = TO_DATE(#{attendTime}, 'YYYY-MM-DD HH24:MI'), 
+			LEAVE_TIME = TO_DATE(#{leaveTime}, 'YYYY-MM-DD HH24:MI'), 
+			UPDATE_REASON = #{updateReason}, OUTBOX_NO = NULL
+		WHERE OUTBOX_NO = #{outboxNo}
+	</update>
+	
+	<!-- 임시 저장 문서 - 업무 기안서 결재 요청 -->
+	<update id="oboxAprvReqBusDft" parameterType="BusDraftForm">
+		UPDATE BUSINESS_DFT
+		SET DOC_NO = SEQ_DOC_NO.NEXTVAL, DFT_DATE = SYSDATE, DOC_TITLE = #{docTitle}, 
+			ENF_DATE = #{enfDate}, COOP_DEPT = #{coopDept}, DFT_CONTENT = #{dftContent},
+			OUTBOX_NO = NULL
+		WHERE OUTBOX_NO = #{outboxNo}
+	</update>
+	
+	<!-- 임시 저장 문서 - 업무 협조문 결재 요청 -->
+	<update id="oboxAprvReqBusCoop" parameterType="BusCoopForm">
+		UPDATE BUSINESS_COOP
+		SET DOC_NO = SEQ_DOC_NO.NEXTVAL, DFT_DATE = SYSDATE, DOC_TITLE = #{docTitle}, 
+			RECEIVE_DEPT = #{receiveDept}, COOP_CONTENT = #{coopContent}, OUTBOX_NO = NULL
+		WHERE OUTBOX_NO = #{outboxNo}
+	</update>
+	
 	
 	
 	
