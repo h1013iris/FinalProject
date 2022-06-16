@@ -260,7 +260,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		GROUP BY Q.EMP_NO)S
 		JOIN USER_INFO K ON (K.EMP_NO = S.EMP_NO)
 		<if test= "empNo != 0">
-			WHERE K.EMP_NO = #{empNo} 
+			WHERE K.EMP_NO = #{empNo}    
 		</if>
 		ORDER BY S.EMP_NO
 	</select>
