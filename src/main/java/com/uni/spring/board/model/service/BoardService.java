@@ -99,6 +99,16 @@ public interface BoardService {
 
 	ArrayList<Board> allboard();
 
+	int alllistboardCount(int boardno);
+
+	ArrayList<Board> alllistboard(PageInfo pi, int boardno);
+
+	ArrayList<Board> getboardallnumber();
+
+	ArrayList<Board> allboardold(PageInfo pi, int boardno);
+
+	void savefilesupdate(Attachment a);
+
 	
 
 	

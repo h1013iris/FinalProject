@@ -28,7 +28,7 @@ public class Board {
 	private String originName;
 	private String changeName;
 	private int pno;
-	private String passward;
 	private String nickname;
 	private String boardname;
+	private String password;
 }
