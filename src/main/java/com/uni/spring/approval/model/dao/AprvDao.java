@@ -249,11 +249,6 @@ public class AprvDao {
 		return sqlSession.update("aprvMapper.updateDateOutbox", docOutbox);
 	}
 
-	public int updateLeaveFormOutbox(SqlSessionTemplate sqlSession, LeaveForm leaveForm) {
-		
-		return sqlSession.update("aprvMapper.updateLeaveFormOutbox", leaveForm);
-	}
-
 	public int saveCmpUdpFormOutbox(SqlSessionTemplate sqlSession, CmtUpdateForm cmtUpdateForm) {
 		
 		return sqlSession.insert("aprvMapper.saveCmpUdpFormOutbox", cmtUpdateForm);
@@ -412,6 +407,11 @@ public class AprvDao {
 	public int updateAprvDoc(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
 		
 		return sqlSession.update("aprvMapper.updateAprvDoc", aprvDoc);
+	}
+
+	public int deleteAprvDocument(SqlSessionTemplate sqlSession, Integer docNo) {
+		
+		return sqlSession.delete("aprvMapper.deleteAprvDocument", docNo);
 	}
 
 	

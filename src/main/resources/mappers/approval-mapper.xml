@@ -699,6 +699,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE DOC_NO = #{docNo}
 	</update>
 	
+	<!-- 결재 정보 삭제 -->
+	<delete id="deleteAprvDocument" parameterType="_int">
+		DELETE FROM APRV_DOCUMENT WHERE DOC_NO = #{docNo}
+	</delete>
 	
 	
 	

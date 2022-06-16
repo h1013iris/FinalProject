@@ -195,7 +195,7 @@
 							
 	                		$.each(list, function(i, obj) {
 	                			
-	                			var $tr = $('<tr>');
+	                			var $tr = $('<tr>').addClass("yesCompleteList");
 	                			var $docNo = $('<td>').text(obj.docNo);
 	                			var $docForm = $('<td>').text(obj.docForm);
 	                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
@@ -230,20 +230,16 @@
 		
 	
 		// 게시글 클릭 시
-		$(".completeList_table tbody").on("click", "tr", (function() {
+		$(".completeList_table tbody").on("click", ".yesCompleteList", function() {
 			
 			let docNo = $(this).find("td:eq(0)").text(); // 클릭한 문서의 문서 번호 가져와서 담기
-			let docType = $("#docType").val();
-			console.log(docNo);
-			console.log(docType);
-			
 			location.href = "completeDetail.do?docNo=" + docNo;
-		}));
+		});
 		
 		
 		$(".searchBtn").click(function() {
 			
-		})
+		});
 		
 	
 	</script>
