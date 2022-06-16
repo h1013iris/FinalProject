@@ -41,9 +41,11 @@
    	 	border-radius: 5px;
 	}
 	.memberDepartSection{
-		width: 32%;
+		width: 30%;
 		border: 1px solid;
    	 	border-radius: 5px;
+   	 	background-color:#f3f3f3;
+   	 	padding: 15px;
 	}
 	.projectDepartSection{
 		width: 64%;
@@ -78,6 +80,20 @@
 	.annoDepartLowers{
 		height: 80%;
 	}
+	.imgSHowMOdalInfo::-webkit-scrollbar{
+    	display: none;
+	}
+	.imgSHowMOdalInfo>div{
+		flex: 1 1 30%;
+	}
+	
+	.imgSHowMOdalInfo{
+		height: 80%;
+		display: flex;
+		flex-wrap: wrap;
+		overflow-y:scroll;
+		text-align: center;
+	}
 	.selectDepartContent{
 		display: flex;
 		justify-content: space-between;
@@ -104,10 +120,18 @@
 	.selectAnnoDepart{
 		line-height: 40px;
 	}
+	.sectionChangeDi img{
+		height: 10vh;
+		width: 10vw;
+		margin-bottom: 10px;
+	}
+	
 </style>
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
+	<jsp:include page="../depart/InfoDepN.jsp"/>
 	<div class="main_section ">
 		<div class="departMainDivBi">
 	        <div class="upperDivDepart">
@@ -146,7 +170,19 @@
 	        		</div>
 	        	</div>
 	        	<!-- 팀원 전자모음 -->
-	        	<div class="memberDepartSection"></div>
+	        	<div class="memberDepartSection">
+	        		<div class="annoDepartUpperS">
+	        			<div class="annoDepart_Name"><span>팀원 전자 명함</span></div>
+	        		</div>
+	        		<div class="annoDepartLowers imgSHowMOdalInfo">
+	        			<c:forEach items="${mlist}" var="ml">
+	        				<div class="sectionChangeDi" onclick ="showModalInfoIMG('${ml.empName}','${ml.phone}','${ml.email}')">
+		        				<img src="${pageContext.servletContext.contextPath}/resources/upload_files/${ml.changeName}" width="20px">
+	        					<div>${ml.empName}</div>
+	        				</div>
+	        			</c:forEach>
+	        		</div>
+	        	</div>
 	        </div>
 	        <div class="lowerDivDepart">
       			<!-- 프로젝트 -->
@@ -171,5 +207,20 @@
 	        </div>
         </div>
     </div> 
+    <script>
+    	function showModalInfoIMG(empName, phone, email){
+    		console.log(empName)
+    		console.log(phone)
+    		console.log(email)
+    		console.log($("#emp_name_modal"))
+    		$(".emp_name_modal").text(empName);
+    		$(".emp_phone_modal").text(phone);
+    		$(".emp_email_modal").text(email);
+    		$(".showModalInfoDepart").css("display","flex");
+    		$(".showListDeptP").css("display","none");
+    	}
+    </script>
+    	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
 </body>
 </html>

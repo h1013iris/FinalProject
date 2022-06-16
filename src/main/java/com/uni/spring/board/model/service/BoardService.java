@@ -97,6 +97,8 @@ public interface BoardService {
 
 	ArrayList<Board> selectanonymousold(PageInfo pi);
 
+	ArrayList<Board> allboard();
+
 	
 
 	
