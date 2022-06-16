@@ -1,6 +1,9 @@
 package com.uni.spring.addressBook.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import com.uni.spring.addressBook.model.dao.AddressBookDao;
 import com.uni.spring.addressBook.model.dto.Company;
 import com.uni.spring.addressBook.model.dto.Customer;
 import com.uni.spring.addressBook.model.dto.Dept;
+import com.uni.spring.addressBook.model.dto.Favorite;
 import com.uni.spring.member.model.dto.WideMember;
 
 @Service
@@ -30,7 +34,6 @@ public class AddressBookServiceImpl implements AddressBookService {
 	}
 
 	//주소록 위에 부서별 버튼들이 뜸 관리자가 추가하면 계속 추가되도록
-	@Override
 	public ArrayList<Dept> selectDeptTitleList(Dept dp) {
 		
 		return addressBookDao.selectDeptTitleList(sqlSession);
@@ -136,24 +139,29 @@ public class AddressBookServiceImpl implements AddressBookService {
 	addressBookDao.updateCustoList(sqlSession,custo);
 	}
 
-	//거래처 주소록 삭제하기
+	//거래처 주소록 삭제하기(상태값 변경)
 	@Override
 	public int deleteComAdd(String compNo) {
 		// TODO Auto-generated method stub
 	return addressBookDao.deleteComAdd(sqlSession,compNo);	
 	}
 
+	//고객 주소록 삭제하기(상태값 변경)
 	@Override
 	public int deleteCusAdd(String cusNo) {
 		// TODO Auto-generated method stub
-		return addressBookDao.deleteCusAdd(sqlSession,cusNo);	
+	return addressBookDao.deleteCusAdd(sqlSession,cusNo);	
 	}
 
 	//부서별 주소록 검색
 	@Override
-	public ArrayList<WideMember> selectDeptAddSearch(int departmentNo) {
-		// TODO Auto-generated method stub
-		return addressBookDao.selectDeptAddSearch(sqlSession,departmentNo);
+	public ArrayList<WideMember> selectDeptAddSearch(String departmentTitle, String search) {
+
+		Map<String,Object> deptSearch = new HashMap<String,Object>();
+		deptSearch.put("departmentTitle", departmentTitle);
+		deptSearch.put("search", search);
+		
+		return addressBookDao.selectDeptAddSearch(sqlSession,deptSearch);
 	}
 
 	//거래처 주소록 임시보관함
@@ -169,6 +177,59 @@ public class AddressBookServiceImpl implements AddressBookService {
 		// TODO Auto-generated method stub
 		return addressBookDao.selectCustoBoxAdd(sqlSession, empNo);
 	}
+	//고객 주소록 영구삭제
+	@Override
+	public int deleteCustoBox(List<String> cusNoArr) {
+		// TODO Auto-generated method stub
+		System.out.println("고객주소록 영구삭제 임플 cusNoArr"+cusNoArr);
+		int a= addressBookDao.deleteCustoBox(sqlSession, cusNoArr);
+		System.out.println("고객주소록 영구삭제 임플 결과?"+a);
+		return a;
+	}
+
+	//거래처 주소록 영구삭제
+	@Override
+	public int deleteComBox(List<String> comNoArr) {
+		System.out.println("거래처주소록 영구삭제 임플 넘어온값 comNoArr"+comNoArr);
+		int a= addressBookDao.deleteComBox(sqlSession, comNoArr);
+		System.out.println("거래처주소록 영구삭제 임플 결과?"+a);
+		return a;
+	}
+
+	//고객주소록 임시보관함 복원
+	@Override
+	public int updateBackCustoBox(List<String> cusNoArr) {
+		int a= addressBookDao.updateBackCustoBox(sqlSession, cusNoArr);
+		System.out.println("고객주소록 복원 임플 결과? "+a);
+		return a;
+	}
+	//거래처주소록 임시보관함 복원
+	@Override
+	public int updateBackComBox(List<String> comNoArr) {
+		int a= addressBookDao.updateBackComBox(sqlSession, comNoArr);
+		System.out.println("거래처 주소록 복원 임플 결과? "+a);
+		return a;
+	}
+
+	//즐겨찾기 주소록에 추가
+	@Override
+	public int insertPavoAdd(String ckEmpNo, String empNo) {
+		// TODO Auto-generated method stub
+		Map<String, Object> pavoMap = new HashMap<String, Object>();
+		pavoMap.put("ckEmpNo",ckEmpNo);
+		pavoMap.put("empNo", empNo);
+		int a= addressBookDao.insertPavoAdd(sqlSession, pavoMap);
+		System.out.println("즐겨찾기 추가 결과는? "+a);
+		return a;
+	}
+
+	//즐겨찾기 기능 추가하기
+	@Override
+	public ArrayList<WideMember> selectFavoAdd(String empNo) {
+		// TODO Auto-generated method stub
+		return addressBookDao.selectFavoAdd(sqlSession, empNo);
+	}
+
 
 
 }

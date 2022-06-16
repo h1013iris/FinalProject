@@ -244,6 +244,9 @@
 	                    	<li><a href="addressMain.do">부서별 주소록</a></li>
 	                    </div>
 	                </ul>
+	                 <ul>
+	                    <li class="list_title"><a href="favoAdd.do">즐겨찾기</a></li>
+	                </ul>
 	                <ul>
 	                    <li class="list_title">개인 주소록</li>
 	                    <div class="hhh">
