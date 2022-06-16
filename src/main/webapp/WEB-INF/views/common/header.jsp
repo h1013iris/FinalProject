@@ -103,14 +103,14 @@
 	                <ul>
 	                    <li class="list_title">즐겨찾기</li>
 	                    <div class="hhh">
-	                    	<li><a href="#">즐겨찾기 관리</a></li>
+	                    	<li><a href="mypageManagement">즐겨찾기 관리</a></li>
 	                    </div>
 	                </ul>
 	                <ul>
 	                    <li class="list_title">일반</li>
 	                    <div class="hhh">
 		                    <li><a href="#">내 근태 보기</a></li>
-		                    <li><a href="#">내 정보 변경</a></li>
+		                    <li><a href="myinfoUpdate">내 정보 변경</a></li>
 	                    </div>
 	                </ul>
 	            </div>
@@ -469,6 +469,28 @@
 		location.href="detailAnnoDepart.do?adno="+$(this).children().eq(4).children().val()+"&userNo="+${loginUser.empNo}+"&writerNo="+$(this).children().eq(5).children().val();
 	})
 	})
+
+
+
+
+
+	// 즐겨찾기 스크립트
+
+	$(function(){
+		$.ajax({
+			type:"get",
+			url:"mypageListSelect",
+			dataType:"JSON",
+			success:function(list){
+				$.each(list,function(index,item){
+					var html = "<option value="+item.pageUrl+">"+item.pageName+"</option>"
+					$("#favorites_select").append(html);
+				})
+			}
+		})
+	})
+	
+
 	$(".clickDepartJUn").click(function(){
 		var departmentNo = ${loginUser.departmentNo};
 		console.log(departmentNo)
@@ -494,6 +516,7 @@
 			}
 		})
 	})
+
 	</script>
 	<!-- 이메일 API -->
 	<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>

@@ -43,4 +43,8 @@ public interface MyPageService {
 
 	ArrayList<WorkRequest> selectrequestWorkList(int empNo);
 
+	WorkRequest selectworkDetail(String raskNo);
+
+	void updateRequestStatus(String raskNo);
+
 }

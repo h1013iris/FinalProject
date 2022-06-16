@@ -41,7 +41,7 @@
             <br>
             <a href="findIdPw.do">아이디/비밀번호 찾기</a>&nbsp;&nbsp;
             <a href="empNo.do">회원가입</a>
-        </div>
+        </div> 
         </div>
         <script type="text/javascript"> 
         var msg = '${msg}';
