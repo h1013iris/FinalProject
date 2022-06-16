@@ -167,6 +167,7 @@ public class BoardSeriveImpl implements BoardService {
 
 	@Override
 	public void updatedetail(Board b) {
+		BoardDao.deleteatt(sqlSession, b);
 		int result = BoardDao.updatedetail(sqlSession, b);
 		
 	     if(result < 0) {
@@ -315,6 +316,39 @@ int result = BoardDao.deletepbox(sqlSession, pno);
 		
 		return BoardDao.allboard(sqlSession);
 	}
+
+	@Override
+	public int alllistboardCount(int boardno) {
+		// TODO Auto-generated method stub
+		return BoardDao.alllistboardCount(sqlSession,boardno);
+	}
+
+	@Override
+	public ArrayList<Board> alllistboard(PageInfo pi, int boardno) {
+		// TODO Auto-generated method stub
+		return BoardDao.alllistboard(sqlSession,boardno,pi);
+	}
+
+	@Override
+	public ArrayList<Board> getboardallnumber() {
+		
+		
+		return  BoardDao.getboardallnumber(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Board> allboardold(PageInfo pi, int boardno) {
+		// TODO Auto-generated method stub
+		return BoardDao.allboardold(sqlSession,boardno,pi);
+	}
+
+	@Override
+	public void savefilesupdate(Attachment a) {
+		BoardDao.savefilesupdate(sqlSession,a);
+		
+	}
+		
+	
 
 
 

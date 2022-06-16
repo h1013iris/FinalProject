@@ -262,6 +262,43 @@ public ArrayList<Board> allboard(SqlSessionTemplate sqlSession) {
 	 return (ArrayList) sqlSession.selectList("boardMapper.allboard");
 }
 
+public int alllistboardCount(SqlSessionTemplate sqlSession, int boardno) {
+	// TODO Auto-generated method stub
+	return sqlSession.selectOne("boardMapper.alllistboardCount" , boardno);
+}
+
+public ArrayList<Board> alllistboard(SqlSessionTemplate sqlSession, int boardno, PageInfo pi) {
+	int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+
+    RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+    return (ArrayList) sqlSession.selectList("boardMapper.alllistboard", boardno, rowBounds);
+}
+
+public ArrayList<Board> getboardallnumber(SqlSessionTemplate sqlSession) {
+	// TODO Auto-generated method stub
+	return (ArrayList) sqlSession.selectList("boardMapper.getboardallnumber");
+}
+
+public ArrayList<Board> allboardold(SqlSessionTemplate sqlSession, int boardno, PageInfo pi) {
+	
+	int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+
+    RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+    return (ArrayList) sqlSession.selectList("boardMapper.allboardold", boardno, rowBounds);
+}
+
+public void deleteatt(SqlSessionTemplate sqlSession, Board b) {
+	
+	sqlSession.update("boardMapper.deleteatt" , b);
+}
+
+public void savefilesupdate(SqlSessionTemplate sqlSession, Attachment a) {
+	sqlSession.insert("boardMapper.savefilesupdate" , a);
+	
+}
+
 
 }
 

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://cdn.ckeditor.com/4.19.0/standard/ckeditor.js"></script>
+
 
 <style type="text/css">
 .annoDepartEnrollHeader {
@@ -111,9 +111,9 @@
 				</div>
 
 				<select name="bo" id="bo">
-					<option value="1">공지사항</option>
-					<option value="2">자유게시판</option>
-					<option value="3">부서게시판</option>					
+				<c:forEach items="${ bonum }" var="b">
+					<option value="${b.boardno}">${b.boardname}</option>	
+				</c:forEach>							
 				</select>
 
 				<!-- 제목 부분 -->
@@ -159,7 +159,7 @@
 						<div id="description" class="contentPart mainStyleCh">
 							<span class="contentEn">내용</span>
 						</div>
-						<textarea name="content" id="content" required>${ b.content }</textarea>
+						<jsp:include page="note.jsp"/>
 					</div>
 				
 					  
@@ -178,7 +178,10 @@
 	</div>
 
 	<script>
-	   (function() {
+
+	
+	
+	  ( function() {
            
            var thisfile = document.getElementById("input_fileupload")
            var dropZone = document.querySelector(".drop-zone")
@@ -283,7 +286,7 @@
 		location.href="pbox.do?userno="+user
 	}
 	
-CKEDITOR.replace('content');
+
 
 function savebtn(){
 
@@ -294,5 +297,6 @@ function savebtn(){
 
 
 </script>
+
 </body>
 </html>

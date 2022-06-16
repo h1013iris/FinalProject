@@ -205,7 +205,7 @@
 	        <li>
 	            <a class="board" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/게시판.png" alt=""></a>
 	            <div class="detail_nav_content">
-	                <div class="nananan"><p class="detail_title">게시판</p></div>
+	                <div class="nananan boards"><p class="detail_title">게시판</p></div>
 	                <a href="enroll.do"><button type="button" class="commonButton2 etcButton" ><span>글 작성</span></button></a>
                 <ul> 
                     <li class="list_title"><a href="notice.do">공지사항 게시판</a></li> 
@@ -216,14 +216,12 @@
                 <ul>
                     <li class="list_title"><a href="anonymous.do">익명 게시판</a></li>
                 </ul>
-                <ul>
+                <ul class ="deptboard">
                     <li class="list_title"><a href="depart.do">부서 게시판</a></li>
                 </ul>
-                <c:forEach items="${ blist }" var="a">
-                <ul>                          
-                    <li class="list_title"><a href="allboard.do">${ a.boardname }</a></li>
-                </ul>               
-                </c:forEach>
+                
+                       
+               
                 <ul>
                                      
                     <li class="list_title"><a href="pbox.do?userno=${loginUser.empNo}">임시 보관함</a></li>
@@ -327,7 +325,40 @@
 	        </li>
 	    </ul>
 	</aside>
+	
 	<script type="text/javascript">
+	$(document).ready(function(){
+		
+		console.log("탐탐탐")
+		
+		$.ajax({
+			url:"allboardlist.do",
+			type:"get",
+			success:function(list){
+				console.log(list)
+					var value = "";
+					$.each(list,function(i, c) {
+						value += "<ul>"
+							  +  "<li class='list_title'>"
+						      +  "<a href='allboard.do?boardno="+c.boardno+"'>"
+						      +  c.boardname
+						      +  "</a>"
+						      +  "</li>"
+						      +  "</ul>"
+						      
+						     
+					});
+					$(".deptboard").append(value);
+				
+				
+			},
+			error : function() {
+				console.log("안됨");
+	
+			}
+		});
+	});
+		
 	
 	$(function(){
 		$(document).on('click','reservationRoom-smallList',function(){
@@ -340,7 +371,7 @@
 			success:function(list){
 				if(list.length != 0){
 
-					let reservationRoomBiglist = $(".reservationRoom-biglist")
+					let reservationRoomBiglist = $(".")
 					let bul = $("<ul>").addClass("reservation-Bigul")
 					reservationRoomBiglist.append(bul);
 					

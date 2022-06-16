@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="deptname" column="DEPARTMENT_TITLE" />
 		<result property="originName" column="ORIGIN_NAME" />
 		<result property="changeName" column="CHANGE_NAME" />
-		<result property="passward" column="PASSWARD" />
+		<result property="password" column="PASSWORD" />
 		<result property="nickname" column="NICKNAME" />
 		<result property="boardname" column="BOARD_NAME" />
 		
@@ -224,7 +224,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertboard" parameterType="Board">
 
 		INSERT INTO BOARD
-		VALUES(SEQ_NOTI.NEXTVAL, #{title}, #{content}, SYSDATE, DEFAULT, #{boardno} ,#{empno} ,#{deptno},NULL)
+		VALUES(SEQ_NOTI.NEXTVAL, #{title}, #{content}, SYSDATE, DEFAULT, #{boardno} ,#{empno} ,#{deptno},NULL,NULL)
 
 	</insert>
 
@@ -500,7 +500,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertanony" parameterType="Board">
 
 		INSERT INTO BOARD
-		VALUES(SEQ_NOTI.NEXTVAL, #{title}, #{content}, SYSDATE, DEFAULT, 4 ,NULL ,NULL ,#{passward},#{nickname})
+		VALUES(SEQ_NOTI.NEXTVAL, #{title}, #{content}, SYSDATE, DEFAULT, 4 ,NULL ,NULL ,#{nickname},#{password})
 
 	</insert>
 		
@@ -533,7 +533,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertanonycoment" parameterType="coment">
 		INSERT INTO COMMENTS
-		VALUES(SEQ_COMEN.NEXTVAL, null, #{ccontent}, #{cwriteno}, SYSDATE, DEFAULT,#{boardno},#{conmentnickname},#{anonypassword})
+		VALUES(SEQ_COMEN.NEXTVAL, null, #{ccontent}, #{cwriteno}, SYSDATE, DEFAULT,#{boardno},#{anonypassword},#{conmentnickname})
 
 
 
@@ -574,6 +574,67 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	</select>
 	
+<select id="alllistboardCount" resultType="_int">
 
+		select count(*)
+		from
+		BOARD
+		where status='Y'
+		AND BOARD_NO = #{boardno}
+
+	</select>
+	<select id="alllistboard" resultMap="boardResultset">
+
+
+		SELECT A.*,
+		B.EMP_NAME
+		FROM
+		BOARD A
+		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+		WHERE A.STATUS='Y'
+		AND
+		BOARD_NO = #{boardno}
+		ORDER BY
+		A.WRITE_NO DESC
+
+	</select>
+	<select id="getboardallnumber" resultMap="boardResultset">
+	select *
+	from BOARD_MANAGEMENT
+	
+	
+	</select>
+	
+	
+		<select id="allboardold" resultMap="boardResultset">
+
+
+		SELECT A.*,
+		B.EMP_NAME
+		FROM
+		BOARD A
+		JOIN USER_INFO B ON A.EMP_NO = B.EMP_NO
+		WHERE A.STATUS='Y'
+		AND
+		BOARD_NO = #{boardno}
+		ORDER BY
+		A.WRITE_NO 
+
+	</select>
+	<delete id="deleteatt" parameterType="Board">
+	DELETE FROM ATTACHMENT
+	WHERE 
+	LARGE_CAT= #{writeno}
+	
+	</delete>
+	
+	 <insert id="savefilesupdate" parameterType="Attachment">
+   INSERT INTO ATTACHMENT
+   VALUES(SEQ_ATTACH.NEXTVAL, 20 ,#{largeCat}, #{originName}, #{changeName}, SYSDATE, DEFAULT)
+   
+   
+   
+   </insert>
+	
 	
 </mapper>

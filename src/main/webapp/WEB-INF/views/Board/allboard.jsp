@@ -152,7 +152,7 @@
 			<div class="ham">
 
 				<a href="notice.do"><button class="noticeButton1" id="bu1">공지사항</button></a>
-				<a href="free.do"><button class="noticeButton1" id="bu2">자유게시판</button></a>
+				<a href="allboard.do"><button class="noticeButton1" id="bu2">자유게시판</button></a>
 				<a href="depart.do"><button class="noticeButton1" id="bu3">부서게시판</button></a>
 				<a href="anonymous.do"><button class="noticeButton1" id="bu4">익명게시판</button></a>
 
@@ -163,8 +163,8 @@
 						<span id="isRecents" class="dropbtn_icon">최신순</span>
 					</button>
 					<div class="dropdown-content" id="drp">
-						<a id="new" href="free.do">최신순</a> 
-						<a id="old"	href="free.do">오래된순</a>
+						<a id="new" href="allboard.do?boardno=${ boardno}"">최신순</a> 
+						<a id="old"	href="allboardold.do?boardno=${ boardno}">오래된순</a>
 					</div>
 				</div>
 			</div>
@@ -208,7 +208,7 @@
 						<c:choose>
 							<c:when test="${ pi.currentPage ne 1 }">
 								<a class="page-link"
-									href="free.do?currentPage=${ pi.currentPage-1 }"><button
+									href="allboard.do?currentPage=${ pi.currentPage-1 }"><button
 										class="noticeButton2"><</button></a>
 							</c:when>
 							<c:otherwise>
@@ -221,7 +221,7 @@
 						<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 							<c:choose>
 								<c:when test="${ pi.currentPage ne p }">
-									<a class="page-link" href="free.do?currentPage=${ p }"
+									<a class="page-link" href="allboard.do?currentPage=${ p }"
 										style="color: white"><button class="noticeButton2">${ p }</button></a>
 								</c:when>
 								<c:otherwise>
@@ -235,12 +235,12 @@
 						<c:choose>
 							<c:when test="${ pi.currentPage ne pi.maxPage }">
 								<a class="page-link"
-									href="free.do?currentPage=${ pi.currentPage+1 }"><button
+									href="allboard.do?currentPage=${ pi.currentPage+1 }"><button
 										class="noticeButton2">></button></a>
 							</c:when>
 							<c:otherwise>
 								<a class="page-link"
-									href="free.do?currentPage=${ pi.currentPage+1 }"><button
+									href="allboard.do?currentPage=${ pi.currentPage+1 }"><button
 										class="noticeButton2">></button></a>
 							</c:otherwise>
 						</c:choose>
@@ -255,7 +255,7 @@
 								<option value="content">내용</option>
 							</select> 
 							<input type="search" name="search" value="${ search }">
-							<input type="hidden" name="cfbo" value=2>
+							<input type="hidden" name="cfbo" value="${ boardno}">
 							<button type="submit">검색하기</button>
 						</form>
 					</div>
@@ -269,7 +269,7 @@
 			})
 		
           
-         if(window.location.pathname === "/spring/noticeold.do"){
+         if(window.location.pathname === "/spring/allboardold.do"){
             document.getElementById("isRecents").innerText="오래된순";
             }else{
             document.getElementById("isRecents").innerText="최신순";

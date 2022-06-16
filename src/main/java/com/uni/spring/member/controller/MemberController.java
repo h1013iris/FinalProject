@@ -161,8 +161,7 @@ public class MemberController {
 	             loginUser.setChangeName(a.getChangeName());
 	          }
 
-	        ArrayList<Board> blist  = BoardService.allboard(); 
-			    model.addAttribute("blist",blist);
+	        
 	        String statuslogin = manageService.selectSatatusLog(loginUser.getEmpNo());
 			    loginUser.setStatuslogin(statuslogin);
 	        model.addAttribute("loginUser",loginUser);

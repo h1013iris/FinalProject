@@ -97,6 +97,12 @@
 	font-size:16px;
 	height: 50px;	
 	}
+	#anonychangedbytton{
+	margin-left:68%;
+	}
+	#anonyboarddetailpassword{
+	margin-left:68%;
+	}
 </style>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
@@ -145,18 +151,26 @@
 		
 		
 		
-			<div id="cocn">
+			<div id="anonychangedbytton">
 				<button class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</button>
 				<button class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</button>
 				
 			</div>
 		
-			<form id="postForm" action="" method="post">				
+			<form id="postForm" action="" method="post">	
+			    <input id="anonyboarddetailpassword" type="password" name="anop" maxlength="4" >			
                 <input type="hidden" name="bno" value="${ b.writeno }">
                 <input type="hidden" name="boardno" value="${ b.boardno }">
+                <input class="realanopass" type="hidden" value="${ b.password }">
 			</form>
 			<script>
+			
 					function postFormSubmit(num){
+						var anop = $("#anonyboarddetailpassword").val();
+					    var realp = ${ b.password }					   
+					    console.log(realp)
+					    console.log(anop)
+					    if(realp == anop){
 						var postForm = $("#postForm");
 						
 						if(num == 1){
@@ -165,8 +179,19 @@
 							postForm.attr("action", "deleteBoard.do");
 						}
 						postForm.submit();
-					}
-					
+					    }else{
+					    	$("#alert_container .title_name").text("비밀번호오류");
+							$("#alert_body .alert_content").text("비밀번호가 틀려요");
+							$("#alertBackground").css("display","block");
+							
+							$(document).on("click", ".cancel_btn", function() {
+					 			
+								$("#alertBackground").css("display","none");
+								
+								
+							})
+					    }
+                        	}
 					
 				</script>
 			<br>
