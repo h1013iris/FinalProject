@@ -481,4 +481,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND REF_PRO = #{refPro}
 		AND  SEMI_STATUS = 'Y'
 	</update>
+	<select id="selectPInfoList" parameterType="string" resultType="Member">
+		SELECT EMP_NO, EMP_NAME, PHONE, EMAIL, A.CHANGE_NAME
+		FROM USER_INFO U
+		LEFT JOIN ATTACHMENT A ON (A.LARGE_CAT = U.EMP_NO)
+		WHERE DEPARTMENT_NO = #{departmentNo}
+	</select>
 </mapper>

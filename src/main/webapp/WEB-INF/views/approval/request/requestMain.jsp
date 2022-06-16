@@ -202,7 +202,7 @@
 							
 	                		$.each(list, function(i, obj) {
 	                			
-	                			var $tr = $('<tr>');
+	                			var $tr = $('<tr>').addClass("yesRequestList");
 	                			var $docNo = $('<td>').text(obj.docNo);
 	                			var $docForm = $('<td>').text(obj.docForm);
 	                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
@@ -237,15 +237,11 @@
 		
 	
 		// 게시글 클릭 시
-		$(".requestList_table tbody").on("click", "tr", (function() {
+		$(".requestList_table tbody").on("click", ".yesRequestList", function() {
 			
 			let docNo = $(this).find("td:eq(0)").text(); // 클릭한 문서의 문서 번호 가져와서 담기
-			let docType = $("#docType").val();
-			console.log(docNo);
-			console.log(docType);
-			
 			location.href = "requestDetail.do?docNo=" + docNo;
-		}));
+		});
 		
 		
 		$(".searchBtn").click(function() {

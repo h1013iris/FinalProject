@@ -88,6 +88,7 @@ public class DateData {
 		// 검색 일(첫 시작은 오늘 년도이다. 이후 화살표표시 클릭시 이동할 검색날짜로바뀜)
 		int searchDate = Integer.parseInt(dateData.getDate());
 		
+		
 		// 검색 월에 -1한 값 넣기
 		searchMonth = searchMonth-1; 
 		

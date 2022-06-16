@@ -15,10 +15,13 @@
 	<jsp:include page="./alert.jsp"/>
 	<jsp:include page="./confirm.jsp"/>
 	<jsp:include page="../depart/simpleProjectCreate.jsp"/>
+	<jsp:include page="../reservation/resAlert.jsp"/>
 	<jsp:include page="../manage/calculateModal.jsp"/>
 	<jsp:include page="../reservation/reservationEorollformModal.jsp"/>
 	<jsp:include page="../mypage/workRequestModal.jsp"/>
 	<jsp:include page="../mypage/empSearchModal.jsp"/>
+	<jsp:include page="../depart/InfoDepN.jsp"/>
+	
 	
 	<header id="main_header">
 	    <div class="logo_header">
@@ -47,7 +50,7 @@
 	                <img class="alarm_img" src="${ pageContext.servletContext.contextPath }/resources/upload_files/${loginUser.changeName}"/>
 	                </c:if>
 	                <c:if test="${loginUser.changeName == null}">
-	                <img class="alarm_img" src="${ pageContext.servletContext.contextPath }/resources/images/관리자 프로필.png"/>
+	                <img class="alarm_img" src="${ pageContext.servletContext.contextPath }/resources/images/관리자 프로필.png" width="40"/>
 	                </c:if>
 	            </div>
 	        </div>
@@ -195,9 +198,9 @@
 	                    </div>
 	                </ul>
 	                <ul>
-	                    <li class="list_title">전자명함</li>
-	                    <div class="hhh">
-	                    	<li><a href="#">전자명함 모음</a></li>
+	                    <li class="list_title" >전자명함</li>
+	                    <div class="hhh clickDepartJUn" >
+	                    	<li><a href="#" >전자명함 모음</a></li>
 	                    </div>
 	                </ul>
 	            </div>
@@ -205,7 +208,7 @@
 	        <li>
 	            <a class="board" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/게시판.png" alt=""></a>
 	            <div class="detail_nav_content">
-	                <div class="nananan"><p class="detail_title">게시판</p></div>
+	                <div class="nananan boards"><p class="detail_title">게시판</p></div>
 	                <a href="enroll.do"><button type="button" class="commonButton2 etcButton" ><span>글 작성</span></button></a>
                 <ul> 
                     <li class="list_title"><a href="notice.do">공지사항 게시판</a></li> 
@@ -216,9 +219,12 @@
                 <ul>
                     <li class="list_title"><a href="anonymous.do">익명 게시판</a></li>
                 </ul>
-                <ul>
+                <ul class ="deptboard">
                     <li class="list_title"><a href="depart.do">부서 게시판</a></li>
                 </ul>
+                
+                       
+               
                 <ul>
                                      
                     <li class="list_title"><a href="pbox.do?userno=${loginUser.empNo}">임시 보관함</a></li>
@@ -238,6 +244,9 @@
 	                    <div class="hhh">
 	                    	<li><a href="addressMain.do">부서별 주소록</a></li>
 	                    </div>
+	                </ul>
+	                 <ul>
+	                    <li class="list_title"><a href="favoAdd.do">즐겨찾기</a></li>
 	                </ul>
 	                <ul>
 	                    <li class="list_title">개인 주소록</li>
@@ -322,7 +331,40 @@
 	        </li>
 	    </ul>
 	</aside>
+	
 	<script type="text/javascript">
+	$(document).ready(function(){
+		
+		console.log("탐탐탐")
+		
+		$.ajax({
+			url:"allboardlist.do",
+			type:"get",
+			success:function(list){
+				console.log(list)
+					var value = "";
+					$.each(list,function(i, c) {
+						value += "<ul>"
+							  +  "<li class='list_title'>"
+						      +  "<a href='allboard.do?boardno="+c.boardno+"'>"
+						      +  c.boardname
+						      +  "</a>"
+						      +  "</li>"
+						      +  "</ul>"
+						      
+						     
+					});
+					$(".deptboard").append(value);
+				
+				
+			},
+			error : function() {
+				console.log("안됨");
+	
+			}
+		});
+	});
+		
 	
 	$(function(){
 		$(document).on('click','reservationRoom-smallList',function(){
@@ -335,7 +377,7 @@
 			success:function(list){
 				if(list.length != 0){
 
-					let reservationRoomBiglist = $(".reservationRoom-biglist")
+					let reservationRoomBiglist = $(".")
 					let bul = $("<ul>").addClass("reservation-Bigul")
 					reservationRoomBiglist.append(bul);
 					
@@ -431,6 +473,7 @@
 
 
 
+
 	// 즐겨찾기 스크립트
 
 	$(function(){
@@ -447,6 +490,33 @@
 		})
 	})
 	
+
+	$(".clickDepartJUn").click(function(){
+		var departmentNo = ${loginUser.departmentNo};
+		console.log(departmentNo)
+		$.ajax({
+			url:"selectListMemberList.do",
+			type:"get",
+			data:{departmentNo:departmentNo},
+			success:function(list){
+				if(list.lenght == 0){
+					$(".modalInfoList").html('');
+				}else if(list.length != 0){
+					var value ="";
+				$.each(list, function(i, obj){
+   				
+				value += '<div class="sectionChangeDi modalSectionCH"  onclick ="showModalInfoIMG(`'+obj.empName+'`,`'+obj.phone+'`,`'+obj.email+'`)" >';
+				value += '<img src="${pageContext.servletContext.contextPath}/resources/upload_files/'+obj.changeName+'" width="20px">';
+				value += '<div>'+obj.empName+'</div></div>';
+				
+				})
+				$(".modalInfoList").html(value);
+				$(".showListDeptP").css("display","flex");
+				}
+			}
+		})
+	})
+
 	</script>
 	<!-- 이메일 API -->
 	<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>

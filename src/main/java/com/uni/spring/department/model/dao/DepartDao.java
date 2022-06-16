@@ -318,6 +318,16 @@ public class DepartDao {
 		return (ArrayList)sqlSession.selectList("departMapper.selectBoardDepartListMain", departmentNo);
 	}
 
+	public ArrayList<Member> selectPInfoList(SqlSessionTemplate sqlSession, String departmentNo) {
+		
+		return (ArrayList)sqlSession.selectList("departMapper.selectPInfoList", departmentNo);
+	}
+
+	public ArrayList<Attachment> selectAInfoList(SqlSessionTemplate sqlSession, String departmentNo) {
+		
+		return (ArrayList)sqlSession.selectList("departMapper.selectAInfoList",departmentNo);
+	}
+
 	
 
 }

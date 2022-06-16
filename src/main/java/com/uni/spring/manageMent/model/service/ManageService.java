@@ -3,6 +3,7 @@ package com.uni.spring.manageMent.model.service;
 import java.util.ArrayList;
 
 import com.uni.spring.admin.model.dto.Department;
+import com.uni.spring.approval.model.dto.CmtUpdateForm;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.department.model.dto.AttendLog;
 import com.uni.spring.department.model.dto.Project;
@@ -33,4 +34,10 @@ public interface ManageService {
 	String selectFirstday();
 
 	ArrayList<AttendLog> selectAttendAvg(calendarWeek cd);
+
+	ArrayList<AttendLog> selectListAttendLogAVG(calendarWeek cw);
+
+	ArrayList<AttendLog> selectListAttendDetail(calendarWeek cw);
+
+	ArrayList<CmtUpdateForm> selectListEdittW(calendarWeek cw2);
 }

@@ -48,7 +48,8 @@
   		<typeAlias type="com.uni.spring.addressBook.model.dto.Dept" alias="Dept"/>
   		<typeAlias type="com.uni.spring.department.model.dto.ProjectClass" alias="ProjectClass"/>
   		<typeAlias type="com.uni.spring.addressBook.model.dto.Company" alias="Company"/>
-  		<typeAlias type="com.uni.spring.addressBook.model.dto.Customer" alias="Customer"/>		
+  		<typeAlias type="com.uni.spring.addressBook.model.dto.Customer" alias="Customer"/>	
+  		<typeAlias type="com.uni.spring.addressBook.model.dto.Favorite" alias="Favorite"/>		
   		<!-- 관리자 -->
   		<!-- 사원정보 -->
   		<typeAlias type="com.uni.spring.admin.model.dto.employee" alias="emp"/>

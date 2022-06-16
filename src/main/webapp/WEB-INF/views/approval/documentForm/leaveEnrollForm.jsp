@@ -154,7 +154,7 @@
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; height: 25px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle;">
 								<div contenteditable="false">
 									<select id="vacType" name="vacType" style="width:40%">
-										<option value="none">선택</option>
+										<option value="">선택</option>
 										<option value="연차">연차</option>
 										<option value="오전반차">오전반차</option>
 										<option value="오후반차">오후반차</option>
@@ -249,14 +249,14 @@
  	                url: "selectDeptApprover.do",
  	                data: { deptNo : "${ loginUser.departmentNo }",
  	                		jobNo : "${ loginUser.jobNo }"},
- 	                success: function (list) {
-						console.log(list);
+ 	                success: function (data) {
+						console.log(data);
  	                	
-						if(list != null || list != "") {
+						if(data != null || data != "") {
  	                		
- 	                		$("#firstAprvName").val(list[0].empName);
- 	                		$("#firstAprv").val(list[0].empNo);
- 	                		$("#firstAprvJob").val(list[0].jobName);
+ 	                		$("#firstAprvName").val(data[0].empName);
+ 	                		$("#firstAprv").val(data[0].empNo);
+ 	                		$("#firstAprvJob").val(data[0].jobName);
  	                		
  	                		if(data.length > 1) {
  	                			$("#secondAprvName").val(data[1].empName);

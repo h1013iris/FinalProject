@@ -67,7 +67,7 @@ public class AttendLog {
 		AttendLog al = new AttendLog();
 		if(a == null) {
 			al.setTot("0");al.setTot2("0");al.setTot3("0");al.setTot4("0");al.setTot5("0");al.setEmp(a.getEmp()); al.setEmpNo(a.getEmpNo());
-			al.setCal(a.getCal());al.setStatus(a.getStatus());
+			al.setCal(a.getCal());al.setStatus(a.getStatus());al.setEmpName(a.getEmpName());
 		}else {
 			String tot = String.valueOf( Math.round(Double.parseDouble(a.getTot())/60)) +"H " +String.valueOf(Integer.parseInt(a.getTot())%60) +"m";
 			String tot2 = String.valueOf(Math.round(Double.parseDouble(a.getTot2())/60)) +"H " +String.valueOf(Integer.parseInt(a.getTot2())%60) +"m";
@@ -75,7 +75,24 @@ public class AttendLog {
 			String tot4 = String.valueOf(Math.round(Double.parseDouble(a.getTot4())/60)) +"H " +String.valueOf(Integer.parseInt(a.getTot4())%60) +"m";
 			String tot5 = String.valueOf(Math.round(Double.parseDouble(a.getTot5())/60)) +"H " +String.valueOf(Integer.parseInt(a.getTot5())%60) +"m";
 			al.setTot(tot);al.setTot2(tot2);al.setTot3(tot3);al.setTot4(tot4);al.setTot5(tot5);al.setEmp(a.getEmp()); al.setEmpNo(a.getEmpNo());
-			al.setCal(a.getCal());al.setStatus(a.getStatus());
+			al.setCal(a.getCal());al.setStatus(a.getStatus());al.setEmpName(a.getEmpName());
+		}
+		
+		return al;
+	}
+	
+	public AttendLog attendAVGLISTAV(AttendLog a) {
+		
+		
+		AttendLog al = new AttendLog();
+		if(a == null) {
+			al.setTot("0"); al.setEmpNo(a.getEmpNo());
+			al.setEmpName(a.getEmpName());
+		}else {
+			String tot = String.valueOf( Math.round(Double.parseDouble(a.getTot())/60)) +"H " +String.valueOf(Integer.parseInt(a.getTot())%60) +"m";
+			
+			al.setTot(tot); al.setEmpNo(a.getEmpNo());
+			al.setEmpName(a.getEmpName());
 		}
 		
 		return al;

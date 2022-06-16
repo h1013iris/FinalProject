@@ -1,11 +1,11 @@
 package com.uni.spring.member.controller;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -22,7 +22,13 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.uni.spring.addressBook.model.dto.Dept;
+import com.uni.spring.calender.model.dto.Calender;
+import com.uni.spring.calender.model.service.CalenderService;
+import com.uni.spring.calender.model.service.CalenderServiceImpl;
+import com.uni.spring.board.model.dto.Board;
+import com.uni.spring.board.model.service.BoardService;
 import com.uni.spring.common.Attachment;
+import com.uni.spring.common.DepartmentManagement;
 import com.uni.spring.manageMent.model.service.ManageService;
 import com.uni.spring.member.model.dto.Member;
 import com.uni.spring.member.model.dto.WideMember;
@@ -45,6 +51,11 @@ public class MemberController {
 	
 	@Autowired
 	public ManageService manageService;
+	
+	@Autowired
+	public CalenderService calenderService;
+  @Autowired
+	public BoardService BoardService;
 
 	//로그인 페이지로 이동
 	@GetMapping("login.do")
@@ -155,9 +166,21 @@ public class MemberController {
 	         if(a != null) {
 	             loginUser.setChangeName(a.getChangeName());
 	          }
+
+	        
 	        String statuslogin = manageService.selectSatatusLog(loginUser.getEmpNo());
+	        /*김태연 캘린더!!!!!!!!*/
+	        System.out.println("로그인 유저 부서넘버 ====> "+loginUser.getDepartmentNo());
+	        DepartmentManagement department = new DepartmentManagement();
+	        if(loginUser.getDepartmentNo() != null) {// 부서 번호가 존재할 시
+	        	String departmentNo = loginUser.getDepartmentNo();
+				department = calenderService.selectDepartment(departmentNo);
+				loginUser.setDepartmentName(department.getDepartmentTitle().replaceAll(" ", "&nbsp")); // 부서명가져올 때 replace
+			  }
 			loginUser.setStatuslogin(statuslogin);
+			    loginUser.setStatuslogin(statuslogin);
 	        model.addAttribute("loginUser",loginUser);
+
 		
 			return "redirect:approvalMain.do";
 		} catch (Exception e) {

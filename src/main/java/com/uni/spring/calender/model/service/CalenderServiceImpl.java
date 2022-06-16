@@ -62,7 +62,7 @@ public class CalenderServiceImpl implements CalenderService {
 	@Override
 	public DepartmentManagement selectDepartment(String departmentNo) {
 		DepartmentManagement department = new DepartmentManagement();
-		
+		System.out.println(departmentNo);
 		department = calenderDao.selectDepartment(departmentNo, sqlSession);
 		return department;
 	}

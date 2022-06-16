@@ -193,7 +193,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM(
         SELECT A.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
         FROM ATTEND_LOG A
-        WHERE (ATTEND_DATE BETWEEN '22/06/01' AND '22/06/03')
+        WHERE (ATTEND_DATE BETWEEN #{monWeek} AND #{weeko})
         AND A.STATUS = 'Y'
         ORDER BY A.EMP_NO)Q
         WHERE Q.EMP_NO = S.EMP_NO
@@ -203,7 +203,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM(
         SELECT U.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
         FROM ATTEND_LOG U
-        WHERE (ATTEND_DATE BETWEEN '22/06/06' AND '22/06/10')
+        WHERE (ATTEND_DATE BETWEEN #{tueWeek} AND #{weekt})
         AND U.STATUS = 'Y'
         ORDER BY U.EMP_NO)T
          WHERE T.EMP_NO = S.EMP_NO
@@ -213,7 +213,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM(
         SELECT U.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
         FROM ATTEND_LOG U
-        WHERE (ATTEND_DATE BETWEEN '22/06/13' AND '22/06/17')
+        WHERE (ATTEND_DATE BETWEEN #{wenWeek} AND #{weekh})
         AND U.STATUS = 'Y'
         ORDER BY U.EMP_NO)T
          WHERE T.EMP_NO = S.EMP_NO
@@ -223,7 +223,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM(
         SELECT U.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
         FROM ATTEND_LOG U
-        WHERE (ATTEND_DATE BETWEEN '22/06/20' AND '22/06/24')
+        WHERE (ATTEND_DATE BETWEEN #{thiWeek} AND #{weeku})
         AND U.STATUS = 'Y'
         ORDER BY U.EMP_NO)T
          WHERE T.EMP_NO = S.EMP_NO
@@ -233,7 +233,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM(
         SELECT U.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
         FROM ATTEND_LOG U
-        WHERE (ATTEND_DATE BETWEEN '22/06/27' AND '22/06/30')
+        WHERE (ATTEND_DATE BETWEEN #{friWeek} AND #{weekf})
         AND U.STATUS = 'Y'
         ORDER BY U.EMP_NO)T
          WHERE T.EMP_NO = S.EMP_NO
@@ -243,6 +243,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN USER_INFO K ON (K.EMP_NO = S.EMP_NO)
 		JOIN JOB_RANK_MANAGEMENT JR ON (K.JOB_NO=JR.JOB_NO)
 		JOIN DEPARTMENT_MANAGEMENT D ON (K.DEPARTMENT_NO = D.DEPARTMENT_NO)
+		<if test= "empNo != 0">
+			WHERE K.EMP_NO = #{empNo}
+		</if>
 		ORDER BY k.EMP_NO
 	</select> 
+	<select id="selectListAttendLogAVG" parameterType="calendarWeek" resultType="AttendLog">
+		SELECT K.EMP_NO, K.EMP_NAME, S.TOT
+		FROM(SELECT SUM(CAL) AS TOT, Q.EMP_NO
+		FROM(
+		SELECT A.* , ROUND((LEAVE_TIME - ATTEND_TIME)*24*60) AS CAL
+		FROM ATTEND_LOG A
+		WHERE (ATTEND_DATE BETWEEN #{weeko} AND #{weekf})
+		AND A.STATUS = 'Y'
+		ORDER BY A.EMP_NO)Q
+		GROUP BY Q.EMP_NO)S
+		JOIN USER_INFO K ON (K.EMP_NO = S.EMP_NO)
+		<if test= "empNo != 0">
+			WHERE K.EMP_NO = #{empNo}    
+		</if>
+		ORDER BY S.EMP_NO
+	</select>
+	<select id="selectListAttendDetail" parameterType="calendarWeek" resultType="AttendLog">
+		SELECT A.ATTEND_NO,A.EMP_NO, TO_CHAR(A.ATTEND_DATE,'DD') AS EMP, TO_CHAR(A.ATTEND_DATE, 'DY') AS STATUS ,TO_CHAR( A.ATTEND_TIME,'HH24:MI') AS ATTEND_TIME2, TO_CHAR(A.LEAVE_TIME,'HH24:MI') AS LEAVE_TIME2,
+		       NVL(TRUNC(ROUND(TO_CHAR(LEAVE_TIME-ATTEND_TIME)*24*60)/60)-1,0) ||'H ' ||NVL(ROUND(MOD((TO_CHAR(LEAVE_TIME-ATTEND_TIME)*24*60),60)),0)||'M' AS cal,
+		       CASE WHEN TO_DATE(ATTEND_DATE,'YY/MM/DD') BETWEEN #{monWeek} AND #{weeko} THEN 1 
+		            WHEN TO_DATE(ATTEND_DATE,'YY/MM/DD') BETWEEN #{tueWeek} AND #{weekt} THEN 2 
+		            WHEN TO_DATE(ATTEND_DATE,'YY/MM/DD') BETWEEN #{wenWeek} AND #{weekh} THEN 3 
+		            WHEN TO_DATE(ATTEND_DATE,'YY/MM/DD') BETWEEN #{thiWeek} AND #{weeku} THEN 4 
+		            WHEN TO_DATE(ATTEND_DATE,'YY/MM/DD') BETWEEN #{friWeek} AND #{weekf} THEN 5 
+		       END AS MON
+		FROM ATTEND_LOG A
+		JOIN USER_INFO K ON (K.EMP_NO = A.EMP_NO)
+		WHERE A.STATUS = 'Y'
+		AND A.EMP_NO = #{empNo}
+	</select>
+	<select id="selectListEdittW" parameterType="calendarWeek" resultType="CmtUpdateForm">
+		SELECT CU.DOC_NO, UI.EMP_NAME AS DRAFTER_NAME, CU.DRAFTER, CU.DFT_DATE, TO_CHAR(CU.UPDATE_DATE,'YY/MM/DD') AS UPDATE_DATE, TO_CHAR(CU.BE_ATTEND_TIME,'HH24:MI') AS BE_ATTEND_TIME
+        ,  TO_CHAR(CU.BE_LEAVE_TIME,'HH24:MI') AS BE_LEAVE_TIME ,  TO_CHAR(CU.ATTEND_TIME,'HH24:MI') AS ATTEND_TIME,  TO_CHAR(CU.LEAVE_TIME,'HH24:MI') AS LEAVE_TIME
+		FROM APRV_DOCUMENT AD
+		JOIN CMT_UPDATE_APP CU ON (CU.DOC_NO =AD.DOC_NO) 
+		JOIN USER_INFO UI ON (AD.DRAFTER = UI.EMP_NO)
+		WHERE APRV_STATUS = 2
+		AND AD.STATUS = 'Y'
+		AND TO_DATE(AD.DFT_DATE,'YY/MM/DD') BETWEEN #{weeko} AND #{weekf}
+		AND CU.EDIT_STATUS = 'N'
+	</select>
 </mapper>

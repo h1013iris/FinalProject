@@ -54,6 +54,26 @@ public class ReservationController {
 		// 전체예약 조회
 		ArrayList<Reservation> list = reservationService.selectList(m, todayInfo);
 		
+		Map<Integer, String> timeInfo = new HashMap<Integer, String>();
+				
+		// 시분 만들기 30분 간격이기 때문에 48만큼 하드코딩
+		timeInfo.put(1, "00:00");timeInfo.put(2, "00:30");timeInfo.put(3, "01:00");
+		timeInfo.put(4, "01:30");timeInfo.put(5, "02:00");timeInfo.put(6, "02:30");
+		timeInfo.put(7, "03:00");timeInfo.put(8, "03:30");timeInfo.put(9, "04:00");
+		timeInfo.put(10, "04:30");timeInfo.put(11, "05:00");timeInfo.put(12, "05:30");
+		timeInfo.put(13, "06:00");timeInfo.put(14, "06:30");timeInfo.put(15, "07:00");
+		timeInfo.put(16, "07:30");timeInfo.put(17, "08:00");timeInfo.put(18, "08:30");
+		timeInfo.put(19, "09:00");timeInfo.put(20, "09:30");timeInfo.put(21, "10:00");
+		timeInfo.put(22, "10:30");timeInfo.put(23, "11:00");timeInfo.put(24, "11:30");
+		timeInfo.put(25, "12:00");timeInfo.put(26, "12:30");timeInfo.put(27, "13:00");
+		timeInfo.put(28, "13:30");timeInfo.put(29, "14:00");timeInfo.put(30, "14:30");
+		timeInfo.put(31, "15:00");timeInfo.put(32, "15:30");timeInfo.put(33, "16:00");
+		timeInfo.put(34, "16:30");timeInfo.put(35, "17:00");timeInfo.put(36, "17:30");
+		timeInfo.put(37, "18:00");timeInfo.put(38, "18:30");timeInfo.put(39, "19:00");
+		timeInfo.put(40, "19:30");timeInfo.put(41, "20:00");timeInfo.put(42, "20:30");
+		timeInfo.put(43, "21:00");timeInfo.put(44, "21:30");timeInfo.put(45, "22:00");
+		timeInfo.put(46, "22:30");timeInfo.put(47, "23:00");timeInfo.put(48, "23:30");
+		
 		m = new Member();
 		m.setUserId(loginUser.getUserId());
 		m.setUserPw(loginUser.getUserPw());
@@ -71,11 +91,14 @@ public class ReservationController {
 		
 		// 일정 리스트를 담음 (내 예약 현황 - 날짜 가리지 않음)
 		ArrayList<Reservation> myList = reservationService.selectList(m, todayInfo);
-		
+		ArrayList<ReservationRoom> roomList = reservationService.selectRoomAllList();
+		System.out.println(timeInfo);
 		//배열에 담음
 		model.addAttribute("todayInfo", todayInfo);
+		model.addAttribute("timeInfo", timeInfo);
 		model.addAttribute("myList", myList);
 		model.addAttribute("list", list);
+		model.addAttribute("roomList", roomList);
 		
 		return "reservation/reservationMain";
 	}

@@ -108,5 +108,9 @@ public interface DepartService {
 
 	ArrayList<Board> selectBoardDepartListMain(int departmentNo);
 
+	ArrayList<Member> selectPInfoList(String departmentNo);
+
+	ArrayList<Attachment> selectAInfoList(String departmentNo);
+
 
 }

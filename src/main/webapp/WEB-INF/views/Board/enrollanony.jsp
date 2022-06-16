@@ -150,7 +150,7 @@
 						<div id="description" class="contentPart mainStyleCh">
 							<span class="contentEn">내용</span>
 						</div>
-						<textarea name="content" id="content" required>${ b.content }</textarea>
+						<jsp:include page="note.jsp"/>
 					</div>
 				    <div class="anonypasswordSection">
 				    <div class="mainStyleCh">
@@ -276,7 +276,7 @@
 		location.href="pbox.do?userno="+user
 	}
 	
-CKEDITOR.replace('content');
+
 
 function savebtn(){
 

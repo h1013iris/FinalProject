@@ -782,9 +782,11 @@ public class AprvController {
 	// 임시 저장 문서 삭제
 	@ResponseBody
 	@RequestMapping(value="deleteOutboxDoc.do", produces="application/json; charset=utf-8")
-	public String deleteOutboxDoc(int outboxNo, int docType) {
+	public String deleteOutboxDoc(int outboxNo, int docType, 
+								@RequestParam(required = false) Integer docNo) {
 		
-		aprvService.deleteOutboxDoc(outboxNo, docType);
+		System.out.println("Controller docNo ==========> " + docNo);
+		aprvService.deleteOutboxDoc(outboxNo, docType, docNo);
 		
 		return new Gson().toJson("success");
 	}
@@ -796,13 +798,13 @@ public class AprvController {
 	@RequestMapping("docUpdateForm.do")
 	public ModelAndView docUpdateForm(Integer docType, int outboxNo, ModelAndView mv) {
 		
-		System.out.println("outboxNo ========" + outboxNo);
-		System.out.println("docForm ========" + docType);
+		//System.out.println("outboxNo ========" + outboxNo);
+		//System.out.println("docForm ========" + docType);
 		
 		// 폼 유형, 임시 저장 문서 번호 넘기기 - 메소드 체이닝으로
 		mv.addObject("docForm", docType)
 		.addObject("outboxNo", outboxNo)
-		.setViewName("approval/docUpdateForm");
+		.setViewName("approval/outbox/docUpdateForm");
 		
 		return mv;
 	}
@@ -945,22 +947,56 @@ public class AprvController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	// 휴가 신청서 업데이트
-	/*@ResponseBody
-	@RequestMapping(value="updateLeaveFormOutbox.do", produces="application/json; charset=utf-8")
-	public String updateLeaveFormOutbox(DocOutbox docOutbox, LeaveForm leaveForm) {
+	// 결재 취소 위해 해당 문서 가장 최근 기록 조회
+	@ResponseBody
+	@RequestMapping(value="lastAprvHistory.do", produces="application/json; charset=utf-8")
+	public String aprvLastHistory(int docNo) {
 
-		aprvService.updateLeaveFormOutbox(docOutbox, leaveForm);
+		AprvDoc lastHistory = aprvService.lastAprvHistory(docNo);
+		
+		return new Gson().toJson(lastHistory);
+	}
+	
+	
+	
+	// 결재 취소
+	@ResponseBody
+	@RequestMapping(value="aprvCancle.do", produces="application/json; charset=utf-8")
+	public String aprvCancle(int docNo, int docType, DocOutbox docOutbox) {
+		
+		System.out.println("Controller =========> docType " + docType);
+		System.out.println(docOutbox.toString());
+		
+		//int docType = docOutbox.getDocType();
+		
+		aprvService.aprvCancle(docNo, docType, docOutbox);
 		
 		return new Gson().toJson("success");
-	}*/
+	}
+	
+	
+	// 결재 취소 문서 결재 재요청
+	@ResponseBody
+	@RequestMapping(value="aprvReRequest.do", produces="application/json; charset=utf-8")
+	public String aprvReRequest(int docType, int outboxNo, LeaveForm leaveForm,
+								CmtUpdateForm cmtUpdateForm, BusDraftForm busDraftForm,
+								BusCoopForm busCoopForm, AprvHistory aprvHistory, AprvDoc aprvDoc) {
+		
+		System.out.println(aprvHistory.toString());
+		System.out.println(aprvDoc.toString());
+		
+		aprvService.aprvReRequest(docType, outboxNo, leaveForm, cmtUpdateForm,
+								busDraftForm, busCoopForm, aprvHistory, aprvDoc);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -968,3 +1004,4 @@ public class AprvController {
 	
 	
 }
+

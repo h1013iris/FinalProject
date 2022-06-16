@@ -129,10 +129,10 @@
 	<div class="main_section">
         <div class="mainDiv">
         	<div class="statusfilter_area">
-        		<select class="statusfilter_select">
-        			<option value="all">전체</option>
+        		<div class="statusfilter_select">
+        			<div>전체</div>
         			<%-- 문서 상태값 출력 --%>
-        		</select>
+        		</div>
         	</div>
 			<div class="statusList_area">
 				<table class="statusList_table">
@@ -238,7 +238,7 @@
 						
                 		$.each(list, function(i, obj) {
                 			
-                			var $tr = $('<tr>');
+                			var $tr = $('<tr>').addClass("yesStatusList");
                 			var $docNo = $('<td>').text(obj.docNo);
                 			var $docForm = $('<td>').text(obj.docForm);
                 			var $docType = $('<input type="hidden" id="docType" name="docType" value=' 
@@ -321,7 +321,7 @@
 		$(document).on("change", ".statusfilter_select", function() {
 			
 			// 전체 선택하는 경우
-			if($(this).val() == "all") {
+			if($(this).text() == "전체") {
 				statusListFn(); // 전체 리스트 조회하는 함수 실행
 			
 			} else {
@@ -414,15 +414,11 @@
 		
 	
 		// 게시글 클릭 시
-		$(".statusList_table tbody").on("click", "tr", (function() {
+		$(".statusList_table tbody").on("click", ".yesStatusList", function() {
 			
 			let docNo = $(this).find("td:eq(0)").text(); // 클릭한 문서의 문서 번호 가져와서 담기
-			let docType = $("#docType").val();
-			console.log(docNo);
-			console.log(docType);
-			
 			location.href = "statusnDetail.do?docNo=" + docNo;
-		}));
+		});
 		
 		
 		$(".searchBtn").click(function() {
