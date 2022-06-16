@@ -105,4 +105,10 @@ public class ReservationServiceImpl implements ReservationService {
 		return list;
 	}
 
+	@Override
+	public ArrayList<ReservationRoom> selectRoomAllList() {
+		ArrayList<ReservationRoom> roomList = reservationDao.selectRoomAllList(sqlSession);
+		return roomList;
+	}
+
 }

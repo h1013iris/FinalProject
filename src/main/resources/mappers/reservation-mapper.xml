@@ -5,6 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="reservationMapper">
 	<resultMap type="ReservationRoom" id="ReservationRoomResultSet">
 		<id property="roomLargeNo" column="ROOM_LARGE_NO"/>
+		<result property="roomLargeNo" column="ROOM_LARGE_NO"/>
 		<result property="roomSmallNo" column="ROOM_SMALL_NO"/>
 		<result property="lRoomName" column="LROOM_NAME"/>
 		<result property="sRoomName" column="SROOM_NAME"/>
@@ -15,6 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="reserveNo" column="RESERVE_NUM"/>
 		<result property="empNo" column="EMP_NO"/>
 		<result property="roomSmallNo" column="ROOM_SMALL_NO"/>
+		<result property="sRoomName" column="SROOM_NAME"/>
 		<result property="startDate" column="START_DATE"/>
 		<result property="endDate" column="END_DATE"/>
 		<result property="meetingName" column="MEETING_NAME"/>
@@ -51,7 +53,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 		B.SROOM_NAME,
 	 		A.START_DATE,
 	 		A.END_DATE,
-	 		A.MEETING_NAME
+	 		A.MEETING_NAME,
+	 		A.STATUS
 		FROM RESERVE_LIST A
 		JOIN MEETINGROOM_MANAGEMENT B ON (A.ROOM_SMALL_NO = B.ROOM_SMALL_NO)
 		JOIN MEETINGROOM_CATEGORY_LARGE C ON (B.ROOM_LARGE_NO = C.ROOM_LARGE_NO)
@@ -61,9 +64,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				AND EMP_NO = #{empNo}
 			</if>
 			<if test="searchYear != null">
-				AND EXTRACT(YEAR FROM A.START_DATE) = #{searchYear}
-				AND EXTRACT(MONTH FROM A.START_DATE) = #{searchMonth}
-				AND EXTRACT(DAY FROM A.START_DATE) = #{searchDate}
+				AND (
+					EXTRACT(YEAR FROM A.START_DATE) = #{searchYear}
+					AND EXTRACT(MONTH FROM A.START_DATE) = #{searchMonth}
+					AND EXTRACT(DAY FROM A.START_DATE) = #{searchDate}
+					OR EXTRACT(YEAR FROM A.END_DATE) = #{searchYear}
+					AND EXTRACT(MONTH FROM A.END_DATE) = #{searchMonth}
+					AND EXTRACT(DAY FROM A.END_DATE) = #{searchDate}
+					)
 			</if>
 		</where>
 	</select>
@@ -126,5 +134,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND EXTRACT(DAY FROM A.START_DATE) = #{searchDate}
 			AND A.ROOM_SMALL_NO = #{sRoom}
 		</where>
+	</select>
+	<select id="selectRoomAllList" resultMap="ReservationRoomResultSet">
+		SELECT 
+			A.ROOM_LARGE_NO,
+			A.ROOM_SMALL_NO,
+			B.LROOM_NAME,
+			A.SROOM_NAME,
+			A.MAX_COUNT,
+			A.STATUS
+		FROM MEETINGROOM_MANAGEMENT A 
+		JOIN MEETINGROOM_CATEGORY_LARGE B ON (A.ROOM_LARGE_NO = B.ROOM_LARGE_NO)
+		WHERE A.STATUS = 'Y'
 	</select>
 </mapper>

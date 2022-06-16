@@ -31,4 +31,6 @@ public interface ReservationService {
 
 	ArrayList<Reservation> selectRoomReservation(String startDate, String sRoom);
 
+	ArrayList<ReservationRoom> selectRoomAllList();
+
 }

@@ -62,4 +62,9 @@ public class ReservationDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("reservationMapper.selectRoomReservation", map);
 	}
+
+	public ArrayList<ReservationRoom> selectRoomAllList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("reservationMapper.selectRoomAllList");
+	}
 }

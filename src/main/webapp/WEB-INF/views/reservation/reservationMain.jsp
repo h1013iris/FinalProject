@@ -144,6 +144,12 @@
 	.res-today p{
 		margin-left: 3px;
 	}
+	button.commonButton1.reservation_Cancel_btn {
+	    width: 53%;
+	    height: 80%;
+	    padding-bottom: 3px;
+	    margin-top: 3px;
+	}
 </style>
 </head>
 <body>
@@ -266,42 +272,41 @@
         			<thead>
         				<tr>
         					<th class="reservation-title">회의실 / 시간</th>
-        					<th>1시</th>
-        					<th>2시</th>
-        					<th>3시</th>
-        					<th>4시</th>
-        					<th>5시</th>
-        					<th>6시</th>
-        					<th>7시</th>
-        					<th>8시</th>
-        					<th>9시</th>
-        					<th>10시</th>
-        					<th>11시</th>
-        					<th>12시</th>
-        					<th>13시</th>
-        					<th>14시</th>
-        					<th>15시</th>
-        					<th>16시</th>
-        					<th>17시</th>
-        					<th>18시</th>
-        					<th>19시</th>
-        					<th>20시</th>
-        					<th>21시</th>
-        					<th>22시</th>
-        					<th>23시</th>
-        					<th>24시</th>
+        					<th colspan="2">1시</th>
+        					<th colspan="2">2시</th>
+        					<th colspan="2">3시</th>
+        					<th colspan="2">4시</th>
+        					<th colspan="2">5시</th>
+        					<th colspan="2">6시</th>
+        					<th colspan="2">7시</th>
+        					<th colspan="2">8시</th>
+        					<th colspan="2">9시</th>
+        					<th colspan="2">10시</th>
+        					<th colspan="2">11시</th>
+        					<th colspan="2">12시</th>
+        					<th colspan="2">13시</th>
+        					<th colspan="2">14시</th>
+        					<th colspan="2">15시</th>
+        					<th colspan="2">16시</th>
+        					<th colspan="2">17시</th>
+        					<th colspan="2">18시</th>
+        					<th colspan="2">19시</th>
+        					<th colspan="2">20시</th>
+        					<th colspan="2">21시</th>
+        					<th colspan="2">22시</th>
+        					<th colspan="2">23시</th>
+        					<th colspan="2">24시</th>
         				</tr>
         			</thead>
         			<tbody>
-        				<tr class="reservationRoom-line">
-        					<td>제 1 회의실</td>
-        				</tr>
-        				<tr class="reservationRoom-line">
-        					<td>제 2 회의실</td>
-        				</tr>
-        				<tr class="reservationRoom-line">
-        					<td>제 3 회의실</td>
-        				</tr>
+        				<c:forEach items="${roomList}" var="room" varStatus="st">
+	        				<tr class="reservationRoom-line">
+	        					<td class="name${st.index}">${room.SRoomName}</td>
+       							<c:forEach items="${timeInfo}" var="time" varStatus="status1">
+     								<td class="time${time.key}"></td>
+	        					</c:forEach>
+	        				</tr>
+        				</c:forEach>
         			</tbody>
         		</table>
         	</div>
@@ -319,56 +324,133 @@
         		</thead>
         	</table>
         	<ul>
-	        	<li class="today-line">
-	   				<div class="res-todayList res-thisLine1">예시회의실</div>
-	    			<div class="res-todayList res-thisLine2">예시회의명</div>
-	     			<div class="res-todayList res-thisLine3">예시예약시간</div>
-	     			<div class="res-todayList res-thisLine4">예시예약취소</div>
-	     		</li>
-	     		<li class="today-line">
-	     			<div class="res-todayList res-thisLine1">예시회의실</div>
-	     			<div class="res-todayList res-thisLine2">예시회의명</div>
-	     			<div class="res-todayList res-thisLine3">예시예약시간</div>
-	     			<div class="res-todayList res-thisLine4">예시예약취소</div>
-	     		</li>
-	     		<li class="today-line">
-	     			<div class="res-todayList res-thisLine1">예시회의실</div>
-	     			<div class="res-todayList res-thisLine2">예시회의명</div>
-	     			<div class="res-todayList res-thisLine3">예시예약시간</div>
-	     			<div class="res-todayList res-thisLine4">예시예약취소</div>
-	     		</li>
-	     		<li class="today-line">
-	     			<div class="res-todayList res-thisLine1">예시회의실</div>
-	     			<div class="res-todayList res-thisLine2">예시회의명</div>
-	     			<div class="res-todayList res-thisLine3">예시예약시간</div>
-	     			<div class="res-todayList res-thisLine4">예시예약취소</div>
-	     		</li>
-	     		<li class="today-line">
-	     			<div class="res-todayList res-thisLine1">예시회의실</div>
-	     			<div class="res-todayList res-thisLine2">예시회의명</div>
-	     			<div class="res-todayList res-thisLine3">예시예약시간</div>
-	     			<div class="res-todayList res-thisLine4">예시예약취소</div>
-	     		</li>
-	     		<li class="today-line">
-	     			<div class="res-todayList res-thisLine1">예시회의실</div>
-	     			<div class="res-todayList res-thisLine2">예시회의명</div>
-	     			<div class="res-todayList res-thisLine3">예시예약시간</div>
-	     			<div class="res-todayList res-thisLine4">예시예약취소</div>
-	     		</li>
-	     		<li class="today-line">
-	     			<div class="res-todayList res-thisLine1">예시회의실</div>
-	     			<div class="res-todayList res-thisLine2">예시회의명</div>
-	     			<div class="res-todayList res-thisLine3">예시예약시간</div>
-	     			<div class="res-todayList res-thisLine4">예시예약취소</div>
-	     		</li>
-	     		<li class="today-line">
-	     			<div class="res-todayList res-thisLine1">예시회의실</div>
-	     			<div class="res-todayList res-thisLine2">예시회의명</div>
-	     			<div class="res-todayList res-thisLine3">예시예약시간</div>
-	     			<div class="res-todayList res-thisLine4">예시예약취소</div>
-	     		</li>
+        		<c:forEach var="today" items="${myList}">
+		        	<li class="today-line">
+		   				<div class="res-todayList res-thisLine1">${today.SRoomName}</div>
+		    			<div class="res-todayList res-thisLine2">${today.meetingName}</div>
+		     			<div class="res-todayList res-thisLine3">${fn:substring(today.startDate, 5, 7)}월 ${fn:substring(today.startDate, 8, 10)}일 ${fn:substring(today.startDate, 11, 16)} ~ ${fn:substring(today.endDate, 5, 7)}월 ${fn:substring(today.endDate, 8, 10)}일 ${fn:substring(today.endDate, 11, 16)}</div>
+		     			<c:if test="${today.status eq 'Y'}">
+			     			<div class="res-todayList res-thisLine4">
+			     				<button type="button" class="commonButton1 reservation_Cancel_btn">예약 취소</button>
+			     			</div>
+		     			</c:if>
+		     		</li>
+	     		</c:forEach>
      		</ul>
         </div>
     </div> 
+    <script>
+    	$(function() {
+    		
+    		// 검색 일 예약 현황을 위해 배열 선언
+			let arr = new Array();
+
+			let count = 0; 
+			<c:forEach var="reserve" items="${list}">
+				arr.push({num:count,
+					reserveNo : ${reserve.reserveNo},
+					empNo : ${reserve.empNo},
+					roomSmallNo : ${reserve.roomSmallNo},
+					sRoomName : '${reserve.SRoomName}',
+					startDate : new Date("${reserve.startDate}"),
+					endDate : new Date("${reserve.endDate}"),
+					meetingName : '${reserve.meetingName}',
+					status : '${reserve.status}'
+					})
+				count++;
+			</c:forEach>
+			console.log(arr)
+			
+			
+			// 타임 값 비교를 위해 배열 선언
+			let timeInfo = new Array();
+			<c:forEach var="val" items="${timeInfo}">
+				timeInfo.push({key:${val.key},
+					value : '${val.value}'
+					})
+			</c:forEach>
+			
+			
+			let dd = $('.this_day').text().trim()
+			
+			// 시작일부터 종료일까지 땅따먹기
+			// 각 arr의 값을 다루기 위해 foreach문
+			arr.forEach(function(val) {
+				let start = val.startDate;
+				let startTime = ((start.getHours()+"").length == 1)? "0"+start.getHours()+":"+start.getMinutes() : start.getHours()+":"+start.getMinutes();
+				let end = val.endDate;
+				let resNo = val.reserveNo;
+				let meeting = val.meetingName;
+				console.log(startTime)
+				
+				// 시작일자와 종료일자가 같으면 탐
+				if(start.getDate() == end.getDate()){
+					
+					// 셀 병함 시작할 클래스 넘버
+					let classNo = 0;
+					
+					let count = 0; // 셀 병합 할 카운트 수
+					// 셀병합랄 클래스 찾을려면 timeInfo의 value 값이 val.startDate의 시간과 같아야함
+					// 그럼 먼저 변수 선언 후에 일치하면 값을 가져온다
+					let cols = "";
+					
+					for(let j = 0 ; j < timeInfo.length ; j++){
+						// value값
+						let value = timeInfo[j].value;
+						console.log(value)
+						
+						// value값과 startDate의 값이 같으면
+						if(startTime == value){
+							// 클래스 넘버를 넣고 break;
+							classNo = timeInfo[j].key;
+							break;
+						}
+						
+					}
+					console.log(classNo)
+					// 합쳐질 셀대상을 변수로 담기
+					cols = $('.time'+classNo)
+					
+					// 땅따먹기 + 색칠
+					// 방법 - time이란 클래스를 찾아서 차이 만큼 셀 병합 
+					for(let i = start ; i < end ; i.setMinutes(i.getMinutes()+30)){
+						
+						count++;
+						// 카운트 수가 1 이상이면 셀 병합
+				        if (count > 1) {
+				        	// 카운트 수만큼 셀 별합
+							cols.attr("colspan", count).text(meeting);
+							// 나머지를 지움
+							//cols.next().remove();
+				        }
+					}
+					
+					// 필요없는 컬럼 지우기
+					console.log(count) // 카운트 수 확인
+					// 카운트 수의 -1 을 하여 시작시간을 제외하여 삭제
+					for(let i = 0 ; i < count-1 ; i++){
+						cols.next().remove();
+					}
+
+					
+				// 시작일만 오늘이면 탐
+				}else if(start.getDate() == dd.substring(dd.length-2)){
+					
+					// 색칠 
+					for(let i = start ; i < end ; i.setMinutes(i.getMinutes()+30)){
+						
+					}
+				// 종료일만 오늘이면 탐
+				}else if(end.getDate() == dd.substring(dd.length-2)){
+					
+					// 색칠 
+					for(let i = start ; i < end ; i.setMinutes(i.getMinutes()+30)){
+						
+					}
+				}
+			})
+			
+		})
+    </script>
 </body>
 </html>
