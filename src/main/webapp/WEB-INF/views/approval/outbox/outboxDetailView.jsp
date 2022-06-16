@@ -145,13 +145,14 @@
 	    	// 확인 버튼 클릭 시 삭제 진행
 	    	$(".true_btn").click(function(){
 	    		$("#helpmeCOnfirm").hide();
-	            
+	    		
 	    		$.ajax({
 	    			
 	    			type: "post",
 	    			url: "deleteOutboxDoc.do",
 	    			data: { outboxNo : ${ outboxNo },
-	    					docType : ${ docType } },
+	    					docType : ${ docType },
+	    					docNo : $("#docNo").val() },
 	    			success: function(result) {
 						
 	    				if(result == "success") {

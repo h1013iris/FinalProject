@@ -519,22 +519,40 @@ public class AprvServiceImpl implements AprvService {
 
 
 	@Override // 임시 저장 문서 삭제
-	public void deleteOutboxDoc(int outboxNo, int docType) {
+	public void deleteOutboxDoc(int outboxNo, int docType, Integer docNo) {
 		
+		int result = 0, result2 = 0;
+		
+		// 문서 서식 삭제
 		if(docType == 10) {
-			deleteLeaveApp(outboxNo);
+			result = aprvDao.deleteLeaveApp(sqlSession, outboxNo);
 		
 		} else if(docType == 11) {
-			deleteCmtUpdateApp(outboxNo);
+			result = aprvDao.deleteCmtUpdateApp(sqlSession, outboxNo);
 		
 		} else if(docType == 20) {
-			deleteBusDraft(outboxNo);
+			result = aprvDao.deleteBusDraft(sqlSession, outboxNo);
 		
 		} else if(docType == 30) {
-			deleteBusCoop(outboxNo);
+			result = aprvDao.deleteBusCoop(sqlSession, outboxNo);
 		}
 		
+		if(result < 1) {
+			throw new CommException("임시 저장 문서 서식 삭제 실패");
+		}
+		
+		// 임시 보관함에서 삭제
 		deleteOutboxDoc(outboxNo);
+		
+		System.out.println("Service docNo ==========> " + docNo);
+		// 결재 취소한 문서의 경우 결재 정보 삭제
+		if(docNo != null) {
+			result2 = aprvDao.deleteAprvDocument(sqlSession, docNo);
+			
+			if(result2 < 1) {
+				throw new CommException("결재 정보 삭제 실패");
+			}
+		}
 	}
 	
 	
@@ -545,50 +563,6 @@ public class AprvServiceImpl implements AprvService {
 		
 		if(result < 1) {
 			throw new CommException("임시 저장 문서 삭제 실패");
-		}
-	}
-
-	
-	// 휴가 신청서 임시 저장 문서 삭제
-	public void deleteLeaveApp(int outboxNo) {
-		
-		int result = aprvDao.deleteLeaveApp(sqlSession, outboxNo);
-		
-		if(result < 1) {
-			throw new CommException("휴가 신청서 임시 저장 삭제 실패");
-		}
-	}
-	
-
-	// 근태 기록 수정 신청서 임시 저장 문서 삭제
-	public void deleteCmtUpdateApp(int outboxNo) {
-		
-		int result = aprvDao.deleteCmtUpdateApp(sqlSession, outboxNo);
-		
-		if(result < 1) {
-			throw new CommException("근태 기록 수정 신청서 임시 저장 삭제 실패");
-		}
-	}
-	
-
-	// 업무 기안서 임시 저장 문서 삭제
-	public void deleteBusDraft(int outboxNo) {
-		
-		int result = aprvDao.deleteBusDraft(sqlSession, outboxNo);
-		
-		if(result < 1) {
-			throw new CommException("업무 기안서 임시 저장 삭제 실패");
-		}
-	}
-	
-	
-	// 업무 협조문 임시 저장 문서 삭제
-	public void deleteBusCoop(int outboxNo) {
-		
-		int result = aprvDao.deleteBusCoop(sqlSession, outboxNo);
-		
-		if(result < 1) {
-			throw new CommException("업무 협조문 임시 저장 삭제 실패");
 		}
 	}
 
@@ -764,42 +738,31 @@ public class AprvServiceImpl implements AprvService {
 		} else {
 			saveDocOutbox(docOutbox);
 			
+			int result1 = 0;
+			
 			// 서식에 임시 저장 번호 추가
 			if(docType == 10) {
-				int result1 = aprvDao.updateLeaveAppOboxNo(sqlSession, docNo);
-				
-				if(result1 < 1) {
-					throw new CommException("휴가 신청서 결재 취소 실패");
-				}
+				result1 = aprvDao.updateLeaveAppOboxNo(sqlSession, docNo);
 			
 			} else if(docType == 11) {
-				int result1 = aprvDao.updateCmtAppOboxNo(sqlSession, docNo);
-				
-				if(result1 < 1) {
-					throw new CommException("근태 기록 수정 신청서 결재 취소 실패");
-				}	
+				result1 = aprvDao.updateCmtAppOboxNo(sqlSession, docNo);
 				
 			} else if(docType == 20) {
-				int result1 = aprvDao.updateBusDraftOboxNo(sqlSession, docNo);
-				
-				if(result1 < 1) {
-					throw new CommException("업무 기안서 결재 취소 실패");
-				}
+				result1 = aprvDao.updateBusDraftOboxNo(sqlSession, docNo);
 				
 			} else if(docType == 30) {
-				int result1 = aprvDao.updateBusCoopOboxNo(sqlSession, docNo);
-				
-				if(result1 < 1) {
-					throw new CommException("업무 협조문 결재 취소 실패");
-				}			}
+				result1 = aprvDao.updateBusCoopOboxNo(sqlSession, docNo);			
+			}
+			
+			if(result1 < 1) {
+				throw new CommException("결재 취소 실패");
+			}
 		}
 		
 	}
 	
 	
-	// 결재 취소 문서 결재 재요청 - 휴가 신청서
-
-
+	// 결재 취소 문서 결재 재요청
 	@Override
 	public void aprvReRequest(int docType, int outboxNo, LeaveForm leaveForm,
 								CmtUpdateForm cmtUpdateForm, BusDraftForm busDraftForm,
@@ -840,11 +803,7 @@ public class AprvServiceImpl implements AprvService {
 	}
 
 
-	@Override
-	public void updateLeaveFormOutbox(DocOutbox docOutbox, LeaveForm leaveForm) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 
 	

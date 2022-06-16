@@ -91,8 +91,6 @@ public interface AprvService {
 
 	void saveLeaveFormOutbox(DocOutbox docOutbox, LeaveForm leaveForm);
 
-	void updateLeaveFormOutbox(DocOutbox docOutbox, LeaveForm leaveForm);
-
 	void saveCmpUdpFormOutbox(DocOutbox docOutbox, CmtUpdateForm cmtUpdateForm);
 
 	void saveDraftFormOutbox(DocOutbox docOutbox, BusDraftForm busDraftForm);
@@ -113,7 +111,7 @@ public interface AprvService {
 
 	BusCoopForm selectCoopFormOutbox(int outboxNo);
 
-	void deleteOutboxDoc(int outboxNo, int docType);
+	void deleteOutboxDoc(int outboxNo, int docType, Integer docNo);
 
 	void updateLeaveApp(LeaveForm leaveForm, int outboxNo);
 
