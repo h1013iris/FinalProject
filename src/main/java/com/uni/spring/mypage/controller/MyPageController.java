@@ -225,5 +225,20 @@ public class MyPageController {
 		
 		return "mypage/requestWorkList";
 	}
+	
+	@RequestMapping("workDetailPage")
+	public String workDetailPage(String raskNo, Model model) {
+		WorkRequest wr = MPService.selectworkDetail(raskNo);
+		
+		model.addAttribute("work", wr);
+		
+		return "mypage/workRequestDetailPage";
+	}
+	
+	@ResponseBody
+	@RequestMapping("updateRequestStatus")
+	public void updateRequestStatus(String raskNo) {
+		MPService.updateRequestStatus(raskNo);
+	}
 
 }

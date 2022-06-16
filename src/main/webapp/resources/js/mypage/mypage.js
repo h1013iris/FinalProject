@@ -271,3 +271,21 @@ $(".empSearch_next_btn").click(function(){
     alert(a)
 })
 
+$(document).on("click",".workreceived_lists",function(){
+    var raskNo = $(this).children().eq(0).val();
+
+    location.href = "workDetailPage?raskNo="+raskNo;
+})
+
+$("#success_status_update").click(function(){
+    var raskNo = $(this).val();
+
+    $.ajax({
+        type:"get",
+        url:"updateRequestStatus",
+        data:{raskNo : raskNo},
+        success:function(){
+            history.back();
+        }
+    })
+})

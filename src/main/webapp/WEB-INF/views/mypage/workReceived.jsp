@@ -57,7 +57,7 @@
 	    <div id="workreceived_main_section">
             <c:forEach items="${ list }" var="a" varStatus="status">
                 <div class="workreceived_lists">
-                    <input type="hidden" class="workreceived_raskNo">
+                    <input type="hidden" class="workreceived_raskNo" value="${ a.raskNo }">
                     <span class="workreceived_count">${ status.count }.</span>
                     <span class="workreceived_title">${ a.title }</span>
                     <c:choose>
@@ -72,6 +72,7 @@
                 </div>
             </c:forEach>
 	    </div>
-    </div> 
+    </div>
+    <script src="${ pageContext.servletContext.contextPath }/resources/js/mypage/mypage.js"></script>
 </body>
 </html>

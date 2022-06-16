@@ -139,4 +139,18 @@ public class MyPageServiceImpl implements MyPageService {
 		return MPDao.selectrequestWorkList(empNo, sqlSession);
 	}
 
+	@Override
+	public WorkRequest selectworkDetail(String raskNo) {
+		// TODO Auto-generated method stub
+		return MPDao.selectworkDetail(sqlSession, raskNo);
+	}
+
+	@Override
+	public void updateRequestStatus(String raskNo) {
+		// TODO Auto-generated method stub
+		int result = MPDao.updateRequestStatus(sqlSession, raskNo);
+		
+		if(result <= 0) throw new CommException("업무완료 상태 변경 실패"); 
+	}
+
 }

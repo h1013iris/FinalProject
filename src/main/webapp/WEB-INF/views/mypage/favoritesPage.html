@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../../resources/css/admin/BanwordsPage.css">
+    <style>
+        body{
+            display: flex;
+            width: 70vw;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="page_all_list" class="content_container">
+        <div class="content_box banW">
+            <div class="banwords_management_article">
+                <c:forEach items="${ insertList }" var="i">
+                    <div class="banwords_box">
+                        <span class="page_name">${ i.pageName }</span>
+                        <div class="delete_btn bm_btn page_insert_btn">
+                            <input type="hidden" id="insert_mypageNo" value=${ i.pageNo }>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+    </div> 
+    <div id="mypage_list" class="content_container">
+        <div class="content_box banW">
+            <div class="banwords_management_article">
+                <c:forEach items="${ deleteList }" var="d">
+                    <div class="banwords_box">
+                        <span class="page_name">${ d.words }</span>
+                        <div class="delete_btn bm_btn">
+                            <input type="hidden" id="delete_mypageNo" value=${ d.pageNo }>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+    </div> 
+</body>
+</html>

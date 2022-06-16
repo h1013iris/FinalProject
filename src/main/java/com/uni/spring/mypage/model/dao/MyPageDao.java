@@ -100,6 +100,16 @@ public class MyPageDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("mypageMapper.selectrequestWorkList", empNo);
 	}
+
+	public WorkRequest selectworkDetail(SqlSessionTemplate sqlSession, String raskNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mypageMapper.selectworkDetail",Integer.parseInt(raskNo));
+	}
+
+	public int updateRequestStatus(SqlSessionTemplate sqlSession, String raskNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("mypageMapper.updateRequestStatus",Integer.parseInt(raskNo));
+	}
 	
 	
 

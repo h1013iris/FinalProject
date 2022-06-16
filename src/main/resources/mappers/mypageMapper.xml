@@ -186,7 +186,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectWorkReceivedList" resultMap="workRequestResult">
 		select *
 		from WORK_REQUEST 
-		where rask_no in(
+		where status = 'N'
+		and rask_no in(
 			select
 				rask_no
 			from WORK_REQUEST_EMP
@@ -200,9 +201,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where emp_no = #{empNo}
 	</select>
 	
+	<select id="selectworkDetail" resultMap="workRequestResult">
+		select *
+		from work_request
+		where rask_no = #{raskNo}
+	</select>
 	
-	
-	
+	<update id="updateRequestStatus">
+		update work_request
+		set status = 'Y'
+		where rask_no = #{raskNo}
+	</update>
 	
 	
 	
