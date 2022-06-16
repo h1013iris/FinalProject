@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uni.spring.admin.model.dto.Department;
+import com.uni.spring.approval.model.dto.CmtUpdateForm;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.common.exception.CommException;
 import com.uni.spring.department.model.dto.AttendLog;
@@ -100,5 +101,17 @@ public class ManageServiceImpl implements ManageService {
 	public ArrayList<AttendLog> selectListAttendLogAVG(calendarWeek cw) {
 		
 		return manageDao.selectListAttendLogAVG(sqlSession, cw);
+	}
+
+	@Override
+	public ArrayList<AttendLog> selectListAttendDetail(calendarWeek cw) {
+		
+		return manageDao.selectListAttendDetail(sqlSession, cw);
+	}
+
+	@Override
+	public ArrayList<CmtUpdateForm> selectListEdittW(calendarWeek cw2) {
+		
+		return manageDao.selectListEdittW(sqlSession, cw2);
 	}
 }

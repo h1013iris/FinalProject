@@ -27,7 +27,7 @@ public class CmtUpdateForm { // 근태 기록 수정 의뢰 신청서
 	private String leaveTime; // 수정 퇴근 시간
 	private String updateReason; // 수정 사유
 	private int outboxNo; // 임시 보관 문서 번호
-	
+	private String editStatus;//수정 여부
 	private String drafterName;
 	//private String jobName;
 }

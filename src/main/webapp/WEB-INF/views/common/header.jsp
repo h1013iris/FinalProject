@@ -19,6 +19,8 @@
 	<jsp:include page="../reservation/reservationEorollformModal.jsp"/>
 	<jsp:include page="../mypage/workRequestModal.jsp"/>
 	<jsp:include page="../mypage/empSearchModal.jsp"/>
+	<jsp:include page="../depart/InfoDepN.jsp"/>
+	
 	
 	<header id="main_header">
 	    <div class="logo_header">
@@ -47,7 +49,7 @@
 	                <img class="alarm_img" src="${ pageContext.servletContext.contextPath }/resources/upload_files/${loginUser.changeName}"/>
 	                </c:if>
 	                <c:if test="${loginUser.changeName == null}">
-	                <img class="alarm_img" src="${ pageContext.servletContext.contextPath }/resources/images/관리자 프로필.png"/>
+	                <img class="alarm_img" src="${ pageContext.servletContext.contextPath }/resources/images/관리자 프로필.png" width="40"/>
 	                </c:if>
 	            </div>
 	        </div>
@@ -195,9 +197,9 @@
 	                    </div>
 	                </ul>
 	                <ul>
-	                    <li class="list_title">전자명함</li>
-	                    <div class="hhh">
-	                    	<li><a href="#">전자명함 모음</a></li>
+	                    <li class="list_title" >전자명함</li>
+	                    <div class="hhh clickDepartJUn" >
+	                    	<li><a href="#" >전자명함 모음</a></li>
 	                    </div>
 	                </ul>
 	            </div>
@@ -432,7 +434,31 @@
 		location.href="detailAnnoDepart.do?adno="+$(this).children().eq(4).children().val()+"&userNo="+${loginUser.empNo}+"&writerNo="+$(this).children().eq(5).children().val();
 	})
 	})
-	
+	$(".clickDepartJUn").click(function(){
+		var departmentNo = ${loginUser.departmentNo};
+		console.log(departmentNo)
+		$.ajax({
+			url:"selectListMemberList.do",
+			type:"get",
+			data:{departmentNo:departmentNo},
+			success:function(list){
+				if(list.lenght == 0){
+					$(".modalInfoList").html('');
+				}else if(list.length != 0){
+					var value ="";
+				$.each(list, function(i, obj){
+   				
+				value += '<div class="sectionChangeDi modalSectionCH"  onclick ="showModalInfoIMG(`'+obj.empName+'`,`'+obj.phone+'`,`'+obj.email+'`)" >';
+				value += '<img src="${pageContext.servletContext.contextPath}/resources/upload_files/'+obj.changeName+'" width="20px">';
+				value += '<div>'+obj.empName+'</div></div>';
+				
+				})
+				$(".modalInfoList").html(value);
+				$(".showListDeptP").css("display","flex");
+				}
+			}
+		})
+	})
 	</script>
 	<!-- 이메일 API -->
 	<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>

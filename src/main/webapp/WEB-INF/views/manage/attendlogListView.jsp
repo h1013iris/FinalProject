@@ -13,7 +13,7 @@
 		border: 1px solid;
 	}
 	.upperDeptinfo{
-		margin-bottom: 50px;
+		margin-bottom: 30px;
 	}
 	.searchTitleDivSe{
 		display: flex;
@@ -96,6 +96,9 @@
 		display: flex;
 		width: 100%;
 	}
+	.underHivHeaved{
+		margin-top: 30px;
+	}
 	.underHivHeavedGet{
 		flex-wrap: wrap;
     	align-items: center;
@@ -128,6 +131,18 @@
 	}
 	.scrolldivse::-webkit-scrollbar{
     	display: none;
+	}
+	.thisWEdit{	
+		font-size: 18px;
+	    font-weight: 550;
+	    margin-bottom: 15px;
+	}
+	.editInfomationpart{
+		display: flex;
+	}
+	.editInfomationpart div{
+		flex: 1;
+		text-align: center;
 	}
 </style>
 </head>
@@ -178,8 +193,33 @@
 				</div>
 				<div class="headerNameSw"><span>2022-06</span></div>
 			</div>
+			<!-- 근태 수정 요청 부분 -->
+			<div>
+				<div class="thisWEdit"><span>금주 근태 수정 요청</span></div>
+				<div class="underHivHeaved">
+					<div>기안자</div>
+					<div>기안일</div>
+					<div>수정일</div>
+					<div>기존 출근 시간</div>
+					<div>기존 퇴근 시간</div>
+					<div>수정 출근 시간</div>
+					<div>수정 퇴근 시간</div>
+				</div>
+				<div class="editInfoScrollpart">
+					<c:forEach items="${clist}" var="cl">
+						<div class="editInfomationpart">
+							<div><span>${cl.drafterName}</span></div>
+							<div><span>${cl.dftDate}</span></div>
+							<div><span>${cl.updateDate}</span></div>
+							<div><span>${cl.beAttendTime}</span></div>
+							<div><span>${cl.beLeaveTime}</span></div>
+							<div><span>${cl.attendTime}</span></div>
+							<div><span>${cl.leaveTime}</span></div>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
 			<!-- 아래 부분  -->
-		
 			<div class="underHivHeaved">
 				<div>이름</div>
 				<div>이번주 누적 근무시간</div>

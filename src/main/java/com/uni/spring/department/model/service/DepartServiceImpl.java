@@ -421,5 +421,17 @@ public class DepartServiceImpl implements DepartService {
 		return departDao.selectBoardDepartListMain(sqlSession, departmentNo);
 	}
 
+	@Override
+	public ArrayList<Member> selectPInfoList(String departmentNo) {
+		
+		return departDao.selectPInfoList(sqlSession, departmentNo);
+	}
+
+	@Override
+	public ArrayList<Attachment> selectAInfoList(String departmentNo) {
+		
+		return departDao.selectAInfoList(sqlSession, departmentNo);
+	}
+
 	
 }
