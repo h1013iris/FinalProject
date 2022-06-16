@@ -15,7 +15,8 @@ public class Reservation {
 	private String endDate;		// 종료일
 	private String meetingName;	// 회의명
 	private String status;		// 상태값
-	
+
+	private String sRoomName;	// 회의실 명
 	/* RESERVE_NUM
 	 * EMP_NO
 	 * ROOM_SMALL_NO

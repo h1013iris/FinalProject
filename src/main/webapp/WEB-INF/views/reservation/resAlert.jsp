@@ -80,5 +80,12 @@
 	        </div>
 	    </div>
     </div>
+    <script>
+		 // alert 확인 버튼시
+		$(".res-Cancel-btn").click(function(){
+			$("#res-alertBackground").hide();
+			$(".reservationEnrollFormModal").show();	
+		})
+    </script>
 </body>
 </html>

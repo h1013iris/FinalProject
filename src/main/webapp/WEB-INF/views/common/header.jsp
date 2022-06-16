@@ -15,6 +15,7 @@
 	<jsp:include page="./alert.jsp"/>
 	<jsp:include page="./confirm.jsp"/>
 	<jsp:include page="../depart/simpleProjectCreate.jsp"/>
+	<jsp:include page="../reservation/resAlert.jsp"/>
 	<jsp:include page="../manage/calculateModal.jsp"/>
 	<jsp:include page="../reservation/reservationEorollformModal.jsp"/>
 	<jsp:include page="../mypage/workRequestModal.jsp"/>
