@@ -957,6 +957,39 @@ public class AprvController {
 	
 	
 	
+	// 결재 취소
+	@ResponseBody
+	@RequestMapping(value="aprvCancle.do", produces="application/json; charset=utf-8")
+	public String aprvCancle(int docNo, int docType, DocOutbox docOutbox) {
+		
+		System.out.println("Controller =========> docType " + docType);
+		System.out.println(docOutbox.toString());
+		
+		//int docType = docOutbox.getDocType();
+		
+		aprvService.aprvCancle(docNo, docType, docOutbox);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
+	// 결재 취소 문서 결재 재요청
+	@ResponseBody
+	@RequestMapping(value="aprvReRequest.do", produces="application/json; charset=utf-8")
+	public String aprvReRequest(int docType, int outboxNo, LeaveForm leaveForm,
+								CmtUpdateForm cmtUpdateForm, BusDraftForm busDraftForm,
+								BusCoopForm busCoopForm, AprvHistory aprvHistory, AprvDoc aprvDoc) {
+		
+		System.out.println(aprvHistory.toString());
+		System.out.println(aprvDoc.toString());
+		
+		aprvService.aprvReRequest(docType, outboxNo, leaveForm, cmtUpdateForm,
+								busDraftForm, busCoopForm, aprvHistory, aprvDoc);
+		
+		return new Gson().toJson("success");
+	}
+	
+	
 	
 	
 	
@@ -980,3 +1013,4 @@ public class AprvController {
 	
 	
 }
+

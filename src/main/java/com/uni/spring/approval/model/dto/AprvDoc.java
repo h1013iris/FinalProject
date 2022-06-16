@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AprvDoc {
 
-	private int docNo; 			// 문서 번호
+	private Integer docNo; 		// 문서 번호
 	private int docType; 		// 문서 유형
 	private String docTitle;	// 문서 제목
 	private String drafter; 	// 기안자 (int)

@@ -384,6 +384,36 @@ public class AprvDao {
 		return sqlSession.selectOne("aprvMapper.lastAprvHistory", docNo);
 	}
 
+	public int deleteDocHistory(SqlSessionTemplate sqlSession, int docNo) {
+		
+		return sqlSession.delete("aprvMapper.deleteDocHistory", docNo);
+	}
+
+	public int updateLeaveAppOboxNo(SqlSessionTemplate sqlSession, int docNo) {
+		
+		return sqlSession.update("aprvMapper.updateLeaveAppOboxNo", docNo);
+	}
+
+	public int updateCmtAppOboxNo(SqlSessionTemplate sqlSession, int docNo) {
+		
+		return sqlSession.update("aprvMapper.updateCmtAppOboxNo", docNo);
+	}
+
+	public int updateBusDraftOboxNo(SqlSessionTemplate sqlSession, int docNo) {
+		
+		return sqlSession.update("aprvMapper.updateBusDraftOboxNo", docNo);
+	}
+
+	public int updateBusCoopOboxNo(SqlSessionTemplate sqlSession, int docNo) {
+		
+		return sqlSession.update("aprvMapper.updateBusCoopOboxNo", docNo);
+	}
+
+	public int updateAprvDoc(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
+		
+		return sqlSession.update("aprvMapper.updateAprvDoc", aprvDoc);
+	}
+
 	
 
 }

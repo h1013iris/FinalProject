@@ -99,7 +99,7 @@
 											</td>
 											<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
 												<div contenteditable="false">
-													<input class="fix_input" value="" readonly/>
+													<input class="fix_input" id="docNo" name="docNo" value="" readonly/>
 												</div>
 											</td>
 										</tr>
@@ -158,7 +158,7 @@
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; height: 25px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle;">
 								<div contenteditable="false">
 									<select id="vacType" name="vacType" style="width:40%">
-										<option value="none">선택</option>
+										<option value="">선택</option>
 										<option value="연차">연차</option>
 										<option value="오전반차">오전반차</option>
 										<option value="오후반차">오후반차</option>
@@ -192,7 +192,8 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;">
 								<div contenteditable="false" style="width: 100%;">
-									<textarea class="txta_editor" id="vacReason" name="vacReason" style="width: 99%; height: 240px; resize: vertical;" maxlength="500"></textarea>
+									<textarea class="" id="vacReason" name="vacReason" style="width: 99%; height: 240px; resize: vertical;" maxlength="500">
+									</textarea>
 								</div> 
 							</td>
 						</tr>
@@ -204,7 +205,6 @@
 				<button class="commonButton1 docUpdateFormBtn docSubmit_btn" type="button">결재요청</button> <br>
 				<button class="commonButton1 docUpdateFormBtn docUpdate_btn" type="button">수정</button> <br> <%-- 임시저장 기능 --%>
 				<button class="commonButton1 docUpdateFormBtn cancle_btn" type="button">취소</button>
-				<button class="commonButton1 valueCheck" type="button">값 확인</button>
 			</div>
 		</form>
  	</div>
@@ -230,10 +230,9 @@
  	 			$("#startDate").val(today);
  	 			
  	 			selectDeptFn(); // 기안자 부서 가져오는 함수
-		 		
- 	 			selectApproverFn(); // 결재자 조회하는 함수
  	 			
 		 		selectLeaveFormOutboxFn(); // 기존 내용 조회
+		 		
  			}
  			
  		});
@@ -259,7 +258,71 @@
  		}
  		
  		
- 		// 결재자 조회하는 함수
+ 		// 기존 내용 조회
+ 		function selectLeaveFormOutboxFn() {
+ 			
+ 			// 문서 내용 조회
+			$.ajax({
+			
+				type: "post",
+				url: "selectLeaveFormOutbox.do",
+				data: { outboxNo : "${ outboxNo }" },
+				success: function(data) {
+					
+					console.log(data)
+					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
+					$("#drafterDept").val(data.drafterDept);
+					$("#dftDate").val(data.dftDate);
+					//$("#docNo").val(data.docNo);
+					$("#vacType").val(data.vacType);
+					$("#startDate").val(data.startDate);
+					$("#endDate").val(data.endDate);
+					$("#vacUseDays").val(data.vacUseDays);
+					$("#vacReason").val(data.vacReason);
+					$("#outboxNo").text(data.outboxNo);
+					
+					// 문서 번호가 없으면
+					if(data.docNo == 0) {
+						$("#docNo").val("");
+					} else {
+						$("#docNo").val(data.docNo);
+					}
+					
+					// 문서 번호가 존재하지 않으면 -> 처음 등록 시 임시 저장한 경우
+			 		if($("#docNo").val() == null || $("#docNo").val() == "") {
+			 			selectApproverFn(); // 문서 등록 시 결재자 조회하는 함수
+			 			
+			 		} else {
+			 			aprvCancleDocApproverFn();	// 결재 취소한 문서의 결재자 조회하는 함수
+			 		}
+				}
+			});
+ 		}
+ 		
+ 		
+ 		// 결재 취소한 문서의 결재자 조회하는 함수
+ 		function aprvCancleDocApproverFn() {
+ 			
+ 			$.ajax({
+	 			
+	 			type: "post",
+                url: "selectDocApprover.do",
+                data: { docNo : $("#docNo").val() },
+                success: function (data) {
+				console.log(data);
+                	if(data != null) {
+                		
+                		$("#firstAprvName").val(data.firstAprv);
+                		$("#firstAprvJob").val(data.firstJob);
+                		$("#secondAprvName").val(data.secondAprv);
+                		$("#secondAprvJob").val(data.secondJob);
+                	}
+                }
+	 		});
+ 		}
+ 		
+ 		
+ 		// 등록 시 임시저장한 문서 결재자 조회하는 함수
  		function selectApproverFn() {
  			
  			// 결재선 조회
@@ -286,59 +349,6 @@
                 }
 	 		});
  		}
- 		
- 		
- 		// 기존 내용 조회
- 		function selectLeaveFormOutboxFn() {
- 			
- 			// 문서 내용 조회
-			$.ajax({
-			
-				type: "post",
-				url: "selectLeaveFormOutbox.do",
-				data: { outboxNo : ${ outboxNo } },
-				success: function(data) {
-					
-					console.log(data)
-					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
-					$("#drafterDept").val(data.drafterDept);
-					$("#dftDate").val(data.dftDate);
-					$("#docNo").val(data.docNo);
-					$("#vacType").val(data.vacType);
-					$("#startDate").val(data.startDate);
-					$("#endDate").val(data.endDate);
-					$("#vacUseDays").val(data.vacUseDays);
-					$("#vacReason").val(data.vacReason);
-					$("#outboxNo").text(data.outboxNo);
-					
-					// 결재선 조회
-			 		/*$.ajax({
-			 			
-			 			type: "post",
-		                url: "selectDeptApprover.do",
-		                data: { deptNo : "${ loginUser.departmentNo }",
-		                		jobNo : "${ loginUser.jobNo }"},
-		                success: function (data) {
-							console.log(data);
-		                	if(data != null || data != "") {
-		                		
-		                		$("#firstAprvName").val(data[0].empName);
-		                		$("#firstAprv").val(data[0].empNo);
-		                		$("#firstAprvJob").val(data[0].jobName);
-		                		
-		                		if(data.length > 1) {
-		                			$("#secondAprvName").val(data[1].empName);
-			                		$("#secondAprv").val(data[1].empNo);
-			                		$("#secondAprvJob").val(data[1].jobName);
-		                		}
-		                	}
-		                }
-			 		});*/
-					
-				}
-			});
- 		}
- 		
  		
 		
 		// 휴가 종류에 따른 기간 유효성 검사
@@ -515,13 +525,16 @@
  			// 모두 잘 입력되어 있는 경우
  			} else {
  				
+ 				let docNo = $("#docNo").val();
+ 	 			console.log(docNo);
+ 	 			
 				approveCheckFn(); // 결재 요청 확인 모달 띄우는 함수 실행
 				
 				// 확인 버튼 클릭 시 confirm 모달 사라지고 결재 승인 진행
 	    		$(document).on("click", ".true_btn", function() {
 	    			$("#helpmeCOnfirm").hide();
 	    			
-	    			leaveEnrollFn(); // 휴가 신청서 결재 요청 함수
+	    			leaveEnrollFn();
 	    		});
 	    		
 	    		// 취소 클릭 시 confirm 모달 닫기만
@@ -539,14 +552,24 @@
 			
  			// 폼의 모든 데이터 저장해서 변수로 선언
  			let form = $(".docUpdateForm").serialize();
- 			let outboxNo = ${ outboxNo };
- 			form += "&outboxNo=" + outboxNo;
+ 			form += "&outboxNo=" + ${ outboxNo } + "&docType=" + ${ docForm };
  			
-			// post 방식으로 폼 제출
+ 			let url = "";
+ 			
+ 			// 문서 등록 시 임시 저장한 문서이면 새로 결재 요청
+ 			if($("#docNo").val() == null || $("#docNo").val() == "") {
+ 				url = "oboxAprvReqLeaveApp.do";
+ 			
+ 			// 문서 번호 있으면 재결재 요청
+ 			} else {
+ 				url = "aprvReRequest.do";
+ 			}
+ 			
+			
  			$.ajax({
  				
  				type: "post",
-                url: "oboxAprvReqLeaveApp.do",
+                url: url,
                 data: form,
                 success: function (result) {
                 	console.log(result)
@@ -570,6 +593,7 @@
                 } 	                
             });
 		}
+ 		
  		
  		// 수정 버튼 클릭 시 
  		$(document).on("click", ".docUpdate_btn", function() {
