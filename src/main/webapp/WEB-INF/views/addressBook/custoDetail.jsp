@@ -10,7 +10,6 @@
 	src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 </head>
 <style>
-<style>
   *{margin: 0;
         padding: 0;}
     #container{
@@ -41,8 +40,7 @@
     }
 </style>
 <body>
-
-    <div id="container">
+ <div id="container">
         <div class="main">
          <form id="custoDetail" action="" method="post">
           
@@ -51,56 +49,55 @@
        <c:forEach items="${custoDetail}" var="cusD">
             <tr>
                 <td>폴더명</td>
-             <td><input type="text" value="${cusD.inFolder}" readonly></td>
+             	<td><input type="text" name="inFolder" value="${cusD.inFolder}" readonly></td>
     	        
-	    	</tr>
-               <tr> 
+	    		</tr>
+               	<tr> 
                     <td>회사명</td>
-                    <td><input type="text" value="${cusD.comNm }" readonly></td>
+                    <td><input type="text"  name="comNm" value="${cusD.comNm }" readonly></td>
                 </tr>
                 <tr>
                     <td>사업자번호</td>
-                    <td><input type="text" value="${cusD.comNo }" readonly></td>
+                    <td><input type="text" name="comNo" value="${cusD.comNo }" readonly></td>
                 </tr>
                 <tr>
                     <td>대표번호</td>
-                    <td><input type="text" value="${cusD.comTel }" readonly></td>
+                    <td><input type="text" name="comTel" value="${cusD.comTel }" readonly></td>
                 </tr>
                 <tr>
                     <td>대표명</td>
-                    <td><input type="text" value="${cusD.comCeo }" readonly></td>
+                    <td><input type="text" name="comCeo" value="${cusD.comCeo }" readonly></td>
                 </tr>
                 <tr>
                     <td>담당자</td>
-                    <td><input type="text" value="${cusD.comPix }" readonly></td>
+                    <td><input type="text" name="comPix" value="${cusD.comPix }" readonly></td>
                 </tr>
                 <tr>
                     <td>휴대폰</td>
-                    <td><input type="text" value="${cusD.comPhone }" readonly></td>
+                    <td><input type="text" name="comPhone" value="${cusD.comPhone }" readonly></td>
                 </tr>
                 <tr>
                     <td>이메일</td>
-                    <td><input type="text" value="${cusD.comEmail }" readonly></td>
+                    <td><input type="text" name="comEmail" value="${cusD.comEmail }" readonly></td>
                 <tr>
                     <td>기타</td>
-                    <td><textarea name="comMemo" class="inputlo" rows="5"  maxlength="50" readonly>"${cusD.comMemo }"</textarea></td>
+                    <td><textarea name="comMemo" class="inputlo" rows="5"  maxlength="50" readonly>${cusD.comMemo }</textarea></td>
                 </tr>
-                <input type="hidden" id="cusNo" name="cusNo" value="${cusD.cusNo }">  
-                <input type="hidden" name="empNo" value="${cusD.empNo }"> 
-                  </c:forEach>  
+                <input type="hidden" id="cusNo" name="cusNo" value="${cusD.cusNo}">  
+                <input type="hidden" name="empNo" value="${cusD.empNo}"> 
+         </c:forEach>  
                     
                    
             <!--나중에 모달창에서 바꾸기-->
                 
-            </table>
+         </table>
             
                 <div id="buttonLine">
 					<button type="button" onclick="choice(1)">수정</button>
 					<button type="button" onclick="location.href='custoAdd.do'">취소</button>
 					<button type="button" onclick="choice(2)">삭제</button>
 				</div>
-                </form>
-          
+             </form>
         </div>
     </div>
 	<script>
@@ -119,7 +116,7 @@
 					success : function(data) {
 						console.log("삭제 결과는?: " + data);
 						no = data;
-						if (no === '1') {
+						if (no ==='1') {
 							/*
 							모달창으로 바꾸고 나서 적용해보기
 							let title = '고객 주소록 삭제';
