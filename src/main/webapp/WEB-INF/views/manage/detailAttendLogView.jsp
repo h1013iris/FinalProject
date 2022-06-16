@@ -43,6 +43,42 @@
 		font-weight: 550;
 		margin-bottom: 20px;
 	}
+	.headerUnderList{
+		text-align: center;
+		width: 100%;
+		flex-wrap: wrap;
+    	align-items: center;
+    	margin-bottom: 15px;
+    	display: flex;
+	}
+	.headerUnderList>div{
+		flex: 1;
+	}
+	.iuppername{
+		font-size: 18px;
+	    font-weight: 550;
+	}
+	.sectionDIV{
+		padding-top:10px;
+		border-bottom: 1px solid;
+	    padding-bottom: 10px;
+	    font-weight: 550;
+	    margin-bottom: 10px;
+	    font-size: 19px;
+	}
+	.firdivse{
+		margin-bottom: 15px;
+	}
+	.bigDivSection{
+		margin-top: 30px;
+	}
+	.sectionDIV:hover{
+		cursor: pointer;
+		background-color: rgb(174, 217, 248);
+	}
+	.moveDiveChange{
+		display: none;
+	}
 </style>
 </head>
 <body>
@@ -82,21 +118,120 @@
 					</div>
 				</div>
 			</div>
+			<!-- 이번주 수정 요청 부분 -->
+			
 			<!-- 아래 부분 -->
-			<div>
-				<div><span>1주차</span></div>
-			</div>
-			<div>
-				<div><span>1주차</span></div>
-			</div>
-			<div>
-				<div><span>1주차</span></div>
-			</div>
-			<div>
-				<div><span>1주차</span></div>
-			</div>
-			<div>
-				<div><span>1주차</span></div>
+			<div class="bigDivSection">
+				<div class="firdivse">
+					<div class="sectionDIV"><span>1주차</span></div>
+					<div class="moveDiveChange">
+						<div class="headerUnderList iuppername">
+							<div><span>일자</span></div>
+							<div><span>업무 시작</span></div>
+							<div><span>업무 종료</span></div>
+							<div><span>총 근무 시간</span></div>
+						</div>
+						<c:forEach items="${listDiv}" var="ld">
+							<c:if test="${ld.mon eq 1}">
+								<div class="headerUnderList">
+									<input type="hidden" value="${ld.attendNo}">
+									<div><span>${ld.emp} ${ld.status}</span></div>
+									<div><span>${ld.attendTime2}</span></div>
+									<div><span>${ld.leaveTime2}</span></div>
+									<div><span>${ld.cal}</span></div>
+								</div>
+							</c:if>
+						</c:forEach>
+					</div>
+				</div>
+				<div class="firdivse">
+					<div class="sectionDIV"><span>2주차</span></div>
+					<div class="moveDiveChange">
+						<div class="headerUnderList iuppername">
+							<div><span>일자</span></div>
+							<div><span>업무 시작</span></div>
+							<div><span>업무 종료</span></div>
+							<div><span>총 근무 시간</span></div>
+						</div>
+						<c:forEach items="${listDiv}" var="ld">
+							<c:if test="${ld.mon eq 2}">
+								<div class="headerUnderList">
+									<input type="hidden" value="${ld.attendNo}">
+									<div><span>${ld.emp}  ${ld.status}</span></div>
+									<div><span>${ld.attendTime2}</span></div>
+									<div><span>${ld.leaveTime2}</span></div>
+									<div><span>${ld.cal}</span></div>
+								</div>
+							</c:if>
+						</c:forEach>
+					</div>
+				</div>
+				<div class="firdivse">
+					<div class="sectionDIV"><span>3주차</span></div>
+					<div class="moveDiveChange">
+						<div class="headerUnderList iuppername">
+							<div><span>일자</span></div>
+							<div><span>업무 시작</span></div>
+							<div><span>업무 종료</span></div>
+							<div><span>총 근무 시간</span></div>
+						</div>
+						<c:forEach items="${listDiv}" var="ld">
+							<c:if test="${ld.mon eq 3}">
+								<div class="headerUnderList">
+									<input type="hidden" value="${ld.attendNo}">
+									<div><span>${ld.emp}  ${ld.status}</span></div>
+									<div><span>${ld.attendTime2}</span></div>
+									<div><span>${ld.leaveTime2}</span></div>
+									<div><span>${ld.cal}</span></div>
+								</div>
+							</c:if>
+						</c:forEach>
+					</div>
+				</div>
+				<div class="firdivse">
+					<div class="sectionDIV"><span>4주차</span></div>
+					<div class="moveDiveChange">
+						<div class="headerUnderList iuppername">
+							<div><span>일자</span></div>
+							<div><span>업무 시작</span></div>
+							<div><span>업무 종료</span></div>
+							<div><span>총 근무 시간</span></div>
+						</div>
+						<c:forEach items="${listDiv}" var="ld">
+							<c:if test="${ld.mon eq 4}">
+								<div class="headerUnderList">
+									<input type="hidden" value="${ld.attendNo}">
+									<div><span>${ld.emp}  ${ld.status}</span></div>
+									<div><span>${ld.attendTime2}</span></div>
+									<div><span>${ld.leaveTime2}</span></div>
+									<div><span>${ld.cal}</span></div>
+								</div>
+							</c:if>
+						</c:forEach>
+					</div>
+				</div>
+				<div class="firdivse">
+					<div class="sectionDIV"><span>5주차</span></div>
+					<div class="moveDiveChange">
+						<div class="headerUnderList iuppername">
+							<div><span>일자</span></div>
+							<div><span>업무 시작</span></div>
+							<div><span>업무 종료</span></div>
+							<div><span>총 근무 시간</span></div>
+						</div>
+						<c:forEach items="${listDiv}" var="ld">
+							<c:if test="${ld.mon eq 5}">
+								<div class="headerUnderList">
+									<input type="hidden" value="${ld.attendNo}">
+									<div><span>${ld.emp}  ${ld.status}</span></div>
+									<div><span>${ld.attendTime2}</span></div>
+									<div><span>${ld.leaveTime2}</span></div>
+									<div><span>${ld.cal}</span></div>
+								</div>
+							</c:if>
+						</c:forEach>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -105,6 +240,14 @@
 			var empName = $(".empNameDSEction").val();
 			var info = $(".calandStatus").val();
 			$(".page_title>.title_name").text(empName+" 근태 현황 _ "+info);
+		})
+		$(".sectionDIV").click(function(){
+			$(".moveDiveChange").hide();
+			event.stopPropagation();
+			$(this).next().toggle();
+		})
+		$(document).click(function(){
+			$(".moveDiveChange").hide();
 		})
 	</script>
 </body>

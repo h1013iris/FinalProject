@@ -254,7 +254,6 @@
 		text-decoration: line-through;
 	}
 	.addWats{
-		border: 1px solid;
 		margin-bottom: 10px;
 	}
 	.addWats span{
@@ -284,20 +283,12 @@
 		box-shadow: 0px 0px 0px 0px #afafaf !important;
 	}
 	.commentText{
-		border: 1px solid;
 		width: 97%;
 	}
 	.commentDvi{
 		display: flex;
 		width: 100%;
 	}
-	.semiCheckListDiv{
-		border: 1px solid;
-	}
-	.checkListTitle{
-		border: 1px solid red;
-	}
-
 	.semiMainBody{
 		max-height: 670px !important;
 		overflow-y: scroll;
@@ -376,7 +367,6 @@
 		cursor: pointer;
 	}
 	.semiAttachParts{
-		border: 1px solid red;
 		display: none;
 	} 
 	.firstAttactj{
@@ -447,11 +437,6 @@
    				</div>
               	<!-- 프로젝트 및 기한일 적는 div -->
               	<div class="attendDuedate">
-	              	<!-- 참여자 -->
-	              	<div class="attendPersonShow">
-	              		<div><span>참여자</span></div>
-	              		<div>000/000/000</div>
-	              	</div>
 	              	<!-- 기한일 -->
 	              	<div class="dueDateShowDiv">
 	              		<div><span>기한일</span></div>
@@ -503,7 +488,6 @@
             </div>
         </div>
         <div class="outSectionDiv">
-	       	<div class="outSeeAttend"><span>참여자</span></div>
 	       	<div class="outseeDuetime"><span>기한일</span></div>
 	       	<div><input type="date" class="outseeDueTimeInsert" id="currentDate"></div>
 	       	<div class="outseeChecklist"><span>체크리스트</span></div>

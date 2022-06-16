@@ -14,6 +14,7 @@ import com.google.gson.GsonBuilder;
 import com.uni.spring.admin.model.dto.Department;
 import com.uni.spring.admin.model.dto.employeeAllInfo;
 import com.uni.spring.admin.model.service.adminService;
+import com.uni.spring.approval.model.dto.CmtUpdateForm;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.department.model.dto.AttendLog;
 import com.uni.spring.department.model.dto.DepartmentAnno;
@@ -123,7 +124,10 @@ public class ManageController {
 			att2.add(new AttendLog().attendAVGLISTAV(at));
 		}
 		System.out.println(att2);
-		mv.addObject("att",att).addObject("dplist",dplist).addObject("att2", att2).setViewName("manage/attendlogListView");
+		
+		//근태 수정요청 요번주 리스트 뽑아오기
+		ArrayList<CmtUpdateForm> clist = manageService.selectListEdittW(cw2);
+		mv.addObject("att",att).addObject("dplist",dplist).addObject("att2", att2).addObject("clist",clist).setViewName("manage/attendlogListView");
 		return mv;
 	}
 	
@@ -153,7 +157,19 @@ public class ManageController {
 			att2 =new AttendLog().attendAVGLISTAV(at);
 		}
 		System.out.println(att2);//성공인지 확인하기 
-		mv.addObject("att",att).addObject("att2",att2).setViewName("manage/detailAttendLogView");
+		
+		//개인 날짜리스트 값들 가져오기 
+		/* ATTEND_NO -> 근태 순번
+		 * EMP_NO -> 사원 번호 
+		 * EMP -> 출입 날짜, 
+		 * STATUS - > 요일, 
+		 * ATTEN_TIME - > 출근 시간 
+		 * LEAVE_TIME -> 퇴근 시간
+		 * cal -> 총 합계 시간
+		 * MON -> 주차(몇주차인지)
+		 * */
+		ArrayList<AttendLog> listDiv = manageService.selectListAttendDetail(cw);
+		mv.addObject("att",att).addObject("att2",att2).addObject("listDiv",listDiv).setViewName("manage/detailAttendLogView");
 		return mv;
 	}
 }

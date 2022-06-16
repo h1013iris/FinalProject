@@ -43,7 +43,8 @@ public class DepartController {
 		ArrayList<DepartmentAnno> dlist = departService.selectAnnoDepartListMain(Integer.parseInt(departmentNo));//부서 공지사항 5개
 		ArrayList<Board> blist = departService.selectBoardDepartListMain(Integer.parseInt(departmentNo));//부서 페이지
 		ArrayList<Project> plist = departService.selectProjectList(userNo);
-		mv.addObject("dlist",dlist).addObject("blist",blist).addObject("plist",plist).setViewName("depart/departmentMainPage");
+		ArrayList<Member> mlist = departService.selectPInfoList(departmentNo);
+		mv.addObject("dlist",dlist).addObject("blist",blist).addObject("plist",plist).addObject("mlist", mlist).setViewName("depart/departmentMainPage");
 		return mv;
 	}
 	
@@ -535,6 +536,14 @@ public class DepartController {
 		departService.updateTagSemi(sp);
 		model.addAttribute("pjno",sp.getRefPro());
 		return "redirect:detailProject.do";
+	}
+	//상세 리스트에서 전자 명함
+	@ResponseBody
+	@RequestMapping(value="selectListMemberList.do", produces="application/json; charset=utf-8")
+	public String selectListMemberList(String departmentNo) {
+		ArrayList<Member> mlist = departService.selectPInfoList(departmentNo);
+		
+		return new Gson().toJson(mlist);
 	}
 }
 	
