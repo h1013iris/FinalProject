@@ -212,7 +212,6 @@
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.drafterDept);
 					$("#draftDate").val(data.dftDate);
-					$("#docNo").val(data.docNo);
 					$("#updateDate").val(data.updateDate);
 					$("#beAttendTime").val(data.beAttendTime);
 					$("#beLeaveTime").val(data.beLeaveTime);
@@ -220,6 +219,12 @@
 					$("#leaveTime").val(data.leaveTime);
 					$("#updateReason").val(data.updateReason);
 					$("#outboxNo").text(data.outboxNo);
+					
+					if(data.docNo == 0) {
+						$("#docNo").val("");
+					} else {
+						$("#docNo").val(data.docNo);
+					}
 					
 					// 결재선 조회
 			 		$.ajax({

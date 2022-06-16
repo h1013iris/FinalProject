@@ -133,6 +133,11 @@ public interface AprvService {
 
 	AprvDoc lastAprvHistory(int docNo);
 
+	void aprvCancle(int docNo, int docType, DocOutbox docOutbox);
+
+	void aprvReRequest(int docType, int outboxNo, LeaveForm leaveForm, CmtUpdateForm cmtUpdateForm, BusDraftForm busDraftForm, BusCoopForm busCoopForm, AprvHistory aprvHistory, AprvDoc aprvDoc);
+
+
 	
 
 	

@@ -87,7 +87,7 @@
 										</td>
 										<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle; border-image: none;">
 											<span contenteditable="false">
-												<input class="fix_input" value="문서번호" readonly/>
+												<input class="fix_input" id="docNo" name="docNo" value="" readonly/>
 											</span>
 										</td>
 									</tr>
@@ -242,35 +242,6 @@
  		}
  		
  		
- 		// 결재자 조회하는 함수
- 		function selectApproverFn() {
- 			
- 			// 결재선 조회
-	 		$.ajax({
-	 			
-	 			type: "post",
-                url: "selectDeptApprover.do",
-                data: { deptNo : "${ loginUser.departmentNo }",
-                		jobNo : "${ loginUser.jobNo }"},
-                success: function (list) {
-				console.log(list);
-                	if(list != null || list != "") {
-                		
-                		$("#firstAprvName").val(list[0].empName);
-                		$("#firstAprv").val(list[0].empNo);
-                		$("#firstAprvJob").val(list[0].jobName);
-                	}
-                	
-                	if(list.length == 2) {
-                		$("#secondAprvName").val(list[1].empName);
-                		$("#secondAprv").val(list[1].empNo);
-                		$("#secondAprvJob").val(list[1].jobName);
-                	}
-                }
-	 		});
- 		}
- 		
- 		
  		// 부서 리스트 조회하는 함수
  		function selectDeptListFn() {
  			
@@ -309,38 +280,80 @@
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.drafterDept);
 					$("#dftDate").val(data.dftDate);
+					//$("#docNo").val(data.docNo);
 					$("#enfDate").val(data.enfDate);
 					$("#coopDept").val(data.coopDept);
 					$("#docTitle").val(data.docTitle);
 					$("#dftContent").val(data.dftContent);
 					$("#outboxNo").text(data.outboxNo);
 					
-					// 결재선 조회
-			 		/*$.ajax({
-			 			
-			 			type: "post",
-		                url: "selectDeptApprover.do",
-		                data: { deptNo : "${ loginUser.departmentNo }",
-		                		jobNo : "${ loginUser.jobNo }"},
-		                success: function (data) {
-							console.log(data);
-		                	if(data != null || data != "") {
-		                		
-		                		$("#firstAprvName").val(data[0].empName);
-		                		$("#firstAprv").val(data[0].empNo);
-		                		$("#firstAprvJob").val(data[0].jobName);
-		                		
-		                		if(data.length > 1) {
-		                			$("#secondAprvName").val(data[1].empName);
-			                		$("#secondAprv").val(data[1].empNo);
-			                		$("#secondAprvJob").val(data[1].jobName);
-		                		}
-		                	}
-		                }
-			 		});*/
+					// 문서 번호가 없으면
+					if(data.docNo == 0) {
+						$("#docNo").val("");
+					} else {
+						$("#docNo").val(data.docNo);
+					}
 					
+					// 문서 번호가 존재하지 않으면 -> 처음 등록 시 임시 저장한 경우
+			 		if($("#docNo").val() == null || $("#docNo").val() == "") {
+			 			selectApproverFn(); // 문서 등록 시 결재자 조회하는 함수
+			 			
+			 		} else {
+			 			aprvCancleDocApproverFn();	// 결재 취소한 문서의 결재자 조회하는 함수
+			 		}
 				}
 			});
+ 		}
+ 		
+ 		
+ 		// 결재 취소한 문서의 결재자 조회하는 함수
+ 		function aprvCancleDocApproverFn() {
+ 			
+ 			$.ajax({
+	 			
+	 			type: "post",
+                url: "selectDocApprover.do",
+                data: { docNo : $("#docNo").val() },
+                success: function (data) {
+				console.log(data);
+                	if(data != null) {
+                		
+                		$("#firstAprvName").val(data.firstAprv);
+                		$("#firstAprvJob").val(data.firstJob);
+                		$("#secondAprvName").val(data.secondAprv);
+                		$("#secondAprvJob").val(data.secondJob);
+                	}
+                }
+	 		});
+ 		}
+ 		
+ 		
+ 		// 등록 시 임시저장한 문서 결재자 조회하는 함수
+ 		function selectApproverFn() {
+ 			
+ 			// 결재선 조회
+	 		$.ajax({
+	 			
+	 			type: "post",
+                url: "selectDeptApprover.do",
+                data: { deptNo : "${ loginUser.departmentNo }",
+                		jobNo : "${ loginUser.jobNo }"},
+                success: function (list) {
+				console.log(list);
+                	if(list != null || list != "") {
+                		
+                		$("#firstAprvName").val(list[0].empName);
+                		$("#firstAprv").val(list[0].empNo);
+                		$("#firstAprvJob").val(list[0].jobName);
+                	}
+                	
+                	if(list.length == 2) {
+                		$("#secondAprvName").val(list[1].empName);
+                		$("#secondAprv").val(list[1].empNo);
+                		$("#secondAprvJob").val(list[1].jobName);
+                	}
+                }
+	 		});
  		}
  		
  		
@@ -428,13 +441,23 @@
  			
  			// 폼의 모든 데이터 저장해서 변수로 선언
  			let form = $(".docUpdateForm").serialize();
- 			let outboxNo = ${ outboxNo };
- 			form += "&outboxNo=" + outboxNo;
- 		
+ 			form += "&outboxNo=" + ${ outboxNo } + "&docType=" + ${ docForm };
+ 			
+			let url = "";
+ 			
+ 			// 문서 등록 시 임시 저장한 문서이면 새로 결재 요청
+ 			if($("#docNo").val() == null || $("#docNo").val() == "") {
+ 				url = "oboxAprvReqBusDft.do";
+ 			
+ 			// 문서 번호 있으면 재결재 요청
+ 			} else {
+ 				url = "aprvReRequest.do";
+ 			}
+ 			
  			$.ajax({
 				
 				type: "post",
-                url: "oboxAprvReqBusDft.do",
+                url: url,
                 data: form,
                 success: function (result) {
                 	console.log(result)

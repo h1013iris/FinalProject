@@ -148,13 +148,13 @@
 	    			
 	    			console.log(data);
 	    			
-	    			let drafter = ${ loginUser.empNo };
+	    			let drafter = "${ loginUser.empNo }";
 	    			
 	    			// 기안자가 아닌 경우
 	    			if(drafter != data.drafter) {
 	    				console.log("기안자가 아니야!");
 	    				
-	    				myAlert("결재 취소", "기안자만 해당 문서의 결재를 취소할 수 있습니다.");
+	    				myAlert("결재 취소", "기안자만 해당 문서 결재를 취소할 수 있습니다.");
 	    			
 	    			// 기안자는 맞지만 이미 승인/반려 처리된 경우
 	    			} else if(drafter == data.drafter && 'D' != data.aprvCode) {
@@ -168,7 +168,18 @@
 	    			} else if(drafter == data.drafter && 'D' == data.aprvCode) {
 	    				console.log("결재 취소할 수 있어!!!!!!!");
 	    				
-	    				
+	    				// confirm 모달 띄우기
+	    		    	myConfirm("결재 취소", "결재를 취소하시겠습니까?");
+	    		    	
+	    		    	$(".false_btn").click(function() {
+	    		    	    $("#helpmeCOnfirm").hide();
+	    		    	});
+	    		    	
+	    		    	// 확인 클릭 시
+	    		    	$(".true_btn").click(function() {
+	    		    		$("#helpmeCOnfirm").hide();
+	    		    		aprvCancleFn(); // 결재 취소 함수 실행
+	    		    	});
 	    			}
 	    		}
 	    		
@@ -177,7 +188,42 @@
 	    });
 	    
 	    
-	    
+	    // 결재 취소 함수
+	    function aprvCancleFn() {
+	    	
+	    	let form = $(".detailViewForm").serialize();
+	    	let docType = ${ docType };
+	    	console.log(docType);
+	    	form += "&docType=" + docType;
+	    	
+	    	$.ajax({
+	    		
+	    		type: "post",
+	    		url: "aprvCancle.do",
+	    		data: form,
+	    		success: function(result) {
+	    			
+	    			if(result == "success") {
+
+    					myAlert("결재 취소", "결재가 취소되었습니다.");
+    					
+    					// 클릭 버튼 취소 시 모달 사라지고
+    					$(document).on("click", ".cancel_btn", function() {
+    			 			
+    						$("#alertBackground").css("display","none")
+    						// 결재 요청 메인으로 이동
+    						location.href="requestMain.do";
+    					})
+    					
+    					
+    				} else {
+
+   						myAlert("결재 취소", "결재 취소를 실패하였습니다.");
+    				}
+	    		}
+	    		
+	    	});
+	    }
 	    
 	    
     </script>
