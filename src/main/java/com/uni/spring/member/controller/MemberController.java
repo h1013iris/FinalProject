@@ -25,6 +25,8 @@ import com.uni.spring.addressBook.model.dto.Dept;
 import com.uni.spring.calender.model.dto.Calender;
 import com.uni.spring.calender.model.service.CalenderService;
 import com.uni.spring.calender.model.service.CalenderServiceImpl;
+import com.uni.spring.board.model.dto.Board;
+import com.uni.spring.board.model.service.BoardService;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.common.DepartmentManagement;
 import com.uni.spring.manageMent.model.service.ManageService;
@@ -52,6 +54,8 @@ public class MemberController {
 	
 	@Autowired
 	public CalenderService calenderService;
+  @Autowired
+	public BoardService BoardService;
 
 	//로그인 페이지로 이동
 	@GetMapping("login.do")
@@ -162,6 +166,8 @@ public class MemberController {
 	         if(a != null) {
 	             loginUser.setChangeName(a.getChangeName());
 	          }
+
+	        
 	        String statuslogin = manageService.selectSatatusLog(loginUser.getEmpNo());
 	        /*김태연 캘린더!!!!!!!!*/
 	        System.out.println("로그인 유저 부서넘버 ====> "+loginUser.getDepartmentNo());
@@ -170,9 +176,11 @@ public class MemberController {
 	        	String departmentNo = loginUser.getDepartmentNo();
 				department = calenderService.selectDepartment(departmentNo);
 				loginUser.setDepartmentName(department.getDepartmentTitle().replaceAll(" ", "&nbsp")); // 부서명가져올 때 replace
-			}
+			  }
 			loginUser.setStatuslogin(statuslogin);
+			    loginUser.setStatuslogin(statuslogin);
 	        model.addAttribute("loginUser",loginUser);
+
 		
 			return "redirect:approvalMain.do";
 		} catch (Exception e) {

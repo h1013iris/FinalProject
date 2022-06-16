@@ -97,16 +97,16 @@
 		        <%-- 문서 서식에 맞게 폼 뜨도록 --%>
 		        <c:choose>
 		        	<c:when test="${ docType == 10 }">
-		        		<jsp:include page="../outboxDocDetailView/leaveOutboxDView.jsp"/>
+		        		<jsp:include page="leaveOutboxDView.jsp"/>
 		        	</c:when>
 		        	<c:when test="${ docType == 11 }">
-		        		<jsp:include page="../outboxDocDetailView/cmtUpdateOutboxDView.jsp"/>
+		        		<jsp:include page="cmtUpdateOutboxDView.jsp"/>
 		        	</c:when>
 		        	<c:when test="${ docType == 20 }">
-		        		<jsp:include page="../outboxDocDetailView/busDraftOutboxDView.jsp"/>
+		        		<jsp:include page="busDraftOutboxDView.jsp"/>
 		        	</c:when>
 		        	<c:when test="${ docType == 30 }">
-		        		<jsp:include page="../outboxDocDetailView/busCoopOutboxDView.jsp"/>
+		        		<jsp:include page="busCoopOutboxDView.jsp"/>
 		        	</c:when>
 	        	</c:choose>
 				<div class="docDetailBtnsArea">
@@ -145,13 +145,14 @@
 	    	// 확인 버튼 클릭 시 삭제 진행
 	    	$(".true_btn").click(function(){
 	    		$("#helpmeCOnfirm").hide();
-	            
+	    		
 	    		$.ajax({
 	    			
 	    			type: "post",
 	    			url: "deleteOutboxDoc.do",
 	    			data: { outboxNo : ${ outboxNo },
-	    					docType : ${ docType } },
+	    					docType : ${ docType },
+	    					docNo : $("#docNo").val() },
 	    			success: function(result) {
 						
 	    				if(result == "success") {

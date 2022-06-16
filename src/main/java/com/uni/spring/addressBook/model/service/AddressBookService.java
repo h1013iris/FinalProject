@@ -1,10 +1,12 @@
 package com.uni.spring.addressBook.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.uni.spring.addressBook.model.dto.Company;
 import com.uni.spring.addressBook.model.dto.Customer;
 import com.uni.spring.addressBook.model.dto.Dept;
+import com.uni.spring.addressBook.model.dto.Favorite;
 import com.uni.spring.member.model.dto.WideMember;
 
 public interface AddressBookService {
@@ -60,13 +62,31 @@ public interface AddressBookService {
 	int deleteCusAdd(String cusNo);
 
 	//부서벽 주소록 검색
-	ArrayList<WideMember> selectDeptAddSearch(int departmentNo);
+	ArrayList<WideMember> selectDeptAddSearch(String departmentTitle ,String search);
 
 	//거래처 주소록 임시보관함 조회
 	ArrayList<Company> selectComBoxAdd(int empNo);
 
 	//고객 주소록 임시보관함 조회
 	ArrayList<Customer> selectCustoBoxAdd(int empNo);
+	
+	//고객 주소록 영구삭제
+	int deleteCustoBox(List<String> cusNoArr);
+
+	//거래처 주소록 영구삭제
+	int deleteComBox(List<String> comNoArr);
+
+	//고객주소록 임시보관함 복원
+	int updateBackCustoBox(List<String> cusNoArr);
+
+	//고객주소록 임시보관함 복원
+	int updateBackComBox(List<String> comNoArr);
+
+	//즐겨찾기 테이블에 추가하기
+	int insertPavoAdd(String ckEmpNo, String empNo);
+
+	//즐겨찾기리스트 조회하기
+	ArrayList<WideMember> selectFavoAdd(String empNo);
 	
 
 

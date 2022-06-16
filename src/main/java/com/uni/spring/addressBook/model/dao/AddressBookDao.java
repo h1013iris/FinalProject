@@ -1,6 +1,8 @@
 package com.uni.spring.addressBook.model.dao;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.uni.spring.addressBook.model.dto.Company;
 import com.uni.spring.addressBook.model.dto.Customer;
 import com.uni.spring.addressBook.model.dto.Dept;
+import com.uni.spring.addressBook.model.dto.Favorite;
 import com.uni.spring.member.model.dto.WideMember;
 
 @Repository
@@ -121,33 +124,71 @@ public class AddressBookDao {
 		sqlSession.update("addressBookMapper.updateCustoList", custo);
 	}
 
-	//거래처 주소록 삭제하기
+	// 거래처 주소록 삭제하기
 	public int deleteComAdd(SqlSessionTemplate sqlSession, String compNo) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("addressBookMapper.deleteComAdd",compNo);
+		return sqlSession.update("addressBookMapper.deleteComAdd", compNo);
 	}
 
-	//고객 주소록 삭제하기
+	// 고객 주소록 삭제하기
 	public int deleteCusAdd(SqlSessionTemplate sqlSession, String cusNo) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("addressBookMapper.deleteCusAdd",cusNo);
+		return sqlSession.update("addressBookMapper.deleteCusAdd", cusNo);
 	}
 
-	//부서별 주소록 검색
-	public ArrayList<WideMember> selectDeptAddSearch(SqlSessionTemplate sqlSession, int departmentNo) {
+	// 부서별 주소록 검색
+	public ArrayList<WideMember> selectDeptAddSearch(SqlSessionTemplate sqlSession, Map<String, Object> deptSearch) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("addressBookMapper.selectDeptAddSearch",departmentNo);
+		System.out.println("deptSearch 다오: "+deptSearch);
+		return (ArrayList) sqlSession.selectList("addressBookMapper.selectDeptAddSearch", deptSearch);
 	}
 
-	//거래처주소록 임시보관함
+	// 거래처주소록 임시보관함
 	public ArrayList<Company> selectComBoxAdd(SqlSessionTemplate sqlSession, int empNo) {
 		// TODO Auto-generated method stub
-		return(ArrayList)sqlSession.selectList("addressBookMapper.selectComBoxAdd",empNo);
+		return (ArrayList) sqlSession.selectList("addressBookMapper.selectComBoxAdd", empNo);
 	}
 
-	//고객주소록 임시보관함
+	// 고객주소록 임시보관함
 	public ArrayList<Customer> selectCustoBoxAdd(SqlSessionTemplate sqlSession, int empNo) {
 		// TODO Auto-generated method stub
-		return(ArrayList)sqlSession.selectList("addressBookMapper.selectCustoBoxAdd",empNo);
+		return (ArrayList) sqlSession.selectList("addressBookMapper.selectCustoBoxAdd", empNo);
+	}
+
+	// 고객주소록 영구삭제
+	public int deleteCustoBox(SqlSessionTemplate sqlSession, List<String> cusNoArr) {
+		// TODO Auto-generated method stub
+		System.out.println("고객주소록 삭제 다오: " + cusNoArr);
+		return sqlSession.delete("addressBookMapper.deleteCustoBox", cusNoArr);
+	}
+
+	// 거래처 주소록 영구삭제
+	public int deleteComBox(SqlSessionTemplate sqlSession, List<String> comNoArr) {
+		// TODO Auto-generated method stub
+		System.out.println("고객주소록 삭제 다오: " + comNoArr);
+		return sqlSession.delete("addressBookMapper.deleteComBox", comNoArr);
+	}
+
+	//고객주소록 복원
+	public int updateBackCustoBox(SqlSessionTemplate sqlSession, List<String> cusNoArr) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("addressBookMapper.updateBackCustoBox", cusNoArr);
+	}
+	//거래처주소록 복원
+	public int updateBackComBox(SqlSessionTemplate sqlSession, List<String> comNoArr) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("addressBookMapper.updateBackComBox", comNoArr);
+	}
+
+	//즐겨찾기 추가
+	public int insertPavoAdd(SqlSessionTemplate sqlSession, Map<String, Object> pavoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("addressBookMapper.insertPavoAdd",pavoMap);
+	}
+
+	//즐겨찾기 리스트 조회
+	public ArrayList<WideMember> selectFavoAdd(SqlSessionTemplate sqlSession, String empNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("addressBookMapper.selectFavoAdd",empNo);
 	}
 }

@@ -87,11 +87,19 @@
 		<result property="creDate" column="CRE_DATE" />
 		<result property="outBox" column="OUTBOX" />
 	</resultMap>
+	
+	<resultMap type="Favorite" id="FavoriteResultSet">
+		<id property="bmSeq" column="BM_SEQ" />
+		<result property="empNo" column="EMP_NO" />
+		<result property="empOtherNo" column="EMP_OTHERNO" />
+		<result property="bmLook" column="BM_LOOK" />
+	</resultMap>
 
 	<!-- 전체주소록조회 -->
 	<select id="selectAllAddList" resultType="WideMember">
 <![CDATA[
-	SELECT A.EMP_NAME,
+	SELECT A.EMP_NO,
+			A.EMP_NAME,
            C.DEPARTMENT_TITLE,
            B.JOB_NAME,
            A.EMAIL,
@@ -99,6 +107,7 @@
  	FROM USER_INFO A 
     LEFT JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO =B.JOB_NO
     LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO =C.DEPARTMENT_NO 
+    ORDER BY EMP_NAME ASC
 ]]>
 	</select>
 
@@ -107,7 +116,7 @@
 
 	<select id="selectDeptTitleList" resultType="Dept">
 <![CDATA[
-	SELECT DEPARTMENT_TITLE
+	SELECT *
     FROM DEPARTMENT_MANAGEMENT  
     ORDER BY DEPARTMENT_NO
 ]]>
@@ -126,6 +135,7 @@
     LEFT JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO = B.JOB_NO
     LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO = C.DEPARTMENT_NO
     WHERE C.DEPARTMENT_TITLE=#{departmentTitle}
+    ORDER BY EMP_NAME
     ]]>
 	</select>
 
@@ -158,7 +168,7 @@
            C.DEPARTMENT_TITLE,
            B.JOB_NAME,
            A.EMAIL,
-           A.DEPARTMENT_NO
+           A.DEPARTMENT_NO,
            A.PHONE
  	FROM USER_INFO A 
     LEFT JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO =B.JOB_NO
@@ -274,7 +284,8 @@
 	<update id="updateCustoList" parameterType="Customer">
    <![CDATA[
 	 UPDATE CUSTO_ADD
-    SET IN_FOLDER=#{inFolder},
+    SET 
+    IN_FOLDER=#{inFolder},
     COM_NM=#{comNm},
     COMNO=#{comNo},
     COM_TEL=#{comTel},
@@ -300,30 +311,29 @@
 	<update id="deleteCusAdd" parameterType="string">
    <![CDATA[
 	 UPDATE CUSTO_ADD
-    SET OUTBOX='Y'
-    WHERE CUS_NO=#{cusNo}
+     SET OUTBOX='Y'
+     WHERE CUS_NO=#{cusNo}
       ]]>
 	</update>
 	
 	<!-- 부서별 주소록 검색 -->
 		<!--부서별 주소록검색기능 검색한 조건에 따라 이름 직급 부서명 이메일 휴대폰을 보여주는 쿼리 -->
-	<select id="selectDeptAddSearch" resultType="WideMember">
+	<select id="selectDeptAddSearch" resultType="WideMember" parameterType="hashMap">
  <![CDATA[
  SELECT A.EMP_NAME,
-           C.DEPARTMENT_TITLE,
-           B.JOB_NAME,
-           A.EMAIL,
-           A.PHONE
+        C.DEPARTMENT_TITLE,
+        B.JOB_NAME,
+        A.EMAIL,
+        A.PHONE
  	FROM USER_INFO A 
     LEFT JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO = B.JOB_NO
     LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO = C.DEPARTMENT_NO 
-    WHERE
-    (A.EMP_NAME LIKE '%'||#{search}||'%'
+    WHERE (A.EMP_NAME LIKE '%'||#{search}||'%'
     OR C.DEPARTMENT_TITLE LIKE '%'||#{search}||'%'
     OR B.JOB_NAME LIKE '%'||#{search}||'%'
     OR A.EMAIL LIKE '%'||#{search}||'%'
     OR A.PHONE LIKE '%'||#{search}||'%')
-    AND A.DEPARTMENT_TITLE = #{departmentTitle} 
+    AND C.DEPARTMENT_TITLE = #{departmentTitle} 
      ]]>
 	</select>
 	
@@ -346,5 +356,79 @@
      AND OUTBOX='Y'
       ]]>
 	</select>
+	
+	 <!-- 고객 주소록 임시보관함 삭제하기 -->
+   <delete id="deleteCustoBox" parameterType="java.util.List">
+ 	 DELETE CUSTO_ADD
+     WHERE 1=1
+     AND CUS_NO IN
+     <foreach collection="list" item="cusNo" open="(" close=")" separator=",">
+     	#{cusNo}
+     </foreach>
+     AND OUTBOX='Y'
+	</delete>
+	
+	<!-- 고객 주소록 임시보관함 복원하기 -->
+	<update id="updateBackCustoBox">
+	 UPDATE CUSTO_ADD
+     SET OUTBOX='N'
+     WHERE 1=1
+     AND CUS_NO IN
+     <foreach collection="list" item="cusNo" open="(" close=")" separator=",">
+     	#{cusNo}
+     </foreach>
+	</update>
+	
+	<!-- 거래처 주소록 임시보관함 삭제하기 -->
+   <delete id="deleteComBox" parameterType="java.util.List">
+ 	 DELETE COM_ADD
+     WHERE 1=1
+     AND COM_NO IN
+     <foreach collection="list" item="compNo" open="(" close=")" separator=",">
+     	#{compNo}
+     </foreach>
+     AND OUTBOX='Y'
+	</delete>
+	
+	<!-- 거래처 주소록 임시보관함 복원하기 -->
+	<update id="updateBackComBox">
+	 UPDATE COM_ADD
+     SET OUTBOX='N'
+     WHERE 1=1
+     AND COM_NO IN
+     <foreach collection="list" item="compNo" open="(" close=")" separator=",">
+     	#{compNo}
+     </foreach>
+	</update>
+	
+	<!-- 즐겨찾기 추가하기 -->
+	<insert id="insertPavoAdd" parameterType="hashMap">
+	 <![CDATA[
+	INSERT INTO PAVO_ADD
+	VALUES  
+	(SEQ_PAVOADD.NEXTVAL,#{empNo},#{ckEmpNo},'Y')
+	]]>
+	</insert>
+	
+	<!-- 즐겨찾기 리스트 조회 -->
+	<select id="selectFavoAdd" resultType="WideMember" parameterType="String">
+	 <![CDATA[
+	    SELECT
+	 	A.EMP_NO, 
+	 	A.EMP_NAME,
+        C.DEPARTMENT_TITLE,
+        B.JOB_NAME,
+        A.EMAIL,
+        A.PHONE
+ 	FROM USER_INFO A 
+    LEFT JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO = B.JOB_NO
+    LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO = C.DEPARTMENT_NO 
+									WHERE EMP_NO = (SELECT EMP_NO
+									                  	FROM PAVO_ADD
+									                   	WHERE BM_LOOK ='Y'
+									                   	AND EMP_NO=#{empNo})
+	]]>
+	</select>
+	
 	
 </mapper>

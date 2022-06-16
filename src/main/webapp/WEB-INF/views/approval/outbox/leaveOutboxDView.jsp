@@ -196,13 +196,18 @@
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.drafterDept);
 					$("#dftDate").val(data.dftDate);
-					$("#docNo").val(data.docNo);
 					$("#vacType").val(data.vacType);
 					$("#startDate").val(data.startDate);
 					$("#endDate").val(data.endDate);
 					$("#vacUseDays").val(data.vacUseDays);
 					$("#vacReason").val(data.vacReason);
 					$("#outboxNo").text(data.outboxNo);
+					
+					if(data.docNo == 0) {
+						$("#docNo").val("");
+					} else {
+						$("#docNo").val(data.docNo);
+					}
 					
 					// 결재선 조회
 			 		$.ajax({

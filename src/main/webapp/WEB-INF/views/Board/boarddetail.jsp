@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <style>
 .main_section {
 	width: 83vw;	
@@ -98,6 +99,10 @@
 	font-size:16px;
 	height: 50px;	
 	}
+	#cocn{
+	margin-left:68%;
+	
+	}
 </style>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
@@ -155,6 +160,9 @@
 			<form id="postForm" action="" method="post">
 				<input type="hidden" name="bno" value="${ b.writeno }">
                 <input type="hidden" name="boardno" value="${ b.boardno }">
+                <c:forEach items="${ list }" var="f">
+                <input type="hidden" name="originName" value="${ f.originName }"> 
+                </c:forEach>
 			</form>
 			<script>
 					function postFormSubmit(num){
@@ -177,8 +185,9 @@
 		<div id=concontents>
 			<c:if test="${ !empty loginUser }">
 
-				<textarea class="form-control" id="Content" rows="2"
+				 <textarea class="form-control" id="Content" rows="2"
 					style="resize: none; width: 70%; vertical-align: middle"></textarea>
+					
 
 				<button class="commonButton1" id="addcom">등록하기</button>
 			</c:if>

@@ -30,7 +30,6 @@
 		padding-left: 15px;
 	}
 	.plusNewSemiBu{
-		border:1px solid blue;
 		text-align: -webkit-center;
 		margin-top:20px;
 		margin-bottom: 20px;

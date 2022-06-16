@@ -21,7 +21,7 @@ public class calendarWeek {
 	private String weekh;
 	private String weeku;
 	private String weekf;//이번주의 월요일 일월년
-	
+	private int empNo;
 	public calendarWeek() {
 		// TODO Auto-generated constructor stub
 	}

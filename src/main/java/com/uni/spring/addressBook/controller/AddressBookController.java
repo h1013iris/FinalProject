@@ -1,6 +1,7 @@
 package com.uni.spring.addressBook.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.uni.spring.addressBook.model.dto.Company;
 import com.uni.spring.addressBook.model.dto.Customer;
 import com.uni.spring.addressBook.model.dto.Dept;
+import com.uni.spring.addressBook.model.dto.Favorite;
 import com.uni.spring.addressBook.model.service.AddressBookService;
 import com.uni.spring.member.model.dto.Member;
 import com.uni.spring.member.model.dto.WideMember;
@@ -70,8 +72,8 @@ public class AddressBookController {
 
 		System.out.println("부서명 조회결과:" + deptTitleList);
 
-		model.addAttribute("allAddList", allAddList);
-		model.addAttribute("deptTitleList", deptTitleList);
+		model.addAttribute("allAddList", allAddList);//조회한 전체 주소록 내용
+		model.addAttribute("deptTitleList", deptTitleList);//상단에 위치시킬 부서명 타이틀
 
 		return "addressBook/mainAdd";
 	}
@@ -99,24 +101,42 @@ public class AddressBookController {
 
 	// 검색창에서 전체검색으로진행됨 전체주소록이랑 같은 표에서 출력된다.
 	@PostMapping("allAddSearch.do")
-	public String selectAllAddSearch(WideMember wm, String search, Model model) {
+	public String selectAllAddSearch(WideMember wm, String search,Dept dp, Model model) {
 
 		ArrayList<WideMember> allAddList = addressBookService.selectAllAddSearch(wm, search);
 		model.addAttribute("allAddList", allAddList);
 
 		System.out.println("검색결과는? " + allAddList);
+		
+		ArrayList<Dept> deptTitleList = addressBookService.selectDeptTitleList(dp);
+
+		System.out.println("부서명 조회결과:" + deptTitleList);
+
+		model.addAttribute("deptTitleList", deptTitleList);
+		if(allAddList==null||allAddList.isEmpty()) {
+			model.addAttribute("msg","전체 부서록 검색 결과가 없습니다.");
+		}
 		return "addressBook/mainAdd";
 	}
 	
 	// 부서별 검색 부서별주소록 리스트랑 같은 표에서 출력된다.
 	@PostMapping("deptAddSearch.do")
-	public String selectDeptAddSearch(int departmentNo, Model model) {
-
-		ArrayList<WideMember> deptList = addressBookService.selectDeptAddSearch(departmentNo);
+	public String selectDeptAddSearch(String departmentTitle,String search,Dept dp, Model model) {
+		
+		ArrayList<WideMember> deptList = addressBookService.selectDeptAddSearch(departmentTitle,search);
 
 		System.out.println("검색결과는? " + deptList);
 
-		model.addAttribute("deptAddList", deptList);
+		model.addAttribute("deptList", deptList);
+		
+		ArrayList<Dept> deptTitleList = addressBookService.selectDeptTitleList(dp);
+
+		System.out.println("부서명 조회결과:" + deptTitleList);
+
+		model.addAttribute("deptTitleList", deptTitleList);
+		if(deptList==null||deptList.isEmpty()) {
+			model.addAttribute("msg","해당 부서내 검색 결과가 없습니다.");
+		}
 
 		return "addressBook/deptAdd";
 	}
@@ -340,7 +360,7 @@ public class AddressBookController {
 		int num = addressBookService.deleteComAdd(compNo);
 
 		String result = Integer.toString(num);
-
+		System.out.println("result값: "+result);
 		return result;
 	}
 
@@ -353,9 +373,10 @@ public class AddressBookController {
 		System.out.println("cusNo는?: " + cusNo);
 
 		int num = addressBookService.deleteCusAdd(cusNo);
-
+		
+		System.out.println("num은?"+num);
 		String result = Integer.toString(num);
-
+		System.out.println("result값: "+result);
 		return result;
 	}
 
@@ -377,16 +398,73 @@ public class AddressBookController {
 		return "addressBook/boxAdd";
 	}
 	
-
-	//고객 임시보관함 삭제
-	@GetMapping("deleteCustoBox.do")
+	//임시보관함 고객주소록 영구삭제
+	@PostMapping("deleteCustoBox.do")
 	@ResponseBody
-	public void deleteCustoBox(@RequestParam(value="cusNoArr") ArrayList<String> cusNoArr) {
+	public int deleteCustoBox(@RequestParam(value="cusNoArr[]")List<String> cusNoArr) {
 		
 	System.out.println("cusNoArr의 값 : " + cusNoArr);
-	//int deletecount=addressBookService.deleteCustoBox(cusNo);
+	int deletecount=addressBookService.deleteCustoBox(cusNoArr);
+	System.out.println("고객 임시보관함 삭제결과"+deletecount);
 	
-	//return "deletecount"; 
+	return deletecount; 
+	}
 	
-}
+	//임시보관함 거래처주소록 영구삭제
+	@PostMapping("deleteComBox.do")
+	@ResponseBody
+	public int deleteComBox(@RequestParam(value="comNoArr[]")List<String> comNoArr) {
+		
+	System.out.println("comNoArr의 값 : " + comNoArr);
+	int deletecount=addressBookService.deleteComBox(comNoArr);
+	System.out.println("거래처 임시보관함 삭제결과"+deletecount);
+	
+	return deletecount; 
+	}
+	
+	//임시보관함 고객주소록 복원
+	@PostMapping("backCustoBox.do")
+	@ResponseBody
+	public int updateBackCustoBox(@RequestParam(value="cusNoArr[]")List<String> cusNoArr) {
+	
+	System.out.println("고객복원 컨트롤러 cusNoArr의 값"+cusNoArr);
+	int backCount = addressBookService.updateBackCustoBox(cusNoArr);
+	System.out.println("고객 임시보관함 복원결과"+backCount);
+		
+	return backCount;
+	}
+	
+	//임시보관함 거래처 주소록 복원
+	@PostMapping("backComBox.do")
+	@ResponseBody
+	public int updatebackComBox(@RequestParam(value="comNoArr[]")List<String> comNoArr) {
+		int backCount = addressBookService.updateBackComBox(comNoArr);
+		System.out.println("고객 임시보관함 복원결과"+backCount);
+			
+		return backCount;
+	}
+	
+	//즐겨찾기 추가 
+	@PostMapping("insertPavoAdd.do")
+	@ResponseBody
+	public int insertPavoAdd(@ModelAttribute("loginUser") Member m, @RequestParam("ckEmpNo") String ckEmpNo) {
+		//즐겨찾기 테이블에 추가하기
+		int eNo = m.getEmpNo();//로그인한 유저의 사번
+		String empNo=Integer.toString(eNo);
+		System.out.println("로그인한 유저의 사번은?: " + empNo + " 즐겨찾기 대상의 사번은?" + ckEmpNo);//잘넘어오넹
+		int count = addressBookService.insertPavoAdd(ckEmpNo,empNo);
+		System.out.println("즐겨찾기 추가 결과: "+ count);
+		return count;
+	}
+	
+	//즐겨찾기 조회
+	@GetMapping("favoAdd.do")
+	public String selectFavoAdd(@ModelAttribute("loginUser")Member m, Model model) {
+		int eNo=m.getEmpNo();
+		String empNo = Integer.toString(eNo);
+		ArrayList<WideMember> favoAddList = addressBookService.selectFavoAdd(empNo);
+		model.addAttribute("favoAddList", favoAddList);
+		return "addressBook/favoAdd";
+	}
+
 }

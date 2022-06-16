@@ -17,6 +17,7 @@
 		<form class="detailViewForm">
 			<input type="hidden" name="approver" value="${ loginUser.empNo }"/>
 			<input type="hidden" name="approverJob" value="${ loginUser.jobNo }"/>
+			<input type="hidden" name="drafter" value="${ loginUser.empNo }"/>
 			
 			<div class="docDetailArea" style="font-family:돋움; font-size:9pt;">
 		
@@ -188,8 +189,8 @@
 				success: function(data) {
 					
 					console.log(data)
-					$("#drafter").val(data.empName + " (" + data.drafter + ")");
-					$("#drafterDept").val(data.jobName);
+					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
+					$("#drafterDept").val(data.drafterDept);
 					$("#dftDate").val(data.dftDate);
 					$("#docNo").val(data.docNo);
 					$("#vacType").val(data.vacType);

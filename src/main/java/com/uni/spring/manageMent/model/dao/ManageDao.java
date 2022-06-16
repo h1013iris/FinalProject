@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.uni.spring.admin.model.dto.Department;
+import com.uni.spring.approval.model.dto.CmtUpdateForm;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.department.model.dto.AttendLog;
 import com.uni.spring.department.model.dto.Project;
@@ -74,6 +75,21 @@ public class ManageDao {
 	public ArrayList<AttendLog> selectAttendAvg(SqlSessionTemplate sqlSession, calendarWeek cd) {
 		
 		return (ArrayList)sqlSession.selectList("manageMapper.selectAttendAvg", cd);
+	}
+
+	public ArrayList<AttendLog> selectListAttendLogAVG(SqlSessionTemplate sqlSession, calendarWeek cw) {
+		
+		return (ArrayList)sqlSession.selectList("manageMapper.selectListAttendLogAVG",cw);
+	}
+
+	public ArrayList<AttendLog> selectListAttendDetail(SqlSessionTemplate sqlSession, calendarWeek cw) {
+		
+		return (ArrayList)sqlSession.selectList("manageMapper.selectListAttendDetail",cw);
+	}
+
+	public ArrayList<CmtUpdateForm> selectListEdittW(SqlSessionTemplate sqlSession, calendarWeek cw2) {
+		
+		return (ArrayList)sqlSession.selectList("manageMapper.selectListEdittW",cw2);
 	}
 
 }
