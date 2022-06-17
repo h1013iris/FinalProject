@@ -111,7 +111,7 @@
         margin-top: 40px;
         margin-left: 30px;
     }
-
+	
 </style>
 </head>
 <body>
@@ -165,7 +165,7 @@
             </div>
         </div>
     </div>
-    <div id="requestModalHtml">
+    <div id="requestModalHtml" style="display: none;">
         <li>
             <span class="emp_name"></span>
             <input type="hidden" class="empNoInput" name="empNo">

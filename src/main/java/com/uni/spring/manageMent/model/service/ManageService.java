@@ -40,4 +40,16 @@ public interface ManageService {
 	ArrayList<AttendLog> selectListAttendDetail(calendarWeek cw);
 
 	ArrayList<CmtUpdateForm> selectListEdittW(calendarWeek cw2);
+
+	void updateAttendLogEdit(CmtUpdateForm cf);
+
+	ArrayList<AttendLog> selectAttendAvgfilter(calendarWeek cw, manageDepart md);
+
+	ArrayList<AttendLog> selectListAttendLogAVGfilter(calendarWeek cw2, manageDepart md);
+
+	Member selectInfo(int empNo);
+
+	void updateStatusMember(AttendLog al);
+
+	int updateLeaveTime(int empNo);
 }

@@ -54,6 +54,13 @@
 		border: 1px solid;
    	 	border-radius: 5px;
 	}
+	.certifiCSection{
+		width: 30%;
+		border: 1px solid;
+   	 	border-radius: 5px;
+   	 	background-color:#f3f3f3;
+   	 	padding: 15px;
+	}
 	.projectSDi{
 		overflow-y: scroll;
 	}
@@ -125,13 +132,52 @@
 		width: 10vw;
 		margin-bottom: 10px;
 	}
-	
+	.style_depart_info {
+		font-size: 18px;
+	    box-shadow: 0 5px;
+    	color: darkgray;
+	}
+	.radioBigDiv{
+		margin-top: 30px;
+   		line-height: 40px;
+	}
+	#input1{
+	 	margin-top: 15px;
+		width: 250px;
+		height: 40px;
+		border-top: none;
+		border-left: none;
+		border-right: none;
+		border-bottom: 3px solid;
+	}
+	#input2{
+		margin-left:10px;
+		margin-top:15px;
+		width: 80px;
+		height: 45px;
+		border-top: none;
+		border-left: none;
+		border-right: none;
+		border-bottom: 3px solid;
+		background-color: lightgray;
+	}
+	#input2:hover{
+		cursor: pointer;
+		background-color: darkgray;
+	}
+	.inputNUMBER{
+		display: flex;
+	}
+	.certi_info_Depart{
+		margin-top: 50px;
+	}
 </style>
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	<jsp:include page="../depart/InfoDepN.jsp"/>
+	<jsp:include page="../manage/InfoForm.jsp"/>
 	<div class="main_section ">
 		<div class="departMainDivBi">
 	        <div class="upperDivDepart">
@@ -202,8 +248,28 @@
 	        			</c:forEach>
 	        		</div>
 	        	</div>
-	        	<!-- 채팅 부분 -->
-	        	<div class="chatDepartSection"></div>
+	        	<!-- 증명서 부분 -->
+	        	<div class="certifiCSection">
+					<div class="annoDepartUpperS ">
+	        			<div class="annoDepart_Name"><span >재직 증명서</span></div>
+	        		</div>
+	        		<div class="certi_info_Depart">
+	        			<div class="chooseFormDi"><span class="style_depart_info">용도를 선택해주세요</span></div>
+	        			<div class="radioBigDiv">
+		        			<div class="divraioPart"><span>금융기관 제출용</span></div>
+		        			<div class="divraioPart"><span>관공서 제출용</span></div>
+		        			<div class="divraioPart"><span>회사 제출용</span></div>
+	        			</div>
+	        			<div>
+		        			<div class="inputNUMBER">
+		        				<input type="text" placeholder="선택하신 용도가 나오는 창입니다." id ="input1" readonly="readonly">
+		        				<div>
+		        					<input type="button" value="선택" id="input2">
+		        				</div>
+	        				</div>
+		        		</div>
+	        		</div>
+				</div>
 	        </div>
         </div>
     </div> 
@@ -219,8 +285,55 @@
     		$(".showModalInfoDepart").css("display","flex");
     		$(".showListDeptP").css("display","none");
     	}
+    	$(".divraioPart").click(function(){
+    		var text = $(this).text();	
+    		$("#input1").val(text);
+   		})
+    	$("#input2").click(function(){
+    		inputF();
+    	})
+    	
+    	function inputF(){
+			var empNo = ${loginUser.empNo};
+			var val = $("#input1").val();
+			//오늘 날짜
+			var today = new Date();
+
+			var year = today.getFullYear();
+			var month = ('0' + (today.getMonth() + 1)).slice(-2);
+			var day = ('0' + today.getDate()).slice(-2);
+			var dateString = year + '년 ' + month  + '월 ' + day +'일';
+			console.log(empNo)
+			$.ajax({
+				url:"selectInfo.do", 
+				type:"get", 
+				data:{empNo:empNo}, 
+				success:function(result){
+					console.log("성공")
+					if(result == null){
+						myAlert("사번 오류", "입력하신 사번이 없습니다. 다시 입력해주세요");
+						$("#input1").focus();
+						$("#input1").val('');
+					}else{
+						$(".showModalInfoForm").css("display", "flex");
+						$("#input1").val('');
+						$(".name_part").text(result.empName);//성명
+						$(".no_part").text(result.userNo);//주민번호 
+						$(".address_part").text(result.address);//주소
+						$(".depart_part").text(result.departmentName);//소속
+						$(".job_part").text(result.jobName);//지위
+						$(".work_part").text(result.changeName+" ~ 현재");//재직기간
+						$(".why_part").text(val);//용도
+						$(".cont_part").text(dateString);//현재 날짜
+						
+					}
+					
+				}, error:function(){
+					
+				}
+			})
+		}
     </script>
     	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
-	<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
 </body>
 </html>

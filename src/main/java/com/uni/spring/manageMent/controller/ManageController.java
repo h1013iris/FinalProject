@@ -1,6 +1,8 @@
 package com.uni.spring.manageMent.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -143,7 +145,7 @@ public class ManageController {
 		cw.setEmpNo(empNo);//넘버 같이 보내주기 
 		ArrayList<AttendLog> list = manageService.selectAttendAvg(cw);//평균들 
 		System.out.println(list);//성공
-		AttendLog att = new AttendLog();
+		AttendLog att = new AttendLog();//주마다 근무시간 합계
 		for (AttendLog at : list) {
 			att = new AttendLog().attendAVGLIST(at);
 		}
@@ -152,7 +154,7 @@ public class ManageController {
 		calendarWeek cw2 = new calendarWeek().selectThisWeek();
 		cw2.setEmpNo(empNo);//넘버 같이 보내주기 
 		ArrayList<AttendLog> al = manageService.selectListAttendLogAVG(cw2);
-		AttendLog att2 = new AttendLog();
+		AttendLog att2 = new AttendLog();//이번주 모음 
 		for (AttendLog at : al) {
 			att2 =new AttendLog().attendAVGLISTAV(at);
 		}
@@ -171,5 +173,63 @@ public class ManageController {
 		ArrayList<AttendLog> listDiv = manageService.selectListAttendDetail(cw);
 		mv.addObject("att",att).addObject("att2",att2).addObject("listDiv",listDiv).setViewName("manage/detailAttendLogView");
 		return mv;
+
+	}
+	@ResponseBody
+	@RequestMapping(value="updateAttendLogEdit.do", produces="application/json; charset=utf-8")
+	public String updateAttendLogEdit(CmtUpdateForm cf) {
+		String attendTime = cf.getUpdateDate() +" "+cf.getAttendTime();//출근 시간
+		String leaveTime = cf.getUpdateDate() +" "+ cf.getLeaveTime();//퇴근 시간
+		//System.out.println(attendTime);
+		cf.setAttendTime(attendTime);cf.setLeaveTime(leaveTime);
+		manageService.updateAttendLogEdit(cf);
+		int result = 0;
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="filterCheckAttendView.do", produces="application/json; charset=utf-8")
+	public String filterCheckAttendView(manageDepart md) {
+		String fd = manageService.selectFirstday();//이번달 주 월요일들 모음
+		calendarWeek cw = new calendarWeek().changeList(fd);//객체안에 월부터 금 날짜 넣음
+		ArrayList<AttendLog> list = manageService.selectAttendAvgfilter(cw, md);
+		System.out.println(list);//성공?
+		ArrayList<AttendLog> att = new ArrayList<AttendLog>();
+		for (AttendLog at : list) {
+			att.add(new AttendLog().attendAVGLIST(at));
+		}
+		System.out.println(att);
+		ArrayList<Department> dplist = adminService.selectAllDeptList();
+		calendarWeek cw2 = new calendarWeek().selectThisWeek();//이번주 월, 금
+		ArrayList<AttendLog> al = manageService.selectListAttendLogAVGfilter(cw2,md);
+		
+		ArrayList<AttendLog> att2 = new ArrayList<AttendLog>();
+		for (AttendLog at : al) {
+			att2.add(new AttendLog().attendAVGLISTAV(at));
+		}
+		System.out.println(att2);
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("att", att);
+		map.put("att2", att2);
+		System.out.println(map);
+		
+		return new Gson().toJson(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectInfo.do", produces="application/json; charset=utf-8")
+	public String selectInfo(int empNo) {
+		Member m = manageService.selectInfo(empNo);
+		return new Gson().toJson(m);
+	}
+	
+	//상태값 회원 변경하기 
+	@ResponseBody
+	@RequestMapping(value="updateStatusMember.do", produces="application/json; charset=utf-8")
+	public String updateStatusMember(AttendLog al) {
+		manageService.updateStatusMember(al);
+		int result = 0;
+		return String.valueOf(result);
 	}
 }

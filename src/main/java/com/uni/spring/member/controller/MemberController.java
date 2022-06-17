@@ -331,7 +331,9 @@ public class MemberController {
 	
 	//로그아웃
 	@GetMapping("logout.do")
-	public String logout(SessionStatus status, Model model){
+	public String logout(SessionStatus status, Model model,  int empNo){
+		
+		int result = manageService.updateLeaveTime(empNo);
 		status.setComplete();
 		//session.invalidate();	
 		model.addAttribute("msg","로그아웃 했습니다!");

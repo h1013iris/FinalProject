@@ -8,6 +8,9 @@
 <meta charset="UTF-8">
 <title>경영지원 메인 페이지</title>
 <style type="text/css">
+	:root{
+		accent-color:lightgray;
+	}
 	.manageMainDiv{
 		margin: 0 auto;
 		padding-top: 30px;
@@ -329,10 +332,51 @@
 		font-size: 20px;
 		margin-top: 20px;
 	}
+	.chooseFormDi{
+		font-size: 20px;
+		margin-top: 15px;
+    	margin-bottom: 15px;
+	}
+	.radioPartDiv{
+		display: flex;
+		font-size: 18px;
+		margin-bottom: 10px;
+	}
+	.divraioPart{
+		line-height: 25px;
+	}
+	#input1{
+	 	margin-top: 15px;
+		width: 250px;
+		height: 40px;
+		border-top: none;
+		border-left: none;
+		border-right: none;
+		border-bottom: 3px solid;
+	}
+	#input2{
+		margin-left:10px;
+		margin-top:15px;
+		width: 80px;
+		height: 45px;
+		border-top: none;
+		border-left: none;
+		border-right: none;
+		border-bottom: 3px solid;
+		background-color: lightgray;
+	}
+	#input2:hover{
+		cursor: pointer;
+		background-color: darkgray;
+	}
+	.inputNUMBER{
+		display: flex;
+	}
 </style>
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
+	<jsp:include page="InfoForm.jsp"/>
 	<div class="main_section ">
 		<div class="manageMainDiv">
 			<!-- upper -->
@@ -370,7 +414,20 @@
 	        	</div>
 				<!-- 증명서 관리 -->
 				<div class="certifiCSection">
-				
+					<div class="annoDepartUpperS">
+	        			<div class="annoDepart_Name"><span>재직 증명서</span></div>
+	        		</div>
+	        		<div>
+	        			<div class="chooseFormDi"><span>용도 선택</span></div>
+	        			<div class="radioBigDiv">
+		        			<div class="radioPartDiv"><input type="radio" name ="submitForm" style="width:20px;height:20px;" value="금융기관 제출용"><div class="divraioPart"><span>금융기관 제출용</span></div></div>
+		        			<div class="radioPartDiv"><input type="radio" name ="submitForm" style="width:20px;height:20px;" value="관공서 제출용"><div class="divraioPart"><span>관공서 제출용</span></div></div>
+		        			<div class="radioPartDiv"><input type="radio" name ="submitForm" style="width:20px;height:20px;" value="회사 제출용"><div class="divraioPart"><span>회사 제출용</span></div></div>
+	        			</div>
+	        		</div>
+	        		<div>
+	        			<div class="inputNUMBER"><input type="text" placeholder="사원번호를 입력하세요" id ="input1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"><div><input type="button" value="선택" id="input2"></div></div>
+	        		</div>
 				</div>
 			</div>
 			<!-- lower -->
@@ -630,7 +687,7 @@
 			var ordq = $(".searchFilterL1").text();
 			if(ord != 0){
 				if(ordq =='검색'){
-					myAlert("선택", "검색을 선택해주세요");
+					//myAlert("선택", "검색을 선택해주세요");
 				}else if(ordq == '이름'){
 					searchli = $(".defualtone").val();
 				}else if(ordq == '사원번호'){
@@ -719,6 +776,62 @@
 		$(".AttendInfoEtc").click(function(){
 			location.href="selectListDepartInfo.do?deptNo="+${loginUser.departmentNo};
 		})
+		
+		$("#input2").click(function(){
+			if($("input:radio[name='submitForm']").is(":checked")==false && $("#input1").val() == '' ){
+				myAlert("내용 입력 필요", "용도 선택 및 사번을 입력해주세요");
+				$("#input1").focus();
+			}else if($("input:radio[name='submitForm']").is(":checked")==false && $("#input1").val() != '' ){
+				myAlert("용도 체크 필요", "용도 선택해주세요");
+				$("#input1").val('');
+			}else if($("input:radio[name='submitForm']").is(":checked")==true && $("#input1").val() == ''){
+				myAlert("사번 입력 필요", "사번을 입력해주세요");
+				$("#input1").focus();
+			}else if($("input:radio[name='submitForm']").is(":checked")==true && $("#input1").val() != ''){
+				var submit = $("input:radio[name='submitForm']").val();
+				inputF(submit);
+			}
+		})
+		function inputF(submit){
+			var empNo = $("#input1").val();
+			
+			//오늘 날짜
+			var today = new Date();
+
+			var year = today.getFullYear();
+			var month = ('0' + (today.getMonth() + 1)).slice(-2);
+			var day = ('0' + today.getDate()).slice(-2);
+			var dateString = year + '년 ' + month  + '월 ' + day +'일';
+			console.log(empNo)
+			$.ajax({
+				url:"selectInfo.do", 
+				type:"get", 
+				data:{empNo:empNo}, 
+				success:function(result){
+					console.log("성공")
+					if(result == null){
+						myAlert("사번 오류", "입력하신 사번이 없습니다. 다시 입력해주세요");
+						$("#input1").focus();
+						$("#input1").val('');
+					}else{
+						$(".showModalInfoForm").css("display", "flex");
+						$("#input1").val('');
+						$(".name_part").text(result.empName);//성명
+						$(".no_part").text(result.userNo);//주민번호 
+						$(".address_part").text(result.address);//주소
+						$(".depart_part").text(result.departmentName);//소속
+						$(".job_part").text(result.jobName);//지위
+						$(".work_part").text(result.changeName+" ~ 현재");//재직기간
+						$(".why_part").text(submit);//용도
+						$(".cont_part").text(dateString);//현재 날짜
+						console.log(submit)
+					}
+					
+				}, error:function(){
+					
+				}
+			})
+		}
 	</script>
 </body>
 </html>

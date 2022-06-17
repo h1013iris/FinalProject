@@ -98,6 +98,7 @@
 	}
 	.underHivHeaved{
 		margin-top: 30px;
+		background-color: lightgray;
 	}
 	.underHivHeavedGet{
 		flex-wrap: wrap;
@@ -105,7 +106,6 @@
 	}
 	.underHivHeaved div{
 		flex: 1;
-	    border: 1px solid;
 	    text-align: center;
 	    height: 30px;
 	    line-height: 30px;
@@ -127,7 +127,7 @@
 	}
 	.scrolldivse{
 	 	overflow-y:scroll;
-	 	height: 610px;
+	 	height: 450px;
 	}
 	.scrolldivse::-webkit-scrollbar{
     	display: none;
@@ -139,10 +139,30 @@
 	}
 	.editInfomationpart{
 		display: flex;
+		height: 40px;
+		line-height: 40px;
+		border-bottom: 1px solid lightgray;
 	}
 	.editInfomationpart div{
 		flex: 1;
 		text-align: center;
+	}
+	.editAPert{
+		background-color: lightgray;
+	}
+	.manangePartButton{
+		height: 30px;
+	}
+	.editInfoScrollpart{
+		overflow-y:scroll;
+		height: 85px;
+	}
+	.editInfoScrollpart::-webkit-scrollbar{
+    	display: none;
+	}
+	.editInfomationpart:hover{
+		cursor: pointer;
+		background-color: rgb(174, 217, 248);
 	}
 </style>
 </head>
@@ -156,12 +176,12 @@
 					<div class="divPartSerT">
 						<!-- 디폴트 -->
 						<div class="defalutDepart defalutDepart11">부서 분류</div>
-						<input type="hidden" class="deptTitleNo" >
+						<input type="hidden" class="deptTitleNo"  >
 						<!-- 클릭시 보인는 곳 -->
 						<div class="departTitleList departTitleListone">
-							<div onclick="titleD('0','전체')"><span>전체</span></div>
+							<div onclick="titleD('0','전체','필터','0','0')"><span>전체</span></div>
 							<c:forEach items="${dplist}" var="dp">
-								<div onclick="titleD('${dp.deptNo}','${dp.deptTitle}')"><span>${dp.deptTitle}</span></div>
+								<div onclick="titleD('${dp.deptNo}','${dp.deptTitle}','0','0','0')"><span>${dp.deptTitle}</span></div>
 							</c:forEach>
 						</div>
 					</div>
@@ -196,7 +216,8 @@
 			<!-- 근태 수정 요청 부분 -->
 			<div>
 				<div class="thisWEdit"><span>금주 근태 수정 요청</span></div>
-				<div class="underHivHeaved">
+				
+				<div class="underHivHeaved editAPert">
 					<div>기안자</div>
 					<div>기안일</div>
 					<div>수정일</div>
@@ -204,10 +225,14 @@
 					<div>기존 퇴근 시간</div>
 					<div>수정 출근 시간</div>
 					<div>수정 퇴근 시간</div>
+					
 				</div>
+
 				<div class="editInfoScrollpart">
 					<c:forEach items="${clist}" var="cl">
-						<div class="editInfomationpart">
+						<div class="editInfomationpart" >
+							<input type="hidden" value="${cl.drafter}">
+							<input type="hidden" value="${cl.docNo}">
 							<div><span>${cl.drafterName}</span></div>
 							<div><span>${cl.dftDate}</span></div>
 							<div><span>${cl.updateDate}</span></div>
@@ -299,6 +324,161 @@
 		function selectDetailInfo(empNo){
 			location.href="selectDetailAttendLog.do?empNo="+empNo;
 		}
+		//수정 확인 버튼
+		$(".editInfomationpart").click(function(){
+			var name = $(this).children().eq(2).text();
+			myConfirm("근태 수정", name+"님의 근태를 수정하시겠습니까?");
+			//취소할 시 
+			$(".false_btn").click(function() {
+	    	    $("#helpmeCOnfirm").hide();
+	    	});
+		
+			var drafter = $(this).children().eq(0).val();//기안자 
+			var docNo = $(this).children().eq(1).val();//문서 번호
+			var updateDate = $(this).children().eq(4).text();//수정일
+			var attendTime = $(this).children().eq(7).text();//수정 출근
+			var leaveTime = $(this).children().eq(8).text();//수정 퇴근 
+	    	// 확인 클릭 시
+	    	$(".true_btn").click(function() {
+	    		$("#helpmeCOnfirm").hide();
+	    		editFunction(drafter, docNo, updateDate, attendTime, leaveTime );//수정하는 함수 실행 
+	    	});
+		})
+		
+		function editFunction (drafter,docNo, updateDate, attendTime, leaveTime ){
+			
+			$.ajax({
+				url:"updateAttendLogEdit.do",
+				type:"post", 
+				data:{drafter:drafter, docNo:docNo, updateDate:updateDate, attendTime:attendTime,leaveTime:leaveTime }, 
+				success:function(result){
+					location.reload();
+				}
+			})
+		}
+		// 천단위 콤마 (소수점포함)
+	  	function numberWithCommas(num) {
+		    var parts = num.toString().split(".");
+		    return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
+		}
+	
+		// 숫자 체크(숫자 이외 값 모두 제거)
+		function chkNumber(obj){
+		  var tmpValue = $(obj).val().replace(/[^0-9,]/g,'');
+		  tmpValue = tmpValue.replace(/[,]/g,'');
+		  // 천단위 콤마 처리 후 값 강제변경
+		  obj.value = numberWithCommas(tmpValue);
+	  	}
+		function titleD(deptNo, deptTitle, fil, ord, searchli){
+			
+			var ordq = $(".searchFilterL").text();//검색 div내용
+			var fil2 = $(".filterCHange").text();//분류
+			if(fil != '필터'){
+				fil = fil2;
+			}
+			console.log(fil2)
+			if(ord != 0){
+				if(ordq =='검색'){
+					myAlert("선택", "검색을 선택해주세요");
+				}else if(ordq == '이름'){
+					searchli = $(".defalutDepart42").val();
+				}else if(ordq == '사원번호'){
+					searchli = $(".defalutDepart45").val();
+				}
+			}
+			if(deptNo == 0){
+				if($(".defalutDepart42").val() == null || $(".defalutDepart45").val() == null){
+					ordq=null;
+					searchli=null;
+				}
+			}
+			$.ajax({
+				url:"filterCheckAttendView.do", 
+				type:"get", 
+				data:{dep:deptTitle, depNo:deptNo, fil:fil2, ord:ordq, searchli:searchli},
+				success:function(list){
+					console.log(list)//들어옴
+					if(list.lenght == 0){
+						$(".scrolldivse").html('');
+					}else if(list.length != 0){
+					var value ="";
+				
+					$.each(list.att, function(i, obj){
+						
+						
+						value += '<div class="underHivHeavedGet" onclick="selectDetailInfo('+obj.empNo+')">';
+						value += '<div class="underGetEmpName">';
+						value += '<div>'+obj.empName+'</div>';
+						value += '<div>'+obj.cal+" / "+obj.status+'</div></div>';
+
+						$.each(list.att2, function(k, ob){
+						
+						if(obj.empName == ob.empName){
+							value += '<div>'+ob.tot+'</div>';
+						}
+						})
+						value += '<div>'+obj.tot+'</div>';
+						value += '<div>'+obj.tot2+'</div>';
+						value += '<div>'+obj.tot3+'</div>';
+						value += '<div>'+obj.tot4+'</div>';
+						value += '<div>'+obj.tot5+'</div></div>';
+						
+						
+					})	
+					$(".scrolldivse").html(value);
+					console.log("성공")
+					$(".defalutDepart11").text(deptTitle);//박스 명 변경
+					$(".filterCHange").text(fil2);
+					$(".deptTitleNo").val(deptNo);//부서 번호 변경
+					$(".departTitleListone").hide();//박스 사라지게 하기 
+				}
+					
+				}
+			})
+			
+		}
+		//분류 클릭했을 시 
+		function filterDepartCh(fil){
+			console.log(fil)
+			var dep = $(".defalutDepart11").text();
+			var depNo = $(".deptTitleNo").val();
+			
+			var ordq = $(".searchFilterL").text();//검색 div내용
+			var searchli ='';
+			if(ordq =='검색'){
+				searchli ='0';
+				ordq = '0';
+			}else if(ordq == '이름'){
+				searchli = $(".defalutDepart42").val();
+			}else if(ordq == '사원번호'){
+				searchli = $(".defalutDepart45").val();
+			}
+			$(".filterCHange").text(fil);
+			titleD(depNo, dep, fil,ordq , searchli);
+		}
+		
+		$(".divImgWri").click(function(){
+			var dep = $(".defalutDepart11").text();
+			var depNo = $(".deptTitleNo").val();
+			var fil = $(".filterCHange").text();//분류
+			var ordq = $(".searchFilterL").text();//검색 div내용
+			var searchli ='';
+			if(ordq =='검색'){
+				myAlert("선택", "검색을 선택해주세요");
+			}else if(ordq == '이름'){
+				searchli = $(".defalutDepart42").val();
+				if(searchli == null ||searchli == ''){
+					myAlert("선택", "검색 입력해주세요");
+				}
+			}else if(ordq == '사원번호'){
+				searchli = $(".defalutDepart45").val();
+				if(searchli == null ||searchli == ''){
+					myAlert("선택", "검색 입력해주세요");
+				}
+			}
+			$(".filterCHange").text(fil);
+			titleD(depNo, dep, fil,ordq , searchli);
+		})
 	</script>
 </body>
 </html>

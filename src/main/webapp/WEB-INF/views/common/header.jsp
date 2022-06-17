@@ -69,7 +69,7 @@
 	        </div>
 	    </div>
 	    <div>
-	        <p><a href="logout.do">로그아웃</p>
+	        <p><a href="logout.do?empNo=${loginUser.empNo}">로그아웃</p>
 	    </div>
 	</div>
 	<aside id="main_nav">
@@ -260,6 +260,7 @@
 	                </ul>
 	            </div>
 	        </li>
+	        <c:if test="${loginUser.departmentNo eq 3 }">
 	        <li>
 	            <a class="operationpage" href="manangeMain.do?departmentNo=${loginUser.departmentNo}&userNo=${loginUser.empNo}"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/경영페이지.png" alt=""></a>
 	            <div class="detail_nav_content">
@@ -274,7 +275,7 @@
 	                <ul>
 	                    <li class="list_title">관리</li>
 	                    <div class="hhh">
-		                    <li><a href="#">근태 관리</a></li>
+		                    <li><a href="selectListDepartInfo.do?deptNo=${loginUser.departmentNo}">근태 관리</a></li>
 		                    <li><a href="#">휴가 관리</a></li>
 		                    <li><a href="selectDepartInfo.do?deptNo=${loginUser.departmentNo}&deptTitle=">인사 정보</a></li>
 		                    <li><a href="#">증명서 관리</a></li>
@@ -291,6 +292,7 @@
 	                </ul>
 	            </div>
 	        </li>
+	        </c:if>
 	        <li>
 	            <a class="adminpage" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/관리자페이지.png" alt=""></a>
 	            <div class="detail_nav_content">
@@ -509,10 +511,10 @@
 					var value ="";
 				$.each(list, function(i, obj){
    				
-				value += '<div class="sectionChangeDi modalSectionCH"  onclick ="showModalInfoIMG(`'+obj.empName+'`,`'+obj.phone+'`,`'+obj.email+'`)" >';
-				value += '<img src="${pageContext.servletContext.contextPath}/resources/upload_files/'+obj.changeName+'" width="20px">';
-				value += '<div>'+obj.empName+'</div></div>';
-				
+					value += '<div class="sectionChangeDi modalSectionCH"  onclick ="showModalInfoIMG(`'+obj.empName+'`,`'+obj.phone+'`,`'+obj.email+'`)" >';
+					value += '<img src="${pageContext.servletContext.contextPath}/resources/upload_files/'+obj.changeName+'" width="20px">';
+					value += '<div>'+obj.empName+'</div></div>';
+					
 				})
 				$(".modalInfoList").html(value);
 				$(".showListDeptP").css("display","flex");
@@ -520,7 +522,21 @@
 			}
 		})
 	})
-
+	 $(".status").click(function(){
+        
+        var attendStatus = $(this).text();
+        console.log(attendStatus)
+        $.ajax({
+        	url:"updateStatusMember.do", 
+        	data:{empNo:${loginUser.empNo}, attendStatus:attendStatus}, 
+        	type:"post", 
+        	success:function(result){
+        		console.log("성공")
+        		 $(".login_status").hide();
+        	}
+        })
+        
+    })
 	</script>
 	<!-- 이메일 API -->
 	<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
