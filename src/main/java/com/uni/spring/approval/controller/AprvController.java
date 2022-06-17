@@ -21,7 +21,6 @@ import com.uni.spring.approval.model.dto.AprvStatus;
 import com.uni.spring.approval.model.dto.BusCoopForm;
 import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
-import com.uni.spring.approval.model.dto.DocFilter;
 import com.uni.spring.approval.model.dto.DocOutbox;
 import com.uni.spring.approval.model.dto.DocType;
 import com.uni.spring.approval.model.dto.LeaveForm;
@@ -614,26 +613,6 @@ public class AprvController {
 		
 		return new Gson().toJson(list);
 	}
-	
-	
-	// 검색
-	// 진행 상태 확인함에서 선택한 상태값에 따른 리스트 조회
-	/*@ResponseBody
-	@RequestMapping(value="statusDocSearchList.do", produces="application/json; charset=utf-8")
-	public String selectStatusConditionList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, 
-								DocFilter docFilter) {
-		
-		System.out.println(docFilter.toString());
-		
-		int listCount = aprvService.statusListCount(docFilter);
-		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
-		
-		ArrayList<AprvDoc> list = aprvService.selectStatusList(pi, docFilter);
-		
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
-	}*/
-	
 	
 	
 	// 휴가 신청서 임시 보관함에 저장
