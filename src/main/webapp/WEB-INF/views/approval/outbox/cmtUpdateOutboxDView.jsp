@@ -220,35 +220,32 @@
 					$("#updateReason").val(data.updateReason);
 					$("#outboxNo").text(data.outboxNo);
 					
-					if(data.docNo == 0) {
+					// 문서 번호가 없으면 (등록 시 임시 저장한 문서이면)
+					if(data.docNo == null) {
 						$("#docNo").val("");
+					
+					// 결재 취소한 문서인 경우
 					} else {
 						$("#docNo").val(data.docNo);
+						
+						// 결재자 조회
+				 		$.ajax({
+				 			
+				 			type: "post",
+		 	                url: "selectDocApprover.do",
+		 	                data: { docNo : data.docNo },
+		 	                success: function (data) {
+								console.log(data);
+		 	                	if(data != null) {
+		 	                		
+		 	                		$("#firstAprvName").val(data.firstAprv);
+		 	                		$("#firstAprvJob").val(data.firstJob);
+		 	                		$("#secondAprvName").val(data.secondAprv);
+		 	                		$("#secondAprvJob").val(data.secondJob);
+		 	                	}
+		 	                }
+				 		});
 					}
-					
-					// 결재선 조회
-			 		$.ajax({
-			 			
-			 			type: "post",
-		                url: "selectDeptApprover.do",
-		                data: { deptNo : "${ loginUser.departmentNo }",
-		                		jobNo : "${ loginUser.jobNo }"},
-		                success: function (data) {
-							console.log(data);
-		                	if(data != null || data != "") {
-		                		
-		                		$("#firstAprvName").val(data[0].empName);
-		                		$("#firstAprv").val(data[0].empNo);
-		                		$("#firstAprvJob").val(data[0].jobName);
-		                		
-		                		if(data.length > 1) {
-		                			$("#secondAprvName").val(data[1].empName);
-			                		$("#secondAprv").val(data[1].empNo);
-			                		$("#secondAprvJob").val(data[1].jobName);
-		                		}
-		                	}
-		                }
-			 		});
 				}
 			});
 			

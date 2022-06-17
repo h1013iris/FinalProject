@@ -90,16 +90,16 @@ public class AprvMgtServiceImpl implements AprvMgtService {
 
 
 	@Override // 보안 처리된 문서 리스트 개수
-	public int scrtyDocListCount() {
+	public int scrtyDocListCount(AprvDoc aprvDoc) {
 		
-		return aprvMgtDao.scrtyDocListCount(sqlSession);
+		return aprvMgtDao.scrtyDocListCount(sqlSession, aprvDoc);
 	}
 
 
 	@Override // 보안 처리된 문서 리스트 조회
-	public ArrayList<AprvDoc> selectScrtyDocList(PageInfo pi) {
+	public ArrayList<AprvDoc> selectScrtyDocList(PageInfo pi, AprvDoc aprvDoc) {
 		
-		return aprvMgtDao.selectScrtyDocList(sqlSession, pi);
+		return aprvMgtDao.selectScrtyDocList(sqlSession, pi, aprvDoc);
 	}
 
 
