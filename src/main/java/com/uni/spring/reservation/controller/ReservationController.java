@@ -177,6 +177,7 @@ public class ReservationController {
 		reservation.setStartDate(String.valueOf(map.get("reservation[startDate]")));
 		reservation.setEndDate(String.valueOf(map.get("reservation[endDate]")));
 		reservation.setMeetingName(String.valueOf(map.get("reservation[meetingName]")));
+		reservation.setMeetingName(reservation.getMeetingName().replace(" ", "nbsp;"));
 		int result = reservationService.insertReservation(reservation);
 		
 		int resultNum = 0;
@@ -200,5 +201,34 @@ public class ReservationController {
 		}
 		
 		return new Gson().toJson(resultNum);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "deleteReservation.do", produces="application/json; charset=utf-8")
+	public String deleteReservation(String reserveNo) {
+		
+		int result = reservationService.deleteAttendeeList(reserveNo);
+		if(result > 1) {
+			result += reservationService.deleteReservation(reserveNo);
+		}
+		return new Gson().toJson(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "selectOneReservation.do", produces="application/json; charset=utf-8")
+	public String selectOneReservation(String resNo) {
+		
+		Reservation reservation = reservationService.selectOneReservation(resNo);
+		
+		return new Gson().toJson(reservation);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "selectOneAttendee.do", produces="application/json; charset=utf-8")
+	public String selectOneAttendee(String resNo) {
+		
+		ArrayList<AttendeeList> attendeeList = reservationService.selectOneAttendee(resNo);
+		
+		return new Gson().toJson(attendeeList);
 	}
 }

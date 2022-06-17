@@ -33,4 +33,12 @@ public interface ReservationService {
 
 	ArrayList<ReservationRoom> selectRoomAllList();
 
+	int deleteReservation(String reserveNo);
+
+	int deleteAttendeeList(String reserveNo);
+
+	Reservation selectOneReservation(String resNo);
+
+	ArrayList<AttendeeList> selectOneAttendee(String resNo);
+
 }

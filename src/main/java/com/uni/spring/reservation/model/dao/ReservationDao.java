@@ -67,4 +67,24 @@ public class ReservationDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("reservationMapper.selectRoomAllList");
 	}
+
+	public int deleteReservation(String reserveNo, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("reservationMapper.deleteReservation", reserveNo);
+	}
+
+	public int deleteAttendeeList(String reserveNo, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("reservationMapper.deleteAttendeeList", reserveNo);
+	}
+
+	public Reservation selectOneReservation(String resNo, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("reservationMapper.selectOneReservation", resNo);
+	}
+
+	public ArrayList<AttendeeList> selectOneAttendee(String resNo, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("reservationMapper.selectOneAttendee", resNo);
+	}
 }

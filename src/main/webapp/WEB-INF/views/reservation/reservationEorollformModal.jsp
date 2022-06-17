@@ -205,5 +205,30 @@
         </div>
     </div>
     <script src="${ pageContext.servletContext.contextPath }/resources/js/reservation/reservationEnroll.js"></script>
+    <script>
+		// 사원 클릭시 리스트 뜸
+		$(document).on('click','.empName-pline',function(){
+			let val = $(this).find('input').val()
+			let name = $(this).find('.empName-res').text()
+			console.log(val+" "+ name)
+			
+			let maxcount = $(".res-smallCategory").text()
+			maxcount = maxcount.substring(maxcount.length-3).replace("명)","");
+			console.log(maxcount)
+			console.log($('.resname-padding').length)	
+			// 만약 회의실 안원 수를 넘으면 return false;
+			if($('.resname-padding').length+1 > maxcount){
+				$("#res-alert_title .title_name").text("회의실 예약 인원");
+				$("#res-alert_body .res-alert_content").text("회의실 예약인원이 최대 입니다.");
+				$(".reservationEnrollFormModal").hide();
+				$("#res-alertBackground").show();
+			}
+			
+			if(!$(".resname-padding").hasClass(name)){
+				$(".reservation-member").append('<span name="resname-padding" class="resname-padding '+name+'">'+name+'<img class="image-x" src="${ pageContext.servletContext.contextPath }/resources/images/xButton.png"><input type="hidden" value="'+val+'" name="attendeeNo"/></span>')
+			}
+			
+		})
+    </script>
 </body>
 </html>
