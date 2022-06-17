@@ -14,7 +14,9 @@ import com.uni.spring.approval.model.dto.AprvStatus;
 import com.uni.spring.approval.model.dto.BusCoopForm;
 import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
+import com.uni.spring.approval.model.dto.DocFilter;
 import com.uni.spring.approval.model.dto.DocOutbox;
+import com.uni.spring.approval.model.dto.DocType;
 import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.approval.model.dto.ReturnDoc;
 import com.uni.spring.approval.model.dto.SecurityDoc;
@@ -800,6 +802,14 @@ public class AprvServiceImpl implements AprvService {
 		if(result2 < 1) {
 			throw new CommException("결재 문서 정보 업데이트 실패");
 		}
+	}
+
+
+	// 문서 타입 리스트 조회
+	@Override
+	public ArrayList<DocType> selectDocTypeList() {
+		
+		return aprvDao.selectDocTypeList(sqlSession);
 	}
 
 

@@ -21,7 +21,9 @@ import com.uni.spring.approval.model.dto.AprvStatus;
 import com.uni.spring.approval.model.dto.BusCoopForm;
 import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
+import com.uni.spring.approval.model.dto.DocFilter;
 import com.uni.spring.approval.model.dto.DocOutbox;
+import com.uni.spring.approval.model.dto.DocType;
 import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.approval.model.dto.ReturnDoc;
 import com.uni.spring.approval.model.dto.SecurityDoc;
@@ -557,7 +559,9 @@ public class AprvController {
 	@ResponseBody
 	@RequestMapping(value="statusList.do", produces="application/json; charset=utf-8")
 	public String selectStatusList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, AprvDoc aprvDoc) {
-				
+		
+		System.out.println(aprvDoc.toString());
+		
 		int listCount = aprvService.statusListCount(aprvDoc);
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
@@ -612,22 +616,23 @@ public class AprvController {
 	}
 	
 	
-	
+	// 검색
 	// 진행 상태 확인함에서 선택한 상태값에 따른 리스트 조회
-	@ResponseBody
-	@RequestMapping(value="statusConditionList.do", produces="application/json; charset=utf-8")
-	public String selectStatusConditionList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, AprvDoc aprvDoc) {
+	/*@ResponseBody
+	@RequestMapping(value="statusDocSearchList.do", produces="application/json; charset=utf-8")
+	public String selectStatusConditionList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, 
+								DocFilter docFilter) {
 		
-		System.out.println(aprvDoc.toString());
+		System.out.println(docFilter.toString());
 		
-		int listCount = aprvService.statusListCount(aprvDoc);
+		int listCount = aprvService.statusListCount(docFilter);
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		
-		ArrayList<AprvDoc> list = aprvService.selectStatusList(pi, aprvDoc);
+		ArrayList<AprvDoc> list = aprvService.selectStatusList(pi, docFilter);
 		
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
-	}
+	}*/
 	
 	
 	
@@ -992,6 +997,15 @@ public class AprvController {
 	}
 	
 	
+	// 문서 타입 리스트 조회
+	@ResponseBody
+	@RequestMapping(value="selectDocTypeList.do", produces="application/json; charset=utf-8")
+	public String selectDocTypeList() {
+		
+		ArrayList<DocType> list = aprvService.selectDocTypeList();
+		
+		return new Gson().toJson(list);
+	}
 	
 	
 	

@@ -44,7 +44,7 @@
 		color: #40A0FF;
 	}
 	
-	.request_list {
+	.docRequest_list {
 		width: 46%;
 		background-color: #f3f3f3;
 		padding: 15px;
@@ -52,7 +52,7 @@
    	 	border-radius: 5px;
 	}
 	
-	.waiting_list {
+	.docWaiting_list {
 		width: 46%;
 		background-color: #f3f3f3;
 		padding: 15px;
@@ -60,7 +60,7 @@
    	 	border-radius: 5px;
 	}
 	
-	.complete_list {
+	.docComplete_list {
 		width: 46%;
 		background-color: #f3f3f3;
 		padding: 15px;
@@ -77,7 +77,7 @@
 		justify-content: space-between;
 	}
 	
-	.status_list {
+	.docStatus_list {
 		width: 100%;
 		background-color: #f3f3f3;
 		padding: 15px;
@@ -165,7 +165,7 @@
 	       	<div class="aprvMain_upper">
 	       		<%-- 직급이 대리보다 낮은 경우 요청 리스트 띄우기 --%>
 	        	<c:if test="${ loginUser.jobNo < 4 }">
-	        		<div class="request_list">
+	        		<div class="docRequest_list">
 	        			<div class="aprvList_title_div">
 		        			<div class="aprvList_title"><span>결재 요청</span></div>
 		        			<div>
@@ -186,7 +186,7 @@
 	        	</c:if>
 	        	<%-- 직급이 대리 이상인 경우 대기 리스트 띄우기 --%>
 	        	<c:if test="${ loginUser.jobNo >= 4 }">
-	        		<div class="waiting_list">
+	        		<div class="docWaiting_list">
 	        			<div class="aprvList_title_div">
 		        			<div class="aprvList_title"><span>결재 대기</span></div>
 		        			<div>
@@ -206,7 +206,7 @@
 	        		</div>
 	        	</c:if>
 	        	
-	        	<div class="complete_list">
+	        	<div class="docComplete_list">
 	        		<div class="aprvList_title_div">
 		        		<div class="aprvList_title"><span>결재 완료</span></div>
 		        		<div>
@@ -228,7 +228,7 @@
 	       	
 	       	<!-- 하단 -->
 	       	<div class="aprvMain_lower">
-	        	<div class="status_list">
+	        	<div class="docStatus_list">
 	        		<div class="aprvList_title_div">
 		        		<div class="aprvList_title"><span>진행 상황 확인</span></div>
 		        		<div>

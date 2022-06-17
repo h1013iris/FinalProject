@@ -366,7 +366,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 진행 상태 확인 리스트 조회 -->
-	<select id="selectStatusList" parameterType="AprvDoc" resultMap="aprvList_resultMap">
+	<select id="selectStatusList" parameterType="DocFilter" resultMap="aprvList_resultMap">
 		SELECT
 		    A.DOC_NO,
 		    A.DOC_FORM,
@@ -378,8 +378,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM V_APRV_HISTORY A
 		JOIN APRV_STATUS B ON A.APRV_STATUS = B.APRV_STATUS_NO
 		WHERE A.APPROVER = #{drafter}
-		<if test="aprvStatus != 0">
-			AND A.APRV_STATUS = #{aprvStatus}
+		<if test="aprvStatusName != null and aprvStatusName != '상태' and aprvStatusName != '전체'">
+			AND B.APRV_STATUS = #{aprvStatusName}
+		</if>
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+			AND A.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+			AND A.DOC_NO = #{search}
+		</if>
+		<if test="condition == '제목'">
+			AND A.DOC_TITLE = #{search}
 		</if>
 		ORDER BY A.PRO_DATE DESC
 	</select>
@@ -703,6 +712,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteAprvDocument" parameterType="_int">
 		DELETE FROM APRV_DOCUMENT WHERE DOC_NO = #{docNo}
 	</delete>
+	
+	<!-- 문서 타입 리스트 조회 -->
+	<select id="selectDocTypeList" resultType="DocType">
+		SELECT * FROM DOCUMENT_TYPE
+	</select>
+	
 	
 	
 	
