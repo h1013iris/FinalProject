@@ -366,7 +366,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 진행 상태 확인 리스트 조회 -->
-	<select id="selectStatusList" parameterType="DocFilter" resultMap="aprvList_resultMap">
+	<select id="selectStatusList" parameterType="AprvDoc" resultMap="aprvList_resultMap">
 		SELECT
 		    A.DOC_NO,
 		    A.DOC_FORM,
