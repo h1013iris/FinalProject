@@ -1,6 +1,8 @@
 package com.uni.spring.manageMent.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,5 +115,48 @@ public class ManageServiceImpl implements ManageService {
 	public ArrayList<CmtUpdateForm> selectListEdittW(calendarWeek cw2) {
 		
 		return manageDao.selectListEdittW(sqlSession, cw2);
+	}
+
+	@Override
+	public void updateAttendLogEdit(CmtUpdateForm cf) {
+		int result = manageDao.updateCmtForm(sqlSession, cf);//cmt테이블 업데이트 
+		if(result >0) {
+			int result2 = manageDao.updateAttendLogEdit(sqlSession, cf);
+		}
+		
+	}
+
+	@Override
+	public ArrayList<AttendLog> selectAttendAvgfilter(calendarWeek cw, manageDepart md) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("cw", cw); //날짜 모음
+		paramMap.put("md", md); //필터 모음
+		return manageDao.selectAttendAvgfilter(sqlSession, paramMap);
+	}
+
+	@Override
+	public ArrayList<AttendLog> selectListAttendLogAVGfilter(calendarWeek cw2, manageDepart md) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("cw2", cw2); //날짜 모음
+		paramMap.put("md", md); //필터 모음
+		return manageDao.selectListAttendLogAVGfilter(sqlSession, paramMap);
+	}
+
+	@Override
+	public Member selectInfo(int empNo) {
+		
+		return manageDao.selectInfo(sqlSession, empNo);
+	}
+
+	@Override
+	public void updateStatusMember(AttendLog al) {
+		int result = manageDao.updateStatusMember(sqlSession, al);
+		
+	}
+
+	@Override
+	public int updateLeaveTime(int empNo) {
+		
+		return manageDao.updateLeaveTime(sqlSession, empNo);
 	}
 }

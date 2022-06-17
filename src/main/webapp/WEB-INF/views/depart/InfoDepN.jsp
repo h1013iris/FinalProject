@@ -83,7 +83,7 @@
                 <div class="logo">
                     <img src="${ pageContext.servletContext.contextPath }/resources/images/facebook_cover_photo_1.png" alt="">
                 </div>
-                <span class="modal_title">asfsaf</span>
+                <span class="modal_title">전자명함</span>
             </div >
             <div class="modal_body">
                 <div id="main_businessCard_section">

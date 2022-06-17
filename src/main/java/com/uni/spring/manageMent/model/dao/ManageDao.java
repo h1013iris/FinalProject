@@ -1,6 +1,7 @@
 package com.uni.spring.manageMent.model.dao;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -90,6 +91,42 @@ public class ManageDao {
 	public ArrayList<CmtUpdateForm> selectListEdittW(SqlSessionTemplate sqlSession, calendarWeek cw2) {
 		
 		return (ArrayList)sqlSession.selectList("manageMapper.selectListEdittW",cw2);
+	}
+
+	public int updateCmtForm(SqlSessionTemplate sqlSession, CmtUpdateForm cf) {
+		
+		return sqlSession.update("manageMapper.updateCmtForm", cf);
+	}
+
+	public int updateAttendLogEdit(SqlSessionTemplate sqlSession, CmtUpdateForm cf) {
+		
+		return sqlSession.update("manageMapper.updateAttendLogEdit", cf);
+	}
+
+	public ArrayList<AttendLog> selectAttendAvgfilter(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
+		
+		return (ArrayList)sqlSession.selectList("manageMapper.selectAttendAvgfilter", paramMap);
+	}
+
+	public ArrayList<AttendLog> selectListAttendLogAVGfilter(SqlSessionTemplate sqlSession,
+			Map<String, Object> paramMap) {
+		
+		return (ArrayList)sqlSession.selectList("manageMapper.selectListAttendLogAVGfilter", paramMap);
+	}
+
+	public Member selectInfo(SqlSessionTemplate sqlSession, int empNo) {
+		
+		return sqlSession.selectOne("manageMapper.selectInfo", empNo);
+	}
+
+	public int updateStatusMember(SqlSessionTemplate sqlSession, AttendLog al) {
+		
+		return sqlSession.update("manageMapper.updateStatusMember", al);
+	}
+
+	public int updateLeaveTime(SqlSessionTemplate sqlSession, int empNo) {
+		
+		return sqlSession.update("manageMapper.updateLeaveTime", empNo);
 	}
 
 }

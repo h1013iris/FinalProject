@@ -150,12 +150,7 @@ $(".status_swap").click(function(){
         }
     })
 
-    $(".status").click(function(){
-        alert($(this).text());
-        $(".login_status").hide();
-    })
-
-
+   
     $(".pro_img").click(function(){
         if($(".login_status").css("display") == "none"){
             $(".status_list").css("display","none")
