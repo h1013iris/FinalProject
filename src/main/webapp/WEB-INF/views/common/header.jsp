@@ -320,7 +320,6 @@
 	                    <li class="list_title">전재결재 관리</li>
 	                    <div class="hhh">
 		                    <li><a href="securityMain.do">문서 보안 관리</a></li>
-		                    <li><a href="formMgtMain.do">문서 서식 관리</a></li>
 	                   	</div>
 	                </ul>
 	                <ul>

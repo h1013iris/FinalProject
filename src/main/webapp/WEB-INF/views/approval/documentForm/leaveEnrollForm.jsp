@@ -16,13 +16,15 @@
 		/*float: right;*/
 	}
 	
-	/*#vacUseDays:invalid  {
-		background-color: #e79fa5;
+	/*.selectApprovor_modal {
+		display: none;
 	}*/
 	
 </style>
 </head>
 <body>
+	
+	<jsp:include page="selectApproverModal.jsp"></jsp:include>
 
 	<div class="formMainArea">
 		
@@ -107,7 +109,8 @@
 									<table class="drafterAreaTable" style="float: right; border: 0px solid rgb(0, 0, 0); font-family: malgun gothic, dotum, arial, tahoma; border-collapse: collapse;">
 										<colgroup> 
 								        	<col width="90"> 
-								         	<col width="180"> 
+								         	<col width="180">
+								         	<col width="55">
 							        	</colgroup>
 							        	
 										<tbody>
@@ -116,9 +119,12 @@
 													1차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input type="hidden" id="firstAprv" name="firstAprv" value="" required/>
-													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly required/>
-													<input class="fix_input approverJop" id="firstAprvJob" value="" readonly/>
+													<select class="approverList" id="firstAprv" name="firstAprv">
+														<option value="">선택</option>
+													</select>
+												</td>
+												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
+													<input class="selectApprover1" type="button" value="선택"/>
 												</td>
 											</tr>
 											<tr>
@@ -126,9 +132,12 @@
 													2차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input type="hidden" id="secondAprv" name="secondAprv" value=""/>
-													<input class="fix_input approverName" id="secondAprvName" name="secondAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="secondAprvJob" value="" readonly/>
+													<select class="approverList" id="secondAprv" name="secondAprv">
+														<option value="">선택</option>
+													</select>
+												</td>
+												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
+													<input class="selectApprover2" type="button" value="선택"/>
 												</td>
 											</tr>
 										</tbody>
@@ -159,7 +168,7 @@
 										<option value="오전반차">오전반차</option>
 										<option value="오후반차">오후반차</option>
 										<option value="보건휴가">보건휴가</option>
-										<option value="병가(무급휴가)">병가(무급휴가)</option>
+										<option value="병가(무급휴가)">병가</option>
 									</select>
 								</div>
 							</td>
@@ -206,8 +215,12 @@
  	
  	<script type="text/javascript">
  		
- 		// 임시저장 버튼 클릭 시 카운팅될 변수 선언
- 		let count = 0;
+ 		// 결재자 조회 모달 띄우기
+ 		/*$(document).on("click", ".selectApprover1", function() {
+ 			$(".selectApprovor_modal").css("display", "flex");
+ 			
+ 		});*/
+ 		
  		
  		// 화면 로드 시 가장 먼저 실행
  		$(document).ready(function() {
@@ -219,13 +232,10 @@
  			
 			} else {
 				
-				count = 0; // 화면 로드 시마다 임시저장 버튼 클릭 시 카운팅될 변수 0으로 초기화
-				
  				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
  				// 휴가 시작 날짜, 기안일 오늘 날짜로 기본값 설정
  	 			$("#dftDate").val(today);
  	 			$("#startDate").val(today);
- 	 			//$("#endDate").val(today);
  	 			
  	 			// 소속 (로그인 유저의 부서 가져오기)
 		 		$.ajax({
@@ -240,35 +250,31 @@
  	                		$("#drafterDept").val(data);
  	                	}
  	                }
-		 		})
-		 		
-		 		// 결재선 조회
-		 		$.ajax({
-		 			
-		 			type: "post",
- 	                url: "selectDeptApprover.do",
- 	                data: { deptNo : "${ loginUser.departmentNo }",
- 	                		jobNo : "${ loginUser.jobNo }"},
- 	                success: function (data) {
-						console.log(data);
- 	                	
-						if(data != null || data != "") {
+		 		});
+ 	 			
+ 	 			// 결재자 조회
+ 	 			$.ajax({
+ 	 				
+ 	 				type: "post",
+ 	 				url: "selectDocEnrollApprover.do",
+ 	 				data: { empNo :  "${ loginUser.empNo }",
+ 	 						departmentNo : "${ loginUser.departmentNo }",
+ 	 						jobNo : "${ loginUser.jobNo }" },
+ 	 				success: function(list) {
+ 	 					console.log(list);
+ 	                	if(list != null || list != "") {
  	                		
- 	                		$("#firstAprvName").val(data[0].empName);
- 	                		$("#firstAprv").val(data[0].empNo);
- 	                		$("#firstAprvJob").val(data[0].jobName);
- 	                		
- 	                		if(data.length > 1) {
- 	                			$("#secondAprvName").val(data[1].empName);
- 	 	                		$("#secondAprv").val(data[1].empNo);
- 	 	                		$("#secondAprvJob").val(data[1].jobName);
- 	                		}
+ 	                		$.each(list, function(i) {
+ 	                			$(".approverList").append("<option value='" + list[i].empNo + "'>" 
+                								  		+ list[i].empName + " / " + list[i].jobName + "</option>");
+ 	                		});
  	                	}
- 	                }
-		 		})
+ 	 				}
+ 	 				
+ 	 			});
  			}
  			
- 		})
+ 		});
 		
  		
 		
@@ -379,9 +385,7 @@
 		// 결재 요청 버튼 클릭 시
  		$(".submit_btn").click(function() {
  			
- 			let drafter = $("#drafter").val();
- 			let drafterDept = $("#drafterDept").val();
- 			//let draftDate = $("#draftDate").val();
+ 			let firstAprv = $("#firstAprv").val();
  			let vacType = $("#vacType").val();
  			let startDate = $("#startDate").val();
  			let endDate = $("#endDate").val();
@@ -389,13 +393,11 @@
  			let vacReason = $("#vacReason").val();
  			
  			
-			if(drafter == null || drafter == "" || drafterDept == null || drafterDept == "") {
- 				
-				let title = "문서 작성 확인";
- 				let content = "로그인이 필요합니다.";
-				let focus="";
+			if(firstAprv == null || firstAprv == "") {
+
+				let focus="#firstAprv";
 				
-				myAlert(title, content);
+				myAlert("문서 작성 확인", "결재자를 선택해주세요.");
 				focusFn(focus);
  				
  			} else if(vacType == "none") {
@@ -503,76 +505,33 @@
  		// 임시저장 버튼 클릭 시 
  		$(document).on("click", ".donEnrollOutboxBtn", function() {
 			
- 			/*count++;
- 			console.log(count);*/
- 			
- 			// 날짜 비워져있으면 타입 미스매치 애러 발생하기 때문에 임의로 시작 날짜와 동일하게 설정해줌
- 			/*let endDate = $("#endDate").val();
- 			let startDate = $("#startDate").val();
- 			
- 			if(endDate == null || endDate == "") {
- 				console.log("끝 날짜 null");
- 				$("#endDate").val(startDate);
- 			}*/
- 			
  			// 폼의 모든 데이터 저장해서 변수로 선언
  			let form = $(".docEnrollForm").serialize();
- 		
- 			/*if(count == 1) {
- 				console.log("임시 보관함에 등록");*/
- 				
- 	 			// 임시 보관함에 저장하는 ajax 실행
- 	    		$.ajax({
- 	    			
- 	    			type: "post",
- 	    			url: "saveLeaveFormOutbox.do",
- 	    			data: form,
- 	    			success: function(result) {
- 	    				console.log(result);
- 	    				
- 	    				if(result == "success") {
- 	    					let title = "임시 보관함 저장"
- 	    					let content = "해당 문서가 임시 보관함에 저장되었습니다."
- 	    					
- 	    					myAlert(title, content);
- 	    					resultFn(); // 취소 클릭 시 결재 메인으로 이동
- 	    					
- 	    				} else {
- 	    					let title = "임시 보관함 저장"
-	    					let content = "임시 보관함에 저장을 실패하었습니다."
-	    					
-	    					myAlert(title, content);
- 	    					resultFn();
- 	    				}
- 	    			}
- 	    		});
- 			
- 			/*} else if(count > 1) {
- 				
- 				// 해당 임시 보관함 번호 가져와서 업데이트하는 ajax 실행
- 				$.ajax({
- 				
- 					type: "post",
- 	    			url: "updateLeaveFormOutbox.do",
- 	    			data: form,
- 	    			success: function(result) {
- 	    				console.log(result);
- 	    				
- 	    				if(result == "success") {
- 	    					let title = "임시 보관함 저장"
- 	    					let content = "해당 문서가 임시 보관함에 저장되었습니다."
- 	    					
- 	    					myAlert(title, content);
- 	    					
- 	    				} else {
- 	    					let title = "임시 보관함 저장"
-	    					let content = "임시 보관함에 저장을 실패하었습니다."
-	    					
-	    					myAlert(title, content);
- 	    				}
- 	    			}
- 				});
- 			}*/
+
+    		$.ajax({
+    			
+    			type: "post",
+    			url: "saveLeaveFormOutbox.do",
+    			data: form,
+    			success: function(result) {
+    				console.log(result);
+    				
+    				if(result == "success") {
+    					let title = "임시 보관함 저장"
+    					let content = "해당 문서가 임시 보관함에 저장되었습니다."
+    					
+    					myAlert(title, content);
+    					resultFn(); // 취소 클릭 시 결재 메인으로 이동
+    					
+    				} else {
+    					let title = "임시 보관함 저장"
+   					let content = "임시 보관함에 저장을 실패하었습니다."
+   					
+   					myAlert(title, content);
+    					resultFn();
+    				}
+    			}
+    		});
  			
  		});
  		

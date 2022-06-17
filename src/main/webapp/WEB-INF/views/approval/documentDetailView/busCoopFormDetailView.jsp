@@ -101,8 +101,8 @@
 													1차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly required/>
-													<input class="fix_input approverJop" id="firstAprvJob" value="" readonly required/>
+													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly/>
+													<input class="fix_input approverJop" id="firstAprvJob" value="" readonly/>
 												</td>
 											</tr>
 											<tr>

@@ -165,30 +165,30 @@ public class AprvServiceImpl implements AprvService {
 
 	
 	@Override // 결재 대기 리스트 개수
-	public int waitingListCount(Member loginUser) {
+	public int waitingListCount(AprvDoc aprvDoc) {
 		
-		return aprvDao.waitingListCount(sqlSession, loginUser);
+		return aprvDao.waitingListCount(sqlSession, aprvDoc);
 	}
 
 
 	@Override // 결재 대기 리스트 조회
-	public ArrayList<AprvDoc> selectWaitingList(PageInfo pi, Member loginUser) {
+	public ArrayList<AprvDoc> selectWaitingList(PageInfo pi, AprvDoc aprvDoc) {
 		
-		return aprvDao.selectWaitingList(sqlSession, pi, loginUser);
+		return aprvDao.selectWaitingList(sqlSession, pi, aprvDoc);
 	}
 	
 
 	@Override // 결재 요청 문서 리스트 개수
-	public int requestListCount(Member loginUser) {
+	public int requestListCount(AprvDoc aprvDoc) {
 		
-		return aprvDao.requestListCount(sqlSession, loginUser);
+		return aprvDao.requestListCount(sqlSession, aprvDoc);
 	}
 
 
 	@Override // 결재 요청 문서 리스트
-	public ArrayList<AprvDoc> selectRequestList(PageInfo pi, Member loginUser) {
+	public ArrayList<AprvDoc> selectRequestList(PageInfo pi, AprvDoc aprvDoc) {
 		
-		return aprvDao.selectRequestList(sqlSession, pi, loginUser);
+		return aprvDao.selectRequestList(sqlSession, pi, aprvDoc);
 	}
 
 
@@ -289,16 +289,16 @@ public class AprvServiceImpl implements AprvService {
 
 
 	@Override // 결재 반려 리스트 개수
-	public int returnListCount(int empNo) {
+	public int returnListCount(AprvDoc aprvDoc) {
 		
-		return aprvDao.returnListCount(sqlSession, empNo);
+		return aprvDao.returnListCount(sqlSession, aprvDoc);
 	}
 
 
 	@Override // 결재 반려 리스트 조회
-	public ArrayList<AprvDoc> selectReturnList(PageInfo pi, int empNo) {
+	public ArrayList<AprvDoc> selectReturnList(PageInfo pi, AprvDoc aprvDoc) {
 		
-		return aprvDao.selectReturnList(sqlSession, pi, empNo);
+		return aprvDao.selectReturnList(sqlSession, pi, aprvDoc);
 	}
 
 
@@ -328,16 +328,16 @@ public class AprvServiceImpl implements AprvService {
 	
 
 	@Override // 결재 완료 문서 리스트 개수
-	public int completeListCount(int empNo) {
+	public int completeListCount(AprvDoc aprvDoc) {
 				
-		return aprvDao.completeListCount(sqlSession, empNo);
+		return aprvDao.completeListCount(sqlSession, aprvDoc);
 	}
 
 
 	@Override // 결재 완료 문서 리스트 조회
-	public ArrayList<AprvDoc> selectCompleteList(PageInfo pi, int empNo) {
+	public ArrayList<AprvDoc> selectCompleteList(PageInfo pi, AprvDoc aprvDoc) {
 		
-		return aprvDao.selectCompleteList(sqlSession, pi, empNo);
+		return aprvDao.selectCompleteList(sqlSession, pi, aprvDoc);
 	}
 
 
@@ -472,16 +472,16 @@ public class AprvServiceImpl implements AprvService {
 
 
 	@Override // 임시 보관 리스트 개수
-	public int outboxListCount(int empNo) {
+	public int outboxListCount(AprvDoc aprvDoc) {
 		
-		return aprvDao.outboxListCount(sqlSession, empNo);
+		return aprvDao.outboxListCount(sqlSession, aprvDoc);
 	}
 
 
 	@Override // 임시 보관 리스트 조회
-	public ArrayList<DocOutbox> selectOutboxList(PageInfo pi, int empNo) {
+	public ArrayList<DocOutbox> selectOutboxList(PageInfo pi, AprvDoc aprvDoc) {
 		
-		return aprvDao.selectOutboxList(sqlSession, pi, empNo);
+		return aprvDao.selectOutboxList(sqlSession, pi, aprvDoc);
 	}
 
 
@@ -811,6 +811,41 @@ public class AprvServiceImpl implements AprvService {
 		
 		return aprvDao.selectDocTypeList(sqlSession);
 	}
+	
+	
+	// 문서 전체 검색 리스트 개수
+	@Override
+	public int searchAllDocListCount(AprvDoc aprvDoc) {
+		
+		return aprvDao.searchAllDocListCount(sqlSession, aprvDoc);
+	}
+
+
+	// 문서 전체 검색 리스트 조회
+	@Override
+	public ArrayList<AprvDoc> searchAllDocList(PageInfo pi, AprvDoc aprvDoc) {
+		
+		return aprvDao.searchAllDocList(sqlSession, pi, aprvDoc);
+	}
+
+
+	// 결재자 조회
+	@Override
+	public ArrayList<Member> selectDocEnrollApprover(Member loginUser) {
+		
+		return aprvDao.selectDocEnrollApprover(sqlSession, loginUser);
+	}
+
+
+	// 결재 취소 문서 결재자 조회
+	@Override
+	public AprvDoc selectCancleDocApprover(int docNo) {
+		
+		return aprvDao.selectCancleDocApprover(sqlSession, docNo);
+	}
+
+
+	
 
 
 	
