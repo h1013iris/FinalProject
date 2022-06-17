@@ -14,6 +14,7 @@ import com.google.gson.GsonBuilder;
 import com.uni.spring.admin.model.dto.employee;
 import com.uni.spring.member.model.dto.Member;
 import com.uni.spring.mypage.model.dto.Journal;
+import com.uni.spring.mypage.model.dto.MyPage;
 import com.uni.spring.mypage.model.dto.ToDoList;
 import com.uni.spring.mypage.model.dto.WorkRequest;
 import com.uni.spring.mypage.model.service.MyPageService;
@@ -240,5 +241,53 @@ public class MyPageController {
 	public void updateRequestStatus(String raskNo) {
 		MPService.updateRequestStatus(raskNo);
 	}
+	
+	@RequestMapping("mypageManagement")
+	public String selectMyPageList(Model model) {
+		int empNo = ((Member) model.getAttribute("loginUser")).getEmpNo();
+		
+		ArrayList<MyPage> insertList = MPService.selectMyPageInsertList(empNo);
+		ArrayList<MyPage> deleteList = MPService.selectMyPageDeleteList(empNo);
+		
+		model.addAttribute("insertList",insertList);
+		model.addAttribute("deleteList",deleteList);
+		
+		return "mypage/favoritesPage";
 
+	}
+	
+	@ResponseBody
+	@RequestMapping("insertMypage")
+	public void insertMypage(String pageNo, Model model) {
+		int empNo = ((Member) model.getAttribute("loginUser")).getEmpNo();
+
+		MyPage mp = new MyPage();
+		mp.setPageNo(Integer.parseInt(pageNo));
+		mp.setEmpNo(empNo);
+		
+		MPService.insertMypage(mp);
+	}
+
+	@ResponseBody
+	@RequestMapping("deleteMypage")
+	public void deleteMypage(String pageNo, Model model) {
+		int empNo = ((Member) model.getAttribute("loginUser")).getEmpNo();
+		
+		MyPage mp = new MyPage();
+		System.out.println("pageNo"+pageNo);
+		mp.setPageNo(Integer.parseInt(pageNo));
+		mp.setEmpNo(empNo);
+		
+		MPService.deleteMypage(mp);
+	}
+	
+	@ResponseBody
+	@RequestMapping("mypageListSelect")
+	public String selectMypageList(Model model) {
+		int empNo = ((Member) model.getAttribute("loginUser")).getEmpNo();
+		
+		ArrayList<MyPage> list = MPService.selectMyPageDeleteList(empNo);
+		
+		return new GsonBuilder().create().toJson(list);
+	}
 }

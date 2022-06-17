@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.uni.spring.admin.model.dto.employee;
 import com.uni.spring.mypage.model.dto.Journal;
+import com.uni.spring.mypage.model.dto.MyPage;
 import com.uni.spring.mypage.model.dto.ToDoList;
 import com.uni.spring.mypage.model.dto.WorkRequest;
 
@@ -46,5 +47,13 @@ public interface MyPageService {
 	WorkRequest selectworkDetail(String raskNo);
 
 	void updateRequestStatus(String raskNo);
+
+	ArrayList<MyPage> selectMyPageInsertList(int empNo);
+
+	ArrayList<MyPage> selectMyPageDeleteList(int empNo);
+
+	void insertMypage(MyPage mp);
+
+	void deleteMypage(MyPage mp);
 
 }
