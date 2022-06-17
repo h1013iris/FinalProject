@@ -12,6 +12,7 @@ public class AttendeeList {
 	private String attendeeNo;	// 참석자 번호
 	private String reserveNum;	// 예약 번호
 	private String status;		// 상태값
+	private String empName;		// 사원명
 	
 	
 	

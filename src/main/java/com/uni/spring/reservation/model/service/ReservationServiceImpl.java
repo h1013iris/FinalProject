@@ -111,4 +111,28 @@ public class ReservationServiceImpl implements ReservationService {
 		return roomList;
 	}
 
+	@Override
+	public int deleteReservation(String reserveNo) {
+		int result = reservationDao.deleteReservation(reserveNo, sqlSession);
+		return result;
+	}
+
+	@Override
+	public int deleteAttendeeList(String reserveNo) {
+		int result = reservationDao.deleteAttendeeList(reserveNo, sqlSession);
+		return result;
+	}
+
+	@Override
+	public Reservation selectOneReservation(String resNo) {
+		Reservation reservation = reservationDao.selectOneReservation(resNo, sqlSession);
+		return reservation;
+	}
+
+	@Override
+	public ArrayList<AttendeeList> selectOneAttendee(String resNo) {
+		ArrayList<AttendeeList> attendeeList = reservationDao.selectOneAttendee(resNo, sqlSession);
+		return attendeeList;
+	}
+
 }

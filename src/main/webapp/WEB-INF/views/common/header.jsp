@@ -377,7 +377,7 @@
 			success:function(list){
 				if(list.length != 0){
 
-					let reservationRoomBiglist = $(".")
+					let reservationRoomBiglist = $(".reservationRoom-biglist")
 					let bul = $("<ul>").addClass("reservation-Bigul")
 					reservationRoomBiglist.append(bul);
 					

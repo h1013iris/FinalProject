@@ -52,6 +52,7 @@
 	table.date-time {
 	    width: 100%;
 	    height: 100%;
+	    border: 2px solid;
 	}
 	th.reservation-title {
 	    width: 8%;
@@ -150,10 +151,20 @@
 	    padding-bottom: 3px;
 	    margin-top: 3px;
 	}
+	.res_tdtimes:not(li) {
+	    background: rgb(174, 217, 248);
+	}
+	.res_tdtimes:hover {
+	    background: #7bbce93d;
+	}
+	.colscolor {
+	    background: aliceblue;
+	}
 </style>
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
+	<jsp:include page="../reservation/reservationDetailModal.jsp"></jsp:include>
 	<div class="main_section">
         <div class="reservation-main">
         	<div class="reservation-navi">
@@ -271,39 +282,20 @@
         		<table class="date-time">
         			<thead>
         				<tr>
-        					<th class="reservation-title">회의실 / 시간</th>
-        					<th colspan="2">1시</th>
-        					<th colspan="2">2시</th>
-        					<th colspan="2">3시</th>
-        					<th colspan="2">4시</th>
-        					<th colspan="2">5시</th>
-        					<th colspan="2">6시</th>
-        					<th colspan="2">7시</th>
-        					<th colspan="2">8시</th>
-        					<th colspan="2">9시</th>
-        					<th colspan="2">10시</th>
-        					<th colspan="2">11시</th>
-        					<th colspan="2">12시</th>
-        					<th colspan="2">13시</th>
-        					<th colspan="2">14시</th>
-        					<th colspan="2">15시</th>
-        					<th colspan="2">16시</th>
-        					<th colspan="2">17시</th>
-        					<th colspan="2">18시</th>
-        					<th colspan="2">19시</th>
-        					<th colspan="2">20시</th>
-        					<th colspan="2">21시</th>
-        					<th colspan="2">22시</th>
-        					<th colspan="2">23시</th>
-        					<th colspan="2">24시</th>
+        					<th class="reservation-title colscolor">회의실 / 시간</th>
+        				<c:forEach var="time" items="${timeInfo}">
+        					<c:if test="${time.key%2 == 0}">
+        						<th class="colscolor" colspan="2">${fn:substring(time.value,0,2)}시</th>
+        					</c:if>
+        				</c:forEach>
         				</tr>
         			</thead>
         			<tbody>
         				<c:forEach items="${roomList}" var="room" varStatus="st">
 	        				<tr class="reservationRoom-line">
-	        					<td class="name${st.index}">${room.SRoomName}</td>
+	        					<td class="name${st.index} resRoomName colscolor">${room.SRoomName}</td>
        							<c:forEach items="${timeInfo}" var="time" varStatus="status1">
-     								<td class="time${time.key}"></td>
+     								<td class="time${room.roomSmallNo}${time.key}"></td>
 	        					</c:forEach>
 	        				</tr>
         				</c:forEach>
@@ -325,13 +317,14 @@
         	</table>
         	<ul>
         		<c:forEach var="today" items="${myList}">
-		        	<li class="today-line">
+		        	<li class="today-line res_tdtimes">
+		        		<input type="hidden" value="${today.reserveNo}"/>
 		   				<div class="res-todayList res-thisLine1">${today.SRoomName}</div>
 		    			<div class="res-todayList res-thisLine2">${today.meetingName}</div>
 		     			<div class="res-todayList res-thisLine3">${fn:substring(today.startDate, 5, 7)}월 ${fn:substring(today.startDate, 8, 10)}일 ${fn:substring(today.startDate, 11, 16)} ~ ${fn:substring(today.endDate, 5, 7)}월 ${fn:substring(today.endDate, 8, 10)}일 ${fn:substring(today.endDate, 11, 16)}</div>
 		     			<c:if test="${today.status eq 'Y'}">
 			     			<div class="res-todayList res-thisLine4">
-			     				<button type="button" class="commonButton1 reservation_Cancel_btn">예약 취소</button>
+			     				<button type="button" class="commonButton1 reservation_Cancel_btn" onclick="deleteReservation(${today.reserveNo})">예약 취소</button>
 			     			</div>
 		     			</c:if>
 		     		</li>
@@ -339,7 +332,116 @@
      		</ul>
         </div>
     </div> 
+	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
     <script>
+    	// 특정 클래스 선택 시 상세조회 모달보이기 res_tdtimes
+    	$(document).on('click','.res_tdtimes', function(){
+    		console.log("상세 모달로")
+    		let resNo = $(this).children('input').val();
+    		console.log(resNo)
+    		
+    		$.ajax({
+    			url:"selectOneReservation.do",
+    			data:{
+    				resNo:resNo
+    			},
+    			type:"get",
+    			success:function(obj){
+    				console.log("상세모달 성공")
+    				
+    				let reserNo = obj.reserveNo;					// 예약번호
+    				let empNo = obj.empNo;							// 사원번호
+    				let roomSmallNo = obj.roomSmallNo;				// 회의실 번호
+    				let startDate = new Date(obj.startDate);		// 시작일
+    				let startTime = obj.startDate.substring(11,16);	// 시작 시간
+    				let endDate = new Date(obj.endDate);			// 종료일
+    				let endTime = obj.endDate.substring(11,16);		// 종료시간
+    				let meetingName = obj.meetingName;				// 회의명
+    				let sRoomName = obj.sRoomName;					// 회의실 명
+
+    				$('.reserveNo').val(reserNo);
+    				$('.empNo').val(empNo);
+    				$(".resDetail_time").text(startDate.getFullYear()+"년 "+startDate.getMonth()+"월 "+startDate.getDate()+"일 "+startTime+" ~ "+endDate.getFullYear()+"년 "+endDate.getMonth()+"월 "+endDate.getDate()+"일 "+endTime);
+    				$('.resDetail_place').text(sRoomName)
+    				$('.resDetailModal_title').text(meetingName)
+    				
+    				selectOneAttendee(reserNo);
+    				
+    			},
+    			error:function(){
+    				console.log("상세모달 실패")
+    			}
+    		})
+    	})
+    	
+    	function selectOneAttendee(reserNo) {
+    		$.ajax({
+				url:"selectOneAttendee.do",
+				data:{
+    				resNo:reserNo
+    			},
+    			type:"get",
+    			success:function(obj){
+    				console.log("참석자 성공")
+    				
+    				$.each(obj, function(idx, val){
+    					
+    					let attendee = val.empName;
+    					let status = "";
+    					
+    					if(val.status == 'Y'){
+    						status = "(참여)"
+    					}else{
+    						status = "(미참여)"
+    					}
+    					let at = $('<span>').append(attendee).append(status).addClass("res_att");
+    					if(idx < obj.length-1){
+    						at.append(", ")
+    					}
+    					$('.resDetail_attendee').append(at);
+						
+    					$(".resDetailModal_background").css("display","flex");
+    				})
+				    
+    			},
+    			error:function(){
+    				console.log("참석자 실패")
+    			}
+			})
+		}
+    
+    	// 취소 버튼 클릭시 ajax실행
+    	function deleteReservation(reserveNo) {
+			myConfirm("회의실 예약 삭제", "예약을 정말로 삭제하시겠습니까?");
+			//취소할 시 
+			$(".false_btn").click(function() {
+			     $("#helpmeCOnfirm").hide();
+			});
+			
+			// 확인 클릭 시
+			$(".true_btn").click(function() {
+				$("#helpmeCOnfirm").hide();
+				console.log("확인 클릭함")
+				deleteresGo(reserveNo);
+		    });
+	    }
+    	
+    	function deleteresGo(reserveNo) {
+
+    		$.ajax({
+				url:"deleteReservation.do",
+				data:{
+					reserveNo : reserveNo
+				},
+				type:"get",
+				success:function(index){
+					location.reload();
+				},
+				error:function(error){
+					console.log("삭제 실패")
+				}
+			})
+		}
     	$(function() {
     		
     		// 검색 일 예약 현황을 위해 배열 선언
@@ -370,6 +472,17 @@
 					})
 			</c:forEach>
 			
+			// 룸 넘버 받기 위해 배열 선언
+			let roomList = new Array();
+			<c:forEach var="val" items="${roomList}">
+			roomList.push({roomLargeNo : ${val.roomLargeNo},
+					roomSmallNo : ${val.roomSmallNo},
+					lRoomName : '${val.LRoomName}',
+					sRoomName : '${val.SRoomName}',
+					maxCount : ${val.maxCount},
+					status : "${val.status}"
+					})
+			</c:forEach>
 			
 			let dd = $('.this_day').text().trim()
 			
@@ -377,40 +490,102 @@
 			// 각 arr의 값을 다루기 위해 foreach문
 			arr.forEach(function(val) {
 				let start = val.startDate;
-				let startTime = ((start.getHours()+"").length == 1)? "0"+start.getHours()+":"+start.getMinutes() : start.getHours()+":"+start.getMinutes();
+				let startTime = "";
 				let end = val.endDate;
+				let endTime = "";
 				let resNo = val.reserveNo;
+				let SroomNo = val.roomSmallNo
 				let meeting = val.meetingName;
+				
+				// 추후 비교를 위해 startTime 받기
+				if(start.getMinutes() == 0){
+					let hour = ""+start.getHours();
+					
+					if(hour.length != 1){
+						startTime = hour+":00";
+					}else{
+						startTime = "0"+hour+":00";
+					}
+				}else if(start.getMinutes() == 30){
+					let hour = ""+start.getHours();
+					
+					if(hour.length != 1){
+						startTime = hour+":"+start.getMinutes();
+					}else{
+						startTime = "0"+hour+":"+start.getMinutes();
+					}
+				}
 				console.log(startTime)
+				
+				// endTime도 startTime과 마찬가지
+				if(end.getMinutes() == 0){
+					let hour = ""+end.getHours();
+					
+					if(hour.length != 1){
+						endTime = hour+":00";
+					}else{
+						endTime = "0"+hour+":00";
+					}
+				}else if(end.getMinutes() == 30){
+					let hour = ""+end.getHours();
+					
+					if(hour.length != 1){
+						endTime = hour+":"+end.getMinutes();
+					}else{
+						endTime = "0"+hour+":"+end.getMinutes();
+					}
+				}
+				console.log(endTime)
 				
 				// 시작일자와 종료일자가 같으면 탐
 				if(start.getDate() == end.getDate()){
+					console.log("시작일자와 종료일자가 같음")
 					
-					// 셀 병함 시작할 클래스 넘버
-					let classNo = 0;
 					
 					let count = 0; // 셀 병합 할 카운트 수
-					// 셀병합랄 클래스 찾을려면 timeInfo의 value 값이 val.startDate의 시간과 같아야함
-					// 그럼 먼저 변수 선언 후에 일치하면 값을 가져온다
+					
+					// 셀병합랄 클래스 찾기
+					
+					// 셀 병함 시작할 클래스 넘버
+					let roomNo = "";
+					
+					// 클래스 넘버 앞에 room넘버를 알아와야하지?
+					
+					// 1. 룸의 넘버를 알아온다.
+					for(let j = 0 ; j < roomList.length ; j++){
+						// value 선언 및 룸 넘버 받기
+						let value = roomList[j].roomSmallNo;
+						
+						// value값과 예약한 룸넘버값이 같으면
+						if(SroomNo == value){
+							// 클래스 넘버를 넣고 break;
+							roomNo = value;
+							break;
+						}
+					}
+					
+					
+					// 2. timeInfo의 value 값이 val.startDate의 시간과 같아야함
+					// 먼저 변수 선언 후에 일치하면 값을 가져온다
 					let cols = "";
 					
+					let classNo2 = "";
 					for(let j = 0 ; j < timeInfo.length ; j++){
 						// value값
 						let value = timeInfo[j].value;
-						console.log(value)
 						
 						// value값과 startDate의 값이 같으면
 						if(startTime == value){
 							// 클래스 넘버를 넣고 break;
-							classNo = timeInfo[j].key;
+							classNo2 = timeInfo[j].key;
 							break;
 						}
 						
 					}
-					console.log(classNo)
 					// 합쳐질 셀대상을 변수로 담기
-					cols = $('.time'+classNo)
+					cols = $('.time'+roomNo+classNo2)
 					
+					console.log(cols)
 					// 땅따먹기 + 색칠
 					// 방법 - time이란 클래스를 찾아서 차이 만큼 셀 병합 
 					for(let i = start ; i < end ; i.setMinutes(i.getMinutes()+30)){
@@ -419,12 +594,10 @@
 						// 카운트 수가 1 이상이면 셀 병합
 				        if (count > 1) {
 				        	// 카운트 수만큼 셀 별합
-							cols.attr("colspan", count).text(meeting);
-							// 나머지를 지움
-							//cols.next().remove();
+							cols.attr("colspan", count).html(meeting);
 				        }
 					}
-					
+					cols.append('<input type="hidden" value="'+resNo+'"/>').addClass("res_tdtimes");
 					// 필요없는 컬럼 지우기
 					console.log(count) // 카운트 수 확인
 					// 카운트 수의 -1 을 하여 시작시간을 제외하여 삭제
@@ -435,17 +608,146 @@
 					
 				// 시작일만 오늘이면 탐
 				}else if(start.getDate() == dd.substring(dd.length-2)){
+					console.log("시작일만 오늘임")
+					let count = 0; // 셀 병합 할 카운트 수
 					
-					// 색칠 
+					// 셀병합랄 클래스 찾기
+					
+					// 셀 병함 시작할 클래스 넘버
+					let roomNo = "";
+					
+					// 클래스 넘버 앞에 room넘버를 알아와야하지?
+					
+					// 1. 룸의 넘버를 알아온다.
+					for(let j = 0 ; j < roomList.length ; j++){
+						// value 선언 및 룸 넘버 받기
+						let value = roomList[j].roomSmallNo;
+						
+						// value값과 예약한 룸넘버값이 같으면
+						if(SroomNo == value){
+							// 클래스 넘버를 넣고 break;
+							roomNo = value;
+							console.log(roomNo)
+							break;
+						}
+					}
+					console.log(roomNo)
+					
+					
+					// 2. timeInfo의 value 값이 val.startDate의 시간과 같아야함
+					// 먼저 변수 선언 후에 일치하면 값을 가져온다
+					let cols = "";
+					
+					let classNo2 = "";
+					for(let j = 0 ; j < timeInfo.length ; j++){
+						// value값
+						let value = timeInfo[j].value;
+						
+						// value값과 startDate의 값이 같으면
+						if(startTime == value){
+							// 클래스 넘버를 넣고 break;
+							classNo2 = timeInfo[j].key;
+							break;
+						}
+						
+					}
+					console.log(classNo2)
+					// 합쳐질 셀대상을 변수로 담기
+					cols = $('.time'+roomNo+classNo2)
+					console.log(cols)
+					// 땅따먹기 + 색칠
+					// 방법 - time이란 클래스를 찾아서 차이 만큼 셀 병합 
 					for(let i = start ; i < end ; i.setMinutes(i.getMinutes()+30)){
 						
+						count++;
+						// 카운트 수가 1 이상이면 셀 병합
+				        if (count > 1) {
+				        	// 카운트 수만큼 셀 별합
+							cols.attr("colspan", count).html(meeting)
+				        }
+					}
+					cols.append('<input type="hidden" value="'+resNo+'"/>').addClass("res_tdtimes")
+					// 필요없는 컬럼 지우기
+					console.log(count) // 카운트 수 확인
+					// 카운트 수의 -1 을 하여 시작시간을 제외하여 삭제
+					for(let i = 0 ; i < count-1 ; i++){
+						cols.next().remove();
 					}
 				// 종료일만 오늘이면 탐
 				}else if(end.getDate() == dd.substring(dd.length-2)){
+					console.log("종료일만 오늘임")
+					let count = 0; // 셀 병합 할 카운트 수
 					
-					// 색칠 
-					for(let i = start ; i < end ; i.setMinutes(i.getMinutes()+30)){
+					// 셀병합랄 클래스 찾기
+					
+					// 셀 병함 시작할 클래스 넘버
+					let roomNo = "";
+					
+					// 클래스 넘버 앞에 room넘버를 알아와야하지?
+					
+					// 1. 룸의 넘버를 알아온다.
+					for(let j = 0 ; j < roomList.length ; j++){
+						// value 선언 및 룸 넘버 받기
+						let value = roomList[j].roomSmallNo;
 						
+						// value값과 예약한 룸넘버값이 같으면
+						if(SroomNo == value){
+							// 클래스 넘버를 넣고 break;
+							roomNo = value;
+							console.log(roomNo)
+							break;
+						}
+					}
+					console.log(roomNo)
+					
+					
+					// 2. timeInfo의 value 값이 val.endDate의 시간과 같아야함
+					// 먼저 변수 선언 후에 일치하면 값을 가져온다
+					let cols = "";
+					
+					let classNo2 = "";
+					for(let j = 0 ; j < timeInfo.length ; j++){
+						// value값
+						let value = timeInfo[j].value;
+						
+						// value값과 startDate의 값이 같으면
+						if(endTime == value){
+							// 클래스 넘버를 넣고 break;
+							classNo2 = timeInfo[j].key;
+							break;
+						}
+						
+					}
+					console.log(classNo2)
+					// 합쳐질 셀대상을 변수로 담기
+					cols = $('.time'+roomNo+classNo2)
+					console.log(cols)
+					// 찾은 요소 행에서 첫 요소의 다음요소 가져오기
+					let firstcols = cols.siblings(":first").next()
+					
+					console.log(firstcols)
+					// 땅따먹기 + 색칠
+					// 방법 -
+					for(let i = end ; i > start ; i.setMinutes(i.getMinutes()-30)){
+						
+						// 카운트 수가 1 이상이면 셀 병합
+				        if (count > 1) {
+				        	// 카운트 수만큼 셀 별합
+							cols.attr("colspan", count).html(meeting);
+				        }
+						
+						count++;
+					}
+					cols.append('<input type="hidden" value="'+resNo+'"/>').addClass("res_tdtimes")
+					// 필요없는 컬럼 지우기
+					console.log(count) // 카운트 수 확인
+					// 카운트 수의 -1 을 하여 시작시간을 제외하여 삭제
+					for(let i = 0 ; i < count-1 ; i++){
+						// 만약 text가 존재하는 요소를 만나면
+						if(cols.prev().hasClass("resRoomName")){
+							break;
+						}
+						cols.prev().remove();
 					}
 				}
 			})

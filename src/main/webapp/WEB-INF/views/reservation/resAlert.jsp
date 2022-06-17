@@ -76,13 +76,13 @@
 	            <span class="res-alert_content">${msg}</span>
 	        </div>
 	        <div id="res-alert_footer">
-	            <button type="button" class="res-Cancel-btn">확인</button>
+	            <button type="button" class="res_Ok_btn">확인</button>
 	        </div>
 	    </div>
     </div>
     <script>
-		 // alert 확인 버튼시
-		$(".res-Cancel-btn").click(function(){
+		// alert 확인 버튼시
+		$(".res_Ok_btn").click(function(){
 			$("#res-alertBackground").hide();
 			$(".reservationEnrollFormModal").show();	
 		})

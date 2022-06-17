@@ -31,6 +31,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	<result property="empNo" column="EMP_NO"/>
 	 	<result property="empName" column="EMP_NAME"/>
 	</resultMap>
+	<resultMap type="AttendeeList" id="AttendeeListResultSet">
+	 	<id property="attendeeNum" column="ATTENDEE_NUM"/>
+	 	<result property="attendeeNum" column="ATTENDEE_NUM"/>
+	 	<result property="attendeeNo" column="ATTENDEE_NO"/>
+	 	<result property="reserveNum" column="RESERVE_NUM"/>
+	 	<result property="status" column="STATUS"/>
+	 	<result property="empName" column="EMP_NAME"/>
+	</resultMap>
 	
 	
 	<select id="selectReservationRoomList" resultMap="ReservationRoomResultSet">
@@ -61,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<where>
 			A.STATUS = 'Y'
 			<if test="empNo != null">
-				AND EMP_NO = #{empNo}
+				AND A.EMP_NO = #{empNo}
 			</if>
 			<if test="searchYear != null">
 				AND (
@@ -74,6 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					)
 			</if>
 		</where>
+		ORDER BY A.START_DATE
 	</select>
 	<select id="selectLroomList" resultMap="ReservationRoomResultSet">
 		SELECT 
@@ -146,5 +155,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM MEETINGROOM_MANAGEMENT A 
 		JOIN MEETINGROOM_CATEGORY_LARGE B ON (A.ROOM_LARGE_NO = B.ROOM_LARGE_NO)
 		WHERE A.STATUS = 'Y'
+	</select>
+	<update id="deleteReservation" parameterType="string">
+		UPDATE RESERVE_LIST
+		SET STATUS = 'N'
+		WHERE RESERVE_NUM = #{reserveNo}
+	</update>
+	<update id="deleteAttendeeList" parameterType="string">
+		UPDATE ATTENDEE_LIST
+		SET STATUS = 'N'
+		WHERE RESERVE_NUM = #{reserveNo}
+	</update>
+	<select id="selectOneReservation" parameterType="string" resultMap="ReservationResultSet">
+		SELECT 
+			A.RESERVE_NUM,
+	 		A.EMP_NO,
+	 		A.ROOM_SMALL_NO,
+	 		C.LROOM_NAME,
+	 		B.SROOM_NAME,
+	 		A.START_DATE,
+	 		A.END_DATE,
+	 		A.MEETING_NAME,
+	 		A.STATUS
+		FROM RESERVE_LIST A
+		JOIN MEETINGROOM_MANAGEMENT B ON (A.ROOM_SMALL_NO = B.ROOM_SMALL_NO)
+		JOIN MEETINGROOM_CATEGORY_LARGE C ON (B.ROOM_LARGE_NO = C.ROOM_LARGE_NO)
+		<where>
+			A.RESERVE_NUM = #{resNo}
+		</where>
+	</select>
+	<select id="selectOneAttendee" parameterType="string" resultMap="AttendeeListResultSet">
+		SELECT
+			A.ATTENDEE_NUM,
+			A.ATTENDEE_NO,
+			B.EMP_NAME,
+			A.RESERVE_NUM,
+			A.STATUS
+		FROM ATTENDEE_LIST A
+		JOIN USER_INFO B ON (A.ATTENDEE_NO = B.EMP_NO)
+		WHERE A.RESERVE_NUM = #{resNo}
 	</select>
 </mapper>

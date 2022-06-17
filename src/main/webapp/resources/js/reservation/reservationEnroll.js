@@ -1,3 +1,4 @@
+
 		$(document).on('click','.reservation_submit',function(){
 			let enrollFormReservation = document.enrollFormReservation;
 			// empNo 		// 사원번호
@@ -323,6 +324,12 @@
 				let startTime = $("#res-startTime").val()
 				let sRoom = $(".res-smallCategory").val()
 				let endDate = $("#res-endDate")
+				
+				// 다시 선택했을 때도 고려 하기 위해 empty()
+				let $ResEndTime = $('.res-endTime')
+				let op = $('<option>').val("선택").text("선택")
+				$ResEndTime.empty();
+				$ResEndTime.append(op)
 				
 				// 종료일에 시작일 값 넣기
 				endDate.val(startDate);
@@ -1198,22 +1205,7 @@
 					}
 				})
 			})
-			// 사원 클릭시 리스트 뜸
-			$(document).on('click','.empName-pline',function(){
-				let val = $(this).find('input').val()
-				let name = $(this).find('.empName-res').text()
-				console.log(val+" "+ name)
-				
-				// 만약 회의실 안원 수를 넘으면 return false;
-				//if($('input[name=resname-padding]').length > ){
-					
-				//}
-				
-				if(!$(".resname-padding").hasClass(name)){
-					$(".reservation-member").append('<span name="resname-padding" class="resname-padding '+name+'">'+name+'<img class="image-x" src="${ pageContext.servletContext.contextPath }/resources/images/xButton.png"><input type="hidden" value="'+val+'" name="attendeeNo"/></span>')
-				}
-				
-			})
+
 			// x버튼 클릭시 사라짐
 			$(document).on('click','.image-x',function(){
 				let parent = $(this).parent().attr("class");
@@ -1223,6 +1215,7 @@
 				
 				$("."+parent).remove();
 			})
+			
 			
 			// 취소 버튼 클릭시 히든
 			$(document).on("click",'.reservationEnroll_cancelbtn',function(){

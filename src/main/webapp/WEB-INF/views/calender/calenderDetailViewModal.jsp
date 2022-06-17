@@ -52,7 +52,7 @@
     </div>
 	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
   	<script>
-  		$(".calhidden-realwriter").change(function() {
+  		$(document).on('DOMSubtreeModified', ".calenderModal_Title", function() {
   			let loginUser = '${ loginUser.empNo }';
   	  		let realWriter = $(".calhidden-realwriter").val()
   	  		console.log("세션 확인 ==> "+loginUser)
