@@ -37,4 +37,6 @@ public class AprvDoc {
 	private String aprvCode;	// 결재 코드
 	private String aprvPro;		// 결재 코드명
 	
+	private String condition;		// 검색 조건
+	private String search;			// 검색어
 }

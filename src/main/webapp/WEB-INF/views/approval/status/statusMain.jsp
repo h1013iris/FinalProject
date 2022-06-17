@@ -107,17 +107,89 @@
 		color: red;
 	}
 	
-	.statusfilter_area {
-		/*border: 1px solid black;*/
-		padding: 10px 0 15px 82.8%;
+	.dropdown_area {
+		display: flex;
+		border: 1px solid blue;
+		/*padding: 10px 0 15px 500px;*/
 	}
 	
-	.statusfilter_select {
-		width: 150px;
-		height: 25px;
-		font-size: 16px;
-		/*text-align: center;*/
+	.filter_dropdown * { box-sizing: border-box; }
+	
+	.filter_dropdown {
+		margin: 0 10px;
+		position: relative;
+		display: inline-block;
+		/*width: 150px;
+		height: 35px;*/
+		/*border-radius: 4px;*/
+		border: none;
+		/*background-size: 20px;*/
+		cursor: pointer;
 	}
+	
+	.dropdown_btn {
+		/*border: 1px solid #ffdab9;*/
+		/*position: absolute;*/
+		content: '';
+  		display: block;
+		border: none;
+		border-radius: 4px;
+		background-color: #bce7ff;
+		width: 120px;
+		padding: 7px 0;
+		font-size: 15px;
+	}
+	
+	.docFormDefault { width: 200px; }
+	
+	.dropdown_content {
+		display: none;
+		border-radius: 4px;
+		position: absolute;
+		background-color: #bce7ff;
+		/*min-sidth: 75px;*/
+		/*padding: 7px 10px;*/
+		box-shadow: 0 8 10 6 rgba(0, 0, 0, 0.2);
+		/*list-style-type: none;*/
+		width: 100%;
+		top: 40px;
+		/*transition: .3s ease-in;*/
+	}
+	
+	.dropdown_content li {
+		color: black;
+		padding: 8px;
+		text-decoration: none;
+		display: block;
+	}
+	
+	.dropdown_content li:hover { 
+		background-color: #93bedc;
+		border-radius: 4px;
+	}
+	
+	.filter_dropdown:hover .dropdown_content { display: block; }
+		
+	.filter_dropdown:hover .dropdown_btn { 
+		background-color: #93bedc;
+		color: white;
+	}
+	
+	.search_div {
+		display: flex;
+		margin: 0 10px;
+	}
+	
+	.search_div div {
+		border: 1px solid;
+		padding: 5px 10px;
+	}
+	
+	/*.searchBtn_div {
+		margin-left: 10px;
+	}
+	
+	/*input { border: none; }*/
 
 </style>
 
@@ -128,12 +200,38 @@
 	
 	<div class="main_section">
         <div class="mainDiv">
-        	<div class="statusfilter_area">
-        		<div class="statusfilter_select">
-        			<div>전체</div>
-        			<%-- 문서 상태값 출력 --%>
+        	<div class="dropdown_area">
+        		<div class="filter_dropdown">
+	        		<button class="dropdown_btn statusDefault">상태</button>
+	        		<ul class="dropdown_content statusfilter">
+	        			<li>전체</li>
+	        			<%-- 문서 상태값 출력 --%>
+	        		</ul>
+        		</div>
+        		
+        		<div class="filter_dropdown">
+	        		<button class="dropdown_btn docFormDefault">문서 유형</button>
+	        		<ul class="dropdown_content docFormfilter">
+	        			<%-- 문서 유형 출력 --%>
+	        		</ul>
+        		</div>
+        		
+        		<div class="filter_dropdown">
+        			<button class="dropdown_btn conditionDefault">검색</button>
+        			<ul class="dropdown_content conditionfilter">
+	        			<li>문서 번호</li>
+	        			<li>제목</li>
+	        			<li>내용</li>
+	        		</ul>
+        		</div>
+        		
+        		<div class="search_div">
+        			<div class="searchInput_div"><input id="search" name="search"/></div>
+        			<div class="searchImg_div"><img src="https://img.icons8.com/material/24/000000/search--v1.png"></div>
         		</div>
         	</div>
+        	
+        	
 			<div class="statusList_area">
 				<table class="statusList_table">
 					<colgroup>
@@ -167,24 +265,6 @@
 					<%-- 페이징바 들어갈 부분 --%>
 				</ul>
 			</div>
-	          
-	           
-	       	<%-- 검색창 --%>
-	       	<div class="searchArea">
-	       		<%-- 검색하기 버튼 클릭 시 검색 서블릿으로 넘어가도록 --%>
-			   	<form class="searchForm" action="" method="get">
-			   		<%-- 각 메뉴에 맞는 문서들만 조회하기 위해 히든으로 구분해서 넘기기 --%>
-			   		<input type="hidden" name="" value=""/>
-			        <select id="condition" name="condition">
-			        	<option>검색 조건</option>
-			           	<option value="docNo">문서 번호</option>
-	        			<option value="docType">문서 유형</option>
-	        			<option value="docTitle">제목</option>
-			        </select>
-			        <input type="search" id="search" name="search" maxlength="100">
-			        <button class="commonButton1 searchBtn" type="button">검색</button>
-			  	</form>
-	       	</div>
 	       	
 		</div>
     </div>
@@ -202,11 +282,11 @@
 			
 			} else {
 				
-				// 문서 상태값 리스트 조회해서 select에 넣는 함수 실행
-				aprvStatusFn(); 
+				aprvStatusFn();		// 문서 상태값 리스트 조회해서 li에 넣는 함수 실행
 				
-				// 리스트 조회하는 ajax
-				statusListFn();
+				docTypeListFn(); 	// 문서 타입 리스트 조회해서 li에 넣는 함수 실행
+				
+				statusListFn(); 	// 상태 확인함 리스트 조회하는 ajax
 			}
 
 		});
@@ -266,7 +346,7 @@
                 					url: "selectApprover.do",
                 					data: { docNo : obj.docNo },
                 					success: function(approver) {
-                						console.log(approver);
+                						//console.log(approver);
                 						
                 						$aprvStatusName.append(" (" + approver + ")");	                					}
                 					
@@ -300,119 +380,208 @@
 		 			
 	 			type: "post",
                 url: "selectAprvStatusList.do",
-                success: function (list) {
-					
-                	console.log(list);
+                success: function(list) {
                 	
                 	if(list != null || list != "") {
                 		
+                		let value = "";
+                		
                 		$.each(list, function(i) {
-                			$(".statusfilter_select").append("<option value='" + list[i].aprvStatusNo + "'>" 
-                									 + list[i].aprvStatus + "</option>");
+                			value += "<li>" + list[i].aprvStatus
+                					+ "<input type='hidden' value='" + list[i].aprvStatusNo  + "'/>"
+                					+ "</li>"
                 		});
+                		
+                		$(".statusfilter").append(value);
                 	}
                 }
 	 		});
 		}
 		
 		
+		// 문서 타입 리스트 조회해서 li에 넣는 함수
+		function docTypeListFn() {
+			
+			$.ajax({
+				
+				type: "post",
+				url: "selectDocTypeList.do",
+				success: function(list) {
+					
+					if(list != null || list != "") {
+                		
+                		let value = "";
+                		
+                		$.each(list, function(i) {
+                			value += "<li>" + list[i].docForm
+                					+ "<input type='hidden' value='" + list[i].docTypeNo  + "'/>"
+                					+ "</li>"
+                		});
+                		
+                		$(".docFormfilter").append(value);
+                	}
+				}
+			});
+		}
+
 		
-		// 상태값 option 바뀔 때마다 해당하는 상태값에 따라 리스트 조회
-		$(document).on("change", ".statusfilter_select", function() {
+		// 상태값
+		$(".statusfilter").on("click", "li", function() {
 			
-			// 전체 선택하는 경우
-			if($(this).text() == "전체") {
-				statusListFn(); // 전체 리스트 조회하는 함수 실행
+			// 각 필터와 검색어 변수에 담기
+			let aprvStatus = $(this).find("input").val();
+			let aprvStatusName = $(this).text(); // 클릭한 상태값 text 변수에 담기
+			let docForm = $(".docFormDefault").text();
+			let condition = $(".conditionDefault").text();
+			let search = $("#search").val();
 			
-			} else {
-				
-				let aprvStatus = $(".statusfilter_select").val(); // 상태값 변수에 담기
-				
-				$.ajax({
-					
-					type: "post",
-					url: "statusConditionList.do",
-					data: { aprvStatus : aprvStatus,
-							drafter : "${ loginUser.empNo }" },
-							// AprvDoc 에 있는 필드 이용하기 위해 이름 drafter 로 넘기기
-					success: function(list) {
-					
-						console.log(list);
-						
-						$tbody = $('.statusList_tbody'); // 리스트가 들어갈 tbody
-		            	$tbody.html('');
-						
-	                	
-	                	if(list.length == 0) {
-	                		
-	                		var $noListTh = $("<th colspan='6'>").text("해당 상태에 대한 문서가 존재하지 않습니다.").addClass("noStatusList");
-	                		var $noListTr = $('<tr>').append($noListTh);
-	                		
-							$tbody.append($noListTr);
-	                	
-	                	} else {
-							
-	                		$.each(list, function(i, obj) {
-	                			
-	                			var $tr = $('<tr>');
-	                			var $docNo = $('<td>').text(obj.docNo);
-	                			var $docForm = $('<td>').text(obj.docForm);
-	                			var $docType = $('<input type="hidden" id="docType" name="docType" value=' 
-	                								+ obj.docType+'/>');
-	                			
-	                			if(obj.docTitle != null) {
-	                				var $docTitle = $('<td>').text(obj.docTitle).addClass("docTitleTd").attr("title", obj.docTitle);
-	                			
-	                			} else {
-	                				var $docTitle = $('<td>').text(obj.docForm).addClass("docTitleTd");
-	                			}
-	                			
-	                			var $drafter = $('<td>').text(obj.drafter);
-	                			var $draftDate = $('<td>').text(obj.draftDate);
-	                			var $aprvStatusName = $('<td>').text(obj.aprvStatusName).addClass("statusName");
-	                			
-	                			// 진행 상태에 따른 글자색 변경 위해
-	                			if(obj.aprvStatus == 1) {
-	                				$aprvStatusName.addClass("status1");
-	                				
-	                				// 상태가 진행 중인 경우 현재 결재자 조회하는 ajax
-	                				$.ajax({
-	                					
-	                					type: "post",
-	                					url: "selectApprover.do",
-	                					data: { docNo : obj.docNo },
-	                					success: function(approver) {
-	                						console.log(approver);
-	                						
-	                						$aprvStatusName.append(" (" + approver + ")");	                					}
-	                					
-	                				});
-	                				
-	                			} else if(obj.aprvStatus == 4) {
-	                				$aprvStatusName.addClass("status4");
-	                			}
-	                			
-	                			$tr.append($docNo);
-	                			$tr.append($docForm);
-	                			$tr.append($docType);
-	                			$tr.append($docTitle);
-	                			$tr.append($drafter);
-	                			$tr.append($draftDate);
-	                			$tr.append($aprvStatusName);
-	                			
-	                			$tbody.append($tr);
-	                		});
-	                	}
-						
-					}
-					
-				});
-			}
+			// 버튼 text 변경
+			$(".statusDefault").text(aprvStatusName);
+			
+			// 필터 및 검색어에 따른 리스트 조회
+			searchFilterFn(aprvStatusName, docForm, condition, search);
 			
 		});
 		
 		
-	
+		// 문서 유형
+		$(".docFormfilter").on("click", "li", function() {
+			
+			// 각 필터와 검색어 변수에 담기
+			//let aprvStatus = $(".statusDefault").find("input").val();
+			let aprvStatusName = $(".statusDefault").text(); // 클릭한 상태값 text 변수에 담기
+			let docForm = $(this).text();
+			let condition = $(".conditionDefault").text();
+			let search = $("#search").val();
+			
+			// 버튼 text 변경
+			$(".docFormDefault").text(docForm);
+			
+			// 필터 및 검색어에 따른 리스트 조회
+			searchFilterFn(aprvStatusName, docForm, condition, search);
+			
+		});
+		
+		
+		// 검색 조건
+		$(".conditionfilter").on("click", "li", function() {
+			
+			let condition = $(this).text();
+			
+			// 버튼 text 변경
+			$(".conditionDefault").text(condition);
+		});
+		
+		
+		// 검색어
+		$(".search_div").on("click", ".searchImg_div", function() {
+			
+			// 각 필터와 검색어 변수에 담기
+			//let aprvStatus = $(this).find("input").val();
+			let aprvStatusName = $(".statusDefault").text(); // 클릭한 상태값 text 변수에 담기
+			let docForm = $(".docFormDefault").text();
+			let condition = $(".conditionDefault").text();
+			let search = $("#search").val();
+			
+			// 필터 및 검색어에 따른 리스트 조회
+			searchFilterFn(aprvStatusName, docForm, condition, search);
+			
+		});
+		
+		
+		// 필터 및 검색 내용에 따른 리스트 조회
+		function searchFilterFn(aprvStatusName, docForm, condition, search) {
+			
+			console.log(aprvStatusName);
+			console.log(docForm);
+			console.log(condition);
+			console.log(search);
+			
+			$.ajax({
+				
+				type: "post",
+				url: "statusList.do",
+				data: { drafter : "${ loginUser.empNo }",
+						aprvStatusName : aprvStatusName,
+						docForm : docForm,
+						condition : condition,
+						search : search },
+						// AprvDoc 에 있는 필드 이용하기 위해 이름 drafter 로 넘기기
+				success: function(list) {
+				
+					console.log(list);
+					
+					$tbody = $('.statusList_tbody'); // 리스트가 들어갈 tbody
+	            	$tbody.html('');
+					
+                	
+                	if(list.length == 0) {
+                		
+                		var $noListTh = $("<th colspan='6'>").text("해당 검색 조건에 대한 문서가 존재하지 않습니다.").addClass("noStatusList");
+                		var $noListTr = $('<tr>').append($noListTh);
+                		
+						$tbody.append($noListTr);
+                	
+                	} else {
+						
+                		$.each(list, function(i, obj) {
+                			
+                			var $tr = $('<tr>');
+                			var $docNo = $('<td>').text(obj.docNo);
+                			var $docForm = $('<td>').text(obj.docForm);
+                			var $docType = $('<input type="hidden" id="docType" name="docType" value=' 
+                								+ obj.docType+'/>');
+                			
+                			if(obj.docTitle != null) {
+                				var $docTitle = $('<td>').text(obj.docTitle).addClass("docTitleTd").attr("title", obj.docTitle);
+                			
+                			} else {
+                				var $docTitle = $('<td>').text(obj.docForm).addClass("docTitleTd");
+                			}
+                			
+                			var $drafter = $('<td>').text(obj.drafter);
+                			var $draftDate = $('<td>').text(obj.draftDate);
+                			var $aprvStatusName = $('<td>').text(obj.aprvStatusName).addClass("statusName");
+                			
+                			// 진행 상태에 따른 글자색 변경 위해
+                			if(obj.aprvStatus == 1) {
+                				$aprvStatusName.addClass("status1");
+                				
+                				// 상태가 진행 중인 경우 현재 결재자 조회하는 ajax
+                				$.ajax({
+                					
+                					type: "post",
+                					url: "selectApprover.do",
+                					data: { docNo : obj.docNo },
+                					success: function(approver) {
+                						//console.log(approver);
+                						
+                						$aprvStatusName.append(" (" + approver + ")");	                					}
+                					
+                				});
+                				
+                			} else if(obj.aprvStatus == 4) {
+                				$aprvStatusName.addClass("status4");
+                			}
+                			
+                			$tr.append($docNo);
+                			$tr.append($docForm);
+                			$tr.append($docType);
+                			$tr.append($docTitle);
+                			$tr.append($drafter);
+                			$tr.append($draftDate);
+                			$tr.append($aprvStatusName);
+                			
+                			$tbody.append($tr);
+                		});
+                	}
+					
+				}
+				
+			});
+		}
+		
+		
 		// 게시글 클릭 시
 		$(".statusList_table tbody").on("click", ".yesStatusList", function() {
 			
@@ -421,11 +590,9 @@
 		});
 		
 		
-		$(".searchBtn").click(function() {
-			
-		})
-		
 	</script>
+	
+	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 
 </body>
 </html>

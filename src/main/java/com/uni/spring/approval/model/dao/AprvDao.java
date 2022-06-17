@@ -13,7 +13,9 @@ import com.uni.spring.approval.model.dto.AprvStatus;
 import com.uni.spring.approval.model.dto.BusCoopForm;
 import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
+import com.uni.spring.approval.model.dto.DocFilter;
 import com.uni.spring.approval.model.dto.DocOutbox;
+import com.uni.spring.approval.model.dto.DocType;
 import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.approval.model.dto.ReturnDoc;
 import com.uni.spring.approval.model.dto.SecurityDoc;
@@ -209,7 +211,8 @@ public class AprvDao {
 		return sqlSession.selectOne("aprvMapper.statusListCount", aprvDoc);
 	}
 
-	public ArrayList<AprvDoc> selectStatusList(SqlSessionTemplate sqlSession, PageInfo pi, AprvDoc aprvDoc) {
+	public ArrayList<AprvDoc> selectStatusList(SqlSessionTemplate sqlSession, PageInfo pi, 
+			AprvDoc aprvDoc) {
 		
 		// 페이징처리 위해 오프셋, 로우바운즈
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
@@ -412,6 +415,11 @@ public class AprvDao {
 	public int deleteAprvDocument(SqlSessionTemplate sqlSession, Integer docNo) {
 		
 		return sqlSession.delete("aprvMapper.deleteAprvDocument", docNo);
+	}
+
+	public ArrayList<DocType> selectDocTypeList(SqlSessionTemplate sqlSession) {
+		
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectDocTypeList");
 	}
 
 	
