@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.uni.spring.admin.model.dto.employee;
 import com.uni.spring.mypage.model.dto.Journal;
+import com.uni.spring.mypage.model.dto.MyPage;
 import com.uni.spring.mypage.model.dto.ToDoList;
 import com.uni.spring.mypage.model.dto.WorkRequest;
 
@@ -109,6 +110,26 @@ public class MyPageDao {
 	public int updateRequestStatus(SqlSessionTemplate sqlSession, String raskNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("mypageMapper.updateRequestStatus",Integer.parseInt(raskNo));
+	}
+
+	public ArrayList<MyPage> selectMyPageInsertList(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("mypageMapper.selectMyPageInsertList", empNo);
+	}
+
+	public ArrayList<MyPage> selectMyPageDeleteList(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("mypageMapper.selectMyPageDeleteList", empNo);
+	}
+
+	public int insertMypage(SqlSessionTemplate sqlSession, MyPage mp) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("mypageMapper.insertMypage",mp);
+	}
+
+	public int deleteMypage(SqlSessionTemplate sqlSession, MyPage mp) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("mypageMapper.deleteMypage",mp);
 	}
 	
 	

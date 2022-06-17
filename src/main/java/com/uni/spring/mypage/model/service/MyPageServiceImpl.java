@@ -10,6 +10,7 @@ import com.uni.spring.admin.model.dto.employee;
 import com.uni.spring.common.exception.CommException;
 import com.uni.spring.mypage.model.dao.MyPageDao;
 import com.uni.spring.mypage.model.dto.Journal;
+import com.uni.spring.mypage.model.dto.MyPage;
 import com.uni.spring.mypage.model.dto.ToDoList;
 import com.uni.spring.mypage.model.dto.WorkRequest;
 
@@ -151,6 +152,34 @@ public class MyPageServiceImpl implements MyPageService {
 		int result = MPDao.updateRequestStatus(sqlSession, raskNo);
 		
 		if(result <= 0) throw new CommException("업무완료 상태 변경 실패"); 
+	}
+
+	@Override
+	public ArrayList<MyPage> selectMyPageInsertList(int empNo) {
+		// TODO Auto-generated method stub
+		return MPDao.selectMyPageInsertList(sqlSession, empNo);
+	}
+
+	@Override
+	public ArrayList<MyPage> selectMyPageDeleteList(int empNo) {
+		// TODO Auto-generated method stub
+		return MPDao.selectMyPageDeleteList(sqlSession, empNo);
+	}
+
+	@Override
+	public void insertMypage(MyPage mp) {
+		// TODO Auto-generated method stub
+		int result = MPDao.insertMypage(sqlSession, mp);
+		
+		if(result <= 0) throw new CommException("즐겨찾기 추가 실패"); 
+	}
+	
+	@Override
+	public void deleteMypage(MyPage mp) {
+		// TODO Auto-generated method stub
+		int result = MPDao.deleteMypage(sqlSession, mp);
+		
+		if(result <= 0) throw new CommException("즐겨찾기 추가 실패"); 
 	}
 
 }

@@ -50,6 +50,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="EStatus" column="EMERGENCY_STATUS"/>
 	</resultMap>
 	
+	<resultMap type="mypage" id="mypageResult">
+		<result property="pageNo" column="PAGE_NO"/>
+		<result property="pageName" column="PAGE_NAME"/>
+		<result property="pageUrl" column="PAGE_URL"/>
+		<result property="empNo" column="EMP_NO"/>
+	</resultMap>
+	
 	<insert id="InsertJournal" parameterType="journal">
 		insert into JOURNAL
 		values
@@ -213,12 +220,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where rask_no = #{raskNo}
 	</update>
 	
+	<select id="selectMyPageDeleteList" resultMap="mypageResult">
+		SELECT *
+		FROM ALL_PAGE
+		WHERE PAGE_NO IN(
+		    SELECT PAGE_NO
+		    FROM FAVORITES_PAGE
+		    WHERE EMP_NO = #{empNo}
+		    )
+	</select>
 	
+	<select id="selectMyPageInsertList" resultMap="mypageResult">
+		SELECT *
+		FROM ALL_PAGE
+		WHERE PAGE_NO not in(
+		    SELECT PAGE_NO
+		    FROM FAVORITES_PAGE
+		    WHERE EMP_NO = #{empNo}
+		    )
+		ORDER BY PAGE_NO
+	</select>
 	
+	<insert id="insertMypage" parameterType="mypage">
+		insert into FAVORITES_PAGE
+		values
+		(#{pageNo}, #{empNo})
+	</insert>
 	
-	
-	
-	
+	<delete id="deleteMypage" parameterType="mypage">
+		delete FAVORITES_PAGE
+		where page_no = #{pageNo}
+		and emp_no = #{empNo}
+	</delete>
 	
 	
 	

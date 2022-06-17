@@ -31,7 +31,7 @@
 	            </div>
 	            <div class="favorites">
 	                <select name="favorite" id="favorites_select"></select>
-	                <button type="submit">이동</button>
+	                <button id="page_go_btn" type="submit">이동</button>
 	            </div>
 	        </div>
 	        
@@ -109,7 +109,7 @@
 	                <ul>
 	                    <li class="list_title">일반</li>
 	                    <div class="hhh">
-		                    <li><a href="#">내 근태 보기</a></li>
+		                    <li><a href="selectDetailAttendLog.do?empNo=${loginUser.empNo}">내 근태 보기</a></li>
 		                    <li><a href="myinfoUpdate">내 정보 변경</a></li>
 	                    </div>
 	                </ul>
@@ -488,6 +488,10 @@
 				})
 			}
 		})
+	})
+
+	$("#page_go_btn").click(function(){
+		location.href=$("#favorites_select option:selected").val();
 	})
 	
 
