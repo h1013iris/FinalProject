@@ -14,9 +14,9 @@ public interface AprvMgtService {
 	
 	ArrayList<AprvDoc> selectScrtyReqList(PageInfo pi);
 
-	int scrtyDocListCount();
+	int scrtyDocListCount(AprvDoc aprvDoc);
 	
-	ArrayList<AprvDoc> selectScrtyDocList(PageInfo pi);
+	ArrayList<AprvDoc> selectScrtyDocList(PageInfo pi, AprvDoc aprvDoc);
 
 	SecurityDoc selectScrtyReason(int docNo);
 

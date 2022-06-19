@@ -204,7 +204,7 @@
 			 			
 			 			type: "post",
 	 	                url: "selectDocApprover.do",
-	 	                data: { docNo : ${ docNo } },
+	 	                data: { docNo : data.docNo },
 	 	                success: function (data) {
 							console.log(data);
 	 	                	if(data != null) {

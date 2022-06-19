@@ -107,13 +107,14 @@ public class aprvMgtController {
 	// 보안 처리된 문서 리스트
 	@ResponseBody
 	@RequestMapping(value="scrtyDocList.do", produces="application/json; charset=utf-8")
-	public String selectScrtyDocList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage) {
+	public String selectScrtyDocList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage,
+								AprvDoc aprvDoc) {
 		
-		int listCount = aprvMgtService.scrtyDocListCount();
+		int listCount = aprvMgtService.scrtyDocListCount(aprvDoc);
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		
-		ArrayList<AprvDoc> list = aprvMgtService.selectScrtyDocList(pi);
+		ArrayList<AprvDoc> list = aprvMgtService.selectScrtyDocList(pi, aprvDoc);
 		
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
 	}

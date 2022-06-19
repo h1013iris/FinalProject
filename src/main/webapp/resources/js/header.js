@@ -54,6 +54,7 @@ $(function(){
         $(".docEnrollModal").hide();
         $(".returnReason_modal").hide();
         $(".scrtyReq_modal").hide();
+        $(".selectApprovor_modal").hide();
 	})
 	
 	//확인창 취소버튼 - 공통
