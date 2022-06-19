@@ -8,12 +8,8 @@
 <style type="text/css">
 	
 	.mainDiv {
-		padding: 100px;
+		padding: 50px 100px 80px 100px;
 		text-align: center;
-	}
-	
-	.main_section {
-		/*border: 1px solid black;*/
 	}
 	
 	.completeList_area {
@@ -41,6 +37,13 @@
 		padding: 15px;
 	}
 	
+	/* 말줄임표 CSS */
+	.completeList_table .completeList_tbody td {
+       	white-space: nowrap;
+       	text-overflow: ellipsis;
+       	overflow: hidden;
+	}
+	
 	.completeList_table th {
 		padding: 15px;
 		background-color: darogray;
@@ -54,31 +57,12 @@
 	.noCompleteList {
 		color: blue;
 	}
-	
-	.pagingArea {
-		/*border: 1px solid black;*/
-		width: fit-content;
-		margin: auto;
-		padding-top: 35px;
-	}
-    /* #pagingArea a{color:black} */
-	
-	.pagingBtn {
-		width: 30px;
-		height: 45px;
-	}
-	
-	.filter_dropdown * { box-sizing: border-box; }
-	
+		
 	.filter_dropdown, .filter_initialize {
 		margin: 5px 10px;
 		position: relative;
 		display: inline-block;
-		/*width: 150px;
-		height: 35px;*/
-		/*border-radius: 4px;*/
 		border: none;
-		/*background-size: 20px;*/
 		cursor: pointer;
 	}
 	
@@ -94,9 +78,6 @@
 	}
 	
 	.dropdown_btn {
-	
-		/*border: 1px solid #ffdab9;*/
-		/*position: absolute;*/
 		content: '';
   		display: block;
 		border: none;
@@ -114,13 +95,9 @@
 		border-radius: 4px;
 		position: absolute;
 		background-color: #bce7ff;
-		/*min-sidth: 75px;*/
-		/*padding: 7px 10px;*/
 		box-shadow: 0 8 10 6 rgba(0, 0, 0, 0.2);
-		/*list-style-type: none;*/
 		width: 100%;
 		top: 40px;
-		/*transition: .3s ease-in;*/
 	}
 	
 	.dropdown_content li {
@@ -150,7 +127,6 @@
 	
 	.docSearch_area {
 		display: flex;
-		/*border: 1px solid blue;*/
 		padding: 10px 0 15px 0;
 	}
 	
@@ -179,6 +155,43 @@
 	.search_div img {
 		padding: 7px;
 	}
+	
+	.pagingArea {
+		width: 100%;
+		display: flex;
+		text-align: center;
+		padding-top: 35px;
+	}
+	
+	.pagingArea ul {
+		list-style: none;
+	    margin: 0;
+	    padding: 0;
+	}
+	
+	.pagingArea li {
+		margin: 5px;
+	    padding: 0;
+	    border : 0;
+	    float: left;
+	    cursor: pointer;
+	}
+	
+	.page-item, .page-num {
+		width: 40px;
+		height: 40px;
+		line-height: 40px !important;
+	}
+	
+	.disabled {
+		background-color: #b3ddff !important;
+		box-shadow: 0px 5px 0px 0px #97c1e2 !important;
+	}
+	
+	.disabled:hover {
+		box-shadow: 0px 0px 0px 0px #97c1e2 !important;
+	}
+	
 
 </style>
 
@@ -246,10 +259,8 @@
 	    	</div>
 	    	
 	    	<!-- 페이징바 만들기 -->
-			<div class="pagingArea" align="center">
-				<ul id="paginationBox" class="pagination">
-					<%-- 페이징바 들어갈 부분 --%>
-				</ul>
+			<div class="pagingArea">
+				<%-- 페이징바 들어갈 부분 --%>
 			</div>
 	       	
 		</div>
@@ -277,21 +288,22 @@
 		
 		
 		// 리스트 조회
-		function completeListFn() {
+		/*function completeListFn(num) {
 			
 			$.ajax({
 				
 				type: "post",
                 url: "completeList.do",
-                data: { drafter : "${ loginUser.empNo }" },
-                success: function (list) {
+                data: { drafter : "${ loginUser.empNo }",
+                		currentPage : num },
+                success: function (result) {
 					
-                	console.log(list)
+                	console.log(result)
                 	
                 	$tbody = $('.completeList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(result.list.length == 0) {
                 		
                 		var $noListTh = $("<th colspan='6'>").text("결재 요청한 문서가 존재하지 않습니다.").addClass("noCompleteList");
                 		var $noListTr = $('<tr>').append($noListTh);
@@ -300,7 +312,7 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(result.list, function(i, obj) {
                 			
                 			var $tr = $('<tr>').addClass("yesCompleteList");
                 			var $docNo = $('<td>').text(obj.docNo);
@@ -328,10 +340,47 @@
                 			
                 			$tbody.append($tr);
                 		});
+                		
+                		// 페이징 처리
+                        let bar = '';
+                        let currentPage = result.currentPage;	// 현재 페이지
+                        let startPage = result.startPage;		// 시작 페이지
+                        let endPage = result.endPage; 			// 끝 페이지
+                        let maxPage = result.maxPage; 			// 최대 페이지
+                        
+                        bar += '<ul class="pagination">';
+                        
+                        if(currentPage != 1) {
+                        	bar += '<li class="page-item commonButton1" onclick="completeListFn(' + parseInt(currentPage-1) + ');"><</li>'
+                        
+                        } else {
+                        	bar += '<li class="page-item disabled commonButton1"><</li>'
+                        }
+                            
+                        for(var i = startPage; i <= endPage; i++) {
+                           
+                        	if(i != currentPage) {
+                        	   bar += '<li class="page-num commonButton1" onclick="completeListFn(' + i + ');">'+ i +'</li>'
+                           
+                           } else {
+                        	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
+                           }
+                        }
+                             
+                       	if(currentPage != maxPage) {
+                            bar += '<li class="page-item commonButton1" onclick="completeListFn(' + parseInt(currentPage+1) + ');">></li>'
+                        
+                       	} else {
+                        	bar += '<li class="page-item disabled commonButton1">></li>'
+                        }
+                             
+                        bar += '</ul>';
+                            
+                        $(".pagingArea").html(bar);
                 	}
                 }
 			});
-		}
+		}*/
 		
 		
 		// 문서 타입 리스트 조회해서 li에 넣는 함수
@@ -362,7 +411,9 @@
 		
 		// 초기화 버튼 클릭 시
 		$(document).on("click", ".initialize_btn", function() {
+			// 전체 리스트 조회하는 함수 실행
 			completeListFn();
+			// 필터 비워주기
 			$(".docFormDefault").text("문서 유형");
 			$(".conditionDefault").text("검색 조건");
 			$("#search").val("");
@@ -371,7 +422,6 @@
 		
 		// 문서 유형
 		$(".docFormfilter").on("click", "li", function() {
-			
 			// 각 필터와 검색어 변수에 담기
 			let docForm = $(this).text();
 			let condition = $(".conditionDefault").text();
@@ -381,8 +431,7 @@
 			$(".docFormDefault").text(docForm);
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			searchFilterFn(docForm, condition, search);
-			
+			completeListFn(docForm, condition, search);
 		});
 		
 		
@@ -405,17 +454,17 @@
 			let search = $("#search").val();
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			searchFilterFn(docForm, condition, search);
-			
+			completeListFn(docForm, condition, search);
 		});
 		
 		
 		// 필터 및 검색 내용에 따른 리스트 조회
-		function searchFilterFn(docForm, condition, search) {
+		function completeListFn(docForm, condition, search, num) {
 			
 			console.log(docForm);
 			console.log(condition);
 			console.log(search);
+			console.log(num);
 			
 			$.ajax({
 				
@@ -424,15 +473,16 @@
                 data: { drafter : "${ loginUser.empNo }",
 						docForm : docForm,
 						condition : condition,
-						search : search },
-                success: function (list) {
+						search : search,
+						currentPage : num },
+                success: function (result) {
 					
-                	console.log(list)
+                	console.log(result)
                 	
                 	$tbody = $('.completeList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(result.list.length == 0) {
                 		
                 		var $noListTh = $("<th colspan='6'>").text("결재 요청한 문서가 존재하지 않습니다.").addClass("noCompleteList");
                 		var $noListTr = $('<tr>').append($noListTh);
@@ -441,27 +491,25 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(result.list, function(i, obj) {
                 			
                 			var $tr = $('<tr>').addClass("yesCompleteList");
                 			var $docNo = $('<td>').text(obj.docNo);
-                			var $docForm = $('<td>').text(obj.docForm);
-                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
+                			var $docForm = $('<td>').text(obj.docForm).attr("title", obj.docForm);
                 			
                 			if(obj.docTitle != null) {
-                				var $docTitle = $('<td>').text(obj.docTitle);
+                				var $docTitle = $('<td>').text(obj.docTitle).attr("title", obj.docTitle);
                 			
                 			} else {
                 				var $docTitle = $('<td>').text(obj.docForm);
                 			}
                 			
-                			var $drafter = $('<td>').text(obj.drafter);
-                			var $draftDate = $('<td>').text(obj.draftDate);
-                			var $proDate = $('<td>').text(obj.proDate);
+                			var $drafter = $('<td>').text(obj.drafter).attr("title", obj.drafter);
+                			var $draftDate = $('<td>').text(obj.draftDate).attr("title", obj.draftDate);
+                			var $proDate = $('<td>').text(obj.proDate).attr("title", obj.proDate);
                 			
                 			$tr.append($docNo);
                 			$tr.append($docForm);
-                			$tr.append($docType);
                 			$tr.append($docTitle);
                 			$tr.append($drafter);
                 			$tr.append($draftDate);
@@ -469,6 +517,43 @@
                 			
                 			$tbody.append($tr);
                 		});
+                		
+                		// 페이징 처리
+                        let bar = '';
+                        let currentPage = result.currentPage;	// 현재 페이지
+                        let startPage = result.startPage;		// 시작 페이지
+                        let endPage = result.endPage; 			// 끝 페이지
+                        let maxPage = result.maxPage; 			// 최대 페이지
+                        
+                        bar += '<ul class="pagination">';
+                        
+                        if(currentPage != 1) {
+                        	bar += '<li class="page-item commonButton1" onclick="completeListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
+                        
+                        } else {
+                        	bar += '<li class="page-item disabled commonButton1"><</li>'
+                        }
+                            
+                        for(var i = startPage; i <= endPage; i++) {
+                           
+                        	if(i != currentPage) {
+                        	   bar += '<li class="page-num commonButton1" onclick="completeListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
+                           
+                           } else {
+                        	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
+                           }
+                        }
+                             
+                       	if(currentPage != maxPage) {
+                            bar += '<li class="page-item commonButton1" onclick="completeListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
+                        
+                       	} else {
+                        	bar += '<li class="page-item disabled commonButton1">></li>'
+                        }
+                             
+                        bar += '</ul>';
+                            
+                        $(".pagingArea").html(bar);
                 	}
                 }
 			});

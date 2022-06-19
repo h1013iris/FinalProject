@@ -9,7 +9,6 @@ import com.uni.spring.approval.model.dto.AprvStatus;
 import com.uni.spring.approval.model.dto.BusCoopForm;
 import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
-import com.uni.spring.approval.model.dto.DocFilter;
 import com.uni.spring.approval.model.dto.DocOutbox;
 import com.uni.spring.approval.model.dto.DocType;
 import com.uni.spring.approval.model.dto.LeaveForm;
@@ -25,17 +24,11 @@ public interface AprvService {
 	
 	String selectDeptName(String deptNo);
 	
-	void insertLeaveApp(AprvDoc aprvDoc, AprvHistory aprvHistory, LeaveForm leaveForm);
+	void enrollDocument(int docType, AprvDoc aprvDoc, AprvHistory aprvHistory, LeaveForm leaveForm, CmtUpdateForm cmtUpdateForm, BusDraftForm busDraftForm, BusCoopForm busCoopform);
 	
 	AttendLog selectCmt(AttendLog attendLog);
 
-	void insertCmtUpdateApp(AprvDoc aprvDoc, AprvHistory aprvHistory, CmtUpdateForm cmtUpdateForm);
-
 	ArrayList<Department> selectDeptList(int deptNo);
-
-	void insertBusDraft(AprvDoc aprvDoc, AprvHistory aprvHistory, BusDraftForm busDraftForm);
-
-	void insertBusCoop(AprvDoc aprvDoc, AprvHistory aprvHistory, BusCoopForm busCoopform);
 
 	int waitingListCount(AprvDoc aprvDoc);
 
@@ -51,7 +44,7 @@ public interface AprvService {
 	
 	LeaveForm selectLeaveForm(int docNo);
 
-	AprvDoc selectDocApprover(int docNo);
+	ArrayList<Member> selectDocApprover(int docNo);
 
 	BusCoopForm selectbusCoopForm(int docNo);
 
@@ -59,9 +52,7 @@ public interface AprvService {
 
 	CmtUpdateForm selectCmtUpdateForm(int docNo);
 
-	void aprvApprove(AprvHistory aprvHistory);
-
-	void aprvApproveComplete(AprvHistory aprvHistory, AprvDoc aprvDoc);
+	void documentApprove(AprvHistory aprvHistory, AprvDoc aprvDoc, int approve);
 
 	int returnListCount(AprvDoc aprvDoc);
 

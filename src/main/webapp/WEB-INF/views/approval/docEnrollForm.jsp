@@ -68,6 +68,10 @@
 		/*text-align: right;*/
 	}
 	
+	.approverList {
+		width: 100%;
+	}
+	
 	.donEnrollOutboxBtn {
 		background-color: #6a6a6a !important;
 		box-shadow: 0px 5px 0px 0px #545454 !important;

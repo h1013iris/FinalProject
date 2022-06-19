@@ -12,10 +12,6 @@
 		text-align: center;
 	}
 	
-	.main_section {
-		/*border: 1px solid black;*/
-	}
-	
 	.scrtyDoc_area {
 		width: 100%;
 		border: 1px solid #e6e6e6;
@@ -27,7 +23,6 @@
 	.scrtyDoc_table>tbody>tr:hover {
 		background: rgb(174, 217, 248);
 		box-shadow: 0 0 8px #4c87b099;
-		
 		cursor: pointer;
 	}
 	
@@ -40,6 +35,13 @@
 		border-top: 1px solid darkgray;
 		padding: 15px;
 		
+	}
+	
+	/* 말줄임표 CSS */
+	.scrtyDoc_table .scrtyDoc_tbody td {
+       	white-space: nowrap;
+       	text-overflow: ellipsis;
+       	overflow: hidden;
 	}
 	
 	.scrtyDoc_table th {
@@ -56,33 +58,15 @@
 		color: blue;
 	}
 	
-	.pagingArea {
-		/*border: 1px solid black;*/
-		width: fit-content;
-		padding-top: 35px;
-	}
-    /* #pagingArea a{color:black} */
-	
-	.pagingBtn {
-		width: 30px;
-		height: 45px;
-	}
-	
 	.scrtyList_hr {
 		margin: 25px 0 40px 0;
 	}
-	
-	.filter_dropdown * { box-sizing: border-box; }
-	
+		
 	.filter_dropdown, .filter_initialize {
 		margin: 5px 10px;
 		position: relative;
 		display: inline-block;
-		/*width: 150px;
-		height: 35px;*/
-		/*border-radius: 4px;*/
 		border: none;
-		/*background-size: 20px;*/
 		cursor: pointer;
 	}
 	
@@ -98,9 +82,6 @@
 	}
 	
 	.dropdown_btn {
-	
-		/*border: 1px solid #ffdab9;*/
-		/*position: absolute;*/
 		content: '';
   		display: block;
 		border: none;
@@ -110,21 +91,15 @@
 		padding: 7px 0;
 		font-size: 15px;
 	}
-	
-	.docFormDefault { width: 200px; }
-	
+		
 	.dropdown_content {
 		display: none;
 		border-radius: 4px;
 		position: absolute;
 		background-color: #bce7ff;
-		/*min-sidth: 75px;*/
-		/*padding: 7px 10px;*/
 		box-shadow: 0 8 10 6 rgba(0, 0, 0, 0.2);
-		/*list-style-type: none;*/
 		width: 100%;
 		top: 40px;
-		/*transition: .3s ease-in;*/
 	}
 	
 	.dropdown_content li {
@@ -182,6 +157,42 @@
 	.search_div img {
 		padding: 7px;
 	}
+	
+	.pagingArea {
+		width: 100%;
+		display: flex;
+		text-align: center;
+		padding-top: 35px;
+	}
+	
+	.pagingArea ul {
+		list-style: none;
+	    margin: 0;
+	    padding: 0;
+	}
+	
+	.pagingArea li {
+		margin: 5px;
+	    padding: 0;
+	    border : 0;
+	    float: left;
+	    cursor: pointer;
+	}
+	
+	.page-item, .page-num {
+		width: 40px;
+		height: 40px;
+		line-height: 40px !important;
+	}
+	
+	.disabled {
+		background-color: #b3ddff !important;
+		box-shadow: 0px 5px 0px 0px #97c1e2 !important;
+	}
+	
+	.disabled:hover {
+		box-shadow: 0px 0px 0px 0px #97c1e2 !important;
+	}
 
 </style>
 
@@ -222,9 +233,7 @@
 	    	
 	    	<!-- 페이징바 만들기 -->
 			<div class="pagingArea docSeqRequestList_pagingArea" align="center">
-				<ul id="paginationBox" class="pagination">
-					<%-- 페이징바 들어갈 부분 --%>
-				</ul>
+				<%-- 페이징바 들어갈 부분 --%>
 			</div>
 			
 			<hr class="scrtyList_hr">
@@ -286,10 +295,8 @@
 	    	</div>
 	    	
 	    	<!-- 페이징바 만들기 -->
-			<div class="pagingArea scrtyDocList_pagingArea" align="center">
-				<ul id="paginationBox" class="pagination">
-					<%-- 페이징바 들어갈 부분 --%>
-				</ul>
+			<div class="pagingArea">
+				<%-- 페이징바 들어갈 부분 --%>
 			</div>
 	       	
 		</div>
@@ -317,20 +324,21 @@
 		
 		
 		// 보안 요청 리스트 조회하는 함수
-		function scrtyReqListFn() {
+		function scrtyReqListFn(num) {
 			
 			$.ajax({
 				
 				type: "post",
                 url: "docScrtyRequestList.do",
-                success: function (list) {
+                data: { currentPage : num },
+                success: function (result) {
 					
-                	console.log(list)
+                	console.log(result)
                 	
                 	$tbody = $('.docScrtyRequestList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(result.list.length == 0) {
                 		
                 		var $noListTh = $("<th colspan='6'>").text("보안 요청된 문서가 존재하지 않습니다.").addClass("noScrtyDocList");
                 		var $noListTr = $('<tr>').append($noListTh);
@@ -339,27 +347,25 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(result.list, function(i, obj) {
                 			
                 			var $tr = $('<tr>').addClass("yesScrtyDocList");
                 			var $docNo = $('<td>').text(obj.docNo);
-                			var $docForm = $('<td>').text(obj.docForm);
-                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
+                			var $docForm = $('<td>').text(obj.docForm).attr("title", obj.docForm);
                 			
                 			if(obj.docTitle != null) {
-                				var $docTitle = $('<td>').text(obj.docTitle);
+                				var $docTitle = $('<td>').text(obj.docTitle).attr("title", obj.docTitle);
                 			
                 			} else {
                 				var $docTitle = $('<td>').text(obj.docForm);
                 			}
                 			
-                			var $drafter = $('<td>').text(obj.drafter);
-                			var $draftDate = $('<td>').text(obj.draftDate);
-                			var $proDate = $('<td>').text(obj.proDate);
+                			var $drafter = $('<td>').text(obj.drafter).attr("title", obj.drafter);
+                			var $draftDate = $('<td>').text(obj.draftDate).attr("title", obj.draftDate);
+                			var $proDate = $('<td>').text(obj.proDate).attr("title", obj.proDate);
                 			
                 			$tr.append($docNo);
                 			$tr.append($docForm);
-                			$tr.append($docType);
                 			$tr.append($docTitle);
                 			$tr.append($drafter);
                 			$tr.append($draftDate);
@@ -367,6 +373,43 @@
                 			
                 			$tbody.append($tr);
                 		});
+                		
+                		// 페이징 처리
+                        let bar = '';
+                        let currentPage = result.currentPage;	// 현재 페이지
+                        let startPage = result.startPage;		// 시작 페이지
+                        let endPage = result.endPage; 			// 끝 페이지
+                        let maxPage = result.maxPage; 			// 최대 페이지
+                        
+                        bar += '<ul class="pagination">';
+                        
+                        if(currentPage != 1) {
+                        	bar += '<li class="page-item commonButton1" onclick="scrtyReqListFn(' + parseInt(currentPage-1) + ');"><</li>'
+                        
+                        } else {
+                        	bar += '<li class="page-item disabled commonButton1"><</li>'
+                        }
+                            
+                        for(var i = startPage; i <= endPage; i++) {
+                           
+                        	if(i != currentPage) {
+                        	   bar += '<li class="page-num commonButton1" onclick="scrtyReqListFn(' + i + ');">'+ i +'</li>'
+                           
+                           } else {
+                        	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
+                           }
+                        }
+                             
+                       	if(currentPage != maxPage) {
+                            bar += '<li class="page-item commonButton1" onclick="scrtyReqListFn(' + parseInt(currentPage+1) + ');">></li>'
+                        
+                       	} else {
+                        	bar += '<li class="page-item disabled commonButton1">></li>'
+                        }
+                             
+                        bar += '</ul>';
+                            
+                        $(".pagingArea").html(bar);
                 	}
                 }
 			});
@@ -375,20 +418,21 @@
 		
 		
 		// 보안 설정된 리스트 조회하는 함수
-		function scrtyDocList() {
+		/*function scrtyDocList(num) {
 			
 			$.ajax({
 				
 				type: "post",
                 url: "scrtyDocList.do",
-                success: function (list) {
+                data: { currentPage : num },
+                success: function (result) {
 					
-                	console.log(list)
+                	console.log(result)
                 	
                 	$tbody = $('.scrtyDocList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(result.list.length == 0) {
                 		
                 		var $noListTh = $("<th colspan='6'>").text("보안 설정된 문서가 존재하지 않습니다.").addClass("noScrtyDocList");
                 		var $noListTr = $('<tr>').append($noListTh);
@@ -397,7 +441,7 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(result.list, function(i, obj) {
                 			
                 			var $tr = $('<tr>').addClass("yesScrtyDocList");
                 			var $docNo = $('<td>').text(obj.docNo);
@@ -425,11 +469,48 @@
                 			
                 			$tbody.append($tr);
                 		});
+                		
+                		// 페이징 처리
+                        let bar = '';
+                        let currentPage = result.currentPage;	// 현재 페이지
+                        let startPage = result.startPage;		// 시작 페이지
+                        let endPage = result.endPage; 			// 끝 페이지
+                        let maxPage = result.maxPage; 			// 최대 페이지
+                        
+                        bar += '<ul class="pagination">';
+                        
+                        if(currentPage != 1) {
+                        	bar += '<li class="page-item commonButton1" onclick="scrtyDocList(' + parseInt(currentPage-1) + ');"><</li>'
+                        
+                        } else {
+                        	bar += '<li class="page-item disabled commonButton1"><</li>'
+                        }
+                            
+                        for(var i = startPage; i <= endPage; i++) {
+                           
+                        	if(i != currentPage) {
+                        	   bar += '<li class="page-num commonButton1" onclick="scrtyDocList(' + i + ');">'+ i +'</li>'
+                           
+                           } else {
+                        	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
+                           }
+                        }
+                             
+                       	if(currentPage != maxPage) {
+                            bar += '<li class="page-item commonButton1" onclick="scrtyDocList(' + parseInt(currentPage+1) + ');">></li>'
+                        
+                       	} else {
+                        	bar += '<li class="page-item disabled commonButton1">></li>'
+                        }
+                             
+                        bar += '</ul>';
+                            
+                        $(".pagingArea").html(bar);
                 	}
                 }
 			});
 			
-		}
+		}*/
 		
 		
 		// 문서 타입 리스트 조회해서 li에 넣는 함수
@@ -461,6 +542,7 @@
 		// 초기화 버튼 클릭 시
 		$(document).on("click", ".initialize_btn", function() {
 			scrtyDocList();
+			
 			$(".docFormDefault").text("문서 유형");
 			$(".conditionDefault").text("검색 조건");
 			$("#search").val("");
@@ -469,7 +551,6 @@
 		
 		// 문서 유형
 		$(".docFormfilter").on("click", "li", function() {
-			
 			// 각 필터와 검색어 변수에 담기
 			let docForm = $(this).text();
 			let condition = $(".conditionDefault").text();
@@ -479,8 +560,7 @@
 			$(".docFormDefault").text(docForm);
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			searchFilterFn(docForm, condition, search);
-			
+			scrtyDocList(docForm, condition, search);
 		});
 		
 		
@@ -496,24 +576,23 @@
 		
 		// 검색어
 		$(".search_div").on("click", ".searchImg_div", function() {
-			
 			// 각 필터와 검색어 변수에 담기
 			let docForm = $(".docFormDefault").text();
 			let condition = $(".conditionDefault").text();
 			let search = $("#search").val();
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			searchFilterFn(docForm, condition, search);
-			
+			scrtyDocList(docForm, condition, search);
 		});
 		
 		
 		// 필터 및 검색 내용에 따른 리스트 조회
-		function searchFilterFn(docForm, condition, search) {
+		function scrtyDocList(docForm, condition, search, num) {
 			
 			console.log(docForm);
 			console.log(condition);
 			console.log(search);
+			console.log(num);
 			
 			
 			$.ajax({
@@ -522,15 +601,16 @@
                 url: "scrtyDocList.do",
                 data: { docForm : docForm,
 						condition : condition,
-						search : search },
-                success: function (list) {
+						search : search,
+						currentPage : num },
+                success: function (result) {
 					
-                	console.log(list)
+                	console.log(result)
                 	
                 	$tbody = $('.scrtyDocList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(result.list.length == 0) {
                 		
                 		var $noListTh = $("<th colspan='6'>").text("보안 설정된 문서가 존재하지 않습니다.").addClass("noScrtyDocList");
                 		var $noListTr = $('<tr>').append($noListTh);
@@ -539,27 +619,26 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(result.list, function(i, obj) {
                 			
                 			var $tr = $('<tr>').addClass("yesScrtyDocList");
                 			var $docNo = $('<td>').text(obj.docNo);
-                			var $docForm = $('<td>').text(obj.docForm);
-                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
+                			var $docForm = $('<td>').text(obj.docForm).attr("title", obj.docForm);
                 			
+                			// 제목이 없는 경우 문서 유형 넣어주기
                 			if(obj.docTitle != null) {
-                				var $docTitle = $('<td>').text(obj.docTitle);
+                				var $docTitle = $('<td>').text(obj.docTitle).attr("title", obj.docTitle);
                 			
                 			} else {
                 				var $docTitle = $('<td>').text(obj.docForm);
                 			}
                 			
-                			var $drafter = $('<td>').text(obj.drafter);
-                			var $draftDate = $('<td>').text(obj.draftDate);
-                			var $proDate = $('<td>').text(obj.proDate);
+                			var $drafter = $('<td>').text(obj.drafter).attr("title", obj.drafter);
+                			var $draftDate = $('<td>').text(obj.draftDate).attr("title", obj.draftDate);
+                			var $proDate = $('<td>').text(obj.proDate).attr("title", obj.proDate);
                 			
                 			$tr.append($docNo);
                 			$tr.append($docForm);
-                			$tr.append($docType);
                 			$tr.append($docTitle);
                 			$tr.append($drafter);
                 			$tr.append($draftDate);
@@ -567,6 +646,43 @@
                 			
                 			$tbody.append($tr);
                 		});
+                		
+                		// 페이징 처리
+                        let bar = '';
+                        let currentPage = result.currentPage;	// 현재 페이지
+                        let startPage = result.startPage;		// 시작 페이지
+                        let endPage = result.endPage; 			// 끝 페이지
+                        let maxPage = result.maxPage; 			// 최대 페이지
+                        
+                        bar += '<ul class="pagination">';
+                        
+                        if(currentPage != 1) {
+                        	bar += '<li class="page-item commonButton1" onclick="scrtyDocList(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
+                        
+                        } else {
+                        	bar += '<li class="page-item disabled commonButton1"><</li>'
+                        }
+                            
+                        for(var i = startPage; i <= endPage; i++) {
+                           
+                        	if(i != currentPage) {
+                        	   bar += '<li class="page-num commonButton1" onclick="scrtyDocList(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
+                           
+                           } else {
+                        	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
+                           }
+                        }
+                             
+                       	if(currentPage != maxPage) {
+                            bar += '<li class="page-item commonButton1" onclick="scrtyDocList(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
+                        
+                       	} else {
+                        	bar += '<li class="page-item disabled commonButton1">></li>'
+                        }
+                             
+                        bar += '</ul>';
+                            
+                        $(".pagingArea").html(bar);
                 	}
                 }
 			});

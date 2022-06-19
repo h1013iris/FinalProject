@@ -224,11 +224,9 @@
  		 		// 기안일 오늘 날짜로 설정
 				$("#draftDate").val(new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10));
  			
-				selectDeptFn(); // 기안자 부서 가져오는 함수
-		 		
- 	 			selectApproverFn(); // 결재자 조회하는 함수
- 	 			
-		 		selectCmtUpdateFormOutboxFn(); // 기존 내용 조회
+				selectDeptFn(); 				// 기안자 부서 가져오는 함수
+ 	 			selectApproverFn(); 			// 결재자 조회하는 함수
+		 		selectCmtUpdateFormOutboxFn(); 	// 기존 내용 조회
  			}
  			
 	 	});
@@ -245,7 +243,6 @@
                 url: "selectDeptName.do",
                 data: { deptNo : "${ loginUser.departmentNo }" },
                 success: function (data) {
-				
                 	if(data != null || data != "") {
                 		console.log(data);
                 		$("#drafterDept").val(data);
@@ -270,7 +267,6 @@
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.jobName);
 					$("#draftDate").val(data.dftDate);
-					//$("#docNo").val(data.docNo);
 					$("#updateDate").val(data.updateDate);
 					$("#beAttendTime").val(data.beAttendTime);
 					$("#beLeaveTime").val(data.beLeaveTime);
@@ -280,19 +276,30 @@
 					$("#outboxNo").text(data.outboxNo);
 					
 					// 문서 번호가 없으면
-					if(data.docNo == 0) {
+					if(data.docNo == null) {
 						$("#docNo").val("");
+						selectApproverFn(); // 문서 등록 시 결재자 조회하는 함수
+					
 					} else {
 						$("#docNo").val(data.docNo);
+						
+						// 결재자 조회
+				 		$.ajax({
+				 			
+				 			type: "post",
+		 	                url: "selectCancleDocApprover.do",
+		 	                data: { docNo : data.docNo },
+		 	                success: function (data) {
+								console.log(data);
+		 	                	if(data != null) {
+		 	                		
+		 	                		$("#firstAprv").val(data.firstAprv);
+		 	                		$("#secondAprv").val(data.secondAprv);
+		 	                		$(".approverList").attr("disabled", "true");
+		 	                	}
+		 	                }
+				 		});
 					}
-					
-					// 문서 번호가 존재하지 않으면 -> 처음 등록 시 임시 저장한 경우
-			 		if($("#docNo").val() == null || $("#docNo").val() == "") {
-			 			selectApproverFn(); // 문서 등록 시 결재자 조회하는 함수
-			 			
-			 		} else {
-			 			aprvCancleDocApproverFn();	// 결재 취소한 문서의 결재자 조회하는 함수
-			 		}
 				}
 			});
  		}
@@ -528,18 +535,12 @@
                 	
                     if(result == "success") {
 					
-                    	let title = "결재 요청 확인";
-                    	let content = "결재가 성공적으로 요청되었습니다.";
-
-                    	myAlert(title, content);
+                    	myAlert("결재 요청 확인", "결재가 성공적으로 요청되었습니다.");
                     	resultFn();
 	           	 		
                     } else {
                     	
-                    	let title = "결재 요청 확인";
-                    	let content = "결재 요청에 실패하였습니다.";
-
-                    	myAlert(title, content);
+                    	myAlert("결재 요청 확인", "결재 요청을 실패하였습니다.");
                     	resultFn();
                		}
                 }
