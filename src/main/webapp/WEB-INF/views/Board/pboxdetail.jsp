@@ -85,10 +85,35 @@
 	.replydelete img{
 		width: 10px;
 	}
+	.pboxdetailbtn{
+     padding: 0;
+     font-weight: 600;
+     text-align: center;
+     line-height: 50px;
+     color: #FFF;
+     border-radius: 5px;
+     transition: all 0.2s ;
+     background: #85cdff;
+     border: #85cdff;
+     box-shadow: 1px 5px 1px 1px #4c87b099;
+     width:70px;
+     }
+    .pboxdetailbtn:hover{
+     position: relative;
+     top: 5px;
+     bottom: 5px;
+     ox-shadow: 0px 0px 0px 0px #4c87b099;
+     }
+     #cocn{
+	margin-left:68%;
+	}
+	.all{
+	padding-top : 50px;
+	}
 </style>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
-	<div class="main_section">
+	<div class="main_section all">
 	
 		<table id="contentArea" align="center" class="table">
 			<tr>
@@ -112,10 +137,10 @@
 		</div>
 		<c:if test="${ loginUser.empNo eq p.empno }">
 			<div id="cocn">
-				<button class="btn btn-primary" onclick="postFormSubmit(1);">글작성하기</button>
-				<button class="btn btn-danger" onclick="postFormSubmit(2);">목록으로</button>				
+				<button class="btn btn-primary pboxdetailbtn" onclick="postFormSubmit(1);">글작성하기</button>
+				<button class="btn btn-danger pboxdetailbtn" onclick="postFormSubmit(2);">목록으로</button>				
 			</div>
-		
+	
 			<form id="postForm" action="" method="post">
 			    <input type="hidden" name="pno" value="${ p.pno }">
                 <input type="hidden" name="title" value="${ p.title }">
@@ -134,6 +159,9 @@
 						}
 						postForm.submit();
 					}
+					$(function(){
+				         $(".page_title>.title_name").text("임시보관 상세");
+				      })
 				</script>
 			<br>
 			<br>

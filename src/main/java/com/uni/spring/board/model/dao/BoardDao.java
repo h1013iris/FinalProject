@@ -299,6 +299,12 @@ public void savefilesupdate(SqlSessionTemplate sqlSession, Attachment a) {
 	
 }
 
+public String bname(SqlSessionTemplate sqlSession, int boardno) {
+	
+	return sqlSession.selectOne("boardMapper.bname" , boardno);
+	
+}
+
 
 }
 
