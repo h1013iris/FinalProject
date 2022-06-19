@@ -82,7 +82,7 @@
 										</td>
 										<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle; border-image: none;">
 											<span contenteditable="false">
-												<input class="fix_input" value="문서번호" readonly/>
+												<input class="fix_input" value="" readonly/>
 											</span>
 										</td>
 									</tr>
@@ -202,8 +202,11 @@
 		 		
 				// 기안일 오늘 날짜로 설정				
 				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
-				$("#dftDate").val(today);				
-		 		
+				$("#dftDate").val(today);
+				
+				// 날짜 선택 오늘부터 가능하도록 설정
+				document.getElementById("enfDate").min = today;
+				
 				// 로그인 유저 소속(부서명) 조회
 		 		$.ajax({
 		 			
@@ -266,19 +269,15 @@
  		$("#enfDate").change(function() {
  			
  			$("#formErrorMsg").empty(); // 날짜 바뀌면 text 비워주기
-			
- 			let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10); // 오늘 날짜
-			let enfDate = $("#enfDate").val(); 			
- 			
- 			console.log(today);
- 			console.log(enfDate);
- 			
- 			// 시행일이 어제 이전이면 에러메시지 띄우기
- 			if(today > enfDate) {
- 			
- 				$("#formErrorMsg").text("어제 이전 날짜는 선택할 수 없습니다.");
- 				$("#enfDate").val("");
- 			}
+
+ 			// 주말 선택할 수 없도록
+	    	let enfDat = new Date($("#enfDate").val()).getDay();
+	        
+			if(enfDat == 0 || enfDat == 6) {
+	            console.log("주말");
+				$("#formErrorMsg").text("주말은 선택할 수 없습니다.");
+				$("#enfDate").val("");
+	        }
 			
  		})
  		
@@ -342,7 +341,6 @@
 	    		    $("#helpmeCOnfirm").hide();
 	    		});
 				
-				
 			}
 		});
  		
@@ -357,7 +355,7 @@
  			$.ajax({
 				
 				type: "post",
-                url: "insertBusDraft.do",
+                url: "enrollDocument.do",
                 data: form,
                 success: function (result) {
                 	console.log(result)

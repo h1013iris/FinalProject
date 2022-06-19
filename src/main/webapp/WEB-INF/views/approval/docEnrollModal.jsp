@@ -13,11 +13,6 @@
 		font-weight: bold;
 	}
 	
-	.docEnrollbody {
-		/*border: 1px solid black;*/
-		height: 300px;
-	}
-	
 	.docEnroll_select_div {
 		/*border: 1px solid black;*/
 		margin-top: 25px;
@@ -92,7 +87,7 @@
 
 				        <div class="docEnrollDropdown">
 					        <select id="docType" name="docType" onchange="docFormChange(this)">
-					        	<option value="none">== 선택 ==</option>
+					        	<option value="">== 선택 ==</option>
 					           	<option value="app">신청서</option>
 					           	<option value="draft">기안서</option>
 					           	<option value="coop">협조문</option>
@@ -127,7 +122,7 @@
     </div>
     
     <script type="text/javascript">
-		
+
     	// 문서 타입이 바뀌었는데 신청서인 경우
     	$("#docType").change(function() {
     		
@@ -145,9 +140,7 @@
     		}
     		
     	})
-    	
-    	
-    
+
 	</script>
 	
 	<script src="${ pageContext.servletContext.contextPath }/resources/js/approval/docEnrollModal.js"></script>

@@ -8,7 +8,7 @@
 <style type="text/css">
 	
 	.mainDiv {
-		padding: 100px;
+		padding: 50px 100px 80px 100px;
 		text-align: center;
 	}
 	
@@ -180,6 +180,43 @@
 	.search_div img {
 		padding: 7px;
 	}
+	
+	.pagingArea {
+		width: 100%;
+		display: flex;
+		text-align: center;
+		padding-top: 35px;
+	}
+	
+	.pagingArea ul {
+		list-style: none;
+	    margin: 0;
+	    padding: 0;
+	}
+	
+	.pagingArea li {
+		margin: 5px;
+	    padding: 0;
+	    border : 0;
+	    float: left;
+	    cursor: pointer;
+	}
+	
+	.page-item, .page-num {
+		width: 40px;
+		height: 40px;
+		line-height: 40px !important;
+	}
+	
+	.disabled {
+		background-color: #b3ddff !important;
+		box-shadow: 0px 5px 0px 0px #97c1e2 !important;
+	}
+	
+	.disabled:hover {
+		box-shadow: 0px 0px 0px 0px #97c1e2 !important;
+	}
+	
 
 
 </style>
@@ -250,10 +287,8 @@
 	    	</div>
 	    	
 	    	<!-- 페이징바 만들기 -->
-			<div class="pagingArea" align="center">
-				<ul id="paginationBox" class="pagination">
-					<%-- 페이징바 들어갈 부분 --%>
-				</ul>
+			<div class="pagingArea">
+				<%-- 페이징바 들어갈 부분 --%>
 			</div>
 	       	
 		</div>
@@ -281,21 +316,22 @@
 		
 		
 		// 리스트 조회
-		function returnListFn() {
+		function returnListFn(num) {
 			
 			$.ajax({
 				
 				type: "post",
                 url: "returnList.do",
-                data: { drafter : "${ loginUser.empNo }" },
-                success: function (list) {
+                data: { drafter : "${ loginUser.empNo }", 
+            			currentPage : num },
+                success: function (result) {
 					
-                	console.log(list)
+                	console.log(result)
                 	
                 	$tbody = $('.returnList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(result.list.length == 0) {
                 		
                 		var $noListTh = $("<th colspan='6'>").text("반려된 문서가 존재하지 않습니다.").addClass("noReturnList");
                 		var $noListTr = $('<tr>').append($noListTh);
@@ -304,7 +340,7 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(result.list, function(i, obj) {
                 			
                 			var $tr = $('<tr>').addClass("yesReturnList");
                 			var $docNo = $('<td>').text(obj.docNo);
@@ -332,6 +368,43 @@
                 			
                 			$tbody.append($tr);
                 		});
+                		
+                		// 페이징 처리
+                        let bar = '';
+                        let currentPage = result.currentPage;	// 현재 페이지
+                        let startPage = result.startPage;		// 시작 페이지
+                        let endPage = result.endPage; 			// 끝 페이지
+                        let maxPage = result.maxPage; 			// 최대 페이지
+                        
+                        bar += '<ul class="pagination">';
+                        
+                        if(currentPage != 1) {
+                        	bar += '<li class="page-item commonButton1" onclick="returnListFn(' + parseInt(currentPage-1) + ');"><</li>'
+                        
+                        } else {
+                        	bar += '<li class="page-item disabled commonButton1"><</li>'
+                        }
+                            
+                        for(var i = startPage; i <= endPage; i++) {
+                           
+                        	if(i != currentPage) {
+                        	   bar += '<li class="page-num commonButton1" onclick="returnListFn(' + i + ');">'+ i +'</li>'
+                           
+                           } else {
+                        	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
+                           }
+                        }
+                             
+                       	if(currentPage != maxPage) {
+                            bar += '<li class="page-item commonButton1" onclick="returnListFn(' + parseInt(currentPage+1) + ');">></li>'
+                        
+                       	} else {
+                        	bar += '<li class="page-item disabled commonButton1">></li>'
+                        }
+                             
+                        bar += '</ul>';
+                            
+                        $(".pagingArea").html(bar);
                 	}
                 }
 			});
@@ -415,11 +488,12 @@
 		
 		
 		// 필터 및 검색 내용에 따른 리스트 조회
-		function searchFilterFn(docForm, condition, search) {
+		function searchFilterFn(docForm, condition, search, num) {
 			
 			console.log(docForm);
 			console.log(condition);
 			console.log(search);
+			console.log(num);
 			
 			$.ajax({
 				
@@ -428,15 +502,16 @@
                 data: { drafter : "${ loginUser.empNo }",
 						docForm : docForm,
 						condition : condition,
-						search : search },
-                success: function (list) {
+						search : search,
+						currentPage : num },
+                success: function (result) {
 					
-                	console.log(list)
+                	console.log(result)
                 	
                 	$tbody = $('.returnList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(result.list.length == 0) {
                 		
                 		var $noListTh = $("<th colspan='6'>").text("검색 조건에 해당하는 문서가 존재하지 않습니다.").addClass("noReturnList");
                 		var $noListTr = $('<tr>').append($noListTh);
@@ -445,7 +520,7 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(result.list, function(i, obj) {
                 			
                 			var $tr = $('<tr>').addClass("yesReturnList");
                 			var $docNo = $('<td>').text(obj.docNo);
@@ -472,6 +547,43 @@
                 			$tr.append($reDate);
                 			
                 			$tbody.append($tr);
+                			
+                			// 페이징 처리
+                            let bar = '';
+                            let currentPage = result.currentPage;	// 현재 페이지
+                            let startPage = result.startPage;		// 시작 페이지
+                            let endPage = result.endPage; 			// 끝 페이지
+                            let maxPage = result.maxPage; 			// 최대 페이지
+                            
+                            bar += '<ul class="pagination">';
+                            
+                            if(currentPage != 1) {
+                            	bar += '<li class="page-item commonButton1" onclick="searchFilterFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
+                            
+                            } else {
+                            	bar += '<li class="page-item disabled commonButton1"><</li>'
+                            }
+                                
+                            for(var i = startPage; i <= endPage; i++) {
+                               
+                            	if(i != currentPage) {
+                            	   bar += '<li class="page-num commonButton1" onclick="searchFilterFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
+                               
+                               } else {
+                            	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
+                               }
+                            }
+                                 
+                           	if(currentPage != maxPage) {
+                                bar += '<li class="page-item commonButton1" onclick="searchFilterFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
+                            
+                           	} else {
+                            	bar += '<li class="page-item disabled commonButton1">></li>'
+                            }
+                                 
+                            bar += '</ul>';
+                                
+                            $(".pagingArea").html(bar);
                 		});
                 	}
                 }

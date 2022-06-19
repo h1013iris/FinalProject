@@ -84,7 +84,7 @@
 											</td>
 											<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
 												<span contenteditable="false">
-													<input class="fix_input" value="문서번호" readonly/>
+													<input class="fix_input" value="" readonly/>
 												</span>
 											</td>
 										</tr>
@@ -255,6 +255,10 @@
  	 				}
  	 				
  	 			});
+				
+				// 수정일 내일 이후 날짜 비활성화
+		 		let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
+		 		document.getElementById("updateDate").max = today;
  			}
  			
 	 	});
@@ -268,23 +272,28 @@
  			let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10); // 오늘 날짜
  			let updateDate = new Date($(this).val()).toISOString().substring(0, 10);
  			
+ 			// 수정일 요일
+	    	let updateDay = new Date($("#updateDate").val()).getDay();
+			
  			console.log(today);
  			console.log(updateDate);
  			
  			console.log(updateDate > today);
  			console.log(updateDate == today);
  			
- 			if(updateDate > today) {
- 				$("#formErrorMsg").text("내일 이후는 선택할 수 없습니다.");
-				$("#updateDate").val(''); // 날짜 비워주고
- 				$("#updateDate").focus(); // 포커싱
+ 			// 주말을 선택할 경우
+ 			if(updateDay == 0 || updateDay == 6) {
+ 				console.log("주말");
+				$("#formErrorMsg").text("주말은 선택할 수 없습니다.");
+				$("#updateDate").val("");
  			
- 			
+ 			// 오늘 선택할 경우
  			} else if(updateDate == today) {
- 				$("#formErrorMsg").text("오늘 근태 기록은 수정할 수 없습니다.");
+	            
+				$("#formErrorMsg").text("오늘 근태 기록은 수정할 수 없습니다.");
 				$("#updateDate").val(''); // 날짜 비워주고
  				$("#updateDate").focus(); // 포커싱
- 			
+ 								
  			// 해당 날짜 출퇴근 기록 가져와서 수정 전 시간에 출력하기
  			} else {
 				
@@ -322,7 +331,7 @@
  		
  		
  		// ----------- 시간 데이터 넘기기 위해 날짜 합쳐서 hidden 으로 넘겨줌
- 		// 객체에서 해당 타입 Stringd으로 바꾸고 insert 시 to_date 로 형변환
+ 		// 객체에서 해당 타입 String으로 바꾸고 insert 시 to_date 로 형변환
  		
  		// 수정 전 시간 날짜와 합치는 함수
  		function beforeTimeFn() {
@@ -450,7 +459,7 @@
  			$.ajax({
  				
  				type: "post",
-                url: "insertCmtUpdateApp.do",
+                url: "enrollDocument.do",
                 data: form,
                 success: function (result) {
                 	console.log(result)

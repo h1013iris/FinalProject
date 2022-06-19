@@ -7,25 +7,12 @@
 <meta charset="UTF-8">
 <title>휴가 신청서</title>
 <style type="text/css">
-	
-	.drafterArea {
-		/*border: 1px solid blue;*/
-	}
-	
-	.drafterAreaTable {
-		/*float: right;*/
-	}
-	
-	/*.selectApprovor_modal {
-		display: none;
-	}*/
+
 	
 </style>
 </head>
 <body>
 	
-	<jsp:include page="selectApproverModal.jsp"></jsp:include>
-
 	<div class="formMainArea">
 		
 		<form class="docEnrollForm" action="insertLeaveApp.do" method="post">
@@ -97,7 +84,7 @@
 											</td>
 											<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
 												<div contenteditable="false">
-													<input class="fix_input" value="문서번호" readonly/>
+													<input class="fix_input" value="" readonly/>
 												</div>
 											</td>
 										</tr>
@@ -123,9 +110,6 @@
 														<option value="">선택</option>
 													</select>
 												</td>
-												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input class="selectApprover1" type="button" value="선택"/>
-												</td>
 											</tr>
 											<tr>
 												<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 18px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;">
@@ -135,9 +119,6 @@
 													<select class="approverList" id="secondAprv" name="secondAprv">
 														<option value="">선택</option>
 													</select>
-												</td>
-												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input class="selectApprover2" type="button" value="선택"/>
 												</td>
 											</tr>
 										</tbody>
@@ -165,10 +146,10 @@
 									<select id="vacType" name="vacType" style="width:40%">
 										<option value="">선택</option>
 										<option value="연차">연차</option>
-										<option value="오전반차">오전반차</option>
-										<option value="오후반차">오후반차</option>
-										<option value="보건휴가">보건휴가</option>
-										<option value="병가(무급휴가)">병가</option>
+										<option value="오전 반차">오전 반차</option>
+										<option value="오후 반차">오후 반차</option>
+										<option value="보건 휴가">보건 휴가</option>
+										<option value="병가">병가</option>
 									</select>
 								</div>
 							</td>
@@ -180,13 +161,13 @@
 							<td style="padding: 5px; border: 1px solid black; height: 25px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; vertical-align: middle; background-color: rgb(255, 255, 255);">
 								<span style="font-weight: normal;">
 									<span contenteditable="false" data-cid="5" data-dsl="{{period}}" data-wrapper="" style="" data-value="" data-autotype="">
-										<input id="startDate" name="startDate" type="date" readonly> ~ 
+										<input id="startDate" name="startDate" type="date"> ~ 
 										<input id="endDate" name="endDate" type="date">
 									</span> &nbsp;
 								</span> &nbsp;
 								<b>사용일수 : </b>
 								<span contenteditable="false">
-									<input id="vacUseDays" name="vacUseDays" type="number" min="0.5" step="0.5" style="width: 15%" readonly>
+									<input id="vacUseDays" name="vacUseDays" type="number" min="0.5" step="0.5" style="width: 10%" readonly>
 								</span>일
 								<span id="formErrorMsg" style="color: red; margin-left: 5px;"></span>
 							</td>
@@ -198,7 +179,7 @@
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;">
 								<div contenteditable="false" style="width: 100%;">
 									<textarea class="txta_editor" id="vacReason" name="vacReason" style="width: 99%; height: 240px; resize: vertical;" maxlength="500"></textarea>
-								</div> 
+								</div>
 							</td>
 						</tr>
 					</tbody>
@@ -215,13 +196,6 @@
  	
  	<script type="text/javascript">
  		
- 		// 결재자 조회 모달 띄우기
- 		/*$(document).on("click", ".selectApprover1", function() {
- 			$(".selectApprovor_modal").css("display", "flex");
- 			
- 		});*/
- 		
- 		
  		// 화면 로드 시 가장 먼저 실행
  		$(document).ready(function() {
  			
@@ -232,10 +206,13 @@
  			
 			} else {
 				
+				// 기안일 오늘 날짜로 기본값 설정
  				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
- 				// 휴가 시작 날짜, 기안일 오늘 날짜로 기본값 설정
  	 			$("#dftDate").val(today);
- 	 			$("#startDate").val(today);
+ 	 			
+ 	 			// 날짜 선택 오늘부터 가능하도록 설정
+ 	 			document.getElementById("startDate").min = today;
+ 	 			document.getElementById("endDate").min = today;
  	 			
  	 			// 소속 (로그인 유저의 부서 가져오기)
 		 		$.ajax({
@@ -246,7 +223,6 @@
  	                success: function (data) {
 						
  	                	if(data != null || data != "") {
- 	                		
  	                		$("#drafterDept").val(data);
  	                	}
  	                }
@@ -277,16 +253,49 @@
  		});
 		
  		
+ 		// 시작 날짜 변경 시
+ 		$(document).on("change", "#startDate", function() {
+ 			
+			$("#formErrorMsg").empty(); // 날짜 바뀌면 text 비워주기			
+
+	    	let startDay = new Date($("#startDate").val()).getDay();
+	        
+			let vacType = $("#vacType").val();
+	
+			// 주말 선택할 수 없도록
+			if(startDay == 0 || startDay == 6) {
+	            console.log("주말");
+				$("#formErrorMsg").text("주말은 선택할 수 없습니다.");
+				$("#startDate").val("");
+	        
+	 		// 반차 선택되어 있는 경우
+	    	} else if(vacType.indexOf("반차") > 0) {
+	    		
+	    		document.getElementById("endDate").value = $("#startDate").val();
+				$("#endDate").attr('readonly', true);
+				
+				document.getElementById("vacUseDays").value = 0.5;
+				$("#vacUseDays").attr('readonly', true);
+	    	
+			// 끝 날짜 선택되어 있는 경우에만 사용일수 계산
+	    	} else if($("#endDate").val() != "") {
+				console.log("끝 날짜 존재");
+				
+				useDaysFn();
+	    	}
+
+ 		});
+ 		
 		
 		// 휴가 종류에 따른 기간 유효성 검사
 		$("#vacType").change(function() {
 			
 			reset();
 			
-			let thisVal = $(this).val();
+			let vacType = $(this).val();
 			
 			// 반차 선택 시 시작 날짜와 끝 날짜 일치, 사용일수 0.5로 고정
-			if(thisVal.indexOf("반차") > 0) {
+			if(vacType.indexOf("반차") > 0) {
 				
 				document.getElementById("endDate").value = $("#startDate").val();
 				$("#endDate").attr('readonly', true);
@@ -306,8 +315,28 @@
 			let startDate = new Date($("#startDate").val());
  			let endDate = new Date($("#endDate").val());
  			
- 			console.log(startDate)
- 			console.log(endDate)
+	    	let endDay = endDate.getDay();
+	        
+			// 주말 선택할 수 없도록
+			if(endDay == 0 || endDay == 6) {
+	            console.log("주말");
+				$("#formErrorMsg").text("주말은 선택할 수 없습니다.");
+				$("#endDate").val("");
+			
+			// 주말 아니고, 시작 날짜 선택되어 있는 경우에만 사용일수 계산
+			} else if($("#startDate").val() != "") {
+				console.log("시작 날짜 존재");
+				
+				useDaysFn();
+			}
+ 		});
+		
+		
+		// 사용일수 계산하는 함수
+		function useDaysFn() {
+			
+			let startDate = new Date($("#startDate").val());
+ 			let endDate = new Date($("#endDate").val());
  			
 			// 휴가 날짜 유효성 검사 위해
 			let diffDate = endDate.getTime() - startDate.getTime();
@@ -319,9 +348,9 @@
 			if(dateDays < 0) {
 				
 				$("#formErrorMsg").text("시작일보다 빠를 수 없습니다.");
-				$("#endDate").val(''); // 끝 날짜 비워주고
- 				$("#endDate").focus(); // 포커싱
- 				$("#vacUseDays").val(''); // 사용일수도 비우기
+				$("#endDate").val(''); 		// 끝 날짜 비워주고
+ 				$("#endDate").focus(); 		// 포커싱
+ 				$("#vacUseDays").val(''); 	// 사용일수도 비우기
  				
 				
  			// 휴가 기간 잘 입력한 경우
@@ -350,29 +379,28 @@
 				        }
 						
 				        temp_date.setDate(startDate.getDate() + 1); 
-				    }						
-			
+				    }
 				}
 				
 				// 휴가 11일 이상 사용 시
 				if(count > 10) {
 					$("#formErrorMsg").text("11일 이상 사용할 수 없습니다.");
-					$("#endDate").val(''); // 끝 날짜 비워주고
-	 				$("#endDate").focus(); // 포커싱
-	 				$("#vacUseDays").val(''); // 사용일수도 비우기
+					$("#endDate").val(''); 		// 끝 날짜 비워주고
+	 				$("#endDate").focus(); 		// 포커싱
+	 				$("#vacUseDays").val(''); 	// 사용일수도 비우기
 				
 				} else {
 					$("#vacUseDays").val(count);
 					$("#vacUseDays").attr('readonly', true);
 				}
 			}
- 		})
+		}
 		
- 		
-		
+
 		// 날짜, 사용일수 리셋하는 함수
 		function reset() {
 			
+			document.getElementById("startDate").value = "";
 			document.getElementById("endDate").value = "";
 			document.getElementById("vacUseDays").value = "";
 			$("#endDate").removeAttr('readonly');
@@ -464,7 +492,7 @@
 
  			}
 		
- 		})
+ 		});
  		
  		
  		// 휴가 신청서 결재 요청 함수
@@ -477,7 +505,7 @@
  			$.ajax({
  				
  				type: "post",
-                url: "insertLeaveApp.do",
+                url: "enrollDocument.do",
                 data: form,
                 success: function (result) {
                 	console.log(result)

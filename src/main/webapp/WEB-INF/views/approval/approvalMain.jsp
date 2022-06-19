@@ -418,7 +418,7 @@
 		       	<div class="aprvMain_lower">
 		        	<div class="docStatus_list">
 		        		<div class="aprvList_title_div">
-			        		<div class="aprvList_title"><span>진행 상황 확인</span></div>
+			        		<div class="aprvList_title"><span>진행 상태 확인</span></div>
 			        		<div>
 			        			<a class="aprvMenu statusMenu" href="statusMain.do">> 더보기</a>
 		        			</div>
@@ -477,14 +477,14 @@
 	 			type: "post",
                 url: "requestList.do",
                 data: { drafter : "${ loginUser.empNo }" },
-                success: function (list) {
+                success: function (result) {
 					
-                	console.log(list)
+                	console.log(result.list)
                 	
                 	$tbody = $('.requestList_main'); // 리스트가 들어갈 div
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(result.list.length == 0) {
                 		
                 		var $noListTd = $("<div>").text("결재 요청한 문서가 존재하지 않습니다.").addClass("noRequestList");
                 		var $noListTr = $('<div>').append($noListTd);
@@ -493,11 +493,11 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(result.list, function(i, obj) {
                 			
                 			var $tr = $('<div class="aprvList_row">');
                 			var $docNo = $('<div>').text(obj.docNo);
-                			var $docType = $('<input type="hidden" id="docType" name="docType" value=' 
+                			var $docType = $('<input type="hidden" class="docType" name="docType" value=' 
     								+ obj.docType+'/>');
                 			
                 			if(obj.docTitle != null) {
@@ -530,14 +530,14 @@
 				type: "post",
                 url: "waitingList.do",
                 data: { drafter : "${ loginUser.empNo }" },
-                success: function (list) {
+                success: function(reulst) {
 					
-                	console.log(list)
+                	console.log(reulst.list)
                 	
                 	$tbody = $('.waitingList_main'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(reulst.list.length == 0) {
                 		
                 		var $noListTd = $("<div>").text("결재 대기 중인 문서가 존재하지 않습니다.").addClass("noWaitingList");
                 		var $noListTr = $('<div>').append($noListTd);
@@ -546,7 +546,7 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(reulst.list, function(i, obj) {
                 			
                 			var $tr = $('<div class="aprvList_row">');
                 			var $docNo = $('<div>').text(obj.docNo);
@@ -581,14 +581,14 @@
 				type: "post",
                 url: "completeList.do",
                 data: { drafter : "${ loginUser.empNo }" },
-                success: function (list) {
+                success: function (reulst) {
 					
-                	console.log(list)
+                	console.log(reulst.list)
                 	
                 	$tbody = $('.completeList_main'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(reulst.list.length == 0) {
                 		
                 		var $noListTd = $("<div>").text("결재 완료된 문서가 존재하지 않습니다.").addClass("noCompleteList");
                 		var $noListTr = $('<div>').append($noListTd);
@@ -597,7 +597,7 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(reulst.list, function(i, obj) {
                 			
                 			var $tr = $('<div class="aprvList_row">');
                 			var $docNo = $('<div>').text(obj.docNo);
@@ -633,14 +633,14 @@
 				type: "post",
                 url: "statusList.do",
                 data: { drafter : "${ loginUser.empNo }" },
-                success: function (list) {
+                success: function (reulst) {
 					
-                	console.log(list)
+                	console.log(reulst.list)
                 	
                 	$tbody = $('.statusList_main'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(reulst.list.length == 0) {
                 		
                 		var $noListTd = $("<div>").text("진행 상태를 확인할 문서가 존재하지 않습니다.").addClass("noStatusList");
                 		var $noListTr = $('<div>').append($noListTd);
@@ -649,7 +649,7 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(reulst.list, function(i, obj) {
                 			
                 			var $tr = $('<div class="aprvList_row">');
                 			var $docNo = $('<div>').text(obj.docNo);
@@ -676,11 +676,8 @@
                 					type: "post",
                 					url: "selectApprover.do",
                 					data: { docNo : obj.docNo },
-                					success: function(approver) {
-                						console.log(approver);
-                						
+                					success: function(approver) {                						
                 						$aprvStatusName.append(" (" + approver + ")");	                					}
-                					
                 				});
                 				
                 			} else if(obj.aprvStatus == 4) {
@@ -751,13 +748,6 @@
 				}
 			});
 		}
-		
-		
-		// 초기화 버튼 클릭 시
-		$(document).on("click", ".initialize_btn", function() {
-			//location.reload();
-		});
-		
 
 		
 		// 상태값
@@ -946,12 +936,33 @@
 		};
 	 	
 	 	
-		// 게시글 클릭 시
-		$(".searchDocList_table tbody").on("click", ".yesSearchDocList", function() {
-			
-			let docNo = $(this).find("td:eq(0)").text(); // 클릭한 문서의 문서 번호 가져와서 담기
-			location.href = "statusnDetail.do?docNo=" + docNo;
-		});
+    	// 결재 요청 문서 상세 조회
+    	$(".requestList_main").on("click", ".aprvList_row", function() {
+    		
+    		let docNo = $(this).find("div:eq(0)").text();
+    		location.href = "requestDetail.do?docNo=" + docNo;
+    	});
+    	
+    	// 결재 대기 문서 상세 조회
+    	$(".waitingList_main").on("click", ".aprvList_row", function() {
+    		
+    		let docNo = $(this).find("div:eq(0)").text();
+    		location.href = "waitingDetail.do?docNo=" + docNo;
+    	});
+    	
+    	// 결재 완료 문서 상세 조회
+    	$(".completeList_main").on("click", ".aprvList_row", function() {
+    		
+    		let docNo = $(this).find("div:eq(0)").text();
+    		location.href = "completeDetail.do?docNo=" + docNo;
+    	});
+    	
+    	// 진행 상황 확인 문서 상세 조회
+    	$(".statusList_main").on("click", ".aprvList_row", function() {
+    		
+    		let docNo = $(this).find("div:eq(0)").text();
+    		location.href = "statusnDetail.do?docNo=" + docNo;
+    	});
     
     </script>
 

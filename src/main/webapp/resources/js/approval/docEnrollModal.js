@@ -2,12 +2,12 @@
 	// 신청서 유형 선택 시
 	function docFormChange(type) {
 	    		
-		var app = ["== 선택 ==", "휴가 신청서", "근태 기록 수정 의뢰 신청서"];
+		var app = ["== 선택 ==", "휴가 신청서", "근태 기록 수정 신청서"];
 		var appVal = ["", 10, 11];
 		var draft = ["== 선택 ==", "업무 기안서"];
-		var dftVal = ["none", 20];
+		var dftVal = ["", 20];
 		var coop = ["== 선택 ==", "업무 협조문"];
-		var coopVal = ["none", 30];
+		var coopVal = ["", 30];
 		var target = document.getElementById("docForm");
 		
 		var form; // option
@@ -42,16 +42,12 @@
 		let type = $("#docType").val();
     	let form = $("#docForm").val();
     	
-    	// 문서 타입, 폼 유형 있으면
-    	if(type == "none") {
-    		return false;
-    	
-    	} else if (form == "none") {
+    	// 문서 타입, 폼 유형 없으면
+    	if(type == "" || form == "") {
     		return false;
     	
     	// 잘 작성되어 있으면
     	} else {
-    		
     		$(".documentTypeForm").attr("action", "docEnrollForm.do");
     		$(".documentTypeForm").submit();
     	}

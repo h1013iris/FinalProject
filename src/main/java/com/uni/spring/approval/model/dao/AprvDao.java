@@ -116,9 +116,9 @@ public class AprvDao {
 		return sqlSession.selectOne("aprvMapper.selectLeaveForm", docNo);
 	}
 
-	public AprvDoc selectDocApprover(SqlSessionTemplate sqlSession, int docNo) {
+	public ArrayList<Member> selectDocApprover(SqlSessionTemplate sqlSession, int docNo) {
 		
-		return sqlSession.selectOne("aprvMapper.selectDocApprover", docNo);
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectDocApprover", docNo);
 	}
 
 	public BusCoopForm selectbusCoopForm(SqlSessionTemplate sqlSession, int docNo) {

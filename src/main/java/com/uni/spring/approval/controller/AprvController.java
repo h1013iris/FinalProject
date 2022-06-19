@@ -60,10 +60,6 @@ public class AprvController {
 	@RequestMapping("docEnrollForm.do")
 	public ModelAndView docEnrollForm(Integer docForm, String modalDocTitle, String deptNo, ModelAndView mv) {
 		
-		//System.out.println("docForm ========" + docForm);
-		//System.out.println("docTitle ========" + docTitle);
-		//System.out.println("deptNo ===============" + deptNo);
-		
 		// 폼 유형, 문서 제목, 결재자 넘기기 - 메소드 체이닝으로
 		mv.addObject("docForm", docForm)
 		.addObject("docTitle", modalDocTitle)
@@ -105,16 +101,14 @@ public class AprvController {
 	
 	
 	
-	// 휴가 신청서 등록
+	// 문서 등록
 	@ResponseBody
-	@RequestMapping(value="insertLeaveApp.do", produces="application/json; charset=utf-8")
-	public String insertLeaveApp(AprvDoc aprvDoc, AprvHistory aprvHistory, LeaveForm leaveForm) {
-		
-		//System.out.println("Dao ======= " + aprvDoc.toString());
-		//System.out.println("Dao ======= " + leaveForm.toString());
-		//System.out.println(aprvHistory.toString());
+	@RequestMapping(value="enrollDocument.do", produces="application/json; charset=utf-8")
+	public String enrollDocument(int docType, AprvDoc aprvDoc, AprvHistory aprvHistory, LeaveForm leaveForm,
+								CmtUpdateForm cmtUpdateForm, BusDraftForm busDraftForm, BusCoopForm busCoopform) {
 
-		aprvService.insertLeaveApp(aprvDoc, aprvHistory, leaveForm);
+		aprvService.enrollDocument(docType, aprvDoc, aprvHistory, leaveForm,
+								cmtUpdateForm, busDraftForm, busCoopform);
 		
 		return new Gson().toJson("success");
 	}
@@ -135,22 +129,8 @@ public class AprvController {
 		
 		// 회원의 해당 날짜 촐퇴근 시간을 근태 기록 객체에 담기
 		AttendLog userAttendLog = aprvService.selectCmt(attendLog);
-		
-		//System.out.println(userAttendLog.toString());
-		
+				
 		return new Gson().toJson(userAttendLog);
-	}
-	
-	
-	
-	// 근태 기록 수정 신청서 등록
-	@ResponseBody
-	@RequestMapping(value="insertCmtUpdateApp.do", produces="application/json; charset=utf-8")
-	public String insertCmtUpdateApp(AprvDoc aprvDoc, AprvHistory aprvHistory, CmtUpdateForm cmtUpdateForm) {
-		
-		aprvService.insertCmtUpdateApp(aprvDoc, aprvHistory, cmtUpdateForm);
-		
-		return new Gson().toJson("success");
 	}
 
 	
@@ -167,38 +147,14 @@ public class AprvController {
 	
 	
 	
-	// 업무 기안서 등록
-	@ResponseBody
-	@RequestMapping(value="insertBusDraft.do", produces="application/json; charset=utf-8")
-	public String insertBusDraft(AprvDoc aprvDoc, AprvHistory aprvHistory, BusDraftForm busDraftForm) {
-		
-		aprvService.insertBusDraft(aprvDoc, aprvHistory, busDraftForm);
-		
-		return new Gson().toJson("success");
-	}
-	
-	
-	
-	// 업무 협조문 등록
-	@ResponseBody
-	@RequestMapping(value="insertBusCoop.do", produces="application/json; charset=utf-8")
-	public String insertBusCoop(AprvDoc aprvDoc, AprvHistory aprvHistory, BusCoopForm busCoopform) {
-		
-		aprvService.insertBusCoop(aprvDoc, aprvHistory, busCoopform);
-		
-		return new Gson().toJson("success");
-	}
-	
-	
-	
 	// 해당 문서 결재자 조회
 	@ResponseBody
 	@RequestMapping(value="selectDocApprover.do", produces="application/json; charset=utf-8")
 	public String selectDocApprover(int docNo) {
 		
 		// 해당 부서 1차, 2차 결재자 조회해서 담기
-		AprvDoc approver = aprvService.selectDocApprover(docNo);
-		
+		ArrayList<Member> approver = aprvService.selectDocApprover(docNo);
+		System.out.println(approver);
 		return new Gson().toJson(approver);
 	}
 	
@@ -279,31 +235,31 @@ public class AprvController {
 		// SimpleDateformat 으로 날짜 형식
 		for(int i = 0; i < list.size(); i++) {
          
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
- 
-		// java.util.Date 선언
-		java.util.Date date = new java.util.Date();
- 
-		try {
-			// sdf 형식으로 지정해준 건가?
-			date = sdf.parse(list.get(i).getDraftDate());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
- 
-		date = new Date(date.getTime());   	// util.Date 를 sal.Date로 변환
-		String dftDate = sdf.format(date); 	// sdf 형식 지정
-		list.get(i).setDraftDate(dftDate);	// set 해주기
-		
-		try {
-			date = sdf.parse(list.get(i).getProDate());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
- 
-		date = new Date(date.getTime());   // util.Date 를 sal.Date로 변환
-		String proDate = sdf.format(date); // sdf 형식 지정
-		list.get(i).setProDate(proDate);   // set 해주기
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	 
+			// java.util.Date 선언
+			java.util.Date date = new java.util.Date();
+	 
+			try {
+				// sdf 형식으로 지정해준 건가?
+				date = sdf.parse(list.get(i).getDraftDate());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+	 
+			date = new Date(date.getTime());   	// util.Date 를 sal.Date로 변환
+			String dftDate = sdf.format(date); 	// sdf 형식 지정
+			list.get(i).setDraftDate(dftDate);	// set 해주기
+			
+			try {
+				date = sdf.parse(list.get(i).getProDate());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+	 
+			date = new Date(date.getTime());   // util.Date 를 sal.Date로 변환
+			String proDate = sdf.format(date); // sdf 형식 지정
+			list.get(i).setProDate(proDate);   // set 해주기
 		}
   
 		System.out.println(list);
@@ -332,39 +288,25 @@ public class AprvController {
 		
 		return mv;
 	}
+
 	
 	
-	
-	// 결재 승인 (중간 승인)
+	// 문서 결재 (승인)
 	@ResponseBody
-	@RequestMapping(value="aprvApprove.do", produces="application/json; charset=utf-8")
-	public String aprvApprove(AprvHistory aprvHistory) {
+	@RequestMapping(value="documentApprove.do", produces="application/json; charset=utf-8")
+	public String documentApprove(AprvHistory aprvHistory, int docNo, int aprvStatus, int approve) {
 		
-		// 2차 결재자가 null이 아니고 본인이 1차 결재자일 경우 상태값 업데이트 없음
-		// -> 결재 기록만 등록
-		System.out.println(aprvHistory.toString());
-		
-		aprvService.aprvApprove(aprvHistory);
-		
-		return new Gson().toJson("success");
-	}
-	
-	
-	
-	// 결재 승인 (최종 승인)
-	@ResponseBody
-	@RequestMapping(value="aprvApproveComplete.do", produces="application/json; charset=utf-8")
-	public String aprvApproveComplete(AprvHistory aprvHistory, AprvDoc aprvDoc) {
-		
-		// 문서 유형
-		System.out.println("문서 유형 ==========> " + aprvDoc.getDocType());
+		AprvDoc aprvDoc = new AprvDoc();
+		aprvDoc.setDocNo(docNo);
+		aprvDoc.setAprvStatus(aprvStatus);
 		
 		// 2차 결재재일 경우, 또는 2차 결재자가  null인 문서의 1차 결재자일 경우 상태값 결재 완료로 업데이트
 		// -> 결재 기록 등록, 상태값 업데이트
+		System.out.println("결재 유형 ==========> " + approve);
 		System.out.println(aprvHistory.toString());
 		System.out.println(aprvDoc.toString());
-		
-		aprvService.aprvApproveComplete(aprvHistory, aprvDoc);
+
+		aprvService.documentApprove(aprvHistory, aprvDoc, approve);
 		
 		
 		return new Gson().toJson("success");
@@ -492,16 +434,56 @@ public class AprvController {
 	// 결재 완료 리스트
 	@ResponseBody
 	@RequestMapping(value="completeList.do", produces="application/json; charset=utf-8")
-	public String selectCompleteList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, 
+	public Map<String, Object> selectCompleteList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, 
 								AprvDoc aprvDoc) {
 		
+		Map<String, Object> result = new HashMap<String, Object>();
+
 		int listCount = aprvService.completeListCount(aprvDoc);
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		
 		ArrayList<AprvDoc> list = aprvService.selectCompleteList(pi, aprvDoc);
 		
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+		// SimpleDateformat 으로 날짜 형식
+		for(int i = 0; i < list.size(); i++) {
+     
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+ 
+			// java.util.Date 선언
+			java.util.Date date = new java.util.Date();
+ 
+			try {
+				// Date 형식으로 지정해준 건가?
+				date = sdf.parse(list.get(i).getDraftDate());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+ 
+			date = new Date(date.getTime());   	// util.Date 를 sal.Date로 변환
+			String dftDate = sdf.format(date);  // sdf 형식 지정
+			list.get(i).setDraftDate(dftDate);  // set 해주기
+			
+			try {
+				date = sdf.parse(list.get(i).getProDate());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+ 
+			date = new Date(date.getTime());   // util.Date 를 sal.Date로 변환
+			String proDate = sdf.format(date); // sdf 형식 지정
+			list.get(i).setProDate(proDate);   // set 해주기
+		}
+  
+		System.out.println(list);
+  
+		result.put("list", list);
+		result.put("currentPage",  pi.getCurrentPage());
+		result.put("startPage",  pi.getStartPage());
+		result.put("endPage",  pi.getEndPage());
+		result.put("maxPage",  pi.getMaxPage());
+
+		return result;
 	}
 	
 	
@@ -536,16 +518,56 @@ public class AprvController {
 	// 결재 반려 리스트
 	@ResponseBody
 	@RequestMapping(value="returnList.do", produces="application/json; charset=utf-8")
-	public String selectReturnList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, 
+	public Map<String, Object> selectReturnList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, 
 								AprvDoc aprvDoc) {
-				
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+
 		int listCount = aprvService.returnListCount(aprvDoc);
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		
 		ArrayList<AprvDoc> list = aprvService.selectReturnList(pi, aprvDoc);
 		
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+		// SimpleDateformat 으로 날짜 형식
+		for(int i = 0; i < list.size(); i++) {
+	         
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	         
+	        // java.util.Date 선언
+	        java.util.Date date = new java.util.Date();
+	         
+	        try {
+	           // Date 형식으로 지정해준 건가?
+	           date = sdf.parse(list.get(i).getDraftDate());
+	        } catch (ParseException e) {
+	           e.printStackTrace();
+	        }
+	        
+	        date = new Date(date.getTime());   // util.Date 를 sal.Date로 변환
+	        String dftDate = sdf.format(date);   // sdf 형식 지정
+	        list.get(i).setDraftDate(dftDate);   // set 해주기
+	         
+	        try {
+	           date = sdf.parse(list.get(i).getReDate());
+	        } catch (ParseException e) {
+	           e.printStackTrace();
+	        }
+	        
+	        date = new Date(date.getTime());   // util.Date 를 sal.Date로 변환
+	        String reDate = sdf.format(date);   // sdf 형식 지정
+	        list.get(i).setReDate(reDate);   // set 해주기
+        }
+	      
+		System.out.println(list);
+  
+		result.put("list", list);
+		result.put("currentPage",  pi.getCurrentPage());
+		result.put("startPage",  pi.getStartPage());
+		result.put("endPage",  pi.getEndPage());
+		result.put("maxPage",  pi.getMaxPage());
+
+		return result;
 	}
 	
 	
@@ -651,17 +673,47 @@ public class AprvController {
 	// 진행 상태 확인 리스트
 	@ResponseBody
 	@RequestMapping(value="statusList.do", produces="application/json; charset=utf-8")
-	public String selectStatusList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, AprvDoc aprvDoc) {
+	public Map<String, Object> selectStatusList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, AprvDoc aprvDoc) {
 		
 		System.out.println(aprvDoc.toString());
 		
+		Map<String, Object> result = new HashMap<String, Object>();
+
 		int listCount = aprvService.statusListCount(aprvDoc);
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		
 		ArrayList<AprvDoc> list = aprvService.selectStatusList(pi, aprvDoc);
 		
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+		// SimpleDateformat 으로 날짜 형식
+		for(int i = 0; i < list.size(); i++) {
+	         
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	         
+	        // java.util.Date 선언
+	        java.util.Date date = new java.util.Date();
+	         
+	        try {
+	           // Date 형식으로 지정해준 건가?
+	           date = sdf.parse(list.get(i).getDraftDate());
+	        } catch (ParseException e) {
+	           e.printStackTrace();
+	        }
+	        
+	        date = new Date(date.getTime());   // util.Date 를 sal.Date로 변환
+	        String dftDate = sdf.format(date);   // sdf 형식 지정
+	        list.get(i).setDraftDate(dftDate);   // set 해주기
+		}
+				
+		System.out.println(list);
+  
+		result.put("list", list);
+		result.put("currentPage",  pi.getCurrentPage());
+		result.put("startPage",  pi.getStartPage());
+		result.put("endPage",  pi.getEndPage());
+		result.put("maxPage",  pi.getMaxPage());
+
+		return result;
 	}
 	
 	
@@ -780,16 +832,46 @@ public class AprvController {
 	// 임시 보관 리스트 조회
 	@ResponseBody
 	@RequestMapping(value="selectOutboxList.do", produces="application/json; charset=utf-8")
-	public String selectOutboxList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, 
+	public Map<String, Object> selectOutboxList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, 
 								AprvDoc aprvDoc) {
-				
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+
 		int listCount = aprvService.outboxListCount(aprvDoc);
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		
 		ArrayList<DocOutbox> list = aprvService.selectOutboxList(pi, aprvDoc);
 		
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+		// SimpleDateformat 으로 날짜 형식
+	    for(int i = 0; i < list.size(); i++) {
+	         
+	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		         
+	    	// java.util.Date 선언
+	    	java.util.Date date = new java.util.Date();
+			 
+	    	try {
+	    		// Date 형식으로 지정해준 건가?
+	    		date = sdf.parse(list.get(i).getLastUpdateDate());
+	    	} catch (ParseException e) {
+	    		e.printStackTrace();
+	    	}
+	 
+	    	date = new Date(date.getTime());   // util.Date 를 sal.Date로 변환
+	    	String lastUpdateDate = sdf.format(date);   // sdf 형식 지정
+	    	list.get(i).setLastUpdateDate(lastUpdateDate);   // set 해주기
+	    }
+	    
+	    System.out.println(list);
+		  
+	    result.put("list", list);
+		result.put("currentPage",  pi.getCurrentPage());
+		result.put("startPage",  pi.getStartPage());
+		result.put("endPage",  pi.getEndPage());
+		result.put("maxPage",  pi.getMaxPage());
+
+        return result;
 	}
 	
 	

@@ -86,7 +86,7 @@
 										</td>
 										<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle; border-image: none;">
 											<span contenteditable="false">
-												<input class="fix_input" value="문서번호" readonly/>
+												<input class="fix_input" value="" readonly/>
 											</span>
 										</td>
 									</tr>
@@ -280,7 +280,7 @@
  			} else if(receiveDept == null || receiveDept == "") {
 				
 				let title = "문서 작성 확인";
-				let content = "협조 부서를 선택해주세요.";
+				let content = "수신 부서를 선택해주세요.";
 				let focus="#receiveDept";
 				
 				myAlert(title, content);
@@ -324,7 +324,7 @@
 			$.ajax({
 				
 				type: "post",
-                url: "insertBusCoop.do",
+                url: "enrollDocument.do",
                 data: form,
                 success: function (result) {
                		console.log(result)

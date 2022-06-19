@@ -210,13 +210,10 @@
 				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
 				$("#dftDate").val(today);				
 		 		
-				selectDeptFn(); // 기안자 부서 가져오는 함수
-		 		
- 	 			selectApproverFn(); // 결재자 조회하는 함수
- 	 			
- 	 			selectDeptListFn(); // 부서 리스트 조회하는 함수
- 	 			
-		 		selectBusCoopOutboxFn(); // 기존 내용 조회
+				selectDeptFn(); 			// 기안자 부서 가져오는 함수
+ 	 			selectApproverFn(); 		// 결재자 조회하는 함수
+ 	 			selectDeptListFn(); 		// 부서 리스트 조회하는 함수
+		 		selectBusCoopOutboxFn(); 	// 기존 내용 조회
 			}	
 		});
 		
@@ -348,19 +345,14 @@
 			let coopContent = $("#coopContent").val();
 			let docNo = $("#docNo").val();
 			
-			// 문서 번호 없는 경우에만 결재 요청 시 결재자 유효성 검사
-			if(docNo == null || docNo == "") {
-				
-				if(firstAprv == null || firstAprv == "") {
+			if(firstAprv == null || firstAprv == "") {
 
-					let focus="#firstAprv";
-					
-					myAlert("문서 작성 확인", "결재자를 선택해주세요.");
-					focusFn(focus);
-				}
-			}
+				let focus="#firstAprv";
+				
+				myAlert("문서 작성 확인", "결재자를 선택해주세요.");
+				focusFn(focus);
 			
- 			if(receiveDept == null || receiveDept == "") {
+			} else if(receiveDept == null || receiveDept == "") {
 				
 				let title = "문서 작성 확인";
 				let content = "협조 부서를 선택해주세요.";
@@ -402,7 +394,7 @@
 		function busCoopEnrollFn() {
 			
 			// 폼의 모든 데이터 저장해서 변수로 선언
- 			let form = $(".docEnrollForm").serialize();
+ 			let form = $(".docUpdateForm").serialize();
  			form += "&outboxNo=" + ${ outboxNo } + "&docType=" + ${ docForm };
  			
 			let url = "";
@@ -416,6 +408,19 @@
  				url = "aprvReRequest.do";
  			}
  			
+ 			let firstAprv = $("#firstAprv").val();
+			let receiveDept = $("#receiveDept").val();
+			let coopContent = $("#coopContent").val();
+			let docNo = $("#docNo").val();
+			
+ 			console.log(url);
+ 			console.log(firstAprv);
+ 			console.log(secondAprv);
+ 			console.log(receiveDept);
+ 			console.log(coopContent);
+ 			console.log(docNo);
+ 			console.log(form);
+ 			
 			$.ajax({
 				
 				type: "post",
@@ -425,19 +430,13 @@
                		console.log(result)
                 	
                    	if(result == "success") {
-					
-                   		let title = "결재 요청 확인";
-                    	let content = "결재가 성공적으로 요청되었습니다.";
                     	
-                    	myAlert(title, content);
+                    	myAlert("결재 요청 확인", "결재가 성공적으로 요청되었습니다.");
                     	resultFn();
 	           	 		
                     } else {
                     	
-                    	let title = "결재 요청 확인";
-                    	let content = "결재 요청에 실패하였습니다.";
-                    	
-                    	myAlert(title, content);
+                    	myAlert("결재 요청 확인", "결재 요청을 실패하였습니다.");
                     	resultFn();
                		}
                 }

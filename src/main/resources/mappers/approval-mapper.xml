@@ -254,17 +254,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 해당 문서 결재자 조회 -->
-	<select id="selectDocApprover" parameterType="_int" resultType="AprvDoc">
+	<select id="selectDocApprover" parameterType="_int" resultType="Member">
 		SELECT
-		    A.DOC_NO,
-		    B.EMP_NAME AS FIRST_APRV,
-		    D.JOB_NAME AS FIRST_JOB,
-		    C.EMP_NAME AS SECOND_APRV,
-		    E.JOB_NAME AS SECOND_JOB
+		    B.EMP_NO, B.EMP_NAME, D.JOB_NAME
 		FROM APRV_DOCUMENT A
 		JOIN USER_INFO B ON A.FIRST_APRV = B.EMP_NO
-		LEFT JOIN USER_INFO C ON A.SECOND_APRV = C.EMP_NO
 		JOIN JOB_RANK_MANAGEMENT D ON B.JOB_NO = D.JOB_NO
+		WHERE A.DOC_NO = #{docNo}
+		UNION
+		SELECT
+		    C.EMP_NO, C.EMP_NAME, E.JOB_NAME
+		FROM APRV_DOCUMENT A
+		LEFT JOIN USER_INFO C ON A.SECOND_APRV = C.EMP_NO
 		LEFT JOIN JOB_RANK_MANAGEMENT E ON C.JOB_NO = E.JOB_NO
 		WHERE A.DOC_NO = #{docNo}
 	</select>
@@ -330,7 +331,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE DOC_NO = #{docNo}
 	</select>
 	
-	<!-- 결재 반려, 승인, 임시저장 기록 등록 -->
+	<!-- 결재 반려, 승인 등록 -->
 	<insert id="insertAprvHistory2" parameterType="AprvHistory">
 		INSERT INTO APRV_HISTORY VALUES
 		(SEQ_APRV_HISTORY.NEXTVAL, #{docNo}, #{approver}, #{approverJob}, #{aprvPro}, SYSDATE)
@@ -1005,7 +1006,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN DEPARTMENT_MANAGEMENT B ON A.DEPARTMENT_NO = B.DEPARTMENT_NO
 		JOIN JOB_RANK_MANAGEMENT C ON A.JOB_NO = C.JOB_NO
 		WHERE A.DEPARTMENT_NO = #{departmentNo}
-		AND <![CDATA[ A.JOB_NO > #{jobNo} ]]>
+		AND <![CDATA[ A.JOB_NO > 3 AND A.JOB_NO > #{jobNo} ]]>
 		AND A.EMP_NO != #{empNo}
 	</select>
 	
