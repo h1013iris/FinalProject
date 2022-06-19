@@ -78,32 +78,33 @@ public class AprvDao {
 		return sqlSession.insert("aprvMapper.insertBusCoop", busCoopform);
 	}
 
-	public int waitingListCount(SqlSessionTemplate sqlSession, Member loginUser) {
+	public int waitingListCount(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
 		
-		return sqlSession.selectOne("aprvMapper.waitingListCount", loginUser);
+		return sqlSession.selectOne("aprvMapper.waitingListCount", aprvDoc);
 	}
 
-	public ArrayList<AprvDoc> selectWaitingList(SqlSessionTemplate sqlSession, PageInfo pi, Member loginUser) {
+	public ArrayList<AprvDoc> selectWaitingList(SqlSessionTemplate sqlSession, PageInfo pi, 
+										AprvDoc aprvDoc) {
 		
 		// 페이징처리 위해 오프셋, 로우바운즈
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("aprvMapper.selectWaitingList", loginUser, rowBounds);
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectWaitingList", aprvDoc, rowBounds);
 	}
 	
-	public int requestListCount(SqlSessionTemplate sqlSession, Member loginUser) {
+	public int requestListCount(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
 		
-		return sqlSession.selectOne("aprvMapper.requestListCount", loginUser);
+		return sqlSession.selectOne("aprvMapper.requestListCount", aprvDoc);
 	}
 
-	public ArrayList<AprvDoc> selectRequestList(SqlSessionTemplate sqlSession, PageInfo pi, Member loginUser) {
+	public ArrayList<AprvDoc> selectRequestList(SqlSessionTemplate sqlSession, PageInfo pi, AprvDoc aprvDoc) {
 		
 		// 페이징처리 위해 오프셋, 로우바운즈
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("aprvMapper.selectRequestList", loginUser, rowBounds);
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectRequestList", aprvDoc, rowBounds);
 	}
 
 	public int selectDocTypeNo(SqlSessionTemplate sqlSession, int docNo) {
@@ -151,18 +152,18 @@ public class AprvDao {
 		return sqlSession.insert("aprvMapper.aprvReturn", returnDoc);
 	}
 
-	public int returnListCount(SqlSessionTemplate sqlSession, int empNo) {
+	public int returnListCount(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
 		
-		return sqlSession.selectOne("aprvMapper.returnListCount", empNo);
+		return sqlSession.selectOne("aprvMapper.returnListCount", aprvDoc);
 	}
 
-	public ArrayList<AprvDoc> selectReturnList(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
+	public ArrayList<AprvDoc> selectReturnList(SqlSessionTemplate sqlSession, PageInfo pi, AprvDoc aprvDoc) {
 		
 		// 페이징처리 위해 오프셋, 로우바운즈
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("aprvMapper.selectReturnList", empNo, rowBounds);
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectReturnList", aprvDoc, rowBounds);
 	}
 
 	public ReturnDoc selectReReason(SqlSessionTemplate sqlSession, int docNo) {
@@ -181,19 +182,19 @@ public class AprvDao {
 	}
 
 
-	public int completeListCount(SqlSessionTemplate sqlSession, int empNo) {
+	public int completeListCount(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
 				
-		return sqlSession.selectOne("aprvMapper.completeListCount", empNo);
+		return sqlSession.selectOne("aprvMapper.completeListCount", aprvDoc);
 	}
 
-	public ArrayList<AprvDoc> selectCompleteList(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
+	public ArrayList<AprvDoc> selectCompleteList(SqlSessionTemplate sqlSession, PageInfo pi, AprvDoc aprvDoc) {
 		
 		// 페이징처리 위해 오프셋, 로우바운즈
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("aprvMapper.selectCompleteList", empNo, rowBounds);
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectCompleteList", aprvDoc, rowBounds);
 	}
 
 	public int docScrtyRequest(SqlSessionTemplate sqlSession, SecurityDoc securityDoc) {
@@ -267,19 +268,20 @@ public class AprvDao {
 		return sqlSession.insert("aprvMapper.saveCoopFormOutbox", busCoopForm);
 	}
 
-	public int outboxListCount(SqlSessionTemplate sqlSession, int empNo) {
+	public int outboxListCount(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
 		
-		return sqlSession.selectOne("aprvMapper.outboxListCount", empNo);
+		return sqlSession.selectOne("aprvMapper.outboxListCount", aprvDoc);
 	}
 
-	public ArrayList<DocOutbox> selectOutboxList(SqlSessionTemplate sqlSession, PageInfo pi, int empNo) {
+	public ArrayList<DocOutbox> selectOutboxList(SqlSessionTemplate sqlSession, PageInfo pi, 
+											AprvDoc aprvDoc) {
 		
 		// 페이징처리 위해 오프셋, 로우바운즈
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("aprvMapper.selectOutboxList", empNo, rowBounds);
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectOutboxList", aprvDoc, rowBounds);
 	}
 
 	public int selectOutboxDocTypeNo(SqlSessionTemplate sqlSession, int outboxNo) {
@@ -421,6 +423,33 @@ public class AprvDao {
 		
 		return (ArrayList)sqlSession.selectList("aprvMapper.selectDocTypeList");
 	}
+	
+	public int searchAllDocListCount(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
+		
+		return sqlSession.selectOne("aprvMapper.searchAllDocListCount", aprvDoc);
+	}
+
+	public ArrayList<AprvDoc> searchAllDocList(SqlSessionTemplate sqlSession, PageInfo pi, AprvDoc aprvDoc) {
+		
+		// 페이징처리 위해 오프셋, 로우바운즈
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+				
+		return (ArrayList)sqlSession.selectList("aprvMapper.searchAllDocList", aprvDoc, rowBounds);
+	}
+
+	public ArrayList<Member> selectDocEnrollApprover(SqlSessionTemplate sqlSession, Member loginUser) {
+		
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectDocEnrollApprover", loginUser);
+	}
+
+	public AprvDoc selectCancleDocApprover(SqlSessionTemplate sqlSession, int docNo) {
+		
+		return sqlSession.selectOne("aprvMapper.selectCancleDocApprover", docNo);
+	}
+
+	
 
 	
 

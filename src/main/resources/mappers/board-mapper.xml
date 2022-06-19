@@ -635,6 +635,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    
    
    </insert>
+   
+   <select id="bname"  resultType="string">
+	SELECT BOARD_NAME
+	FROM BOARD_MANAGEMENT
+	WHERE BOARD_NO = #{boardno}
+	
+	</select>
 	
 	
 </mapper>

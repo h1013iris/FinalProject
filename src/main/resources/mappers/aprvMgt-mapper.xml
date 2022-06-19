@@ -73,27 +73,68 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 보안 처리된 문서 리스트 개수 -->
-	<select id="scrtyDocListCount" resultType="_int">
+	<select id="scrtyDocListCount" parameterType="AprvDoc" resultType="_int">
 		SELECT COUNT(*)
 		FROM APRV_DOCUMENT A
 		JOIN SECURITY_DOC B ON A.DOC_NO = B.DOC_NO
+		JOIN DOCUMENT_TYPE C ON A.DOC_TYPE = C.DOC_TYPE_NO
+		LEFT JOIN LEAVE_APP D ON A.DOC_NO = D.DOC_NO
+		LEFT JOIN CMT_UPDATE_APP E ON A.DOC_NO = E.DOC_NO
+		LEFT JOIN BUSINESS_DFT F ON A.DOC_NO = F.DOC_NO
+		LEFT JOIN BUSINESS_COOP G ON A.DOC_NO = G.DOC_NO
 		WHERE B.SCRTY_STATUS = 'Y'
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+    		AND C.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '제목'">
+		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '내용'">
+		    AND (D.VAC_REASON LIKE '%' ||#{search}||'%' OR
+		         E.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
+		         F.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
+		         G.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		</if>
+		<if test="condition == '보안 사유'">
+		    AND B.SCRTY_REASON LIKE '%' ||#{search}||'%'
+		</if>
 	</select>
 	
 	<!-- 보안 처리된 문서 리스트 조회 -->
-	<select id="selectScrtyDocList" parameterType="_int" resultMap="scrtyDoc_resultMap">
+	<select id="selectScrtyDocList" parameterType="AprvDoc" resultMap="scrtyDoc_resultMap">
 		SELECT
-		    A.DOC_NO,
-		    C.DOC_FORM,
-		    A.DOC_TITLE,
-		    D.EMP_NAME,
-		    A.DFT_DATE,
-		    B.SCRTY_SET_DATE
+		    A.DOC_NO, C.DOC_FORM, A.DOC_TITLE,
+		    D.EMP_NAME, A.DFT_DATE, B.SCRTY_SET_DATE
 		FROM APRV_DOCUMENT A
 		JOIN SECURITY_DOC B ON A.DOC_NO = B.DOC_NO
 		JOIN DOCUMENT_TYPE C ON A.DOC_TYPE = C.DOC_TYPE_NO
 		JOIN USER_INFO D ON A.DRAFTER = D.EMP_NO
+		LEFT JOIN LEAVE_APP E ON A.DOC_NO = E.DOC_NO
+		LEFT JOIN CMT_UPDATE_APP F ON A.DOC_NO = F.DOC_NO
+		LEFT JOIN BUSINESS_DFT G ON A.DOC_NO = G.DOC_NO
+		LEFT JOIN BUSINESS_COOP H ON A.DOC_NO = H.DOC_NO
 		WHERE B.SCRTY_STATUS = 'Y'
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+    		AND C.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '제목'">
+		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '내용'">
+		    AND (E.VAC_REASON LIKE '%' ||#{search}||'%' OR
+		         F.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
+		         G.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
+		         H.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		</if>
+		<if test="condition == '보안 사유'">
+		   AND B.SCRTY_REASON LIKE '%' ||#{search}||'%'
+		</if>
 		ORDER BY 6 DESC
 	</select>
 	

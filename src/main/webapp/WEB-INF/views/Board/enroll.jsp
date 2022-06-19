@@ -48,7 +48,7 @@
 	font-size: 20px;
 }
 
-.commonButton1 {
+.enrollsubmitboard {
 	width: 85px;
 	height: 50px;
 }
@@ -93,6 +93,11 @@
     overflow: auto;
     margin-bottom :20px;
 }
+  #main_nav img{
+       width: 3vw !important;
+       padding-left: 21% !important;
+       padding-top: 20% !important;
+   }
 
 
 </style>
@@ -165,11 +170,11 @@
 					  
 				    
 					<div align="right" class="buttonSection">
-						<button type="submit" class="commonButton1" >등록하기</button>
-						<button type="button" class="commonButton1" onclick="history.back()">뒤로가기</button>
-						<button type="button" class="commonButton1" id="saveboard"
+						<button type="submit" class="commonButton1 enrollsubmitboard" >등록하기</button>
+						<button type="button" class="commonButton1 enrollsubmitboard" onclick="history.back()">뒤로가기</button>
+						<button type="button" class="commonButton1 enrollsubmitboard" id="saveboard"
 							onclick="gopbox(${loginUser.empNo});">임시보관함</button>
-						<button type="button" class="commonButton1" id="save"
+						<button type="button" class="commonButton1 enrollsubmitboard" id="save"
 							onclick="savebtn();" value="2">보관함에저장</button>
 						<input type="hidden" name="save" id="saveval">
 					</div>
@@ -295,7 +300,9 @@ function savebtn(){
     document.getElementById('enrollFormAnnoDepart').submit();
 }
 
-
+$(function(){
+    $(".page_title>.title_name").text("글 작성");
+ })
 </script>
 
 </body>

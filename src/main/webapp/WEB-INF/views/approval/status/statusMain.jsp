@@ -73,32 +73,6 @@
 		height: 45px;
 	}
 	
-	.searchArea {
-		/*border: 1px solid black;*/
-		padding-top: 35px;
-	}
-	
-	.searchBtn {
-		width: 60px;
-		height: 45px;
-	}
-	
-	#condition {
-		width: 100px;
-		font-size: 15px;
-	}
-	
-	#search {
-		width: 300px;
-		margin: 0 10px 0 10px;
-	}
-	
-	#condition, #search {
-		border-radius: 5px;
-		height: 30px;
-		font-size: 15px;
-	}
-	
 	.status1 {
 		color: blue;
 	}
@@ -107,16 +81,10 @@
 		color: red;
 	}
 	
-	.dropdown_area {
-		display: flex;
-		border: 1px solid blue;
-		/*padding: 10px 0 15px 500px;*/
-	}
-	
 	.filter_dropdown * { box-sizing: border-box; }
 	
-	.filter_dropdown {
-		margin: 0 10px;
+	.filter_dropdown, .filter_initialize {
+		margin: 5px 10px;
 		position: relative;
 		display: inline-block;
 		/*width: 150px;
@@ -125,6 +93,17 @@
 		border: none;
 		/*background-size: 20px;*/
 		cursor: pointer;
+	}
+	
+	.initialize_btn {
+		content: '';
+  		display: block;
+		border: none;
+		border-radius: 4px;
+		background-color: #85d0ff;
+		width: 120px;
+		padding: 7px 0;
+		font-size: 15px;
 	}
 	
 	.dropdown_btn {
@@ -164,32 +143,55 @@
 	}
 	
 	.dropdown_content li:hover { 
-		background-color: #93bedc;
+		background-color: #6ab6e4;
 		border-radius: 4px;
+		color: white;
+	}
+	
+	.filter_initialize:hover .initialize_btn {
+		background-color: #6ab6e4;
+		color: white;
 	}
 	
 	.filter_dropdown:hover .dropdown_content { display: block; }
 		
 	.filter_dropdown:hover .dropdown_btn { 
-		background-color: #93bedc;
+		background-color: #6ab6e4;
 		color: white;
+	}
+	
+	.docSearch_area {
+		display: flex;
+		/*border: 1px solid blue;*/
+		padding: 10px 0 15px 0;
 	}
 	
 	.search_div {
 		display: flex;
-		margin: 0 10px;
+		margin: 0 5px;
+		padding: 5px 0;
 	}
 	
-	.search_div div {
+	.search_div input {
 		border: 1px solid;
+		margin-top: 2px;
 		padding: 5px 10px;
+		font-size: 15px;
+		border-radius: 4px;
+		border: 1px solid #93bedc;
+		box-shadow: 2px 2px 2px #93bedc;
 	}
 	
-	/*.searchBtn_div {
-		margin-left: 10px;
+	.search_div input:focus {
+		outline: none;
+		border: 1px solid #93bedc;
+		box-shadow: 2px 2px 2px #93bedc;
 	}
 	
-	/*input { border: none; }*/
+	.search_div img {
+		padding: 7px;
+	}
+
 
 </style>
 
@@ -200,7 +202,11 @@
 	
 	<div class="main_section">
         <div class="mainDiv">
-        	<div class="dropdown_area">
+        	<div class="docSearch_area">
+        		<div class="filter_initialize">
+	        		<button class="initialize_btn">검색 초기화</button>
+        		</div>
+        		
         		<div class="filter_dropdown">
 	        		<button class="dropdown_btn statusDefault">상태</button>
 	        		<ul class="dropdown_content statusfilter">
@@ -212,12 +218,13 @@
         		<div class="filter_dropdown">
 	        		<button class="dropdown_btn docFormDefault">문서 유형</button>
 	        		<ul class="dropdown_content docFormfilter">
+	        			<li>전체</li>
 	        			<%-- 문서 유형 출력 --%>
 	        		</ul>
         		</div>
         		
         		<div class="filter_dropdown">
-        			<button class="dropdown_btn conditionDefault">검색</button>
+        			<button class="dropdown_btn conditionDefault">검색 조건</button>
         			<ul class="dropdown_content conditionfilter">
 	        			<li>문서 번호</li>
 	        			<li>제목</li>
@@ -423,6 +430,17 @@
 				}
 			});
 		}
+		
+		
+		// 초기화 버튼 클릭 시
+		$(document).on("click", ".initialize_btn", function() {
+			statusListFn();
+			$(".statusDefault").text("상태");
+			$(".docFormDefault").text("문서 유형");
+			$(".conditionDefault").text("검색 조건");
+			$("#search").val("");
+		});
+		
 
 		
 		// 상태값
@@ -499,7 +517,7 @@
 			
 			$.ajax({
 				
-				type: "post",
+				type: "get",
 				url: "statusList.do",
 				data: { drafter : "${ loginUser.empNo }",
 						aprvStatusName : aprvStatusName,
@@ -517,7 +535,7 @@
                 	
                 	if(list.length == 0) {
                 		
-                		var $noListTh = $("<th colspan='6'>").text("해당 검색 조건에 대한 문서가 존재하지 않습니다.").addClass("noStatusList");
+                		var $noListTh = $("<th colspan='6'>").text("검색 조건에 해당하는 문서가 존재하지 않습니다.").addClass("noStatusList");
                 		var $noListTr = $('<tr>').append($noListTh);
                 		
 						$tbody.append($noListTr);
@@ -526,7 +544,7 @@
 						
                 		$.each(list, function(i, obj) {
                 			
-                			var $tr = $('<tr>');
+                			var $tr = $('<tr>').addClass("yesStatusList");
                 			var $docNo = $('<td>').text(obj.docNo);
                 			var $docForm = $('<td>').text(obj.docForm);
                 			var $docType = $('<input type="hidden" id="docType" name="docType" value=' 

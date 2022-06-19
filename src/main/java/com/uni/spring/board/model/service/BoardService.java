@@ -109,6 +109,8 @@ public interface BoardService {
 
 	void savefilesupdate(Attachment a);
 
+	String bname(int boardno);
+
 	
 
 	

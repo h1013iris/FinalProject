@@ -285,7 +285,9 @@ function savebtn(){
     document.getElementById('enrollFormAnnoDepart').submit();
 }
 
-
+$(function(){
+    $(".page_title>.title_name").text("익명 글 작성");
+ })
 </script>
 </body>
 </html>

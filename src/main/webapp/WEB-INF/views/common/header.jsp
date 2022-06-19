@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>header</title>
+
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">
 <script src="https://kit.fontawesome.com/e25af1a6a2.js" crossorigin="anonymous"></script>
 </head>
@@ -168,7 +169,7 @@
 	            </div>
 	        </li>
 	        <li>
-	            <a class="reservation" href="roomReservation.do"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/회의실 예약.png" alt=""></a>
+	            <a class="reservation" href="roomReservation.do"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/회의실 예약.png"  alt=""></a>
 	            <div class="detail_nav_content">
 	                <div class="nananan"><p class="detail_title">회의실 예약</p></div>
 	                <button type="button" class="commonButton2 etcButton ReservationRoombtn"><span>예약하기</span></button>
@@ -320,7 +321,6 @@
 	                    <li class="list_title">전재결재 관리</li>
 	                    <div class="hhh">
 		                    <li><a href="securityMain.do">문서 보안 관리</a></li>
-		                    <li><a href="formMgtMain.do">문서 서식 관리</a></li>
 	                   	</div>
 	                </ul>
 	                <ul>

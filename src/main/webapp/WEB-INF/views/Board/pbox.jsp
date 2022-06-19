@@ -7,8 +7,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-.all {
-	width: 84vw;
+
+.all{
+padding-top : 50px;
+
 }
 #delete{
   color : red;
@@ -35,12 +37,19 @@
     box-shadow: 0px 0px 0px 0px #4c87b099;
 }
 #pagingArea {
-	width: fit-content;
-	margin-left: 48%;
+
+	text-align:center;
 }
-#pboxList{
-margin-left : 10%;
+.boxlist{
+ text-align: -webkit-center;
+ padding-top : 20px;
 }
+.pboxlistanddelete {
+	width: 84vw;
+	margin-left : 5%;
+	margin-bottom:100%;
+}
+
 </style>
 </head>
 <body>
@@ -48,7 +57,8 @@ margin-left : 10%;
 	<div class="main_section">
 	<div class="all">
 	<hr>
-		<div class="boxlist" style="padding: 5% 10%;">
+	<div class ="pboxlistanddelete">
+		<div class="boxlist">
 				<table id="pboxList" class="table table-hover" align="center">
 
 					<thead>
@@ -82,6 +92,7 @@ margin-left : 10%;
 					</c:if>
 				</table>
 
+	
 	
 	</div>
 		<div id="pagingArea">
@@ -127,7 +138,7 @@ margin-left : 10%;
 						</c:choose>
 					</ul>
 				</div>
-	
+	 </div>
 	</div>
 			<script>
     
@@ -152,7 +163,9 @@ margin-left : 10%;
         		}
         	})
     	}
-         
+    	$(function(){
+            $(".page_title>.title_name").text("임시보관함");
+         })
     </script>
 </body>
 </html>
