@@ -103,6 +103,28 @@
 	#anonyboarddetailpassword{
 	margin-left:68%;
 	}
+	.anonyupandsel{
+     padding: 0;
+     font-weight: 600;
+     text-align: center;
+     line-height: 50px;
+     color: #FFF;
+     border-radius: 5px;
+     transition: all 0.2s ;
+     background: #85cdff;
+     border: #85cdff;
+     box-shadow: 1px 5px 1px 1px #4c87b099;
+     width:70px;
+     }
+    .anonyupandsel:hover{
+     position: relative;
+     top: 5px;
+     bottom: 5px;
+     ox-shadow: 0px 0px 0px 0px #4c87b099;
+     }
+     .delanony{
+      background: #ff0025;
+     }
 </style>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
@@ -151,14 +173,14 @@
 		
 		
 		
-			<div id="anonychangedbytton">
-				<button class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</button>
-				<button class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</button>
+			<div id="anonychangedbytton" >
+				<button class="btn btn-primary anonyupandsel" onclick="postFormSubmit(1);">수정하기</button>
+				<button class="btn btn-danger anonyupandsel delanony" onclick="postFormSubmit(2);">삭제하기</button>
 				
 			</div>
-		
+		    <br>
 			<form id="postForm" action="" method="post">	
-			    <input id="anonyboarddetailpassword" type="password" name="anop" maxlength="4" >			
+			    <input id="anonyboarddetailpassword" type="password" name="anop" maxlength="4" style="width:137px" placeholder="비밀번호를 입력하세요">			
                 <input type="hidden" name="bno" value="${ b.writeno }">
                 <input type="hidden" name="boardno" value="${ b.boardno }">
                 <input class="realanopass" type="hidden" value="${ b.password }">
@@ -202,7 +224,7 @@
 			<c:if test="${ !empty loginUser }">
 
 				<textarea class="form-control" id="Content" rows="2"
-					style="resize: none; width: 70%; vertical-align: middle"></textarea>
+					style="resize: none; width: 70%; vertical-align: middle" placeholder="내용을 입력해주세요" required></textarea>
 
 				<button class="commonButton1" id="addcom">등록하기</button>
 			</c:if>
@@ -210,7 +232,7 @@
 		   <span>닉네임</span>
 		   <input type="text" name=conmentnickname id="conmentnickname" required>
 		   <span>비밀번호</span>
-		   <input type="password" name=anonypassword id="anonypassword" value="" maxlength="4" required>
+		   <input type="password" name=anonypassword id="anonypassword" value="" maxlength="4" placeholder="댓글 비밀번호를 입력하세요" required >
 		</div>
 
 		<div class="replyAREAboard">
@@ -365,7 +387,9 @@
 		})
 
 
-
+$(function(){
+         $(".page_title>.title_name").text("익명 글 상세");
+      })
 </script>
 <script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 <script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>

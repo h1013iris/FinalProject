@@ -15,15 +15,23 @@
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 </head>
+<style>
+
+</style>
 <body>
-<textarea name="content" id="summernote" value="">${b.content}</textarea>
+<textarea name="content" id="summernote" value="" style="">${b.content}</textarea>
+
 <script>
+$('#summernote').val().replace(/\n/g, "<br>")
+
 $(document).ready(function() {
      $('#summernote').summernote({
+    	     width: 623,
              height: 300,                 // set editor height
              minHeight: null,             // set minimum height of editor
              maxHeight: null,             // set maximum height of editor
              focus: true                  // set focus to editable area after initializing summernote
+             
      });
 });
 

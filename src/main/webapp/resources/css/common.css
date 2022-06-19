@@ -115,7 +115,7 @@ a{
    }
    
    #main_nav img{
-       width: 3vw;
+       width: 3vw !important;
        padding-left: 21%;
        padding-top: 20%;
    }

@@ -100,9 +100,32 @@
 	height: 50px;	
 	}
 	#cocn{
-	margin-left:68%;
+	margin-left:66%;
 	
 	}
+	
+	.detailbutclick{
+     padding: 0;
+     font-weight: 600;
+     text-align: center;
+     line-height: 50px;
+     color: #FFF;
+     border-radius: 5px;
+     transition: all 0.2s ;
+     background: #85cdff;
+     border: #85cdff;
+     box-shadow: 1px 5px 1px 1px #4c87b099;
+     width:70px;
+     }
+    .detailbutclick:hover{
+     position: relative;
+     top: 5px;
+     bottom: 5px;
+     ox-shadow: 0px 0px 0px 0px #4c87b099;
+     }
+     .deletedetail{
+      background: #ff0025;
+     }
 </style>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
@@ -152,9 +175,9 @@
 		
 		<c:if test="${ loginUser.empNo eq b.empno }">
 			<div id="cocn">
-				<button class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</button>
-				<button class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</button>	
-				<button type="button" class="checkman" >읽은사람</button>			
+				<button class="btn btn-primary detailbutclick" onclick="postFormSubmit(1);">수정하기</button>
+				<button class="btn btn-danger detailbutclick deletedetail" onclick="postFormSubmit(2);">삭제하기</button>	
+				<button type="button" class="checkman detailbutclick" >읽은사람</button>			
 			</div>
 		
 			<form id="postForm" action="" method="post">
@@ -349,7 +372,9 @@
 })
 		})
 
-
+$(function(){
+         $(".page_title>.title_name").text("게시글 상세");
+      })
 
 </script>
 <script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
