@@ -75,7 +75,7 @@ public class ReservationDao {
 
 	public int deleteAttendeeList(String reserveNo, SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("reservationMapper.deleteAttendeeList", reserveNo);
+		return sqlSession.delete("reservationMapper.deleteAttendeeList", reserveNo);
 	}
 
 	public Reservation selectOneReservation(String resNo, SqlSessionTemplate sqlSession) {
@@ -86,5 +86,27 @@ public class ReservationDao {
 	public ArrayList<AttendeeList> selectOneAttendee(String resNo, SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("reservationMapper.selectOneAttendee", resNo);
+	}
+
+	public ArrayList<Reservation> smallRoomReservation(Map<String, Integer> map, SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("reservationMapper.selectList", map);
+	}
+
+	public ArrayList<ReservationRoom> selectRoomOne(String roomSmallNo, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("reservationMapper.selectRoomOne", roomSmallNo);
+	}
+
+	public int updateReservation(Reservation reservation, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("reservationMapper.updateReservation", reservation);
+	}
+
+	public int insertNewAttendee(ArrayList<AttendeeList> list, SqlSessionTemplate sqlSession) {
+		int count = 0;
+		for(AttendeeList attend : list) {
+			count += sqlSession.insert("reservationMapper.insertNewAttendee", attend);
+		}
+		return count;
 	}
 }

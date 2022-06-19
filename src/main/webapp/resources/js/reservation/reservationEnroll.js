@@ -38,56 +38,95 @@
 			if(roomSmallNo == '' || roomSmallNo == undefined){
 				$("#res-alert_title .title_name").text("회의실 선택 확인");
 				$("#res-alert_body .res-alert_content").text("회의실을 선택해야 합니다.");
+				$('.res-errorNumber').val('1')
 				$(".reservationEnrollFormModal").hide();
 				$("#res-alertBackground").css("display","block");
 			}else if(startDate == '' || startTime == '선택' || endDate == '' || endTime == '선택'){// 시작일이나 종료일을 선택 하지 않을 시
 				$("#res-alert_title .title_name").text("예약 날짜, 시간 선택 확인");
 				$("#res-alert_body .res-alert_content").text("예약 날짜나 시간을 선택해야 합니다.");
+				$('.res-errorNumber').val('1')
 				$(".reservationEnrollFormModal").hide();
 				$("#res-alertBackground").css("display","block");
 			}else if(attendeeNo == ''){ // 초대자가 없으면
 				$("#res-alert_title .title_name").text("참석자 선택 확인");
 				$("#res-alert_body .res-alert_content").text("참석자를 선택해야 합니다.");
+				$('.res-errorNumber').val('1')
 				$(".reservationEnrollFormModal").hide();
 				$("#res-alertBackground").css("display","block");
 			}else if(meetingName == ''){// 회의명이 없으면
 				$("#res-alert_title .title_name").text("회의명 작성 확인");
 				$("#res-alert_body .res-alert_content").text("회의명 작성해야 합니다.");
+				$('.res-errorNumber').val('1')
 				$(".reservationEnrollFormModal").hide();
 				$("#res-alertBackground").css("display","block");
 			}else{ // 모두 작성 시 submit
 				//enrollFormReservation.submit();
-
-				startDate = startDate+" "+startTime;
-				endDate = endDate+" "+endTime;
-				
-				let obj = {
-					empNo:empNo,
-					roomSmallNo:roomSmallNo,
-					startDate:startDate,
-					endDate:endDate,
-					meetingName:meetingName
-				}
-				
-				
-				$.ajax({
-					url:"insertReservation.do",
-					data:{
-						reservation:obj,
-						attendeeNo:attendeeNo
-					},
-					type:"post",
-					success:function(index){
-						console.log(index)
-						
-						if(index > 0){
-							location.href = "roomReservation.do";
-						}
-					},
-					error:function(error){
-						console.log("실패")
+				let push = $('.PushOrUpdate').val();
+				if(push == 1){
+					startDate = startDate+" "+startTime;
+					endDate = endDate+" "+endTime;
+					
+					let obj = {
+						empNo:empNo,
+						roomSmallNo:roomSmallNo,
+						startDate:startDate,
+						endDate:endDate,
+						meetingName:meetingName
 					}
-				})
+					
+					
+					$.ajax({
+						url:"insertReservation.do",
+						data:{
+							reservation:obj,
+							attendeeNo:attendeeNo
+						},
+						type:"post",
+						success:function(index){
+							console.log(index)
+							
+							if(index > 0){
+								location.href = "roomReservation.do";
+							}
+						},
+						error:function(error){
+							console.log("실패")
+						}
+					})
+				}else if(push == 2){
+					startDate = startDate+" "+startTime;
+					endDate = endDate+" "+endTime;
+					// 6.18일 예약업데이트 관련 추가 됨
+					let reserveNo = $('#enrollForm-Reservation .reserveNo').val()
+					let obj = {
+						empNo:empNo,
+						roomSmallNo:roomSmallNo,
+						startDate:startDate,
+						endDate:endDate,
+						meetingName:meetingName,
+						reserveNo : reserveNo
+					}
+					
+					
+					$.ajax({
+						url:"updateReservation.do",
+						data:{
+							reservation:obj,
+							attendeeNo:attendeeNo
+						},
+						type:"post",
+						success:function(index){
+							console.log(index)
+							
+							if(index > 0){
+								location.href = "roomReservation.do";
+							}
+						},
+						error:function(error){
+							console.log("실패")
+						}
+					})
+				}
 			}
 			
 		})
@@ -124,7 +163,7 @@
 							
 							let option = $("<option>")
 							
-							let largeName = obj.lRoomName;
+							let largeName = obj.largeRoomName;
 							let lNo = obj.roomLargeNo;
 							
 							console.log(largeName)
@@ -161,7 +200,7 @@
 								
 								let option = $("<option>")
 								
-								let smallName = obj.sRoomName;
+								let smallName = obj.smallRoomName;
 								let sNo = obj.roomSmallNo;
 								let max = obj.maxCount;
 								
@@ -219,6 +258,9 @@
 				let sRoom = $(".res-smallCategory").val()
 				let startDate = $('.res-startDate').val()
 				
+				// 6.18일 예약업데이트 관련 추가 됨
+				let reserveNo = $('#enrollForm-Reservation .reserveNo').val()
+				
 				let Default = '<option value="선택">선택</option>'; 
 				$("#res-startTime").empty().append(Default)
 				
@@ -231,7 +273,8 @@
 					url:"selectreservation.do",
 					data:{
 						startDate : startDate,
-						
+						sRoom : sRoom,
+						reserveNo : reserveNo
 					},
 					type:"get",
 					success:function(list){
@@ -336,6 +379,9 @@
 				
 				startDate += " "+startTime;
 				
+				// 6.18일 예약업데이트 관련 추가 됨
+				let reserveNo = $('#enrollForm-Reservation .reserveNo').val()
+				
 				let arr1 = new Array();
 				arr1 = ["00:00","00:30","01:00","01:30","02:00","02:30","03:00","03:30","04:00","04:30","05:00","05:30",
 					   "06:00","06:30","07:00","07:30","08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30",
@@ -346,7 +392,8 @@
 					url:"selectreservation.do",
 					data:{
 						startDate : startDate,
-						sRoom:sRoom
+						sRoom:sRoom,
+						reserveNo : reserveNo
 					},
 					type:"get",
 					success:function(list){
@@ -663,12 +710,16 @@
 					let endDate = $("#res-endDate").val()
 					let sRoom = $(".res-smallCategory").val()
 					
+					// 6.18일 예약업데이트 관련 추가 됨
+					let reserveNo = $('#enrollForm-Reservation .reserveNo').val()
+					
 					// 그 다음날의 예약 현황을 봐야 하기 때문에 ajax로 값을 부른다
 					$.ajax({
 					url:"selectreservation.do",
 					data:{
 						startDate : endDate,
-						sRoom:sRoom
+						sRoom:sRoom,
+						reserveNo:reserveNo
 					},
 					type:"get",
 					success:function(list){
@@ -894,6 +945,9 @@
 				
 				startDate += " "+startTime;
 				
+				// 6.18일 예약업데이트 관련 추가 됨
+				let reserveNo = $('#enrollForm-Reservation .reserveNo').val()
+				
 				let arr1 = new Array();
 				arr1 = ["00:00","00:30","01:00","01:30","02:00","02:30","03:00","03:30","04:00","04:30","05:00","05:30",
 					   "06:00","06:30","07:00","07:30","08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30",
@@ -904,7 +958,8 @@
 					url:"selectreservation.do",
 					data:{
 						startDate : startDate,
-						sRoom:sRoom
+						sRoom:sRoom,
+						reserveNo : reserveNo
 					},
 					type:"get",
 					success:function(list){
