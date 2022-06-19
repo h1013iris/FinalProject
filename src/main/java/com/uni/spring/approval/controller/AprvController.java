@@ -34,6 +34,7 @@ import com.uni.spring.approval.model.service.AprvService;
 import com.uni.spring.common.PageInfo;
 import com.uni.spring.common.Pagination;
 import com.uni.spring.department.model.dto.AttendLog;
+import com.uni.spring.manageMent.model.service.ManageService;
 import com.uni.spring.member.model.dto.Member;
 
 @SessionAttributes("loginUser") // 해당 key값의 value를 세션에 추가
@@ -42,7 +43,6 @@ public class AprvController {
 	
 	@Autowired
 	public AprvService aprvService;
-	
 	
 	
 	// 전자결재 메인으로
@@ -365,6 +365,7 @@ public class AprvController {
 		System.out.println(aprvDoc.toString());
 		
 		aprvService.aprvApproveComplete(aprvHistory, aprvDoc);
+		
 		
 		return new Gson().toJson("success");
 	}

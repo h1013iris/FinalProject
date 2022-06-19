@@ -14,7 +14,6 @@ import com.uni.spring.approval.model.dto.AprvStatus;
 import com.uni.spring.approval.model.dto.BusCoopForm;
 import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
-import com.uni.spring.approval.model.dto.DocFilter;
 import com.uni.spring.approval.model.dto.DocOutbox;
 import com.uni.spring.approval.model.dto.DocType;
 import com.uni.spring.approval.model.dto.LeaveForm;
@@ -23,6 +22,7 @@ import com.uni.spring.approval.model.dto.SecurityDoc;
 import com.uni.spring.common.PageInfo;
 import com.uni.spring.common.exception.CommException;
 import com.uni.spring.department.model.dto.AttendLog;
+import com.uni.spring.manageMent.model.dao.ManageDao;
 import com.uni.spring.member.model.dto.Member;
 
 @Service // 먼저 등록
@@ -34,7 +34,8 @@ public class AprvServiceImpl implements AprvService {
 	@Autowired
 	private AprvDao aprvDao;
 	
-	
+	@Autowired
+	private ManageDao manageDao;
 
 	
 	@Override // 문서 등록 시 결재선 조회
@@ -87,6 +88,8 @@ public class AprvServiceImpl implements AprvService {
 		
 		if(result < 1) {
 			throw new CommException("문서 저장 실패");
+		}else {
+			int result1 = manageDao.updateVacation(sqlSession, leaveForm);
 		}
 		
 		insertDoc(aprvDoc); // 결재 문서 저장

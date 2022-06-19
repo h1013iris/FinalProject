@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.uni.spring.admin.model.dto.Department;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
+import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.common.exception.CommException;
 import com.uni.spring.department.model.dto.AttendLog;
@@ -17,6 +18,7 @@ import com.uni.spring.department.model.dto.Project;
 import com.uni.spring.manageMent.model.dao.ManageDao;
 import com.uni.spring.manageMent.model.dto.calendarWeek;
 import com.uni.spring.manageMent.model.dto.manageDepart;
+import com.uni.spring.manageMent.model.dto.vacationInfo;
 import com.uni.spring.member.model.dto.Member;
 
 @Service
@@ -159,4 +161,36 @@ public class ManageServiceImpl implements ManageService {
 		
 		return manageDao.updateLeaveTime(sqlSession, empNo);
 	}
+
+	@Override
+	public void insertVacationForm(Member m) {
+		int result = manageDao.insertVacationForm(sqlSession, m);
+	}
+
+	@Override
+	public void updatevacationaYear(Member loginUser) {
+		int result = manageDao.updatevacationYear(sqlSession, loginUser);
+		System.out.println(loginUser);
+	}
+
+	@Override
+	public ArrayList<vacationInfo> selectListVacation(String departmentNo) {
+		
+		return manageDao.selectListVacation(sqlSession, departmentNo);
+	}
+
+	@Override
+	public ArrayList<vacationInfo> filterListVacation(manageDepart md) {
+		
+		return manageDao.filterListVacation(sqlSession, md);
+	}
+
+	@Override
+	public ArrayList<LeaveForm> selectListLeaveForm(manageDepart md, calendarWeek cw2) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("cw2", cw2); //날짜 모음
+		paramMap.put("md", md); //필터 모음
+		return manageDao.selectListLeaveForm(sqlSession, paramMap);
+	}
+
 }
