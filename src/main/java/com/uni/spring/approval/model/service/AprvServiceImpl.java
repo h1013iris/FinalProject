@@ -104,7 +104,7 @@ public class AprvServiceImpl implements AprvService {
 		
 		if(result < 1) {
 			throw new CommException("문서 저장 실패");
-		}else {
+		}else if(result > 0 && docType == 11) {
 			int result1 = manageDao.updateVacation(sqlSession, leaveForm);
 		}
 		
