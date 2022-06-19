@@ -426,4 +426,79 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE EMP_NO = #{empNo}
 		AND TO_DATE(ATTEND_DATE,'YY/MM/DD') = TO_DATE(SYSDATE,'YY/MM/DD')
 	</update>
+	<insert id="insertVacationForm" parameterType="Member">
+		INSERT INTO VACATION_INFO 
+		VALUES
+		(SEQ_VACATION.NEXTVAL, #{empNo}, SYSDATE, 11, 0, DEFAULT, 11 )
+	</insert>
+	<update id="updateVacation" parameterType="LeaveForm">
+		UPDATE VACATION_INFO
+		SET TOT_DAYOFF = TOT_DAYOFF-#{vacUseDays}, USE_DAYOFF= USE_DAYOFF+#{vacUseDays}
+		WHERE EMP_NO = #{drafter}
+		AND STATUS = 'Y'
+	</update>
+	<update id="updatevacationYear" parameterType="Member">
+		UPDATE VACATION_INFO
+		SET TOT_DAYOFF=
+		    CASE 
+		        WHEN  TO_CHAR(ADD_MONTHS(#{hireDate},12),'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD') THEN 15
+		        WHEN  TO_CHAR(ADD_MONTHS(#{hireDate},24),'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD') THEN 15
+		        WHEN  TO_CHAR(ADD_MONTHS(#{hireDate},36),'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD') THEN 16
+		        WHEN  TO_CHAR(ADD_MONTHS(#{hireDate},48),'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD') THEN 16
+		        WHEN  TO_CHAR(ADD_MONTHS(#{hireDate},60),'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD') THEN 17
+		        WHEN  TO_CHAR(ADD_MONTHS(#{hireDate},72),'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD') THEN 17
+		    ELSE TOT_DAYOFF
+		    END, 
+		    TOT_TYEAR=
+		    CASE 
+		        WHEN  TO_CHAR(ADD_MONTHS(#{hireDate},12),'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD') THEN 15
+		        WHEN  TO_CHAR(ADD_MONTHS(#{hireDate},24),'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD') THEN 15
+		        WHEN  TO_CHAR(ADD_MONTHS(#{hireDate},36),'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD') THEN 16
+		        WHEN  TO_CHAR(ADD_MONTHS(#{hireDate},48),'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD') THEN 16
+		        WHEN  TO_CHAR(ADD_MONTHS(#{hireDate},60),'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD') THEN 17
+		        WHEN  TO_CHAR(ADD_MONTHS(#{hireDate},72),'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD') THEN 17
+		    ELSE TOT_TYEAR
+		    END
+		WHERE EMP_NO = #{empNo}
+	</update>
+	<select id="selectListVacation" parameterType="string" resultType="vacationInfo"> 
+		SELECT V.*,U.EMP_NAME
+		FROM VACATION_INFO V
+		JOIN USER_INFO U ON (V.EMP_NO= U.EMP_NO)
+		WHERE DEPARTMENT_NO = #{departmentNo}
+	</select>
+	<select id="filterListVacation" parameterType="manageDepart" resultType="vacationInfo"> 
+		SELECT V.*,U.EMP_NAME
+		FROM VACATION_INFO V
+		JOIN USER_INFO U ON (V.EMP_NO= U.EMP_NO)
+		WHERE 1=1
+		<if test="depNo != null and depNo != 0">
+   			AND U.DEPARTMENT_NO = #{depNo}
+   		</if>
+   		<if test="ord == '이름'">
+   			AND U.EMP_NAME LIKE '%' ||#{searchli}||'%' 
+   		</if>
+   		<if test="ord =='사원번호'">
+   			AND U.EMP_NO LIKE '%' ||#{searchli}||'%' 
+   		</if>
+   		<if test="fil == '직급순'">
+   			ORDER BY U.DEPARTMENT_NO
+   		</if>
+   		<if test="fil == '이름순'">
+   			ORDER BY U.EMP_NAME
+   		</if>
+   		<if test="fil == '입사순'">
+   			ORDER BY U.HIRE_DATE
+   		</if>
+	</select>
+	<select id="selectListLeaveForm" parameterType="java.util.Map" resultType="LeaveForm">
+		SELECT LA.*, UI.EMP_NAME AS DRAFTER_NAME
+		FROM LEAVE_APP LA
+		JOIN APRV_DOCUMENT AD ON (LA.DOC_NO = AD.DOC_NO)
+		JOIN USER_INFO UI ON (LA.DRAFTER = UI.EMP_NO)
+		WHERE AD.STATUS = 'Y'
+		AND  AD.APRV_STATUS =2
+		AND DRAFTER_DEPT = #{md.depNo}
+		AND LA.DFT_DATE BETWEEN TO_DATE(#{cw2.weeko},'YY/MM/DD') AND TO_DATE(#{cw2.weekf},'YY/MM/DD')+0.99999
+	</select>
 </mapper>

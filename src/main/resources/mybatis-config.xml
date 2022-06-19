@@ -31,7 +31,6 @@
   		<typeAlias type="com.uni.spring.approval.model.dto.BusCoopForm" alias="BusCoopForm"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.AprvStatus" alias="AprvStatus"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.DocType" alias="DocType"/>
-  		<typeAlias type="com.uni.spring.approval.model.dto.DocFilter" alias="DocFilter"/>
   		<!--  게시글 -->
   		<typeAlias type="com.uni.spring.board.model.dto.Board" alias="Board"/>
   		<typeAlias type="com.uni.spring.board.model.dto.coment" alias="coment"/>
@@ -77,6 +76,7 @@
   		<!-- 경영지원 -->
   		<typeAlias type="com.uni.spring.manageMent.model.dto.manageDepart" alias="manageDepart"/>
   		<typeAlias type="com.uni.spring.manageMent.model.dto.calendarWeek" alias="calendarWeek"/>
+  		<typeAlias type="com.uni.spring.manageMent.model.dto.vacationInfo" alias="vacationInfo"/>
   		<!-- 마이페이지 -->
   		<!-- 업무일지 -->
   		<typeAlias type="com.uni.spring.mypage.model.dto.Journal" alias="journal"/>

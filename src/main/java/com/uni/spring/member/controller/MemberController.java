@@ -128,6 +128,7 @@ public class MemberController {
 		int result = memberService.insertMemberAttachFile(file, request, empNo);
 		if(result > 0) {
 			System.out.println("성공");
+			manageService.insertVacationForm(m);
 		} else {
 			System.out.println("실패");
 		}
@@ -161,6 +162,7 @@ public class MemberController {
 			loginUser=memberService.loginMember(bCryptPasswordEncoder, m);
 			if(loginUser != null) {//로그인 유저가 널이 아니면
 				manageService.insertAttendlog(loginUser.getEmpNo());
+				manageService.updatevacationaYear(loginUser);
 			}
 			Attachment a = manageService.selectInfoEmployeeAtt(String.valueOf(loginUser.getEmpNo()));
 	         if(a != null) {

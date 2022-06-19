@@ -7,12 +7,15 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.uni.spring.admin.model.dto.Department;
+import com.uni.spring.approval.model.dto.AprvDoc;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
+import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.department.model.dto.AttendLog;
 import com.uni.spring.department.model.dto.Project;
 import com.uni.spring.manageMent.model.dto.calendarWeek;
 import com.uni.spring.manageMent.model.dto.manageDepart;
+import com.uni.spring.manageMent.model.dto.vacationInfo;
 import com.uni.spring.member.model.dto.Member;
 
 @Repository
@@ -127,6 +130,36 @@ public class ManageDao {
 	public int updateLeaveTime(SqlSessionTemplate sqlSession, int empNo) {
 		
 		return sqlSession.update("manageMapper.updateLeaveTime", empNo);
+	}
+
+	public int insertVacationForm(SqlSessionTemplate sqlSession, Member m) {
+		
+		return sqlSession.insert("manageMapper.insertVacationForm", m);
+	}
+
+	public int updateVacation(SqlSessionTemplate sqlSession, LeaveForm leaveForm) {
+		
+		return sqlSession.update("manageMapper.updateVacation", leaveForm);
+	}
+
+	public int updatevacationYear(SqlSessionTemplate sqlSession, Member loginUser) {
+		
+		return sqlSession.update("manageMapper.updatevacationYear", loginUser);
+	}
+
+	public ArrayList<vacationInfo> selectListVacation(SqlSessionTemplate sqlSession, String departmentNo) {
+		
+		return (ArrayList)sqlSession.selectList("manageMapper.selectListVacation", departmentNo);
+	}
+
+	public ArrayList<vacationInfo> filterListVacation(SqlSessionTemplate sqlSession, manageDepart md) {
+		
+		return (ArrayList)sqlSession.selectList("manageMapper.filterListVacation", md);
+	}
+
+	public ArrayList<LeaveForm> selectListLeaveForm(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
+		
+		return (ArrayList)sqlSession.selectList("manageMapper.selectListLeaveForm", paramMap);
 	}
 
 }

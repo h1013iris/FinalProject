@@ -3,9 +3,12 @@ package com.uni.spring.manageMent.model.dto;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+
+import com.uni.spring.member.model.dto.Member;
 
 import lombok.Data;
 
