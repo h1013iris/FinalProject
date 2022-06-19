@@ -29,7 +29,7 @@ public interface ReservationService {
 
 	int insertAttendee(ArrayList<AttendeeList> list);
 
-	ArrayList<Reservation> selectRoomReservation(String startDate, String sRoom);
+	ArrayList<Reservation> selectRoomReservation(String startDate, String sRoom, String reserveNo);
 
 	ArrayList<ReservationRoom> selectRoomAllList();
 
@@ -40,5 +40,13 @@ public interface ReservationService {
 	Reservation selectOneReservation(String resNo);
 
 	ArrayList<AttendeeList> selectOneAttendee(String resNo);
+
+	ArrayList<Reservation> smallRoomReservation(Member m, Map<String, Integer> todayInfo, String roomSmallNo);
+
+	ArrayList<ReservationRoom> selectRoomOne(String roomSmallNo);
+
+	int updateReservation(Reservation reservation);
+
+	int insertNewAttendee(ArrayList<AttendeeList> list);
 
 }

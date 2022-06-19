@@ -358,7 +358,12 @@
 	
 	</div>
 	<script>
-	
+		
+		// 캘릭더 페이지 이름
+		$(function(){
+	         $(".page_title>.title_name").text("캘린더 메인 페이지");
+		})
+		
 		// 헤더 클릭 시 체크여부 확인 후 필터 적용하기
 		$(document).on("change",'#my, #team',function(){
 			let empNo = "";
@@ -513,6 +518,7 @@
 					console.log(place);
 					console.log(sectionName);
 					console.log(title);
+					console.log(realWriter);
 					
 					$(".calenderModal_Title").html(title).css({"font-size":"20px","font-weight":"bold"});
 					if(department != undefined){
@@ -522,7 +528,7 @@
 					}
 					
 					$(".calhidden-writerNo").val(writerNo)
-					$('.calhidden-realwriter').val(realWriter).trigger('change');
+					$('.calhidden-realwriter').val(realWriter);
 					$(".cal-date").text(start.substring(0,4)+"년 "+start.substring(5,7)+"월 "+start.substring(8,10)+"일 "+start.substring(11,16)+" ~ "+end.substring(0,4)+"년 "+end.substring(5,7)+"월 "+end.substring(8,10)+"일 "+end.substring(11,16))
 					$('.hidden-startDate').val(start)
 					$('.hidden-endDate').val(end)

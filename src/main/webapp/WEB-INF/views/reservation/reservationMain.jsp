@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Latte-예약페이지</title>
+<title>Latte-예약수정페이지</title>
 <style type="text/css">
 	/*임의라인*/
 	.reservation-main div{
@@ -164,7 +164,6 @@
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
-	<jsp:include page="../reservation/reservationDetailModal.jsp"></jsp:include>
 	<div class="main_section">
         <div class="reservation-main">
         	<div class="reservation-navi">
@@ -293,7 +292,7 @@
         			<tbody>
         				<c:forEach items="${roomList}" var="room" varStatus="st">
 	        				<tr class="reservationRoom-line">
-	        					<td class="name${st.index} resRoomName colscolor">${room.SRoomName}</td>
+	        					<td class="name${st.index} resRoomName colscolor">${room.smallRoomName}</td>
        							<c:forEach items="${timeInfo}" var="time" varStatus="status1">
      								<td class="time${room.roomSmallNo}${time.key}"></td>
 	        					</c:forEach>
@@ -319,7 +318,7 @@
         		<c:forEach var="today" items="${myList}">
 		        	<li class="today-line res_tdtimes">
 		        		<input type="hidden" value="${today.reserveNo}"/>
-		   				<div class="res-todayList res-thisLine1">${today.SRoomName}</div>
+		   				<div class="res-todayList res-thisLine1">${today.smallRoomName}</div>
 		    			<div class="res-todayList res-thisLine2">${today.meetingName}</div>
 		     			<div class="res-todayList res-thisLine3">${fn:substring(today.startDate, 5, 7)}월 ${fn:substring(today.startDate, 8, 10)}일 ${fn:substring(today.startDate, 11, 16)} ~ ${fn:substring(today.endDate, 5, 7)}월 ${fn:substring(today.endDate, 8, 10)}일 ${fn:substring(today.endDate, 11, 16)}</div>
 		     			<c:if test="${today.status eq 'Y'}">
@@ -334,6 +333,11 @@
     </div> 
 	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
     <script>
+	 	// 전체 회의실 페이지 이름
+		$(function(){
+	         $(".page_title>.title_name").text("전체 회의실 예약 현황 페이지");
+		})
+	 	
     	// 특정 클래스 선택 시 상세조회 모달보이기 res_tdtimes
     	$(document).on('click','.res_tdtimes', function(){
     		console.log("상세 모달로")
@@ -349,20 +353,22 @@
     			success:function(obj){
     				console.log("상세모달 성공")
     				
-    				let reserNo = obj.reserveNo;					// 예약번호
-    				let empNo = obj.empNo;							// 사원번호
+    				let reserNo = obj.reserveNo;					// 예약번호 (업데이트시 끌고가야함)
+    				let empNo = obj.empNo;							// 사원번호 (업데이트시 끌고가야함)
     				let roomSmallNo = obj.roomSmallNo;				// 회의실 번호
-    				let startDate = new Date(obj.startDate);		// 시작일
-    				let startTime = obj.startDate.substring(11,16);	// 시작 시간
-    				let endDate = new Date(obj.endDate);			// 종료일
-    				let endTime = obj.endDate.substring(11,16);		// 종료시간
-    				let meetingName = obj.meetingName;				// 회의명
-    				let sRoomName = obj.sRoomName;					// 회의실 명
-
-    				$('.reserveNo').val(reserNo);
-    				$('.empNo').val(empNo);
+    				let startDate = new Date(obj.startDate);		// 시작일 (업데이트시 끌고 가야함)
+    				let startTime = obj.startDate.substring(11,16);	// 시작 시간 (업데이트시 끌고가야함)
+    				let endDate = new Date(obj.endDate);			// 종료일 (업데이트시 끌고가야함)
+    				let endTime = obj.endDate.substring(11,16);		// 종료시간 (업데이트시 끌고가야함)
+    				let meetingName = obj.meetingName;				// 회의명 (업데이트시 끌고가야함)
+    				let smallRoomName = obj.smallRoomName;			// 회의실 명
+					
+    				// update를 위한 히든값
+    				$('.resDetailModal_body .reserveNo').val(reserNo);
+    				$('.resDetailModal_body .empNo').val(empNo);
+    				
     				$(".resDetail_time").text(startDate.getFullYear()+"년 "+startDate.getMonth()+"월 "+startDate.getDate()+"일 "+startTime+" ~ "+endDate.getFullYear()+"년 "+endDate.getMonth()+"월 "+endDate.getDate()+"일 "+endTime);
-    				$('.resDetail_place').text(sRoomName)
+    				$('.resDetail_place').text(smallRoomName)
     				$('.resDetailModal_title').text(meetingName)
     				
     				selectOneAttendee(reserNo);
@@ -453,7 +459,7 @@
 					reserveNo : ${reserve.reserveNo},
 					empNo : ${reserve.empNo},
 					roomSmallNo : ${reserve.roomSmallNo},
-					sRoomName : '${reserve.SRoomName}',
+					smallRoomName : '${reserve.smallRoomName}',
 					startDate : new Date("${reserve.startDate}"),
 					endDate : new Date("${reserve.endDate}"),
 					meetingName : '${reserve.meetingName}',
@@ -477,8 +483,8 @@
 			<c:forEach var="val" items="${roomList}">
 			roomList.push({roomLargeNo : ${val.roomLargeNo},
 					roomSmallNo : ${val.roomSmallNo},
-					lRoomName : '${val.LRoomName}',
-					sRoomName : '${val.SRoomName}',
+					largeRoomName : '${val.largeRoomName}',
+					smallRoomName : '${val.smallRoomName}',
 					maxCount : ${val.maxCount},
 					status : "${val.status}"
 					})

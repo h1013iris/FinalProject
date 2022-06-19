@@ -7,8 +7,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="roomLargeNo" column="ROOM_LARGE_NO"/>
 		<result property="roomLargeNo" column="ROOM_LARGE_NO"/>
 		<result property="roomSmallNo" column="ROOM_SMALL_NO"/>
-		<result property="lRoomName" column="LROOM_NAME"/>
-		<result property="sRoomName" column="SROOM_NAME"/>
+		<result property="largeRoomName" column="LROOM_NAME"/>
+		<result property="smallRoomName" column="SROOM_NAME"/>
 		<result property="maxCount" column="MAX_COUNT"/>
 		<result property="status" column="STATUS"/>
 	</resultMap>
@@ -16,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="reserveNo" column="RESERVE_NUM"/>
 		<result property="empNo" column="EMP_NO"/>
 		<result property="roomSmallNo" column="ROOM_SMALL_NO"/>
-		<result property="sRoomName" column="SROOM_NAME"/>
+		<result property="smallRoomName" column="SROOM_NAME"/>
 		<result property="startDate" column="START_DATE"/>
 		<result property="endDate" column="END_DATE"/>
 		<result property="meetingName" column="MEETING_NAME"/>
@@ -81,6 +81,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					AND EXTRACT(DAY FROM A.END_DATE) = #{searchDate}
 					)
 			</if>
+			<if test="roomSmallNo != null">
+				AND A.ROOM_SMALL_NO = #{roomSmallNo}
+			</if>
 		</where>
 		ORDER BY A.START_DATE
 	</select>
@@ -142,6 +145,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND EXTRACT(MONTH FROM A.START_DATE) = #{searchMonth}
 			AND EXTRACT(DAY FROM A.START_DATE) = #{searchDate}
 			AND A.ROOM_SMALL_NO = #{sRoom}
+			<if test="reserveNo != 0">
+				AND A.RESERVE_NUM != #{reserveNo}
+			</if>
 		</where>
 	</select>
 	<select id="selectRoomAllList" resultMap="ReservationRoomResultSet">
@@ -161,11 +167,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SET STATUS = 'N'
 		WHERE RESERVE_NUM = #{reserveNo}
 	</update>
-	<update id="deleteAttendeeList" parameterType="string">
-		UPDATE ATTENDEE_LIST
-		SET STATUS = 'N'
+	<delete id="deleteAttendeeList" parameterType="string">
+		DELETE FROM ATTENDEE_LIST
 		WHERE RESERVE_NUM = #{reserveNo}
-	</update>
+	</delete>
 	<select id="selectOneReservation" parameterType="string" resultMap="ReservationResultSet">
 		SELECT 
 			A.RESERVE_NUM,
@@ -181,7 +186,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN MEETINGROOM_MANAGEMENT B ON (A.ROOM_SMALL_NO = B.ROOM_SMALL_NO)
 		JOIN MEETINGROOM_CATEGORY_LARGE C ON (B.ROOM_LARGE_NO = C.ROOM_LARGE_NO)
 		<where>
-			A.RESERVE_NUM = #{resNo}
+			A.RESERVE_NUM = ${resNo}
 		</where>
 	</select>
 	<select id="selectOneAttendee" parameterType="string" resultMap="AttendeeListResultSet">
@@ -193,6 +198,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			A.STATUS
 		FROM ATTENDEE_LIST A
 		JOIN USER_INFO B ON (A.ATTENDEE_NO = B.EMP_NO)
-		WHERE A.RESERVE_NUM = #{resNo}
+		WHERE A.RESERVE_NUM = ${resNo}
 	</select>
+	<select id="selectRoomOne" parameterType="string" resultMap="ReservationRoomResultSet">
+		SELECT 
+			A.ROOM_LARGE_NO,
+			A.ROOM_SMALL_NO,
+			B.LROOM_NAME,
+			A.SROOM_NAME,
+			A.MAX_COUNT,
+			A.STATUS
+		FROM MEETINGROOM_MANAGEMENT A 
+		JOIN MEETINGROOM_CATEGORY_LARGE B ON (A.ROOM_LARGE_NO = B.ROOM_LARGE_NO)
+		WHERE A.STATUS = 'Y'
+		AND A.ROOM_SMALL_NO = ${roomSmallNo}
+	</select>
+	<update id="updateReservation" parameterType="Reservation">
+		UPDATE RESERVE_LIST
+		SET ROOM_SMALL_NO = #{roomSmallNo},
+			START_DATE = TO_DATE(#{startDate},'YYYY-MM-DD HH24:MI'), 
+			END_DATE = TO_DATE(#{endDate},'YYYY-MM-DD HH24:MI'),
+			MEETING_NAME = #{meetingName}
+		WHERE RESERVE_NUM = #{reserveNo}
+	</update>
+ 	<insert id="insertNewAttendee" parameterType="AttendeeList">
+			INSERT INTO ATTENDEE_LIST
+			VALUES
+			(SEQ_ATTE.NEXTVAL, #{attendeeNo}, #{reserveNum}, DEFAULT)
+	</insert>
 </mapper>

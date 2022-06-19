@@ -29,6 +29,7 @@
 	    font-size: 18px;
 	    margin-right: 23px;
 	    font-weight: 600;
+	    width: 10%;
 	}
 	p.resMenu_p, .resDetail_line {
 	    margin-bottom: 20px;
@@ -58,6 +59,9 @@
 	}
 	.resDetailModal_container .resDetailCancel_btn:hover{
 		box-shadow: 0px 0px 0px 0px #d3d3d3;
+	}
+	p.resDetail_attendee {
+	    width: 85%;
 	}
 </style>
 </head>
@@ -92,18 +96,54 @@
         </div>
     </div>
   	<script>
-  		// 로그인 유저와 사번이 같으면 수정하기와 삭제하기를 보여줌
-  		$(document).on('DOMSubtreeModified', ".resDetailModal_title", function() {
-  			let loginUser = '${ loginUser.empNo }';
-  	  		let realWriter = $(".resDetailModal_body .realWriter").val()
-  	  		console.log("세션 확인 :  "+loginUser)
-  	  		console.log("찐 작성자 확인 : "+realWriter)
-  			
-  	  		if(loginUser == realWriter){
-  	  			$(".calenderModal_Footer .delete_btn").css("display","inline")
-  	  			$(".calenderModal_Footer .cal-update_btn").css("display","inline")
-  	  		}
+
+		// 로그인 유저와 사번이 같으면 수정하기와 삭제하기를 보여줌
+		$(document).on('DOMSubtreeModified', ".resDetail_attendee", function() {
+			let loginUser = '${ loginUser.empNo }';
+	  		let realWriter = $(".resDetailModal_body .realWriter").val()
+	  		console.log("세션 확인 :  "+loginUser)
+	  		console.log("찐 작성자 확인 : "+realWriter)
+			
+	  		if(loginUser == realWriter){
+	  			$(".resDetailModal_footer .resDetailDelete_btn").css("display","inline")
+	  			$(".resDetailModal_footer .resDetailEdit_btn").css("display","inline")
+	  		}
 		})
+  		// 수정하기 클릭 시 수정모달창 띄우기
+  		$(document).on('click','.resDetailEdit_btn', function() {
+			console.log("수정하기 탭")
+			
+			$('.resDetailModal_background').css("display","none");
+			myConfirm("회의실 예약 수정", "수정시 새롭게 작성해야합니다. 진행하시겠습니까?");
+			//취소할 시 
+			$(".false_btn").click(function() {
+			    $("#helpmeCOnfirm").hide();
+				$('.resDetailModal_background').css("display","flex");
+			});
+			
+			// 확인 클릭 시
+			$(".true_btn").click(function() {
+				$("#helpmeCOnfirm").hide();
+				console.log("확인 클릭함")
+				updateresGo();
+		    });
+			
+		})
+		
+		function updateresGo() {
+
+			let reserveNo = $('.resDetailModal_body .reserveNo').val() //예약번호
+			console.log(reserveNo)
+			$('.reservationEnroll_title').text("회의실 수정하기")
+			$('.PushOrUpdate').val(2)
+			$('#enrollForm-Reservation .reserveNo').val(reserveNo)
+			
+			
+			$('.reservationEnrollFormModal').css("display","flex");
+			console.log("완료")
+			
+		}
+		
   	
   		// 목록으로 클릭 시 뒤로
   		$(document).on('click','.resDetailCancel_btn', function(){

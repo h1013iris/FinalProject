@@ -96,11 +96,13 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public ArrayList<Reservation> selectRoomReservation(String startDate, String sRoom) {
+	public ArrayList<Reservation> selectRoomReservation(String startDate, String sRoom, String reserveNo) {
 		// TODO Auto-generated method stub
 		Reservation res = new Reservation();
 		Map<String, String> map = res.putMap(startDate, sRoom);
+		map.put("reserveNo", reserveNo);
 
+		System.out.println(map);
 		ArrayList<Reservation> list = reservationDao.selectRoomReservation(map, sqlSession);
 		return list;
 	}
@@ -133,6 +135,44 @@ public class ReservationServiceImpl implements ReservationService {
 	public ArrayList<AttendeeList> selectOneAttendee(String resNo) {
 		ArrayList<AttendeeList> attendeeList = reservationDao.selectOneAttendee(resNo, sqlSession);
 		return attendeeList;
+	}
+
+	@Override
+	public ArrayList<Reservation> smallRoomReservation(Member m, Map<String, Integer> todayInfo, String roomSmallNo) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		// m 객체가 null이 아니면 ( 내 예약 현황 )
+		if(m != null) {
+			map.put("empNo", m.getEmpNo());
+		}else { // null이면 ( 전체 예약 현황)
+			map.put("searchYear", todayInfo.get("searchYear"));
+			map.put("searchMonth", todayInfo.get("searchMonth"));
+			map.put("searchDate", todayInfo.get("searchDate"));
+		}
+		map.put("roomSmallNo", Integer.parseInt(roomSmallNo));
+		
+		ArrayList<Reservation> list = reservationDao.smallRoomReservation(map, sqlSession);
+		return list;
+	}
+
+	@Override
+	public ArrayList<ReservationRoom> selectRoomOne(String roomSmallNo) {
+		ArrayList<ReservationRoom> roomList = reservationDao.selectRoomOne(roomSmallNo, sqlSession);
+		return roomList;
+	}
+
+	@Override
+	public int updateReservation(Reservation reservation) {
+		int result = reservationDao.updateReservation(reservation, sqlSession);
+		return result;
+	}
+
+	@Override
+	public int insertNewAttendee(ArrayList<AttendeeList> list) {
+		// TODO Auto-generated method stub
+		int result = reservationDao.insertNewAttendee(list, sqlSession);
+		
+		return result;
 	}
 
 }

@@ -139,6 +139,8 @@
             <div class="modal_body reservationEnroll_body">
 				<form  name="enrollFormReservation" id="enrollForm-Reservation" action="insertReservation.do" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="empNo" value="${ loginUser.empNo }">
+					<input type="hidden" class="PushOrUpdate" value="1">
+					<input type="hidden" class="reserveNo" value="0"/>
 					<table class="reservation-table">
 						<tr class="reservation-article">
 							<td class="article-in-option">회의실 선택</td>
@@ -213,15 +215,15 @@
 			console.log(val+" "+ name)
 			
 			let maxcount = $(".res-smallCategory").text()
-			maxcount = maxcount.substring(maxcount.length-3).replace("명)","");
+			maxcount = maxcount.trim()//.substring(maxcount.length-4, maxcount.length)
 			console.log(maxcount)
-			console.log($('.resname-padding').length)	
-			// 만약 회의실 안원 수를 넘으면 return false;
-			if($('.resname-padding').length+1 > maxcount){
+			
+			if(maxcount == "선택"){
 				$("#res-alert_title .title_name").text("회의실 예약 인원");
-				$("#res-alert_body .res-alert_content").text("회의실 예약인원이 최대 입니다.");
+				$("#res-alert_body .res-alert_content").text("회의실 선택을 먼저 진행해주세요.");
 				$(".reservationEnrollFormModal").hide();
 				$("#res-alertBackground").show();
+				return false;
 			}
 			
 			if(!$(".resname-padding").hasClass(name)){

@@ -215,7 +215,11 @@
         </div>
     </div> 
     <script>
-    
+	 	// 일정 추가하기 페이지 이름
+		$(function(){
+	         $(".page_title>.title_name").text("일정 수정하기");
+		})
+	 	
 		// 수정하기 버튼 클릭시 내용 확인
 		$('.insert-calender').on('click', function(){
 			let checkform = document.enrollFormSchedule;

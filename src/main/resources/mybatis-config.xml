@@ -31,7 +31,6 @@
   		<typeAlias type="com.uni.spring.approval.model.dto.BusCoopForm" alias="BusCoopForm"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.AprvStatus" alias="AprvStatus"/>
   		<typeAlias type="com.uni.spring.approval.model.dto.DocType" alias="DocType"/>
-
   		<!--  게시글 -->
   		<typeAlias type="com.uni.spring.board.model.dto.Board" alias="Board"/>
   		<typeAlias type="com.uni.spring.board.model.dto.coment" alias="coment"/>

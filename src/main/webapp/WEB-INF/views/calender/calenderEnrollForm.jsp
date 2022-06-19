@@ -145,5 +145,11 @@
         </div>
     </div> 
     <script src="${ pageContext.servletContext.contextPath }/resources/js/calender/calenderEnroll.js"></script>
+    <script>
+	 	// 일정 추가하기 페이지 이름
+		$(function(){
+	         $(".page_title>.title_name").text("일정 추가하기");
+		})
+    </script>
 </body>
 </html>

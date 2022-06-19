@@ -22,7 +22,7 @@
 	<jsp:include page="../mypage/workRequestModal.jsp"/>
 	<jsp:include page="../mypage/empSearchModal.jsp"/>
 	<jsp:include page="../depart/InfoDepN.jsp"/>
-	
+	<jsp:include page="../reservation/reservationDetailModal.jsp"></jsp:include>
 	
 	<header id="main_header">
 	    <div class="logo_header">
@@ -335,6 +335,16 @@
 	</aside>
 	
 	<script type="text/javascript">
+	
+	$(document).on('click','.reservationRoom-smallList',function(){
+		console.log("a태그 누름")
+		console.log($(this).children("input").val())
+		let val = $(this).children("input").val()
+		$(this).attr("href","smallRoomReservation.do?roomSmallNo="+val)
+		
+	})
+	
+	
 	$(document).ready(function(){
 		
 		console.log("탐탐탐")
@@ -387,29 +397,33 @@
 					$.each(list, function(index, val){
 						
 						let largeNo = val.roomLargeNo;
-						let lRoom = val.lRoomName;
-						let sRoom = val.sRoomName;
-						let max = val.maxCount;
+						let smallNo = val.roomSmallNo;
+						let lRoom = val.largeRoomName;
+						let sRoom = val.smallRoomName;
+						let max = "("+val.maxCount+"명)";
 						
 
 						let mli = $("<li>").addClass("reservationRoom-bigMiddel-List")
 						let p = $("<p>").addClass("reservation-middle")
 						let sli = $("<a>").addClass("reservationRoom-smallList")
+						let hid = $("<input>").attr("type","hidden")
 						
 						
-						// 큰 ul에 대분류 넣기
 						bul.append(mli)
+						// 큰 ul에 대분류 넣기
 						if(bul.find("#"+lRoom).attr('id') != lRoom){
 							// id를 담고
 							mli.attr("id", lRoom);
 							// 대분류 룸명을 담음
 							p.append(lRoom)
 							mli.append(p).append(sli)
-							sli.append(sRoom).append(" - ").append(max)
+							hid.val(smallNo)
+							sli.append(sRoom).append(" - ").append(max).append(hid)
 							
 						}else{
 							$("#"+lRoom).append(p).append(sli)
-							sli.append(sRoom).append(" - ").append(max)
+							hid.val(smallNo)
+							sli.append(sRoom).append(" - ").append(max).append(hid)
 							bul.append(mli)
 						}
 					});
