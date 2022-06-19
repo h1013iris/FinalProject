@@ -29,12 +29,23 @@ body, div, ul, li {
 ul, li {
 	list-style: none;
 }
+* {
+	margin: 0;
+	padding: 0;
+}
 
+#main{
+display: grid;
+  place-items: center;
+  height: 100vh;
+}
 /*tab css*/
 .tab {
-	margin: auto;
+	margin-bottom: 400px;
 	width: 500px;
 	height: 300px;
+	position: left 50%; top: 50%;
+    
 }
 
 .tabnav {
@@ -43,45 +54,32 @@ ul, li {
 
 .tabnav li {
 	display: inline-block;
-	width: 200px;
-	height: 40px;
+	width: 190px;
+	height: 50px;
 	text-align: center;
-	border-right: 1px solid #ddd;
-}
-
-.tabnav li a:before {
-	content: "";
-	left: 0;
-	top: 0px;
-	width: 100%;
-	height: 3px;
 }
 
 .tabnav li a {
 	position: relative;
-	border: #0bffff solid;
+	border: #85cdff solid;
 	display: block;
 	background: #fff;
 	color: rgb(0, 0, 0);
-	padding: 5px;
-	border-top-left-radius: 15px;
-	border-top-right-radius: 15px;
+	padding: 15px;
+	border-top-left-radius: 25px;
+	border-top-right-radius: 25px;
 	text-decoration: none;
 	font-size: 15px;
 }
 
 .tabnav li a:hover, .tabnav li a.active {
-	line-height: 50px;
 	background: #85cdff;
 	color: #fff;
-	border-top-left-radius: 15px;
-	border-top-right-radius: 15px;
 }
 
 .tabcontent {
 	padding: 50px;
-	height: 200px;
-	border: 1px solid #ddd;
+	height: 150px;
 	border-top: none;
 	text-align: left;
 }
@@ -111,6 +109,41 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	-webkit-appearance: none;
 	margin: 0;
 }
+::placeholder{
+font-size:2px;
+text-align: center;
+}
+
+/*팀에서 공동 선택한 버튼디자인*/
+.commonButton1 {
+	padding: 0;
+	font-weight: 600;
+	text-align: center;
+	line-height: 30px;
+	color: #FFF;
+	border-radius: 5px;
+	transition: all 0.2s;
+	background: #85cdff;
+	border: #85cdff;
+	box-shadow: 0px 5px 0px 0px #4c87b099;
+	width: 100px;
+	margin: 0px;
+}
+
+.commonButton1:hover {
+	position: relative;
+	top: 5px;
+	bottom: 5px;
+	box-shadow: 0px 0px 0px 0px #4c87b099;
+}
+
+  #logo{
+    width:480px;
+    text-align: center; 
+    margin-bottom: 50px;
+            
+        }
+
 </style>
 	<script>
 		$(function() {
@@ -127,7 +160,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	alert ${msg};
 </script>
 <body>
+	<div id="main">
 	<div class="tab">
+	<div><a href="login.do"><img src=resources/images/member/nobackLogo.png alt="메인으로 이동" id="logo"/></a></div>
+	
 		<ul class="tabnav">
 			<li><a href="#tab01">아이디찾기</a></li>
 			<li><a href="#tab02">비밀번호 찾기</a></li>
@@ -156,18 +192,18 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						<tr>
 							<td>생년월일</td>
 							<td><input type="number" class="input" name="userNo"
-								placeholder="생년월일 6자리를 입력해주세요" maxlength="6"></td>
+								placeholder="생년월일 6자리를 입력해주세요"  maxlength="6"></td>
 							<td></td>
 						</tr>
 						<tr>
 							<td>이메일</td>
-							<td><input type="email" class="input" name="email"
+							<td><input type="email" class="input" name="email" 
 								placeholder="가입당시 이메일을 입력해주세요"></td>
 							<td></td>
 						</tr>
 					</table>
 					<div class="btn">
-						<input type="submit" value="아이디찾기">
+						<input type="submit" value="아이디찾기" class="commonButton1">
 					</div>
 
 				</form>
@@ -213,12 +249,13 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 					</table>
 					<div class="btn">
-						<input type="submit" id="findPw" disabled value="비밀번호 찾기">
+						<input type="submit" id="findPw" disabled value="비밀번호 찾기" class="commonButton1">
 					</div>
 				</form>
 			</div>
 		</div>
 		<div class="out"></div>
+	</div>
 	</div>
 	<!--tab-->
 	<script>

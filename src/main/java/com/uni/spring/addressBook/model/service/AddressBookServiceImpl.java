@@ -218,9 +218,14 @@ public class AddressBookServiceImpl implements AddressBookService {
 		Map<String, Object> pavoMap = new HashMap<String, Object>();
 		pavoMap.put("ckEmpNo",ckEmpNo);
 		pavoMap.put("empNo", empNo);
-		int a= addressBookDao.insertPavoAdd(sqlSession, pavoMap);
-		System.out.println("즐겨찾기 추가 결과는? "+a);
-		return a;
+		int uCount=0;
+		int count=0;
+		uCount=addressBookDao.selectUserCount(sqlSession,pavoMap);
+		if(uCount<1){
+		count= addressBookDao.insertPavoAdd(sqlSession,pavoMap);
+		System.out.println("즐겨찾기 추가 결과는? "+count);
+		}
+		return count;
 	}
 
 	//즐겨찾기 기능 추가하기
@@ -228,6 +233,23 @@ public class AddressBookServiceImpl implements AddressBookService {
 	public ArrayList<WideMember> selectFavoAdd(String empNo) {
 		// TODO Auto-generated method stub
 		return addressBookDao.selectFavoAdd(sqlSession, empNo);
+	}
+
+	//즐겨찾기 추가되어있는지 조회
+	@Override
+	public ArrayList<WideMember> selectEmpNoChList(int empNo) {
+		// TODO Auto-generated method stub
+		return addressBookDao.selectEmpNoChList(sqlSession, empNo);
+	}
+
+	//메인주소록에서 즐겨찾기 삭제
+	@Override
+	public int deletePavoAdd(String empNo, String ckEmpNo) {
+		// TODO Auto-generated method stub
+		Map<String, Object> delpavoMap =new HashMap<String, Object>();
+		delpavoMap.put("empNo", empNo);
+		delpavoMap.put("ckEmpNo",ckEmpNo);
+		return addressBookDao.deletePavoAdd(sqlSession,delpavoMap);
 	}
 
 

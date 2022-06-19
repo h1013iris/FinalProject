@@ -68,9 +68,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 }
 </style>
 </head>
-
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">	
 <body>
-
+	<jsp:include page="../common/alert.jsp"/>
+	<jsp:include page="../common/confirm.jsp"/>
 	<div id="container">
 		<div id="empNo">
 			<form action="updateNewMember.do" method="post">
@@ -85,13 +86,16 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			</form>
 		</div>
 	</div>
-<script type="text/javascript"> 
-	var msg = '${msg}';
-		if(msg)
-		{
-		alert(msg);
+	<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
+	
+	<script type="text/javascript">
+		
+		var msg = '${msg}';
+		if(msg){
+		//alert(msg);
+		myAlert("사번확인",msg);
 		}
-</script>
+	</script>
 </body>
 
 </html>

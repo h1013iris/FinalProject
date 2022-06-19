@@ -43,12 +43,12 @@
             <a href="empNo.do">회원가입</a>
         </div> 
         </div>
-        <script type="text/javascript"> 
-        var msg = '${msg}';
-		if(msg)
-		{
-			alert(msg);
+	<script type="text/javascript">		
+		var msg = '${msg}';
+		if(msg){
+		alert(msg); 
 		}
 	</script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 </body>
 </html>

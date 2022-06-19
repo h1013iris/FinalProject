@@ -11,18 +11,47 @@
  #leftTitle{
  float: left;}
  
+  .cusFA{
+ background-color: #d3edff;
+ width: 130px;
+ height:30px;
+ border-radius:10px;
+ margin-bottom: 5px;
+ cursor:pointer;
+ border-color: #fff;
+ }
+ 
+ 
+ .cusF{
+ background-color: #d3edff;
+ width: 110px;
+ height:30px;
+ border-radius:10px;
+ margin-bottom: 5px;
+ cursor:pointer;
+ border-color: #fff;
+ }
+  .cusFA:hover{
+  background-color: #407ca7;
+  color: #fff;
+ }
+  .cusF:hover{
+  background-color: #407ca7;
+  color: #fff;
+ }
+ 
 </style>
 
 <!-- 전체주소록 조회 + 폴더 조회 하나로 컨트롤러에서 가져오기? -->
 <body>
 <div id = "leftTitle">
 <form action="custoAdd.do" method="get">
-<span><input type="submit" value="전체조회"></span><br>
+<input type="submit" value="전체조회" class="cusFA"><br>
 </form>
 
 <form action="selectSearchCustoFolList" method="post">
 <c:forEach items="${cusFolList}" var="cusF">
-<span class="comF" ><input type="submit" name= "inFolder" value="${cusF.inFolder}"></span><br>
+<input type="submit" name= "inFolder" value="${cusF.inFolder}" class="cusF"><br>
 </c:forEach>
 </form>
 </div> 

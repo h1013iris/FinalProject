@@ -87,6 +87,12 @@ public interface AddressBookService {
 
 	//즐겨찾기리스트 조회하기
 	ArrayList<WideMember> selectFavoAdd(String empNo);
+
+	//메인주소록 가기전 즐겨찾기 추가되어있는 사번들 조회
+	ArrayList<WideMember> selectEmpNoChList(int empNo);
+
+	//즐겨찾기에서 삭제
+	int deletePavoAdd(String empNo, String ckEmpNo);
 	
 
 

@@ -21,12 +21,16 @@
 	align-items: center;
 }
 
-.main {
-	width: 500px;
-	margin: 0 auto;
-	text-align: center;
-	border: solid 1px;
-}
+   .main{
+      width: 400px;
+      height:400px;
+        margin:0 auto;
+        text-align: center;
+        border: solid #85cdff 3px; 
+        border-top-left-radius: 150px;
+        border-bottom-right-radius: 150px;
+        padding-top: 30px;
+    }
 
 .main2 {
 	margin: 0 auto;
@@ -38,9 +42,14 @@
 	margin-bottom: 20px;
 }
 
-textarea {
-	resize: none;
-}
+    textarea{
+    resize: none;
+    margin-top: 5px;
+   
+    }
+    .inputBox{
+    width: 180px;
+    }
 </style>
 
 
@@ -54,48 +63,48 @@ textarea {
 					<c:forEach items="${comDetail}" var="comD">
 						<tr>
 							<td>폴더명</td>
-							<td><input type="text" name="inFolder"
+							<td><input type="text" name="inFolder" class="inputBox"
 								value="${comD.inFolder}" readonly></td>
 
 						</tr>
 
 						<tr>
 							<td>회사명</td>
-							<td><input type="text" name="comNm" value="${comD.comNm }"
+							<td><input type="text" name="comNm" value="${comD.comNm }" class="inputBox"
 								readonly></td>
 						</tr>
 						<tr>
 							<td>사업자번호</td>
-							<td><input type="text" name="comNo" value="${comD.comNo }"
+							<td><input type="text" name="comNo" value="${comD.comNo }" class="inputBox"
 								readonly></td>
 						</tr>
 						<tr>
 							<td>대표번호</td>
-							<td><input type="text" name="comTel" value="${comD.comTel }"
+							<td><input type="text" name="comTel" value="${comD.comTel }" class="inputBox"
 								readonly></td>
 						</tr>
 						<tr>
 							<td>대표명</td>
-							<td><input type="text" name="comCeo" value="${comD.comCeo }"
+							<td><input type="text" name="comCeo" value="${comD.comCeo }" class="inputBox"
 								readonly></td>
 						</tr>
 						<tr>
 							<td>담당자</td>
-							<td><input type="text" name="comPix" value="${comD.comPix }"
+							<td><input type="text" name="comPix" value="${comD.comPix }" class="inputBox"
 								readonly></td>
 						</tr>
 						<tr>
 							<td>휴대폰</td>
-							<td><input type="text" name="comPhone"
+							<td><input type="text" name="comPhone" class="inputBox"
 								value="${comD.comPhone }" readonly></td>
 						</tr>
 						<tr>
 							<td>이메일</td>
-							<td><input type="text" name="comEmail"
+							<td><input type="text" name="comEmail" class="inputBox"
 								value="${comD.comEmail }" readonly></td>
 						<tr>
 							<td>기타</td>
-							<td><textarea name="comMemo" class="inputlo" rows="5"
+							<td><textarea name="comMemo" class="inputBox"" rows="5"
 									maxlength="50" readonly>${comD.comMemo }</textarea></td>
 						</tr>
 						<input type="hidden" id="compNo" name="compNo"
