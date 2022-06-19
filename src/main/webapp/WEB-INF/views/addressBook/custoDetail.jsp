@@ -19,11 +19,14 @@
     }
 
     .main{
-      width: 500px;
+      width: 400px;
+      height:400px;
         margin:0 auto;
         text-align: center;
-        border: solid 1px; 
-        
+        border: solid #85cdff 3px; 
+        border-top-left-radius: 150px;
+        border-bottom-right-radius: 150px;
+        padding-top: 30px;
     }
     
     .main2{
@@ -35,8 +38,18 @@
         margin-top: 20px;
         margin-bottom: 20px;
     }
-      textarea{
+      #buttonLine{
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+  
+    textarea{
     resize: none;
+    margin-top: 5px;
+   
+    }
+    .inputBox{
+    width: 180px;
     }
 </style>
 <body>
@@ -49,39 +62,39 @@
        <c:forEach items="${custoDetail}" var="cusD">
             <tr>
                 <td>폴더명</td>
-             	<td><input type="text" name="inFolder" value="${cusD.inFolder}" readonly></td>
+             	<td><input type="text" name="inFolder" value="${cusD.inFolder}" class="inputBox" readonly></td>
     	        
 	    		</tr>
                	<tr> 
                     <td>회사명</td>
-                    <td><input type="text"  name="comNm" value="${cusD.comNm }" readonly></td>
+                    <td><input type="text"  name="comNm" value="${cusD.comNm }" class="inputBox" readonly></td>
                 </tr>
                 <tr>
                     <td>사업자번호</td>
-                    <td><input type="text" name="comNo" value="${cusD.comNo }" readonly></td>
+                    <td><input type="text" name="comNo" value="${cusD.comNo }" class="inputBox" readonly></td>
                 </tr>
                 <tr>
                     <td>대표번호</td>
-                    <td><input type="text" name="comTel" value="${cusD.comTel }" readonly></td>
+                    <td><input type="text" name="comTel" value="${cusD.comTel }" class="inputBox" readonly></td>
                 </tr>
                 <tr>
                     <td>대표명</td>
-                    <td><input type="text" name="comCeo" value="${cusD.comCeo }" readonly></td>
+                    <td><input type="text" name="comCeo" value="${cusD.comCeo }" class="inputBox" readonly></td>
                 </tr>
                 <tr>
                     <td>담당자</td>
-                    <td><input type="text" name="comPix" value="${cusD.comPix }" readonly></td>
+                    <td><input type="text" name="comPix" value="${cusD.comPix }" class="inputBox" readonly></td>
                 </tr>
                 <tr>
                     <td>휴대폰</td>
-                    <td><input type="text" name="comPhone" value="${cusD.comPhone }" readonly></td>
+                    <td><input type="text" name="comPhone" value="${cusD.comPhone }" class="inputBox" readonly></td>
                 </tr>
                 <tr>
                     <td>이메일</td>
-                    <td><input type="text" name="comEmail" value="${cusD.comEmail }" readonly></td>
+                    <td><input type="text" name="comEmail" value="${cusD.comEmail }" class="inputBox" readonly></td>
                 <tr>
                     <td>기타</td>
-                    <td><textarea name="comMemo" class="inputlo" rows="5"  maxlength="50" readonly>${cusD.comMemo }</textarea></td>
+                    <td><textarea name="comMemo" rows="5"  maxlength="50" class="inputBox" readonly>${cusD.comMemo }</textarea></td>
                 </tr>
                 <input type="hidden" id="cusNo" name="cusNo" value="${cusD.cusNo}">  
                 <input type="hidden" name="empNo" value="${cusD.empNo}"> 

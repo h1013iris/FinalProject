@@ -40,18 +40,34 @@ table {
 	margin-right: auto;
 }
 
-#listAdd {
-	border: 1px solid;
+#listMain{
+	height:400px;
+	overflow-y: scroll;
 }
 
-#listAdd td {
-	border: 1px solid;
-	padding: 10px 5px;
+.sc::-webkit-scrollbar{
+display: none;
 }
 
-#listAdd th {
+.listAdd {
+	margin: 0;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
 	border: 1px solid;
-	padding: 10px 5px;
+	
+}
+
+.listAdd td {
+	border: 1px solid;
+	padding: 5px 10px;
+	width: 200px;
+}
+
+.listAdd th {
+	border: 1px solid;
+	padding: 5px 10px;
+	width: 200px;
 }
 
 .a {
@@ -64,6 +80,28 @@ table {
 
 #a {
 	border-style: solid 1px;
+}
+#searchDiv{
+margin: 50px;
+}
+.searchText{
+width:300px;
+height: 30px;
+text-align: center;
+border: solid #85cdff 2px; 
+border-radius: 5px;
+}
+.deptN{
+width:100px;
+height:30px;
+background-color: #d3edff;
+border: solid 0px;
+text-align: center;
+border-radius: 30px;
+}
+
+.trSt:hover{
+background-color: #d3edff;
 }
 
 /*팀에서 공동 선택한 버튼디자인*/
@@ -88,6 +126,11 @@ table {
 	bottom: 5px;
 	box-shadow: 0px 0px 0px 0px #4c87b099;
 }
+input:focus {
+outline:none;
+}
+
+
 </style>
 
 	<div class="main_section">
@@ -96,14 +139,7 @@ table {
 
 			<div id="container">
 				<div id="main">
-					<form action="deptAddSearch.do" method="post">
-						<div id="searchDiv">
-							<input type="text"	name="search"> <input type="submit" value="검색" />
-							<!-- 얘는 나중에 hidden으로 숨기기 -->
-							<input type="text" value="${dept.departmentTitle}"
-								name="departmentTitle" />
-						</div>
-					</form>
+					
 				</div>
 			</div>
 
@@ -124,11 +160,18 @@ table {
 				</c:forEach>
 
 			</div>
-
+			<form action="deptAddSearch.do" method="post">
+						<div id="searchDiv">
+							<input type="text"	name="search" class="searchText"> <input type="submit" value="검색" />
+							<!-- 검색창에 보일 부서명 -->
+							<input type="text" readonly="readonly" value="${dept.departmentTitle}"
+								name="departmentTitle" class="deptN"/>
+						</div>
+					</form>
 
 			<!--부서별 주소록 내용이 표시될곳-->
 			<div id="addcon">
-				<table id="listAdd">
+				<table class="listAdd">
 					<tr>
 						<th>이름</th>
 						<th>부서명</th>
@@ -136,8 +179,11 @@ table {
 						<th>이메일</th>
 						<th>휴대폰</th>
 					</tr>
+					</table>
+					<div id="listMain" class="sc">
+					<table class="listAdd">
 					<c:forEach items="${deptList}" var="deptAdd">
-						<tr>
+						<tr class="trSt">
 							<td>${deptAdd.empName}</td>
 							<td>${deptAdd.departmentTitle}</td>
 							<td>${deptAdd.jobName}</td>
@@ -147,13 +193,20 @@ table {
 					</c:forEach>
 				</table>
 			</div>
+			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
+		
 		var msg = '${msg}';
-		if (msg) {
-			alert(msg);
+		var msgTitle = '${msgTitle}';
+		if(msg && msgTitle){
+		myAlert(msgTitle,msg); 
 		}
+		
+		$(function(){
+	        $(".page_title>.title_name").text("부서별 주소록");
+	     })
 	</script>
 </body>
 </html>

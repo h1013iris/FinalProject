@@ -36,17 +36,9 @@
 }
 
 #left {
-	width: 30%
-}
-
-td, th {
-	border: 1px solid black;
-	width: 300px;
-}
-
-table {
-	margin: 0;
-	text-align: center;
+	width: 30%;
+	margin-left: 50px;
+	
 }
 
 .a {
@@ -57,6 +49,46 @@ table {
 	height: 30px;
 	text-align: center;
 }
+
+.listAdd {
+	margin: 0;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid;
+	
+}
+
+.listAdd td {
+	border: 1px solid;
+	padding: 5px 10px;
+	width: 200px;
+}
+
+.listAdd th {
+	border: 1px solid;
+	padding: 5px 10px;
+	width: 200px;
+}
+#listMain{
+	height:200px;
+	overflow-y: scroll;
+	margin-bottom: 50px;
+}
+
+.sc::-webkit-scrollbar{
+display: none;
+}
+
+#btnT{
+margin:50px;
+}
+
+.trSt:hover{
+background-color: #d3edff;
+cursor: pointer;
+}
+
 /*팀에서 공동 선택한 버튼디자인*/
 .commonButton1 {
 	padding: 0;
@@ -83,11 +115,12 @@ table {
 	<div class="main_section">
 		<div id="container">
 
+		<div id="btnT">
 			<button type="button" class="commonButton1"
 				onclick="location.href='comAdd.do'">거래처주소록</button>
 			<button type="button" class="commonButton1"
 				onclick="location.href='custoAdd.do'">고객주소록</button>
-
+		</div>
 			<!--고객 주소록 폴더들 표시될곳-->
 			<div id="left">
 
@@ -96,30 +129,38 @@ table {
 			<!--고객 주소록 내용이 표시될곳-->
 			<div id="main">
 				<div id="addcon">
-					<table>
+				
+					<table class="listAdd">
 						<tr>
 							<th>회사명</th>
 							<th>휴대폰</th>
 							<th>이메일</th>
-							<th>기타</th>
-
+							<th style="width:300px">기타</th>
 						</tr>
+						</table>
+						<div id="listMain" class="sc">
+						<table class="listAdd">
 						<c:forEach items="${custoList}" var="cus">
-							<tr>
-								<td><a href="custoDetailView.do?cusNo=${cus.cusNo}">${cus.comNm}</a></td>
+							<tr class="trSt" onclick="location.href='custoDetailView.do?cusNo=${cus.cusNo}'">
+								<td>${cus.cusNo}</td>
 								<td>${cus.comPhone}</td>
 								<td>${cus.comEmail}</td>
-								<td>${cus.comMemo}</td>
+								<td style="width:300px">${cus.comMemo}</td>
 							</tr>
 						</c:forEach>
 					</table>
+					</div>
 					<form action="cusAddWriter.do" method="post">
-						<input type="submit" value="고객등록">
+						<input type="submit" id="cusAddWriter" value="고객등록"/>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-
+<script type="text/javascript">
+$(function(){
+    $(".page_title>.title_name").text("고객 주소록");
+ })
+</script>
 </body>
 </html>

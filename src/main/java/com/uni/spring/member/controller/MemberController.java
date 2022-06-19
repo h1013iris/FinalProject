@@ -84,12 +84,11 @@ public class MemberController {
 		
 			model.addAttribute("m", m);
 			model.addAttribute("msg","사번이 확인 되었습니다.");
-		
+			return "member/updateNewMember";
 		}else if(m==null) {
 			model.addAttribute("msg","사번을 다시 확인해주세요");
-			return "member/empNo";
-			}
-		return "member/updateNewMember";
+		}
+		return "member/empNo";
 	}
 	
 	
@@ -213,7 +212,7 @@ public class MemberController {
 		//return "member/findId";
 		if(msg!=null){
 			model.addAttribute("msg","아이디는 "+msg+" 입니다");
-		}
+			}
 		else if(msg==null || msg.equals("")){
 			model.addAttribute("msg","아이디 찾기 정보를 다시 확인해주세요");
 		}
@@ -322,7 +321,7 @@ public class MemberController {
 		//System.out.println("result:" + result);
 		if(result > 0) {
 			model.addAttribute("msg","비밀번호가 변경되었습니다");
-		}else {
+			}else {
 			model.addAttribute("msg","문제가 생겼습니다 다시 시도해주시길 바랍니다");
 			return "findIdPw";
 		}

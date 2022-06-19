@@ -19,6 +19,11 @@
 	margin: 0;
 	padding: 0;
 }
+
+html{
+overflow-y: scroll;
+}
+
 #container {
 	height: 100vh;
 	display: flex;
@@ -30,17 +35,31 @@
 	text-align: center;
 }
 
-td, th {
-	border: 1px solid black;
-	width: 300px;
-}
 
-table {
+.listAdd {
 	margin: 0;
 	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid;
 	
 }
 
+.listAdd td {
+	border: 1px solid;
+	padding: 5px 10px;
+	width: 200px;
+}
+
+.listAdd th {
+	border: 1px solid;
+	padding: 5px 10px;
+	width: 200px;
+}
+#listMain{
+	height:200px;
+	overflow-y: scroll;
+}
 .a {
 	width: 200px;
 	display: inline-block;
@@ -50,23 +69,37 @@ table {
 	text-align: center;
 }
 .boxAddList{
-	height:300px;
-	border: 1px solid black;
-	width:1100px;
+	height:350px;
 	margin-bottom:30px;
 	margin-left: auto;
 	margin-right: auto;
 	
 }
-.buttonDiv{
-	
-	}
+
 .boxTitle{
 	width:400px;
 	font-size: 20px;
 	margin: auto;
+	height: 50px;
+	background-color: #85cdff;
+	text-align: center;
+	color: #fff;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	line-height: 50px;
+	border-radius: 20px;
+}
+.sc::-webkit-scrollbar{
+display: none;
 }
 
+.buttonDiv{
+margin-top: 50px;
+}
+
+.trSt:hover{
+background-color: #d3edff;
+}
 </style>
 
 	<div class="main_section">
@@ -74,27 +107,31 @@ table {
 			<div id="addcon">
 				<div class="boxAddList">
 					<form>
-						<div class="boxTitle">거래처 주소록 임시보관함 입니다</div>
-
-						<table>
+						<div class="boxTitle">거래처 주소록 임시보관함</div>
+						
+						<table class="listAdd">
 							<tr>
-								<th></th>
+								<th style="width: 50px"></th>
 								<th>회사명</th>
 								<th>휴대폰</th>
 								<th>이메일</th>
-								<th>기타</th>
+								<th style="width:300px">기타</th>
 							</tr>
+							</table>
+							<div id="listMain" class="sc">
+							<table class="listAdd">
 							<c:forEach items="${comBoxList}" var="com">
-								<tr>
-									<td><input type="checkbox" name="compNo"
+								<tr class="trSt">
+									<td style="width: 50px"><input type="checkbox" name="compNo"
 										value="${com.compNo}" id="compNo"></td>
 									<td>${com.comNm}</td>
 									<td>${com.comPhone}</td>
 									<td>${com.comEmail}</td>
-									<td>${com.comMemo}</td>
+									<td style="width:300px">${com.comMemo}</td>
 								</tr>
 							</c:forEach>
 						</table>
+						</div>
 					<div class="buttonDiv">
 					<button type="button" class="deleteComBox"
 					onclick="ComBox(1)">삭제</button>
@@ -106,27 +143,31 @@ table {
 
 					<div class="boxAddList">
 					<form>
-						<div class="boxTitle">고객 주소록 임시보관함 입니다</div>
-
-						<table>
+						<div class="boxTitle">고객 주소록 임시보관함</div>
+						
+						<table class="listAdd">
 							<tr>
-								<th></th>
+								<th style="width: 50px"></th>
 								<th>회사명</th>
 								<th>휴대폰</th>
 								<th>이메일</th>
-								<th>기타</th>
+								<th style="width:300px">기타</th>
 							</tr>
+							</table>
+							<div id="listMain" class="sc">
+							<table class="listAdd">
 							<c:forEach items="${custoBoxList}" var="custo">
-								<tr>
-									<td><input type="checkbox" name="cusNo"
+								<tr class="trSt">
+									<td style="width: 50px"><input type="checkbox" name="cusNo"
 										value="${custo.cusNo}" id="cusNo"></td>
 									<td>${custo.comNm}</td>
 									<td>${custo.comPhone}</td>
 									<td>${custo.comEmail}</td>
-									<td>${custo.comMemo}</td>
+									<td style="width:300px">${custo.comMemo}</td>
 								</tr>
 							</c:forEach>
 						</table>
+						</div>
 						<div class="buttonDiv">
 						<button type="button" class="custoBox" onclick="CustoBox(1)">삭제</button>
 						<button type="button" onclick="CustoBox(2)" id="custoBack">복원</button>
@@ -239,6 +280,10 @@ table {
 			})
 		}
 	}
+		
+		$(function(){
+	        $(".page_title>.title_name").text("임시보관함");
+	     });
 	</script>
 </body>
 

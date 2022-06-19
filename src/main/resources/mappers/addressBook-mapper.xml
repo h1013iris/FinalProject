@@ -423,12 +423,39 @@
  	FROM USER_INFO A 
     LEFT JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO = B.JOB_NO
     LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.DEPARTMENT_NO = C.DEPARTMENT_NO 
-									WHERE EMP_NO = (SELECT EMP_NO
+									WHERE EMP_NO IN (SELECT EMP_OTHERNO
 									                  	FROM PAVO_ADD
 									                   	WHERE BM_LOOK ='Y'
-									                   	AND EMP_NO=#{empNo})
+									                   	AND EMP_NO =#{empNo})
+	]]>
+	</select>
+	
+	<select id="selectUserCount" parameterType="hashMap" resultType="_int">
+	 <![CDATA[
+		SELECT COUNT(*)
+		FROM PAVO_ADD
+		WHERE EMP_NO=${empNo}
+		AND EMP_OTHERNO=${ckEmpNo}
 	]]>
 	</select>
 	
 	
+	<!-- 메인주소록 갈때 즐겨찾기 추가되어있는 사번 조회 -->
+	<select id="selectEmpNoChList" resultType="WideMember">
+  <![CDATA[
+SELECT EMP_NO
+FROM USER_INFO
+            WHERE EMP_NO IN ((SELECT EMP_OTHERNO
+                        	FROM PAVO_ADD
+                        	WHERE EMP_NO=#{empNo}))
+      ]]>
+	</select>
+	
+	<!-- 즐겨찾기 주소록  삭제하기 -->
+   <delete id="deletePavoAdd" parameterType="hashMap">
+ 	DELETE PAVO_ADD
+	WHERE EMP_NO=#{empNo}
+	AND EMP_OTHERNO=#{ckEmpNo}
+ 	
+	</delete>
 </mapper>
