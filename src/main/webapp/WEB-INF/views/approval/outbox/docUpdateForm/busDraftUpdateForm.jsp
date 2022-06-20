@@ -109,9 +109,9 @@
 													1차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input type="hidden" id="firstAprv" name="firstAprv" value="" required/>
-													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly required/>
-													<input class="fix_input approverJop" id="firstAprvJob" value="" readonly/>
+													<select class="approverList" id="firstAprv" name="firstAprv">
+														<option value="">선택</option>
+													</select>
 												</td>
 											</tr>
 											<tr>
@@ -119,9 +119,9 @@
 													2차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input type="hidden" id="secondAprv" name="secondAprv" value=""/>
-													<input class="fix_input approverName" id="secondAprvName" name="secondAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="secondAprvJob" value="" readonly/>
+													<select class="approverList" id="secondAprv" name="secondAprv">
+														<option value="">선택</option>
+													</select>
 												</td>
 											</tr>
 										</tbody>
@@ -209,13 +209,13 @@
 				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
 				$("#dftDate").val(today);				
 		 		
-				selectDeptFn(); // 기안자 부서 가져오는 함수
-		 		
- 	 			selectApproverFn(); // 결재자 조회하는 함수
+				selectDeptFn(); 			// 기안자 부서 가져오는 함수
  	 			
- 	 			selectDeptListFn(); // 부서 리스트 조회하는 함수
+ 	 			selectDeptListFn(); 		// 부서 리스트 조회하는 함수
  	 			
-		 		selectBusDraftOutboxFn(); // 기존 내용 조회
+ 	 			selectApproverFn(); 		// 결재자 조회하는 함수
+ 	 			
+		 		selectBusDraftOutboxFn(); 	// 기존 내용 조회
 		 		
 			}
 			
@@ -280,7 +280,6 @@
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.drafterDept);
 					$("#dftDate").val(data.dftDate);
-					//$("#docNo").val(data.docNo);
 					$("#enfDate").val(data.enfDate);
 					$("#coopDept").val(data.coopDept);
 					$("#docTitle").val(data.docTitle);
@@ -288,72 +287,58 @@
 					$("#outboxNo").text(data.outboxNo);
 					
 					// 문서 번호가 없으면
-					if(data.docNo == 0) {
+					if(data.docNo == null) {
 						$("#docNo").val("");
+						selectApproverFn(); // 문서 등록 시 결재자 조회하는 함수
+					
 					} else {
 						$("#docNo").val(data.docNo);
+						
+						// 결재자 조회
+				 		$.ajax({
+				 			
+				 			type: "post",
+		 	                url: "selectCancleDocApprover.do",
+		 	                data: { docNo : data.docNo },
+		 	                success: function (data) {
+								console.log(data);
+		 	                	if(data != null) {
+		 	                		
+		 	                		$("#firstAprv").val(data.firstAprv);
+		 	                		$("#secondAprv").val(data.secondAprv);
+		 	                		$(".approverList").attr("disabled", "true");
+		 	                	}
+		 	                }
+				 		});
 					}
-					
-					// 문서 번호가 존재하지 않으면 -> 처음 등록 시 임시 저장한 경우
-			 		if($("#docNo").val() == null || $("#docNo").val() == "") {
-			 			selectApproverFn(); // 문서 등록 시 결재자 조회하는 함수
-			 			
-			 		} else {
-			 			aprvCancleDocApproverFn();	// 결재 취소한 문서의 결재자 조회하는 함수
-			 		}
 				}
 			});
  		}
+
  		
- 		
- 		// 결재 취소한 문서의 결재자 조회하는 함수
- 		function aprvCancleDocApproverFn() {
- 			
- 			$.ajax({
-	 			
-	 			type: "post",
-                url: "selectDocApprover.do",
-                data: { docNo : $("#docNo").val() },
-                success: function (data) {
-				console.log(data);
-                	if(data != null) {
-                		
-                		$("#firstAprvName").val(data.firstAprv);
-                		$("#firstAprvJob").val(data.firstJob);
-                		$("#secondAprvName").val(data.secondAprv);
-                		$("#secondAprvJob").val(data.secondJob);
-                	}
-                }
-	 		});
- 		}
- 		
- 		
- 		// 등록 시 임시저장한 문서 결재자 조회하는 함수
+ 		// 결재자 조회하는 함수
  		function selectApproverFn() {
  			
- 			// 결재선 조회
-	 		$.ajax({
-	 			
-	 			type: "post",
-                url: "selectDeptApprover.do",
-                data: { deptNo : "${ loginUser.departmentNo }",
-                		jobNo : "${ loginUser.jobNo }"},
-                success: function (list) {
-				console.log(list);
+ 			// 결재자 조회
+ 			$.ajax({
+ 				
+ 				type: "post",
+ 				url: "selectDocEnrollApprover.do",
+ 				data: { empNo :  "${ loginUser.empNo }",
+ 						departmentNo : "${ loginUser.departmentNo }",
+ 						jobNo : "${ loginUser.jobNo }" },
+ 				success: function(list) {
+ 					console.log(list);
                 	if(list != null || list != "") {
                 		
-                		$("#firstAprvName").val(list[0].empName);
-                		$("#firstAprv").val(list[0].empNo);
-                		$("#firstAprvJob").val(list[0].jobName);
+                		$.each(list, function(i) {
+                			$(".approverList").append("<option value='" + list[i].empNo + "'>" 
+           								  		+ list[i].empName + " / " + list[i].jobName + "</option>");
+                		});
                 	}
-                	
-                	if(list.length == 2) {
-                		$("#secondAprvName").val(list[1].empName);
-                		$("#secondAprv").val(list[1].empNo);
-                		$("#secondAprvJob").val(list[1].jobName);
-                	}
-                }
-	 		});
+ 				}
+ 				
+ 			});
  		}
  		
  		
@@ -382,11 +367,19 @@
  		// 결재 요청 버튼 클릭 시
 		$(".docSubmit_btn").click(function() {
 			
+			let firstAprv = $("#firstAprv").val();
 			let enfDate = $("#enfDate").val();
 			let coopDept = $("#coopDept").val();
 			let dftContent = $("#dftContent").val();
 			
-			if(enfDate == null || enfDate == "") {
+			if(firstAprv == null || firstAprv == "") {
+
+				let focus="#firstAprv";
+				
+				myAlert("문서 작성 확인", "결재자를 선택해주세요.");
+				focusFn(focus);
+ 				
+ 			} else if(enfDate == null || enfDate == "") {
 				
 				let title = "문서 작성 확인";
 				let content = "시행일을 선택해주세요.";

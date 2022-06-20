@@ -89,6 +89,10 @@
 		padding: 5px;
 	}
 	
+	.approverList {
+		width: 100%;
+	}
+	
 </style>
 </head>
 <body>

@@ -251,7 +251,10 @@
          })
 
      })();
-
+	  
+	  $(function(){
+	         $(".page_title>.title_name").text("게시글 수정");
+	      })
 </script>
 </body>
 </html>

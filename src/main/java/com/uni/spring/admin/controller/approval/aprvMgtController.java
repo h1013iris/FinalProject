@@ -1,6 +1,11 @@
 package com.uni.spring.admin.controller.approval;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,7 +52,9 @@ public class aprvMgtController {
 	// 문서 보안 요청 리스트
 	@ResponseBody
 	@RequestMapping(value="docScrtyRequestList.do", produces="application/json; charset=utf-8")
-	public String selectScrtyReqList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage) {
+	public Map<String, Object> selectScrtyReqList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage) {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
 		
 		int listCount = aprvMgtService.scrtyReqListCount();
 		
@@ -55,7 +62,45 @@ public class aprvMgtController {
 				
 		ArrayList<AprvDoc> list = aprvMgtService.selectScrtyReqList(pi);
 		
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+		// SimpleDateformat 으로 날짜 형식
+	    for(int i = 0; i < list.size(); i++) {
+	         
+	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		         
+	    	// java.util.Date 선언
+	    	java.util.Date date = new java.util.Date();
+			 
+	    	try {
+	    		// Date 형식으로 지정해준 건가?
+	    		date = sdf.parse(list.get(i).getDraftDate());
+	    	} catch (ParseException e) {
+	    		e.printStackTrace();
+	    	}
+	 
+	    	date = new Date(date.getTime());   // util.Date 를 sal.Date로 변환
+	    	String dftDate = sdf.format(date);   // sdf 형식 지정
+	    	list.get(i).setDraftDate(dftDate);   // set 해주기
+	    	
+	    	try {
+	           date = sdf.parse(list.get(i).getProDate());
+	        } catch (ParseException e) {
+	           e.printStackTrace();
+	        }
+	        
+	        date = new Date(date.getTime());   // util.Date 를 sal.Date로 변환
+	        String proDate = sdf.format(date);   // sdf 형식 지정
+	        list.get(i).setProDate(proDate);   // set 해주기
+	    }
+	    
+	    System.out.println(list);
+		  
+	    result.put("list", list);
+		result.put("currentPage",  pi.getCurrentPage());
+		result.put("startPage",  pi.getStartPage());
+		result.put("endPage",  pi.getEndPage());
+		result.put("maxPage",  pi.getMaxPage());
+
+        return result;
 	}
 	
 	
@@ -107,15 +152,56 @@ public class aprvMgtController {
 	// 보안 처리된 문서 리스트
 	@ResponseBody
 	@RequestMapping(value="scrtyDocList.do", produces="application/json; charset=utf-8")
-	public String selectScrtyDocList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage) {
+	public Map<String, Object> selectScrtyDocList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage,
+								AprvDoc aprvDoc) {
 		
-		int listCount = aprvMgtService.scrtyDocListCount();
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		int listCount = aprvMgtService.scrtyDocListCount(aprvDoc);
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		
-		ArrayList<AprvDoc> list = aprvMgtService.selectScrtyDocList(pi);
+		ArrayList<AprvDoc> list = aprvMgtService.selectScrtyDocList(pi, aprvDoc);
 		
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
+		// SimpleDateformat 으로 날짜 형식
+		for(int i = 0; i < list.size(); i++) {
+     
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+ 
+			// java.util.Date 선언
+			java.util.Date date = new java.util.Date();
+ 
+			try {
+				// Date 형식으로 지정해준 건가?
+				date = sdf.parse(list.get(i).getDraftDate());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+ 
+			date = new Date(date.getTime());   	// util.Date 를 sal.Date로 변환
+			String dftDate = sdf.format(date);  // sdf 형식 지정
+			list.get(i).setDraftDate(dftDate);  // set 해주기
+			
+			try {
+				date = sdf.parse(list.get(i).getProDate());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+ 
+			date = new Date(date.getTime());   // util.Date 를 sal.Date로 변환
+			String proDate = sdf.format(date); // sdf 형식 지정
+			list.get(i).setProDate(proDate);   // set 해주기
+		}
+  
+		System.out.println(list);
+  
+		result.put("list", list);
+		result.put("currentPage",  pi.getCurrentPage());
+		result.put("startPage",  pi.getStartPage());
+		result.put("endPage",  pi.getEndPage());
+		result.put("maxPage",  pi.getMaxPage());
+
+		return result;
 	}
 	
 	

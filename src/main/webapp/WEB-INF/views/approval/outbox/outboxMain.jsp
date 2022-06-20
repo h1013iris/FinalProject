@@ -8,12 +8,8 @@
 <style type="text/css">
 	
 	.mainDiv {
-		padding: 100px;
+		padding: 50px 100px 80px 100px;
 		text-align: center;
-	}
-	
-	.main_section {
-		/*border: 1px solid black;*/
 	}
 	
 	.outBoxList_area {
@@ -27,7 +23,6 @@
 	.outBoxList_table>tbody>tr:hover {
 		background: rgb(174, 217, 248);
 		box-shadow: 0 0 8px #4c87b099;
-		
 		cursor: pointer;
 	}
 	
@@ -39,8 +34,20 @@
 	.outBoxList_table td {
 		border-top: 1px solid darkgray;
 		padding: 15px;
-		
 	}
+	
+	/* 말줄임표 CSS */
+	.outBoxList_table .outBoxList_tbody td {
+       	white-space: nowrap;
+       	text-overflow: ellipsis;
+       	overflow: hidden;
+	}
+	
+	/*.docTitleOver {
+		white-space: nowrap;
+       	text-overflow: ellipsis;
+       	overflow: hidden;
+	}*/
 	
 	.outBoxList_table th {
 		padding: 15px;
@@ -55,44 +62,141 @@
 	.noOutBoxList {
 		color: blue;
 	}
+		
+	.filter_dropdown, .filter_initialize {
+		margin: 5px 10px;
+		position: relative;
+		display: inline-block;
+		border: none;
+		cursor: pointer;
+	}
+	
+	.initialize_btn {
+		content: '';
+  		display: block;
+		border: none;
+		border-radius: 4px;
+		background-color: #85d0ff;
+		width: 120px;
+		padding: 7px 0;
+		font-size: 15px;
+	}
+	
+	.dropdown_btn {
+		content: '';
+  		display: block;
+		border: none;
+		border-radius: 4px;
+		background-color: #bce7ff;
+		width: 120px;
+		padding: 7px 0;
+		font-size: 15px;
+	}
+	
+	.docFormDefault { width: 200px; }
+	
+	.dropdown_content {
+		display: none;
+		border-radius: 4px;
+		position: absolute;
+		background-color: #bce7ff;
+		box-shadow: 0 8 10 6 rgba(0, 0, 0, 0.2);
+		width: 100%;
+		top: 40px;
+	}
+	
+	.dropdown_content li {
+		color: black;
+		padding: 8px;
+		text-decoration: none;
+		display: block;
+	}
+	
+	.dropdown_content li:hover { 
+		background-color: #6ab6e4;
+		border-radius: 4px;
+		color: white;
+	}
+	
+	.filter_initialize:hover .initialize_btn {
+		background-color: #6ab6e4;
+		color: white;
+	}
+	
+	.filter_dropdown:hover .dropdown_content { display: block; }
+		
+	.filter_dropdown:hover .dropdown_btn { 
+		background-color: #6ab6e4;
+		color: white;
+	}
+	
+	.docSearch_area {
+		display: flex;
+		padding: 10px 0 15px 0;
+	}
+	
+	.search_div {
+		display: flex;
+		margin: 0 5px;
+		padding: 5px 0;
+	}
+	
+	.search_div input {
+		border: 1px solid;
+		margin-top: 2px;
+		padding: 5px 10px;
+		font-size: 15px;
+		border-radius: 4px;
+		border: 1px solid #93bedc;
+		box-shadow: 2px 2px 2px #93bedc;
+	}
+	
+	.search_div input:focus {
+		outline: none;
+		border: 1px solid #93bedc;
+		box-shadow: 2px 2px 2px #93bedc;
+	}
+	
+	.search_div img {
+		padding: 7px;
+	}
 	
 	.pagingArea {
-		/*border: 1px solid black;*/
-		width: fit-content;
-		padding-top: 35px;
-	}
-    /* #pagingArea a{color:black} */
-	
-	.pagingBtn {
-		width: 30px;
-		height: 45px;
-	}
-	
-	.searchArea {
-		/*border: 1px solid black;*/
+		width: 100%;
+		display: flex;
+		text-align: center;
 		padding-top: 35px;
 	}
 	
-	.searchBtn {
-		width: 60px;
-		height: 45px;
+	.pagingArea ul {
+		list-style: none;
+	    margin: 0;
+	    padding: 0;
 	}
 	
-	#condition {
-		width: 100px;
-		font-size: 15px;
+	.pagingArea li {
+		margin: 5px;
+	    padding: 0;
+	    border : 0;
+	    float: left;
+	    cursor: pointer;
 	}
 	
-	#search {
-		width: 300px;
-		margin: 0 10px 0 10px;
+	.page-item, .page-num {
+		width: 40px;
+		height: 40px;
+		line-height: 40px !important;
 	}
 	
-	#condition, #search {
-		border-radius: 5px;
-		height: 30px;
-		font-size: 15px;
+	.disabled {
+		background-color: #b3ddff !important;
+		box-shadow: 0px 5px 0px 0px #97c1e2 !important;
 	}
+	
+	.disabled:hover {
+		box-shadow: 0px 0px 0px 0px #97c1e2 !important;
+	}
+	
 
 </style>
 
@@ -103,6 +207,35 @@
 	
 	<div class="main_section">
         <div class="mainDiv">
+        
+        	<div class="docSearch_area">
+        		<div class="filter_initialize">
+	        		<button class="initialize_btn">검색 초기화</button>
+        		</div>
+        		
+        		<div class="filter_dropdown">
+	        		<button class="dropdown_btn docFormDefault">문서 유형</button>
+	        		<ul class="dropdown_content docFormfilter">
+	        			<li>전체</li>
+	        			<%-- 문서 유형 출력 --%>
+	        		</ul>
+        		</div>
+        		
+        		<div class="filter_dropdown">
+        			<button class="dropdown_btn conditionDefault">검색 조건</button>
+        			<ul class="dropdown_content conditionfilter">
+	        			<li>문서 번호</li>
+	        			<li>제목</li>
+	        			<li>내용</li>
+	        		</ul>
+        		</div>
+        		
+        		<div class="search_div">
+        			<div class="searchInput_div"><input id="search" name="search"/></div>
+        			<div class="searchImg_div"><img src="https://img.icons8.com/material/24/000000/search--v1.png"></div>
+        		</div>
+        	</div>
+        	
 			<div class="outBoxList_area">
 				<table class="outBoxList_table">
 					<colgroup>
@@ -134,24 +267,6 @@
 					<%-- 페이징바 들어갈 부분 --%>
 				</ul>
 			</div>
-	          
-	           
-	       	<%-- 검색창 --%>
-	       	<div class="searchArea">
-	       		<%-- 검색하기 버튼 클릭 시 검색 서블릿으로 넘어가도록 --%>
-			   	<form class="searchForm" action="" method="get">
-			   		<%-- 각 메뉴에 맞는 문서들만 조회하기 위해 히든으로 구분해서 넘기기 --%>
-			   		<input type="hidden" name="" value=""/>
-			        <select id="condition" name="condition">
-			        	<option>검색 조건</option>
-			           	<option value="docNo">문서 번호</option>
-	        			<option value="docType">문서 유형</option>
-	        			<option value="docTitle">제목</option>
-			        </select>
-			        <input type="search" id="search" name="search" maxlength="100">
-			        <button class="commonButton1 searchBtn" type="button">검색</button>
-			  	</form>
-	       	</div>
 	       	
 		</div>
     </div>
@@ -169,28 +284,31 @@
 			
 			} else {
 				
-				outboxListFn();
+				docTypeListFn(); 	// 문서 타입 리스트 조회해서 li에 넣는 함수 실행
+				
+				outboxListFn();		// 리스트 조회
 			}
 
 		});
 		
 		
 		// 리스트 조회하는 함수
-		function outboxListFn() {
+		/*function outboxListFn(num) {
 			
 			$.ajax({
 				
 				type: "post",
                 url: "selectOutboxList.do",
-                data: { empNo : "${ loginUser.empNo }" },
-                success: function (list) {
+                data: { drafter : "${ loginUser.empNo }",
+						currentPage : num },
+                success: function (result) {
 					
-                	console.log(list)
+                	console.log(result)
                 	
                 	$tbody = $('.outBoxList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(result.list.length == 0) {
                 		
                 		var $noListTh = $("<th colspan='6'>").text("임시 보관 중인 문서가 존재하지 않습니다.").addClass("noOutBoxList");
                 		var $noListTr = $('<tr>').append($noListTh);
@@ -199,7 +317,7 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(result.list, function(i, obj) {
                 			
                 			var $tr = $('<tr>');
                 			var $docOutboxNo = $('<td>').text(obj.docOutboxNo);
@@ -225,27 +343,233 @@
                 			
                 			$tbody.append($tr);
                 		});
+                		
+                		// 페이징 처리
+                        let bar = '';
+                        let currentPage = result.currentPage;	// 현재 페이지
+                        let startPage = result.startPage;		// 시작 페이지
+                        let endPage = result.endPage; 			// 끝 페이지
+                        let maxPage = result.maxPage; 			// 최대 페이지
+                        
+                        bar += '<ul class="pagination">';
+                        
+                        if(currentPage != 1) {
+                        	bar += '<li class="page-item commonButton1" onclick="outboxListFn(' + parseInt(currentPage-1) + ');"><</li>'
+                        
+                        } else {
+                        	bar += '<li class="page-item disabled commonButton1"><</li>'
+                        }
+                            
+                        for(var i = startPage; i <= endPage; i++) {
+                           
+                        	if(i != currentPage) {
+                        	   bar += '<li class="page-num commonButton1" onclick="outboxListFn(' + i + ');">'+ i +'</li>'
+                           
+                           } else {
+                        	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
+                           }
+                        }
+                             
+                       	if(currentPage != maxPage) {
+                            bar += '<li class="page-item commonButton1" onclick="outboxListFn(' + parseInt(currentPage+1) + ');">></li>'
+                        
+                       	} else {
+                        	bar += '<li class="page-item disabled commonButton1">></li>'
+                        }
+                             
+                        bar += '</ul>';
+                            
+                        $(".pagingArea").html(bar);
+                	}
+                }
+			});
+		}*/
+		
+		
+		// 문서 타입 리스트 조회해서 li에 넣는 함수
+		function docTypeListFn() {
+			
+			$.ajax({
+				
+				type: "post",
+				url: "selectDocTypeList.do",
+				success: function(list) {
+					
+					if(list != null || list != "") {
+                		
+                		let value = "";
+                		
+                		$.each(list, function(i) {
+                			value += "<li>" + list[i].docForm
+                					+ "<input type='hidden' value='" + list[i].docTypeNo  + "'/>"
+                					+ "</li>"
+                		});
+                		
+                		$(".docFormfilter").append(value);
+                	}
+				}
+			});
+		}
+		
+		
+		// 초기화 버튼 클릭 시
+		$(document).on("click", ".initialize_btn", function() {
+			outboxListFn();
+			$(".docFormDefault").text("문서 유형");
+			$(".conditionDefault").text("검색 조건");
+			$("#search").val("");
+		});
+		
+		
+		// 문서 유형
+		$(".docFormfilter").on("click", "li", function() {
+			
+			// 각 필터와 검색어 변수에 담기
+			let docForm = $(this).text();
+			let condition = $(".conditionDefault").text();
+			let search = $("#search").val();
+			
+			// 버튼 text 변경
+			$(".docFormDefault").text(docForm);
+			
+			// 필터 및 검색어에 따른 리스트 조회
+			outboxListFn(docForm, condition, search);
+			
+		});
+		
+		
+		// 검색 조건
+		$(".conditionfilter").on("click", "li", function() {
+			
+			let condition = $(this).text();
+			
+			// 버튼 text 변경
+			$(".conditionDefault").text(condition);
+		});
+		
+		
+		// 검색어
+		$(".search_div").on("click", ".searchImg_div", function() {
+			
+			// 각 필터와 검색어 변수에 담기
+			let docForm = $(".docFormDefault").text();
+			let condition = $(".conditionDefault").text();
+			let search = $("#search").val();
+			
+			// 필터 및 검색어에 따른 리스트 조회
+			outboxListFn(docForm, condition, search);
+			
+		});
+		
+		
+		// 필터 및 검색 내용에 따른 리스트 조회
+		function outboxListFn(docForm, condition, search, num) {
+			
+			console.log(docForm);
+			console.log(condition);
+			console.log(search);
+			
+			$.ajax({
+				
+				type: "post",
+                url: "selectOutboxList.do",
+                data: { drafter : "${ loginUser.empNo }",
+						docForm : docForm,
+						condition : condition,
+						search : search,
+						currentPage : num },
+                success: function (result) {
+					
+                	console.log(result)
+                	
+                	$tbody = $('.outBoxList_tbody'); // 리스트가 들어갈 tbody
+                	$tbody.html('');
+                	
+                	if(result.list.length == 0) {
+                		
+                		var $noListTh = $("<th colspan='6'>").text("검색 조건에 해당하는 문서가 존재하지 않습니다.").addClass("noOutBoxList");
+                		var $noListTr = $('<tr>').append($noListTh);
+                		
+						$tbody.append($noListTr);
+                	
+                	} else {
+						
+                		$.each(result.list, function(i, obj) {
+                			
+                			var $tr = $('<tr>');
+                			var $docOutboxNo = $('<td>').text(obj.docOutboxNo);
+                			var $docForm = $('<td>').text(obj.docForm).attr("title", obj.docForm);
+                			
+                			// 문서 번호 없는 경우 문서 유형으로 넣어주기
+                			if(obj.docTitle != null) {
+                				var $docTitle = $('<td>').text(obj.docTitle).addClass("docTitleOver").attr("title", obj.docTitle);
+                			
+                			} else {
+                				var $docTitle = $('<td>').text(obj.docForm).attr("title", obj.docForm);
+                			}
+                			
+                			var $drafter = $('<td>').text(obj.drafter).attr("title", obj.drafter);
+                			var $lastUdpDate = $('<td>').text(obj.lastUpdateDate).attr("title", obj.lastUpdateDate);
+                			
+                			$tr.append($docOutboxNo);
+                			$tr.append($docForm);
+                			$tr.append($docTitle);
+                			$tr.append($drafter);
+                			$tr.append($lastUdpDate);
+                			
+                			$tbody.append($tr);
+                		});
+                		
+                		// 페이징 처리
+                        let bar = '';
+                        let currentPage = result.currentPage;	// 현재 페이지
+                        let startPage = result.startPage;		// 시작 페이지
+                        let endPage = result.endPage; 			// 끝 페이지
+                        let maxPage = result.maxPage; 			// 최대 페이지
+                        
+                        bar += '<ul class="pagination">';
+                        
+                        if(currentPage != 1) {
+                        	bar += '<li class="page-item commonButton1" onclick="outboxListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
+                        
+                        } else {
+                        	bar += '<li class="page-item disabled commonButton1"><</li>'
+                        }
+                            
+                        for(var i = startPage; i <= endPage; i++) {
+                           
+                        	if(i != currentPage) {
+                        	   bar += '<li class="page-num commonButton1" onclick="outboxListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
+                           
+                           } else {
+                        	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
+                           }
+                        }
+                             
+                       	if(currentPage != maxPage) {
+                            bar += '<li class="page-item commonButton1" onclick="outboxListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
+                        
+                       	} else {
+                        	bar += '<li class="page-item disabled commonButton1">></li>'
+                        }
+                             
+                        bar += '</ul>';
+                            
+                        $(".pagingArea").html(bar);
                 	}
                 }
 			});
 		}
 		
-	
 		// 게시글 클릭 시
-		$(".outBoxList_table tbody").on("click", "tr", (function() {
+		$(".outBoxList_table tbody").on("click", "tr", function() {
 			
 			let outboxNo = $(this).find("td:eq(0)").text(); // 클릭한 문서의 문서 번호 가져와서 담기
 			console.log(outboxNo);
 			
 			location.href = "outboxDetail.do?outboxNo=" + outboxNo;
-		}));
+		});
 		
-		
-		$(".searchBtn").click(function() {
-			
-		})
-		
-	
 	</script>
 
 	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>

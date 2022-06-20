@@ -164,6 +164,8 @@
 			
 			} else {
 				
+				selectApproverFn();	// 결재자 조회
+				
 				$(".returnReasonArea").hide(); // 반려 문서 관련 div 숨기기
 				
 				let aprvStatus = ${ aprvStatus };
@@ -181,6 +183,37 @@
 				}
 			}
 		});
+    	
+    	
+    	// 결재자 조회
+    	function selectApproverFn() {
+    		
+	 		$.ajax({
+	 			
+	 			type: "post",
+                url: "selectDocApprover.do",
+                data: { docNo : ${ docNo } },
+                success: function (list) {
+					console.log(list);
+					if(list != null) {
+						for(var i in list) {
+							if(list[i] != null) {
+								$("#aprv" + i).val(list[i].empNo);
+								$("#aprvName" + i).val(list[i].empName);
+								$("#aprvJobName" + i).val(list[i].jobName);
+							}
+						}
+						/*$("#firstAprv").val(list[0].empNo);
+						$("#firstAprvName").val(list[0].empName);
+						$("#firstAprvJob").val(list[0].jobName);
+						$("#secondAprv").val(list[1].empNo);
+						$("#secondAprvName").val(list[1].empName);
+						$("#secondAprvJob").val(list[1].jobName);
+	                	}*/
+	                }
+		 		}
+	 		});
+    	}
     	
     	
     	

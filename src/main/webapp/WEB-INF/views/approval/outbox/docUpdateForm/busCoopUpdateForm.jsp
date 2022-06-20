@@ -8,8 +8,8 @@
 <title>업무 협조문</title>
 <style type="text/css">
 	
-	.formMainArea {
-		/*text-align: center;*/
+	.cancelDocApprover {
+		display: none;
 	}
 	
 </style>
@@ -114,9 +114,11 @@
 													1차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input type="hidden" id="firstAprv" name="firstAprv" value="" required/>
-													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly required/>
-													<input class="fix_input approverJop" id="firstAprvJob" value="" readonly/>
+													<select class="approverList" id="firstAprv" name="firstAprv">
+														<option value="">선택</option>
+													</select>
+													<input class="fix_input approverName cancelDocApprover" id="firstAprvName" name="firstAprvName" value="" readonly/>
+													<input class="fix_input approverJop cancelDocApprover" id="firstAprvJob" value="" readonly/>
 												</td>
 											</tr>
 											<tr>
@@ -124,9 +126,11 @@
 													2차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input type="hidden" id="secondAprv" name="secondAprv" value=""/>
-													<input class="fix_input approverName" id="secondAprvName" name="secondAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="secondAprvJob" value="" readonly/>
+													<select class="approverList" id="secondAprv" name="secondAprv">
+														<option value="">선택</option>
+													</select>
+													<input class="fix_input approverName cancelDocApprover" id="firstAprvName" name="firstAprvName" value="" readonly/>
+													<input class="fix_input approverJop cancelDocApprover" id="firstAprvJob" value="" readonly/>
 												</td>
 											</tr>
 										</tbody>
@@ -206,13 +210,10 @@
 				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
 				$("#dftDate").val(today);				
 		 		
-				selectDeptFn(); // 기안자 부서 가져오는 함수
-		 		
- 	 			selectApproverFn(); // 결재자 조회하는 함수
- 	 			
- 	 			selectDeptListFn(); // 부서 리스트 조회하는 함수
- 	 			
-		 		selectBusCoopOutboxFn(); // 기존 내용 조회
+				selectDeptFn(); 			// 기안자 부서 가져오는 함수
+ 	 			selectApproverFn(); 		// 결재자 조회하는 함수
+ 	 			selectDeptListFn(); 		// 부서 리스트 조회하는 함수
+		 		selectBusCoopOutboxFn(); 	// 기존 내용 조회
 			}	
 		});
 		
@@ -275,26 +276,36 @@
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.drafterDept);
 					$("#dftDate").val(data.dftDate);
-					//$("#docNo").val(data.docNo);
 					$("#receiveDept").val(data.receiveDept);
 					$("#docTitle").val(data.docTitle);
 					$("#coopContent").val(data.coopContent);
 					$("#outboxNo").text(data.outboxNo);
 					
 					// 문서 번호가 없으면
-					if(data.docNo == 0) {
+					if(data.docNo == null) {
 						$("#docNo").val("");
+						selectApproverFn(); // 결재자 조회하는 함수
+						
 					} else {
 						$("#docNo").val(data.docNo);
+						
+						// 결재자 조회
+				 		$.ajax({
+				 			
+				 			type: "post",
+		 	                url: "selectCancleDocApprover.do",
+		 	                data: { docNo : data.docNo },
+		 	                success: function (data) {
+								console.log(data);
+		 	                	if(data != null) {
+		 	                		
+		 	                		$("#firstAprv").val(data.firstAprv);
+		 	                		$("#secondAprv").val(data.secondAprv);
+		 	                		$(".approverList").attr("disabled", "true");
+		 	                	}
+		 	                }
+				 		});
 					}
-					
-					// 문서 번호가 존재하지 않으면 -> 처음 등록 시 임시 저장한 경우
-			 		if($("#docNo").val() == null || $("#docNo").val() == "") {
-			 			selectApproverFn(); // 문서 등록 시 결재자 조회하는 함수
-			 			
-			 		} else {
-			 			aprvCancleDocApproverFn();	// 결재 취소한 문서의 결재자 조회하는 함수
-			 		}
 				}
 			});
  		}
@@ -303,68 +314,45 @@
  		// 결재자 조회하는 함수
  		function selectApproverFn() {
  			
- 			// 결재선 조회
-	 		$.ajax({
-	 			
-	 			type: "post",
-                url: "selectDeptApprover.do",
-                data: { deptNo : "${ loginUser.departmentNo }",
-                		jobNo : "${ loginUser.jobNo }"},
-                success: function (list) {
-				console.log(list);
+ 			// 결재자 조회
+ 			$.ajax({
+ 				
+ 				type: "post",
+ 				url: "selectDocEnrollApprover.do",
+ 				data: { empNo : "${ loginUser.empNo }",
+ 						departmentNo : "${ loginUser.departmentNo }",
+ 						jobNo : "${ loginUser.jobNo }" },
+ 				success: function(list) {
+ 					console.log(list);
                 	if(list != null || list != "") {
                 		
-                		$("#firstAprvName").val(list[0].empName);
-                		$("#firstAprv").val(list[0].empNo);
-                		$("#firstAprvJob").val(list[0].jobName);
+                		$.each(list, function(i) {
+                			$(".approverList").append("<option value='" + list[i].empNo + "'>" 
+           								  		+ list[i].empName + " / " + list[i].jobName + "</option>");
+                		});
                 	}
-                	
-                	if(list.length == 2) {
-                		$("#secondAprvName").val(list[1].empName);
-                		$("#secondAprv").val(list[1].empNo);
-                		$("#secondAprvJob").val(list[1].jobName);
-                	}
-                }
-	 		});
- 		}
-		
- 		
- 		// 등록 시 임시저장한 문서 결재자 조회하는 함수
- 		function selectApproverFn() {
- 			
- 			// 결재선 조회
-	 		$.ajax({
-	 			
-	 			type: "post",
-                url: "selectDeptApprover.do",
-                data: { deptNo : "${ loginUser.departmentNo }",
-                		jobNo : "${ loginUser.jobNo }"},
-                success: function (list) {
-				console.log(list);
-                	if(list != null || list != "") {
-                		
-                		$("#firstAprvName").val(list[0].empName);
-                		$("#firstAprv").val(list[0].empNo);
-                		$("#firstAprvJob").val(list[0].jobName);
-                	}
-                	
-                	if(list.length == 2) {
-                		$("#secondAprvName").val(list[1].empName);
-                		$("#secondAprv").val(list[1].empNo);
-                		$("#secondAprvJob").val(list[1].jobName);
-                	}
-                }
-	 		});
+ 				}
+ 				
+ 			});
  		}
  		
 		
 		// 결재 요청 버튼 클릭 시
 		$(".docSubmit_btn").click(function() {
 			
+			let firstAprv = $("#firstAprv").val();
 			let receiveDept = $("#receiveDept").val();
 			let coopContent = $("#coopContent").val();
+			let docNo = $("#docNo").val();
 			
-			if(receiveDept == null || receiveDept == "") {
+			if(firstAprv == null || firstAprv == "") {
+
+				let focus="#firstAprv";
+				
+				myAlert("문서 작성 확인", "결재자를 선택해주세요.");
+				focusFn(focus);
+			
+			} else if(receiveDept == null || receiveDept == "") {
 				
 				let title = "문서 작성 확인";
 				let content = "협조 부서를 선택해주세요.";
@@ -406,7 +394,7 @@
 		function busCoopEnrollFn() {
 			
 			// 폼의 모든 데이터 저장해서 변수로 선언
- 			let form = $(".docEnrollForm").serialize();
+ 			let form = $(".docUpdateForm").serialize();
  			form += "&outboxNo=" + ${ outboxNo } + "&docType=" + ${ docForm };
  			
 			let url = "";
@@ -420,6 +408,19 @@
  				url = "aprvReRequest.do";
  			}
  			
+ 			let firstAprv = $("#firstAprv").val();
+			let receiveDept = $("#receiveDept").val();
+			let coopContent = $("#coopContent").val();
+			let docNo = $("#docNo").val();
+			
+ 			console.log(url);
+ 			console.log(firstAprv);
+ 			console.log(secondAprv);
+ 			console.log(receiveDept);
+ 			console.log(coopContent);
+ 			console.log(docNo);
+ 			console.log(form);
+ 			
 			$.ajax({
 				
 				type: "post",
@@ -429,19 +430,13 @@
                		console.log(result)
                 	
                    	if(result == "success") {
-					
-                   		let title = "결재 요청 확인";
-                    	let content = "결재가 성공적으로 요청되었습니다.";
                     	
-                    	myAlert(title, content);
+                    	myAlert("결재 요청 확인", "결재가 성공적으로 요청되었습니다.");
                     	resultFn();
 	           	 		
                     } else {
                     	
-                    	let title = "결재 요청 확인";
-                    	let content = "결재 요청에 실패하였습니다.";
-                    	
-                    	myAlert(title, content);
+                    	myAlert("결재 요청 확인", "결재 요청을 실패하였습니다.");
                     	resultFn();
                		}
                 }
@@ -462,7 +457,7 @@
     		$.ajax({
     			
     			type: "post",
-    			url: "oboxAprvReqBusCoop.do",
+    			url: "updateBusCoop.do",
     			data: form,
     			success: function(result) {
     				console.log(result);

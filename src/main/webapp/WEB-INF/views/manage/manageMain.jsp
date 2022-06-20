@@ -320,11 +320,11 @@
 	.haphfb{
 		display: flex;
 	}
-	.happyhlist{
+	.happyhlist, .listVa{
 		height: 14.5vh;
 		overflow-y : scroll;
 	}
-	.happyhlist::-webkit-scrollbar{
+	.happyhlist::-webkit-scrollbar, .listVa::-webkit-scrollbar{
     	display: none;
 	}
 	.noInfo{
@@ -371,6 +371,24 @@
 	}
 	.inputNUMBER{
 		display: flex;
+	}
+	.vacationdiv, .vacationListDiv{
+		display: flex;
+	}
+	.vacationdiv div{
+		border: 1px solid darkgray;
+	    flex: 1 1 13%;
+	    height: 3vh;
+	    background-color: lightgray;
+	    text-align: center;
+	    line-height: 3vh;
+	}
+	.vacationListDiv div{
+		border: 1px solid darkgray;
+		flex: 1 1 13%;
+	    height: 3vh;
+	    text-align: center;
+	    line-height: 3vh;
 	}
 </style>
 </head>
@@ -522,9 +540,25 @@
 								<!-- 디폴트 -->
 								<div><input type="text" class="inputSearchMane defalutDepart1 defalutDepart42 defualtthree"></div>
 								<div><input type="text" placeholder="숫자만 입력해주세요" class="inputSearchMane defalutDepart1 defalutDepart45 defualtfour" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></div>
-								<div class="divImgWri"><img src="https://img.icons8.com/material/24/000000/search--v1.png"></div>
+								<div class="divImgWri vacationSearchBu"><img src="https://img.icons8.com/material/24/000000/search--v1.png"></div>
 							</div>
 		        			<div><a class="vacationLIstetc">>더보기</a></div>
+		        		</div>
+		        		<div class="vacationdiv">
+		        			<div>이름</div>
+		        			<div>총연차</div>
+		        			<div>사용 연차</div>
+		        			<div>잔여 연차</div>
+		        		</div>
+		        		<div class="vacationmainDiv listVa">
+		        			<c:forEach items="${vi}" var="vi">
+		        				<div class="vacationListDiv">
+		        					<div>${vi.empName}</div>
+		        					<div>${vi.totTyear}</div>
+		        					<div>${vi.useDayoff}</div>
+		        					<div>${vi.totDayoff}</div>
+		        				</div>
+		        			</c:forEach>
 		        		</div>
 					</div>
 				</div>
@@ -684,6 +718,7 @@
 			
 		}
 		function titleD(deptNo, deptTitle, num, ord, searchli){
+			if(num ==1){
 			var ordq = $(".searchFilterL1").text();
 			if(ord != 0){
 				if(ordq =='검색'){
@@ -705,7 +740,6 @@
 				type:"get",
 				data:{dep:deptTitle, depNo:deptNo, ord:ordq, searchli:searchli},
 				success:function(list){
-					console.log("성공")
 					$tableBody = $(' .happyhlist');
 					$tableBody.html('');
 					if(list.length ==0){
@@ -736,18 +770,71 @@
 							$(".defualttwo").val('');
 						})
 					}
-					if(num ==1){
-						$(".divPartSerTdiv23").text(deptTitle);
-						$(".deptTitleNo1").val(deptNo);
-						$(".departTitleListone").hide();	
-					}else if(num ==2){
-						$(".divPartSerTdiv24").text(deptTitle);
-						$(".deptTitleNo2").val(deptNo);
-						$(".departTitleListtwo").hide();	
-						
-					}
+					$(".divPartSerTdiv23").text(deptTitle);
+					$(".deptTitleNo1").val(deptNo);
+					$(".departTitleListone").hide();	
+			
 				}
 			})
+			}else if(num ==2){
+				//검색 부분
+				var ordq = $(".searchFilterL2").text();
+				if(ord != 0){
+					if(ordq =='검색'){
+						//myAlert("선택", "검색을 선택해주세요");
+					}else if(ordq == '이름'){
+						searchli = $(".defualtthree").val();
+					}else if(ordq == '사원번호'){
+						searchli = $(".defualtfour").val();
+					}
+				}
+				if(deptNo == 0){
+					if($(".defualtthree").val() == null || $(".defualtfour").val() == null){
+						ordq=null;
+						searchli=null;
+					}
+				}
+				console.log(deptNo)
+				console.log(deptTitle)
+				console.log(ordq)
+				console.log(searchli)
+				$.ajax({
+					url:"filterListVacation.do",
+					type:"get",
+					data:{dep:deptTitle, depNo:deptNo, ord:ordq, searchli:searchli},
+					success:function(list){
+						console.log("성공")
+						$tableBody = $(' .vacationmainDiv');
+						$tableBody.html('');
+						if(list.length ==0){
+							var $tt=$("<div>").text("사원 없음").addClass("noInfo");
+							$tableBody.append($tt);
+							$(".defualtthree").val('');
+							$(".defualtfour").val('');
+						}else if(list.length != 0){
+							$.each(list, function(i, obj){
+								var $tr = $('<div>').addClass("vacationListDiv");
+								var $dTitle = $('<div>').text(obj.empName);
+								var $dWriterName = $('<div>').text(obj.totTyear);
+								var $dwatcher = $('<div>').text(obj.useDayoff);
+								var $dAnnoDate = $('<div>').text(obj.totDayoff);
+								$tr.append($dTitle);
+								$tr.append($dWriterName);
+								$tr.append($dwatcher);
+								$tr.append($dAnnoDate);
+								$tableBody.append($tr);
+								$(".defualtthree").val('');
+								$(".defualtfour").val('');
+							})	
+						}
+						$(".divPartSerTdiv24").text(deptTitle);
+						$(".deptTitleNo2").val(deptNo);
+						$(".departTitleListtwo").hide();
+					}
+				})
+			
+				
+			}
 		}
 		$(".clickpehv").click(function(){
 			var dep = $(".divPartSerTdiv23").text();//부서명
@@ -767,16 +854,36 @@
 			}else if(ordq == '사원번호'){
 				searchli = $(".defualttwo").val();
 			}
-			console.log(dep);
-			console.log(depNo);
-			console.log(ordq);
-			console.log(searchli)
-			titleD(depNo, dep, 0, ordq, searchli);
+
+			titleD(depNo, dep, 1, ordq, searchli);
+		})
+		$(".vacationSearchBu").click(function(){
+			var dep = $(".divPartSerTdiv24").text();//부서명
+			var depNo = '';
+			if(dep =="부서 분류"){
+				dep= $(".hiddenDepartTitle").val();//부서명
+				depNo= ${loginUser.departmentNo};//부서번호 
+			}else{
+				depNo =$(".deptTitleNo2").val();
+			}
+			var ordq = $(".searchFilterL2").text();
+			var searchli ='';
+			if(ordq =='검색'){
+				myAlert("선택", "검색을 선택해주세요");
+			}else if(ordq == '이름'){
+				searchli = $(".defualtthree").val();
+			}else if(ordq == '사원번호'){
+				searchli = $(".defualtfour").val();
+			}
+
+			titleD(depNo, dep, 2, ordq, searchli);
 		})
 		$(".AttendInfoEtc").click(function(){
 			location.href="selectListDepartInfo.do?deptNo="+${loginUser.departmentNo};
 		})
-		
+		$(".vacationLIstetc").click(function(){
+			location.href="selectListVacationInfo.do?depNo="+${loginUser.departmentNo};
+		})
 		$("#input2").click(function(){
 			if($("input:radio[name='submitForm']").is(":checked")==false && $("#input1").val() == '' ){
 				myAlert("내용 입력 필요", "용도 선택 및 사번을 입력해주세요");
@@ -802,7 +909,6 @@
 			var month = ('0' + (today.getMonth() + 1)).slice(-2);
 			var day = ('0' + today.getDate()).slice(-2);
 			var dateString = year + '년 ' + month  + '월 ' + day +'일';
-			console.log(empNo)
 			$.ajax({
 				url:"selectInfo.do", 
 				type:"get", 

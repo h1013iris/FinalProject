@@ -347,6 +347,12 @@ int result = BoardDao.deletepbox(sqlSession, pno);
 		BoardDao.savefilesupdate(sqlSession,a);
 		
 	}
+
+	@Override
+	public String bname(int boardno) {
+		
+		return BoardDao.bname(sqlSession,boardno);
+	}
 		
 	
 

@@ -173,11 +173,42 @@
 			} else {
 								
 				scrtyReasonFn();  // 보안 요청 사유 조회하는 함수 실행
+				selectApproverFn();
 			}
 			
 		});
 	    
 	    
+	 	// 결재자 조회
+    	function selectApproverFn() {
+    		
+	 		$.ajax({
+	 			
+	 			type: "post",
+                url: "selectDocApprover.do",
+                data: { docNo : ${ docNo } },
+                success: function (list) {
+					console.log(list);
+					if(list != null) {
+						for(var i in list) {
+							if(list[i] != null) {
+								$("#aprv" + i).val(list[i].empNo);
+								$("#aprvName" + i).val(list[i].empName);
+								$("#aprvJobName" + i).val(list[i].jobName);
+							}
+						}
+						/*$("#firstAprv").val(list[0].empNo);
+						$("#firstAprvName").val(list[0].empName);
+						$("#firstAprvJob").val(list[0].jobName);
+						$("#secondAprv").val(list[1].empNo);
+						$("#secondAprvName").val(list[1].empName);
+						$("#secondAprvJob").val(list[1].jobName);
+	                	}*/
+	                }
+		 		}
+	 		});
+    	}
+    	
 	    
 	    // 보안 요청 사유 조회하는 함수
 	    function scrtyReasonFn() {

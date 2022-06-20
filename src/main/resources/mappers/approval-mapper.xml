@@ -35,13 +35,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    B.JOB_NAME
 		FROM USER_INFO A
 		JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO = B.JOB_NO
-		
-			<if test='jobNo lt "4"'>
-				WHERE A.JOB_NO IN (4, 7)
-			</if>
-			<if test='jobNo gte "4" and jobNo lt "7"'>
-				WHERE A.JOB_NO = 7
-			</if>
+		<if test='jobNo lt "4"'>
+			WHERE A.JOB_NO IN (4, 7)
+		</if>
+		<if test='jobNo gte "4" and jobNo lt "7"'>
+			WHERE A.JOB_NO = 7
+		</if>
 		AND A.DEPARTMENT_NO = #{departmentNo}
 		ORDER BY B.JOB_NO
 	</select>
@@ -117,53 +116,134 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<!-- 결재 대기 리스트 개수 -->
-	<select id="waitingListCount" parameterType="_int" resultType="_int">
+	<select id="waitingListCount" parameterType="AprvDoc" resultType="_int">
 		SELECT COUNT(*)
-		FROM V_APRV_HISTORY
+		FROM V_APRV_HISTORY A
+		LEFT JOIN LEAVE_APP B ON A.DOC_NO = B.DOC_NO
+		LEFT JOIN CMT_UPDATE_APP C ON A.DOC_NO = C.DOC_NO
+		LEFT JOIN BUSINESS_DFT D ON A.DOC_NO = D.DOC_NO
+		LEFT JOIN BUSINESS_COOP E ON A.DOC_NO = E.DOC_NO
 		WHERE 1=1
-		AND APRV_PRO IN ('A', 'D')
-		AND APRV_STATUS = 1
-		AND (APRV_HISTORY_NO, DOC_NO) IN (SELECT MAX(B.APRV_HISTORY_NO), B.DOC_NO
-                                  		  FROM APRV_DOCUMENT A
-                                  		  JOIN APRV_HISTORY B ON A.DOC_NO = B.DOC_NO
-                                  		  GROUP BY B.DOC_NO)
-		AND ((FIRST_APRV = #{empNo} AND APPROVER = DRAFTER)
-		OR (SECOND_APRV = #{empNo} AND APPROVER = FIRST_APRV))
+		AND A.APRV_PRO IN ('A', 'D')
+		AND A.APRV_STATUS = 1
+		AND (A.APRV_HISTORY_NO, A.DOC_NO) IN (SELECT MAX(G.APRV_HISTORY_NO), G.DOC_NO
+		                                      FROM APRV_DOCUMENT F
+		                                  	  JOIN APRV_HISTORY G ON F.DOC_NO = G.DOC_NO
+		                                  	  GROUP BY G.DOC_NO)
+		AND ((A.FIRST_APRV = #{drafter} AND A.APPROVER = A.DRAFTER)
+		OR (A.SECOND_APRV = #{drafter} AND A.APPROVER = A.FIRST_APRV))
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+		    AND A.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '제목'">
+		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '내용'">
+		    AND (B.VAC_REASON LIKE '%' ||#{search}||'%' OR
+		         C.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
+		         D.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
+		         E.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		</if>
+		
 	</select>
 	
 	<!-- 결재 대기 리스트 조회 -->
-	<select id="selectWaitingList" parameterType="_int" resultMap="aprvList_resultMap">
-		SELECT *
-		FROM V_APRV_HISTORY
+	<select id="selectWaitingList" parameterType="AprvDoc" resultMap="aprvList_resultMap">
+		SELECT
+			A.DOC_NO, A.DOC_FORM, A.DOC_TITLE,
+			A.DRAFTER_NAME, A.DFT_DATE, A.PRO_DATE
+		FROM V_APRV_HISTORY A
+		LEFT JOIN LEAVE_APP B ON A.DOC_NO = B.DOC_NO
+		LEFT JOIN CMT_UPDATE_APP C ON A.DOC_NO = C.DOC_NO
+		LEFT JOIN BUSINESS_DFT D ON A.DOC_NO = D.DOC_NO
+		LEFT JOIN BUSINESS_COOP E ON A.DOC_NO = E.DOC_NO
 		WHERE 1=1
-		AND APRV_PRO IN ('A', 'D')
-		AND APRV_STATUS = 1
-		AND (APRV_HISTORY_NO, DOC_NO) IN (SELECT MAX(B.APRV_HISTORY_NO), B.DOC_NO
-                                      FROM APRV_DOCUMENT A
-                                  	  JOIN APRV_HISTORY B ON A.DOC_NO = B.DOC_NO
-                                  	  GROUP BY B.DOC_NO)
-		AND ((FIRST_APRV = #{empNo} AND APPROVER = DRAFTER)
-		OR (SECOND_APRV = #{empNo} AND APPROVER = FIRST_APRV))
+		AND A.APRV_PRO IN ('A', 'D')
+		AND A.APRV_STATUS = 1
+		AND (A.APRV_HISTORY_NO, A.DOC_NO) IN (SELECT MAX(G.APRV_HISTORY_NO), G.DOC_NO
+		                                      FROM APRV_DOCUMENT F
+		                                  	  JOIN APRV_HISTORY G ON F.DOC_NO = G.DOC_NO
+		                                  	  GROUP BY G.DOC_NO)
+		AND ((A.FIRST_APRV = #{drafter} AND A.APPROVER = A.DRAFTER)
+		OR (A.SECOND_APRV = #{drafter} AND A.APPROVER = A.FIRST_APRV))
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+		    AND A.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '제목'">
+		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '내용'">
+		    AND (B.VAC_REASON LIKE '%' ||#{search}||'%' OR
+		         C.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
+		         D.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
+		         E.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		</if>
 		ORDER BY PRO_DATE DESC
 	</select>
 	
 	<!-- 결재 요청 리스트 개수 -->
-	<select id="requestListCount" parameterType="_int" resultType="_int">
+	<select id="requestListCount" parameterType="AprvDoc" resultType="_int">
 		SELECT COUNT(*)
-		FROM V_APRV_HISTORY
+		FROM V_APRV_HISTORY A
+		LEFT JOIN LEAVE_APP B ON A.DOC_NO = B.DOC_NO
+		LEFT JOIN CMT_UPDATE_APP C ON A.DOC_NO = C.DOC_NO
+		LEFT JOIN BUSINESS_DFT D ON A.DOC_NO = D.DOC_NO
+		LEFT JOIN BUSINESS_COOP E ON A.DOC_NO = E.DOC_NO
 		WHERE 1=1
-		AND APRV_PRO IN ('A', 'D')
-		AND APPROVER = #{empNo}
+		AND A.APRV_PRO IN ('A', 'D')
+		AND A.APPROVER = #{drafter}
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+		    AND A.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '제목'">
+		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '내용'">
+		    AND (B.VAC_REASON LIKE '%' ||#{search}||'%' OR
+		         C.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
+		         D.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
+		         E.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		</if>
 	</select>
 	
 	<!-- 결재 요청 리스트 조회 -->
-	<select id="selectRequestList" parameterType="_int" resultMap="aprvList_resultMap">
-		SELECT *
-		FROM V_APRV_HISTORY
+	<select id="selectRequestList" parameterType="AprvDoc" resultMap="aprvList_resultMap">
+		SELECT
+			A.DOC_NO, A.DOC_FORM, A.DOC_TITLE,
+			A.DRAFTER_NAME, A.DFT_DATE, A.PRO_DATE
+		FROM V_APRV_HISTORY A
+		LEFT JOIN LEAVE_APP B ON A.DOC_NO = B.DOC_NO
+		LEFT JOIN CMT_UPDATE_APP C ON A.DOC_NO = C.DOC_NO
+		LEFT JOIN BUSINESS_DFT D ON A.DOC_NO = D.DOC_NO
+		LEFT JOIN BUSINESS_COOP E ON A.DOC_NO = E.DOC_NO
 		WHERE 1=1
-		AND APRV_PRO IN ('A', 'D')
-		AND APPROVER = #{empNo}
-		ORDER BY PRO_DATE DESC
+		AND A.APRV_PRO IN ('A', 'D')
+		AND A.APPROVER = #{drafter}
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+		    AND A.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '제목'">
+		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '내용'">
+		    AND (B.VAC_REASON LIKE '%' ||#{search}||'%' OR
+		         C.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
+		         D.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
+		         E.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		</if>
+		ORDER BY A.PRO_DATE DESC
 	</select>
 	
 	<!-- 해당 문서의 서식 번호 조회 -->
@@ -174,17 +254,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 해당 문서 결재자 조회 -->
-	<select id="selectDocApprover" parameterType="_int" resultType="AprvDoc">
+	<select id="selectDocApprover" parameterType="_int" resultType="Member">
 		SELECT
-		    A.DOC_NO,
-		    B.EMP_NAME AS FIRST_APRV,
-		    D.JOB_NAME AS FIRST_JOB,
-		    C.EMP_NAME AS SECOND_APRV,
-		    E.JOB_NAME AS SECOND_JOB
+		    B.EMP_NO, B.EMP_NAME, D.JOB_NAME
 		FROM APRV_DOCUMENT A
 		JOIN USER_INFO B ON A.FIRST_APRV = B.EMP_NO
-		LEFT JOIN USER_INFO C ON A.SECOND_APRV = C.EMP_NO
 		JOIN JOB_RANK_MANAGEMENT D ON B.JOB_NO = D.JOB_NO
+		WHERE A.DOC_NO = #{docNo}
+		UNION
+		SELECT
+		    C.EMP_NO, C.EMP_NAME, E.JOB_NAME
+		FROM APRV_DOCUMENT A
+		LEFT JOIN USER_INFO C ON A.SECOND_APRV = C.EMP_NO
 		LEFT JOIN JOB_RANK_MANAGEMENT E ON C.JOB_NO = E.JOB_NO
 		WHERE A.DOC_NO = #{docNo}
 	</select>
@@ -250,7 +331,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE DOC_NO = #{docNo}
 	</select>
 	
-	<!-- 결재 반려, 승인, 임시저장 기록 등록 -->
+	<!-- 결재 반려, 승인 등록 -->
 	<insert id="insertAprvHistory2" parameterType="AprvHistory">
 		INSERT INTO APRV_HISTORY VALUES
 		(SEQ_APRV_HISTORY.NEXTVAL, #{docNo}, #{approver}, #{approverJob}, #{aprvPro}, SYSDATE)
@@ -270,25 +351,74 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<!-- 결재 반려 리스트 개수 -->
-	<select id="returnListCount" parameterType="_int" resultType="_int">
+	<select id="returnListCount" parameterType="AprvDoc" resultType="_int">
 		SELECT COUNT(*)
 		FROM V_APRV_HISTORY A
 		JOIN RETURN_DOC B ON A.DOC_NO = B.DOC_NO
+		LEFT JOIN LEAVE_APP C ON A.DOC_NO = C.DOC_NO
+		LEFT JOIN CMT_UPDATE_APP D ON A.DOC_NO = D.DOC_NO
+		LEFT JOIN BUSINESS_DFT E ON A.DOC_NO = E.DOC_NO
+		LEFT JOIN BUSINESS_COOP F ON A.DOC_NO = F.DOC_NO
 		WHERE 1=1
 		AND A.APRV_STATUS = 4
-		AND A.APPROVER = #{empNo}
-		AND B.RE_FROM != #{empNo}
+		AND A.APPROVER = #{drafter}
+		AND B.RE_FROM != #{drafter}
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+		    AND A.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '제목'">
+		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '내용'">
+		    AND (C.VAC_REASON LIKE '%' ||#{search}||'%' OR
+		         D.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
+		         E.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
+		         F.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		</if>
+		<if test="condition == '반려 사유'">
+		    AND B.RE_REASON LIKE '%' ||#{search}||'%'
+		</if>
 	</select>
 	
 	<!-- 결재 반려 리스트 조회 -->
-	<select id="selectReturnList" parameterType="_int" resultMap="aprvList_resultMap">
-		SELECT *
+	<select id="selectReturnList" parameterType="AprvDoc" resultMap="aprvList_resultMap">
+		SELECT
+			A.DOC_NO, A.DOC_FORM, A.DOC_TITLE,
+			A.DRAFTER_NAME, A.DFT_DATE, B.RE_DATE
 		FROM V_APRV_HISTORY A
 		JOIN RETURN_DOC B ON A.DOC_NO = B.DOC_NO
+		LEFT JOIN LEAVE_APP C ON A.DOC_NO = C.DOC_NO
+		LEFT JOIN CMT_UPDATE_APP D ON A.DOC_NO = D.DOC_NO
+		LEFT JOIN BUSINESS_DFT E ON A.DOC_NO = E.DOC_NO
+		LEFT JOIN BUSINESS_COOP F ON A.DOC_NO = F.DOC_NO
 		WHERE 1=1
 		AND A.APRV_STATUS = 4
-		AND A.APPROVER = #{empNo}
-		AND B.RE_FROM != #{empNo}
+		AND A.APPROVER = #{drafter}
+		AND B.RE_FROM != #{drafter}
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+		    AND A.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '제목'">
+		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '내용'">
+		    AND (C.VAC_REASON LIKE '%' ||#{search}||'%' OR
+		         D.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
+		         E.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
+		         F.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		</if>
+		<if test="condition == '반려자'">
+		    AND B.RE_FROM LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '반려 사유'">
+		    AND B.RE_REASON LIKE '%' ||#{search}||'%'
+		</if>
 		ORDER BY B.RE_DATE DESC
 	</select>
 	
@@ -315,30 +445,70 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 결재 완료 문서 총 개수 -->
-	<select id="completeListCount" parameterType="_int" resultType="_int">
+	<select id="completeListCount" parameterType="AprvDoc" resultType="_int">
 		SELECT COUNT(*)
-		FROM V_APRV_HISTORY
+		FROM V_APRV_HISTORY A
+		LEFT JOIN LEAVE_APP E ON A.DOC_NO = E.DOC_NO
+		LEFT JOIN CMT_UPDATE_APP F ON A.DOC_NO = F.DOC_NO
+		LEFT JOIN BUSINESS_DFT G ON A.DOC_NO = G.DOC_NO
+		LEFT JOIN BUSINESS_COOP H ON A.DOC_NO = H.DOC_NO
 		WHERE 1=1
-		AND APRV_STATUS = 2
-		AND (APRV_HISTORY_NO, DOC_NO) IN (SELECT MAX(D.APRV_HISTORY_NO), D.DOC_NO
+		AND A.APRV_STATUS = 2
+		AND (A.APRV_HISTORY_NO, A.DOC_NO) IN (SELECT MAX(D.APRV_HISTORY_NO), D.DOC_NO
 		                                      FROM APRV_DOCUMENT C
 		                                      JOIN APRV_HISTORY D ON C.DOC_NO = D.DOC_NO
 		                                      GROUP BY D.DOC_NO)
-		AND (DRAFTER = #{empNo} OR FIRST_APRV = #{empNo} OR SECOND_APRV = #{empNo})
+		AND (A.DRAFTER = #{drafter} OR A.FIRST_APRV = #{drafter} OR A.SECOND_APRV = #{drafter})
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+    		AND A.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '제목'">
+		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '내용'">
+		    AND (E.VAC_REASON LIKE '%' ||#{search}||'%' OR
+		         F.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
+		         G.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
+		         H.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		</if>
 	</select>
 	
 	<!-- 결재 완료 문서 리스트 -->
-	<select id="selectCompleteList" parameterType="_int" resultMap="aprvList_resultMap">
-		SELECT *
-		FROM V_APRV_HISTORY
+	<select id="selectCompleteList" parameterType="AprvDoc" resultMap="aprvList_resultMap">
+		SELECT
+			A.DOC_NO, A.DOC_FORM, A.DOC_TITLE,
+			A.DRAFTER_NAME, A.DFT_DATE, A.PRO_DATE
+		FROM V_APRV_HISTORY A
+		LEFT JOIN LEAVE_APP E ON A.DOC_NO = E.DOC_NO
+		LEFT JOIN CMT_UPDATE_APP F ON A.DOC_NO = F.DOC_NO
+		LEFT JOIN BUSINESS_DFT G ON A.DOC_NO = G.DOC_NO
+		LEFT JOIN BUSINESS_COOP H ON A.DOC_NO = H.DOC_NO
 		WHERE 1=1
-		AND APRV_STATUS = 2
-		AND (APRV_HISTORY_NO, DOC_NO) IN (SELECT MAX(D.APRV_HISTORY_NO), D.DOC_NO
+		AND A.APRV_STATUS = 2
+		AND (A.APRV_HISTORY_NO, A.DOC_NO) IN (SELECT MAX(D.APRV_HISTORY_NO), D.DOC_NO
 		                                      FROM APRV_DOCUMENT C
 		                                      JOIN APRV_HISTORY D ON C.DOC_NO = D.DOC_NO
 		                                      GROUP BY D.DOC_NO)
-		AND (DRAFTER = #{empNo} OR FIRST_APRV = #{empNo} OR SECOND_APRV = #{empNo})
-		ORDER BY PRO_DATE DESC
+		AND (A.DRAFTER = #{drafter} OR A.FIRST_APRV = #{drafter} OR A.SECOND_APRV = #{drafter})
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+    		AND A.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '제목'">
+		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '내용'">
+		    AND (E.VAC_REASON LIKE '%' ||#{search}||'%' OR
+		         F.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
+		         G.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
+		         H.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		</if>
+		ORDER BY A.PRO_DATE DESC
 	</select>
 	
 	<!-- 문서 보안 요청 -->
@@ -358,25 +528,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 진행 상태 확인 리스트 개수 -->
 	<select id="statusListCount" parameterType="AprvDoc" resultType="_int">
 		SELECT COUNT(*)
-		FROM V_APRV_HISTORY
-		WHERE APPROVER = #{drafter}
-		<if test="aprvStatus != 0">
-			AND APRV_STATUS = #{aprvStatus}
-		</if>
-	</select>
-	
-	<!-- 진행 상태 확인 리스트 조회 -->
-	<select id="selectStatusList" parameterType="AprvDoc" resultMap="aprvList_resultMap">
-		SELECT
-		    A.DOC_NO,
-		    A.DOC_FORM,
-		    A.DOC_TITLE,
-		    A.DRAFTER_NAME,
-		    A.DFT_DATE,
-		    A.APRV_STATUS, 
-		    B.APRV_STATUS AS APRV_STATUS_NAME
 		FROM V_APRV_HISTORY A
 		JOIN APRV_STATUS B ON A.APRV_STATUS = B.APRV_STATUS_NO
+		LEFT JOIN LEAVE_APP C ON A.DOC_NO = C.DOC_NO
+		LEFT JOIN CMT_UPDATE_APP D ON A.DOC_NO = D.DOC_NO
+		LEFT JOIN BUSINESS_DFT E ON A.DOC_NO = E.DOC_NO
+		LEFT JOIN BUSINESS_COOP F ON A.DOC_NO = F.DOC_NO
 		WHERE A.APPROVER = #{drafter}
 		<if test="aprvStatusName != null and aprvStatusName != '상태' and aprvStatusName != '전체'">
 			AND B.APRV_STATUS = #{aprvStatusName}
@@ -385,10 +542,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND A.DOC_FORM = #{docForm}
 		</if>
 		<if test="condition == '문서 번호'">
-			AND A.DOC_NO = #{search}
+			AND A.DOC_NO LIKE '%' ||#{search}||'%'
 		</if>
 		<if test="condition == '제목'">
-			AND A.DOC_TITLE = #{search}
+			AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '내용'">
+			AND (C.VAC_REASON LIKE '%' ||#{search}||'%' OR
+				 D.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
+				 E.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
+				 F.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		</if>
+	</select>
+	
+	<!-- 진행 상태 확인 리스트 조회 -->
+	<select id="selectStatusList" parameterType="AprvDoc" resultMap="aprvList_resultMap">
+		SELECT
+		    A.DOC_NO, A.DOC_FORM, A.DOC_TITLE,
+		    A.DRAFTER_NAME, A.DFT_DATE, A.APRV_STATUS, 
+		    B.APRV_STATUS AS APRV_STATUS_NAME
+		FROM V_APRV_HISTORY A
+		JOIN APRV_STATUS B ON A.APRV_STATUS = B.APRV_STATUS_NO
+		LEFT JOIN LEAVE_APP C ON A.DOC_NO = C.DOC_NO
+		LEFT JOIN CMT_UPDATE_APP D ON A.DOC_NO = D.DOC_NO
+		LEFT JOIN BUSINESS_DFT E ON A.DOC_NO = E.DOC_NO
+		LEFT JOIN BUSINESS_COOP F ON A.DOC_NO = F.DOC_NO
+		WHERE A.APPROVER = #{drafter}
+		<if test="aprvStatusName != null and aprvStatusName != '상태' and aprvStatusName != '전체'">
+			AND B.APRV_STATUS = #{aprvStatusName}
+		</if>
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+			AND A.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+			AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '제목'">
+			AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '내용'">
+			AND (C.VAC_REASON LIKE '%' ||#{search}||'%' OR
+				 D.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
+				 E.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
+				 F.COOP_CONTENT LIKE '%' ||#{search}||'%')
 		</if>
 		ORDER BY A.PRO_DATE DESC
 	</select>
@@ -464,27 +660,61 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<!-- 임시 보관함 리스트 개수 -->
-	<select id="outboxListCount" parameterType="_int" resultType="_int">
+	<select id="outboxListCount" parameterType="AprvDoc" resultType="_int">
 		SELECT COUNT(*)
 		FROM DOC_OUTBOX A
 		JOIN DOCUMENT_TYPE B ON A.DOC_TYPE = B.DOC_TYPE_NO
 		JOIN USER_INFO C ON A.DRAFTER = C.EMP_NO
-		WHERE A.DRAFTER = #{empNo}
+		LEFT JOIN LEAVE_APP D ON A.DOC_NO = D.DOC_NO
+		LEFT JOIN CMT_UPDATE_APP E ON A.DOC_NO = E.DOC_NO
+		LEFT JOIN BUSINESS_DFT F ON A.DOC_NO = F.DOC_NO
+		LEFT JOIN BUSINESS_COOP G ON A.DOC_NO = G.DOC_NO
+		WHERE A.DRAFTER = #{drafter}
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+		    AND B.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '제목'">
+		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '내용'">
+		    AND (D.VAC_REASON LIKE '%' ||#{search}||'%' OR
+		         E.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
+		         F.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
+		         G.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		</if>
 	</select>
 	
 	<!-- 임시 보관함 리스트 조회 -->
-	<select id="selectOutboxList" parameterType="_int" resultType="DocOutbox">
+	<select id="selectOutboxList" parameterType="AprvDoc" resultType="DocOutbox">
 		SELECT
-		    A.DOC_OUTBOX_NO,
-		    B.DOC_FORM,
-		    A.DOC_TYPE,
-		    A.DOC_TITLE,
-		    C.EMP_NAME AS DRAFTER,
-		    A.LAST_UPDATE_DATE
+		    A.DOC_OUTBOX_NO, B.DOC_FORM, A.DOC_TYPE,
+		    A.DOC_TITLE, C.EMP_NAME AS DRAFTER, A.LAST_UPDATE_DATE
 		FROM DOC_OUTBOX A
 		JOIN DOCUMENT_TYPE B ON A.DOC_TYPE = B.DOC_TYPE_NO
 		JOIN USER_INFO C ON A.DRAFTER = C.EMP_NO
-		WHERE A.DRAFTER = #{empNo}
+		LEFT JOIN LEAVE_APP D ON A.DOC_NO = D.DOC_NO
+		LEFT JOIN CMT_UPDATE_APP E ON A.DOC_NO = E.DOC_NO
+		LEFT JOIN BUSINESS_DFT F ON A.DOC_NO = F.DOC_NO
+		LEFT JOIN BUSINESS_COOP G ON A.DOC_NO = G.DOC_NO
+		WHERE A.DRAFTER = #{drafter}
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+		    AND B.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '제목'">
+		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '내용'">
+		    AND (D.VAC_REASON LIKE '%' ||#{search}||'%' OR
+		         E.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
+		         F.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
+		         G.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		</if>
 		ORDER BY 1 DESC
 	</select>
 	
@@ -718,8 +948,75 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM DOCUMENT_TYPE
 	</select>
 	
+	<!-- 전체 검색 리스트 개수 -->
+	<select id="searchAllDocListCount" parameterType="AprvDoc" resultType="_int">
+		SELECT COUNT(*)
+		FROM APRV_DOCUMENT A
+		JOIN DOCUMENT_TYPE B ON A.DOC_TYPE = B.DOC_TYPE_NO
+		JOIN USER_INFO C ON A.DRAFTER = C.EMP_NO
+		JOIN APRV_STATUS D ON A.APRV_STATUS = D.APRV_STATUS_NO
+		WHERE A.STATUS = 'Y'
+		<if test="aprvStatusName != null and aprvStatusName != '상태' and aprvStatusName != '전체'">
+		    AND D.APRV_STATUS = #{aprvStatusName}
+		</if>
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+		    AND B.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '제목'">
+		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+	</select>
 	
+	<!-- 전체 검색 리스트 조회 -->
+	<select id="searchAllDocList" parameterType="AprvDoc" resultMap="aprvList_resultMap">
+		SELECT
+		    A.DOC_NO, B.DOC_FORM, A.DOC_TYPE,
+		    NVL(A.DOC_TITLE, B.DOC_FORM) AS DOC_TITLE,
+		    C.EMP_NAME AS DRAFTER_NAME, A.DFT_DATE,
+		    D.APRV_STATUS AS APRV_STATUS_NAME, A.APRV_STATUS
+		FROM APRV_DOCUMENT A
+		JOIN DOCUMENT_TYPE B ON A.DOC_TYPE = B.DOC_TYPE_NO
+		JOIN USER_INFO C ON A.DRAFTER = C.EMP_NO
+		JOIN APRV_STATUS D ON A.APRV_STATUS = D.APRV_STATUS_NO
+		WHERE A.STATUS = 'Y'
+		<if test="aprvStatusName != null and aprvStatusName != '상태' and aprvStatusName != '전체'">
+		    AND D.APRV_STATUS = #{aprvStatusName}
+		</if>
+		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
+		    AND B.DOC_FORM = #{docForm}
+		</if>
+		<if test="condition == '문서 번호'">
+		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		</if>
+		<if test="condition == '제목'">
+		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		</if>
+		ORDER BY 1 DESC
+	</select>
 	
+	<!-- 문서 등록 시 선택할 결재자 조회 -->
+	<select id="selectDocEnrollApprover" parameterType="Member" resultType="Member">
+		SELECT
+			A.EMP_NO, A.EMP_NAME, A.JOB_NO, C.JOB_NAME,
+			B.DEPARTMENT_TITLE AS DEPARTMENT_NAME
+		FROM USER_INFO A
+		JOIN DEPARTMENT_MANAGEMENT B ON A.DEPARTMENT_NO = B.DEPARTMENT_NO
+		JOIN JOB_RANK_MANAGEMENT C ON A.JOB_NO = C.JOB_NO
+		WHERE A.DEPARTMENT_NO = #{departmentNo}
+		AND <![CDATA[ A.JOB_NO > 3 AND A.JOB_NO > #{jobNo} ]]>
+		AND A.EMP_NO != #{empNo}
+	</select>
+	
+	<!-- 결재 취소한 문서 결재자 조회 -->
+	<select id="selectCancleDocApprover" parameterType="_int" resultType="AprvDoc">
+		SELECT
+			FIRST_APRV, SECOND_APRV
+		FROM APRV_DOCUMENT
+		WHERE DOC_NO = #{docNo}
+	</select>
 	
 	
 </mapper>

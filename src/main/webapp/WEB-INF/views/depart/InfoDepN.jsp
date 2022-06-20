@@ -62,6 +62,7 @@
 	}
 	.modalInfoList{
 		margin-top: 10px;
+		height: 310px;
 	}
 	.modalSectionCH img{
 		height: 13vh;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -190,5 +191,21 @@ public class AddressBookDao {
 	public ArrayList<WideMember> selectFavoAdd(SqlSessionTemplate sqlSession, String empNo) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("addressBookMapper.selectFavoAdd",empNo);
+	}
+	//즐겨찾기 등록여부 조회
+	public int selectUserCount(SqlSessionTemplate sqlSession, Map<String, Object> pavoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("addressBookMapper.selectUserCount",pavoMap);
+	}
+
+	//메인 주소록 가기전 즐겨찾기 여부 확인
+	public ArrayList<WideMember> selectEmpNoChList(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("addressBookMapper.selectEmpNoChList",empNo);
+	}
+
+	public int deletePavoAdd(SqlSessionTemplate sqlSession,Map<String, Object> delpavoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("addressBookMapper.deletePavoAdd",delpavoMap);
 	}
 }

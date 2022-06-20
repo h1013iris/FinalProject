@@ -143,13 +143,162 @@
 	.status4 { color: red; }
 
 	
-	.search_area {
-		border: 1px solid blue;
+	.filter_dropdown * { box-sizing: border-box; }
+	
+	.filter_dropdown, .filter_initialize {
+		margin: 5px 20px 5px 0;
+		position: relative;
+		display: inline-block;
+		/*width: 150px;
+		height: 35px;*/
+		/*border-radius: 4px;*/
+		border: none;
+		/*background-size: 20px;*/
+		cursor: pointer;
+	}
+	
+	.initialize_btn {
+		/*content: '';*/
+  		display: block;
+		border: none;
+		border-radius: 4px;
+		background-color: #85d0ff;
+		width: 120px;
+		padding: 7px 0;
+		font-size: 15px;
+	}
+	
+	.dropdown_btn {
+	
+		/*border: 1px solid #ffdab9;*/
+		/*position: absolute;*/
+		content: '';
+  		display: block;
+		border: none;
+		border-radius: 4px;
+		background-color: #bce7ff;
+		width: 120px;
+		padding: 7px 0;
+		font-size: 15px;
+	}
+	
+	.docFormDefault { width: 200px; }
+	
+	.dropdown_content {
+		display: none;
+		border-radius: 4px;
+		position: absolute;
+		background-color: #bce7ff;
+		/*min-sidth: 75px;*/
+		/*padding: 7px 10px;*/
+		box-shadow: 0 8 10 6 rgba(0, 0, 0, 0.2);
+		/*list-style-type: none;*/
 		width: 100%;
+		top: 40px;
+		/*transition: .3s ease-in;*/
+	}
+	
+	.dropdown_content li {
+		color: black;
+		padding: 8px;
+		text-decoration: none;
+		display: block;
+	}
+	
+	.dropdown_content li:hover { 
+		background-color: #6ab6e4;
+		border-radius: 4px;
+		color: white;
+	}
+	
+	.filter_initialize:hover .initialize_btn {
+		background-color: #6ab6e4;
+		color: white;
+	}
+	
+	.filter_dropdown:hover .dropdown_content { display: block; }
+		
+	.filter_dropdown:hover .dropdown_btn { 
+		background-color: #6ab6e4;
+		color: white;
+	}
+	
+	.docSearch_area {
 		display: flex;
-		margin-top: 15px;
-		height: 5vh;
-		justify-content: space-between;
+		/*border: 1px solid blue;*/
+		padding: 10px 0 15px 0;
+	}
+	
+	.search_div {
+		display: flex;
+		margin: 0 5px;
+		padding: 5px 0;
+	}
+	
+	.search_div input {
+		border: 1px solid;
+		margin-top: 2px;
+		padding: 5px 10px;
+		font-size: 15px;
+		border-radius: 4px;
+		border: 1px solid #93bedc;
+		box-shadow: 2px 2px 2px #93bedc;
+	}
+	
+	.search_div input:focus {
+		outline: none;
+		border: 1px solid #93bedc;
+		box-shadow: 2px 2px 2px #93bedc;
+	}
+	
+	.search_div img {
+		padding: 7px;
+	}
+	
+	.docList_area {
+		width: 100%;
+		/*border: 1px solid #e6e6e6;
+		background-color: #e6e6e6;
+		border-radius: 15px;
+		box-shadow: 0 0 8px #afafaf;*/
+		/*display: none;*/
+	}
+	
+	.searchDocList_table>tbody>tr:hover {
+		background: rgb(174, 217, 248);
+		box-shadow: 0 0 8px #4c87b099;
+		cursor: pointer;
+	}
+	
+	.searchDocList_table {
+		width: 97%;
+		margin: auto;
+		table-layout: fixed;
+	}
+	
+	.searchDocList_table td {
+		border-top: 1px solid darkgray;
+		padding: 15px;
+	}
+	
+	.docTitleTd {
+       	white-space: nowrap;
+       	text-overflow: ellipsis;
+       	overflow: hidden;
+	}
+	
+	.searchDocList_table th {
+		padding: 15px;
+		background-color: darogray;
+	}
+	
+	.searchDocList_thead {
+		font-weight: 900;
+		font-size: 16px;
+	}
+	
+	.noSearchDocList {
+		color: blue;
 	}
 	
 </style>
@@ -161,107 +310,134 @@
 	<div class="main_section">
        	
        	<div class="aprvMain_div">
-	       	<!-- 상단 -->
-	       	<div class="aprvMain_upper">
-	       		<%-- 직급이 대리보다 낮은 경우 요청 리스트 띄우기 --%>
-	        	<c:if test="${ loginUser.jobNo < 4 }">
-	        		<div class="docRequest_list">
-	        			<div class="aprvList_title_div">
-		        			<div class="aprvList_title"><span>결재 요청</span></div>
-		        			<div>
-		        				<a class="aprvMenu requestMenu" href="requestMain.do">> 더보기</a>
-	        				</div>
-	        			</div>
-	        			<div class="">
-	        				<div class="aprvList_header">
-	        					<div>문서 번호</div>
-	        					<div>제목</div>
-	        					<div>요청일</div>
-	        				</div>
-	        				<div class="aprvList_main requestList_main">
-	        					
-	        				</div>
-	        			</div>
-	        		</div>
-	        	</c:if>
-	        	<%-- 직급이 대리 이상인 경우 대기 리스트 띄우기 --%>
-	        	<c:if test="${ loginUser.jobNo >= 4 }">
-	        		<div class="docWaiting_list">
-	        			<div class="aprvList_title_div">
-		        			<div class="aprvList_title"><span>결재 대기</span></div>
-		        			<div>
-		        				<a class="aprvMenu waitingMenu" href="waitingMain.do">> 더보기</a>
-	        				</div>
-	        			</div>
-	        			<div class="">
-	        				<div class="aprvList_header">
-	        					<div>문서 번호</div>
-	        					<div>제목</div>
+       		
+       		<!-- 검색 -->
+       		<div class="docSearch_area">
+        		<div class="filter_initialize">
+	        		<button class="initialize_btn" onClick="location.reload()">메인으로</button>
+        		</div>
+        		
+        		<div class="filter_dropdown">
+	        		<button class="dropdown_btn docFormDefault">문서 유형</button>
+	        		<ul class="dropdown_content docFormfilter">
+	        			<li>전체</li>
+	        			<%-- 문서 유형 출력 --%>
+	        		</ul>
+        		</div>
+        		
+        		<div class="filter_dropdown">
+	        		<button class="dropdown_btn statusDefault">상태</button>
+	        		<ul class="dropdown_content statusfilter">
+	        			<li>전체</li>
+	        			<%-- 문서 상태값 출력 --%>
+	        		</ul>
+        		</div>
+        		
+        		<div class="filter_dropdown">
+        			<button class="dropdown_btn conditionDefault">검색 조건</button>
+        			<ul class="dropdown_content conditionfilter">
+	        			<li>문서 번호</li>
+	        			<li>제목</li>
+	        			<li>내용</li>
+	        		</ul>
+        		</div>
+        		
+        		<div class="search_div">
+        			<div class="searchInput_div"><input id="search" name="search"/></div>
+        			<div class="searchImg_div"><img src="https://img.icons8.com/material/24/000000/search--v1.png"></div>
+        		</div>
+        	</div>
+        	
+        	<div class="docList_area">
+		       	<!-- 상단 -->
+		       	<div class="aprvMain_upper">
+		       		<%-- 직급이 대리보다 낮은 경우 요청 리스트 띄우기 --%>
+		        	<c:if test="${ loginUser.jobNo < 4 }">
+		        		<div class="docRequest_list">
+		        			<div class="aprvList_title_div">
+			        			<div class="aprvList_title"><span>결재 요청</span></div>
+			        			<div>
+			        				<a class="aprvMenu requestMenu" href="requestMain.do">> 더보기</a>
+		        				</div>
+		        			</div>
+		        			<div class="">
+		        				<div class="aprvList_header">
+		        					<div>문서 번호</div>
+		        					<div>제목</div>
+		        					<div>요청일</div>
+		        				</div>
+		        				<div class="aprvList_main requestList_main">
+		        					
+		        				</div>
+		        			</div>
+		        		</div>
+		        	</c:if>
+		        	<%-- 직급이 대리 이상인 경우 대기 리스트 띄우기 --%>
+		        	<c:if test="${ loginUser.jobNo >= 4 }">
+		        		<div class="docWaiting_list">
+		        			<div class="aprvList_title_div">
+			        			<div class="aprvList_title"><span>결재 대기</span></div>
+			        			<div>
+			        				<a class="aprvMenu waitingMenu" href="waitingMain.do">> 더보기</a>
+		        				</div>
+		        			</div>
+		        			<div class="">
+		        				<div class="aprvList_header">
+		        					<div>문서 번호</div>
+		        					<div>제목</div>
+		        					<div>기안자</div>
+		        				</div>
+		        				<div class="aprvList_main waitingList_main">
+		        					
+		        				</div>
+		        			</div>
+		        		</div>
+		        	</c:if>
+		        	
+		        	<div class="docComplete_list">
+		        		<div class="aprvList_title_div">
+			        		<div class="aprvList_title"><span>결재 완료</span></div>
+			        		<div>
+			        			<a class="aprvMenu completeMenu" href="completeMain.do">> 더보기</a>
+			        		</div>
+		        		</div>
+		        		<div class="">
+		        			<div class="aprvList_header">
+		       					<div>문서 번호</div>
+		       					<div>제목</div>
 	        					<div>기안자</div>
 	        				</div>
-	        				<div class="aprvList_main waitingList_main">
+	        				<div class="aprvList_main completeList_main">
 	        					
 	        				</div>
 	        			</div>
-	        		</div>
-	        	</c:if>
-	        	
-	        	<div class="docComplete_list">
-	        		<div class="aprvList_title_div">
-		        		<div class="aprvList_title"><span>결재 완료</span></div>
-		        		<div>
-		        			<a class="aprvMenu completeMenu" href="completeMain.do">> 더보기</a>
+		        	</div>
+		       	</div>
+		       	
+		       	<!-- 하단 -->
+		       	<div class="aprvMain_lower">
+		        	<div class="docStatus_list">
+		        		<div class="aprvList_title_div">
+			        		<div class="aprvList_title"><span>진행 상태 확인</span></div>
+			        		<div>
+			        			<a class="aprvMenu statusMenu" href="statusMain.do">> 더보기</a>
+		        			</div>
 		        		</div>
-	        		</div>
-	        		<div class="">
-	        			<div class="aprvList_header">
-	       					<div>문서 번호</div>
-	       					<div>제목</div>
-        					<div>기안자</div>
-        				</div>
-        				<div class="aprvList_main completeList_main">
-        					
-        				</div>
-        			</div>
-	        	</div>
-	       	</div>
-	       	
-	       	<!-- 하단 -->
-	       	<div class="aprvMain_lower">
-	        	<div class="docStatus_list">
-	        		<div class="aprvList_title_div">
-		        		<div class="aprvList_title"><span>진행 상황 확인</span></div>
-		        		<div>
-		        			<a class="aprvMenu statusMenu" href="statusMain.do">> 더보기</a>
+		        		<div class="">
+		        			<div class="aprvList_header">
+		       					<div>문서 번호</div>
+		       					<div>제목</div>
+		       					<div>기안자</div>
+		       					<div>상태</div>
+		       				</div>
+		       				<div class="aprvList_main statusList_main">
+			       				
+		       				</div>
 	        			</div>
-	        		</div>
-	        		<div class="">
-	        			<div class="aprvList_header">
-	       					<div>문서 번호</div>
-	       					<div>제목</div>
-	       					<div>기안자</div>
-	       					<div>상태</div>
-	       				</div>
-	       				<div class="aprvList_main statusList_main">
-		       				
-	       				</div>
-        			</div>
-	        	</div>
-	      	</div>  
-	        <%-- 검색창 --%>
-	        <div class="search_area">
-		        <%-- 검색하기 버튼 클릭 시 검색 서블릿으로 넘어가도록 --%>
-			   	<form class="searchArea" action="" method="get">
-			        <select id="condition" name="condition">
-			        	<option>검색 조건</option>
-			           	<option value="docNo">문서 번호</option>
-	        			<option value="docType">유형</option>
-	        			<option value="docTitle">제목</option>
-			        </select>
-			        <input type="search" id="search" name="search">
-			        <button class="searchBtn" type="submit">검색</button>
-			  	</form>
-	        </div>
+		        	</div>
+		      	</div>  
+			</div>
+			
 		</div>
     </div>
     
@@ -277,6 +453,10 @@
 			
 			} else {
 			
+				aprvStatusFn();		// 문서 상태값 리스트 조회해서 li에 넣는 함수 실행
+				
+				docTypeListFn(); 	// 문서 타입 리스트 조회해서 li에 넣는 함수 실행
+				
 				requestListFn();	// 결재 요청 리스트
 				
 				waitingListFn();	// 결재 대기 리스트
@@ -296,16 +476,15 @@
 	 			
 	 			type: "post",
                 url: "requestList.do",
-                data: { empNo : "${ loginUser.empNo }",
-                		jobNo : "${ loginUser.jobNo }" },
-                success: function (list) {
+                data: { drafter : "${ loginUser.empNo }" },
+                success: function (result) {
 					
-                	console.log(list)
+                	console.log(result.list)
                 	
                 	$tbody = $('.requestList_main'); // 리스트가 들어갈 div
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(result.list.length == 0) {
                 		
                 		var $noListTd = $("<div>").text("결재 요청한 문서가 존재하지 않습니다.").addClass("noRequestList");
                 		var $noListTr = $('<div>').append($noListTd);
@@ -314,11 +493,11 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(result.list, function(i, obj) {
                 			
                 			var $tr = $('<div class="aprvList_row">');
                 			var $docNo = $('<div>').text(obj.docNo);
-                			var $docType = $('<input type="hidden" id="docType" name="docType" value=' 
+                			var $docType = $('<input type="hidden" class="docType" name="docType" value=' 
     								+ obj.docType+'/>');
                 			
                 			if(obj.docTitle != null) {
@@ -350,16 +529,15 @@
 				
 				type: "post",
                 url: "waitingList.do",
-                data: { empNo : "${ loginUser.empNo }",
-                		jobNo : "${ loginUser.jobNo }" },
-                success: function (list) {
+                data: { drafter : "${ loginUser.empNo }" },
+                success: function(reulst) {
 					
-                	console.log(list)
+                	console.log(reulst.list)
                 	
                 	$tbody = $('.waitingList_main'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(reulst.list.length == 0) {
                 		
                 		var $noListTd = $("<div>").text("결재 대기 중인 문서가 존재하지 않습니다.").addClass("noWaitingList");
                 		var $noListTr = $('<div>').append($noListTd);
@@ -368,7 +546,7 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(reulst.list, function(i, obj) {
                 			
                 			var $tr = $('<div class="aprvList_row">');
                 			var $docNo = $('<div>').text(obj.docNo);
@@ -402,16 +580,15 @@
 				
 				type: "post",
                 url: "completeList.do",
-                data: { empNo : "${ loginUser.empNo }",
-                		jobNo : "${ loginUser.jobNo }" },
-                success: function (list) {
+                data: { drafter : "${ loginUser.empNo }" },
+                success: function (reulst) {
 					
-                	console.log(list)
+                	console.log(reulst.list)
                 	
                 	$tbody = $('.completeList_main'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(reulst.list.length == 0) {
                 		
                 		var $noListTd = $("<div>").text("결재 완료된 문서가 존재하지 않습니다.").addClass("noCompleteList");
                 		var $noListTr = $('<div>').append($noListTd);
@@ -420,7 +597,7 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(reulst.list, function(i, obj) {
                 			
                 			var $tr = $('<div class="aprvList_row">');
                 			var $docNo = $('<div>').text(obj.docNo);
@@ -456,14 +633,14 @@
 				type: "post",
                 url: "statusList.do",
                 data: { drafter : "${ loginUser.empNo }" },
-                success: function (list) {
+                success: function (reulst) {
 					
-                	console.log(list)
+                	console.log(reulst.list)
                 	
                 	$tbody = $('.statusList_main'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(list.length == 0) {
+                	if(reulst.list.length == 0) {
                 		
                 		var $noListTd = $("<div>").text("진행 상태를 확인할 문서가 존재하지 않습니다.").addClass("noStatusList");
                 		var $noListTr = $('<div>').append($noListTd);
@@ -472,7 +649,7 @@
                 	
                 	} else {
 						
-                		$.each(list, function(i, obj) {
+                		$.each(reulst.list, function(i, obj) {
                 			
                 			var $tr = $('<div class="aprvList_row">');
                 			var $docNo = $('<div>').text(obj.docNo);
@@ -499,11 +676,8 @@
                 					type: "post",
                 					url: "selectApprover.do",
                 					data: { docNo : obj.docNo },
-                					success: function(approver) {
-                						console.log(approver);
-                						
+                					success: function(approver) {                						
                 						$aprvStatusName.append(" (" + approver + ")");	                					}
-                					
                 				});
                 				
                 			} else if(obj.aprvStatus == 4) {
@@ -524,10 +698,271 @@
 	 	}
 	 	
 	 	
+	 	// 상태값 리스트 조회하는 함수
+		function aprvStatusFn() {
+			
+			$.ajax({
+		 			
+	 			type: "post",
+                url: "selectAprvStatusList.do",
+                success: function(list) {
+                	
+                	if(list != null || list != "") {
+                		
+                		let value = "";
+                		
+                		$.each(list, function(i) {
+                			value += "<li>" + list[i].aprvStatus
+                					+ "<input type='hidden' value='" + list[i].aprvStatusNo  + "'/>"
+                					+ "</li>"
+                		});
+                		
+                		$(".statusfilter").append(value);
+                	}
+                }
+	 		});
+		}
 	 	
 	 	
+		// 문서 타입 리스트 조회해서 li에 넣는 함수
+		function docTypeListFn() {
+			
+			$.ajax({
+				
+				type: "post",
+				url: "selectDocTypeList.do",
+				success: function(list) {
+					
+					if(list != null || list != "") {
+                		
+                		let value = "";
+                		
+                		$.each(list, function(i) {
+                			value += "<li>" + list[i].docForm
+                					+ "<input type='hidden' value='" + list[i].docTypeNo  + "'/>"
+                					+ "</li>"
+                		});
+                		
+                		$(".docFormfilter").append(value);
+                	}
+				}
+			});
+		}
+
+		
+		// 상태값
+		$(".statusfilter").on("click", "li", function() {
+			
+			// 각 필터와 검색어 변수에 담기
+			let aprvStatus = $(this).find("input").val();
+			let aprvStatusName = $(this).text(); // 클릭한 상태값 text 변수에 담기
+			let docForm = $(".docFormDefault").text();
+			let condition = $(".conditionDefault").text();
+			let search = $("#search").val();
+			
+			// 버튼 text 변경
+			$(".statusDefault").text(aprvStatusName);
+			
+			// 필터 및 검색어에 따른 리스트 조회
+			searchFilterFn(aprvStatusName, docForm, condition, search);
+			
+		});
+		
+		
+		// 문서 유형
+		$(".docFormfilter").on("click", "li", function() {
+			
+			// 각 필터와 검색어 변수에 담기
+			//let aprvStatus = $(".statusDefault").find("input").val();
+			let aprvStatusName = $(".statusDefault").text(); // 클릭한 상태값 text 변수에 담기
+			let docForm = $(this).text();
+			let condition = $(".conditionDefault").text();
+			let search = $("#search").val();
+			
+			// 버튼 text 변경
+			$(".docFormDefault").text(docForm);
+			
+			// 필터 및 검색어에 따른 리스트 조회
+			searchFilterFn(aprvStatusName, docForm, condition, search);
+			
+		});
+		
+		
+		// 검색 조건
+		$(".conditionfilter").on("click", "li", function() {
+			
+			let condition = $(this).text();
+			
+			// 버튼 text 변경
+			$(".conditionDefault").text(condition);
+		});
+		
+		
+		// 검색어
+		$(".search_div").on("click", ".searchImg_div", function() {
+			
+			// 각 필터와 검색어 변수에 담기
+			//let aprvStatus = $(this).find("input").val();
+			let aprvStatusName = $(".statusDefault").text(); // 클릭한 상태값 text 변수에 담기
+			let docForm = $(".docFormDefault").text();
+			let condition = $(".conditionDefault").text();
+			let search = $("#search").val();
+			
+			// 필터 및 검색어에 따른 리스트 조회
+			searchFilterFn(aprvStatusName, docForm, condition, search);
+			
+		});
+		
+		
+		// 필터 및 검색 내용에 따른 리스트 조회
+		function searchFilterFn(aprvStatusName, docForm, condition, search) {
+			
+			console.log(aprvStatusName);
+			console.log(docForm);
+			console.log(condition);
+			console.log(search);
+			
+			
+			$.ajax({
+				
+				type: "get",
+				url: "searchAllDocList.do",
+				data: { drafter : "${ loginUser.empNo }",
+						aprvStatusName : aprvStatusName,
+						docForm : docForm,
+						condition : condition,
+						search : search },
+						// AprvDoc 에 있는 필드 이용하기 위해 이름 drafter 로 넘기기
+				success: function(list) {
+				
+					console.log(list);
+					
+					$listArea = $(".docList_area");
+	            	$listArea.html('');
+	            	
+	            	$listArea.css("border", "1px solid #e6e6e6");
+	            	$listArea.css("background-color", "#e6e6e6");
+	            	$listArea.css("border-radius", "15px");
+	            	$listArea.css("box-shadow", "0 0 8px #afafaf");
+	            	
+	            	var $table = $('<table>').addClass("searchDocList_table");
+	            	var $colgroup = $('<colgroup>');
+	            	var $col = '<col width="80px"><col width="120px"><col width="300px"><col width="80px"><col width="100px"><col width="130px">';
+					var $thead = $('<thead>').addClass("searchDocList_thead");
+					var $tr = $('<tr>');
+					var $th1 = $('<th>').text('No');
+					var $th2 = $('<th>').text('문서 유형');
+					var $th3 = $('<th>').text('제목');
+					var $th4 = $('<th>').text('기안자');
+					var $th5 = $('<th>').text('기안일');
+					var $th6 = $('<th>').text('상태');
+					var $tbody = $('<tbody>').addClass("searchDocList_tbody");
+					
+					$table.append($colgroup);
+					$colgroup.append($col);
+					$table.append($thead);
+					$table.append($tr);
+					$table.append($th1);
+					$table.append($th2);
+					$table.append($th3);
+					$table.append($th4);
+					$table.append($th5);
+					$table.append($th6);
+					$table.append($tbody);
+					
+					$listArea.append($table);
+                	
+	            	$list = $('.searchDocList_tbody'); // 리스트가 들어갈 tbody
+	            	
+                	if(list.length == 0) {
+                		
+                		
+                		var $noListTh = $("<th colspan='6'>").text("검색 조건에 해당하는 문서가 존재하지 않습니다.").addClass("noSearchDocList");
+                		var $noListTr = $('<tr>').append($noListTh);
+                		
+						$list.append($noListTr);
+                	
+                	} else {
+						
+                		$.each(list, function(i, obj) {
+                			
+                			var $tr = $('<tr>');
+                			var $docNo = $('<td>').text(obj.docNo);
+                			var $docForm = $('<td>').text(obj.docForm);
+                			var $docType = $('<input type="hidden" id="docType" name="docType" value='
+                								+ obj.docType+'/>');
+                			var $docTitle = $('<td>').text(obj.docTitle).addClass("docTitleTd").attr("title", obj.docTitle);
+                			var $drafter = $('<td>').text(obj.drafter);
+                			var $draftDate = $('<td>').text(obj.draftDate);
+                			var $aprvStatusName = $('<td>').text(obj.aprvStatusName).addClass("statusName");
+                			
+                			// 진행 상태에 따른 글자색 변경 위해
+                			if(obj.aprvStatus == 1) {
+                				$aprvStatusName.addClass("status1");
+                				
+                				// 상태가 진행 중인 경우 현재 결재자 조회하는 ajax
+                				$.ajax({
+                					
+                					type: "post",
+                					url: "selectApprover.do",
+                					data: { docNo : obj.docNo },
+                					success: function(approver) {
+                						//console.log(approver);
+                						
+                						$aprvStatusName.append(" (" + approver + ")");	                					}
+                					
+                				});
+                				
+                			} else if(obj.aprvStatus == 4) {
+                				$aprvStatusName.addClass("status4");
+                			}
+                			
+                			$tr.append($docNo);
+                			$tr.append($docForm);
+                			$tr.append($docType);
+                			$tr.append($docTitle);
+                			$tr.append($drafter);
+                			$tr.append($draftDate);
+                			$tr.append($aprvStatusName);
+                			
+                			$list.append($tr);
+                		});
+                	}
+					
+				}
+				
+			});
+			
+		};
 	 	
 	 	
+    	// 결재 요청 문서 상세 조회
+    	$(".requestList_main").on("click", ".aprvList_row", function() {
+    		
+    		let docNo = $(this).find("div:eq(0)").text();
+    		location.href = "requestDetail.do?docNo=" + docNo;
+    	});
+    	
+    	// 결재 대기 문서 상세 조회
+    	$(".waitingList_main").on("click", ".aprvList_row", function() {
+    		
+    		let docNo = $(this).find("div:eq(0)").text();
+    		location.href = "waitingDetail.do?docNo=" + docNo;
+    	});
+    	
+    	// 결재 완료 문서 상세 조회
+    	$(".completeList_main").on("click", ".aprvList_row", function() {
+    		
+    		let docNo = $(this).find("div:eq(0)").text();
+    		location.href = "completeDetail.do?docNo=" + docNo;
+    	});
+    	
+    	// 진행 상황 확인 문서 상세 조회
+    	$(".statusList_main").on("click", ".aprvList_row", function() {
+    		
+    		let docNo = $(this).find("div:eq(0)").text();
+    		location.href = "statusnDetail.do?docNo=" + docNo;
+    	});
     
     </script>
 

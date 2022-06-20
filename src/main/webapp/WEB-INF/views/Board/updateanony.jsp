@@ -252,7 +252,9 @@
 	     })();
 
 
-
+	  $(function(){
+	         $(".page_title>.title_name").text("익명글 수정");
+	      })
 </script>
 </body>
 </html>

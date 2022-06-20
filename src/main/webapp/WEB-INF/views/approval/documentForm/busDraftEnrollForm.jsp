@@ -82,7 +82,7 @@
 										</td>
 										<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle; border-image: none;">
 											<span contenteditable="false">
-												<input class="fix_input" value="문서번호" readonly/>
+												<input class="fix_input" value="" readonly/>
 											</span>
 										</td>
 									</tr>
@@ -104,9 +104,9 @@
 													1차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input type="hidden" id="firstAprv" name="firstAprv" value="" required/>
-													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly required/>
-													<input class="fix_input approverJop" id="firstAprvJob" value="" readonly/>
+													<select class="approverList" id="firstAprv" name="firstAprv">
+														<option value="">선택</option>
+													</select>
 												</td>
 											</tr>
 											<tr>
@@ -114,9 +114,9 @@
 													2차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<input type="hidden" id="secondAprv" name="secondAprv" value=""/>
-													<input class="fix_input approverName" id="secondAprvName" name="secondAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="secondAprvJob" value="" readonly/>
+													<select class="approverList" id="secondAprv" name="secondAprv">
+														<option value="">선택</option>
+													</select>
 												</td>
 											</tr>
 										</tbody>
@@ -202,8 +202,11 @@
 		 		
 				// 기안일 오늘 날짜로 설정				
 				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
-				$("#dftDate").val(today);				
-		 		
+				$("#dftDate").val(today);
+				
+				// 날짜 선택 오늘부터 가능하도록 설정
+				document.getElementById("enfDate").min = today;
+				
 				// 로그인 유저 소속(부서명) 조회
 		 		$.ajax({
 		 			
@@ -219,30 +222,26 @@
 		            }
 		 		})
 		 		
-		 		// 결재선 조회
-		 		$.ajax({
-		 			
-		 			type: "post",
- 	                url: "selectDeptApprover.do",
- 	               	data: { deptNo : "${ loginUser.departmentNo }",
-                			jobNo : "${ loginUser.jobNo }"},
- 	                success: function (data) {
-						console.log(data);
- 	                	
-						if(data != null || data != "") {
+		 		// 결재자 조회
+ 	 			$.ajax({
+ 	 				
+ 	 				type: "post",
+ 	 				url: "selectDocEnrollApprover.do",
+ 	 				data: { empNo :  "${ loginUser.empNo }",
+ 	 						departmentNo : "${ loginUser.departmentNo }",
+ 	 						jobNo : "${ loginUser.jobNo }" },
+ 	 				success: function(list) {
+ 	 					console.log(list);
+ 	                	if(list != null || list != "") {
  	                		
- 	                		$("#firstAprvName").val(data[0].empName);
- 	                		$("#firstAprv").val(data[0].empNo);
- 	                		$("#firstAprvJob").val(data[0].jobName);
- 	                		
- 	                		if(data.length > 1) {
- 	                			$("#secondAprvName").val(data[1].empName);
- 	 	                		$("#secondAprv").val(data[1].empNo);
- 	 	                		$("#secondAprvJob").val(data[1].jobName);
- 	                		}
+ 	                		$.each(list, function(i) {
+ 	                			$(".approverList").append("<option value='" + list[i].empNo + "'>" 
+                								  		+ list[i].empName + " / " + list[i].jobName + "</option>");
+ 	                		});
  	                	}
- 	                }
-		 		})
+ 	 				}
+ 	 				
+ 	 			});
 		 		
 		 		// 부서 조회해서 select에 넣기
 		 		$.ajax({
@@ -270,19 +269,15 @@
  		$("#enfDate").change(function() {
  			
  			$("#formErrorMsg").empty(); // 날짜 바뀌면 text 비워주기
-			
- 			let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10); // 오늘 날짜
-			let enfDate = $("#enfDate").val(); 			
- 			
- 			console.log(today);
- 			console.log(enfDate);
- 			
- 			// 시행일이 어제 이전이면 에러메시지 띄우기
- 			if(today > enfDate) {
- 			
- 				$("#formErrorMsg").text("어제 이전 날짜는 선택할 수 없습니다.");
- 				$("#enfDate").val("");
- 			}
+
+ 			// 주말 선택할 수 없도록
+	    	let enfDat = new Date($("#enfDate").val()).getDay();
+	        
+			if(enfDat == 0 || enfDat == 6) {
+	            console.log("주말");
+				$("#formErrorMsg").text("주말은 선택할 수 없습니다.");
+				$("#enfDate").val("");
+	        }
 			
  		})
  		
@@ -290,11 +285,19 @@
  		// 결재 요청 버튼 클릭 시
 		$(".submit_btn").click(function() {
 			
+			let firstAprv = $("#firstAprv").val();
 			let enfDate = $("#enfDate").val();
 			let coopDept = $("#coopDept").val();
 			let dftContent = $("#dftContent").val();
 			
-			if(enfDate == null || enfDate == "") {
+			if(firstAprv == null || firstAprv == "") {
+
+				let focus="#firstAprv";
+				
+				myAlert("문서 작성 확인", "결재자를 선택해주세요.");
+				focusFn(focus);
+ 				
+ 			} else if(enfDate == null || enfDate == "") {
 				
 				let title = "문서 작성 확인";
 				let content = "시행일을 선택해주세요.";
@@ -338,7 +341,6 @@
 	    		    $("#helpmeCOnfirm").hide();
 	    		});
 				
-				
 			}
 		});
  		
@@ -353,7 +355,7 @@
  			$.ajax({
 				
 				type: "post",
-                url: "insertBusDraft.do",
+                url: "enrollDocument.do",
                 data: form,
                 success: function (result) {
                 	console.log(result)

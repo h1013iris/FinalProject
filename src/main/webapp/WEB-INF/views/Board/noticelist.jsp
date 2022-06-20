@@ -47,6 +47,20 @@
 	border: #85cdff;
 	box-shadow: 1px 10px 1px 1px #808080;
 }
+.goingsearchnoti {
+	width: 80px;
+	height: 40px;
+	padding: 0;
+	font-weight: 600;
+	text-align: center;
+	line-height: 40px;
+	color: #FFF;
+	border-radius: 5px;
+	transition: all 0.2s;
+	background-color: #85cdff;
+	border: #85cdff;
+	box-shadow: 1px 4px 1px 1px #4c87b099;
+}
 
 .noticeButton1:hover {
 	position: relative;
@@ -60,6 +74,12 @@
 	top: 5px;
 	bottom: 5px;
 	box-shadow: 0px 0px 2px 2px #4c87b099;
+}
+.goingsearchnoti:hover {
+	position: relative;
+	top: 5px;
+	bottom: 5px;
+	box-shadow: 0px 0px 0px 0px #4c87b099;
 }
 
 
@@ -144,7 +164,28 @@
 .noticelistboardtable{
  text-align: -webkit-center;
 }
+.dropdown1{
+text-align:center;
+}
+.all{
+padding-top : 50px;
+}
+.selectnotisearch {
+  -o-appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; 
+    width: 60px;
+  height: 40px;
+  background-color: #f5f5f5;
+  color: rgb(37, 37, 37);
+  border: 1px solid rgb(133, 205, 255);
 
+}
+.searchconditionnoti{
+   width: 250px;
+  height: 40px;
+}
 </style>
 </head>
 <body>
@@ -255,13 +296,13 @@
 				<div class="serch">
 					<div class="dropdown1">
 						<form action="searchBoard.do">
-							<select name="condition">
+							<select name="condition" class="selectnotisearch ">
 								<option value="title">제목</option>
 								<option value="content">내용</option>
 							</select> 
-							<input type="search" name="search" value="${ search }">
+							<input class="searchconditionnoti" type="search" name="search" value="${ search }">
 							<input type="hidden" name="cfbo" value=1>
-							<button type="submit">검색하기</button>
+							<button type="submit" class="goingsearchnoti">검색하기</button>
 						</form>
 					</div>
 
@@ -301,6 +342,10 @@
     		});
     	});
     	
+    	$(function(){
+            $(".page_title>.title_name").text("공지사항");
+         })
+         
          
     </script>
 </body>

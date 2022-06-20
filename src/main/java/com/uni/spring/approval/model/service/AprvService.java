@@ -9,7 +9,6 @@ import com.uni.spring.approval.model.dto.AprvStatus;
 import com.uni.spring.approval.model.dto.BusCoopForm;
 import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
-import com.uni.spring.approval.model.dto.DocFilter;
 import com.uni.spring.approval.model.dto.DocOutbox;
 import com.uni.spring.approval.model.dto.DocType;
 import com.uni.spring.approval.model.dto.LeaveForm;
@@ -25,25 +24,19 @@ public interface AprvService {
 	
 	String selectDeptName(String deptNo);
 	
-	void insertLeaveApp(AprvDoc aprvDoc, AprvHistory aprvHistory, LeaveForm leaveForm);
+	void enrollDocument(int docType, AprvDoc aprvDoc, AprvHistory aprvHistory, LeaveForm leaveForm, CmtUpdateForm cmtUpdateForm, BusDraftForm busDraftForm, BusCoopForm busCoopform);
 	
 	AttendLog selectCmt(AttendLog attendLog);
 
-	void insertCmtUpdateApp(AprvDoc aprvDoc, AprvHistory aprvHistory, CmtUpdateForm cmtUpdateForm);
-
 	ArrayList<Department> selectDeptList(int deptNo);
 
-	void insertBusDraft(AprvDoc aprvDoc, AprvHistory aprvHistory, BusDraftForm busDraftForm);
+	int waitingListCount(AprvDoc aprvDoc);
 
-	void insertBusCoop(AprvDoc aprvDoc, AprvHistory aprvHistory, BusCoopForm busCoopform);
-
-	int waitingListCount(Member loginUser);
-
-	ArrayList<AprvDoc> selectWaitingList(PageInfo pi, Member loginUser);
+	ArrayList<AprvDoc> selectWaitingList(PageInfo pi, AprvDoc aprvDoc);
 	
-	int requestListCount(Member loginUser);
+	int requestListCount(AprvDoc aprvDoc);
 
-	ArrayList<AprvDoc> selectRequestList(PageInfo pi, Member loginUser);
+	ArrayList<AprvDoc> selectRequestList(PageInfo pi, AprvDoc aprvDoc);
 
 	int selectDocTypeNo(int docNo);
 
@@ -51,7 +44,7 @@ public interface AprvService {
 	
 	LeaveForm selectLeaveForm(int docNo);
 
-	AprvDoc selectDocApprover(int docNo);
+	ArrayList<Member> selectDocApprover(int docNo);
 
 	BusCoopForm selectbusCoopForm(int docNo);
 
@@ -59,13 +52,11 @@ public interface AprvService {
 
 	CmtUpdateForm selectCmtUpdateForm(int docNo);
 
-	void aprvApprove(AprvHistory aprvHistory);
+	void documentApprove(AprvHistory aprvHistory, AprvDoc aprvDoc, int approve);
 
-	void aprvApproveComplete(AprvHistory aprvHistory, AprvDoc aprvDoc);
+	int returnListCount(AprvDoc aprvDoc);
 
-	int returnListCount(int empNo);
-
-	ArrayList<AprvDoc> selectReturnList(PageInfo pi, int empNo);
+	ArrayList<AprvDoc> selectReturnList(PageInfo pi, AprvDoc aprvDoc);
 
 	ReturnDoc selectReReason(int docNo);
 
@@ -73,9 +64,9 @@ public interface AprvService {
 
 	void deleteReturnDoc(int docNo);
 
-	int completeListCount(int empNo);
+	int completeListCount(AprvDoc aprvDoc);
 
-	ArrayList<AprvDoc> selectCompleteList(PageInfo pi, int empNo);
+	ArrayList<AprvDoc> selectCompleteList(PageInfo pi, AprvDoc aprvDoc);
 
 	void docScrtyRequest(SecurityDoc securityDoc);
 
@@ -99,9 +90,9 @@ public interface AprvService {
 
 	void saveCoopFormOutbox(DocOutbox docOutbox, BusCoopForm busCoopForm);
 
-	int outboxListCount(int empNo);
+	int outboxListCount(AprvDoc aprvDoc);
 
-	ArrayList<DocOutbox> selectOutboxList(PageInfo pi, int empNo);
+	ArrayList<DocOutbox> selectOutboxList(PageInfo pi, AprvDoc aprvDoc);
 
 	int selectOutboxDocTypeNo(int outboxNo);
 
@@ -138,6 +129,16 @@ public interface AprvService {
 	void aprvReRequest(int docType, int outboxNo, LeaveForm leaveForm, CmtUpdateForm cmtUpdateForm, BusDraftForm busDraftForm, BusCoopForm busCoopForm, AprvHistory aprvHistory, AprvDoc aprvDoc);
 
 	ArrayList<DocType> selectDocTypeList();
+	
+	int searchAllDocListCount(AprvDoc aprvDoc);
+
+	ArrayList<AprvDoc> searchAllDocList(PageInfo pi, AprvDoc aprvDoc);
+
+	ArrayList<Member> selectDocEnrollApprover(Member loginUser);
+
+	AprvDoc selectCancleDocApprover(int docNo);
+
+	
 	
 
 	

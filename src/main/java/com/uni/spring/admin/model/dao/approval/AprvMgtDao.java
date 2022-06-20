@@ -48,19 +48,19 @@ public class AprvMgtDao {
 		return sqlSession.update("aprvMgtMapper.aprvDocUpdate", aprvDoc);
 	}
 
-	public int scrtyDocListCount(SqlSessionTemplate sqlSession) {
+	public int scrtyDocListCount(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
 		
-		return sqlSession.selectOne("aprvMgtMapper.scrtyDocListCount");
+		return sqlSession.selectOne("aprvMgtMapper.scrtyDocListCount", aprvDoc);
 	}
 
-	public ArrayList<AprvDoc> selectScrtyDocList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<AprvDoc> selectScrtyDocList(SqlSessionTemplate sqlSession, PageInfo pi, AprvDoc aprvDoc) {
 		
 		// 페이징처리 위해 오프셋, 로우바운즈
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("aprvMgtMapper.selectScrtyDocList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("aprvMgtMapper.selectScrtyDocList", aprvDoc, rowBounds);
 	}
 
 	public int deleteScrtyDoc(SqlSessionTemplate sqlSession, SecurityDoc securityDoc) {

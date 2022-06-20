@@ -21,6 +21,7 @@
 	        </div>
 	    </div>
     </div>
+	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
     
 	    $(document).on("click",".cancel_btn",function(){
@@ -29,5 +30,6 @@
 			$("#alert_body .alert_content").text("");
 		})   
 	</script>
+	
 </body>
 </html>

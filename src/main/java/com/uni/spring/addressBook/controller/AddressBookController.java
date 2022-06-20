@@ -62,7 +62,7 @@ public class AddressBookController {
 	 */
 	/// 부서별 버튼 + 전체주소록 내용조회 두개 합쳐보기
 	@GetMapping("addressMain.do")
-	public String mainAddress(WideMember wm, Dept dp, Model model) {
+	public String mainAddress(@ModelAttribute("loginUser") Member m,WideMember wm, Dept dp, Model model) {
 
 		ArrayList<WideMember> allAddList = addressBookService.selectAllAddList(wm);
 
@@ -72,8 +72,14 @@ public class AddressBookController {
 
 		System.out.println("부서명 조회결과:" + deptTitleList);
 
+		int empNo = m.getEmpNo();
+		System.out.println("세션에서 가져온 사번"+empNo);
+		//메인주소록으로 이동할때 즐겨찾기 추가된것들은 체크 유지해주기
+		ArrayList<WideMember> emoNoCkList= addressBookService.selectEmpNoChList(empNo);
+		System.out.println("즐겨찾기가 추가된 사번들 : "+emoNoCkList);
 		model.addAttribute("allAddList", allAddList);//조회한 전체 주소록 내용
 		model.addAttribute("deptTitleList", deptTitleList);//상단에 위치시킬 부서명 타이틀
+		model.addAttribute("emoNoCkList", emoNoCkList);//이미 즐겨찾기 추가가 된 사번들 조회
 
 		return "addressBook/mainAdd";
 	}
@@ -115,6 +121,7 @@ public class AddressBookController {
 		model.addAttribute("deptTitleList", deptTitleList);
 		if(allAddList==null||allAddList.isEmpty()) {
 			model.addAttribute("msg","전체 부서록 검색 결과가 없습니다.");
+			model.addAttribute("msgTitle","검색 결과");
 		}
 		return "addressBook/mainAdd";
 	}
@@ -136,6 +143,7 @@ public class AddressBookController {
 		model.addAttribute("deptTitleList", deptTitleList);
 		if(deptList==null||deptList.isEmpty()) {
 			model.addAttribute("msg","해당 부서내 검색 결과가 없습니다.");
+			model.addAttribute("msgTitle","검색결과");
 		}
 
 		return "addressBook/deptAdd";
@@ -450,8 +458,9 @@ public class AddressBookController {
 	public int insertPavoAdd(@ModelAttribute("loginUser") Member m, @RequestParam("ckEmpNo") String ckEmpNo) {
 		//즐겨찾기 테이블에 추가하기
 		int eNo = m.getEmpNo();//로그인한 유저의 사번
-		String empNo=Integer.toString(eNo);
+		String empNo = String.valueOf(eNo);
 		System.out.println("로그인한 유저의 사번은?: " + empNo + " 즐겨찾기 대상의 사번은?" + ckEmpNo);//잘넘어오넹
+		//추가하기
 		int count = addressBookService.insertPavoAdd(ckEmpNo,empNo);
 		System.out.println("즐겨찾기 추가 결과: "+ count);
 		return count;
@@ -459,12 +468,24 @@ public class AddressBookController {
 	
 	//즐겨찾기 조회
 	@GetMapping("favoAdd.do")
-	public String selectFavoAdd(@ModelAttribute("loginUser")Member m, Model model) {
+	public String selectFavoAdd(@ModelAttribute("loginUser") Member m, Model model) {
 		int eNo=m.getEmpNo();
-		String empNo = Integer.toString(eNo);
+		String empNo=String.valueOf(eNo);
 		ArrayList<WideMember> favoAddList = addressBookService.selectFavoAdd(empNo);
 		model.addAttribute("favoAddList", favoAddList);
 		return "addressBook/favoAdd";
 	}
+	
+	//메인주소록에서 즐겨찾기 삭제 
+		@PostMapping("deletePavoAdd.do")
+		@ResponseBody
+		public int deletePavoAdd(@ModelAttribute("loginUser") Member m, @RequestParam("ckEmpNo") String ckEmpNo) {
+		int eNo=m.getEmpNo();
+		String empNo=String.valueOf(eNo);
+		System.out.println("체크 해제시 넘어온 ckEmpNo"+ckEmpNo);//휴 넘어왔다..
+		int count=addressBookService.deletePavoAdd(empNo,ckEmpNo);
+		System.out.println("즐겨찾기 삭제 결과"+count);
+		return count;
+		}
 
 }

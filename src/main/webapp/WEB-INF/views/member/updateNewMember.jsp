@@ -25,7 +25,7 @@
             width: 500px;
             margin:0 auto;
             text-align:center;
-    		    position: left 50%; top: 50%;
+    		position: left 50%; top: 50%;
             height: 1100px;
 
         }
@@ -181,11 +181,10 @@
                 </tr>
                 <tr>
                   <!-- <td colspan="2"><input type="file" value="사진등록" id="photo"></td>-->
-                  <!-- 프로필필수값은 일단 지움 -->
                   <!-- 파일올리면 미리 보여주기 -->
                   <td colspan="2">
                     <input
-                      type="file"
+                      type="file" accept=".png,.jpg,.jepg"
                       name="photo"
                       value="사진등록"
                       id="photo"
@@ -199,7 +198,7 @@
 
             <input type="hidden" value="${m.empNo}" name="empNo" />
             <div class="title">
-              * id<br />
+              * 아이디<br />
               <input
                 type="text"
                 id="userId"

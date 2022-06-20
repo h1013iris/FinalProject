@@ -104,8 +104,13 @@
 													1차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
+													<!-- <input type="hidden" id="firstAprv" name="firstAprv" value="" readonly/>
 													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly/>
 													<input class="fix_input approverJop" id="firstAprvJob" value="" readonly/>
+													 -->
+													 <input type="hidden" id="aprv0" name="firstAprv" value="" readonly/>
+													<input class="fix_input approverName" id="aprvName0" name="firstAprvName" value="" readonly/>
+													<input class="fix_input approverJop" id="aprvJobName0" value="" readonly/>
 												</td>
 											</tr>
 											<tr>
@@ -113,8 +118,13 @@
 													2차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
+													<!-- input type="hidden" id="secondAprv" name="secondAprv" value="" readonly/>
 													<input class="fix_input approverName" id="secondAprvName" name="secondAprvName" value="" readonly/>
 													<input class="fix_input approverJop" id="secondAprvJob" value="" readonly/>
+													 -->
+													 <input type="hidden" id="aprv1" name="secondAprv" value="" readonly/>
+													<input class="fix_input approverName" id="aprvName1" name="secondAprvName" value="" readonly/>
+													<input class="fix_input approverJop" id="aprvJobName1" value="" readonly/>
 												</td>
 											</tr>
 										</tbody>
@@ -220,35 +230,40 @@
 					$("#updateReason").val(data.updateReason);
 					$("#outboxNo").text(data.outboxNo);
 					
-					if(data.docNo == 0) {
+					// 문서 번호가 없으면 (등록 시 임시 저장한 문서이면)
+					if(data.docNo == null) {
 						$("#docNo").val("");
+					
+					// 결재 취소한 문서인 경우
 					} else {
 						$("#docNo").val(data.docNo);
+						
+						// 결재자 조회
+				 		$.ajax({
+				 			
+				 			type: "post",
+		 	                url: "selectDocApprover.do",
+		 	                data: { docNo : data.docNo },
+		 	                success: function (list) {
+								console.log(list);
+								if(list != null) {								
+									for(var i in list) {
+										if(list[i] != null) {
+											$("#aprv" + i).val(list[i].empNo);
+											$("#aprvName" + i).val(list[i].empName);
+											$("#aprvJobName" + i).val(list[i].jobName);
+										}
+									}
+									/*$("#firstAprv").val(list[0].empNo);
+									$("#firstAprvName").val(list[0].empName);
+									$("#firstAprvJob").val(list[0].jobName);
+									$("#secondAprv").val(list[1].empNo);
+									$("#secondAprvName").val(list[1].empName);
+									$("#secondAprvJob").val(list[1].jobName);*/
+		 	                	}
+		 	                }
+				 		});
 					}
-					
-					// 결재선 조회
-			 		$.ajax({
-			 			
-			 			type: "post",
-		                url: "selectDeptApprover.do",
-		                data: { deptNo : "${ loginUser.departmentNo }",
-		                		jobNo : "${ loginUser.jobNo }"},
-		                success: function (data) {
-							console.log(data);
-		                	if(data != null || data != "") {
-		                		
-		                		$("#firstAprvName").val(data[0].empName);
-		                		$("#firstAprv").val(data[0].empNo);
-		                		$("#firstAprvJob").val(data[0].jobName);
-		                		
-		                		if(data.length > 1) {
-		                			$("#secondAprvName").val(data[1].empName);
-			                		$("#secondAprv").val(data[1].empNo);
-			                		$("#secondAprvJob").val(data[1].jobName);
-		                		}
-		                	}
-		                }
-			 		});
 				}
 			});
 			

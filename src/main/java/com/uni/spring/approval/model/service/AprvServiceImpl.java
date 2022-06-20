@@ -14,7 +14,6 @@ import com.uni.spring.approval.model.dto.AprvStatus;
 import com.uni.spring.approval.model.dto.BusCoopForm;
 import com.uni.spring.approval.model.dto.BusDraftForm;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
-import com.uni.spring.approval.model.dto.DocFilter;
 import com.uni.spring.approval.model.dto.DocOutbox;
 import com.uni.spring.approval.model.dto.DocType;
 import com.uni.spring.approval.model.dto.LeaveForm;
@@ -23,6 +22,7 @@ import com.uni.spring.approval.model.dto.SecurityDoc;
 import com.uni.spring.common.PageInfo;
 import com.uni.spring.common.exception.CommException;
 import com.uni.spring.department.model.dto.AttendLog;
+import com.uni.spring.manageMent.model.dao.ManageDao;
 import com.uni.spring.member.model.dto.Member;
 
 @Service // 먼저 등록
@@ -34,17 +34,20 @@ public class AprvServiceImpl implements AprvService {
 	@Autowired
 	private AprvDao aprvDao;
 	
-	
+	@Autowired
+	private ManageDao manageDao;
 
 	
-	@Override // 문서 등록 시 결재선 조회
+	// 문서 등록 시 결재선 조회
+	@Override
 	public ArrayList<Member> selectDeptApprover(Member loginUser) {
 		
 		return aprvDao.selectDeptApprover(sqlSession, loginUser);
 	}
 	
 	
-	@Override // 로그인 유저 소속 부서명 조회
+	// 로그인 유저 소속 부서명 조회
+	@Override
 	public String selectDeptName(String deptNo) {
 		
 		return aprvDao.selectDeptName(sqlSession, deptNo);
@@ -64,7 +67,7 @@ public class AprvServiceImpl implements AprvService {
 	}
 	
 	
-	// 결재 기록 등록
+	// 결재 기록 등록 (등록 시 문서 번호 시퀀스로 insert 하기 때문에 따로 구분)
 	public void insertAprvHistory(AprvHistory aprvHistory) {
 		
 		int result = 0;
@@ -77,16 +80,32 @@ public class AprvServiceImpl implements AprvService {
 	}
 	
 	
-	@Override // 휴가 신청서 등록
-	public void insertLeaveApp(AprvDoc aprvDoc, AprvHistory aprvHistory, LeaveForm leaveForm) {
+	// 문서 등록
+	@Override
+	public void enrollDocument(int docType, AprvDoc aprvDoc, AprvHistory aprvHistory, LeaveForm leaveForm,
+							CmtUpdateForm cmtUpdateForm, BusDraftForm busDraftForm, BusCoopForm busCoopform) {
 		
 		int result = 0;
 		
 		// 결재 문서 서식 내용 저장
-		result = aprvDao.insertLeaveApp(sqlSession, leaveForm);
+		if(docType == 10) {
+			result = aprvDao.insertLeaveApp(sqlSession, leaveForm);
+		
+		} else if(docType == 11) {
+			result = aprvDao.insertCmtUpdateApp(sqlSession, cmtUpdateForm);
+			
+		} else if(docType == 20) {
+			result = aprvDao.insertBusDraft(sqlSession, busDraftForm);
+			
+		} else if(docType == 30) {
+			result = aprvDao.insertBusCoop(sqlSession, busCoopform);
+			
+		}
 		
 		if(result < 1) {
 			throw new CommException("문서 저장 실패");
+		}else if(result > 0 && docType == 11) {
+			int result1 = manageDao.updateVacation(sqlSession, leaveForm);
 		}
 		
 		insertDoc(aprvDoc); // 결재 문서 저장
@@ -94,7 +113,8 @@ public class AprvServiceImpl implements AprvService {
 	}
 	
 	
-	@Override // 해당 날짜 근태 기록 조회
+	// 해당 날짜 근태 기록 조회
+	@Override
 	public AttendLog selectCmt(AttendLog attendLog) {
 		
 		AttendLog userAttendLog = aprvDao.selectCmt(sqlSession, attendLog);
@@ -103,92 +123,40 @@ public class AprvServiceImpl implements AprvService {
 	}
 
 
-	@Override // 근태 기록 수정 신청서
-	public void insertCmtUpdateApp(AprvDoc aprvDoc, AprvHistory aprvHistory, CmtUpdateForm cmtUpdateForm) {
-		
-		int result = 0;
-		
-		// 결재 문서 서식 내용 저장
-		result = aprvDao.insertCmtUpdateApp(sqlSession, cmtUpdateForm);
-		
-		if(result < 1) {
-			throw new CommException("문서 저장 실패");
-		
-		} else {
-			insertDoc(aprvDoc);
-			insertAprvHistory(aprvHistory);
-		}
-	}
-
-
-	@Override // 부서 리스트 조회
+	// 부서 리스트 조회
+	@Override
 	public ArrayList<Department> selectDeptList(int deptNo) {
 		
 		return aprvDao.selectDeptList(sqlSession, deptNo);
 	}
 
-
-	@Override // 업무 기안서 등록
-	public void insertBusDraft(AprvDoc aprvDoc, AprvHistory aprvHistory, BusDraftForm busDraftForm) {
-		
-		int result = 0;
-		
-		// 결재 문서 서식 내용 저장
-		result = aprvDao.insertBusDraft(sqlSession, busDraftForm);
-		
-		if(result < 1) {
-			throw new CommException("문서 저장 실패");
-		
-		} else {
-			insertDoc(aprvDoc);
-			insertAprvHistory(aprvHistory);
-		}
-	}
-
-
-	@Override // 업무 협조문 등록
-	public void insertBusCoop(AprvDoc aprvDoc, AprvHistory aprvHistory, BusCoopForm busCoopform) {
-		
-		int result = 0;
-		
-		// 결재 문서 서식 내용 저장
-		result = aprvDao.insertBusCoop(sqlSession, busCoopform);
-		
-		if(result < 1) {
-			throw new CommException("문서 저장 실패");
-		
-		} else {
-			insertDoc(aprvDoc);
-			insertAprvHistory(aprvHistory);
-		}
-	}
-
 	
-	@Override // 결재 대기 리스트 개수
-	public int waitingListCount(Member loginUser) {
+	// 결재 대기 리스트 개수
+	@Override
+	public int waitingListCount(AprvDoc aprvDoc) {
 		
-		return aprvDao.waitingListCount(sqlSession, loginUser);
+		return aprvDao.waitingListCount(sqlSession, aprvDoc);
 	}
 
 
 	@Override // 결재 대기 리스트 조회
-	public ArrayList<AprvDoc> selectWaitingList(PageInfo pi, Member loginUser) {
+	public ArrayList<AprvDoc> selectWaitingList(PageInfo pi, AprvDoc aprvDoc) {
 		
-		return aprvDao.selectWaitingList(sqlSession, pi, loginUser);
+		return aprvDao.selectWaitingList(sqlSession, pi, aprvDoc);
 	}
 	
 
 	@Override // 결재 요청 문서 리스트 개수
-	public int requestListCount(Member loginUser) {
+	public int requestListCount(AprvDoc aprvDoc) {
 		
-		return aprvDao.requestListCount(sqlSession, loginUser);
+		return aprvDao.requestListCount(sqlSession, aprvDoc);
 	}
 
 
 	@Override // 결재 요청 문서 리스트
-	public ArrayList<AprvDoc> selectRequestList(PageInfo pi, Member loginUser) {
+	public ArrayList<AprvDoc> selectRequestList(PageInfo pi, AprvDoc aprvDoc) {
 		
-		return aprvDao.selectRequestList(sqlSession, pi, loginUser);
+		return aprvDao.selectRequestList(sqlSession, pi, aprvDoc);
 	}
 
 
@@ -200,7 +168,7 @@ public class AprvServiceImpl implements AprvService {
 
 
 	@Override // 해당 문서 결재자 조회
-	public AprvDoc selectDocApprover(int docNo) {
+	public ArrayList<Member> selectDocApprover(int docNo) {
 		
 		return aprvDao.selectDocApprover(sqlSession, docNo);
 	}
@@ -250,23 +218,25 @@ public class AprvServiceImpl implements AprvService {
 
 	}
 
-	
-	@Override // 결재 승인 (중간 승인)
-	public void aprvApprove(AprvHistory aprvHistory) {
+
+	// 문서 결재 (승인)
+	@Override
+	public void documentApprove(AprvHistory aprvHistory, AprvDoc aprvDoc, int approve) {
 		
-		insertAprvHistory2(aprvHistory);
+		// 중간 승인이라면
+		if(approve == 1) {
+			insertAprvHistory2(aprvHistory);	// 결재 기록만 등록
+			
+		// 최종 승인이라면
+		} else if(approve == 2) {
+			insertAprvHistory2(aprvHistory);	// 결재 기록 등록하고
+			updateDoc(aprvDoc);					// 상태값 변경까지
+		}
+		
 	}
 
-
-	@Override // 결재 승인 (최종 승인)
-	public void aprvApproveComplete(AprvHistory aprvHistory, AprvDoc aprvDoc) {
-		
-		insertAprvHistory2(aprvHistory);
-		updateDoc(aprvDoc);
-	}
-
 	
-	// 해당 문서 반려, 승인, 임시저장 기록 등록
+	// 해당 문서 반려, 승인 기록 등록 (특정 문서 번호로 insert 하기 때문에 따로 구분)
 	public void insertAprvHistory2(AprvHistory aprvHistory) {
 		
 		int result = aprvDao.insertAprvHistory2(sqlSession, aprvHistory);
@@ -283,22 +253,24 @@ public class AprvServiceImpl implements AprvService {
 		int result = aprvDao.updateDoc(sqlSession, aprvDoc);
 		
 		if(result < 1) {
-			throw new CommException("해당 문서 반려로 업데이트 실패");
+			throw new CommException("해당 문서 상태값 변경 실패");
 		}
 	}
 
 
-	@Override // 결재 반려 리스트 개수
-	public int returnListCount(int empNo) {
+	// 결재 반려 리스트 개수
+	@Override
+	public int returnListCount(AprvDoc aprvDoc) {
 		
-		return aprvDao.returnListCount(sqlSession, empNo);
+		return aprvDao.returnListCount(sqlSession, aprvDoc);
 	}
 
 
-	@Override // 결재 반려 리스트 조회
-	public ArrayList<AprvDoc> selectReturnList(PageInfo pi, int empNo) {
+	// 결재 반려 리스트 조회
+	@Override
+	public ArrayList<AprvDoc> selectReturnList(PageInfo pi, AprvDoc aprvDoc) {
 		
-		return aprvDao.selectReturnList(sqlSession, pi, empNo);
+		return aprvDao.selectReturnList(sqlSession, pi, aprvDoc);
 	}
 
 
@@ -328,16 +300,16 @@ public class AprvServiceImpl implements AprvService {
 	
 
 	@Override // 결재 완료 문서 리스트 개수
-	public int completeListCount(int empNo) {
+	public int completeListCount(AprvDoc aprvDoc) {
 				
-		return aprvDao.completeListCount(sqlSession, empNo);
+		return aprvDao.completeListCount(sqlSession, aprvDoc);
 	}
 
 
 	@Override // 결재 완료 문서 리스트 조회
-	public ArrayList<AprvDoc> selectCompleteList(PageInfo pi, int empNo) {
+	public ArrayList<AprvDoc> selectCompleteList(PageInfo pi, AprvDoc aprvDoc) {
 		
-		return aprvDao.selectCompleteList(sqlSession, pi, empNo);
+		return aprvDao.selectCompleteList(sqlSession, pi, aprvDoc);
 	}
 
 
@@ -472,16 +444,16 @@ public class AprvServiceImpl implements AprvService {
 
 
 	@Override // 임시 보관 리스트 개수
-	public int outboxListCount(int empNo) {
+	public int outboxListCount(AprvDoc aprvDoc) {
 		
-		return aprvDao.outboxListCount(sqlSession, empNo);
+		return aprvDao.outboxListCount(sqlSession, aprvDoc);
 	}
 
 
 	@Override // 임시 보관 리스트 조회
-	public ArrayList<DocOutbox> selectOutboxList(PageInfo pi, int empNo) {
+	public ArrayList<DocOutbox> selectOutboxList(PageInfo pi, AprvDoc aprvDoc) {
 		
-		return aprvDao.selectOutboxList(sqlSession, pi, empNo);
+		return aprvDao.selectOutboxList(sqlSession, pi, aprvDoc);
 	}
 
 
@@ -811,6 +783,41 @@ public class AprvServiceImpl implements AprvService {
 		
 		return aprvDao.selectDocTypeList(sqlSession);
 	}
+	
+	
+	// 문서 전체 검색 리스트 개수
+	@Override
+	public int searchAllDocListCount(AprvDoc aprvDoc) {
+		
+		return aprvDao.searchAllDocListCount(sqlSession, aprvDoc);
+	}
+
+
+	// 문서 전체 검색 리스트 조회
+	@Override
+	public ArrayList<AprvDoc> searchAllDocList(PageInfo pi, AprvDoc aprvDoc) {
+		
+		return aprvDao.searchAllDocList(sqlSession, pi, aprvDoc);
+	}
+
+
+	// 결재자 조회
+	@Override
+	public ArrayList<Member> selectDocEnrollApprover(Member loginUser) {
+		
+		return aprvDao.selectDocEnrollApprover(sqlSession, loginUser);
+	}
+
+
+	// 결재 취소 문서 결재자 조회
+	@Override
+	public AprvDoc selectCancleDocApprover(int docNo) {
+		
+		return aprvDao.selectCancleDocApprover(sqlSession, docNo);
+	}
+
+
+	
 
 
 	

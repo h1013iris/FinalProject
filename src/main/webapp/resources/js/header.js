@@ -13,6 +13,8 @@ $(function(){
 	// 문서 작성 버튼 클릭 시 문서 서식 선택하는 모달창
 	$(document).on("click",".docEnrollButton",function(){
 		$(".docEnrollModal").css("display","flex");
+		// 모달창 열릴 때마다 이전에 선택한 문서 타입 남아있지 않도록 비워주기
+		$("#docType").val("");
 	})
 	
 	//간편 프로젝트 생성 버튼 클릭시 모달창 
@@ -54,6 +56,7 @@ $(function(){
         $(".docEnrollModal").hide();
         $(".returnReason_modal").hide();
         $(".scrtyReq_modal").hide();
+        $(".selectApprovor_modal").hide();
 	})
 	
 	//확인창 취소버튼 - 공통

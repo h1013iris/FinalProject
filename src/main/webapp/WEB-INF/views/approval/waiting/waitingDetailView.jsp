@@ -126,9 +126,43 @@
 			if("${ loginUser.empNo }" == "") {	
 				
 				loginFn(); // 로그인 먼저
+			
+			} else {
+				selectApproverFn();	// 결재자 조회
 			}
     	});
     
+    	
+    	// 결재자 조회
+    	function selectApproverFn() {
+    		
+	 		$.ajax({
+	 			
+	 			type: "post",
+                url: "selectDocApprover.do",
+                data: { docNo : ${ docNo } },
+                success: function (list) {
+					console.log(list);
+					if(list != null) {
+						for(var i in list) {
+							if(list[i] != null) {
+								$("#aprv" + i).val(list[i].empNo);
+								$("#aprvName" + i).val(list[i].empName);
+								$("#aprvJobName" + i).val(list[i].jobName);
+							}
+						}
+						/*$("#firstAprv").val(list[0].empNo);
+						$("#firstAprvName").val(list[0].empName);
+						$("#firstAprvJob").val(list[0].jobName);
+						$("#secondAprv").val(list[1].empNo);
+						$("#secondAprvName").val(list[1].empName);
+						$("#secondAprvJob").val(list[1].jobName);
+	                	}*/
+	                }
+		 		}
+	 		});
+    	}
+    	
     
     	// 반려 버튼 클릭 시 모달창 띄우기
   		$(document).on("click", ".return_btn", function() {
@@ -145,9 +179,9 @@
 
   			myConfirm(title, content);
 			
-  			let loginUser = "${ loginUser.empName }";
-			let firstAprv = $("#firstAprvName").val();
-			let secondAprv = $("#secondAprvName").val();
+  			let loginUser = "${ loginUser.empNo }";
+			let firstAprv = $("#aprv0").val();
+			let secondAprv = $("#aprv1").val();
 			
 			console.log(secondAprv != "" && loginUser == firstAprv);
 			console.log(loginUser == secondAprv || 
@@ -165,39 +199,19 @@
     			let aprvPro = "A"; // 결재 처리 (승인)
     			let aprvStatus = 2; // 결재 진행 상태 (결재 완료) -> 마지막 결재자일 경우
     			
-    			let loginUser = "${ loginUser.empName }";
-    			let firstAprv = $("#firstAprvName").val();
-    			let secondAprv = $("#secondAprvName").val();
+    			let loginUser = "${ loginUser.empNo }";
+    			let firstAprv = $("#aprv0").val();
+    			let secondAprv = $("#aprv1").val();
+    			
+    			let url = "";		// 중간. 최종 승인에 따라 url 변경
+    			let approve = 0;	// 중간, 최종 승인 구별하기 위한 변수
     			
     			// 중간 승인
     			// 2차 결재자가 null이 아니고, 본인이 1차 결재자일 경우 -> 결재 기록만 등록
     			if(secondAprv != "" && loginUser == firstAprv) {
     				
     				console.log("중간 승인");
-    				
-    				// 결재 처리 코드 쿼리스트링으로 붙여서 같이 넘김
-    				form += "&aprvPro=" + aprvPro;
-    				
-    				$.ajax({
-        				
-        				type: "post",
-        				url: "aprvApprove.do",
-        				data: form,
-        				success: function(result) {
-        					console.log(result)
-    	                	
-    	                    if(result == "success") {
-    	                    	
-    	                    	let content = "결재가 승인되었습니다.";
-    	                    	reResultFn(content);
-     	           	 		
-    	                    } else {
-    	                    	
-    	                    	let content = "결재 승인에 실패하였습니다.";
-    	                    	reResultFn(content);
-    	               		}
-        				}
-        			});
+    				approve = 1;
     			
     			// 최종 승인
     			// 본인이 2차 결재자이거나, 2차 결재자가 null인 문서의 1차 결재자일 경우 -> 기록 등록, 상태값 변경
@@ -205,32 +219,32 @@
     						(secondAprv == "" && loginUser == firstAprv)) {
     				
     				console.log("최종 승인");
-    				
-    				// 결재 처리 코드, 결재 상태값 쿼리스트링으로 붙여서 같이 넘김
-    				form += "&aprvPro=" + aprvPro + "&aprvStatus=" + aprvStatus;
-    				
-					$.ajax({
-        				
-        				type: "post",
-        				url: "aprvApproveComplete.do",
-        				data: form,
-        				success: function(result) {
-        					console.log(result)
-    	                	
-    	                    if(result == "success") {
-    	                    	
-    	                    	let content = "결재가 승인되었습니다.";
-    	                    	reResultFn(content);
-     	           	 		
-    	                    } else {
-    	                    	
-    	                    	let content = "결재 승인에 실패하였습니다.";
-    	                    	reResultFn(content);
-    	               		}
-        				}
-        			});
-    			
+    				approve = 2;
     			}
+    			
+    			// 결재 처리 코드, 결재 상태값 쿼리스트링으로 붙여서 같이 넘김
+				form += "&aprvPro=" + aprvPro + "&aprvStatus=" + aprvStatus + "&approve=" + approve;
+				
+				$.ajax({
+    				
+    				type: "post",
+    				url: "documentApprove.do",
+    				data: form,
+    				success: function(result) {
+    					console.log(result)
+	                	
+	                    if(result == "success") {
+	                    	
+	                    	let content = "결재가 승인되었습니다.";
+	                    	reResultFn(content);
+ 	           	 		
+	                    } else {
+	                    	
+	                    	let content = "결재 승인에 실패하였습니다.";
+	                    	reResultFn(content);
+	               		}
+    				}
+    			});
     			
      		});
     		

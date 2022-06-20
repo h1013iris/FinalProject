@@ -17,6 +17,7 @@ import com.uni.spring.admin.model.dto.Department;
 import com.uni.spring.admin.model.dto.employeeAllInfo;
 import com.uni.spring.admin.model.service.adminService;
 import com.uni.spring.approval.model.dto.CmtUpdateForm;
+import com.uni.spring.approval.model.dto.LeaveForm;
 import com.uni.spring.common.Attachment;
 import com.uni.spring.department.model.dto.AttendLog;
 import com.uni.spring.department.model.dto.DepartmentAnno;
@@ -25,6 +26,7 @@ import com.uni.spring.department.model.service.DepartService;
 import com.uni.spring.manageMent.model.dto.calculateSalary;
 import com.uni.spring.manageMent.model.dto.calendarWeek;
 import com.uni.spring.manageMent.model.dto.manageDepart;
+import com.uni.spring.manageMent.model.dto.vacationInfo;
 import com.uni.spring.manageMent.model.service.ManageService;
 import com.uni.spring.member.model.dto.Member;
 
@@ -52,7 +54,11 @@ public class ManageController {
 			att.add(new AttendLog().attendList(at));
 		}
 		System.out.println(al);
-		mv.addObject("dplist",dplist).addObject("dlist", dlist).addObject("cw",cw).addObject("att",att).setViewName("manage/manageMain");
+		
+		//휴가정보
+		ArrayList<vacationInfo> vi = manageService.selectListVacation(departmentNo);
+		
+		mv.addObject("dplist",dplist).addObject("dlist", dlist).addObject("cw",cw).addObject("att",att).addObject("vi",vi).setViewName("manage/manageMain");
 		return mv;
 	}
 	
@@ -232,4 +238,31 @@ public class ManageController {
 		int result = 0;
 		return String.valueOf(result);
 	}
+	
+	//휴가 필터 
+	@ResponseBody
+	@RequestMapping(value="filterListVacation.do", produces="application/json; charset=utf-8")
+	public String filterListVacation(manageDepart md) {
+		ArrayList<vacationInfo> vi = manageService.filterListVacation(md);
+		return new Gson().toJson(vi);
+	}
+	
+	//휴가 상세페이지 
+	@RequestMapping("selectListVacationInfo.do")
+	public ModelAndView selectListVacationInfo(manageDepart md, ModelAndView mv) {
+		System.out.println(md);
+		//이번주 월-금 날짜 
+		calendarWeek cw2 = new calendarWeek().selectThisWeek();
+		//휴가 내용 리스트
+		ArrayList<vacationInfo> vi = manageService.filterListVacation(md);
+		//휴가 사용 내역
+		ArrayList<LeaveForm> lf = manageService.selectListLeaveForm(md, cw2);
+		
+		ArrayList<Department> dplist = adminService.selectAllDeptList();
+		System.out.println(lf);
+		mv.addObject("vi",vi).addObject("lf",lf).addObject("dplist",dplist).setViewName("manage/detailListVacation");
+		return mv;
+	}
+	
+	
 }

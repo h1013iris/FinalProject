@@ -89,6 +89,11 @@
 		margin: 70px 0 10px 100px;
 		text-align: center;
 		line-height: 25px;
+		display: none;
+	}
+	
+	.sequrity_btn {
+		display: none;
 	}
 	
 </style>
@@ -124,9 +129,7 @@
 	        	
 				<div class="docDetailBtnsArea">
 					<%-- 직급이 부장인 경우에만 버튼 활성화 --%>
-					<c:if test="${ loginUser.jobNo == 7}">
-						<button class="commonButton1 sequrity_btn docDetailBtn" type="button">보안요청</button>
-					</c:if>
+					<button class="commonButton1 sequrity_btn docDetailBtn" type="button">보안요청</button>
 					<button class="commonButton1 completeList_btn docDetailBtn" onclick="location.href='completeMain.do'" type="button">목록으로</button>
 				</div>
 				
@@ -142,11 +145,47 @@
 				
 				loginFn(); // 로그인 먼저
 			}
-			
-			$(".scrtyCheckMsg").hide();
-			
-			scrtyCheckFn();
+						
+			scrtyCheckFn();		// 보안 요청된 문서인지 확인
+			lastAprvCheckFn();	// 로그인 유저가 해당 문서의 최종 결재자인지 확인
 		});
+    	
+    	
+    	// 해당 문서 결재자 조회해서 출력하고, 로그인 유저가 최종 결재자인지 확인하는 함수
+    	function lastAprvCheckFn() {
+    		
+    		$.ajax({
+	 			type: "post",
+                url: "selectDocApprover.do",
+                data: { docNo : ${ docNo } },
+                success: function (list) {
+					console.log(list);
+					
+					let loginUser = ${ loginUser.empNo };
+					let lastAprv = "";
+					
+					// 결재자 출력
+					for(var i in list) {
+						if(list[i] != null) {
+							$("#aprv" + i).val(list[i].empNo);
+							$("#aprvName" + i).val(list[i].empName);
+							$("#aprvJobName" + i).val(list[i].jobName);
+						
+						// 마지막 결재자 변수에 담기
+						} else {
+							lastAprv = list[i-1].empNo;
+						}
+					}
+					
+					// 로그인 유저와 최종 결재자가 일치하면 보안 요청 버튼 보이도록
+					if(loginUser == lastAprv) {
+						$(".sequrity_btn").show();
+					}
+					
+                }
+	 		});
+    		
+    	}
     	
     	
     	// 보안 요청 버튼 클릭 시
@@ -194,10 +233,10 @@
     				if(result == "yes") {
     					console.log("보안 요청 불가능");
     					
-    					$(".sequrity_btn").hide(); // 해당 버튼 숨기고
+    					$(".sequrity_btn").hide(); 	// 해당 버튼 숨기고
     					$(".scrtyCheckMsg").show(); // 메시지 띄우기
-    					$(".docDetailBtnsArea").css("padding-top", "0"); // 버튼 위치 조정
-    					$(".docDetailMainArea").css("padding", "0 0 0 100px");
+    					$(".docDetailBtnsArea").css("padding-top", "0");		// 버튼 위치 조정
+    					$(".docDetailMainArea").css("padding", "0 0 0 100px");	// 문서 위치 조정
     					
     				// 존재하지 않으면
     				} else if(result == "no") {
