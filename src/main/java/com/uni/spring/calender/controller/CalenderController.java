@@ -96,6 +96,8 @@ public class CalenderController {
 		}
 		ArrayList<Calender> list = calenderService.selectList(m, today_info); // 일정 리스트를 담음(팀,전체,개인 공개)
 		
+		
+		
 		//실질적인 달력 데이터 리스트에 데이터 삽입 시작.
 		//일단 시작 인덱스까지 아무것도 없는 데이터 삽입 -- 앞에 이전달의 날을 비우기 위해
 		for(int i=1; i<today_info.get("start"); i++){
@@ -159,9 +161,9 @@ public class CalenderController {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
-		calender.setTitle(calender.getTitle().replaceAll(" ", "&nbsp").replaceAll("<br>", "\n"));
-		calender.setMemo(calender.getMemo().replaceAll(" ", "&nbsp").replaceAll("<br>", "\n"));
-		calender.setPlace(calender.getPlace().replaceAll(" ", "&nbsp").replaceAll("<br>", "\n"));
+		calender.setTitle(calender.getTitle().replaceAll("\\u0020", "&nbsp;").replaceAll("\n", "<br>"));
+		calender.setMemo(calender.getMemo().replaceAll("\\u0020", "&nbsp;").replaceAll("\n", "<br>"));
+		calender.setPlace(calender.getPlace().replaceAll("\\u0020", "&nbsp;").replaceAll("\n", "<br>"));
 		
 		if(calender.getOpenOption().equals("전체공개")) {
 			System.out.println("전체공개 선택함");

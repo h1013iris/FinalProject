@@ -17,13 +17,13 @@
 	}
 	.res-todayList {
         text-align: center;
-	    line-height: 37px;
+	    line-height: 53px;
 	}
 	
 	/*임의 아님!!!!!*/
 	.reservation-main {
 	    width: 100%;
-	    height: 70%;
+	    height: 62%;
 	}
 	.reservation-navi {
 	    width: 80%;
@@ -79,16 +79,15 @@
 	.reservation-today {
 	    width: 98.5%;
 	    border-top: 1px solid;
-	    height: 23.7%;
+	    height: 31.9%;
 	    margin: 0 auto;
 	}
-	.reservation-today .res-today {		
+	.reservation-today .res-today {
 	    font-size: 20px;
 	    margin: 0 auto;
-	 	margin-top: 0.8%;
- 	    margin-bottom: 0.2%;
 	    width: 99.7%;
-	    height: 11%;
+	    height: 16%;
+	    line-height: 40px;
 	}
 	.res-columm1{
 		width: 13%;
@@ -150,6 +149,7 @@
 	    height: 80%;
 	    padding-bottom: 3px;
 	    margin-top: 3px;
+	    margin-left: 8%;
 	}
 	.res_tdtimes:not(li) {
 	    background: rgb(174, 217, 248);
@@ -316,8 +316,7 @@
         	</table>
         	<ul>
         		<c:forEach var="today" items="${myList}">
-		        	<li class="today-line res_tdtimes">
-		        		<input type="hidden" value="${today.reserveNo}"/>
+		        	<li class="today-line res_tdtimes" onclick="detailresGo(${today.reserveNo}); notuse(event);">
 		   				<div class="res-todayList res-thisLine1">${today.smallRoomName}</div>
 		    			<div class="res-todayList res-thisLine2">${today.meetingName}</div>
 		     			<div class="res-todayList res-thisLine3">${fn:substring(today.startDate, 5, 7)}월 ${fn:substring(today.startDate, 8, 10)}일 ${fn:substring(today.startDate, 11, 16)} ~ ${fn:substring(today.endDate, 5, 7)}월 ${fn:substring(today.endDate, 8, 10)}일 ${fn:substring(today.endDate, 11, 16)}</div>
@@ -339,11 +338,11 @@
 		})
 	 	
     	// 특정 클래스 선택 시 상세조회 모달보이기 res_tdtimes
-    	$(document).on('click','.res_tdtimes', function(){
+    	function detailresGo(resNo){
     		console.log("상세 모달로")
-    		let resNo = $(this).children('input').val();
     		console.log(resNo)
     		
+    		//event.stopPropagation()
     		$.ajax({
     			url:"selectOneReservation.do",
     			data:{
@@ -378,7 +377,11 @@
     				console.log("상세모달 실패")
     			}
     		})
-    	})
+    	}
+
+		function notuse(event){
+			event.stopPropagation()
+		}
     	
     	function selectOneAttendee(reserNo) {
     		$.ajax({
@@ -393,13 +396,6 @@
     				$.each(obj, function(idx, val){
     					
     					let attendee = val.empName;
-    					let status = "";
-    					
-    					if(val.status == 'Y'){
-    						status = "(참여)"
-    					}else{
-    						status = "(미참여)"
-    					}
     					let at = $('<span>').append(attendee).append(status).addClass("res_att");
     					if(idx < obj.length-1){
     						at.append(", ")
@@ -418,6 +414,7 @@
     
     	// 취소 버튼 클릭시 ajax실행
     	function deleteReservation(reserveNo) {
+    		event.stopPropagation()
 			myConfirm("회의실 예약 삭제", "예약을 정말로 삭제하시겠습니까?");
 			//취소할 시 
 			$(".false_btn").click(function() {

@@ -152,11 +152,14 @@
   		})
   		
   		// 취소 버튼 클릭시 ajax실행
-    	$(document).on('click','.resDetailDelete_btn',function() {
+    	$(document).on('click','.resDetailModal_footer .resDetailDelete_btn',function() {
+    		$('.resDetailModal_background').css("display","none");
 			myConfirm("회의실 예약 삭제", "예약을 정말로 삭제하시겠습니까?");
+			
 			//취소할 시 
 			$(".false_btn").click(function() {
 			     $("#helpmeCOnfirm").hide();
+			     $('.resDetailModal_background').css("display","flex");
 			});
 			
 			let reserveNo = $('.reserveNo').val()

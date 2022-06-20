@@ -15,6 +15,8 @@
 			let endTime = enrollFormReservation.endTime.value;
 			let meetingName = enrollFormReservation.meetingName.value;
 			let attendeeNo = new Object();
+			
+			let meetingRoom = $(".res-smallCategory").val()
 
 			if(enrollFormReservation.attendeeNo != undefined){
 				console.log("들어옴 =========")
@@ -35,7 +37,7 @@
 			console.log(endDate)
 			console.log(meetingName)
 			// 회의실번호가 없으면
-			if(roomSmallNo == '' || roomSmallNo == undefined){
+			if(roomSmallNo == '' || roomSmallNo == undefined || meetingRoom == '선택'){
 				$("#res-alert_title .title_name").text("회의실 선택 확인");
 				$("#res-alert_body .res-alert_content").text("회의실을 선택해야 합니다.");
 				$('.res-errorNumber').val('1')
@@ -1274,7 +1276,23 @@
 			
 			// 취소 버튼 클릭시 히든
 			$(document).on("click",'.reservationEnroll_cancelbtn',function(){
-
+				$('.res-smallCategory option').remove();
+				
+				let op = $('<option>')
+				op.text('선택')
+				op.val('선택')
+				$('.res-smallCategory').append(op)
+				
+				$('.res-bigCategory').val('선택').prop('selected', true);
+				$('.res-startDate').val('')
+				$('.res-startTime').val('선택').prop('selected', true);
+				$('.res-endTime').val('선택').prop('selected', true);
+				$('.res-endDate').val('')
+				$('.reservation-member').empty()
+				$('#meetingName').empty()
+				$('.res-endDate').attr('readonly',false)
+				
+				
 				$(".reservationEnrollFormModal").css("display","none");
 				
 			})

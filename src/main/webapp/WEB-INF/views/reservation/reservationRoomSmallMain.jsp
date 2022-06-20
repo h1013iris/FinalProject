@@ -156,8 +156,10 @@
 	.res-thisLine3{
 		width: 23.85%;
 	}
-	.res-thisLine4{
+	.res-thisLine4 {
 	    width: 9.9%;
+	    text-align: center;
+	    margin-left: 10px;
 	}
 	.res-today p{
 		margin-left: 3px;
@@ -328,7 +330,7 @@
 
 	     		</c:forEach>
 	     		<c:if test="${fn:length(list) == 0}">
-	     			<li class="today-line res_tdtimes">
+	     			<li class="res_tdtimes">
 		     			<div class="res-notList">
 		     				예약된 리스트가 존재하지 않습니다
 	     				</div>
@@ -439,13 +441,7 @@
     				$.each(obj, function(idx, val){
     					
     					let attendee = val.empName;
-    					let status = "";
     					
-    					if(val.status == 'Y'){
-    						status = "(참여)"
-    					}else{
-    						status = "(미참여)"
-    					}
     					let at = $('<span>').append(attendee).append(status).addClass("res_att");
     					if(idx < obj.length-1){
     						at.append(", ")
@@ -462,8 +458,9 @@
 			})
 		}
     
-    	// 취소 버튼 클릭시 ajax실행
+		// 취소 버튼 클릭시 ajax실행
     	function deleteReservation(reserveNo) {
+    		event.stopPropagation()
 			myConfirm("회의실 예약 삭제", "예약을 정말로 삭제하시겠습니까?");
 			//취소할 시 
 			$(".false_btn").click(function() {
