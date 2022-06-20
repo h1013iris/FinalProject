@@ -55,7 +55,7 @@
 	    width: 114px;
 	    height: 27px;
 	}
-	.startTime, .endTime {
+	.reservationEnrollModal .startTime, .reservationEnrollModal .endTime {
 	    width: 70px;
 	    height: 31px;
 	    transform: translateY(-1px);
@@ -183,7 +183,7 @@
 									<div class="reservation-member">
 									</div>
 								</div>
-								<div class="res-addressBox" style="display: none;"><!-- -->
+								<div class="res-addressBox" style="display: none;">
 									<div class="res-department">
 									</div>
 									<div class="res-empName">
@@ -194,7 +194,7 @@
 						<tr class="reservation-article">
 							<td class="article-in-option">회의명</td>
 							<td>
-								<input type="text" name="meetingName" id="meetingName">
+								<input type="text" name="meetingName" id="meetingName" maxlength="24">
 							</td>
 						</tr>
 					</table>
@@ -206,7 +206,6 @@
             </div>
         </div>
     </div>
-    <script src="${ pageContext.servletContext.contextPath }/resources/js/reservation/reservationEnroll.js"></script>
     <script>
 		// 사원 클릭시 리스트 뜸
 		$(document).on('click','.empName-pline',function(){
@@ -214,16 +213,19 @@
 			let name = $(this).find('.empName-res').text()
 			console.log(val+" "+ name)
 			
-			let maxcount = $(".res-smallCategory").text()
-			maxcount = maxcount.trim()//.substring(maxcount.length-4, maxcount.length)
-			console.log(maxcount)
+			let meetingRoom = $(".res-smallCategory").val()
+			console.log(meetingRoom)
 			
-			if(maxcount == "선택"){
-				$("#res-alert_title .title_name").text("회의실 예약 인원");
-				$("#res-alert_body .res-alert_content").text("회의실 선택을 먼저 진행해주세요.");
-				$(".reservationEnrollFormModal").hide();
-				$("#res-alertBackground").show();
-				return false;
+			if(meetingRoom == '선택'){
+				
+				alertok("회의실 예약 인원", "회의실 선택을 먼저 진행해주세요.");
+				// alert 확인 버튼시
+				$(".res_Ok_btn").click(function(){
+					
+					$("#res-alertBackground").hide();
+					$(".reservationEnrollFormModal").show();
+					return false;
+				})
 			}
 			
 			if(!$(".resname-padding").hasClass(name)){
@@ -232,5 +234,6 @@
 			
 		})
     </script>
+    <script src="${ pageContext.servletContext.contextPath }/resources/js/reservation/reservationEnroll.js"></script>
 </body>
 </html>

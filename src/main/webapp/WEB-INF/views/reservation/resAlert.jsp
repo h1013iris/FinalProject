@@ -71,7 +71,6 @@
 	    <div id="res-alert_container">
 	        <div id="res-alert_title">
 	            <span class="title_name">${msgTitle}</span>
-	            <input type="hidden" class="res-errorNumber"/>
 	        </div>
 	        <div id="res-alert_body">
 	            <span class="res-alert_content">${msg}</span>
@@ -82,16 +81,14 @@
 	    </div>
     </div>
     <script>
-	// alert 확인 버튼시
-	$(".res_Ok_btn").click(function(){
-		
-		let num = $('.res-errorNumber').val()
-		if(num == 1){
-			$('.res-errorNumber').val('')
-			$("#res-alertBackground").hide();
-			$(".reservationEnrollFormModal").show();
-		}
-	})
+    function alertok(title, content){
+    	
+    	$("#res-alert_title .title_name").text(title);
+    	$("#res-alert_body .res-alert_content").text(content);
+		$(".reservationEnrollFormModal").hide();
+		$("#res-alertBackground").show();
+    }
+	
     </script>
 </body>
 </html>

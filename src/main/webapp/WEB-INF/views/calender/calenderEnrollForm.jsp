@@ -15,12 +15,11 @@
 			<form  name="enrollFormSchedule" id="enrollForm-Schedule" action="insertCalender.do" method="post" enctype="multipart/form-data">
 				<div class="enrollform-in-Section">
 					<div class="cal-left">
-						<div class="calender-sectionTitle">일정 추가하기</div>
 						<div class="big-section">
 							<div class="iput">
 								<div class="inputTitle1">일정 제목</div>
 								<div class="inputSection">
-									<input type="text" class="textline" name="title" placeholder="일정 제목을 입력해주세요.">
+									<input type="text" class="textline" name="title" placeholder="일정 제목을 입력해주세요." maxlength="49">
 								</div>
 							</div>
 						</div>
@@ -69,7 +68,7 @@
 							<div class="iput">
 								<div class="inputTitle2">메모</div>
 								<div class="memoSection">
-									<textarea name="memo" id="memo" placeholder="내용을 입력해 주세요."></textarea>
+									<textarea name="memo" id="memo" placeholder="내용을 입력해 주세요." maxlength="149"></textarea>
 								</div>
 							</div>
 						</div>
@@ -90,7 +89,7 @@
 							<div class="iput">
 								<div class="inputTitle2">장소</div>
 								<div class="inputSection">
-									<input type="text" class="textline" name="place" placeholder="장소를 입력해 주세요.">
+									<input type="text" class="textline" name="place" placeholder="장소를 입력해 주세요." maxlength="14">
 								</div>
 							</div>
 						</div>
@@ -136,7 +135,7 @@
 							</div>
 							<div class="buttonLine">
 								<button type="button" class="commonButton1 insert-calender" style="width: 90px;">일정추가하기</button>
-								<button type="button" class="commonButton1 back-calender" style="width: 90px;" onclick="location.href='calendar.do'">취소하기</button>
+								<button type="button" class="commonButton1 back-calender" style="width: 90px;" onclick="history.back()">취소하기</button>
 							</div>
 						</div>
 					</div>
