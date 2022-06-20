@@ -28,7 +28,7 @@
 					console.log("나감 ======")
 				}
 			}
-			console.log(attendeeNo)
+			console.log(attendeeNo.length)
 			console.log(empNo)
 			console.log(roomSmallNo)
 			console.log(startDate)
@@ -40,27 +40,42 @@
 			if(roomSmallNo == '' || roomSmallNo == undefined || meetingRoom == '선택'){
 				$("#res-alert_title .title_name").text("회의실 선택 확인");
 				$("#res-alert_body .res-alert_content").text("회의실을 선택해야 합니다.");
-				$('.res-errorNumber').val('1')
 				$(".reservationEnrollFormModal").hide();
 				$("#res-alertBackground").css("display","block");
+				
+				
 			}else if(startDate == '' || startTime == '선택' || endDate == '' || endTime == '선택'){// 시작일이나 종료일을 선택 하지 않을 시
-				$("#res-alert_title .title_name").text("예약 날짜, 시간 선택 확인");
-				$("#res-alert_body .res-alert_content").text("예약 날짜나 시간을 선택해야 합니다.");
-				$('.res-errorNumber').val('1')
-				$(".reservationEnrollFormModal").hide();
-				$("#res-alertBackground").css("display","block");
-			}else if(attendeeNo == ''){ // 초대자가 없으면
-				$("#res-alert_title .title_name").text("참석자 선택 확인");
-				$("#res-alert_body .res-alert_content").text("참석자를 선택해야 합니다.");
-				$('.res-errorNumber').val('1')
-				$(".reservationEnrollFormModal").hide();
-				$("#res-alertBackground").css("display","block");
+				
+				alertok("예약 날짜, 시간 선택 확인", "예약 날짜나 시간을 선택해야 합니다.");
+				// alert 확인 버튼시
+				$(".res_Ok_btn").click(function(){
+					
+					$("#res-alertBackground").hide();
+					$(".reservationEnrollFormModal").show();
+					return false;
+				})
+			}else if(Object.keys(attendeeNo).length <=  0){ // 초대자가 없으면
+				
+				alertok("참석자 선택 확인", "참석자를 선택해야 합니다.");
+				// alert 확인 버튼시
+				$(".res_Ok_btn").click(function(){
+					
+					$("#res-alertBackground").hide();
+					$(".reservationEnrollFormModal").show();
+					return false;
+				})
+				
 			}else if(meetingName == ''){// 회의명이 없으면
-				$("#res-alert_title .title_name").text("회의명 작성 확인");
-				$("#res-alert_body .res-alert_content").text("회의명 작성해야 합니다.");
-				$('.res-errorNumber').val('1')
-				$(".reservationEnrollFormModal").hide();
-				$("#res-alertBackground").css("display","block");
+			
+				
+				alertok("회의명 작성 확인", "회의명 작성해야 합니다.");
+				// alert 확인 버튼시
+				$(".res_Ok_btn").click(function(){
+					
+					$("#res-alertBackground").hide();
+					$(".reservationEnrollFormModal").show();
+					return false;
+				})
 			}else{ // 모두 작성 시 submit
 				//enrollFormReservation.submit();
 				let push = $('.PushOrUpdate').val();
