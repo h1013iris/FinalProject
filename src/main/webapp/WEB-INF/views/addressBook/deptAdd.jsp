@@ -83,7 +83,10 @@ display: none;
 }
 #searchDiv{
 margin: 50px;
+text-align: center;
+align-items: center;
 }
+
 .searchText{
 width:300px;
 height: 30px;
@@ -129,7 +132,32 @@ background-color: #d3edff;
 input:focus {
 outline:none;
 }
+.commonButton1_1 {
+	padding: 0;
+	font-weight: 100px;
+	text-align: center;
+	line-height: 30px;
+	height:30px;
+	color: #FFF;
+	border-radius: 5px;
+	transition: all 0.2s;
+	background: #85cdff;
+	border: #85cdff;
+	box-shadow: 0px 5px 0px 0px #4c87b099;
+	width: 100px;
+	margin: 30px;
+	position: top:50px;
+	
+	
+}
 
+.commonButton1_1:hover {
+	position: relative;
+	top: 5px;
+	bottom: 5px;
+	box-shadow: 0px 0px 0px 0px #4c87b099;
+	
+}
 
 </style>
 
@@ -162,7 +190,7 @@ outline:none;
 			</div>
 			<form action="deptAddSearch.do" method="post">
 						<div id="searchDiv">
-							<input type="text"	name="search" class="searchText"> <input type="submit" value="검색" />
+							<input type="text"	name="search" class="searchText"> <input type="submit"  class=" commonButton1_1" value="검색" />
 							<!-- 검색창에 보일 부서명 -->
 							<input type="text" readonly="readonly" value="${dept.departmentTitle}"
 								name="departmentTitle" class="deptN"/>

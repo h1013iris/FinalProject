@@ -31,7 +31,7 @@
 }
 
 #listMain{
-	height:400px;
+	height:380px;
 	overflow-y: scroll;
 }
 
@@ -44,37 +44,32 @@ display: none;
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
-	border: 1px solid;
-	
+	margin-bottom: 10px;
+	background-color: rgb(223, 238, 255);
 }
 
 .listAdd td {
-	border: 1px solid;
+	border: 2px white solid;
 	padding: 5px 10px;
 	width: 200px;
 }
 
 .listAdd th {
-	border: 1px solid;
+	border: 2px white solid;
 	padding: 5px 10px;
 	width: 200px;
 
 }
 
-.a {
-	width: 200px;
-	display: inline-block;
-	background-color: aqua;
-	margin: 2px;
-	height: 30px;
-	text-align: center;
-}
+
 .boxAddList{
-	height:300px;
+	height:430px;
 	margin-bottom:30px;
 	margin-left: auto;
 	margin-right: auto;
-	
+	background-color:rgb(209, 209, 209);
+  	border-radius: 20px;
+  	padding: 20px;
 }
 
 .boxTitle{
@@ -85,6 +80,10 @@ display: none;
 .trSt:hover{
 background-color: #d3edff;
 }
+.oneT{
+height: 25px;
+line-height: 25px;
+}
 
 
 </style>
@@ -93,7 +92,7 @@ background-color: #d3edff;
 		<div id="container">
 			<div id="addcon">
 					<div class="boxAddList">
-					<table class="listAdd">
+					<table class="listAdd oneT">
 							<tr>
 								<th style="width: 50px"></th>
 								<th>이름</th>
@@ -142,15 +141,18 @@ background-color: #d3edff;
 							success:function(data){
 							no=data;
 							console.log("즐겨찾기에 삭제 결과: "+no);
-							alert("즐겨찾기 목록에서 삭제 되었습니다");
+							myAlert("즐겨찾기 삭제 결과","즐겨찾기 목록에서 삭제 되었습니다");
+							$("#alert_footer").click(function(){
 							location.href="favoAdd.do";
+							});
 							if(no<1){
-								alert("즐겨찾기 삭제에 실패했습니다");
+							myAlert("즐겨찾기 삭제 결과","즐겨찾기 삭제에 실패했습니다");
 								
-									}
-								}
-							})
-	     				});
+							}
+							
+						}
+					})
+	     		});
 		</script>
 </body>
 

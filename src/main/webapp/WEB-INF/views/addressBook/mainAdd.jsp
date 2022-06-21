@@ -93,11 +93,40 @@ display: none;
 	box-shadow: 0px 0px 0px 0px #4c87b099;
 }
 
+.commonButton1_1 {
+	padding: 0;
+	font-weight: 100px;
+	text-align: center;
+	line-height: 30px;
+	height:30px;
+	color: #FFF;
+	border-radius: 5px;
+	transition: all 0.2s;
+	background: #85cdff;
+	border: #85cdff;
+	box-shadow: 0px 5px 0px 0px #4c87b099;
+	width: 100px;
+	margin: 30px;
+	position: top:50px;
+	
+	
+}
+
+.commonButton1_1:hover {
+	position: relative;
+	top: 5px;
+	bottom: 5px;
+	box-shadow: 0px 0px 0px 0px #4c87b099;
+	
+}
+
 #imgBox {
 	width: 20px;
 }
 #searchDiv{
 margin: 50px;
+text-align: center;
+align-items: center;
 }
 
 .searchText{
@@ -118,6 +147,7 @@ background-color: #d3edff;
 
 </style>
 <body>
+<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
 
 
 	<jsp:include page="../common/header.jsp"></jsp:include>
@@ -148,7 +178,7 @@ background-color: #d3edff;
 			<form action="allAddSearch.do" method="post">
 				<div id="searchDiv">
 					<input type="text" name="search" class="searchText"> <input type="submit"
-					value="검색" />
+					value="검색" class=" commonButton1_1" />
 				</div>
 			</form>
 

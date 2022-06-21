@@ -16,8 +16,8 @@
 <style>
 
 * {
-	margin: 0;
-	padding: 0;
+	margin: 0px;
+	padding: 0px;
 }
 
 html{
@@ -42,22 +42,23 @@ overflow-y: scroll;
 	margin-left: auto;
 	margin-right: auto;
 	border: 1px solid;
+	background-color: rgb(223, 238, 255);
 	
 }
 
 .listAdd td {
-	border: 1px solid;
+	border: 2px white solid;
 	padding: 5px 10px;
 	width: 200px;
 }
 
 .listAdd th {
-	border: 1px solid;
+	border: 2px white solid;
 	padding: 5px 10px;
 	width: 200px;
 }
 #listMain{
-	height:200px;
+	height:230px;
 	overflow-y: scroll;
 }
 .a {
@@ -69,15 +70,17 @@ overflow-y: scroll;
 	text-align: center;
 }
 .boxAddList{
-	height:350px;
+	height:420px;
 	margin-bottom:30px;
 	margin-left: auto;
 	margin-right: auto;
-	
+	background-color:rgb(209, 209, 209);
+  	border-radius: 20px;
+  	padding: 20px;
 }
 
 .boxTitle{
-	width:400px;
+	width:440px;
 	font-size: 20px;
 	margin: auto;
 	height: 50px;
@@ -94,12 +97,40 @@ display: none;
 }
 
 .buttonDiv{
-margin-top: 50px;
+margin-top: 30px;
 }
 
 .trSt:hover{
 background-color: #d3edff;
 }
+.commonButton1_1 {
+	padding: 0;
+	font-weight: 600;
+	text-align: center;
+	line-height: 30px;
+	color: #FFF;
+	border-radius: 5px;
+	transition: all 0.2s;
+	background: #85cdff;
+	border: #85cdff;
+	box-shadow: 0px 5px 0px 0px #4c87b099;
+	width: 100px;
+	margin: 10px;
+	height: 30px;
+}
+
+.commonButton1_1:hover {
+	position: relative;
+	top: 5px;
+	bottom: 5px;
+	box-shadow: 0px 0px 0px 0px #4c87b099;
+}
+.oneT{
+height: 25px;
+line-height: 25px;
+margin-bottom: 5px;
+}
+
 </style>
 
 	<div class="main_section">
@@ -109,7 +140,7 @@ background-color: #d3edff;
 					<form>
 						<div class="boxTitle">거래처 주소록 임시보관함</div>
 						
-						<table class="listAdd">
+						<table class="listAdd oneT">
 							<tr>
 								<th style="width: 50px"></th>
 								<th>회사명</th>
@@ -133,19 +164,19 @@ background-color: #d3edff;
 						</table>
 						</div>
 					<div class="buttonDiv">
-					<button type="button" class="deleteComBox"
+					<button type="button" class="deleteComBox commonButton1_1"
 					onclick="ComBox(1)">삭제</button>
-					<button type="button" onclick="ComBox(2)" id="comBack">복원</button>
+					<button type="button" onclick="ComBox(2)" id="comBack" class="commonButton1_1">복원</button>
 					</div>
 					</form>
 					</div>
 				
-
+					
 					<div class="boxAddList">
 					<form>
 						<div class="boxTitle">고객 주소록 임시보관함</div>
 						
-						<table class="listAdd">
+						<table class="listAdd oneT">
 							<tr>
 								<th style="width: 50px"></th>
 								<th>회사명</th>
@@ -169,8 +200,8 @@ background-color: #d3edff;
 						</table>
 						</div>
 						<div class="buttonDiv">
-						<button type="button" class="custoBox" onclick="CustoBox(1)">삭제</button>
-						<button type="button" onclick="CustoBox(2)" id="custoBack">복원</button>
+						<button type="button" class="custoBox commonButton1_1" onclick="CustoBox(1)">삭제</button>
+						<button type="button" onclick="CustoBox(2)" id="custoBack" class="commonButton1_1">복원</button>
 						</div>
 					</form>
 					</div>

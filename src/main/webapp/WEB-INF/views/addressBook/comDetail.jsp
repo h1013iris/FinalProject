@@ -50,6 +50,35 @@
     .inputBox{
     width: 180px;
     }
+    .Title {
+	text-align: left;
+}
+    .commonButton1_1 {
+	padding: 0;
+	font-weight: 100px;
+	text-align: center;
+	line-height: 30px;
+	height:30px;
+	color: #FFF;
+	border-radius: 5px;
+	transition: all 0.2s;
+	background: #85cdff;
+	border: #85cdff;
+	box-shadow: 0px 5px 0px 0px #4c87b099;
+	width: 50px;
+	position: top:50px;
+	
+	
+}
+
+.commonButton1_1:hover {
+	position: relative;
+	top: 5px;
+	bottom: 5px;
+	box-shadow: 0px 0px 0px 0px #4c87b099;
+	
+}
+    
 </style>
 
 
@@ -62,48 +91,48 @@
 
 					<c:forEach items="${comDetail}" var="comD">
 						<tr>
-							<td>폴더명</td>
+							<td class="Title">폴더명</td>
 							<td><input type="text" name="inFolder" class="inputBox"
 								value="${comD.inFolder}" readonly></td>
 
 						</tr>
 
 						<tr>
-							<td>회사명</td>
+							<td class="Title">회사명</td>
 							<td><input type="text" name="comNm" value="${comD.comNm }" class="inputBox"
 								readonly></td>
 						</tr>
 						<tr>
-							<td>사업자번호</td>
+							<td class="Title">사업자번호</td>
 							<td><input type="text" name="comNo" value="${comD.comNo }" class="inputBox"
 								readonly></td>
 						</tr>
 						<tr>
-							<td>대표번호</td>
+							<td class="Title">대표번호</td>
 							<td><input type="text" name="comTel" value="${comD.comTel }" class="inputBox"
 								readonly></td>
 						</tr>
 						<tr>
-							<td>대표명</td>
+							<td class="Title">대표명</td>
 							<td><input type="text" name="comCeo" value="${comD.comCeo }" class="inputBox"
 								readonly></td>
 						</tr>
 						<tr>
-							<td>담당자</td>
+							<td class="Title">담당자</td>
 							<td><input type="text" name="comPix" value="${comD.comPix }" class="inputBox"
 								readonly></td>
 						</tr>
 						<tr>
-							<td>휴대폰</td>
+							<td class="Title">휴대폰</td>
 							<td><input type="text" name="comPhone" class="inputBox"
 								value="${comD.comPhone }" readonly></td>
 						</tr>
 						<tr>
-							<td>이메일</td>
+							<td class="Title">이메일</td>
 							<td><input type="text" name="comEmail" class="inputBox"
 								value="${comD.comEmail }" readonly></td>
 						<tr>
-							<td>기타</td>
+							<td class="Title">기타</td>
 							<td><textarea name="comMemo" class="inputBox"" rows="5"
 									maxlength="50" readonly>${comD.comMemo }</textarea></td>
 						</tr>
@@ -118,9 +147,9 @@
 				</table>
 
 				<div id="buttonLine">
-					<button type="button" onclick="choice(1)">수정</button>
-					<button type="button" onclick="location.href='comAdd.do'">취소</button>
-					<button type="button" onclick="choice(2)">삭제</button>
+					<button type="button" onclick="choice(1)" class="commonButton1_1">수정</button>
+					<button type="button" onclick="location.href='comAdd.do'" class="commonButton1_1">취소</button>
+					<button type="button" onclick="choice(2)" class="commonButton1_1">삭제</button>
 				</div>
 			</form>
 		</div>

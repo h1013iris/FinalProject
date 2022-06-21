@@ -86,7 +86,7 @@
            A.EMP_NAME,
            A.EMAIL,
            A.PHONE,
-           SUBSTR(A.USER_NO,1,6)||'-'||SUBSTR(USER_NO,7,1) AS USER_NO,
+           SUBSTR(A.USER_NO,1,6)||'-'||SUBSTR(USER_NO,7,1)||'******' AS USER_NO,
            A.EMP_NO
  	FROM USER_INFO A 
     JOIN JOB_RANK_MANAGEMENT B ON A.JOB_NO =B.JOB_NO

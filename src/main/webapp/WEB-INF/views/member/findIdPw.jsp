@@ -14,6 +14,7 @@
 <script
 	src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 </head>
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">	
 <body>
 
 	<style>
@@ -136,6 +137,29 @@ text-align: center;
 	bottom: 5px;
 	box-shadow: 0px 0px 0px 0px #4c87b099;
 }
+.commonButton1_1 {
+	padding: 0;
+	font-weight: 600;
+	text-align: center;
+	line-height: 15px;
+	color: #FFF;
+	border-radius: 5px;
+	transition: all 0.2s;
+	background: #85cdff;
+	border: #85cdff;
+	box-shadow: 0px 5px 0px 0px #4c87b099;
+	width: 70px;
+	height:15px;
+	margin-left: 5px;
+	font-size: 5px;
+	
+}
+.commonButton1_1:hover {
+	position: relative;
+	top: 5px;
+	bottom: 5px;
+	box-shadow: 0px 0px 0px 0px #4c87b099;
+}
 
   #logo{
     width:480px;
@@ -145,6 +169,7 @@ text-align: center;
         }
 
 </style>
+
 	<script>
 		$(function() {
 			$('.tabcontent > div').hide();
@@ -156,23 +181,22 @@ text-align: center;
 			}).filter(':eq(0)').click();
 		});
 	</script>
-	<script>
-	alert ${msg};
-</script>
 <body>
+<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
+
 	<div id="main">
 	<div class="tab">
-	<div><a href="login.do"><img src=resources/images/member/nobackLogo.png alt="메인으로 이동" id="logo"/></a></div>
+	<div><a href="login.do"><img src=resources/images/member/header_logo.png alt="메인으로 이동" id="logo"/></a></div>
 	
 		<ul class="tabnav">
-			<li><a href="#tab01">아이디찾기</a></li>
-			<li><a href="#tab02">비밀번호 찾기</a></li>
+			<li><a href="#tab01" class="findTab_f">아이디찾기</a></li>
+			<li><a href="#tab02" class="findTab_f">비밀번호 찾기</a></li>
 		</ul>
 		<div class="out"></div>
 		<div class="tabcontent">
 			<div id="tab01">
 				<form action="selectFindId.do" method="post">
-					<table class="find">
+					<table class="fin">
 						<tr>
 							<td>이름</td>
 							<td><input type="text" class="input" name="empName"></td>
@@ -211,7 +235,7 @@ text-align: center;
 
 			<div id="tab02">
 				<form id="findPwForm" action="findPwForm.do" method="post">
-					<table class="find">
+					<table class="fin">
 						<tr>
 							<td>이름</td>
 							<td><input type="text" name="empName" class="input"></td>
@@ -235,16 +259,16 @@ text-align: center;
 							<td>이메일</td>
 							<td><input type="text" name="email" class="input mail_input"
 								placeholder="가입당시 이메일을 입력해주세요"></td>
-							<td><input type="button" class="mail_check_button"
-								value="인증하기"></td>
+							<td><button type="button" class="mail_check_button commonButton1_1">인증하기</button> 
+								</td>
 						</tr>
 
 						<tr>
 							<td></td>
 							<td><input type="text" class="input mail_con_input"
 								placeholder="인증번호를 입력해주세요"></td>
-							<td><input type="button" class="mail_checkCon_button"
-								value="인증확인"></td>
+							<td><button type="button" class="mail_checkCon_button commonButton1_1">인증확인</button>
+								</td>
 						</tr>
 
 					</table>
@@ -258,14 +282,9 @@ text-align: center;
 	</div>
 	</div>
 	<!--tab-->
+	<jsp:include page="../common/alert.jsp"/>	
 	<script>
-	
-	 var msg = '${msg}';
-		if(msg)
-		{
-			alert(msg);
-		}
-		
+
 		
 var code =""//컨트롤러에서 전달받은 인증번호를 저장하는용도
 
@@ -279,6 +298,7 @@ var code =""//컨트롤러에서 전달받은 인증번호를 저장하는용도
 			success:function(data){
 				console.log("사원이 있는가?:"+ data);
 				count=data;
+				//여기에 disabled해제하는거 적어주기 사번이 없으면 없다고 정보 띄우기
 			}
 		})
 		//인증번호 버튼 누르면 이메일전송하는 버튼
@@ -300,27 +320,55 @@ var code =""//컨트롤러에서 전달받은 인증번호를 저장하는용도
 			}
 			
 		});
-		alert("이메일로 인증번호가 전송되었습니다");
+		myAlert("인증번호 전송","이메일로 인증번호가 전송되었습니다");
 		//2-2 회원정보가 없다면 alert창으로 정보를 다시 확인해달라 하기
 		}else{
-			alert("입력한 정보를 다시 확인해주세요!");
+			myAlert("정보불일치","입력한 정보를 다시 확인해주세요!");
 		}
 	});
 
 /*인증번호 비교*/
 //인증확인 버튼을 누르면
+/*
 $(".mail_checkCon_button").click(function(){
 	var inputNum =$(".mail_con_input").val(); //인증번호 확인란에 입력한 값
 	
+	if(code!=null && code!=""){
 	if(inputNum == code){
-		alert("인증번호가 일치합니다");
+		//alert("인증번호가 일치합니다");
+		myAlert("인증번호 일치","인증번호가 일치합니다");
 		$('#findPw').prop('disabled',false);
 	}else{
-		alert("인증번호가 일치하지 않습니다. 다시 확인해주세요");
-		
+		//alert("인증번호가 일치하지 않습니다. 다시 확인해주세요");
+		myAlert("인증번호 불일치","인증번호가 일치하지 않습니다. 다시 확인해주세요");
+	}
 	}
 })
+*/
 
+$(".mail_checkCon_button").click(function(){
+	var inputNum =$(".mail_con_input").val(); //인증번호 확인란에 입력한 값
+	
+	if(code!=null && code!=""){
+	if(inputNum == code){
+		myAlert("인증번호 일치","인증번호가 일치합니다");
+		$('#findPw').prop('disabled',false);
+	}else{
+		myAlert("인증번호 불일치","인증번호가 일치하지 않습니다.다시 확인해주세요");
+		$('#findPw').prop('disabled',true);
+	}
+	}else if(code===null||code===""){
+		myAlert("인증번호 불일치","인증번호가 일치하지 않습니다.다시 확인해주세요");
+		$('#findPw').prop('disabled',true);
+	}
+	
+})
+
+//다른 탭 누르면 이전탭에 적은거 지워지게 아직 안됨..ㅜ
+$(".findTab_f").click(function(){
+$('.fin').find('input').each(function(){
+	$(this).val('')});
+});
 </script>
 </body>
 
