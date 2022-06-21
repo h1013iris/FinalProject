@@ -50,6 +50,34 @@
     .inputBox{
     width: 180px;
     }
+    .Title{
+    text-align: left;
+    }
+    .commonButton1_1 {
+	padding: 0;
+	font-weight: 100px;
+	text-align: center;
+	line-height: 30px;
+	height:30px;
+	color: #FFF;
+	border-radius: 5px;
+	transition: all 0.2s;
+	background: #85cdff;
+	border: #85cdff;
+	box-shadow: 0px 5px 0px 0px #4c87b099;
+	width: 50px;
+	position: top:50px;
+	
+	
+}
+
+.commonButton1_1:hover {
+	position: relative;
+	top: 5px;
+	bottom: 5px;
+	box-shadow: 0px 0px 0px 0px #4c87b099;
+	
+}
 </style>
 
 
@@ -70,7 +98,7 @@
             </c:forEach>
                     <option id="direct">직접입력</option>
 					</td>
-					<td><input type="text" id="selboxDirect" class="inputBox" value=""/>
+					<td><input type="text" id="selboxDirect" class="inputBox" maxlength="9" value=""/>
             </select>
             </td>
     </tr>
@@ -78,41 +106,41 @@
                    
             <!--내부폴더는 empNo로 distinct로 중복제거 select해서 목록띄우기-->
                 <tr> 
-                    <td>회사명</td>
-                    <td><input type="text" name="comNm" class="inputBox" required maxlength="20"></td>
+                    <td class="Title">* 회사명</td>
+                    <td><input type="text" name="comNm" class="inputBox" required maxlength="19"></td>
                 </tr>
                 <tr>
-                    <td>사업자번호</td>
+                    <td class="Title">* 사업자번호</td>
                     <td><input type="text" name="comNo" class="inputBox" required maxlength="10" placeholder="하이픈빼고 10자리"></td>
                 </tr>
                 <tr>
-                    <td>대표번호</td>
-                    <td><input type="text" name="comTel" class="inputBox"></td>
+                    <td class="Title">* 대표번호</td>
+                    <td><input type="text" name="comTel" class="inputBox" required maxlength="13" ></td>
                 </tr>
                 <tr>
-                    <td>대표명</td>
-                    <td><input type="text"  name="comCeo" class="inputBox"></td>
+                    <td class="Title">&nbsp;&nbsp;대표명</td>
+                    <td><input type="text"  name="comCeo" class="inputBox" maxlength="9"></td>
                 </tr>
                 <tr>
-                    <td>담당자</td>
-                    <td><input type="text"  name="comPix" class="inputBox" required></td>
+                    <td class="Title">* 담당자</td>
+                    <td><input type="text"  name="comPix" class="inputBox" required maxlength="9"></td>
                 </tr>
                 <tr>
-                    <td>휴대폰</td>
-                    <td><input type="text" name="comPhone" class="inputBox"></td>
+                    <td class="Title">&nbsp;&nbsp;휴대폰</td>
+                    <td><input type="text" name="comPhone" class="inputBox" maxlength="13"></td>
                 </tr>
                 <tr>
-                    <td>이메일</td>
-                    <td><input type="email" name="comEmail" class="inputBox"></td>
+                    <td class="Title">* 이메일</td>
+                    <td><input type="email" name="comEmail" class="inputBox" required maxlength="29"></td>
                 <tr>
-                    <td>기타</td>
-                    <td><textarea name="comMemo" class="inputBox" rows="5"  maxlength="50" ></textarea></td>
+                    <td class="Title">&nbsp;&nbsp;기타</td>
+                    <td><textarea name="comMemo" class="inputBox" rows="5"  maxlength="49" ></textarea></td>
                 </tr>
 
             </table>
           <div id="buttonLine">
-                <input type="submit" value="등록"/>
-                <button type="button" value="취소" onclick="location.href='comAdd.do'">취소</button>
+                <input type="submit" class="commonButton1_1" value="등록" " />
+                <button type="button" class="commonButton1_1" value="취소" onclick="location.href='comAdd.do'">취소</button>
         	</div>
            </form>
         </div>

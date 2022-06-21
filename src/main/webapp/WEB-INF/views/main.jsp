@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인/메인페이지</title>
-<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/login.css">
 </head>
 <style>
 .commonButton1{
@@ -27,8 +26,11 @@
     box-shadow: 0px 0px 0px 0px #4c87b099;
 }
 </style>
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/login.css">
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">	
 <body>
-
+<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
+		
     <div id="container">
         <img src="resources/images/loginComLogo.png" alt="회사로고" id="logo"><br>
             
@@ -43,10 +45,14 @@
             <a href="empNo.do">회원가입</a>
         </div> 
         </div>
+        <jsp:include page="common/alert.jsp"/>
 	<script type="text/javascript">		
+		var msgTitle = '${msgTitle}';
 		var msg = '${msg}';
-		if(msg){
-		alert(msg); 
+		if(msg!=null && msg!=""){
+		myAlert(msgTitle,msg);
+		//alert(msgTitle,msg);
+		
 		}
 	</script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>

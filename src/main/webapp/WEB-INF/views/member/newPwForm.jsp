@@ -8,24 +8,42 @@
 <meta charset="UTF-8">
 <title>비밀번호 변경창</title>
 <style type="text/css">
-.tab {
-	margin: auto;
-	width: 500px;
-	height: 300px;
-}
-.tabcontent {
-	padding: 50px;
-	height: 200px;
-	border: 1px solid #ddd;
-	border-top: none;
-	text-align: left;
+#85cdff
+* {
+	margin: 0;
+	padding: 0;
 }
 
-.out {
-	background-color: #85cdff;
-	height: 10px;
-	width: 500px;
-	margin-top: 10px;
+.tabcontent{
+	width:500px;
+	height:300px;
+	text-align: center;
+	border-top:10px solid #85cdff;
+	border-bottom:10px solid #85cdff;
+	position: relative;
+	display:inline-block;
+	top:50%;
+}
+.tab {
+	position: absolute;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    left: 50%;
+}
+
+.tabcontent form{
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform: translate(-50%, -50%);
+}
+
+.input_title{
+	width:150px;
+}
+
+.find tr{
+	height:40px;
 }
 
 .btn {
@@ -36,36 +54,62 @@
 .input {
 	width: 200px;
 }
-</style>
-<script
-	src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 
+#logo{
+    width:480px;
+    text-align: center; 
+    margin-bottom: 10px;
+            
+}
+.find{
+    table-layout: fixed;
+    width: 450px;
+}
+
+</style>
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">	
+<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
+<script
+
+	src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
+	
 <body>
+<jsp:include page="../common/alert.jsp"/>
+<script type="text/javascript">
+let msg ='${msg}';
+let msgTitle ='${msgTitle}';
+if(msg){
+	myAlert(msgTitle,msg);
+}
+</script>
 	<div class="tab">
-		<div class="out"></div>
+	<div><a href="login.do"><img src=resources/images/member/header_logo.png alt="메인으로 이동" id="logo"/></a></div>
+		
 		<div class="tabcontent">
-			
+		<div class="out"></div>
+		
 				<form action="updatePw" method="post">
 					<table class="find">
 						<tr>
-							<td>변경할 비밀번호</td>
+							<td class="input_title">변경할 비밀번호</td>
 							<td><input type="text" id="changePw" class="input" name="userPw"><div id="check"></div></td>
 						
 						</tr>
 
 						<tr>
-							<td>비밀번호 재확인</td>
+							<td class="input_title">비밀번호 재확인</td>
 							<td><input type="password" id="checkPw" class="input" ><div id="check2"></div></td>
 						
 						</tr>
 					</table>
 					<div class="btn">
 					<input type="hidden" name="userId" value="${userId}">
-						<input type="submit" id="subBtn" disabled value="비밀번호 변경">
+						<button type="submit" id="subBtn" disabled>비밀번호 변경</button>
 					</div>
 				</form>
-			</div>
 			<div class="out"></div>
+			</div>
+			
 		</div>
 		
 		<script type="text/javascript">
@@ -73,7 +117,7 @@
 		//비밀번호 유효성검사
 		 $(function(){
             $("#changePw").on("input",function(){
-                var regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+                var regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
 
                 var result = regex.exec($("#changePw").val())
                 //정규식에 일치하지 않으면 null
@@ -101,8 +145,30 @@
                     }
                })
 		 });
-
-		</script>
+           
+           //비밀번호 변경 버튼 누르고나서 
+           $("#subBtn").on("click",function(){
+           	   var pw = $("#userPw").val();
+           	   var pwregex =/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
+           
+           	   var pwregex = pwregex.exec(pw);
+           	   if(pwregex == null){
+           		   myAlert("비밀번호 재확인","비밀번호를 확인해주세요");
+           		   $('#userPw').focus();
+             			return false;
+           		} //비밀번호 일치여부 재확인
+    		        else if ($("#userPw").val() != $("#ckPw").val()) {
+    		         myAlert("비밀번호 불일치","비밀번호 일치여부를 다시 확인해주세요");
+    		          $('#ckPw').focus();
+    		          return false;
+    		        }else {
+    		          //비밀번호 변경 성공
+    		          myAlert("비밀번호 변경","비밀번호 변경 되었습니다");
+    		        	   $("#subBtn").submit();
+    		           }
+           	   
+           });
+</script>
 </body>
 <!-- 비밀번호 확인하기 -->
 

@@ -210,12 +210,12 @@ public class MemberController {
 		
 		System.out.println("jsp에서 값이 넘어왔나용?"+wm);
 		String msg = memberService.selectFindId(wm);
-		//model.addAttribute("msg",msg);
-		//return "member/findId";
-		if(msg!=null){
+			if(msg!=null){
+			model.addAttribute("msgTitle","아이디 찾기");
 			model.addAttribute("msg","아이디는 "+msg+" 입니다");
 			}
 		else if(msg==null || msg.equals("")){
+			model.addAttribute("msgTitle","아이디 찾기");
 			model.addAttribute("msg","아이디 찾기 정보를 다시 확인해주세요");
 		}
 		return "main";
@@ -300,6 +300,8 @@ public class MemberController {
 	@PostMapping("findPwForm.do")
 	public String findPwForm(@RequestParam("userId") String userId, Model model){
 		model.addAttribute("userId",userId);
+		model.addAttribute("msg","비밀번호 변경페이지로 이동합니다.");
+		model.addAttribute("msgTitle","비밀번호 변경");
 		return "member/newPwForm";
 	}
 	

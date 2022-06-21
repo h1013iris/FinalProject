@@ -94,6 +94,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 		if(msg){
 		//alert(msg);
 		myAlert("사번확인",msg);
+		
 		}
 	</script>
 </body>

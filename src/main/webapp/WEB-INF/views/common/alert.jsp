@@ -25,7 +25,7 @@
     <script type="text/javascript">
     
 	    $(document).on("click",".cancel_btn",function(){
-			$(".alertBackground").hide();
+			$("#alertBackground").hide();
 			$("#alert_title .title_name").text("");
 			$("#alert_body .alert_content").text("");
 		})   

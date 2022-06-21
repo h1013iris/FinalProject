@@ -10,6 +10,7 @@
 	<!-- 주소api -->
 	<!-- <script	src="${ pageContext.servletContext.contextPath }/resources/js/member/updateNewMember.js"></script>-->
 </head>
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">	
 <style>
 * {
 	margin: 0;
@@ -20,6 +21,7 @@
   display: grid;
   place-items: center;
   height: 100vh;
+overflow-y: scroll;
 }
 #container{
             width: 500px;
@@ -48,7 +50,8 @@
             background-color: #85cdff;
             height: 10px;  
             width: 500px;  
-            margin:40px auto;       
+            margin:40px auto;
+            margin-bottom: 20px;       
         }
         #logo{
             background-color: hsl(205, 100%, 91%);
@@ -93,8 +96,9 @@
             font-size: 0.8em;
             text-align: center;
           }
-          
-      
+         #mem td{
+          vertical-align: middle;
+          }
     
     /*팀 공동 버튼 스타일*/      
      .commonButton1{
@@ -119,6 +123,9 @@
 	
 
 </style>
+
+
+	<jsp:include page="../common/alert.jsp"/>
 <body>
 <div id="all">
 
@@ -246,6 +253,7 @@
                 value="${m.email}"
                 id="email"
                 required
+                readonly
               />
             </div>
             <div class="title">
@@ -306,7 +314,7 @@ function readURL(input){
 		document.getElementById('preview').src="";
 		
 		}
-	}
+	};
 		
 </script>
 <script type="text/javascript">
@@ -339,16 +347,22 @@ function checkId(no){
 	$("#checkResult").css("color","black").text("사용 가능한 아이디 입니다")
 	$("#checkResult").show();
 	$("#newMember").attr("disabled",false);
+	
+	}else if(no == 3){
+	$("#checkResult").css("color","red").text("5글자 이상으로 작성해주세요")
+	$("#checkResult").show();
+	$("#newMember").attr("disabled",true);
 	}
 }	
 
 $(function(){
 	var $checkId= $("#checkId");
    var $userId= $("#userId"); //id가 userId인 입력란의 값을 변수userId에 저장
-   
-    $userId.mouseleave(function(){
+   //.mouseleave
+    $userId.focusout(function(){
      if($userId.val().length<5){
-       alert("5글자이상 작성해주세요")
+    	checkId(3);
+       myAlert("","5글자이상 작성해주세요");
     }else if($userId.val().length>=5){
     
     $.ajax({
@@ -363,7 +377,7 @@ $(function(){
        		checkId(2);
        	}
        },error:function(){
-               alert("아이디 중복체크 통신오류");
+               myAlert("아이디 중복체크 통신오류");
            }
        });
    }else{ 
@@ -396,7 +410,7 @@ $(function(){
                    }else{
                     $(".ckPw.regex").html("비밀번호가 일치하지않습니다"); 
                    }
-              })
+              });
            
          
          //회원가입 버튼 눌렀을 때, 빈칸 있으면 다시 유효성 검사진행    
@@ -426,23 +440,26 @@ $(function(){
 		        	alert("상세주소를 작성 해주세요");
 		        	$('#address_search2').focus();
 		        	return false;
-		 
 		        }else {
 		          //회원가입 성공
 		          alert("회원가입 되었습니다");
 		        	   $("#newMember").submit();
 		           }
-          })
+       	   
        });
+ })
+</script>
 
-</script>
-<script type="text/javascript"> 
-var msg = '${msg}';
-	if(msg)
-	{
-	alert(msg);
-	}
-</script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
+	
+	<script type="text/javascript">
+		
+		var msg = '${msg}';
+		if(msg){
+		//alert(msg);
+		myAlert("사번확인",msg);
+		}
+	</script>
 
 </body>
 </html>

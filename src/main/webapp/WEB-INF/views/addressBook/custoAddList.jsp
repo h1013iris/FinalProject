@@ -111,6 +111,29 @@ cursor: pointer;
 	bottom: 5px;
 	box-shadow: 0px 0px 0px 0px #4c87b099;
 }
+.commonButton1_1 {
+	padding: 0;
+	font-weight: 600;
+	text-align: center;
+	line-height: 40px;
+	color: #FFF;
+	border-radius: 5px;
+	transition: all 0.2s;
+	background: #85cdff;
+	border: #85cdff;
+	box-shadow: 0px 5px 0px 0px #4c87b099;
+	width: 100px;
+	margin: 10px;
+	height: 40px;
+}
+
+.commonButton1_1:hover {
+	position: relative;
+	top: 5px;
+	bottom: 5px;
+	box-shadow: 0px 0px 0px 0px #4c87b099;
+}
+
 </style>
 	<div class="main_section">
 		<div id="container">
@@ -142,7 +165,7 @@ cursor: pointer;
 						<table class="listAdd">
 						<c:forEach items="${custoList}" var="cus">
 							<tr class="trSt" onclick="location.href='custoDetailView.do?cusNo=${cus.cusNo}'">
-								<td>${cus.cusNo}</td>
+								<td>${cus.comNm}</td>
 								<td>${cus.comPhone}</td>
 								<td>${cus.comEmail}</td>
 								<td style="width:300px">${cus.comMemo}</td>
@@ -151,7 +174,7 @@ cursor: pointer;
 					</table>
 					</div>
 					<form action="cusAddWriter.do" method="post">
-						<input type="submit" id="cusAddWriter" value="고객등록"/>
+						<input type="submit" id="cusAddWriter" class="commonButton1_1" value="고객등록"/>
 					</form>
 				</div>
 			</div>

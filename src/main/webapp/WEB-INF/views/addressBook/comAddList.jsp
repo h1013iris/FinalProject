@@ -77,6 +77,9 @@ display: none;
 	height: 30px;
 	text-align: center;
 }
+#Bbtn{
+margin:0 auto;
+}
 
 .trSt:hover{
 background-color: #d3edff;
@@ -107,6 +110,29 @@ margin:50px;
 }
 
 .commonButton1:hover {
+	position: relative;
+	top: 5px;
+	bottom: 5px;
+	box-shadow: 0px 0px 0px 0px #4c87b099;
+}
+
+.commonButton1_1 {
+	padding: 0;
+	font-weight: 600;
+	text-align: center;
+	line-height: 40px;
+	color: #FFF;
+	border-radius: 5px;
+	transition: all 0.2s;
+	background: #85cdff;
+	border: #85cdff;
+	box-shadow: 0px 5px 0px 0px #4c87b099;
+	width: 100px;
+	margin: 10px;
+	height: 40px;
+}
+
+.commonButton1_1:hover {
 	position: relative;
 	top: 5px;
 	bottom: 5px;
@@ -151,9 +177,11 @@ margin:50px;
 						</c:forEach>
 					</table>
 					</div>
+					<div id='Bbtn'>
 					<form action="comAddWriter.do" method="post">
-						<input type="submit" value="거래처등록">
+						<input type="submit" class="commonButton1_1" value="거래처등록">
 					</form>
+					</div>
 				</div>
 				</div>
 			</div>
