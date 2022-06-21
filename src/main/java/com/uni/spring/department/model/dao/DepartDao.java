@@ -328,6 +328,41 @@ public class DepartDao {
 		return (ArrayList)sqlSession.selectList("departMapper.selectAInfoList",departmentNo);
 	}
 
+	public Attachment selectAttachmentProfile(SqlSessionTemplate sqlSession, String writerNo) {
+		
+		return sqlSession.selectOne("departMapper.selectAttachmentProfile", writerNo);
+	}
+
+	public int updateProjectName(SqlSessionTemplate sqlSession, Project p) {
+		
+		return sqlSession.update("departMapper.updateProjectName", p);
+	}
+
+	public ArrayList<Attachment> selectAttachListProject(SqlSessionTemplate sqlSession, int pjno) {
+		
+		return (ArrayList)sqlSession.selectList("departMapper.selectAttachListProject",pjno);
+	}
+
+	public int deletprojectinsemi(SqlSessionTemplate sqlSession, int pjno) {
+		
+		return sqlSession.update("departMapper.deletprojectinsemi", pjno);
+	}
+
+	public int deleteProjectAttach(SqlSessionTemplate sqlSession, int pjno) {
+		
+		return sqlSession.update("departMapper.deleteProjectAttach", pjno);
+	}
+
+	public int deleteProjectReply(SqlSessionTemplate sqlSession, int pjno) {
+		
+		return sqlSession.update("departMapper.deleteProjectReply", pjno);
+	}
+
+	public int deleteProject(SqlSessionTemplate sqlSession, int pjno) {
+		
+		return sqlSession.update("departMapper.deleteProject", pjno);
+	}
+
 	
 
 }

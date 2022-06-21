@@ -39,10 +39,10 @@ public class DepartController {
 	
 	//부서별 메인페이지로 전환
 	@RequestMapping("departmentPage.do")
-	public ModelAndView departmentPage(int userNo,String departmentNo, ModelAndView mv) {
+	public ModelAndView departmentPage(String userNo,String departmentNo, ModelAndView mv) {
 		ArrayList<DepartmentAnno> dlist = departService.selectAnnoDepartListMain(Integer.parseInt(departmentNo));//부서 공지사항 5개
 		ArrayList<Board> blist = departService.selectBoardDepartListMain(Integer.parseInt(departmentNo));//부서 페이지
-		ArrayList<Project> plist = departService.selectProjectList(userNo);
+		ArrayList<Project> plist = departService.selectProjectList(Integer.parseInt(userNo));
 		ArrayList<Member> mlist = departService.selectPInfoList(departmentNo);
 		mv.addObject("dlist",dlist).addObject("blist",blist).addObject("plist",plist).addObject("mlist", mlist).setViewName("depart/departmentMainPage");
 		return mv;
@@ -57,7 +57,7 @@ public class DepartController {
 	//공지사항 등록(첨부파일 있을시, 없을시 분류해서)
 	@RequestMapping("insertAnnoDepart.do")
 	public ModelAndView insertAnnoDepart(DepartmentAnno d, HttpServletRequest request, @RequestParam(name="uploadFile", required = false) MultipartFile file, Attachment a, ModelAndView mv) {
-	
+		d.setAnnoContent(d.getAnnoContent().replaceAll("\u0020", "&nbsp;").replaceAll("\n", "<br>"));
 		if(!file.getOriginalFilename().equals("")) {//파일이 있을시에
 			String changeName = saveFile(file, request);
 			
@@ -126,12 +126,13 @@ public class DepartController {
 		
 
 		DepartmentAnno d = departService.selectDepartmentAnno(adno);
+		Attachment at = departService.selectAttachmentProfile(writerNo);
 		if(d!= null) {
 			if(d.getAttachStatus().equals("Y")) {
 				Attachment a = departService.selectAttachmentAnno(adno);
-				mv.addObject("d",d).addObject("a",a).setViewName("depart/annoDepartDetailView");
+				mv.addObject("d",d).addObject("a",a).addObject("at",at).setViewName("depart/annoDepartDetailView");
 			}else if(!d.getAttachStatus().equals("Y")) {
-				mv.addObject("d",d).setViewName("depart/annoDepartDetailView");
+				mv.addObject("d",d).addObject("at",at).setViewName("depart/annoDepartDetailView");
 			}
 		}else {
 			mv.addObject("msg","상세 조회 실패").addObject("msgTitle", "공지사항 상세 페이지").setViewName("common/alert");
@@ -141,7 +142,7 @@ public class DepartController {
 	
 	/*공지사항 삭제*/
 	@RequestMapping("deleteAnnoDepart.do")
-	public String deleteAnnoDepart(int adno, @RequestParam(name = "rlcn", required = false)  String rlcn,  @RequestParam(name = "fileName", required = false) String fileName, HttpServletRequest request) {
+	public String deleteAnnoDepart(String userNo,String departmentNo,int adno, @RequestParam(name = "rlcn", required = false)  String rlcn,  @RequestParam(name = "fileName", required = false) String fileName, HttpServletRequest request, Model m) {
 		//adno -> 공지사항, rlcn -> 참조 분류 다 삭제
 		//공지사항 상태값을 N으로 변경 파일번호 상태값 N으로 변경 참조 분류 삭제
 			departService.deletAnnoDepart(adno, rlcn);
@@ -149,7 +150,8 @@ public class DepartController {
 			if(!fileName.equals("")) {//파일이 있을 시
 				deleteFile(fileName, request);
 			}
-
+			m.addAttribute("userNo", userNo);
+			m.addAttribute("departmentNo", departmentNo);
 		return "redirect:departmentPage.do";
 	}
 	
@@ -168,6 +170,7 @@ public class DepartController {
 	@RequestMapping("updateAnnoDepartForm.do")
 	private ModelAndView updateAnnoDepart(int adno, ModelAndView mv) {
 		DepartmentAnno d = departService.selectDepartmentAnno(adno);
+		d.setAnnoContent(d.getAnnoContent().replaceAll("&nbsp;", "\u0020").replaceAll("<br>", "\n"));
 		if(d.getAttachStatus().equals("Y")) {
 			Attachment a = departService.selectAttachmentAnno(adno);
 			mv.addObject("d",d).addObject("a",a).setViewName("depart/updateAnnoDepart");
@@ -191,7 +194,7 @@ public class DepartController {
 			
 		}
 	
-		
+		d.setAnnoContent(d.getAnnoContent().replaceAll("\u0020", "&nbsp;").replaceAll("\n", "<br>"));
 		if(orgChangeName ==null &&file.getOriginalFilename().equals("")) {
 			d.setAttachStatus("N");
 		}
@@ -544,6 +547,31 @@ public class DepartController {
 		ArrayList<Member> mlist = departService.selectPInfoList(departmentNo);
 		
 		return new Gson().toJson(mlist);
+	}
+	
+	//프로젝트 명 수정
+	@RequestMapping("updateProjectName.do")
+	public String updateProjectName(Project p, Model m) {
+		departService.updateProjectName(p);
+		System.out.println("p의 값"+ p);
+		m.addAttribute("pjno",p.getProNo());
+		return "redirect:detailProject.do";
+	}
+	
+	//프로젝트 삭제 
+	@RequestMapping("deleteProject.do")
+	public String deleteProject(String userNo, String departmentNo, int proNo, Model m, HttpServletRequest request) {
+		//세부프로젝트의 첨부파일들 리스트
+		ArrayList<Attachment> list = departService.selectAttachListProject(proNo);
+		if(list != null) {//리스트 삭제 
+			for (Attachment attachment : list) {
+				deleteFile(attachment.getChangeName(), request);
+			} 
+		}
+		departService.deleteProject(proNo);
+		
+	
+		return "redirect:gotoProjectPage.do";
 	}
 }
 	

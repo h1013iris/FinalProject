@@ -274,6 +274,10 @@
         </div>
     </div> 
     <script>
+	  //페이지 이름 
+		$(function(){
+	    	 $(".page_title>.title_name").text("부서 메인 페이지");
+	 	})
     	function showModalInfoIMG(empName, phone, email){
     		console.log(empName)
     		console.log(phone)
@@ -290,6 +294,10 @@
     		$("#input1").val(text);
    		})
     	$("#input2").click(function(){
+    		if($("#input1").val()== ''){
+    			myAlert("용도 선택", "용도를 선택해주시기 바랍니다.");
+    			return false;
+    		}
     		inputF();
     	})
     	

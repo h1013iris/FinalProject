@@ -69,7 +69,7 @@
 		height: 30px;
 		width: 80px;
 	}
-	.controlAnnoDetail>li{
+	.controlAnnoDetail>li, .controlAnnoDetailProject>li{
 		background-color:white;
 		width:90px;
 		height:25px;
@@ -78,12 +78,12 @@
 		z-index:99;
 		padding-top:6px;
 	}
-	.controlAnnoDetail li:hover{
+	.controlAnnoDetail li:hover, .controlAnnoDetailProject li:hover{
 		background-color: #85cdff;
 		color: white;
 		cursor: pointer;
 	}
-	.controlAnnoDetail{
+	.controlAnnoDetail, .controlAnnoDetailProject{
 		display: none;
 		position: absolute;
 	}
@@ -144,16 +144,39 @@
 	.dovchap::-webkit-scrollbar{
     	display: none;
 	}
+	.button_div_detailProject{
+		display: flex;
+		justify-content: space-between;
+	}
 </style>
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	<jsp:include page="../depart/projectTargetEditModal.jsp"></jsp:include>
 	<jsp:include page="../depart/detailSemiProject.jsp"></jsp:include>
+	<jsp:include page="../depart/updateProjectName.jsp"></jsp:include>
 	<div class="main_section">
         <div class="projectDetailBid">
         	<div class="addProjectP">
-				<div class="imgClickBu"><img src="${ pageContext.servletContext.contextPath }/resources/images/addP.png" alt=""></div>
+        		<div class="button_div_detailProject">
+					<div class="imgClickBu"><img src="${ pageContext.servletContext.contextPath }/resources/images/addP.png" alt=""></div>
+					<div class="change_detail_Project">
+						<ul>
+							<c:if test="${loginUser.empNo eq p.proWriter}">
+			        		<li><a href="#" class="imagehamburger2"><img src="${ pageContext.servletContext.contextPath }/resources/images/햄버거.png" width="50"/></a>
+			        			<ul class="controlAnnoDetailProject" >
+			        				<li><a onclick="postDetailProdjetSubmit(1);">수정</a></li>
+			        				<li><a onclick="postDetailProdjetSubmit(2);">삭제</a></li>
+			        			</ul>
+			        		</li>
+			        		</c:if>
+		        		</ul>
+		        		<form action="" id="postForm_detailPro" method="post">
+		        			<input type="hidden" name ="proNo" value="${p.proNo}">
+		        			<input type="hidden" name ="proTitle" value="${p.proTitle}">
+		        		</form>
+					</div>
+				</div>
 				<div class="selectAddPer" id = "selectAddPer" style="display:none;">
 					<div class="alreadyAttend">
 						<div class="selectAttenderP attendDiVn"><span>참여자</span></div>
@@ -182,6 +205,7 @@
 				</div>
         	</div>
         	<input type="hidden" id= "proTitleName" value="${p.proTitle}"> 
+        	<input type="hidden" id = "proNoSuB" value="${p.proNo}">
         	<div class="project_detailContain">
 	        	<div class="divonewP">
 	        		<div class="nameandControl">
@@ -209,7 +233,7 @@
 	        			<!-- 세부 프로젝트 작성 폼 -->
 	        			<div class="insertSemiProjectSection inputSemisePro1" id = "inputSemisePro1">
 	        				<form action="insertSemiPro.do" id ="inputSemiPro1" method="post">
-	        					<input placeholder="세부 프로젝트명 작성" type="text" id="title" name="semiTitle" class="semiProjectInput">
+	        					<input placeholder="세부 프로젝트명 작성" type="text" id="title" name="semiTitle" class="semiProjectInput" maxlength="45">
 	        					<input type="hidden" id="writer" name="semiWriter" value ="${loginUser.empNo}">
 		              			<input type="hidden" id="refpc" name="refPc" value="${pc.pcOne}">
 		              			<input type="hidden" id="refpro" name="refPro" value ="${p.proNo}">
@@ -225,6 +249,7 @@
 	        		</div>
 	        	</div>
 	        	<div class="divtwowP">
+	        		
 	        		<div class="nameandControl">
 	        			<div class="detailNameHea"><p>${pc.pcTwo}</p></div>
 	        			<div class="tollgeimg">
@@ -237,7 +262,7 @@
 		        				</li>
 		        			</ul>
 	        			</div>
-	        			</div>
+	        		</div>
 	        		<div class="mainshowSection">
 	        			<!-- 세부 프로젝트 -->
 	        			<c:forEach items="${slist}" var="sl">
@@ -250,7 +275,7 @@
 	        			<!-- 세부 프로젝트 작성 폼 -->
 	        			<div class="insertSemiProjectSection inputSemisePro2" id = "inputSemisePro2">
 	        				<form action="insertSemiPro.do" id ="inputSemiPro2" method="post">
-	        					<input placeholder="세부 프로젝트명 작성" type="text" id="title" name="semiTitle" class="semiProjectInput">
+	        					<input placeholder="세부 프로젝트명 작성" type="text" id="title" name="semiTitle" class="semiProjectInput" maxlength="45">
 	        					<input type="hidden" id="writer" name="semiWriter" value ="${loginUser.empNo}">
 		              			<input type="hidden" id="refpc" name="refPc" value="${pc.pcTwo}">
 		              			<input type="hidden" id="refpro" name="refPro" value ="${p.proNo}">
@@ -261,9 +286,11 @@
 							</div>
 	        			</div>
 	        		</div>
+	        		
 	        		<div class="plusNewSemiBu">
 	        			<div class="innerNewSeim" id="innerNewSeim2" onclick="openSemiInsert('inputSemisePro2','innerNewSeim2')"><img src="${ pageContext.servletContext.contextPath }/resources/images/plus.png" width="35"></div>
 	        		</div>
+	        		
 	        	</div>
 	        	<div class="divthreewP">
 	        		<div class="nameandControl">
@@ -291,7 +318,7 @@
 	        			<!-- 세부 프로젝트 작성 폼 -->
 	        			<div class="insertSemiProjectSection inputSemisePro3" id = "inputSemisePro3">
 	        				<form action="insertSemiPro.do" id ="inputSemiPro3" method="post">
-	        					<input placeholder="세부 프로젝트명 작성" type="text" id="title" name="semiTitle" class="semiProjectInput">
+	        					<input placeholder="세부 프로젝트명 작성" type="text" id="title" name="semiTitle" class="semiProjectInput" maxlength="45">
 	        					<input type="hidden" id="writer" name="semiWriter" value ="${loginUser.empNo}">
 		              			<input type="hidden" id="refpc" name="refPc" value="${pc.pcThree}">
 		              			<input type="hidden" id="refpro" name="refPro" value ="${p.proNo}">
@@ -332,7 +359,7 @@
 	        			<!-- 세부 프로젝트 작성 폼 -->
 	        			<div class="insertSemiProjectSection inputSemisePro4" id = "inputSemisePro4">
 	        				<form action="insertSemiPro.do" id ="inputSemiPro4" method="post">
-	        					<input placeholder="세부 프로젝트명 작성" type="text" id="title" name="semiTitle" class="semiProjectInput">
+	        					<input placeholder="세부 프로젝트명 작성" type="text" id="title" name="semiTitle" class="semiProjectInput" maxlength="45">
 	        					<input type="hidden" id="writer" name="semiWriter" value ="${loginUser.empNo}">
 		              			<input type="hidden" id="refpc" name="refPc" value="${pc.pcFour}">
 		              			<input type="hidden" id="refpro" name="refPro" value ="${p.proNo}">
@@ -365,6 +392,16 @@
 		$(document).click(function(){
     		$(".selectAddPer").hide();
 		})
+		function postDetailProdjetSubmit (num){
+			if(num ==1){
+				$(".updateProjectName").css("display", "flex");
+				$(".spr_body_text_project").val($("#proTitleName").val());
+				$("#proNo").val($("#proNoSuB").val());
+			}else{
+				var proNo = ${p.proNo};
+				location.href="deleteProject.do?userNo="+${loginUser.empNo}+"&departmentNo="+${loginUser.departmentNo}+"&proNo="+proNo;	
+			}
+		}
     	$(function(){
     		$(".page_title > .title_name").text($("#proTitleName").val());
     	})
@@ -375,11 +412,15 @@
     	function closeSemiInsert(name, div){
     		$("#"+name).css("display","none");
     		$("#"+div).css("display", "block");
+    		$(".semiProjectInput").val('');
     	}
     	/*등록버튼 클릭시*/
     	function submitForm(name){
     		$("#"+name).submit()
     	}
+    	$(".imagehamburger2").click(function(){
+    		$(".controlAnnoDetailProject").css("display","flex");
+    	})
    		function postFormSubmit111(num, sec, target){
        		//num =1 -> 수정, num =2 -> 삭제	
        		if(num == 1 && sec != 0){
@@ -388,6 +429,15 @@
        			$("#SceeditModalSe").val(sec);
        			$("#refProNum").val(${pc.refPro});
        			$("#pcName").val(target);
+       			//비교를 위해서 
+       			var pcOne = '${pc.pcOne}';
+       			var pcTwo = '${pc.pcTwo}';
+       			var pcThree = '${pc.pcThree}';
+       			var pcFour = '${pc.pcFour}';
+       			$("#pcOne").val(pcOne);
+       			$("#pcTwo").val(pcTwo);
+       			$("#pcThree").val(pcThree);
+       			$("#pcFour").val(pcFour);
        		}else if(num ==2 && sec != 0){
        			location.href="deleteTargetName.do?pcno="+${pc.pcNo}+"&sec="+sec+"&pjno="+${pc.refPro}+"&target="+target;
        		}

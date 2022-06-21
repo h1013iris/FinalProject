@@ -65,8 +65,8 @@ public class AttendLog {
 		
 		
 		AttendLog al = new AttendLog();
-		if(a == null) {
-			al.setTot("0");al.setTot2("0");al.setTot3("0");al.setTot4("0");al.setTot5("0");al.setEmp(a.getEmp()); al.setEmpNo(a.getEmpNo());
+		if(a.getTot() == null) {
+			al.setTot("0h 0m");al.setTot2("0h 0m");al.setTot3("0h 0m");al.setTot4("0h 0m");al.setTot5("0h 0m");al.setEmp(a.getEmp()); al.setEmpNo(a.getEmpNo());
 			al.setCal(a.getCal());al.setStatus(a.getStatus());al.setEmpName(a.getEmpName());
 		}else {
 			String tot = String.valueOf( Math.round(Double.parseDouble(a.getTot())/60)) +"H " +String.valueOf(Integer.parseInt(a.getTot())%60) +"m";
@@ -85,8 +85,8 @@ public class AttendLog {
 		
 		
 		AttendLog al = new AttendLog();
-		if(a == null) {
-			al.setTot("0"); al.setEmpNo(a.getEmpNo());
+		if(a.getTot() == null) {
+			al.setTot("0h 0m"); al.setEmpNo(a.getEmpNo());
 			al.setEmpName(a.getEmpName());
 		}else {
 			String tot = String.valueOf( Math.round(Double.parseDouble(a.getTot())/60)) +"H " +String.valueOf(Integer.parseInt(a.getTot())%60) +"m";

@@ -46,7 +46,8 @@
 		height: 70px;
 	}
 	.mainDivEnroll{
-		width: 83vw;
+		margin: 0 auto;
+		padding: 200px;
 	}
 	.alreayAttachment{
 		width: 55%;
@@ -66,9 +67,6 @@
 					<c:if test="${!empty a.fileNo }">
 					<input type="hidden" name="fileNo" value="${a.fileNo}">
 					</c:if>
-					<div class="annoDepartEnrollHeader">
-						<h2>공지사항 수정</h2>
-					</div>
 					<!-- 제목 부분 -->
 					<div class="enrollTitleSection">
 						<div class="mainStyleCh"><span class="titleNamePart mainStyleCh">제목</span></div>
@@ -110,6 +108,10 @@
 		</div>
     </div>
     <script type="text/javascript">
+	  //페이지 이름 
+		$(function(){
+	    	 $(".page_title>.title_name").text("공지사항 수정 페이지");
+	 	})
     	$(".cancelEnrollAnnoDepart").click(function(){
     		$("#confirm_title .title_name").text("공지사항 수정 취소");
     		$("#confirm_body .confirm_content").text("수정을 취소하시겠습니까?");

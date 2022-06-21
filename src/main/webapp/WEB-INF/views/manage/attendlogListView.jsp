@@ -211,7 +211,7 @@
 						<div class="divImgWri"><img src="https://img.icons8.com/material/24/000000/search--v1.png"></div>
 					</div>
 				</div>
-				<div class="headerNameSw"><span>2022-06</span></div>
+				<div class="headerNameSw"><span>2022년 06월</span></div>
 			</div>
 			<!-- 근태 수정 요청 부분 -->
 			<div>
@@ -262,7 +262,7 @@
 							<div>${a.cal} / ${a.status}</div>
 						</div>
 						<c:forEach items="${att2}"  var = "a2">
-							<c:if test="${a.empName eq a2.empName }">
+							<c:if test="${a.empNo eq a2.empNo }">
 								<div>${a2.tot}</div>
 							</c:if>
 						</c:forEach>
@@ -380,6 +380,7 @@
 			if(ord != 0){
 				if(ordq =='검색'){
 					myAlert("선택", "검색을 선택해주세요");
+					return false;
 				}else if(ordq == '이름'){
 					searchli = $(".defalutDepart42").val();
 				}else if(ordq == '사원번호'){
@@ -413,8 +414,9 @@
 
 						$.each(list.att2, function(k, ob){
 						
-						if(obj.empName == ob.empName){
+						if(obj.empNo == ob.empNo){
 							value += '<div>'+ob.tot+'</div>';
+							
 						}
 						})
 						value += '<div>'+obj.tot+'</div>';
@@ -431,6 +433,9 @@
 					$(".filterCHange").text(fil2);
 					$(".deptTitleNo").val(deptNo);//부서 번호 변경
 					$(".departTitleListone").hide();//박스 사라지게 하기 
+					$(".defalutDepart42").val('');//검색박스 사라지게 하기
+					$(".defalutDepart45").val('');//사번박스 empty
+					$(".searchFilterL").text('검색');
 				}
 					
 				}

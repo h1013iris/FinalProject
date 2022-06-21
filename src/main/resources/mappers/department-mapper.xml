@@ -97,8 +97,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT ANNO_NO, REF_DEPART,ANNO_WR, EMP_NAME, ANNO_TITLE, ACCESS_REPLY, ANNO_DATE, COUNT
 				FROM ANNOUNCE_DEPART AD
 				JOIN USER_INFO ON (ANNO_WR=EMP_NO)
-				WHERE REF_DEPART =  #{adno}
-				AND AD.STATUS='Y')
+				WHERE REF_DEPART =  #{departmentNo}
+				AND AD.STATUS='Y'
+				ORDER BY ANNO_NO DESC)
 		WHERE ROWNUM <=6
 		]]>
 	</select>
@@ -121,7 +122,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	<select id="selectDepartmentAnno" parameterType="_int" resultMap="departmentResultSet">
 		SELECT ADT.ANNO_NO, REF_DEPART, ANNO_WR, EMP_NAME, ANNO_TITLE, ANNO_CONTENT, ACCESS_REPLY,  COUNT, ATTACH_STATUS, JOB_NAME, AD.PREVNO, AD.NEXTNO
-		FROM (SELECT ANNO_NO, LAG(ANNO_NO) OVER(ORDER BY ANNO_NO) AS PREVNO, LEAD(ANNO_NO) OVER(ORDER BY ANNO_NO) AS NEXTNO FROM ANNOUNCE_DEPART) AD
+		FROM (SELECT ANNO_NO, LAG(ANNO_NO) OVER(ORDER BY ANNO_NO) AS PREVNO, LEAD(ANNO_NO) OVER(ORDER BY ANNO_NO) AS NEXTNO FROM ANNOUNCE_DEPART WHERE STATUS = 'Y') AD
 		JOIN ANNOUNCE_DEPART ADT ON (AD.ANNO_NO=ADT.ANNO_NO)
 		JOIN USER_INFO UI ON(ADT.ANNO_WR=EMP_NO)
 		JOIN JOB_RANK_MANAGEMENT JR ON (UI.JOB_NO=JR.JOB_NO)
@@ -206,7 +207,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE PRO_NO IN(SELECT REF_PRO
 		                FROM PRO_WATCHER
 		                WHERE PW_ATTEN =#{emno}
-		                AND PW_STATUS = 'Y')) J,  (SELECT COUNT(PW_ATTEN) AS COUNT, REF_PRO FROM PRO_WATCHER JOIN PROJECT ON(PRO_NO=REF_PRO) WHERE PW_STATUS = 'Y' GROUP BY REF_PRO ) PW
+		                AND PW_STATUS = 'Y')
+		                AND PRO_STATUS = 'Y') J,  (SELECT COUNT(PW_ATTEN) AS COUNT, REF_PRO FROM PRO_WATCHER JOIN PROJECT ON(PRO_NO=REF_PRO) WHERE PW_STATUS = 'Y' GROUP BY REF_PRO ) PW
 		WHERE J.PRO_NO = PW.REF_PRO
 		ORDER BY PRO_NO
 	</select>
@@ -487,4 +489,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		LEFT JOIN ATTACHMENT A ON (A.LARGE_CAT = U.EMP_NO)
 		WHERE DEPARTMENT_NO = #{departmentNo}
 	</select>
+	<select id="selectAttachmentProfile" parameterType="string" resultType="Attachment">
+		SELECT *
+		FROM ATTACHMENT
+		WHERE REF_LIST_CAT_NO = 10
+		AND LARGE_CAT = #{writerNo}
+	</select>
+	<update id="updateProjectName" parameterType="Project">
+		UPDATE PROJECT
+		SET PRO_TITLE = #{proTitle}
+		WHERE PRO_NO = #{proNo}
+		AND PRO_STATUS = 'Y'
+	</update>
+	<select id="selectAttachListProject" parameterType="_int" resultType="Attachment">
+		SELECT *
+		FROM ATTACHMENT
+		WHERE REF_LIST_CAT_NO = 61
+		AND LARGE_CAT IN (SELECT SEMI_NO
+		                    FROM SEMI_PRO
+		                    WHERE REF_PRO = #{pjno})
+	</select>
+	<update id="deletprojectinsemi" parameterType="_int">
+		UPDATE SEMI_PRO
+		SET  SEMI_STATUS ='Y'
+		WHERE REF_PRO = #{pjno}
+	</update>
+	<update id="deleteProjectAttach" parameterType="_int">
+		UPDATE ATTACHMENT
+		SET STATUS = 'N'
+		WHERE REF_LIST_CAT_NO = 61
+		AND LARGE_CAT IN (SELECT SEMI_NO
+		                    FROM SEMI_PRO
+		                    WHERE REF_PRO = #{pjno})
+	</update>
+	<update id="deleteProjectReply" parameterType="_int">
+		UPDATE SEMI_REPLY
+		SET SR_STATUS = 'N'
+		WHERE REF_SEMIPRO IN (SELECT SEMI_NO
+			                    FROM SEMI_PRO
+			                    WHERE REF_PRO =  #{pjno})
+	</update>
+	<update id="deleteProject" parameterType="_int">
+		UPDATE PROJECT
+		SET PRO_STATUS = 'N'
+		WHERE PRO_NO = #{pjno}
+	</update>
 </mapper>
