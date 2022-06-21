@@ -110,7 +110,7 @@
 
 .dpAll {
 	display: flex;
-	justify-content: flex-end;
+	margin-left: 58%;
     
 }
 .select {
@@ -226,11 +226,12 @@ padding-top : 50px;
 				<br>
 				<div id="pagingArea">
 					<ul class="pagination">
+					 <c:if test="${pi.currentPage ne 1}">
 						<c:choose>
 							<c:when test="${ pi.currentPage ne 1 }">
 								<a class="page-link"
 									href="notice.do?currentPage=${ pi.currentPage-1 }"><button
-										class="noticeButton2"><</button></a>
+										class="noticeButton2" style="color: white"><</button></a>
 							</c:when>
 							<c:otherwise>
 								<a class="page-link" href=""></a>
@@ -238,35 +239,38 @@ padding-top : 50px;
 								</a>
 							</c:otherwise>
 						</c:choose>
-
+					 </c:if>
+                    
 						<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 							<c:choose>
 								<c:when test="${ pi.currentPage ne p }">
 									<a class="page-link" href="notice.do?currentPage=${ p }"
-										style="color: white"><button class="noticeButton2">${ p }</button></a>
+										><button class="noticeButton2" style="color: white">${ p }</button></a>
 								</c:when>
 								<c:otherwise>
-									<a class="page-link" href="" style="color: white"><button
-											class="noticeButton2">${ p }</button></a>
+									<a class="page-link" href="" ><button
+											class="noticeButton2" style="color: darkgray">${ p }</button></a>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-
-
+                     
+                       <c:if test="${pi.endPage ne pi.maxPage}">
 						<c:choose>
 							<c:when test="${ pi.currentPage ne pi.maxPage }">
 								<a class="page-link"
 									href="notice.do?currentPage=${ pi.currentPage+1 }"><button
-										class="noticeButton2">></button></a>
+										class="noticeButton2" style="color: white">></button></a>
 							</c:when>
 							<c:otherwise>
 								<a class="page-link"
 									href="notice.do?currentPage=${ pi.currentPage+1 }"><button
-										class="noticeButton2">></button></a>
+										class="noticeButton2" style="color: white" >></button></a>
 							</c:otherwise>
 						</c:choose>
+					   </c:if>	 
 					</ul>
 				</div>
+				
 				<br> <br>
 				<div class="serch">
 					<div class="dropdown1">
@@ -278,6 +282,7 @@ padding-top : 50px;
 							<input class="searchconditiondept" type="search" name="search" value="${ search }">
 							<input type="hidden" name="cfbo" value=3>
 							<input type="hidden" name="userdept" value="${c.deptno}">
+							<input type="hidden" name="empno" value="${loginUser.empNo}">
 							<button type="submit" class="goingsearchdept">검색하기</button>
 						</form>
 					</div>

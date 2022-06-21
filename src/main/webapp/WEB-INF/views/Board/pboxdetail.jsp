@@ -32,25 +32,6 @@
 }
 
 
-.commonButton1 {
-	padding: 0;
-	font-weight: 600;
-	text-align: center;
-	line-height: 50px;
-	color: #FFF;
-	border-radius: 5px;
-	transition: all 0.2s;
-	background: #85cdff;
-	border: #85cdff;
-	box-shadow: 0px 5px 0px 0px #4c87b099;
-}
-
-.commonButton1:hover {
-	position: relative;
-	top: 5px;
-	bottom: 5px;
-	box-shadow: 0px 0px 0px 0px #4c87b099;
-}
 
 .replyAREA{
         width: 60%;  

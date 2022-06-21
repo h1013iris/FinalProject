@@ -48,10 +48,7 @@
 	font-size: 20px;
 }
 
-.commonButton1 {
-	width: 85px;
-	height: 50px;
-}
+
 
 .main_section {
 	text-align: center;
@@ -112,7 +109,7 @@
 				<!-- 제목 부분 -->
 				<div class="enrollTitleSection">
 					<div class="mainStyleCh">
-						<span class="titleNamePart mainStyleCh">제목</span>
+				<span style="color:red">*</span><span class="titleNamePart mainStyleCh">제목</span>
 					</div>
 					<input type="text" name="title" id="title" class="inputTitlePart"
 						palaceholder="제목을 입력해주세요" value ="${b.title}" required>
@@ -121,7 +118,7 @@
 				
 				<div class="enrollWriterSection">
 					<div class="mainStyleCh">
-						<span class="writerPart">작성자</span>
+						<span style="color:red">*</span><span class="writerPart">작성자</span>
 					</div>
 					
 					<input type="text" id="writer" name="nickname"> 
@@ -148,13 +145,13 @@
 					<!-- 내용 부분 -->
 					<div class="enrollContentSection">
 						<div id="description" class="contentPart mainStyleCh">
-							<span class="contentEn">내용</span>
+							<span style="color:red">*</span><span class="contentEn">내용</span>
 						</div>
 						<jsp:include page="note.jsp"/>
 					</div>
 				    <div class="anonypasswordSection">
 				    <div class="mainStyleCh">
-				    <span class="uploadfilePart" >비밀번호</span>
+				    <span style="color:red">*</span><span class="uploadfilePart" >비밀번호</span>
 				    </div>
 				    <input type="password" name="password" maxlength="4"  required>
 				    </div>

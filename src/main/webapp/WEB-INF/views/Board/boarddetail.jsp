@@ -12,48 +12,24 @@
 .main_section {
 	width: 83vw;	
 }
-
 #contentArea {
 	margin-left: 15%;
 }
-
 #contentArea * {
 	margin: 5px
 }
-
 #contentArea {
 	width: 80%;
 }
-
 #detailcontent {
 	border: 1px solid #85cdff;
 	margin-left: 17%;
 	width: 60%;
 	height: 60%;
+	overflow : auto;
 }
-
 .mainDivEnroll {
 	width: 83vw;
-}
-
-.commonButton1 {
-	padding: 0;
-	font-weight: 600;
-	text-align: center;
-	line-height: 50px;
-	color: #FFF;
-	border-radius: 5px;
-	transition: all 0.2s;
-	background: #85cdff;
-	border: #85cdff;
-	box-shadow: 0px 5px 0px 0px #4c87b099;
-}
-
-.commonButton1:hover {
-	position: relative;
-	top: 5px;
-	bottom: 5px;
-	box-shadow: 0px 0px 0px 0px #4c87b099;
 }
 
 .replyAREAboard{
@@ -63,7 +39,6 @@
 		height: 30vh;
 		margin-left : 17%;
 	}
-
 #concontents {
 	margin-left: 17%;
 }
@@ -114,17 +89,23 @@
      transition: all 0.2s ;
      background: #85cdff;
      border: #85cdff;
-     box-shadow: 1px 5px 1px 1px #4c87b099;
+     box-shadow: 1px 5px 1px 1px #949494;
      width:70px;
      }
     .detailbutclick:hover{
      position: relative;
      top: 5px;
      bottom: 5px;
-     ox-shadow: 0px 0px 0px 0px #4c87b099;
+     box-shadow: 0px 0px 0px 0px #949494;
      }
      .deletedetail{
-      background: #ff0025;
+      background: darkgray ;
+     }
+     
+     .checkman{
+     width:70px;
+     background: #949494 ;
+     
      }
 </style>
 <body>
@@ -171,13 +152,13 @@
 			<p style="height: 150px">${ b.content }</p>
 
 		</div>
-		
+		<br>
 		
 		<c:if test="${ loginUser.empNo eq b.empno }">
 			<div id="cocn">
 				<button class="btn btn-primary detailbutclick" onclick="postFormSubmit(1);">수정하기</button>
 				<button class="btn btn-danger detailbutclick deletedetail" onclick="postFormSubmit(2);">삭제하기</button>	
-				<button type="button" class="checkman detailbutclick" >읽은사람</button>			
+				<button type="button" class="checkman commonButton1" >읽은사람</button>			
 			</div>
 		
 			<form id="postForm" action="" method="post">
@@ -193,10 +174,24 @@
 						
 						if(num == 1){
 							postForm.attr("action", "updateFormBoard.do");
+							postForm.submit();
 						}else{
-							postForm.attr("action", "deleteBoard.do");
+							$("#confirm_title .title_name").text("글 삭제");
+							$("#confirm_body .confirm_content").text("글을 삭제하시겠습니까?");		
+							$("#helpmeCOnfirm").css("display","block");		
+							$("button[name='confirmBtn']").click(function(){
+					    		console.log($(this).val())   			
+					    		if($(this).val()=="true"){    			
+					    			postForm.attr("action", "deleteBoard.do");					    		
+					    			$("#helpmeCOnfirm").css("display","none");  
+					    			postForm.submit();
+					    		}else{
+					    			$("#helpmeCOnfirm").hide();
+					    		}
+					    	})
+							
 						}
-						postForm.submit();
+						
 					}
 					
 					
@@ -251,9 +246,7 @@
 			var bno = ${b.writeno};
 			
 			var realbno = ${b.boardno};
-
 			if ($("#Content").val().trim().length != 0) {
-
 				$.ajax({
 					url : "insertcontent.do",
 					type : "post",
@@ -263,13 +256,11 @@
 						writerno : "${loginUser.empNo}",
 						boardno : realbno
 					},
-
 					success : function(result) {
 						if (result > 0) {
 							$("#Content").val("");
 							selectcomList();
 							
-
 						} else {
 							console.log("댓글등록이 왜 안되지 ");
 						}
@@ -281,7 +272,6 @@
 			}
 		})
 	});
-
 	function selectcomList() {
 		var bno = ${b.writeno};
 				$.ajax({
@@ -292,13 +282,11 @@
 					type : "get",
 					success : function(list) {
 						$("#rcount").text(list.length);
-
 						var value = "";
 						$
 								.each(
 										list,
 										function(i, c) {
-
 											if ("${loginUser.empName}" == c.cwirter) {
 												value += "<tr>";
 											} else {
@@ -318,7 +306,6 @@
 													+ c.ccreateDate
 													+ "</td>"
 													+ "</tr>";
-
 										});
 						$("#replyList").html(value);
 						
@@ -368,14 +355,11 @@
 	
 }
 			
-
 })
 		})
-
 $(function(){
          $(".page_title>.title_name").text("게시글 상세");
       })
-
 </script>
 <script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 <script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>

@@ -111,6 +111,7 @@ public interface BoardService {
 
 	String bname(int boardno);
 
+
 	
 
 	

@@ -40,10 +40,7 @@
 	width: 618px;
 }
 
-.commonButton1 {
-	width: 85px;
-	height: 50px;
-}
+
 
 .main_section {	
 	justify-content: center;

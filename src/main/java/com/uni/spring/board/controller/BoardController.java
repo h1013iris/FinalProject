@@ -492,10 +492,7 @@ public class BoardController {
 			
 			BoardService.deleteBoard(bno); //지울 게시물 번호를 가져와서 지우기
 			
-			if(!fileName.equals("")) {
-				deleteFile(fileName, request);
-				
-			}
+			
 			
 			if(boardno == 1) {
 				return "redirect:notice.do";
@@ -558,10 +555,10 @@ public class BoardController {
    	}
         
         @RequestMapping("deletepbox.do")
-        public String deletepbox(int pno, String fileName, HttpServletRequest request) {
+        public String deletepbox(int userno,int pno, String fileName, HttpServletRequest request, Model model) {
         
          BoardService.deletepbox(pno);
-        	
+         model.addAttribute("userno",userno);
         return "redirect:pbox.do";
         }
         @ResponseBody
@@ -624,7 +621,7 @@ public class BoardController {
     		return mv;
     	}
     		@RequestMapping("insertanony.do")
-    		public String insertanony(Board b ,HttpServletRequest request,MultipartHttpServletRequest mtfRequest , Attachment a)  {
+    		public String insertanony(Board b ,HttpServletRequest request,MultipartHttpServletRequest mtfRequest , Attachment a ,MultipartFile file)  {
     			
   		        
     			BoardService.insertanony(b);
@@ -661,7 +658,15 @@ public class BoardController {
     		    		a.setChangeName(changeName);
     		            
     		            a.setOriginName(mf.getOriginalFilename());
-    		            	           	            
+    		            	           	    
+    		            try {
+    		    			file.transferTo(new File(path + changeName)); //transferTo 파일 저장을 위해 사용 
+    		    		} catch (IllegalStateException | IOException e) {
+    		    			
+    		    			e.printStackTrace();
+    		    			throw new CommException("file Upload error");
+    		    		}
+    		            
     		            BoardService.savefiles(a);
     		        
     		            try {
