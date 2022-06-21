@@ -9,8 +9,8 @@
 <title>Insert title here</title>
 
 <style>
-.main_section {
-	width: 83vw;	
+.boarddtailmainse{
+    height:93vh !important;
 }
 #contentArea {
 	margin-left: 15%;
@@ -36,7 +36,7 @@
          width: 60%;  
 		margin-top: 10px;
 		overflow-y: scroll;
-		height: 30vh;
+		height: 25vh;
 		margin-left : 17%;
 	}
 #concontents {
@@ -111,7 +111,7 @@
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	<jsp:include page="checkman.jsp"></jsp:include>
-	<div class="main_section">
+	<div class="main_section boarddtailmainse">
 		<table id="contentArea" align="center" class="table">
 			<tr>
 				<th width="100">제목</th>
