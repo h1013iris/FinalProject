@@ -8,22 +8,20 @@
 <title>진행 상태 확인 상세 페이지</title>
 <style type="text/css">
 	
-	.main_section {
-		/*border: 1px solid black;*/
-		padding: 100px;
+	.docDetailViewDiv {
+		margin: 30px auto;
+		width: 1150px;
 	}
 	
-	.docDetailBackground {
-		width: 1150px;
+	/*.docDetailBackground {
 		height: 780px;
 		border: 1px solid #e6e6e6;
 		background-color: #e6e6e6;
 		border-radius: 15px;
 		box-shadow: 0 0 8px #afafaf;	
-	}
+	}*/
 	
 	.docDetailMainArea {
-		/*border: 1px solid red;*/
 		padding: 70px 0 0 100px;
 		float: left;
 	}
@@ -36,12 +34,15 @@
 		border: 1px solid darkgray;
 		background-color: white;
 		padding: 0 25px 25px 25px;
-		/*float: left;*/
+	}
+	
+	.docDetail_textarea {
+		resize: none;
+		border: none;
 	}
 	
 	.docDetailBtnsArea {
-		/*padding-top: 34%;*/
-		margin-left: 84%;
+		margin-left: 84.2%;
 		padding-top: 65px;
 	}
 	
@@ -56,12 +57,15 @@
 	}
 	
 	.approverName {
-		width: 100px;
+		width: 115px;
 	}
 	
 	.approverJop {
-		width: 50px;
-		/*text-align: right;*/
+		width: 40px;
+	}
+	
+	.docDetail_textarea {
+		resize: vertical;
 	}
 	
 	.statusList_btn {
@@ -75,13 +79,12 @@
 	
 	.returnReasonArea {
 		width: 400px;
-		height: 460px;
+		height: 410px;
 		margin: 40px 20px 0 64.8%;
 		padding: 15px;
 		border: 3px solid #85cdff;
 		background-color: #c0e3ff;
 		border-radius: 15px;
-		/*box-shadow: 0 0 8px #85cdff;*/
 		font-size: 17px;
 		font-weight: bold;
 	}
@@ -89,7 +92,7 @@
 	.returnText {
 		font-size: 15px !important;
 		font-weight: normal !important;
-		margin-top: 10px;
+		margin-top: 15px;
 	}
 	
 	.reDate_div {
@@ -98,6 +101,14 @@
 	
 	#reFrom, #reDate {
 		padding-left: 10px;
+	}
+	
+	#reReason {
+		padding-left: 2px;
+		height: 300px;
+		white-space: pre-wrap;
+		overflow: auto;
+		line-height: 130%;
 	}
 	
 	.returnModal_hr {
@@ -157,6 +168,9 @@
     <script type="text/javascript">
 	    
     	$(document).ready(function() {
+    		
+			$(".page_title>.title_name").text("진행 상태 확인 문서 상세 페이지");
+
 			// 로그인이 되어있지 않으면
 			if("${ loginUser.empNo }" == "") {	
 				
@@ -176,8 +190,9 @@
 					reReason();  // 반려 관련 내용 조회하는 함수 실행
 					
 					// css 조정
-					$(".docDetailBackground").css("width", "1500px");
-					$(".docDetailBtnsArea").css("margin-left", "64.4%");
+					$(".docDetailBtnsArea").css("margin-left", "64.5%");
+					$(".docDetailMainArea").css("margin-left", "0");
+					$(".docDetailViewDiv").css("width", "1500px");
 					
 					$(".returnReasonArea").show();  // 반려 문서 관련 div 보이게
 				}
@@ -198,19 +213,13 @@
 					if(list != null) {
 						for(var i in list) {
 							if(list[i] != null) {
-								$("#aprv" + i).val(list[i].empNo);
-								$("#aprvName" + i).val(list[i].empName);
-								$("#aprvJobName" + i).val(list[i].jobName);
+								$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
+								$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
+								$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
+								console.log(list[i].empNo);
 							}
 						}
-						/*$("#firstAprv").val(list[0].empNo);
-						$("#firstAprvName").val(list[0].empName);
-						$("#firstAprvJob").val(list[0].jobName);
-						$("#secondAprv").val(list[1].empNo);
-						$("#secondAprvName").val(list[1].empName);
-						$("#secondAprvJob").val(list[1].jobName);
-	                	}*/
-	                }
+                	}
 		 		}
 	 		});
     	}

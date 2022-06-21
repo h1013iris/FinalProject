@@ -8,13 +8,13 @@
 
 <style type="text/css">
 	
+	.main_section {
+		
+	}
+	
 	.mainDiv {
 		padding: 50px 100px 80px 100px;
 		text-align: center;
-	}
-	
-	.main_section {
-		/*border: 1px solid black;*/
 	}
 	
 	.requestList_area {
@@ -42,6 +42,7 @@
 		padding: 15px;
 	}
 	
+	/* 말줄임표 CSS */
 	.requestList_table .requestList_tbody td {
 		white-space: nowrap;
 		overflow: hidden;
@@ -61,18 +62,12 @@
 	.noRequestList {
 		color: blue;
 	}
-
-	.filter_dropdown * { box-sizing: border-box; }
 	
 	.filter_dropdown, .filter_initialize {
 		margin: 5px 10px;
 		position: relative;
 		display: inline-block;
-		/*width: 150px;
-		height: 35px;*/
-		/*border-radius: 4px;*/
 		border: none;
-		/*background-size: 20px;*/
 		cursor: pointer;
 	}
 	
@@ -88,9 +83,6 @@
 	}
 	
 	.dropdown_btn {
-	
-		/*border: 1px solid #ffdab9;*/
-		/*position: absolute;*/
 		content: '';
   		display: block;
 		border: none;
@@ -108,13 +100,9 @@
 		border-radius: 4px;
 		position: absolute;
 		background-color: #bce7ff;
-		/*min-sidth: 75px;*/
-		/*padding: 7px 10px;*/
 		box-shadow: 0 8 10 6 rgba(0, 0, 0, 0.2);
-		/*list-style-type: none;*/
 		width: 100%;
 		top: 40px;
-		/*transition: .3s ease-in;*/
 	}
 	
 	.dropdown_content li {
@@ -144,7 +132,6 @@
 	
 	.docSearch_area {
 		display: flex;
-		/*border: 1px solid blue;*/
 		padding: 10px 0 15px 0;
 	}
 	
@@ -179,6 +166,7 @@
 		display: flex;
 		text-align: center;
 		padding-top: 35px;
+		justify-content: center;
 	}
 	
 	.pagingArea ul {
@@ -290,6 +278,8 @@
 		// 화면 로드 시 리스트 불러오기
 		$(document).ready(function() {
 			
+			$(".page_title>.title_name").text("결재 요청 문서함");
+
 			// 로그인이 되어있지 않으면
 			if("${ loginUser.empNo }" == "") {
 				
@@ -306,7 +296,7 @@
 		
 		
 		// 요청 리스트 조회
-		/*function requestListFn(num) {
+		function requestListFn(num) {
 			
 			console.log(num);
 			
@@ -336,23 +326,21 @@
                 			
                 			var $tr = $('<tr>').addClass("yesRequestList");
                 			var $docNo = $('<td>').text(obj.docNo);
-                			var $docForm = $('<td>').text(obj.docForm);
-                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
+                			var $docForm = $('<td>').text(obj.docForm).attr("title", obj.docForm);
                 			
                 			if(obj.docTitle != null) {
-                				var $docTitle = $('<td>').text(obj.docTitle);
+                				var $docTitle = $('<td>').text(obj.docTitle).attr("title", obj.docTitle);
                 			
                 			} else {
                 				var $docTitle = $('<td>').text(obj.docForm);
                 			}
                 			
-                			var $drafter = $('<td>').text(obj.drafter);
-                			var $draftDate = $('<td>').text(obj.draftDate);
-                			var $proDate = $('<td>').text(obj.proDate);
+                			var $drafter = $('<td>').text(obj.drafter).attr("title", obj.drafter);
+                			var $draftDate = $('<td>').text(obj.draftDate).attr("title", obj.draftDate);
+                			var $proDate = $('<td>').text(obj.proDate).attr("title", obj.proDate);
                 			
                 			$tr.append($docNo);
                 			$tr.append($docForm);
-                			$tr.append($docType);
                 			$tr.append($docTitle);
                 			$tr.append($drafter);
                 			$tr.append($draftDate);
@@ -371,7 +359,7 @@
                         bar += '<ul class="pagination">';
                         
                         if(currentPage != 1) {
-                        	bar += '<li class="page-item commonButton1" onclick="statusListFn(' + parseInt(currentPage-1) + ');"><</li>'
+                        	bar += '<li class="page-item commonButton1" onclick="requestListFn(' + parseInt(currentPage-1) + ');"><</li>'
                         
                         } else {
                         	bar += '<li class="page-item disabled commonButton1"><</li>'
@@ -380,7 +368,7 @@
                         for(var i = startPage; i <= endPage; i++) {
                            
                         	if(i != currentPage) {
-                        	   bar += '<li class="page-num commonButton1" onclick="statusListFn(' + i + ');">'+ i +'</li>'
+                        	   bar += '<li class="page-num commonButton1" onclick="requestListFn(' + i + ');">'+ i +'</li>'
                            
                            } else {
                         	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
@@ -388,7 +376,7 @@
                         }
                         
                        	if(currentPage != maxPage) {
-                            bar += '<li class="page-item commonButton1" onclick="statusListFn(' + parseInt(currentPage+1) + ');">></li>'
+                            bar += '<li class="page-item commonButton1" onclick="requestListFn(' + parseInt(currentPage+1) + ');">></li>'
                         
                        	} else {
                         	bar += '<li class="page-item disabled commonButton1">></li>'
@@ -400,7 +388,7 @@
                 	}
                 }
 			});
-		}*/
+		}
 
 		
 		// 문서 타입 리스트 조회해서 li에 넣는 함수
@@ -450,7 +438,7 @@
 			$(".docFormDefault").text(docForm);
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			requestListFn(docForm, condition, search);
+			filterRequestListFn(docForm, condition, search);
 			
 		});
 		
@@ -474,13 +462,13 @@
 			let search = $("#search").val();
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			requestListFn(docForm, condition, search);
+			filterRequestListFn(docForm, condition, search);
 			
 		});
 		
 		
 		// 요청 리스트 조회 & 필터 및 검색 내용에 따른 리스트 조회
-		function requestListFn(docForm, condition, search, num) {
+		function filterRequestListFn(docForm, condition, search, num) {
 			
 			console.log(docForm);
 			console.log(condition);
@@ -551,7 +539,7 @@
                         bar += '<ul class="pagination">';
                         
                         if(currentPage != 1) {
-                        	bar += '<li class="page-item commonButton1" onclick="requestListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
+                        	bar += '<li class="page-item commonButton1" onclick="filterRequestListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
                         
                         } else {
                         	bar += '<li class="page-item disabled commonButton1"><</li>'
@@ -560,7 +548,7 @@
                         for(var i = startPage; i <= endPage; i++) {
                            
                         	if(i != currentPage) {
-                        	   bar += '<li class="page-num commonButton1" onclick="requestListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
+                        	   bar += '<li class="page-num commonButton1" onclick="filterRequestListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
                            
                            } else {
                         	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
@@ -568,7 +556,7 @@
                         }
                              
                        	if(currentPage != maxPage) {
-                            bar += '<li class="page-item commonButton1" onclick="requestListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
+                            bar += '<li class="page-item commonButton1" onclick="filterRequestListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
                         
                        	} else {
                         	bar += '<li class="page-item disabled commonButton1">></li>'

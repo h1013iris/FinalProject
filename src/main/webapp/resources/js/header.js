@@ -15,6 +15,8 @@ $(function(){
 		$(".docEnrollModal").css("display","flex");
 		// 모달창 열릴 때마다 이전에 선택한 문서 타입 남아있지 않도록 비워주기
 		$("#docType").val("");
+		$("#docForm").val("");
+		$("#modalDocTitle").val("");
 	})
 	
 	//간편 프로젝트 생성 버튼 클릭시 모달창 

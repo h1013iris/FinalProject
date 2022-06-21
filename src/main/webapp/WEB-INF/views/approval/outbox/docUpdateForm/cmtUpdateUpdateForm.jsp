@@ -108,7 +108,7 @@
 												<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 18px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;">
 													1차 결재자
 												</td>
-												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
+												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle; width: 180px;">
 													<select class="approverList" id="firstAprv" name="firstAprv">
 														<option value="">선택</option>
 													</select>
@@ -201,7 +201,7 @@
 				</table>
 				
 			</div>
-			<div class="docEnrollBtnsArea">
+			<div class="docUpdateBtnsArea">
 				<button class="commonButton1 docUpdateFormBtn docSubmit_btn" type="button">결재요청</button> <br>
 				<button class="commonButton1 docUpdateFormBtn docUpdate_btn" type="button">수정</button> <br> <%-- 임시저장 기능 --%>
 				<button class="commonButton1 docUpdateFormBtn cancle_btn" type="button" style="background-color: #c8c8c8 !important;">취소</button>
@@ -211,26 +211,16 @@
  	
  	
  	<script type="text/javascript">
- 		
+ 	
  		// 화면 로드 시 가장 먼저 실행
 	 	$(document).ready(function() {
 	 		
- 			// 로그인이 되어있지 않으면
- 			if("${ loginUser.empNo }" == "") {
- 				
- 				loginFn(); // 로그인 먼저
- 			
- 			} else {
- 		 		// 기안일 오늘 날짜로 설정
-				$("#draftDate").val(new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10));
- 			
-				selectDeptFn(); 				// 기안자 부서 가져오는 함수
- 	 			selectApproverFn(); 			// 결재자 조회하는 함수
-		 		selectCmtUpdateFormOutboxFn(); 	// 기존 내용 조회
- 			}
- 			
+	 		let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
+	 		document.getElementById("updateDate").max = today;
+	 		
+	 		selectCmtUpdateFormOutboxFn(); 	// 기존 내용 조회
+	 		
 	 	});
- 		
  		
  		
 	 	// 기안자 부서 가져오는 함수
@@ -278,7 +268,6 @@
 					// 문서 번호가 없으면
 					if(data.docNo == null) {
 						$("#docNo").val("");
-						selectApproverFn(); // 문서 등록 시 결재자 조회하는 함수
 					
 					} else {
 						$("#docNo").val(data.docNo);
@@ -426,6 +415,7 @@
  		$(".docSubmit_btn").click(function() {
  			
  			let firstAprv = $("#firstAprv").val();
+ 			let secondAprv = $("#secondAprv").val();
  			let updateDate = $("#updateDate").val();
  			let beAttendTime = $("#beAttendTime").val();
  			let beLeaveTime = $("#beLeaveTime").val();
@@ -433,15 +423,29 @@
  			let leaveTime = $("#leaveTime").val();
  			let updateReason = $("#updateReason").val();
  			
- 			if(firstAprv == null || firstAprv == "") {
-
-				let focus="#firstAprv";
+ 			let title = "문서 작성 확인";
+ 			
+ 			console.log(firstAprv);
+ 			console.log(updateDate);
+ 			console.log(beAttendTime);
+ 			console.log(beLeaveTime);
+ 			console.log(attendTime);
+ 			console.log(leaveTime);
+ 			console.log(updateReason);
+ 			
+ 			if((firstAprv == null || firstAprv == "") 
+					&& (secondAprv != null || secondAprv != "")) {
+			
+				myAlert("문서 작성 확인", "1차 결재자를 선택해주세요.");
+				focusFn("#firstAprv");
+	
+			} else if(firstAprv == null || firstAprv == "") {
+			
+				myAlert("문서 작성 확인", "최소 한 명의 결재자를 선택해주세요.");
+				focusFn("#firstAprv");
 				
-				myAlert("문서 작성 확인", "결재자를 선택해주세요.");
-				focusFn(focus);
- 				
- 			} else if(updateDate == null || updateDate == "") {
- 				
+			} else if(updateDate == null || updateDate == "") {
+	 				
 				let title = "문서 작성 확인";
  				let content = "수정일을 선택해주세요.";
 				let focus="#updateDate";

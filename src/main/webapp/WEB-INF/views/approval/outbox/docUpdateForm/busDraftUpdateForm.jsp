@@ -108,7 +108,7 @@
 												<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 18px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;">
 													1차 결재자
 												</td>
-												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
+												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle; width: 180px;">
 													<select class="approverList" id="firstAprv" name="firstAprv">
 														<option value="">선택</option>
 													</select>
@@ -170,14 +170,14 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;" colspan="3">
 								<span contenteditable="false"style="width: 100%;">
-									<input id="docTitle" name="docTitle" value="${ docTitle }" style="width: 99%;" type="text" maxlength="100">
+									<input id="docTitle" name="docTitle" value="${ docTitle }" style="width: 99%;" type="text" maxlength="40">
 								</span>
 							</td>
 						</tr>
 						<tr>
 							<td style="background: rgb(255, 255, 255); border-width: medium 1px 1px; border-style: none solid solid; border-color: currentColor black black; padding: 5px; height: 300px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;" colspan="4" class="dext_table_border_t">
 								<span contenteditable="false" style="width: 100%;">
-									<textarea class="txta_editor" id="dftContent" name="dftContent" style="width: 99%; height: 290px; resize: vertical;" maxlength="1000"></textarea>
+									<textarea class="docUpdate_textarea" id="dftContent" name="dftContent" style="width: 99%; height: 290px;" maxlength="950"></textarea>
 								</span>
 							</td>
 						</tr>
@@ -194,31 +194,17 @@
 	
 	
 	<script type="text/javascript">
-		
+
+		let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
+	
 		// 화면 로드 시 가장 먼저 실행
 	 	$(document).ready(function() {
+ 	 			 	 			 	 		 		
+	 		selectDeptListFn(); 		// 부서 리스트 조회하는 함수
 	 		
-			// 로그인이 되어있지 않으면
-			if("${ loginUser.empNo }" == "") {
-				
-				loginFn(); // 로그인 먼저
-			
-			} else {
-		 		
-				// 기안일 오늘 날짜로 설정				
-				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
-				$("#dftDate").val(today);				
-		 		
-				selectDeptFn(); 			// 기안자 부서 가져오는 함수
- 	 			
- 	 			selectDeptListFn(); 		// 부서 리스트 조회하는 함수
- 	 			
- 	 			selectApproverFn(); 		// 결재자 조회하는 함수
- 	 			
-		 		selectBusDraftOutboxFn(); 	// 기존 내용 조회
-		 		
-			}
-			
+	 		selectBusDraftOutboxFn(); 	// 기존 내용 조회
+
+ 			document.getElementById("enfDate").min = today;		// 날짜 최소값 지정
  		});
 		
 		
@@ -279,7 +265,6 @@
 					console.log(data)
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.drafterDept);
-					$("#dftDate").val(data.dftDate);
 					$("#enfDate").val(data.enfDate);
 					$("#coopDept").val(data.coopDept);
 					$("#docTitle").val(data.docTitle);
@@ -289,7 +274,6 @@
 					// 문서 번호가 없으면
 					if(data.docNo == null) {
 						$("#docNo").val("");
-						selectApproverFn(); // 문서 등록 시 결재자 조회하는 함수
 					
 					} else {
 						$("#docNo").val(data.docNo);
@@ -310,6 +294,17 @@
 		 	                	}
 		 	                }
 				 		});
+					}
+					
+					// 시행 일자가 어제 이전인 경우
+					if($("#enfDate").val() != null && $("#enfDate").val() != "") {
+						
+						let endDate = new Date($("#enfDate").val()).toISOString().substring(0, 10);
+						
+						if(endDate < today) {
+				 			$("#formErrorMsg").text("시행 일자를 새로 지정해주세요.");
+							$("#enfDate").val('');
+				 		}
 					}
 				}
 			});
@@ -361,45 +356,49 @@
  				$("#enfDate").val("");
  			}
 			
- 		})
+ 		});
  		
  		
  		// 결재 요청 버튼 클릭 시
 		$(".docSubmit_btn").click(function() {
 			
 			let firstAprv = $("#firstAprv").val();
+			let secondAprv = $("#secondAprv").val();
 			let enfDate = $("#enfDate").val();
-			let coopDept = $("#coopDept").val();
+			//let coopDept = $("#coopDept").val();
 			let dftContent = $("#dftContent").val();
 			
-			if(firstAprv == null || firstAprv == "") {
-
-				let focus="#firstAprv";
+			let title = "문서 작성 확인";
+ 			
+ 			if((firstAprv == null || firstAprv == "") 
+						&& (secondAprv != null || secondAprv != "")) {
+			
+				myAlert("문서 작성 확인", "1차 결재자를 선택해주세요.");
+				focusFn("#firstAprv");
+		
+			} else if(firstAprv == null || firstAprv == "") {
+			
+				myAlert("문서 작성 확인", "최소 한 명의 결재자를 선택해주세요.");
+				focusFn("#firstAprv");
 				
-				myAlert("문서 작성 확인", "결재자를 선택해주세요.");
-				focusFn(focus);
- 				
- 			} else if(enfDate == null || enfDate == "") {
+			} else if(enfDate == null || enfDate == "") {
 				
-				let title = "문서 작성 확인";
 				let content = "시행일을 선택해주세요.";
 				let focus="#enfDate";
 				
 				myAlert(title, content);
 				focusFn(focus);
 			
-			} else if(coopDept == null || coopDept == "") {
+			} /*else if(coopDept == null || coopDept == "") {
 				
-				let title = "문서 작성 확인";
 				let content = "협조 부서를 선택해주세요.";
 				let focus="#coopDept";
 				
 				myAlert(title, content);
 				focusFn(focus);
  				
-			} else if(dftContent == null || dftContent == "") {
+			}*/ else if(dftContent == null || dftContent == "") {
 				
-				let title = "문서 작성 확인";
 				let content = "기안서 내용을 작성해주세요.";
 				let focus="#dftContent";
 				

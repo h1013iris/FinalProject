@@ -8,8 +8,8 @@
 <title>업무 협조문</title>
 <style type="text/css">
 	
-	.formMainArea {
-		/*text-align: center;*/
+	.coopContent_textarea {
+		border: none;
 	}
 	
 </style>
@@ -161,14 +161,14 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;" colspan="3">
 								<span contenteditable="false" class="comp_wrap" data-cid="5" data-dsl="{{text}}" data-wrapper="" style="width: 100%;" data-value="" data-autotype="">
-									<input id="docTitle" name="docTitle" value="${ docTitle }" style="width: 99%;" type="text" maxlength="100">
+									<input id="docTitle" name="docTitle" value="${ docTitle }" style="width: 99%;" type="text" maxlength="40">
 								</span>
 							</td>
 						</tr>
 						<tr>
 							<td style="background: rgb(255, 255, 255); border-width: medium 1px 1px; border-style: none solid solid; border-color: currentColor black black; padding: 5px; height: 300px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;" colspan="4" class="dext_table_border_t">
 								<span contenteditable="false" style="width: 100%;">
-									<textarea class="txta_editor" id="coopContent" name="coopContent" style="width: 99%; height: 290px; resize: vertical;" maxlength="1000"></textarea>
+									<textarea class="docEnroll_textarea" id="coopContent" name="coopContent" style="width: 99%; height: 290px;" maxlength="950"></textarea>
 								</span>
 							</td>
 						</tr>
@@ -188,98 +188,35 @@
 	
 	<script type="text/javascript">
 		
-	
-		// 화면 로드 시 가장 먼저 실행
-	 	$(document).ready(function() {
-	 		
-			// 로그인이 되어있지 않으면
-			if("${ loginUser.empNo }" == "") {
-				
-				loginFn(); // 로그인 먼저
+		$(document).ready(function() {
 			
-			} else {
-		 		
-				// 기안일 오늘 날짜로 설정				
-				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
-				$("#dftDate").val(today);				
-		 		
-				// 로그인 유저 소속(부서명) 조회
-		 		$.ajax({
-		 			
-		 			type: "post",
-		            url: "selectDeptName.do",
-		            data: { deptNo : "${ loginUser.departmentNo }" },
-		            success: function (data) {
-						
-		            	if(data != null || data != "") {
-		            		
-		            		$("#drafterDeptName").val(data);
-		            	}
-		            }
-		 		})
-		 		
-		 		// 결재자 조회
- 	 			$.ajax({
- 	 				
- 	 				type: "post",
- 	 				url: "selectDocEnrollApprover.do",
- 	 				data: { empNo :  "${ loginUser.empNo }",
- 	 						departmentNo : "${ loginUser.departmentNo }",
- 	 						jobNo : "${ loginUser.jobNo }" },
- 	 				success: function(list) {
- 	 					console.log(list);
- 	                	if(list != null || list != "") {
- 	                		
- 	                		$.each(list, function(i) {
- 	                			$(".approverList").append("<option value='" + list[i].empNo + "'>" 
-                								  		+ list[i].empName + " / " + list[i].jobName + "</option>");
- 	                		});
- 	                	}
- 	 				}
- 	 				
- 	 			});
-		 		
-		 		// 부서 조회해서 select에 넣기
-				$.ajax({
-		 					 			
-		 			type: "post",
- 	                url: "selectDeptList.do",
- 	               	data: { deptNo : "${ loginUser.departmentNo }" },
- 	                success: function (list) {
-						
- 	                	console.log(list);
- 	                	
- 	                	if(list != null || list != "") {
- 	                		
- 	                		$.each(list, function(i) {
- 	                			$("#receiveDept").append("<option value='" + list[i].deptNo + "'>" 
- 	                									 + list[i].deptTitle + "</option>");
- 	                		});
- 	                	}
- 	                }
-		 		});
-			}	
+			selectDeptListFn("#receiveDept");	// 부서 리스트 조회
 		});
-		
 		
 		
 		// 결재 요청 버튼 클릭 시
 		$(".submit_btn").click(function() {
 			
 			let firstAprv = $("#firstAprv").val();
+			let secondAprv = $("#secondAprv").val();
 			let receiveDept = $("#receiveDept").val();
 			let coopContent = $("#coopContent").val();
 			
-			if(firstAprv == null || firstAprv == "") {
-
-				let focus="#firstAprv";
+			let title = "문서 작성 확인";
+			
+			if((firstAprv == null || firstAprv == "") 
+					&& (secondAprv != null || secondAprv != "")) {
+		
+				myAlert("문서 작성 확인", "1차 결재자를 선택해주세요.");
+				focusFn("#firstAprv");
+		
+			} else if(firstAprv == null || firstAprv == "") {
+			
+				myAlert("문서 작성 확인", "최소 한 명의 결재자를 선택해주세요.");
+				focusFn("#firstAprv");
 				
-				myAlert("문서 작성 확인", "결재자를 선택해주세요.");
-				focusFn(focus);
- 				
- 			} else if(receiveDept == null || receiveDept == "") {
+			} else if(receiveDept == null || receiveDept == "") {
 				
-				let title = "문서 작성 확인";
 				let content = "수신 부서를 선택해주세요.";
 				let focus="#receiveDept";
 				
@@ -288,7 +225,6 @@
  				
 			} else if(coopContent == null || coopContent == "") {
 				
-				let title = "문서 작성 확인";
 				let content = "협조문 내용을 작성해주세요.";
 				let focus="#coopContent";
 				

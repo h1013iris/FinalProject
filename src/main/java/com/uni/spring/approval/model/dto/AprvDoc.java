@@ -24,10 +24,6 @@ public class AprvDoc {
 	private String proDate;	 	// 요청일
 	private String reDate; 		// 반려일
 	
-	// 문서 상세 조회 시 사용
-	private String firstJob; 	// 1차 결재자 직급
-	private String secondJob; 	// 2차 결재자 직급
-	
 	// 진행 상태 확인 리스트 조회 시 사용
 	private String aprvStatusName; // 결재 상태 이름
 	

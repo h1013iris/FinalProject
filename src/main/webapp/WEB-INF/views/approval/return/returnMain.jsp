@@ -27,19 +27,26 @@
 	.returnList_table>tbody>tr:hover {
 		background: rgb(174, 217, 248);
 		box-shadow: 0 0 8px #4c87b099;
-		
 		cursor: pointer;
 	}
 	
 	.returnList_table {
 		width: 97%;
 		margin: auto;
+		table-layout: fixed;
 	}
 	
 	.returnList_table td {
 		border-top: 1px solid darkgray;
 		padding: 15px;
 		
+	}
+	
+	/* 말줄임표 CSS */
+	.returnList_table .returnList_tbody td {
+       	white-space: nowrap;
+       	text-overflow: ellipsis;
+       	overflow: hidden;
 	}
 	
 	.returnList_table th {
@@ -55,31 +62,12 @@
 	.noReturnList {
 		color: blue;
 	}
-	
-	.pagingArea {
-		/*border: 1px solid black;*/
-		width: fit-content;
-		margin: auto;
-		padding-top: 35px;
-	}
-    /* #pagingArea a{color:black} */
-	
-	.pagingBtn {
-		width: 30px;
-		height: 45px;
-	}
-	
-	.filter_dropdown * { box-sizing: border-box; }
-	
+		
 	.filter_dropdown, .filter_initialize {
 		margin: 5px 10px;
 		position: relative;
 		display: inline-block;
-		/*width: 150px;
-		height: 35px;*/
-		/*border-radius: 4px;*/
 		border: none;
-		/*background-size: 20px;*/
 		cursor: pointer;
 	}
 	
@@ -95,9 +83,6 @@
 	}
 	
 	.dropdown_btn {
-	
-		/*border: 1px solid #ffdab9;*/
-		/*position: absolute;*/
 		content: '';
   		display: block;
 		border: none;
@@ -115,13 +100,9 @@
 		border-radius: 4px;
 		position: absolute;
 		background-color: #bce7ff;
-		/*min-sidth: 75px;*/
-		/*padding: 7px 10px;*/
 		box-shadow: 0 8 10 6 rgba(0, 0, 0, 0.2);
-		/*list-style-type: none;*/
 		width: 100%;
 		top: 40px;
-		/*transition: .3s ease-in;*/
 	}
 	
 	.dropdown_content li {
@@ -151,7 +132,6 @@
 	
 	.docSearch_area {
 		display: flex;
-		/*border: 1px solid blue;*/
 		padding: 10px 0 15px 0;
 	}
 	
@@ -186,6 +166,7 @@
 		display: flex;
 		text-align: center;
 		padding-top: 35px;
+		justify-content: center;
 	}
 	
 	.pagingArea ul {
@@ -300,6 +281,8 @@
 		// 화면 로드 시 리스트 불러오기
 		$(document).ready(function() {
 			
+			$(".page_title>.title_name").text("반려 문서함");
+
 			// 로그인이 되어있지 않으면
 			if("${ loginUser.empNo }" == "") {
 				
@@ -344,23 +327,21 @@
                 			
                 			var $tr = $('<tr>').addClass("yesReturnList");
                 			var $docNo = $('<td>').text(obj.docNo);
-                			var $docForm = $('<td>').text(obj.docForm);
-                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
+                			var $docForm = $('<td>').text(obj.docForm).attr("title", obj.docForm);
                 			
                 			if(obj.docTitle != null) {
-                				var $docTitle = $('<td>').text(obj.docTitle);
+                				var $docTitle = $('<td>').text(obj.docTitle).attr("title", obj.docTitle);
                 			
                 			} else {
                 				var $docTitle = $('<td>').text(obj.docForm);
                 			}
                 			
-                			var $drafter = $('<td>').text(obj.drafter);
-                			var $draftDate = $('<td>').text(obj.draftDate);
-                			var $reDate = $('<td>').text(obj.reDate);
+                			var $drafter = $('<td>').text(obj.drafter).attr("title", obj.drafter);
+                			var $draftDate = $('<td>').text(obj.draftDate).attr("title", obj.draftDate);
+                			var $reDate = $('<td>').text(obj.reDate).attr("title", obj.reDate);
                 			
                 			$tr.append($docNo);
                 			$tr.append($docForm);
-                			$tr.append($docType);
                 			$tr.append($docTitle);
                 			$tr.append($drafter);
                 			$tr.append($draftDate);
@@ -458,7 +439,7 @@
 			$(".docFormDefault").text(docForm);
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			searchFilterFn(docForm, condition, search);
+			filterReturnListFn(docForm, condition, search);
 			
 		});
 		
@@ -482,13 +463,13 @@
 			let search = $("#search").val();
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			searchFilterFn(docForm, condition, search);
+			filterReturnListFn(docForm, condition, search);
 			
 		});
 		
 		
 		// 필터 및 검색 내용에 따른 리스트 조회
-		function searchFilterFn(docForm, condition, search, num) {
+		function filterReturnListFn(docForm, condition, search, num) {
 			
 			console.log(docForm);
 			console.log(condition);
@@ -524,23 +505,21 @@
                 			
                 			var $tr = $('<tr>').addClass("yesReturnList");
                 			var $docNo = $('<td>').text(obj.docNo);
-                			var $docForm = $('<td>').text(obj.docForm);
-                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
+                			var $docForm = $('<td>').text(obj.docForm).attr("title", obj.docForm);
                 			
                 			if(obj.docTitle != null) {
-                				var $docTitle = $('<td>').text(obj.docTitle);
+                				var $docTitle = $('<td>').text(obj.docTitle).attr("title", obj.docTitle);
                 			
                 			} else {
                 				var $docTitle = $('<td>').text(obj.docForm);
                 			}
                 			
-                			var $drafter = $('<td>').text(obj.drafter);
-                			var $draftDate = $('<td>').text(obj.draftDate);
-                			var $reDate = $('<td>').text(obj.reDate);
+                			var $drafter = $('<td>').text(obj.drafter).attr("title", obj.drafter);
+                			var $draftDate = $('<td>').text(obj.draftDate).attr("title", obj.draftDate);
+                			var $reDate = $('<td>').text(obj.reDate).attr("title", obj.reDate);
                 			
                 			$tr.append($docNo);
                 			$tr.append($docForm);
-                			$tr.append($docType);
                 			$tr.append($docTitle);
                 			$tr.append($drafter);
                 			$tr.append($draftDate);
@@ -558,7 +537,7 @@
                             bar += '<ul class="pagination">';
                             
                             if(currentPage != 1) {
-                            	bar += '<li class="page-item commonButton1" onclick="searchFilterFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
+                            	bar += '<li class="page-item commonButton1" onclick="filterReturnListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
                             
                             } else {
                             	bar += '<li class="page-item disabled commonButton1"><</li>'
@@ -567,7 +546,7 @@
                             for(var i = startPage; i <= endPage; i++) {
                                
                             	if(i != currentPage) {
-                            	   bar += '<li class="page-num commonButton1" onclick="searchFilterFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
+                            	   bar += '<li class="page-num commonButton1" onclick="filterReturnListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
                                
                                } else {
                             	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
@@ -575,7 +554,7 @@
                             }
                                  
                            	if(currentPage != maxPage) {
-                                bar += '<li class="page-item commonButton1" onclick="searchFilterFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
+                                bar += '<li class="page-item commonButton1" onclick="filterReturnListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
                             
                            	} else {
                             	bar += '<li class="page-item disabled commonButton1">></li>'

@@ -113,7 +113,7 @@
 												<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 18px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;">
 													1차 결재자
 												</td>
-												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
+												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle; width: 180px;">
 													<select class="approverList" id="firstAprv" name="firstAprv">
 														<option value="">선택</option>
 													</select>
@@ -170,14 +170,14 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;" colspan="3">
 								<span contenteditable="false" class="comp_wrap" data-cid="5" data-dsl="{{text}}" data-wrapper="" style="width: 100%;" data-value="" data-autotype="">
-									<input id="docTitle" name="docTitle" value="${ docTitle }" style="width: 99%;" type="text" maxlength="100">
+									<input id="docTitle" name="docTitle" value="${ docTitle }" style="width: 99%;" type="text" maxlength="40">
 								</span>
 							</td>
 						</tr>
 						<tr>
 							<td style="background: rgb(255, 255, 255); border-width: medium 1px 1px; border-style: none solid solid; border-color: currentColor black black; padding: 5px; height: 300px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;" colspan="4" class="dext_table_border_t">
 								<span contenteditable="false" style="width: 100%;">
-									<textarea class="txta_editor" id="coopContent" name="coopContent" style="width: 99%; height: 290px; resize: vertical;" maxlength="1000"></textarea>
+									<textarea class="docUpdate_textarea" id="coopContent" name="coopContent" style="width: 99%; height: 290px;" maxlength="950"></textarea>
 								</span>
 							</td>
 						</tr>
@@ -198,68 +198,12 @@
 	
 		// 화면 로드 시 가장 먼저 실행
 	 	$(document).ready(function() {
-	 		
-			// 로그인이 되어있지 않으면
-			if("${ loginUser.empNo }" == "") {
-				
-				loginFn(); // 로그인 먼저
-			
-			} else {
-		 		
-				// 기안일 오늘 날짜로 설정				
-				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
-				$("#dftDate").val(today);				
-		 		
-				selectDeptFn(); 			// 기안자 부서 가져오는 함수
- 	 			selectApproverFn(); 		// 결재자 조회하는 함수
- 	 			selectDeptListFn(); 		// 부서 리스트 조회하는 함수
-		 		selectBusCoopOutboxFn(); 	// 기존 내용 조회
-			}	
+
+	 		selectDeptListFn(); 		// 부서 리스트 조회하는 함수
+
+	 		selectBusCoopOutboxFn(); 	// 기존 내용 조회	 		
 		});
-		
-		
-	 	// 기안자 부서 가져오는 함수
- 		function selectDeptFn() {
- 			
- 			// 소속 (로그인 유저의 부서 가져오기)
-	 		$.ajax({
-	 			
-	 			type: "post",
-                url: "selectDeptName.do",
-                data: { deptNo : "${ loginUser.departmentNo }" },
-                success: function (data) {
-				
-                	if(data != null || data != "") {
-                		
-                		$("#drafterDept").val(data);
-                	}
-                }
-	 		});
- 		}
- 		
-	 	
- 		// 부서 리스트 조회하는 함수
- 		function selectDeptListFn() {
- 			
- 			// 부서 조회해서 select에 넣기
-	 		$.ajax({
-	 			
-	 			type: "post",
-                url: "selectDeptList.do",
-                data: { deptNo : "${ loginUser.departmentNo }" },
-                success: function (list) {
-				console.log(list);
-                	if(list != null || list != "") {
-                		
-                		$.each(list, function(i) {
-                			$("#receiveDept").append("<option value='" + list[i].deptNo + "'>" 
-                								  + list[i].deptTitle + "</option>");
-                		});
-                	}
-                }
-	 		});
- 		}
-	 	
+
  		
  		// 기존 내용 조회
  		function selectBusCoopOutboxFn() {
@@ -284,7 +228,6 @@
 					// 문서 번호가 없으면
 					if(data.docNo == null) {
 						$("#docNo").val("");
-						selectApproverFn(); // 결재자 조회하는 함수
 						
 					} else {
 						$("#docNo").val(data.docNo);
@@ -341,20 +284,26 @@
 		$(".docSubmit_btn").click(function() {
 			
 			let firstAprv = $("#firstAprv").val();
+			let secondAprv = $("#secondAprv").val();
 			let receiveDept = $("#receiveDept").val();
 			let coopContent = $("#coopContent").val();
 			let docNo = $("#docNo").val();
 			
-			if(firstAprv == null || firstAprv == "") {
-
-				let focus="#firstAprv";
-				
-				myAlert("문서 작성 확인", "결재자를 선택해주세요.");
-				focusFn(focus);
+			let title = "문서 작성 확인";
+ 			
+ 			if((firstAprv == null || firstAprv == "") 
+						&& (secondAprv != null || secondAprv != "")) {
 			
+				myAlert("문서 작성 확인", "1차 결재자를 선택해주세요.");
+				focusFn("#firstAprv");
+		
+			} else if(firstAprv == null || firstAprv == "") {
+			
+				myAlert("문서 작성 확인", "최소 한 명의 결재자를 선택해주세요.");
+				focusFn("#firstAprv");
+				
 			} else if(receiveDept == null || receiveDept == "") {
 				
-				let title = "문서 작성 확인";
 				let content = "협조 부서를 선택해주세요.";
 				let focus="#receiveDept";
 				
@@ -363,7 +312,6 @@
  				
 			} else if(coopContent == null || coopContent == "") {
 				
-				let title = "문서 작성 확인";
 				let content = "협조문 내용을 작성해주세요.";
 				let focus="#coopContent";
 				

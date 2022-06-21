@@ -165,6 +165,7 @@
 		display: flex;
 		text-align: center;
 		padding-top: 35px;
+		justify-content: center;
 	}
 	
 	.pagingArea ul {
@@ -284,6 +285,8 @@
 		// 화면 로드 시 리스트 불러오기
 		$(document).ready(function() {
 			
+			$(".page_title>.title_name").text("문서 진행 상태 확인함");
+
 			// 로그인이 되어있지 않으면
 			if("${ loginUser.empNo }" == "") {
 				
@@ -302,7 +305,7 @@
 		
 		
 		// 진행 상태 확인 리스트 조회하는 함수
-		/*function statusListFn(num) {
+		function statusListFn(num) {
 			
 			$.ajax({
 				
@@ -330,9 +333,7 @@
                 			
                 			var $tr = $('<tr>').addClass("yesStatusList");
                 			var $docNo = $('<td>').text(obj.docNo);
-                			var $docForm = $('<td>').text(obj.docForm);
-                			var $docType = $('<input type="hidden" id="docType" name="docType" value=' 
-                								+ obj.docType+'/>');
+                			var $docForm = $('<td>').text(obj.docForm).attr("title", obj.docForm);
                 			
                 			if(obj.docTitle != null) {
                 				var $docTitle = $('<td>').text(obj.docTitle).attr("title", obj.docTitle);
@@ -341,8 +342,8 @@
                 				var $docTitle = $('<td>').text(obj.docForm);
                 			}
                 			
-                			var $drafter = $('<td>').text(obj.drafter);
-                			var $draftDate = $('<td>').text(obj.draftDate);
+                			var $drafter = $('<td>').text(obj.drafter).attr("title", obj.drafter);
+                			var $draftDate = $('<td>').text(obj.draftDate).attr("title", obj.draftDate);
                 			var $aprvStatusName = $('<td>').text(obj.aprvStatusName).addClass("statusName");
                 			
                 			// 진행 상태에 따른 글자색 변경 위해
@@ -358,7 +359,7 @@
                 					success: function(approver) {
                 						//console.log(approver);
                 						
-                						$aprvStatusName.append(" (" + approver + ")");	                					}
+                						$aprvStatusName.append(" (" + approver + ")").attr("title", obj.aprvStatusName + " (" + approver + ")");	                					}
                 					
                 				});
                 				
@@ -368,7 +369,6 @@
                 			
                 			$tr.append($docNo);
                 			$tr.append($docForm);
-                			$tr.append($docType);
                 			$tr.append($docTitle);
                 			$tr.append($drafter);
                 			$tr.append($draftDate);
@@ -417,7 +417,7 @@
                 }
 			});
 			
-		}*/
+		}
 		
 		
 		// 상태값 리스트 조회하는 함수
@@ -497,7 +497,7 @@
 			$(".statusDefault").text(aprvStatusName);
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			statusListFn(aprvStatusName, docForm, condition, search);
+			filterStatusListFn(aprvStatusName, docForm, condition, search);
 			
 		});
 		
@@ -515,7 +515,7 @@
 			$(".docFormDefault").text(docForm);
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			statusListFn(aprvStatusName, docForm, condition, search);
+			filterStatusListFn(aprvStatusName, docForm, condition, search);
 		});
 		
 		
@@ -539,12 +539,12 @@
 			let search = $("#search").val();
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			searchFilterFn(aprvStatusName, docForm, condition, search);
+			filterStatusListFn(aprvStatusName, docForm, condition, search);
 		});
 		
 		
 		// 필터 및 검색 내용에 따른 리스트 조회
-		function statusListFn(aprvStatusName, docForm, condition, search, num) {
+		function filterStatusListFn(aprvStatusName, docForm, condition, search, num) {
 			
 			console.log(aprvStatusName);
 			console.log(docForm);
@@ -596,7 +596,7 @@
                 			
                 			var $drafter = $('<td>').text(obj.drafter).attr("title", obj.drafter);
                 			var $draftDate = $('<td>').text(obj.draftDate).attr("title", obj.draftDate);
-                			var $aprvStatusName = $('<td>').text(obj.aprvStatusName).addClass("statusName").attr("title", obj.aprvStatusName);
+                			var $aprvStatusName = $('<td>').text(obj.aprvStatusName).attr("title", obj.aprvStatusName);
                 			
                 			// 진행 상태에 따른 글자색 변경 위해
                 			if(obj.aprvStatus == 1) {
@@ -638,7 +638,7 @@
                             bar += '<ul class="pagination">';
                             
                             if(currentPage != 1) {
-                            	bar += '<li class="page-item commonButton1" onclick="statusListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
+                            	bar += '<li class="page-item commonButton1" onclick="filterStatusListFn(`' + aprvStatusName + '`,`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
                             
                             } else {
                             	bar += '<li class="page-item disabled commonButton1"><</li>'
@@ -647,7 +647,7 @@
                             for(var i = startPage; i <= endPage; i++) {
                                
                             	if(i != currentPage) {
-                            	   bar += '<li class="page-num commonButton1" onclick="statusListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
+                            	   bar += '<li class="page-num commonButton1" onclick="filterStatusListFn(`' + aprvStatusName + '`,`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
                                
                                } else {
                             	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
@@ -655,7 +655,7 @@
                             }
                                  
                            	if(currentPage != maxPage) {
-                                bar += '<li class="page-item commonButton1" onclick="statusListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
+                                bar += '<li class="page-item commonButton1" onclick="filterStatusListFn(`' + aprvStatusName + '`,`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
                             
                            	} else {
                             	bar += '<li class="page-item disabled commonButton1">></li>'

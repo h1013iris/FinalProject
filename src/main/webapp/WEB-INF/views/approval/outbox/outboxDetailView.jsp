@@ -7,13 +7,13 @@
 <meta charset="UTF-8">
 <title>임시 보관함 상세 페이지</title>
 <style type="text/css">
-	.main_section {
-		/*border: 1px solid black;*/
-		padding: 100px;
+	
+	.docDetailViewDiv {
+		margin: 30px auto;
+		width: 1500px;
 	}
 	
 	.docDetailBackground {
-		width: 1150px;
 		height: 790px;
 		border: 1px solid #e6e6e6;
 		background-color: #e6e6e6;
@@ -22,7 +22,7 @@
 	}
 	
 	.docDetailMainArea {
-		/*border: 1px solid red;*/
+		margin-left: 7%;
 		padding: 70px 0 60px 10%;
 		float: left;
 	}
@@ -35,13 +35,16 @@
 		border: 1px solid darkgray;
 		background-color: white;
 		padding: 0 25px 25px 25px;
-		/*float: left;*/
+	}
+	
+	.docDetail_textarea {
+		resize: none;
+		border: none;
 	}
 	
 	.docDetailBtnsArea {
-		/*padding-top: 34%;*/
-		margin-left: 85.4%;
-		padding-top: 65px;
+		padding-left: 75%;
+		padding-top: 90px;
 	}
 	
 	.docDetailBtn {
@@ -55,12 +58,11 @@
 	}
 	
 	.approverName {
-		width: 100px;
+		width: 115px;
 	}
 	
 	.approverJop {
-		width: 50px;
-		/*text-align: right;*/
+		width: 40px;
 	}
 	
 	.outboxDocDelete_btn {
@@ -121,43 +123,14 @@
     <script type="text/javascript">
     
 	    $(document).ready(function() {
+	    	
+	    	$(".page_title>.title_name").text("임시 보관 문서 상세 페이지");
+
 			// 로그인이 되어있지 않으면
 			if("${ loginUser.empNo }" == "") {	
 				loginFn(); // 로그인 먼저
-			
-			} else {
-				//selectApproverFn();	// 해당 문서 결재자 조회해서 출력
 			}
 		});
-	    
-	    
-	    /*function selectApproverFn() {
-	    	
-	    	$.ajax({
-	 			
-	 			type: "post",
-                url: "selectDocApprover.do",
-                data: { docNo : ${ outboxNo } },
-                success: function (list) {
-					console.log(list);
-					if(list != null) {
-						for(var i in list) {
-							if(list[i] != null) {
-								$("#aprv" + i).val(list[i].empNo);
-								$("#aprvName" + i).val(list[i].empName);
-								$("#aprvJobName" + i).val(list[i].jobName);
-							}
-						}
-						/*$("#firstAprv").val(list[0].empNo);
-						$("#firstAprvName").val(list[0].empName);
-						$("#firstAprvJob").val(list[0].jobName);
-						$("#secondAprv").val(list[1].empNo);
-						$("#secondAprvName").val(list[1].empName);
-						$("#secondAprvJob").val(list[1].jobName);
-	               	}
-                }
-	 		});
-	    }*/
 	    
 	    
 	    // 삭제 버튼 클릭 시

@@ -105,13 +105,9 @@
 													1차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<!-- <input type="hidden" id="firstAprv" name="firstAprv" value="" readonly/>
-													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="firstAprvJob" value="" readonly/>
-													 -->
-													 <input type="hidden" id="aprv0" name="firstAprv" value="" readonly/>
-													<input class="fix_input approverName" id="aprvName0" name="firstAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="aprvJobName0" value="" readonly/>
+													<input type="hidden" id="aprv1" name="firstAprv" value="" readonly/>
+													<input class="fix_input approverName" id="aprvName1" name="firstAprvName" value="" readonly/>
+													<input class="fix_input approverJop" id="aprvJobName1" value="" readonly/>
 												</td>
 											</tr>
 											<tr>
@@ -119,13 +115,9 @@
 													2차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<!-- input type="hidden" id="secondAprv" name="secondAprv" value="" readonly/>
-													<input class="fix_input approverName" id="secondAprvName" name="secondAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="secondAprvJob" value="" readonly/>
-													 -->
-													 <input type="hidden" id="aprv1" name="secondAprv" value="" readonly/>
-													<input class="fix_input approverName" id="aprvName1" name="secondAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="aprvJobName1" value="" readonly/>
+													<input type="hidden" id="aprv2" name="secondAprv" value="" readonly/>
+													<input class="fix_input approverName" id="aprvName2" name="secondAprvName" value="" readonly/>
+													<input class="fix_input approverJop" id="aprvJobNam2" value="" readonly/>
 												</td>
 											</tr>
 										</tbody>
@@ -162,14 +154,14 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;" colspan="3">
 								<span contenteditable="false" class="comp_wrap" data-cid="5" data-dsl="{{text}}" data-wrapper="" style="width: 100%;" data-value="" data-autotype="">
-									<input class="fix_input" id="docTitle" name="docTitle" value="" style="width: 99%;" type="text" maxlength="100" readonly>
+									<input class="fix_input" id="docTitle" name="docTitle" value="" style="width: 99%;" type="text" readonly>
 								</span>
 							</td>
 						</tr>
 						<tr>
 							<td style="background: rgb(255, 255, 255); border-width: medium 1px 1px; border-style: none solid solid; border-color: currentColor black black; padding: 5px; height: 300px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;" colspan="4" class="dext_table_border_t">
 								<span contenteditable="false" class="comp_wrap" data-cid="6" data-dsl="{{textarea:reason}}" data-wrapper="" style="width: 100%;" data-value="" data-autotype="">
-									<textarea class="fix_input" id="coopContent" name="coopContent" style="width: 99%; height: 290px; resize: vertical;" maxlength="1000" readonly></textarea>
+									<textarea class="docDetail_textarea" id="coopContent" name="coopContent" style="width: 99%; height: 290px;" readonly></textarea>
 								</span>
 							</td>
 						</tr>
@@ -223,17 +215,12 @@
 								if(list != null) {
 									for(var i in list) {
 										if(list[i] != null) {
-											$("#aprv" + parseInt(i+1)).val(list[i].empNo);
-											$("#aprvName" + parseInt(i+1)).val(list[i].empName);
-											$("#aprvJobName" + parseInt(i+1)).val(list[i].jobName);
+											$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
+											$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
+											$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
+											console.log(list[i].empNo);
 										}
 									}
-									/*$("#firstAprv").val(list[0].empNo);
-									$("#firstAprvName").val(list[0].empName);
-									$("#firstAprvJob").val(list[0].jobName);
-									$("#secondAprv").val(list[1].empNo);
-									$("#secondAprvName").val(list[1].empName);
-									$("#secondAprvJob").val(list[1].jobName);*/
 		 	                	}
 		 	                }
 				 		});

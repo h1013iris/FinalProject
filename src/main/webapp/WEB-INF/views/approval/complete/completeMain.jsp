@@ -23,13 +23,13 @@
 	.completeList_table>tbody>tr:hover {
 		background: rgb(174, 217, 248);
 		box-shadow: 0 0 8px #4c87b099;
-		
 		cursor: pointer;
 	}
 	
 	.completeList_table {
 		width: 97%;
 		margin: auto;
+		table-layout: fixed;
 	}
 	
 	.completeList_table td {
@@ -161,6 +161,7 @@
 		display: flex;
 		text-align: center;
 		padding-top: 35px;
+		justify-content: center;
 	}
 	
 	.pagingArea ul {
@@ -249,7 +250,7 @@
 		                   	<th>제목</th>
 		                   	<th>기안자</th>
 		                   	<th>기안일</th>
-		                   	<th>요청일</th>
+		                   	<th>완료일</th>
 	                 	</tr>
 	       			</thead>
 	       			<tbody class="completeList_tbody">
@@ -272,15 +273,14 @@
 		// 화면 로드 시 리스트 불러오기
 		$(document).ready(function() {
 			
+			$(".page_title>.title_name").text("결재 완료 문서함");
+			
 			// 로그인이 되어있지 않으면
 			if("${ loginUser.empNo }" == "") {
-				
 				loginFn(); // 로그인 먼저
 			
 			} else {
-				
 				docTypeListFn(); 	// 문서 타입 리스트 조회해서 li에 넣는 함수 실행
-				
 				completeListFn();	// 요청 리스트 조회
 			}
 
@@ -288,7 +288,7 @@
 		
 		
 		// 리스트 조회
-		/*function completeListFn(num) {
+		function completeListFn(num) {
 			
 			$.ajax({
 				
@@ -305,7 +305,7 @@
                 	
                 	if(result.list.length == 0) {
                 		
-                		var $noListTh = $("<th colspan='6'>").text("결재 요청한 문서가 존재하지 않습니다.").addClass("noCompleteList");
+                		var $noListTh = $("<th colspan='6'>").text("결재 완료된 문서가 존재하지 않습니다.").addClass("noCompleteList");
                 		var $noListTr = $('<tr>').append($noListTh);
                 		
 						$tbody.append($noListTr);
@@ -316,23 +316,21 @@
                 			
                 			var $tr = $('<tr>').addClass("yesCompleteList");
                 			var $docNo = $('<td>').text(obj.docNo);
-                			var $docForm = $('<td>').text(obj.docForm);
-                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
+                			var $docForm = $('<td>').text(obj.docForm).attr("title", obj.docForm);
                 			
                 			if(obj.docTitle != null) {
-                				var $docTitle = $('<td>').text(obj.docTitle);
+                				var $docTitle = $('<td>').text(obj.docTitle).attr("title", obj.docTitle);
                 			
                 			} else {
                 				var $docTitle = $('<td>').text(obj.docForm);
                 			}
                 			
-                			var $drafter = $('<td>').text(obj.drafter);
-                			var $draftDate = $('<td>').text(obj.draftDate);
-                			var $proDate = $('<td>').text(obj.proDate);
+                			var $drafter = $('<td>').text(obj.drafter).attr("title", obj.drafter);
+                			var $draftDate = $('<td>').text(obj.draftDate).attr("title", obj.draftDate);
+                			var $proDate = $('<td>').text(obj.proDate).attr("title", obj.proDate);
                 			
                 			$tr.append($docNo);
                 			$tr.append($docForm);
-                			$tr.append($docType);
                 			$tr.append($docTitle);
                 			$tr.append($drafter);
                 			$tr.append($draftDate);
@@ -380,7 +378,7 @@
                 	}
                 }
 			});
-		}*/
+		}
 		
 		
 		// 문서 타입 리스트 조회해서 li에 넣는 함수
@@ -431,7 +429,7 @@
 			$(".docFormDefault").text(docForm);
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			completeListFn(docForm, condition, search);
+			filterCompleteListFn(docForm, condition, search);
 		});
 		
 		
@@ -454,12 +452,12 @@
 			let search = $("#search").val();
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			completeListFn(docForm, condition, search);
+			filterCompleteListFn(docForm, condition, search);
 		});
 		
 		
 		// 필터 및 검색 내용에 따른 리스트 조회
-		function completeListFn(docForm, condition, search, num) {
+		function filterCompleteListFn(docForm, condition, search, num) {
 			
 			console.log(docForm);
 			console.log(condition);
@@ -484,7 +482,7 @@
                 	
                 	if(result.list.length == 0) {
                 		
-                		var $noListTh = $("<th colspan='6'>").text("결재 요청한 문서가 존재하지 않습니다.").addClass("noCompleteList");
+                		var $noListTh = $("<th colspan='6'>").text("검색 조건에 해당하는 문서가 존재하지 않습니다.").addClass("noCompleteList");
                 		var $noListTr = $('<tr>').append($noListTh);
                 		
 						$tbody.append($noListTr);
@@ -528,7 +526,7 @@
                         bar += '<ul class="pagination">';
                         
                         if(currentPage != 1) {
-                        	bar += '<li class="page-item commonButton1" onclick="completeListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
+                        	bar += '<li class="page-item commonButton1" onclick="filterCompleteListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
                         
                         } else {
                         	bar += '<li class="page-item disabled commonButton1"><</li>'
@@ -537,7 +535,7 @@
                         for(var i = startPage; i <= endPage; i++) {
                            
                         	if(i != currentPage) {
-                        	   bar += '<li class="page-num commonButton1" onclick="completeListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
+                        	   bar += '<li class="page-num commonButton1" onclick="filterCompleteListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
                            
                            } else {
                         	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
@@ -545,7 +543,7 @@
                         }
                              
                        	if(currentPage != maxPage) {
-                            bar += '<li class="page-item commonButton1" onclick="completeListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
+                            bar += '<li class="page-item commonButton1" onclick="filterCompleteListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
                         
                        	} else {
                         	bar += '<li class="page-item disabled commonButton1">></li>'

@@ -779,9 +779,9 @@ public class AprvServiceImpl implements AprvService {
 
 	// 문서 타입 리스트 조회
 	@Override
-	public ArrayList<DocType> selectDocTypeList() {
+	public ArrayList<DocType> selectDocTypeList(String docType) {
 		
-		return aprvDao.selectDocTypeList(sqlSession);
+		return aprvDao.selectDocTypeList(sqlSession, docType);
 	}
 	
 	
@@ -814,6 +814,46 @@ public class AprvServiceImpl implements AprvService {
 	public AprvDoc selectCancleDocApprover(int docNo) {
 		
 		return aprvDao.selectCancleDocApprover(sqlSession, docNo);
+	}
+
+
+	// 문서 등록, 수정 시 1, 2차 결재자 직급 조회 - 비교하기 위해
+	@Override
+	public int selectApproverJob(int empNo) {
+		
+		return aprvDao.selectApproverJob(sqlSession, empNo);
+	}
+
+
+	// 메인 - 진행 상태 확인 리스트
+	@Override
+	public ArrayList<AprvDoc> noPagingStatusList(AprvDoc aprvDoc) {
+	
+		return aprvDao.noPagingStatusList(sqlSession, aprvDoc);
+	}
+
+
+	// 메인 - 결재 대기 리스트
+	@Override
+	public ArrayList<AprvDoc> noPagingWaitingList(AprvDoc aprvDoc) {
+		
+		return aprvDao.noPagingWaitingList(sqlSession, aprvDoc);
+	}
+
+
+	// 메인 - 결재 요청 리스트
+	@Override
+	public ArrayList<AprvDoc> noPagingRequestList(AprvDoc aprvDoc) {
+		
+		return aprvDao.noPagingRequestList(sqlSession, aprvDoc);
+	}
+
+
+	// 메인 - 결재 완료 리스트
+	@Override
+	public ArrayList<AprvDoc> noPagingCompleteList(AprvDoc aprvDoc) {
+		
+		return aprvDao.noPagingCompleteList(sqlSession, aprvDoc);
 	}
 
 

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -100,13 +99,9 @@
 													1차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<!-- <input type="hidden" id="firstAprv" name="firstAprv" value="" readonly/>
-													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="firstAprvJob" value="" readonly/>
-													 -->
-													 <input type="hidden" id="aprv0" name="firstAprv" value="" readonly/>
-													<input class="fix_input approverName" id="aprvName0" name="firstAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="aprvJobName0" value="" readonly/>
+													<input type="hidden" id="aprv1" name="firstAprv" value="" readonly/>
+													<input class="fix_input approverName" id="aprvName1" name="firstAprvName" value="" readonly/>
+													<input class="fix_input approverJop" id="aprvJobName1" value="" readonly/>
 												</td>
 											</tr>
 											<tr>
@@ -114,13 +109,9 @@
 													2차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<!-- input type="hidden" id="secondAprv" name="secondAprv" value="" readonly/>
-													<input class="fix_input approverName" id="secondAprvName" name="secondAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="secondAprvJob" value="" readonly/>
-													 -->
-													 <input type="hidden" id="aprv1" name="secondAprv" value="" readonly/>
-													<input class="fix_input approverName" id="aprvName1" name="secondAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="aprvJobName1" value="" readonly/>
+													<input type="hidden" id="aprv2" name="secondAprv" value="" readonly/>
+													<input class="fix_input approverName" id="aprvName2" name="secondAprvName" value="" readonly/>
+													<input class="fix_input approverJop" id="aprvJobName2" value="" readonly/>
 												</td>
 											</tr>
 										</tbody>
@@ -173,7 +164,7 @@
 						<tr>
 							<td style="background: rgb(255, 255, 255); border-width: medium 1px 1px; border-style: none solid solid; border-color: currentColor black black; padding: 5px; height: 300px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;" colspan="4" class="dext_table_border_t">
 								<span contenteditable="false" style="width: 100%;">
-									<textarea class="fix_input" id="dftContent" name="dftContent" style="width: 99%; height: 290px; resize: vertical;" maxlength="1000" readonly></textarea>
+									<textarea class="docDetail_textarea" id="dftContent" name="dftContent" style="width: 99%; height: 290px;" readonly></textarea>
 								</span>
 							</td>
 						</tr>
@@ -208,32 +199,6 @@
 					$("#coopDept").val(data.coopDeptName);
 					$("#docTitle").val(data.docTitle);
 					$("#dftContent").val(data.dftContent);
-					
-					// 결재자 조회
-			 		/*$.ajax({
-			 			
-			 			type: "post",
-	 	                url: "selectDocApprover.do",
-	 	                data: { docNo : ${ docNo } },
-	 	                success: function (list) {
-							console.log(list);
-							if(list != null) {								
-								for(var i in list) {
-									if(list[i] != null) {
-										$("#aprv" + i).val(list[i].empNo);
-										$("#aprvName" + i).val(list[i].empName);
-										$("#aprvJobName" + i).val(list[i].jobName);
-									}
-								}
-								/*$("#firstAprv").val(list[0].empNo);
-								$("#firstAprvName").val(list[0].empName);
-								$("#firstAprvJob").val(list[0].jobName);
-								$("#secondAprv").val(list[1].empNo);
-								$("#secondAprvName").val(list[1].empName);
-								$("#secondAprvJob").val(list[1].jobName);
-	 	                	}
-	 	                }
-			 		});*/
 					
 				}
 			});

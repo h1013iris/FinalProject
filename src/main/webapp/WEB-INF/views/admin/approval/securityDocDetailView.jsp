@@ -6,27 +6,21 @@
 <meta charset="UTF-8">
 <title>보안 설정 문서 상세 페이지</title>
 <style type="text/css">
-	.main_section {
-		/*border: 1px solid black;*/
-		padding: 100px;
-	}
 	
 	.docDetailViewDiv {
-		/*margin-right: 3%;
-		width: 84vw;*/
+		margin: 30px auto;
+		width: 1500px;
 	}
 	
-	.docDetailBackground {
-		width: 1500px;
+	/*.docDetailBackground {
 		height: 790px;
 		border: 1px solid #e6e6e6;
 		background-color: #e6e6e6;
 		border-radius: 15px;
 		box-shadow: 0 0 8px #afafaf;	
-	}
+	}*/
 	
 	.docDetailMainArea {
-		/*border: 1px solid red;*/
 		padding: 70px 0 60px 10%;
 		float: left;
 	}
@@ -38,18 +32,21 @@
 	.docDetailArea {
 		border: 1px solid darkgray;
 		background-color: white;
-		padding: 0 25px 25px 25px;
-		/*float: left;*/
+		padding: 15px 25px 25px 25px;
+	}
+	
+	.docDetail_textarea {
+		resize: vertical;
+		border: none;
 	}
 	
 	.docDetailBtnsArea {
-		/*padding-top: 34%;*/
 		margin-left: 67.7%;
 		padding-top: 68px;
 	}
 	
 	.docDetailBtn {
-		margin: 5px;
+		margin: 0 5px 10px 5px;
 		width: 80px;
 		height: 50px;
 	}
@@ -59,12 +56,11 @@
 	}
 	
 	.approverName {
-		width: 100px;
+		width: 115px;
 	}
 	
 	.approverJop {
-		width: 50px;
-		/*text-align: right;*/
+		width: 40px;
 	}
 	
 	.docscrtyList_btn {
@@ -87,13 +83,12 @@
 	
 	.scrtyReasonArea {
 		width: 400px;
-		height: 430px;
+		height: 410px;
 		margin: 40px 20px 0 68.1%;
 		padding: 15px;
 		border: 3px solid #85cdff;
 		background-color: #c0e3ff;
 		border-radius: 15px; 
-		/*box-shadow: 0 0 8px #85cdff;*/
 		font-size: 17px;
 		font-weight: bold;
 	}
@@ -104,12 +99,20 @@
 		margin-top: 10px;
 	}
 	
-	.scrtyReqDate_div {
+	.scrtyReqDate_div, .scrtySetDate_div {
 		padding-top: 10px;
 	}
 	
-	#scrtyReqDate, #scrtyReason {
+	#scrtyReqDate, #scrtySetDate {
 		padding-left: 10px;
+	}
+	
+	#scrtyReason {
+		padding-left: 2px;
+		height: 300px;
+		white-space: pre-wrap;
+		overflow: auto;
+		line-height: 130%;
 	}
 	
 	.scrtyReason_hr {
@@ -169,6 +172,9 @@
     <script type="text/javascript">
     
     	$(document).ready(function() {
+    		
+			$(".page_title>.title_name").text("보안 설정 문서 상세 페이지");
+
 			// 로그인이 되어있지 않으면
 			if("${ loginUser.empNo }" == "") {	
 				
@@ -195,19 +201,13 @@
 					if(list != null) {
 						for(var i in list) {
 							if(list[i] != null) {
-								$("#aprv" + i).val(list[i].empNo);
-								$("#aprvName" + i).val(list[i].empName);
-								$("#aprvJobName" + i).val(list[i].jobName);
+								$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
+								$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
+								$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
+								console.log(list[i].empNo);
 							}
 						}
-						/*$("#firstAprv").val(list[0].empNo);
-						$("#firstAprvName").val(list[0].empName);
-						$("#firstAprvJob").val(list[0].jobName);
-						$("#secondAprv").val(list[1].empNo);
-						$("#secondAprvName").val(list[1].empName);
-						$("#secondAprvJob").val(list[1].jobName);
-	                	}*/
-	                }
+	                	}
 		 		}
 	 		});
     	}
