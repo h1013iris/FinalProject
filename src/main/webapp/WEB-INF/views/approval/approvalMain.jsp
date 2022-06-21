@@ -13,11 +13,9 @@
 		padding-top: 30px;
 		padding-left: 100px;
 		padding-right: 100px;
-		/*border: 1px solid;*/
 	}
 	
 	.aprvMain_upper {
-		/*border: 1px solid blue;*/
 		width: 100%;
 		height: 38vh;
 		display: flex;
@@ -123,16 +121,16 @@
 		align-content: center;
 	    text-align: center;
 	    line-height: 3vh;
+	    background-color: lightgray;
 	}
 	
 	.aprvList_row div {
 		border-bottom: 1px solid darkgray;
 	    flex: 1 1 13%;
 	    height: 3vh;
-	    background-color: lightgray;
 	}
 	
-	.aprvList_row div:hover {
+	.aprvList_row:hover {
 		cursor: pointer;
 		background-color: rgb(174, 217, 248);
 		box-shadow: 0 0 8px #4c87b099;
@@ -442,7 +440,7 @@
     </div>
     
     <script type="text/javascript">
-    
+
 	 	// 화면 로드 시 리스트 불러오기
 		$(document).ready(function() {
 			
@@ -452,7 +450,9 @@
 				loginFn(); // 로그인 먼저
 			
 			} else {
-			
+				
+				$(".page_title>.title_name").text("전자 결재");
+				
 				aprvStatusFn();		// 문서 상태값 리스트 조회해서 li에 넣는 함수 실행
 				
 				docTypeListFn(); 	// 문서 타입 리스트 조회해서 li에 넣는 함수 실행
@@ -475,17 +475,17 @@
 	 		$.ajax({
 	 			
 	 			type: "post",
-                url: "requestList.do",
+                url: "noPagingRequestList.do",
                 data: { drafter : "${ loginUser.empNo }" },
-                success: function (result) {
+                success: function (list) {
 					
-                	console.log(result.list)
+                	console.log(list)
                 	
                 	$tbody = $('.requestList_main'); // 리스트가 들어갈 div
                 	$tbody.html('');
                 	
-                	if(result.list.length == 0) {
-                		
+                	if(list.length == 0) {
+                	
                 		var $noListTd = $("<div>").text("결재 요청한 문서가 존재하지 않습니다.").addClass("noRequestList");
                 		var $noListTr = $('<div>').append($noListTd);
                 		
@@ -493,7 +493,7 @@
                 	
                 	} else {
 						
-                		$.each(result.list, function(i, obj) {
+                		$.each(list, function(i, obj) {
                 			
                 			var $tr = $('<div class="aprvList_row">');
                 			var $docNo = $('<div>').text(obj.docNo);
@@ -501,10 +501,10 @@
     								+ obj.docType+'/>');
                 			
                 			if(obj.docTitle != null) {
-                				var $docTitle = $('<div>').text(obj.docTitle);
+                				var $docTitle = $('<div>').text(obj.docTitle).addClass("docTitleTd").attr("title", obj.docTitle);
                 			
                 			} else {
-                				var $docTitle = $('<div>').text(obj.docForm);
+                				var $docTitle = $('<div>').text(obj.docForm).addClass("docTitleTd").attr("title", obj.docForm);
                 			}
                 			
                 			var $proDate = $('<div>').text(obj.proDate);
@@ -528,16 +528,16 @@
 	 		$.ajax({
 				
 				type: "post",
-                url: "waitingList.do",
+                url: "noPagingWaitingList.do",
                 data: { drafter : "${ loginUser.empNo }" },
-                success: function(reulst) {
+                success: function(list) {
 					
-                	console.log(reulst.list)
+                	console.log(list)
                 	
                 	$tbody = $('.waitingList_main'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(reulst.list.length == 0) {
+                	if(list.length == 0) {
                 		
                 		var $noListTd = $("<div>").text("결재 대기 중인 문서가 존재하지 않습니다.").addClass("noWaitingList");
                 		var $noListTr = $('<div>').append($noListTd);
@@ -546,17 +546,17 @@
                 	
                 	} else {
 						
-                		$.each(reulst.list, function(i, obj) {
+                		$.each(list, function(i, obj) {
                 			
                 			var $tr = $('<div class="aprvList_row">');
                 			var $docNo = $('<div>').text(obj.docNo);
                 			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
                 			
                 			if(obj.docTitle != null) {
-                				var $docTitle = $('<div>').text(obj.docTitle);
+                				var $docTitle = $('<div>').text(obj.docTitle).addClass("docTitleTd").attr("title", obj.docTitle);
                 			
                 			} else {
-                				var $docTitle = $('<div>').text(obj.docForm);
+                				var $docTitle = $('<div>').text(obj.docForm).addClass("docTitleTd").attr("title", obj.docForm);
                 			}
                 			
                 			var $drafter = $('<div>').text(obj.drafter);
@@ -579,16 +579,16 @@
 	 		$.ajax({
 				
 				type: "post",
-                url: "completeList.do",
+                url: "noPagingCompleteList.do",
                 data: { drafter : "${ loginUser.empNo }" },
-                success: function (reulst) {
+                success: function (list) {
 					
-                	console.log(reulst.list)
+                	console.log(list)
                 	
                 	$tbody = $('.completeList_main'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(reulst.list.length == 0) {
+                	if(list.length == 0) {
                 		
                 		var $noListTd = $("<div>").text("결재 완료된 문서가 존재하지 않습니다.").addClass("noCompleteList");
                 		var $noListTr = $('<div>').append($noListTd);
@@ -597,7 +597,7 @@
                 	
                 	} else {
 						
-                		$.each(reulst.list, function(i, obj) {
+                		$.each(list, function(i, obj) {
                 			
                 			var $tr = $('<div class="aprvList_row">');
                 			var $docNo = $('<div>').text(obj.docNo);
@@ -605,10 +605,10 @@
     								+ obj.docType+'/>');
                 			
                 			if(obj.docTitle != null) {
-                				var $docTitle = $('<div>').text(obj.docTitle);
+                				var $docTitle = $('<div>').text(obj.docTitle).addClass("docTitleTd").attr("title", obj.docTitle);
                 			
                 			} else {
-                				var $docTitle = $('<div>').text(obj.docForm);
+                				var $docTitle = $('<div>').text(obj.docForm).addClass("docTitleTd").attr("title", obj.docForm);
                 			}
                 			
                 			var $drafter = $('<div>').text(obj.drafter);
@@ -631,16 +631,16 @@
 			$.ajax({
 				
 				type: "post",
-                url: "statusList.do",
+                url: "noPagingStatusList.do",
                 data: { drafter : "${ loginUser.empNo }" },
-                success: function (reulst) {
+                success: function (list) {
 					
-                	console.log(reulst.list)
+                	console.log(list)
                 	
                 	$tbody = $('.statusList_main'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(reulst.list.length == 0) {
+                	if(list.length == 0) {
                 		
                 		var $noListTd = $("<div>").text("진행 상태를 확인할 문서가 존재하지 않습니다.").addClass("noStatusList");
                 		var $noListTr = $('<div>').append($noListTd);
@@ -649,7 +649,7 @@
                 	
                 	} else {
 						
-                		$.each(reulst.list, function(i, obj) {
+                		$.each(list, function(i, obj) {
                 			
                 			var $tr = $('<div class="aprvList_row">');
                 			var $docNo = $('<div>').text(obj.docNo);
@@ -660,7 +660,7 @@
                 				var $docTitle = $('<div>').text(obj.docTitle).addClass("docTitleTd").attr("title", obj.docTitle);
                 			
                 			} else {
-                				var $docTitle = $('<div>').text(obj.docForm).addClass("docTitleTd");
+                				var $docTitle = $('<div>').text(obj.docForm).addClass("docTitleTd").attr("title", obj.docForm);
                 			}
                 			
                 			var $drafter = $('<div>').text(obj.drafter);

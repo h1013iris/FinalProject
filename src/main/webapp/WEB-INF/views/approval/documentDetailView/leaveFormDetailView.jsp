@@ -100,13 +100,9 @@
 													1차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<!-- <input type="hidden" id="firstAprv" name="firstAprv" value="" readonly/>
-													<input class="fix_input approverName" id="firstAprvName" name="firstAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="firstAprvJob" value="" readonly/>
-													 -->
-													 <input type="hidden" id="aprv0" name="firstAprv" value="" readonly/>
-													<input class="fix_input approverName" id="aprvName0" name="firstAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="aprvJobName0" value="" readonly/>
+													<input type="hidden" id="aprv1" name="firstAprv" value="" readonly/>
+													<input class="fix_input approverName" id="aprvName1" name="firstAprvName" value="" readonly/>
+													<input class="fix_input approverJop" id="aprvJobName1" value="" readonly/>
 												</td>
 											</tr>
 											<tr>
@@ -114,13 +110,9 @@
 													2차 결재자
 												</td>
 												<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-													<!-- input type="hidden" id="secondAprv" name="secondAprv" value="" readonly/>
-													<input class="fix_input approverName" id="secondAprvName" name="secondAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="secondAprvJob" value="" readonly/>
-													 -->
-													 <input type="hidden" id="aprv1" name="secondAprv" value="" readonly/>
-													<input class="fix_input approverName" id="aprvName1" name="secondAprvName" value="" readonly/>
-													<input class="fix_input approverJop" id="aprvJobName1" value="" readonly/>
+													<input type="hidden" id="aprv2" name="secondAprv" value="" readonly/>
+													<input class="fix_input approverName" id="aprvName2" name="secondAprvName" value="" readonly/>
+													<input class="fix_input approverJop" id="aprvJobName2" value="" readonly/>
 												</td>
 											</tr>
 										</tbody>
@@ -172,7 +164,7 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;">
 								<div contenteditable="false" style="width: 100%;">
-									<textarea class="fix_input" id="vacReason" name="vacReason" style="width: 99%; height: 240px; resize: vertical;" readonly></textarea>
+									<textarea class="docDetail_textarea" id="vacReason" name="vacReason" style="width: 99%; height: 240px;" readonly></textarea>
 								</div> 
 							</td>
 						</tr>
@@ -208,33 +200,7 @@
 					$("#endDate").val(data.endDate);
 					$("#vacUseDays").val(data.vacUseDays);
 					$("#vacReason").val(data.vacReason);
-					
-					// 결재자 조회
-			 		/*$.ajax({
-			 			
-			 			type: "post",
-	 	                url: "selectDocApprover.do",
-	 	                data: { docNo : ${ docNo } },
-	 	                success: function (list) {
-							console.log(list);
-							if(list != null) {								
-								for(var i in list) {
-									if(list[i] != null) {
-										$("#aprv" + i).val(list[i].empNo);
-										$("#aprvName" + i).val(list[i].empName);
-										$("#aprvJobName" + i).val(list[i].jobName);
-									}
-								}
-								/*$("#firstAprv").val(list[0].empNo);
-								$("#firstAprvName").val(list[0].empName);
-								$("#firstAprvJob").val(list[0].jobName);
-								$("#secondAprv").val(list[1].empNo);
-								$("#secondAprvName").val(list[1].empName);
-								$("#secondAprvJob").val(list[1].jobName);
-	 	                	}
-	 	                }
-			 		});*/
-					
+
 				}
 			});
 			

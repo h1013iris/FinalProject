@@ -21,7 +21,6 @@
 			<input type="hidden" name="drafterDept" value="${ loginUser.departmentNo }"/>
 			<input type="hidden" name="approver" value="${ loginUser.empNo }"/>
 			<input type="hidden" name="approverJob" value="${ loginUser.jobNo }"/>
-			<!-- <input type="hidden" id="docTitle" name="docTitle" value="${ docTitle }"/> -->
 			<input type="hidden" name="aprvPro" value="D"/>
 			
 			<div class="formArea" style="font-family:돋움; font-size:9pt;">
@@ -189,7 +188,7 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;">
 								<span contenteditable="false" style="width: 100%;">
-									<textarea class="txta_editor" id="updateReason" name="updateReason" style="width: 99%; height: 240px; resize: vertical;" maxlength="500"></textarea>
+									<textarea class="docEnroll_textarea" id="updateReason" name="updateReason" style="width: 99%; height: 240px;" maxlength="450"></textarea>
 								</span> 
 							</td>
 						</tr>
@@ -207,93 +206,41 @@
  	
  	
  	<script type="text/javascript">
- 		
+ 				
  		// 화면 로드 시 가장 먼저 실행
 	 	$(document).ready(function() {
-	 		
- 			// 로그인이 되어있지 않으면
- 			if("${ loginUser.empNo }" == "") {
- 				
- 				loginFn(); // 로그인 먼저
- 			
- 			} else {
- 		 		// 기안일 오늘 날짜로 설정
-				$("#draftDate").val(new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10));
- 			
-				// 소속 (로그인 유저의 부서 가져오기)
-		 		$.ajax({
-		 			
-		 			type: "post",
- 	                url: "selectDeptName.do",
- 	                data: { deptNo : "${ loginUser.departmentNo }" },
- 	                success: function (data) {
-						
- 	                	if(data != null || data != "") {
- 	                		
- 	                		$("#drafterDeptName").val(data);
- 	                	}
- 	                }
-		 		})
-		 		
-		 		// 결재자 조회
- 	 			$.ajax({
- 	 				
- 	 				type: "post",
- 	 				url: "selectDocEnrollApprover.do",
- 	 				data: { empNo :  "${ loginUser.empNo }",
- 	 						departmentNo : "${ loginUser.departmentNo }",
- 	 						jobNo : "${ loginUser.jobNo }" },
- 	 				success: function(list) {
- 	 					console.log(list);
- 	                	if(list != null || list != "") {
- 	                		
- 	                		$.each(list, function(i) {
- 	                			$(".approverList").append("<option value='" + list[i].empNo + "'>" 
-                								  		+ list[i].empName + " / " + list[i].jobName + "</option>");
- 	                		});
- 	                	}
- 	 				}
- 	 				
- 	 			});
-				
-				// 수정일 내일 이후 날짜 비활성화
-		 		let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
-		 		document.getElementById("updateDate").max = today;
- 			}
- 			
+	 			 		
+	 		let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
+	 		document.getElementById("updateDate").max = today;
 	 	});
  		
- 		
-	 	// 수정일 변경 시
+ 		// 수정일 변경 시
  		$("#updateDate").change(function() {
  			
  			$("#formErrorMsg").empty();
  			
  			let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10); // 오늘 날짜
- 			let updateDate = new Date($(this).val()).toISOString().substring(0, 10);
+ 			let updateDate = new Date($(this).val()).toISOString().substring(0, 10);;
  			
- 			// 수정일 요일
-	    	let updateDay = new Date($("#updateDate").val()).getDay();
-			
- 			console.log(today);
- 			console.log(updateDate);
+	    	let updateDateDay = new Date($("#updateDate").val()).getDay();
  			
- 			console.log(updateDate > today);
- 			console.log(updateDate == today);
- 			
- 			// 주말을 선택할 경우
- 			if(updateDay == 0 || updateDay == 6) {
- 				console.log("주말");
-				$("#formErrorMsg").text("주말은 선택할 수 없습니다.");
-				$("#updateDate").val("");
- 			
- 			// 오늘 선택할 경우
- 			} else if(updateDate == today) {
-	            
-				$("#formErrorMsg").text("오늘 근태 기록은 수정할 수 없습니다.");
+ 			if(updateDate > today) {
+ 				$("#formErrorMsg").text("내일 이후는 선택할 수 없습니다.");
 				$("#updateDate").val(''); // 날짜 비워주고
  				$("#updateDate").focus(); // 포커싱
- 								
+ 			
+ 			
+ 			} else if(updateDate == today) {
+ 				$("#formErrorMsg").text("오늘 근태 기록은 수정할 수 없습니다.");
+				$("#updateDate").val(''); // 날짜 비워주고
+ 				$("#updateDate").focus(); // 포커싱
+ 			
+ 			// 주말 선택할 수 없도록
+ 			} else if(updateDateDay == 0 || updateDateDay == 6) {
+	            console.log("주말");
+				$("#formErrorMsg").text("주말은 선택할 수 없습니다.");
+				$("#endDate").val("");
+				
  			// 해당 날짜 출퇴근 기록 가져와서 수정 전 시간에 출력하기
  			} else {
 				
@@ -375,17 +322,23 @@
  			let leaveTime = $("#leaveTime").val();
  			let updateReason = $("#updateReason").val();
  			let firstAprv = $("#firstAprv").val();
+ 			let secondAprv = $("#secondAprv").val();
  			
- 			if(firstAprv == null || firstAprv == "") {
-
-				let focus="#firstAprv";
+ 			let title = "문서 작성 확인";
+ 			
+ 			if((firstAprv == null || firstAprv == "") 
+					&& (secondAprv != null || secondAprv != "")) {
+			
+				myAlert("문서 작성 확인", "1차 결재자를 선택해주세요.");
+				focusFn("#firstAprv");
+		
+			} else if(firstAprv == null || firstAprv == "") {
+			
+				myAlert("문서 작성 확인", "최소 한 명의 결재자를 선택해주세요.");
+				focusFn("#firstAprv");
 				
-				myAlert("문서 작성 확인", "결재자를 선택해주세요.");
-				focusFn(focus);
+			} else if(updateDate == null || updateDate == "") {
  				
- 			} else if(updateDate == null || updateDate == "") {
- 				
-				let title = "문서 작성 확인";
  				let content = "수정일을 선택해주세요.";
 				let focus="#updateDate";
 				
@@ -395,7 +348,6 @@
  			} else if((beAttendTime == null || beAttendTime == "" )
  						&& (beLeaveTime == null || beLeaveTime == "")) {
  				
- 				let title = "문서 작성 확인";
  				let content = "수정할 근태 기록이 없습니다.";
 				let focus="#beAttendTime";
 				
@@ -404,7 +356,6 @@
  				
  			} else if(attendTime == null || attendTime == "") {
  				
- 				let title = "문서 작성 확인";
  				let content = "수정 후 출근 시간을 기입해주세요.";
 				let focus="#attendTime";
 				
@@ -413,7 +364,6 @@
  				
  			} else if(leaveTime == null || leaveTime == "") {
  				
- 				let title = "문서 작성 확인";
  				let content = "수정 후 출근 시간을 기입해주세요.";
 				let focus="#leaveTime";
 				
@@ -422,7 +372,6 @@
  			
  			} else if(updateReason == null || updateReason == "") {
  				
- 				let title = "문서 작성 확인";
  				let content = "수정 사유를 작성해주세요.";
 				let focus="#updateReason";
 				

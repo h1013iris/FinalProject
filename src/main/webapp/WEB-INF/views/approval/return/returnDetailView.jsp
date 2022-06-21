@@ -7,27 +7,21 @@
 <meta charset="UTF-8">
 <title>반려 문서 상세 페이지</title>
 <style type="text/css">
-	.main_section {
-		/*border: 1px solid black;*/
-		padding: 100px;
-	}
-	
+
 	.docDetailViewDiv {
-		/*margin-right: 3%;
-		width: 84vw;*/
+		margin: 30px auto;
+		width: 1500px;
 	}
 	
-	.docDetailBackground {
-		width: 1500px;
+	/*.docDetailBackground {
 		height: 790px;
 		border: 1px solid #e6e6e6;
 		background-color: #e6e6e6;
 		border-radius: 15px;
 		box-shadow: 0 0 8px #afafaf;	
-	}
+	}*/
 	
 	.docDetailMainArea {
-		/*border: 1px solid red;*/
 		padding: 70px 0 0 100px;
 		float: left;
 	}
@@ -40,13 +34,16 @@
 		border: 1px solid darkgray;
 		background-color: white;
 		padding: 0 25px 25px 25px;
-		/*float: left;*/
 	}
 	
 	.docDetailBtnsArea {
-		/*padding-top: 34%;*/
 		margin-left: 64.5%;
 		padding-top: 65px;
+	}
+	
+	.docDetail_textarea {
+		resize: vertical;
+		border: none;
 	}
 	
 	.docDetailBtn {
@@ -58,12 +55,11 @@
 	.fix_input {border:0 solid black;}
 	
 	.approverName {
-		width: 100px;
+		width: 115px;
 	}
 	
 	.approverJop {
-		width: 50px;
-		/*text-align: right;*/
+		width: 40px;
 	}
 	
 	.delete_btn {
@@ -86,13 +82,12 @@
 	
 	.returnReasonArea {
 		width: 400px;
-		height: 460px;
+		height: 410px;
 		margin: 40px 20px 0 65%;
 		padding: 15px;
 		border: 3px solid #85cdff;
 		background-color: #c0e3ff;
 		border-radius: 15px;
-		/*box-shadow: 0 0 8px #85cdff;*/
 		font-size: 17px;
 		font-weight: bold;
 	}
@@ -100,7 +95,7 @@
 	.returnText {
 		font-size: 15px !important;
 		font-weight: normal !important;
-		margin-top: 10px;
+		margin-top: 15px;
 	}
 	
 	.reDate_div {
@@ -109,6 +104,18 @@
 	
 	#reFrom, #reDate {
 		padding-left: 10px;
+	}
+	
+	#reReason {
+		padding-left: 2px;
+		height: 300px;
+		white-space: pre-wrap;
+		overflow: auto;
+		line-height: 130%;
+	}
+	
+	#reReason::-webkit-scrollbar {
+		/*width: 20px;*/
 	}
 	
 	.returnModal_hr {
@@ -170,6 +177,8 @@
     	
     	$(document).ready(function() {
     		
+			$(".page_title>.title_name").text("반려 문서 상세 페이지");
+
     		// 로그인이 되어있지 않으면
 			if("${ loginUser.empNo }" == "") {
 				
@@ -196,19 +205,13 @@
 					if(list != null) {
 						for(var i in list) {
 							if(list[i] != null) {
-								$("#aprv" + i).val(list[i].empNo);
-								$("#aprvName" + i).val(list[i].empName);
-								$("#aprvJobName" + i).val(list[i].jobName);
+								$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
+								$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
+								$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
+								console.log(list[i].empNo);
 							}
 						}
-						/*$("#firstAprv").val(list[0].empNo);
-						$("#firstAprvName").val(list[0].empName);
-						$("#firstAprvJob").val(list[0].jobName);
-						$("#secondAprv").val(list[1].empNo);
-						$("#secondAprvName").val(list[1].empName);
-						$("#secondAprvJob").val(list[1].jobName);
-	                	}*/
-	                }
+                	}
 		 		}
 	 		});
     	}

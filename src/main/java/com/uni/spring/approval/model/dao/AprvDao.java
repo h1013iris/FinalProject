@@ -418,9 +418,9 @@ public class AprvDao {
 		return sqlSession.delete("aprvMapper.deleteAprvDocument", docNo);
 	}
 
-	public ArrayList<DocType> selectDocTypeList(SqlSessionTemplate sqlSession) {
+	public ArrayList<DocType> selectDocTypeList(SqlSessionTemplate sqlSession, String docType) {
 		
-		return (ArrayList)sqlSession.selectList("aprvMapper.selectDocTypeList");
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectDocTypeList", docType);
 	}
 	
 	public int searchAllDocListCount(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
@@ -446,6 +446,31 @@ public class AprvDao {
 	public AprvDoc selectCancleDocApprover(SqlSessionTemplate sqlSession, int docNo) {
 		
 		return sqlSession.selectOne("aprvMapper.selectCancleDocApprover", docNo);
+	}
+
+	public int selectApproverJob(SqlSessionTemplate sqlSession, int empNo) {
+		
+		return sqlSession.selectOne("aprvMapper.selectApproverJob", empNo);
+	}
+
+	public ArrayList<AprvDoc> noPagingStatusList(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
+		
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectStatusList", aprvDoc);
+	}
+
+	public ArrayList<AprvDoc> noPagingWaitingList(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
+		
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectWaitingList", aprvDoc);
+	}
+
+	public ArrayList<AprvDoc> noPagingRequestList(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
+		
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectRequestList", aprvDoc);
+	}
+
+	public ArrayList<AprvDoc> noPagingCompleteList(SqlSessionTemplate sqlSession, AprvDoc aprvDoc) {
+		
+		return (ArrayList)sqlSession.selectList("aprvMapper.selectCompleteList", aprvDoc);
 	}
 
 	

@@ -7,18 +7,13 @@
 <meta charset="UTF-8">
 <title>결재 완료 상세 페이지</title>
 <style type="text/css">
-	.main_section {
-		/*border: 1px solid black;*/
-		padding: 100px;
-	}
-	
+
 	.docDetailViewDiv {
-		/*margin-right: 3%;
-		width: 84vw;*/
+		margin: 30px auto;
+		width: 1150px;
 	}
 	
 	.docDetailBackground {
-		width: 1150px;
 		height: 780px;
 		border: 1px solid #e6e6e6;
 		background-color: #e6e6e6;
@@ -27,7 +22,6 @@
 	}
 	
 	.docDetailMainArea {
-		/*border: 1px solid red;*/
 		padding: 70px 0 0 100px;
 		float: left;
 	}
@@ -40,11 +34,14 @@
 		border: 1px solid darkgray;
 		background-color: white;
 		padding: 0 25px 25px 25px;
-		/*float: left;*/
+	}
+	
+	.docDetail_textarea {
+		resize: none;
+		border: none;
 	}
 	
 	.docDetailBtnsArea {
-		/*padding-top: 34%;*/
 		padding-left: 84%;
 		padding-top: 65px;
 	}
@@ -60,12 +57,11 @@
 	}
 	
 	.approverName {
-		width: 100px;
+		width: 115px;
 	}
 	
 	.approverJop {
-		width: 50px;
-		/*text-align: right;*/
+		width: 40px;
 	}
 	
 	.completeList_btn {
@@ -140,14 +136,16 @@
     <script type="text/javascript">
 	    
     	$(document).ready(function() {
+			$(".page_title>.title_name").text("결재 완료 문서 상세 페이지");
+
 			// 로그인이 되어있지 않으면
 			if("${ loginUser.empNo }" == "") {	
-				
 				loginFn(); // 로그인 먼저
+			
+			} else {				
+				scrtyCheckFn();		// 보안 요청된 문서인지 확인
+				lastAprvCheckFn();	// 로그인 유저가 해당 문서의 최종 결재자인지 확인
 			}
-						
-			scrtyCheckFn();		// 보안 요청된 문서인지 확인
-			lastAprvCheckFn();	// 로그인 유저가 해당 문서의 최종 결재자인지 확인
 		});
     	
     	
@@ -167,9 +165,9 @@
 					// 결재자 출력
 					for(var i in list) {
 						if(list[i] != null) {
-							$("#aprv" + i).val(list[i].empNo);
-							$("#aprvName" + i).val(list[i].empName);
-							$("#aprvJobName" + i).val(list[i].jobName);
+							$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
+							$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
+							$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
 						
 						// 마지막 결재자 변수에 담기
 						} else {
@@ -186,7 +184,7 @@
 	 		});
     		
     	}
-    	
+
     	
     	// 보안 요청 버튼 클릭 시
     	$(".sequrity_btn").click(function() {

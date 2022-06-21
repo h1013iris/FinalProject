@@ -18,7 +18,7 @@ public class LeaveForm { // 휴가 신청서
 	private String drafterDept; // 기안자 소속 (int)
 	private Date dftDate; 		// 기안일
 	private String vacType; 	// 휴가 종류
-	private Date startDate; 	//휴가 시작일
+	private String startDate; 	//휴가 시작일
 	private String endDate; 	// 휴가 종료일 (Date)
 	private String vacUseDays; 	// 사용 일수 (int)
 	private String vacReason; 	// 휴가 사유

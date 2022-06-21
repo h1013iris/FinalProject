@@ -97,7 +97,6 @@
 										<colgroup> 
 								        	<col width="90"> 
 								         	<col width="180">
-								         	<col width="55">
 							        	</colgroup>
 							        	
 										<tbody>
@@ -178,7 +177,7 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;">
 								<div contenteditable="false" style="width: 100%;">
-									<textarea class="txta_editor" id="vacReason" name="vacReason" style="width: 99%; height: 240px; resize: vertical;" maxlength="500"></textarea>
+									<textarea class="docEnroll_textarea" id="vacReason" name="vacReason" style="width: 99%; height: 240px;" maxlength="500"></textarea>
 								</div>
 							</td>
 						</tr>
@@ -198,59 +197,35 @@
  		
  		// 화면 로드 시 가장 먼저 실행
  		$(document).ready(function() {
- 			
-			// 로그인이 되어있지 않으면
-			if("${ loginUser.empNo }" == "") {
- 				
-				loginFn(); // 로그인 먼저
- 			
-			} else {
-				
-				// 기안일 오늘 날짜로 기본값 설정
- 				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
- 	 			$("#dftDate").val(today);
- 	 			
- 	 			// 날짜 선택 오늘부터 가능하도록 설정
- 	 			document.getElementById("startDate").min = today;
- 	 			document.getElementById("endDate").min = today;
- 	 			
- 	 			// 소속 (로그인 유저의 부서 가져오기)
-		 		$.ajax({
-		 			
-		 			type: "post",
- 	                url: "selectDeptName.do",
- 	                data: { deptNo : "${ loginUser.departmentNo }" },
- 	                success: function (data) {
-						
- 	                	if(data != null || data != "") {
- 	                		$("#drafterDept").val(data);
- 	                	}
- 	                }
-		 		});
- 	 			
- 	 			// 결재자 조회
- 	 			$.ajax({
- 	 				
- 	 				type: "post",
- 	 				url: "selectDocEnrollApprover.do",
- 	 				data: { empNo :  "${ loginUser.empNo }",
- 	 						departmentNo : "${ loginUser.departmentNo }",
- 	 						jobNo : "${ loginUser.jobNo }" },
- 	 				success: function(list) {
- 	 					console.log(list);
- 	                	if(list != null || list != "") {
- 	                		
- 	                		$.each(list, function(i) {
- 	                			$(".approverList").append("<option value='" + list[i].empNo + "'>" 
-                								  		+ list[i].empName + " / " + list[i].jobName + "</option>");
- 	                		});
- 	                	}
- 	 				}
- 	 				
- 	 			});
- 			}
- 			
+
+			// 기안일 오늘 날짜로 기본값 설정
+			let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
+		
+ 			// 날짜 선택 오늘부터 가능하도록 설정
+ 			document.getElementById("startDate").min = today;
+ 			document.getElementById("endDate").min = today;
  		});
+ 	
+ 		
+ 		// 기안자 부서 가져오는 함수
+ 		function selectDeptFn() {
+ 			
+ 			// 소속 (로그인 유저의 부서 가져오기)
+	 		$.ajax({
+	 			
+	 			type: "post",
+                url: "selectDeptName.do",
+                data: { deptNo : "${ loginUser.departmentNo }" },
+                success: function (data) {
+				
+                	if(data != null || data != "") {
+                		
+                		$("#drafterDept").val(data);
+                	}
+                }
+	 		});
+ 		}
+ 		
 		
  		
  		// 시작 날짜 변경 시
@@ -264,7 +239,6 @@
 	
 			// 주말 선택할 수 없도록
 			if(startDay == 0 || startDay == 6) {
-	            console.log("주말");
 				$("#formErrorMsg").text("주말은 선택할 수 없습니다.");
 				$("#startDate").val("");
 	        
@@ -278,9 +252,7 @@
 				$("#vacUseDays").attr('readonly', true);
 	    	
 			// 끝 날짜 선택되어 있는 경우에만 사용일수 계산
-	    	} else if($("#endDate").val() != "") {
-				console.log("끝 날짜 존재");
-				
+	    	} else if($("#endDate").val() != "") {				
 				useDaysFn();
 	    	}
 
@@ -290,7 +262,8 @@
 		// 휴가 종류에 따른 기간 유효성 검사
 		$("#vacType").change(function() {
 			
-			reset();
+			// 이전에 반차를 선택했을 경우를 위해 readonly false 먼저 실행
+			$("#endDate").attr('readonly', false);
 			
 			let vacType = $(this).val();
 			
@@ -301,7 +274,6 @@
 				$("#endDate").attr('readonly', true);
 				
 				document.getElementById("vacUseDays").value = 0.5;
-				$("#vacUseDays").attr('readonly', true);
 			}
 		})
 		
@@ -391,55 +363,56 @@
 				
 				} else {
 					$("#vacUseDays").val(count);
-					$("#vacUseDays").attr('readonly', true);
 				}
 			}
 		}
 		
-
-		// 날짜, 사용일수 리셋하는 함수
-		function reset() {
-			
-			document.getElementById("startDate").value = "";
-			document.getElementById("endDate").value = "";
-			document.getElementById("vacUseDays").value = "";
-			$("#endDate").removeAttr('readonly');
-			$("#vacUseDays").removeAttr('readonly');
-			$("#formErrorMsg").empty();
-		}
-
 		
+		$(document).on("keyup", ".docEnroll_textarea", function() {
+			
+			let key = event.key || event.keyCode;
+ 			
+ 			if(key === 'Enter' || key === 13) {
+ 				document.getElementsByClassName("docEnroll_textarea").value += $(this).val() + "\n";
+ 			}
+		});
+
 		
 		// 결재 요청 버튼 클릭 시
  		$(".submit_btn").click(function() {
  			
  			let firstAprv = $("#firstAprv").val();
+ 			let secondAprv = $("#secondAprv").val();
  			let vacType = $("#vacType").val();
  			let startDate = $("#startDate").val();
  			let endDate = $("#endDate").val();
  			let vacUseDays = $("#vacUseDays").val();
  			let vacReason = $("#vacReason").val();
  			
+ 			let title = "문서 작성 확인";
  			
-			if(firstAprv == null || firstAprv == "") {
-
-				let focus="#firstAprv";
+ 			console.log(vacReason.length)
+ 			
+ 			if((firstAprv == null || firstAprv == "") 
+						&& (secondAprv != null || secondAprv != "")) {
+			
+				myAlert("문서 작성 확인", "1차 결재자를 선택해주세요.");
+				focusFn("#firstAprv");
+		
+			} else if(firstAprv == null || firstAprv == "") {
+			
+				myAlert("문서 작성 확인", "최소 한 명의 결재자를 선택해주세요.");
+				focusFn("#firstAprv");
 				
-				myAlert("문서 작성 확인", "결재자를 선택해주세요.");
-				focusFn(focus);
- 				
- 			} else if(vacType == "none") {
+			} else if(vacType == null || vacType == "") {
  				 
- 				let title = "문서 작성 확인";
  				let content = "휴가 종류를 선택해주세요.";
- 				let focus = "#vacType";
 
  				myAlert(title, content);
-				focusFn(focus);
+				focusFn("#vacType");
  				
  			} else if(startDate == null || startDate == "") {
  				
- 				let title = "문서 작성 확인";
  				let content = "휴가 시작 날짜를 선택해주세요.";
  				let focus = "#startDate";
  
@@ -448,7 +421,6 @@
  				
  			} else if(endDate == null || endDate == "") {
  				
- 				let title = "문서 작성 확인";
  				let content = "휴가 마지막 날짜를 선택해주세요.";
  				let focus = "#endDate";
  				
@@ -457,7 +429,6 @@
  				
  			} else if(vacUseDays == null || vacUseDays == "") {
  				
- 				let title = "문서 작성 확인";
  				let content = "사용일수를 입력해주세요.";
  				let focus = "#vacUseDays";
  				
@@ -466,13 +437,18 @@
  			
  			} else if(vacReason == null || vacReason == "") {
  				
- 				let title = "문서 작성 확인";
  				let content = "휴가 사유를 작성해주세요.";
  				let focus = "#vacReason";
  				
  				myAlert(title, content);
 				focusFn(focus);
 			
+ 			} else if(vacReason.length > 500) {
+ 				
+ 				$("#vacReason").val(vacReason.substring(0, 500));
+ 				
+ 				myAlert(title, "휴가 사유를 500자 이하로 작성해주세요.");
+ 				
  			// 모두 잘 입력되어 있는 경우
  			} else {
  				

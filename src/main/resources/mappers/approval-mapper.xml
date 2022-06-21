@@ -135,19 +135,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
 		    AND A.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
-		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		<if test="condition == '문서 번호' and search != ''">
+			AND A.DOC_NO LIKE '%'|| #{search} ||'%'
 		</if>
-		<if test="condition == '제목'">
-		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		<if test="condition == '제목' and search != ''">
+			AND LOWER(A.DOC_TITLE) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
-		<if test="condition == '내용'">
-		    AND (B.VAC_REASON LIKE '%' ||#{search}||'%' OR
-		         C.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
-		         D.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
-		         E.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		<if test="condition == '내용' and search != ''">
+			AND (LOWER(B.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(C.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(D.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(E.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
 		</if>
-		
 	</select>
 	
 	<!-- 결재 대기 리스트 조회 -->
@@ -172,17 +171,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
 		    AND A.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
-		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		<if test="condition == '문서 번호' and search != ''">
+			AND A.DOC_NO LIKE '%'|| #{search} ||'%'
 		</if>
-		<if test="condition == '제목'">
-		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		<if test="condition == '제목' and search != ''">
+			AND LOWER(A.DOC_TITLE) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
-		<if test="condition == '내용'">
-		    AND (B.VAC_REASON LIKE '%' ||#{search}||'%' OR
-		         C.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
-		         D.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
-		         E.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		<if test="condition == '내용' and search != ''">
+			AND (LOWER(B.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(C.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(D.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(E.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
 		</if>
 		ORDER BY PRO_DATE DESC
 	</select>
@@ -201,17 +200,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
 		    AND A.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
-		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		<if test="condition == '문서 번호' and search != ''">
+			AND A.DOC_NO LIKE '%'|| #{search} ||'%'
 		</if>
-		<if test="condition == '제목'">
-		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		<if test="condition == '제목' and search != ''">
+			AND LOWER(A.DOC_TITLE) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
-		<if test="condition == '내용'">
-		    AND (B.VAC_REASON LIKE '%' ||#{search}||'%' OR
-		         C.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
-		         D.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
-		         E.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		<if test="condition == '내용' and search != ''">
+			AND (LOWER(B.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(C.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(D.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(E.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
 		</if>
 	</select>
 	
@@ -231,17 +230,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
 		    AND A.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
-		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		<if test="condition == '문서 번호' and search != ''">
+			AND A.DOC_NO LIKE '%'|| #{search} ||'%'
 		</if>
-		<if test="condition == '제목'">
-		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		<if test="condition == '제목' and search != ''">
+			AND LOWER(A.DOC_TITLE) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
-		<if test="condition == '내용'">
-		    AND (B.VAC_REASON LIKE '%' ||#{search}||'%' OR
-		         C.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
-		         D.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
-		         E.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		<if test="condition == '내용' and search != ''">
+			AND (LOWER(B.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(C.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(D.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(E.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
 		</if>
 		ORDER BY A.PRO_DATE DESC
 	</select>
@@ -276,7 +275,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			A.DOC_NO, A.OUTBOX_NO, B.EMP_NAME AS DRAFTER_NAME, A.DRAFTER, 
 			C.DEPARTMENT_TITLE AS DRAFTER_DEPT, A.DFT_DATE, A.VAC_TYPE, A.START_DATE, 
 			TO_CHAR(A.END_DATE, 'YYYY-MM-DD') AS END_DATE, 
-			A.VAC_USE_DAYS, A.VAC_REASON
+			RTRIM(TO_CHAR(A.VAC_USE_DAYS, 'FM9990.99'), '.') AS VAC_USE_DAYS, A.VAC_REASON
 		FROM LEAVE_APP A
 		JOIN USER_INFO B ON A.DRAFTER = B.EMP_NO
 		JOIN DEPARTMENT_MANAGEMENT C ON A.DRAFTER_DEPT = C.DEPARTMENT_NO
@@ -297,7 +296,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    SUBSTR(TO_CHAR(A.BE_LEAVE_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS BE_LEAVE_TIME,
 		    SUBSTR(TO_CHAR(A.ATTEND_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS ATTEND_TIME,
 		    SUBSTR(TO_CHAR(A.LEAVE_TIME, 'YYYY/MM/DD HH24:MI:SS'), 12, 5) AS LEAVE_TIME,
-		    TO_CHAR(A.UPDATE_DATE, 'YYYY-MM-DD') AS UPDATE_DATE
+		    TO_CHAR(A.UPDATE_DATE, 'YYYY-MM-DD') AS UPDATE_DATE,
+		    A.UPDATE_REASON
   		FROM CMT_UPDATE_APP A
 		JOIN USER_INFO B ON A.DRAFTER = B.EMP_NO
 		JOIN DEPARTMENT_MANAGEMENT C ON A.DRAFTER_DEPT = C.DEPARTMENT_NO
@@ -366,20 +366,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
 		    AND A.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
-		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		<if test="condition == '문서 번호' and search != ''">
+			AND A.DOC_NO LIKE '%'|| #{search} ||'%'
 		</if>
-		<if test="condition == '제목'">
-		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		<if test="condition == '제목' and search != ''">
+			AND LOWER(A.DOC_TITLE) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
-		<if test="condition == '내용'">
-		    AND (C.VAC_REASON LIKE '%' ||#{search}||'%' OR
-		         D.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
-		         E.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
-		         F.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		<if test="condition == '내용' and search != ''">
+			AND (LOWER(C.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(D.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(E.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(F.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
 		</if>
-		<if test="condition == '반려 사유'">
-		    AND B.RE_REASON LIKE '%' ||#{search}||'%'
+		<if test="condition == '반려자' and search != ''">
+		    AND B.RE_FROM LIKE '%'|| #{search} ||'%'
+		</if>
+		<if test="condition == '반려 사유' and search != ''">
+		    AND LOWER(B.RE_REASON) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
 	</select>
 	
@@ -401,23 +404,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
 		    AND A.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
-		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		<if test="condition == '문서 번호' and search != ''">
+			AND A.DOC_NO LIKE '%'|| #{search} ||'%'
 		</if>
-		<if test="condition == '제목'">
-		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		<if test="condition == '제목' and search != ''">
+			AND LOWER(A.DOC_TITLE) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
-		<if test="condition == '내용'">
-		    AND (C.VAC_REASON LIKE '%' ||#{search}||'%' OR
-		         D.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
-		         E.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
-		         F.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		<if test="condition == '내용' and search != ''">
+			AND (LOWER(C.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(D.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(E.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(F.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
 		</if>
-		<if test="condition == '반려자'">
-		    AND B.RE_FROM LIKE '%' ||#{search}||'%'
+		<if test="condition == '반려자' and search != ''">
+		    AND B.RE_FROM LIKE '%'|| #{search} ||'%'
 		</if>
-		<if test="condition == '반려 사유'">
-		    AND B.RE_REASON LIKE '%' ||#{search}||'%'
+		<if test="condition == '반려 사유' and search != ''">
+		    AND LOWER(B.RE_REASON) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
 		ORDER BY B.RE_DATE DESC
 	</select>
@@ -462,17 +465,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
     		AND A.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
-		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		<if test="condition == '문서 번호' and search != ''">
+			AND A.DOC_NO LIKE '%'|| #{search} ||'%'
 		</if>
-		<if test="condition == '제목'">
-		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		<if test="condition == '제목' and search != ''">
+			AND LOWER(A.DOC_TITLE) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
-		<if test="condition == '내용'">
-		    AND (E.VAC_REASON LIKE '%' ||#{search}||'%' OR
-		         F.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
-		         G.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
-		         H.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		<if test="condition == '내용' and search != ''">
+			AND (LOWER(E.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(F.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(G.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(H.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
 		</if>
 	</select>
 	
@@ -496,17 +499,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
     		AND A.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
-		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		<if test="condition == '문서 번호' and search != ''">
+			AND A.DOC_NO LIKE '%'|| #{search} ||'%'
 		</if>
-		<if test="condition == '제목'">
-		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		<if test="condition == '제목' and search != ''">
+			AND LOWER(A.DOC_TITLE) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
-		<if test="condition == '내용'">
-		    AND (E.VAC_REASON LIKE '%' ||#{search}||'%' OR
-		         F.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
-		         G.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
-		         H.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		<if test="condition == '내용' and search != ''">
+			AND (LOWER(E.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(F.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(G.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(H.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
 		</if>
 		ORDER BY A.PRO_DATE DESC
 	</select>
@@ -541,17 +544,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
 			AND A.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
-			AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		<if test="condition == '문서 번호' and search != ''">
+			AND A.DOC_NO LIKE '%'|| #{search} ||'%'
 		</if>
-		<if test="condition == '제목'">
-			AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		<if test="condition == '제목' and search != ''">
+			AND LOWER(A.DOC_TITLE) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
-		<if test="condition == '내용'">
-			AND (C.VAC_REASON LIKE '%' ||#{search}||'%' OR
-				 D.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
-				 E.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
-				 F.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		<if test="condition == '내용' and search != ''">
+			AND (LOWER(C.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(D.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(E.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(F.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
 		</if>
 	</select>
 	
@@ -574,17 +577,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
 			AND A.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
-			AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		<if test="condition == '문서 번호' and search != ''">
+			AND A.DOC_NO LIKE '%'|| #{search} ||'%'
 		</if>
-		<if test="condition == '제목'">
-			AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		<if test="condition == '제목' and search != ''">
+			AND LOWER(A.DOC_TITLE) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
-		<if test="condition == '내용'">
-			AND (C.VAC_REASON LIKE '%' ||#{search}||'%' OR
-				 D.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
-				 E.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
-				 F.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		<if test="condition == '내용' and search != ''">
+			AND (LOWER(C.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(D.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(E.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(F.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
 		</if>
 		ORDER BY A.PRO_DATE DESC
 	</select>
@@ -673,17 +676,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
 		    AND B.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
-		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		<if test="condition == '문서 번호' and search != ''">
+			AND A.DOC_NO LIKE '%'|| #{search} ||'%'
 		</if>
-		<if test="condition == '제목'">
-		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		<if test="condition == '제목' and search != ''">
+			AND LOWER(A.DOC_TITLE) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
-		<if test="condition == '내용'">
-		    AND (D.VAC_REASON LIKE '%' ||#{search}||'%' OR
-		         E.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
-		         F.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
-		         G.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		<if test="condition == '내용' and search != ''">
+			AND (LOWER(D.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(E.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(F.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(G.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
 		</if>
 	</select>
 	
@@ -703,17 +706,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
 		    AND B.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
-		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		<if test="condition == '문서 번호' and search != ''">
+			AND A.DOC_NO LIKE '%'|| #{search} ||'%'
 		</if>
-		<if test="condition == '제목'">
-		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		<if test="condition == '제목' and search != ''">
+			AND LOWER(A.DOC_TITLE) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
-		<if test="condition == '내용'">
-		    AND (D.VAC_REASON LIKE '%' ||#{search}||'%' OR
-		         E.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
-		         F.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
-		         G.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		<if test="condition == '내용' and search != ''">
+			AND (LOWER(D.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(E.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(F.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(G.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
 		</if>
 		ORDER BY 1 DESC
 	</select>
@@ -729,9 +732,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectLeaveFormOutbox" parameterType="_int" resultType="LeaveForm">
 		SELECT
 			A.DOC_NO, A.OUTBOX_NO, B.EMP_NAME AS DRAFTER_NAME, A.DRAFTER, 
-			C.DEPARTMENT_TITLE AS DRAFTER_DEPT, A.DFT_DATE, A.VAC_TYPE, A.START_DATE, 
+			C.DEPARTMENT_TITLE AS DRAFTER_DEPT, TO_CHAR(A.DFT_DATE, 'YYYY-MM-DD') AS DFT_DATE, 
+			A.VAC_TYPE, TO_CHAR(A.START_DATE, 'YYYY-MM-DD') AS START_DATE, 
 			TO_CHAR(A.END_DATE, 'YYYY-MM-DD') AS END_DATE, 
-			A.VAC_USE_DAYS, A.VAC_REASON
+			RTRIM(TO_CHAR(A.VAC_USE_DAYS, 'FM9990.99'), '.') AS VAC_USE_DAYS, A.VAC_REASON
 		FROM LEAVE_APP A
 		JOIN USER_INFO B ON A.DRAFTER = B.EMP_NO
 		JOIN DEPARTMENT_MANAGEMENT C ON A.DRAFTER_DEPT = C.DEPARTMENT_NO
@@ -858,7 +862,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 임시 저장 문서 - 휴가 신청서 결재 요청 및 업데이트 -->
 	<update id="oboxAprvReqLeaveApp" parameterType="LeaveForm">
 		UPDATE LEAVE_APP
-		SET DOC_NO = SEQ_DOC_NO.NEXTVAL, DFT_DATE = SYSDATE, VAC_TYPE = #{vacType},
+		SET DOC_NO = #{docNo}, DFT_DATE = SYSDATE, VAC_TYPE = #{vacType},
 			START_DATE = #{startDate}, END_DATE = #{endDate}, VAC_USE_DAYS = #{vacUseDays}, 
 			VAC_REASON = #{vacReason}, OUTBOX_NO = NULL
 		WHERE OUTBOX_NO = #{outboxNo}
@@ -867,7 +871,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 임시 저장 문서 - 근태 기록 수정 신청서 결재 요청 -->
 	<update id="oboxAprvReqCmtApp" parameterType="CmtUpdateForm">
 		UPDATE CMT_UPDATE_APP
-		SET DOC_NO = SEQ_DOC_NO.NEXTVAL, DFT_DATE = SYSDATE, UPDATE_DATE = #{updateDate},
+		SET DOC_NO = #{docNo}, DFT_DATE = SYSDATE, UPDATE_DATE = #{updateDate},
 			BE_ATTEND_TIME = TO_DATE(#{beAttendTime}, 'YYYY-MM-DD HH24:MI'), 
 			BE_LEAVE_TIME = TO_DATE(#{beLeaveTime}, 'YYYY-MM-DD HH24:MI'), 
 			ATTEND_TIME = TO_DATE(#{attendTime}, 'YYYY-MM-DD HH24:MI'), 
@@ -879,7 +883,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 임시 저장 문서 - 업무 기안서 결재 요청 -->
 	<update id="oboxAprvReqBusDft" parameterType="BusDraftForm">
 		UPDATE BUSINESS_DFT
-		SET DOC_NO = SEQ_DOC_NO.NEXTVAL, DFT_DATE = SYSDATE, DOC_TITLE = #{docTitle}, 
+		SET DOC_NO = #{docNo}, DFT_DATE = SYSDATE, DOC_TITLE = #{docTitle}, 
 			ENF_DATE = #{enfDate}, COOP_DEPT = #{coopDept}, DFT_CONTENT = #{dftContent},
 			OUTBOX_NO = NULL
 		WHERE OUTBOX_NO = #{outboxNo}
@@ -888,7 +892,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 임시 저장 문서 - 업무 협조문 결재 요청 -->
 	<update id="oboxAprvReqBusCoop" parameterType="BusCoopForm">
 		UPDATE BUSINESS_COOP
-		SET DOC_NO = SEQ_DOC_NO.NEXTVAL, DFT_DATE = SYSDATE, DOC_TITLE = #{docTitle}, 
+		SET DOC_NO = #{docNo}, DFT_DATE = SYSDATE, DOC_TITLE = #{docTitle}, 
 			RECEIVE_DEPT = #{receiveDept}, COOP_CONTENT = #{coopContent}, OUTBOX_NO = NULL
 		WHERE OUTBOX_NO = #{outboxNo}
 	</update>
@@ -944,8 +948,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<!-- 문서 타입 리스트 조회 -->
-	<select id="selectDocTypeList" resultType="DocType">
+	<select id="selectDocTypeList" parameterType="string" resultType="DocType">
 		SELECT * FROM DOCUMENT_TYPE
+		<if test="docType != null">
+			WHERE DOC_TYPE = #{ docType }
+		</if>
 	</select>
 	
 	<!-- 전체 검색 리스트 개수 -->
@@ -962,10 +969,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
 		    AND B.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
+		<if test="condition == '문서 번호' and search != ''">
 		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
 		</if>
-		<if test="condition == '제목'">
+		<if test="condition == '제목' and search != ''">
 		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
 		</if>
 	</select>
@@ -988,10 +995,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
 		    AND B.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
+		<if test="condition == '문서 번호' and search != ''">
 		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
 		</if>
-		<if test="condition == '제목'">
+		<if test="condition == '제목' and search != ''">
 		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
 		</if>
 		ORDER BY 1 DESC
@@ -1017,6 +1024,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM APRV_DOCUMENT
 		WHERE DOC_NO = #{docNo}
 	</select>
+	
+	<!-- 문서 등록, 수정 시 1, 2차 결재자 직급 조회 - 비교하기 위해 -->
+	<select id="selectApproverJob" parameterType="_int" resultType="_int">
+		SELECT JOB_NO FROM USER_INFO WHERE EMP_NO = #{docNo}
+	</select>
+	
 	
 	
 </mapper>

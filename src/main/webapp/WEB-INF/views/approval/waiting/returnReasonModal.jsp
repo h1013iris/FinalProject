@@ -13,11 +13,10 @@
 	}
 	
 	.returnReason_body {
-		/*border: 1px solid black;*/
 		margin: 30px 0 30px 0;
 	}
 	
-	hr {
+	.returnModal_hr {
 		margin: 30px 0 30px 0;
 	}
 	
@@ -30,6 +29,7 @@
 		height: 300px;
 		resize: none;
 		font-size: 15px;
+		/*white-space: pre-wrap;*/
 	}
 	
 	.errorMsg {
@@ -48,8 +48,22 @@
 	
 	.returnReason_footer {
 		height: 50px;
-		/*border: 1px solid black;*/
 		margin-bottom: 6%;
+	}
+	
+	.returnModal_nextBtn, .returnModal_cascelBtn {
+		font-size: 14px !important;
+		height: 45px !important;
+		width: 60px !important;
+	}
+	
+	.returnModal_cascelBtn {
+		background-color: #c8c8c8 !important;
+		box-shadow: 0px 5px 0px 0px #afafaf !important;
+	}
+	
+	.returnModal_cascelBtn:hover {
+		box-shadow: 0px 0px 0px 0px #afafaf !important;
 	}
 
 </style>
@@ -76,18 +90,18 @@
 							<input type="hidden" id="reFrom" name="reFrom" value="${ loginUser.empNo }"/>
 						</span>
 					</div>
-					<hr>
+					<hr class="returnModal_hr">
 					<div class="returnReason_area">
 						<span class="returnText">반려 사유</span> &nbsp;
 						<span class="errorMsg"></span>
 						<div class="returnReason_textarea">
-							<textarea id="reReason" name="reReason" maxlength="500"></textarea>
+							<textarea id="reReason" name="reReason" maxlength="450"></textarea>
 						</div>
 					</div>
 	            </div>
 	            <div class="modal_footer returnReason_footer">
-	               	<button class="commonButton1 modal_nextBtn next_btn" type="button">반려</button>
-	               	<button class="commonButton1 modal_cascelBtn cancel_btn" type="button" data-dismiss="modal">취소</button>
+	               	<button class="commonButton1 returnModal_nextBtn next_btn" type="button">반려</button>
+	               	<button class="commonButton1 returnModal_cascelBtn cancel_btn" type="button" data-dismiss="modal">취소</button>
 	           	</div>
            	</form>
            	
@@ -97,7 +111,7 @@
     <script type="text/javascript">
 	    
 	    // 반려 버튼 클릭 시 
-		$(document).on("click", ".modal_nextBtn", function() {
+		$(document).on("click", ".returnModal_nextBtn", function() {
 			
 			$(".errorMsg").empty();
 			

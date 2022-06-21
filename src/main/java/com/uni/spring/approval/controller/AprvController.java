@@ -1157,9 +1157,9 @@ public class AprvController {
 	// 문서 타입 리스트 조회
 	@ResponseBody
 	@RequestMapping(value="selectDocTypeList.do", produces="application/json; charset=utf-8")
-	public String selectDocTypeList() {
+	public String selectDocTypeList(@RequestParam(required = false) String docType) {
 		
-		ArrayList<DocType> list = aprvService.selectDocTypeList();
+		ArrayList<DocType> list = aprvService.selectDocTypeList(docType);
 		
 		return new Gson().toJson(list);
 	}
@@ -1207,6 +1207,90 @@ public class AprvController {
 		
 		return new Gson().toJson(aprvDoc);
 	}
+	
+	
+	
+	// 문서 등록, 수정 시 선택한 결재자 직급 조회 - 비교하기 위해
+	@ResponseBody
+	@RequestMapping(value="selectApproverJob.do", produces="application/json; charset=utf-8")
+	public String selectApproverJob(int empNo) {
+		
+		int approverJobNo = aprvService.selectApproverJob(empNo);
+		System.out.println(approverJobNo);
+		
+		return new Gson().toJson(approverJobNo);
+	}
+	
+	
+	
+	// 메인 - 진행 상태 확인 리스트
+	@ResponseBody
+	@RequestMapping(value="noPagingStatusList.do", produces="application/json; charset=utf-8")
+	public String noPagingStatusList(AprvDoc aprvDoc) {
+		
+		ArrayList<AprvDoc> list = aprvService.noPagingStatusList(aprvDoc);
+		
+		return new Gson().toJson(list);
+	}
+	
+	
+	
+	// 메인 - 결재 대기 리스트
+	@ResponseBody
+	@RequestMapping(value="noPagingWaitingList.do", produces="application/json; charset=utf-8")
+	public String noPagingWaitingList(AprvDoc aprvDoc) {
+		
+		ArrayList<AprvDoc> list = aprvService.noPagingWaitingList(aprvDoc);
+		
+		return new Gson().toJson(list);
+	}
+	
+	
+	
+	// 메인 - 결재 요청 리스트
+	@ResponseBody
+	@RequestMapping(value="noPagingRequestList.do", produces="application/json; charset=utf-8")
+	public String noPagingRequestList(AprvDoc aprvDoc) {
+		
+		ArrayList<AprvDoc> list = aprvService.noPagingRequestList(aprvDoc);
+		
+		// SimpleDateformat 으로 날짜 형식
+	    for(int i = 0; i < list.size(); i++) {
+	         
+	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		         
+	    	// java.util.Date 선언
+	    	java.util.Date date = new java.util.Date();
+			 
+	    	try {
+	    		// Date 형식으로 지정해준 건가?
+	    		date = sdf.parse(list.get(i).getProDate());
+	    	} catch (ParseException e) {
+	    		e.printStackTrace();
+	    	}
+	 
+	    	date = new Date(date.getTime());   // util.Date 를 sal.Date로 변환
+	    	String proDate = sdf.format(date); // sdf 형식 지정
+	    	list.get(i).setProDate(proDate);   // set 해주기
+	    }
+		
+		return new Gson().toJson(list);
+	}
+	
+	
+	
+	// 메인 - 결재 완료 리스트
+	@ResponseBody
+	@RequestMapping(value="noPagingCompleteList.do", produces="application/json; charset=utf-8")
+	public String noPagingCompleteList(AprvDoc aprvDoc) {
+		
+		ArrayList<AprvDoc> list = aprvService.noPagingCompleteList(aprvDoc);
+		
+		return new Gson().toJson(list);
+	}
+	
+	
+	
 	
 	
 	

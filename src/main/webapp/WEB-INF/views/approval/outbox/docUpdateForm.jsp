@@ -6,20 +6,14 @@
 <meta charset="UTF-8">
 <title>문서 수정 페이지</title>
 <style type="text/css">
-
-	.main_section {
-		/*border: 1px solid black;*/
-		padding: 100px;
-	}
 	
 	.docUpdateFormDiv {
-		/*margin-right: 3%;
-		width: 84vw;*/
+		margin: 30px auto;
+		width: 1150px;
 	}
 	
 	.docUpdateBackground {
-		width: 1150px;
-		height: 780px;
+		height: 790px;
 		border: 1px solid #e6e6e6;
 		background-color: #e6e6e6;
 		border-radius: 15px;
@@ -27,12 +21,7 @@
 	}
 	
 	.formMainArea {
-		/*border: 1px solid red;*/
 		padding: 70px 0 0 100px;
-	}
-	
-	.docUpdateForm {	
-		/*maring: 0 25px 25px 25px;*/
 	}
 	
 	.formArea {
@@ -43,12 +32,11 @@
 	}
 	
 	.docUpdateBtnsArea {
-		padding-top: 0;
 		padding-left: 82.5%;
 	}
 	
 	.docUpdateFormBtn {
-		margin: 5px;
+		margin: 0 5px 10px 5px;
 		width: 80px;
 		height: 50px;
 	}
@@ -58,14 +46,18 @@
 	}
 	
 	.approverName {
-		width: 100px;
+		width: 115px;
 	}
 	
 	.approverJop {
-		width: 50px;
-		/*text-align: right;*/
+		width: 40px;
 	}
-	
+
+	.docUpdate_textarea {
+		border: none;
+		resize: none;
+	}
+		
 	.docUpdate_btn {
 		background-color: #6a6a6a !important;
 		box-shadow: 0px 5px 0px 0px #545454 !important;
@@ -85,7 +77,6 @@
 	}
 	
 	.outboxNo_div {
-		/*border: 1px solid blue;*/
 		padding: 5px;
 	}
 	
@@ -123,8 +114,170 @@
     
     <script type="text/javascript">
     	
+    	$(document).ready(function() {
+    		
+    		$(".page_title>.title_name").text("문서 수정 페이지");
+    		
+    		// 로그인이 되어있지 않으면
+			if("${ loginUser.empNo }" == "") {
+				
+				loginFn(); // 로그인 먼저
+			
+			} else {
+
+				// 기안일 오늘 날짜로 설정				
+				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
+				$("#dftDate").val(today);				
+				$("#draftDate").val(today);				
+		 		
+				selectDeptFn(); 		// 기안자 부서 가져오는 함수
+ 	 			
+ 	 			selectApproverFn();		// 결재자 리스트 조회
+			}
+    	});
+    	
+    	// 기안자 부서 가져오는 함수
+ 		function selectDeptFn() {
+ 			
+ 			// 소속 (로그인 유저의 부서 가져오기)
+	 		$.ajax({
+	 			
+	 			type: "post",
+                url: "selectDeptName.do",
+                data: { deptNo : "${ loginUser.departmentNo }" },
+                success: function (data) {
+				
+                	if(data != null || data != "") {
+                		
+                		$("#drafterDept").val(data);
+                	}
+                }
+	 		});
+ 		}
+
+	 	
+ 		// 부서 리스트 조회하는 함수
+ 		function selectDeptListFn() {
+ 			
+ 			// 부서 조회해서 select에 넣기
+	 		$.ajax({
+	 			
+	 			type: "post",
+                url: "selectDeptList.do",
+                data: { deptNo : "${ loginUser.departmentNo }" },
+                success: function (list) {
+				console.log(list);
+                	if(list != null || list != "") {
+                		
+                		$.each(list, function(i) {
+                			$("#receiveDept").append("<option value='" + list[i].deptNo + "'>" 
+                								  + list[i].deptTitle + "</option>");
+                		});
+                	}
+                }
+	 		});
+ 		}
+ 		
+    	// 결재자 리스트 조회
+    	function selectApproverFn() {
+    		// 결재자 조회
+ 			$.ajax({
+ 				
+ 				type: "post",
+ 				url: "selectDocEnrollApprover.do",
+ 				data: { empNo :  "${ loginUser.empNo }",
+ 						departmentNo : "${ loginUser.departmentNo }",
+ 						jobNo : "${ loginUser.jobNo }" },
+ 				success: function(list) {
+ 					console.log(list);
+                	if(list != null || list != "") {
+                		
+                		$.each(list, function(i) {
+                			$(".approverList").append("<option value='" + list[i].empNo + "'>" 
+           								  		+ list[i].empName + " / " + list[i].jobName + "</option>");
+                		});
+                	}
+ 				}
+ 				
+ 			});
+    	}
+    	
+    	
+    	// 1차 결재자 선택 시 같은 결재자를 2차 결재자로 선택하지 못 하도록
+ 		$(document).on("change", "#firstAprv", function() {
+ 			
+ 			let firstAprv = $(this).val();
+ 			let secondAprv = $("#secondAprv").val();
+ 			
+ 			// 모든 option에 disabled 속성 제거 후 선택한 값만 disabled
+ 			$("#secondAprv option").prop("disabled", false);
+ 			$("#secondAprv option[value*='"+ firstAprv +"']").prop("disabled", true);
+ 			
+ 			if(secondAprv != null && secondAprv != ""
+ 					&& firstAprv != null && firstAprv != "") {
+
+ 				aprvJobCompareFn(firstAprv, secondAprv);
+ 			}
+ 		});
+ 		
+ 		
+ 		// 1차 결재자 선택 시 같은 결재자를 2차 결재자로 선택하지 못 하도록
+ 		$(document).on("change", "#secondAprv", function() {
+ 			
+ 			let secondAprv = $(this).val();
+ 			let firstAprv = $("#firstAprv").val();
+ 			
+ 			$("#firstAprv option").prop("disabled", false);
+ 			$("#firstAprv option[value*='"+ secondAprv +"']").prop("disabled", true);
+ 			
+ 			if(secondAprv != null && secondAprv != ""
+ 					&& firstAprv != null && firstAprv != "") {
+
+ 				aprvJobCompareFn(firstAprv, secondAprv);
+ 				$(".approverList option").prop("disabled", false);
+ 			}
+ 		}); 		
+ 		
+	 	
+ 		// 결재자들의 직급 비교
+ 		function aprvJobCompareFn(firstAprv, secondAprv) {
+ 			
+ 			$.ajax({
+ 				
+ 				type: "get",
+ 				url: "selectApproverJob.do",
+ 				data: { empNo : firstAprv },
+ 				success: function(firstAprv) {
+ 					console.log(firstAprv);
+ 					
+ 					$.ajax({
+ 						
+ 						type: "get",
+ 		 				url: "selectApproverJob.do",
+ 		 				data: { empNo : secondAprv },
+ 		 				success: function(secondAprv) {
+ 		 					console.log(secondAprv);
+ 		 					
+ 		 					// 1차 결재자의 직급이 더 높은 경우 알림 후 결재자 비워주기
+ 		 					if(firstAprv > secondAprv) {
+ 		 						myAlert("결재자 확인", "1차 결재자의 직급이 더 높을 수 없습니다.");
+ 		 						$("#firstAprv").val("");
+ 		 						$("#secondAprv").val("");
+ 		 						
+ 		 					} else if(firstAprv = secondAprv) {
+ 		 						myAlert("결재자 확인", "두 결재자의 직급이 같을 수 없습니다.");
+ 		 						$("#firstAprv").val("");
+ 		 						$("#secondAprv").val("");
+ 		 					}
+ 		 				}
+ 					});
+ 				}
+ 			});
+ 		}
+ 		
+    
     	// 문서 등록 페이지에서 취소 버튼 클릭 시
-    	$(".cancle_btn").click(function() {
+    	$(document).on("click", ".cancle_btn", function() {
 			
     		$("#confirm_container .title_name").text("문서 수정 취소 확인");
     		$("#confirm_body .confirm_content").text("문서 수정을 취소하시겠습니까?");
@@ -143,7 +296,7 @@
     			$("#helpmeCOnfirm").css("display","none");
     		});
 			
-		})
+		});
 		
     </script>
     

@@ -29,6 +29,7 @@
 	.outBoxList_table {
 		width: 97%;
 		margin: auto;
+		table-layout: fixed;
 	}
 	
 	.outBoxList_table td {
@@ -42,12 +43,6 @@
        	text-overflow: ellipsis;
        	overflow: hidden;
 	}
-	
-	/*.docTitleOver {
-		white-space: nowrap;
-       	text-overflow: ellipsis;
-       	overflow: hidden;
-	}*/
 	
 	.outBoxList_table th {
 		padding: 15px;
@@ -166,6 +161,7 @@
 		display: flex;
 		text-align: center;
 		padding-top: 35px;
+		justify-content: center;
 	}
 	
 	.pagingArea ul {
@@ -277,6 +273,8 @@
 		// 화면 로드 시 리스트 불러오기
 		$(document).ready(function() {
 			
+			$(".page_title>.title_name").text("문서 임시 보관함");
+			
 			// 로그인이 되어있지 않으면
 			if("${ loginUser.empNo }" == "") {
 				
@@ -293,7 +291,7 @@
 		
 		
 		// 리스트 조회하는 함수
-		/*function outboxListFn(num) {
+		function outboxListFn(num) {
 			
 			$.ajax({
 				
@@ -310,7 +308,7 @@
                 	
                 	if(result.list.length == 0) {
                 		
-                		var $noListTh = $("<th colspan='6'>").text("임시 보관 중인 문서가 존재하지 않습니다.").addClass("noOutBoxList");
+                		var $noListTh = $("<th colspan='5'>").text("임시 보관 중인 문서가 존재하지 않습니다.").addClass("noOutBoxList");
                 		var $noListTr = $('<tr>').append($noListTh);
                 		
 						$tbody.append($noListTr);
@@ -319,24 +317,22 @@
 						
                 		$.each(result.list, function(i, obj) {
                 			
-                			var $tr = $('<tr>');
+                			var $tr = $('<tr>').addClass("yesOutboxList");
                 			var $docOutboxNo = $('<td>').text(obj.docOutboxNo);
-                			var $docForm = $('<td>').text(obj.docForm);
-                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
+                			var $docForm = $('<td>').text(obj.docForm).attr("title", obj.docForm);
                 			
                 			if(obj.docTitle != null) {
-                				var $docTitle = $('<td>').text(obj.docTitle);
+                				var $docTitle = $('<td>').text(obj.docTitle).attr("title", obj.docTitle);
                 			
                 			} else {
                 				var $docTitle = $('<td>').text(obj.docForm);
                 			}
                 			
-                			var $drafter = $('<td>').text(obj.drafter);
-                			var $lastUdpDate = $('<td>').text(obj.lastUpdateDate);
+                			var $drafter = $('<td>').text(obj.drafter).attr("title", obj.drafter);
+                			var $lastUdpDate = $('<td>').text(obj.lastUpdateDate).attr("title", obj.lastUpdateDate);
                 			
                 			$tr.append($docOutboxNo);
                 			$tr.append($docForm);
-                			$tr.append($docType);
                 			$tr.append($docTitle);
                 			$tr.append($drafter);
                 			$tr.append($lastUdpDate);
@@ -383,7 +379,7 @@
                 	}
                 }
 			});
-		}*/
+		}
 		
 		
 		// 문서 타입 리스트 조회해서 li에 넣는 함수
@@ -433,7 +429,7 @@
 			$(".docFormDefault").text(docForm);
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			outboxListFn(docForm, condition, search);
+			filterOutboxListFn(docForm, condition, search);
 			
 		});
 		
@@ -457,13 +453,13 @@
 			let search = $("#search").val();
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			outboxListFn(docForm, condition, search);
+			filterOutboxListFn(docForm, condition, search);
 			
 		});
 		
 		
 		// 필터 및 검색 내용에 따른 리스트 조회
-		function outboxListFn(docForm, condition, search, num) {
+		function filterOutboxListFn(docForm, condition, search, num) {
 			
 			console.log(docForm);
 			console.log(condition);
@@ -487,7 +483,7 @@
                 	
                 	if(result.list.length == 0) {
                 		
-                		var $noListTh = $("<th colspan='6'>").text("검색 조건에 해당하는 문서가 존재하지 않습니다.").addClass("noOutBoxList");
+                		var $noListTh = $("<th colspan='5'>").text("검색 조건에 해당하는 문서가 존재하지 않습니다.").addClass("noOutBoxList");
                 		var $noListTr = $('<tr>').append($noListTh);
                 		
 						$tbody.append($noListTr);
@@ -496,16 +492,16 @@
 						
                 		$.each(result.list, function(i, obj) {
                 			
-                			var $tr = $('<tr>');
+                			var $tr = $('<tr>').addClass("yesOutboxList");
                 			var $docOutboxNo = $('<td>').text(obj.docOutboxNo);
                 			var $docForm = $('<td>').text(obj.docForm).attr("title", obj.docForm);
                 			
                 			// 문서 번호 없는 경우 문서 유형으로 넣어주기
                 			if(obj.docTitle != null) {
-                				var $docTitle = $('<td>').text(obj.docTitle).addClass("docTitleOver").attr("title", obj.docTitle);
+                				var $docTitle = $('<td>').text(obj.docTitle).attr("title", obj.docTitle);
                 			
                 			} else {
-                				var $docTitle = $('<td>').text(obj.docForm).attr("title", obj.docForm);
+                				var $docTitle = $('<td>').text(obj.docForm);
                 			}
                 			
                 			var $drafter = $('<td>').text(obj.drafter).attr("title", obj.drafter);
@@ -530,7 +526,7 @@
                         bar += '<ul class="pagination">';
                         
                         if(currentPage != 1) {
-                        	bar += '<li class="page-item commonButton1" onclick="outboxListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
+                        	bar += '<li class="page-item commonButton1" onclick="filterOutboxListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
                         
                         } else {
                         	bar += '<li class="page-item disabled commonButton1"><</li>'
@@ -539,7 +535,7 @@
                         for(var i = startPage; i <= endPage; i++) {
                            
                         	if(i != currentPage) {
-                        	   bar += '<li class="page-num commonButton1" onclick="outboxListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
+                        	   bar += '<li class="page-num commonButton1" onclick="filterOutboxListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
                            
                            } else {
                         	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
@@ -547,7 +543,7 @@
                         }
                              
                        	if(currentPage != maxPage) {
-                            bar += '<li class="page-item commonButton1" onclick="outboxListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
+                            bar += '<li class="page-item commonButton1" onclick="filterOutboxListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
                         
                        	} else {
                         	bar += '<li class="page-item disabled commonButton1">></li>'
@@ -562,7 +558,7 @@
 		}
 		
 		// 게시글 클릭 시
-		$(".outBoxList_table tbody").on("click", "tr", function() {
+		$(".outBoxList_table tbody").on("click", ".yesOutboxList", function() {
 			
 			let outboxNo = $(this).find("td:eq(0)").text(); // 클릭한 문서의 문서 번호 가져와서 담기
 			console.log(outboxNo);

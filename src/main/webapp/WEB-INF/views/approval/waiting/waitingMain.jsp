@@ -31,6 +31,7 @@
 	.waitingList_table {
 		width: 97%;
 		margin: auto;
+		table-layout: fixed;
 	}
 	
 	.waitingList_table td {
@@ -38,6 +39,7 @@
 		padding: 15px;
 	}
 	
+	/* 말줄임표 CSS */
 	.waitingList_table .waitingList_tbody td {
        	white-space: nowrap;
        	text-overflow: ellipsis;
@@ -58,11 +60,6 @@
 		color: blue;
 	}
 	
-	.waitingList_tbody td {
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-	
 	.pagingArea {
 		width: fit-content;
 		padding-top: 35px;
@@ -80,6 +77,8 @@
 		border: none;
 		cursor: pointer;
 	}
+	
+	.docFormDefault { width: 200px !important; }
 	
 	.initialize_btn {
 		content: '';
@@ -102,9 +101,7 @@
 		padding: 7px 0;
 		font-size: 15px;
 	}
-	
-	.docFormDefault { width: 200px; }
-	
+		
 	.dropdown_content {
 		display: none;
 		border-radius: 4px;
@@ -142,7 +139,6 @@
 	
 	.docSearch_area {
 		display: flex;
-		/*border: 1px solid blue;*/
 		padding: 10px 0 15px 0;
 	}
 	
@@ -177,6 +173,7 @@
 		display: flex;
 		text-align: center;
 		padding-top: 35px;
+		justify-content: center;
 	}
 	
 	.pagingArea ul {
@@ -287,6 +284,8 @@
 		// 화면 로드 시 리스트 불러오기
 		$(document).ready(function() {
 			
+			$(".page_title>.title_name").text("결재 대기함");
+
 			// 로그인이 되어있지 않으면
 			if("${ loginUser.empNo }" == "") {
 				
@@ -303,7 +302,7 @@
 		
 		
 		// 리스트 조회
-		/*function waitingListFn(num) {
+		function waitingListFn(num) {
 			
 			$.ajax({
 				
@@ -331,23 +330,21 @@
                 			
                 			var $tr = $('<tr>').addClass("yesWaitingList");
                 			var $docNo = $('<td>').text(obj.docNo);
-                			var $docForm = $('<td>').text(obj.docForm);
-                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
+                			var $docForm = $('<td>').text(obj.docForm).attr("title", obj.docForm);
                 			
                 			if(obj.docTitle != null) {
-                				var $docTitle = $('<td>').text(obj.docTitle);
+                				var $docTitle = $('<td>').text(obj.docTitle).attr("title", obj.docTitle);
                 			
                 			} else {
                 				var $docTitle = $('<td>').text(obj.docForm);
                 			}
                 			
-                			var $drafter = $('<td>').text(obj.drafter);
-                			var $draftDate = $('<td>').text(obj.draftDate);
-                			var $proDate = $('<td>').text(obj.proDate);
+                			var $drafter = $('<td>').text(obj.drafter).attr("title", obj.drafter);
+                			var $draftDate = $('<td>').text(obj.draftDate).attr("title", obj.draftDate);
+                			var $proDate = $('<td>').text(obj.proDate).attr("title", obj.proDate);
                 			
                 			$tr.append($docNo);
                 			$tr.append($docForm);
-                			$tr.append($docType);
                 			$tr.append($docTitle);
                 			$tr.append($drafter);
                 			$tr.append($draftDate);
@@ -395,7 +392,7 @@
                 	}
                 }
 			});
-		}*/
+		}
 		
 		
 		// 문서 타입 리스트 조회해서 li에 넣는 함수
@@ -426,7 +423,7 @@
 		
 		// 초기화 버튼 클릭 시
 		$(document).on("click", ".initialize_btn", function() {
-			searchFilterFn();
+			waitingListFn();
 			$(".docFormDefault").text("문서 유형");
 			$(".conditionDefault").text("검색 조건");
 			$("#search").val("");
@@ -445,7 +442,7 @@
 			$(".docFormDefault").text(docForm);
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			waitingListFn(docForm, condition, search);
+			fitlerWaitingListFn(docForm, condition, search);
 			
 		});
 		
@@ -469,13 +466,13 @@
 			let search = $("#search").val();
 			
 			// 필터 및 검색어에 따른 리스트 조회
-			waitingListFn(docForm, condition, search);
+			fitlerWaitingListFn(docForm, condition, search);
 			
 		});
 		
 		
 		// 필터 및 검색 내용에 따른 리스트 조회
-		function waitingListFn(docForm, condition, search, num) {
+		function fitlerWaitingListFn(docForm, condition, search, num) {
 			
 			console.log(docForm);
 			console.log(condition);
@@ -500,7 +497,7 @@
                 	
                 	if(result.list.length == 0) {
                 		
-                		var $noListTh = $("<th colspan='6'>").text("결재 대기 중인 문서가 존재하지 않습니다.").addClass("noWaitingList");
+                		var $noListTh = $("<th colspan='6'>").text("검색 조건에 해당하는 문서가 존재하지 않습니다.").addClass("noWaitingList");
                 		var $noListTr = $('<tr>').append($noListTh);
                 		
 						$tbody.append($noListTr);
@@ -511,23 +508,21 @@
                 			
                 			var $tr = $('<tr>').addClass("yesWaitingList");
                 			var $docNo = $('<td>').text(obj.docNo);
-                			var $docForm = $('<td>').text(obj.docForm);
-                			var $docType = $('<input type="hidden" id="docType" name="docType" value='+obj.docType+'/>');
+                			var $docForm = $('<td>').text(obj.docForm).attr("title", obj.docForm);
                 			
                 			if(obj.docTitle != null) {
-                				var $docTitle = $('<td>').text(obj.docTitle);
+                				var $docTitle = $('<td>').text(obj.docTitle).attr("title", obj.docTitle);
                 			
                 			} else {
                 				var $docTitle = $('<td>').text(obj.docForm);
                 			}
                 			
-                			var $drafter = $('<td>').text(obj.drafter);
-                			var $draftDate = $('<td>').text(obj.draftDate);
-                			var $proDate = $('<td>').text(obj.proDate);
+                			var $drafter = $('<td>').text(obj.drafter).attr("title", obj.drafter);
+                			var $draftDate = $('<td>').text(obj.draftDate).attr("title", obj.draftDate);
+                			var $proDate = $('<td>').text(obj.proDate).attr("title", obj.proDate);
                 			
                 			$tr.append($docNo);
                 			$tr.append($docForm);
-                			$tr.append($docType);
                 			$tr.append($docTitle);
                 			$tr.append($drafter);
                 			$tr.append($draftDate);
@@ -546,7 +541,7 @@
                         bar += '<ul class="pagination">';
                         
                         if(currentPage != 1) {
-                        	bar += '<li class="page-item commonButton1" onclick="waitingListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
+                        	bar += '<li class="page-item commonButton1" onclick="fitlerWaitingListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage-1) + '`);"><</li>'
                         
                         } else {
                         	bar += '<li class="page-item disabled commonButton1"><</li>'
@@ -555,7 +550,7 @@
                         for(var i = startPage; i <= endPage; i++) {
                            
                         	if(i != currentPage) {
-                        	   bar += '<li class="page-num commonButton1" onclick="waitingListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
+                        	   bar += '<li class="page-num commonButton1" onclick="fitlerWaitingListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + i + '`);">'+ i +'</li>'
                            
                            } else {
                         	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
@@ -563,7 +558,7 @@
                         }
                              
                        	if(currentPage != maxPage) {
-                            bar += '<li class="page-item commonButton1" onclick="waitingListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
+                            bar += '<li class="page-item commonButton1" onclick="fitlerWaitingListFn(`' + docForm + '`,`' + condition + '`,`' + search + '`,`' + parseInt(currentPage+1) + '`);">></li>'
                         
                        	} else {
                         	bar += '<li class="page-item disabled commonButton1">></li>'

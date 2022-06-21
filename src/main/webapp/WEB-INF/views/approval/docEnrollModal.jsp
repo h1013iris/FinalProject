@@ -14,7 +14,6 @@
 	}
 	
 	.docEnroll_select_div {
-		/*border: 1px solid black;*/
 		margin-top: 25px;
 	}
 	
@@ -45,7 +44,6 @@
 	
 	.docEnrollFooter {
 		height: 50px;
-		/*border: 1px solid black;*/
 		margin-bottom: 6%;
 	}
 	
@@ -86,11 +84,8 @@
 				   		<label class="docEnroll_select_title">문서 타입</label>
 
 				        <div class="docEnrollDropdown">
-					        <select id="docType" name="docType" onchange="docFormChange(this)">
+					        <select id="docType" name="docType">
 					        	<option value="">== 선택 ==</option>
-					           	<option value="app">신청서</option>
-					           	<option value="draft">기안서</option>
-					           	<option value="coop">협조문</option>
 					        </select>
 				        </div>
 			        </div>
@@ -100,7 +95,9 @@
 			        <div class="docEnroll_select_div">
 				        <label class="docEnroll_select_title">문서 서식</label>
 				        <div class="docEnrollDropdown">
-					        <select id="docForm" name="docForm"></select>
+					        <select id="docForm" name="docForm">
+					        	<option value="">== 선택 ==</option>
+					        </select>
 					   	</div>
 			        </div>
 			        
@@ -109,7 +106,7 @@
 			        <div class="select_div docTitleArea">
 			        	<label class="docEnroll_select_title">문서 제목</label>
 			        	<div class="input_docTitle">
-			        		<input type="text" id="modalDocTitle" name="modalDocTitle" maxlength="100">
+			        		<input type="text" id="modalDocTitle" name="modalDocTitle" maxlength="40">
 			        	</div>
 			        </div>
 	            </div>
@@ -122,13 +119,80 @@
     </div>
     
     <script type="text/javascript">
+			
+		
+    	// 문서 유형 select 에 담기
+    	$(document).ready(function() {
+    		
+    		$.ajax({
+    			type: "get",
+    			url: "selectDocTypeList.do",
+    			success: function(list) {
+    				
+    				$.each(list, function(i) {
+    					// 이전 docType 과 이름 똑같으면 넘겨서 각 유형 한 번씩만 들어가도록
+    					if(i != 0 && list[i].docType == list[i-1].docType) {
+    						i++;
+    					} else {
+    						$("#docType").append("<option value='" + list[i].docType + "'>" 
+				 					+ list[i].docType + "</option>");
+    					}
+    				});
+    			}
+    		});
+    	});
+    
+    
+    
+		// 유형 선택 시 알맞은 서식 가져와서 option에 넣기
+		$(document).on("change", "#docType", function() {
+			
+			// 첫 번째 option 빼고 비워주기
+			$("#docForm").children('option:not(:first)').remove();
+			
+			$.ajax({
+    			type: "get",
+    			url: "selectDocTypeList.do",
+    			data: { docType : $(this).val() },
+    			success: function(list) {
+    				
+    				$.each(list, function(i) {
+    					$("#docForm").append("<option value='" + list[i].docTypeNo + "'>" 
+    		 					+ list[i].docForm + "</option>");
+    				});
+    			}
+    		});
+		});
+		
+		
+		
+	 	// 확인 버튼 클릭 시
+		$(".next_btn").click(function() {
+	    	// 문서 타입, 폼 유형 변수에 담아서
+			let type = $("#docType").val();
+	    	let form = $("#docForm").val();
+	    	
+	    	// 문서 타입, 폼 유형 없으면
+	    	if(type == "" || form == "") {
+	    		return false;
+	    	
+	    	// 잘 작성되어 있으면
+	    	} else {
+	    		$(".documentTypeForm").attr("action", "docEnrollForm.do");
+	    		$(".documentTypeForm").submit();
+	    	}
+	
+	    })
 
+	    
     	// 문서 타입이 바뀌었는데 신청서인 경우
-    	$("#docType").change(function() {
+    	$(document).on("change", "#docType", function() {
+    		
+    		$("#modalDocTitle").val("");	// 제목 비워주기
     		
     		let docType = $(this).val();
     		
-    		if(docType == 'app') {
+    		if(docType == '신청서') {
     			
     			$(".docTitleArea").hide();
     			$(".end_hr").hide();
@@ -143,7 +207,6 @@
 
 	</script>
 	
-	<script src="${ pageContext.servletContext.contextPath }/resources/js/approval/docEnrollModal.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/js/approval/docEnrollForm.js"></script>
 	
 		

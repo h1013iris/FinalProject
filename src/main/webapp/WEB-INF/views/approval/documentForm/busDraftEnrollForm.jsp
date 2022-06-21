@@ -165,14 +165,14 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;" colspan="3">
 								<span contenteditable="false"style="width: 100%;">
-									<input id="docTitle" name="docTitle" value="${ docTitle }" style="width: 99%;" type="text" maxlength="100">
+									<input id="docTitle" name="docTitle" value="${ docTitle }" style="width: 99%;" type="text" maxlength="40">
 								</span>
 							</td>
 						</tr>
 						<tr>
 							<td style="background: rgb(255, 255, 255); border-width: medium 1px 1px; border-style: none solid solid; border-color: currentColor black black; padding: 5px; height: 300px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;" colspan="4" class="dext_table_border_t">
 								<span contenteditable="false" style="width: 100%;">
-									<textarea class="txta_editor" id="dftContent" name="dftContent" style="width: 99%; height: 290px; resize: vertical;" maxlength="1000"></textarea>
+									<textarea class="docEnroll_textarea" id="dftContent" name="dftContent" style="width: 99%; height: 290px;" maxlength="950"></textarea>
 								</span>
 							</td>
 						</tr>
@@ -192,137 +192,133 @@
 		
 		// 화면 로드 시 가장 먼저 실행
 	 	$(document).ready(function() {
-	 		
-			// 로그인이 되어있지 않으면
-			if("${ loginUser.empNo }" == "") {
-				
-				loginFn(); // 로그인 먼저
-			
-			} else {
-		 		
-				// 기안일 오늘 날짜로 설정				
-				let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
-				$("#dftDate").val(today);
-				
-				// 날짜 선택 오늘부터 가능하도록 설정
-				document.getElementById("enfDate").min = today;
-				
-				// 로그인 유저 소속(부서명) 조회
-		 		$.ajax({
-		 			
-		 			type: "post",
-		            url: "selectDeptName.do",
-		            data: { deptNo : "${ loginUser.departmentNo }" },
-		            success: function (data) {
-						
-		            	if(data != null || data != "") {
-		            		
-		            		$("#drafterDeptName").val(data);
-		            	}
-		            }
-		 		})
-		 		
-		 		// 결재자 조회
- 	 			$.ajax({
- 	 				
- 	 				type: "post",
- 	 				url: "selectDocEnrollApprover.do",
- 	 				data: { empNo :  "${ loginUser.empNo }",
- 	 						departmentNo : "${ loginUser.departmentNo }",
- 	 						jobNo : "${ loginUser.jobNo }" },
- 	 				success: function(list) {
- 	 					console.log(list);
- 	                	if(list != null || list != "") {
- 	                		
- 	                		$.each(list, function(i) {
- 	                			$(".approverList").append("<option value='" + list[i].empNo + "'>" 
-                								  		+ list[i].empName + " / " + list[i].jobName + "</option>");
- 	                		});
- 	                	}
- 	 				}
- 	 				
- 	 			});
-		 		
-		 		// 부서 조회해서 select에 넣기
-		 		$.ajax({
-		 			
-		 			type: "post",
- 	                url: "selectDeptList.do",
- 	                data: { deptNo : "${ loginUser.departmentNo }" },
- 	                success: function (list) {
-						console.log(list);
- 	                	if(list != null || list != "") {
- 	                		
- 	                		$.each(list, function(i) {
- 	                			$("#coopDept").append("<option value='" + list[i].deptNo + "'>" 
- 	                								  + list[i].deptTitle + "</option>");
- 	                		});
- 	                	}
- 	                }
-		 		});
-			}
-			
+
+	 		selectDeptListFn("#coopDept");	// 부서 리스트 조회
+ 			
+ 			let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10);
+ 			document.getElementById("enfDate").min = today;
  		});
+		
+		
+	 	// 기안자 부서 가져오는 함수
+ 		function selectDeptFn() {
+ 			
+ 			// 소속 (로그인 유저의 부서 가져오기)
+	 		$.ajax({
+	 			
+	 			type: "post",
+                url: "selectDeptName.do",
+                data: { deptNo : "${ loginUser.departmentNo }" },
+                success: function (data) {
+                	if(data != null || data != "") {
+                		
+                		$("#drafterDeptName").val(data);
+                	}
+                }
+	 		});
+ 		}
+ 		
+ 		
+ 		// 부서 리스트 조회하는 함수
+ 		function selectDeptListFn() {
+ 			
+ 			// 부서 조회해서 select에 넣기
+	 		$.ajax({
+	 			
+	 			type: "post",
+	                url: "selectDeptList.do",
+	                data: { deptNo : "${ loginUser.departmentNo }" },
+	                success: function (list) {
+					console.log(list);
+	                	if(list != null || list != "") {
+	                		
+	                		$.each(list, function(i) {
+	                			$("#coopDept").append("<option value='" + list[i].deptNo + "'>" 
+	                								  + list[i].deptTitle + "</option>");
+	                		});
+	                	}
+	                }
+	 		});
+ 		}
+ 		
+ 		
+ 		// 결재자 조회하는 함수
+ 		function selectApproverFn() {
+ 			
+ 			// 결재자 조회
+ 			$.ajax({
+ 				
+ 				type: "post",
+ 				url: "selectDocEnrollApprover.do",
+ 				data: { empNo :  "${ loginUser.empNo }",
+ 						departmentNo : "${ loginUser.departmentNo }",
+ 						jobNo : "${ loginUser.jobNo }" },
+ 				success: function(list) {
+ 					console.log(list);
+                	if(list != null || list != "") {
+                		
+                		$.each(list, function(i) {
+                			$(".approverList").append("<option value='" + list[i].empNo + "'>" 
+           								  		+ list[i].empName + " / " + list[i].jobName + "</option>");
+                		});
+                	}
+ 				}
+ 				
+ 			});
+ 		}
  		
  		
  		// 시행일자 수정 시
  		$("#enfDate").change(function() {
  			
  			$("#formErrorMsg").empty(); // 날짜 바뀌면 text 비워주기
-
- 			// 주말 선택할 수 없도록
-	    	let enfDat = new Date($("#enfDate").val()).getDay();
-	        
-			if(enfDat == 0 || enfDat == 6) {
-	            console.log("주말");
+ 			
+ 			let enfDateDay = new Date($("#enfDate").val()).getDay();
+	        	
+			// 주말 선택할 수 없도록
+			if(enfDateDay == 0 || enfDateDay == 6) {
 				$("#formErrorMsg").text("주말은 선택할 수 없습니다.");
 				$("#enfDate").val("");
-	        }
-			
- 		})
+			}
+ 		});
  		
  		
  		// 결재 요청 버튼 클릭 시
 		$(".submit_btn").click(function() {
 			
 			let firstAprv = $("#firstAprv").val();
+			let secondAprv = $("#secondAprv").val();
 			let enfDate = $("#enfDate").val();
-			let coopDept = $("#coopDept").val();
+			//let coopDept = $("#coopDept").val();
 			let dftContent = $("#dftContent").val();
 			
-			if(firstAprv == null || firstAprv == "") {
-
-				let focus="#firstAprv";
-				
-				myAlert("문서 작성 확인", "결재자를 선택해주세요.");
-				focusFn(focus);
- 				
- 			} else if(enfDate == null || enfDate == "") {
-				
-				let title = "문서 작성 확인";
-				let content = "시행일을 선택해주세요.";
-				let focus="#enfDate";
-				
-				myAlert(title, content);
-				focusFn(focus);
+			let title = "문서 작성 확인";
 			
-			} else if(coopDept == null || coopDept == "") {
+			if((firstAprv == null || firstAprv == "") 
+					&& (secondAprv != null || secondAprv != "")) {
+		
+				myAlert("문서 작성 확인", "1차 결재자를 선택해주세요.");
+				focusFn("#firstAprv");
+		
+			} else if(firstAprv == null || firstAprv == "") {
+			
+				myAlert("문서 작성 확인", "최소 한 명의 결재자를 선택해주세요.");
+				focusFn("#firstAprv");
 				
-				let title = "문서 작성 확인";
-				let content = "협조 부서를 선택해주세요.";
-				let focus="#coopDept";
-				
-				myAlert(title, content);
-				focusFn(focus);
+			} else if(enfDate == null || enfDate == "") {
+
+				myAlert(title, "시행일을 선택해주세요.");
+				focusFn("#enfDate");
+			
+			} /*else if(coopDept == null || coopDept == "") {
+
+				myAlert(title, "협조 부서를 선택해주세요.");
+				focusFn("#coopDept");
  				
-			} else if(dftContent == null || dftContent == "") {
-				
-				let title = "문서 작성 확인";
-				let content = "기안서 내용을 작성해주세요.";
-				let focus="#dftContent";
-				
-				myAlert(title, content);
-				focusFn(focus);
+			}*/ else if(dftContent == null || dftContent == "") {
+
+				myAlert(title, "기안서 내용을 작성해주세요.");
+				focusFn("#dftContent");
 			
  			// 잘 작성되었으면 폼 제출
 			} else {

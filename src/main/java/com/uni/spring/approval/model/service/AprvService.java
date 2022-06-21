@@ -128,7 +128,7 @@ public interface AprvService {
 
 	void aprvReRequest(int docType, int outboxNo, LeaveForm leaveForm, CmtUpdateForm cmtUpdateForm, BusDraftForm busDraftForm, BusCoopForm busCoopForm, AprvHistory aprvHistory, AprvDoc aprvDoc);
 
-	ArrayList<DocType> selectDocTypeList();
+	ArrayList<DocType> selectDocTypeList(String docType);
 	
 	int searchAllDocListCount(AprvDoc aprvDoc);
 
@@ -137,6 +137,16 @@ public interface AprvService {
 	ArrayList<Member> selectDocEnrollApprover(Member loginUser);
 
 	AprvDoc selectCancleDocApprover(int docNo);
+
+	int selectApproverJob(int empNo);
+
+	ArrayList<AprvDoc> noPagingStatusList(AprvDoc aprvDoc);
+
+	ArrayList<AprvDoc> noPagingWaitingList(AprvDoc aprvDoc);
+
+	ArrayList<AprvDoc> noPagingRequestList(AprvDoc aprvDoc);
+
+	ArrayList<AprvDoc> noPagingCompleteList(AprvDoc aprvDoc);
 
 	
 	
