@@ -305,6 +305,14 @@ public String bname(SqlSessionTemplate sqlSession, int boardno) {
 	
 }
 
+public ArrayList<Board> selectsearchanony(SqlSessionTemplate sqlSession, PageInfo pi, Board b) {
+	int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+
+    RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+    return (ArrayList) sqlSession.selectList("boardMapper.selectsearchanony", b, rowBounds);
+}
+
 
 }
 

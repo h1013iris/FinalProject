@@ -100,7 +100,7 @@ padding-top : 50px;
 						<c:choose>
 							<c:when test="${ pi.currentPage ne 1 }">
 								<a class="page-link"
-									href="pbox.do?currentPage=${ pi.currentPage-1 }"><button
+									href="pbox.do?userno=${loginUser.empNo}"&currentPage=${ pi.currentPage-1 }"><button
 										class="pboxButton1"><</button></a>
 							</c:when>
 							<c:otherwise>
@@ -113,12 +113,12 @@ padding-top : 50px;
 						<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 							<c:choose>
 								<c:when test="${ pi.currentPage ne p }">
-									<a class="page-link" href="pbox.do?currentPage=${ p }"
+									<a class="page-link" href="pbox.do?userno=${loginUser.empNo}"&currentPage=${ p }"
 										style="color: white"><button class="pboxButton1">${ p }</button></a>
 								</c:when>
 								<c:otherwise>
-									<a class="page-link" href="" style="color: white"><button
-											class="pboxButton1">${ p }</button></a>
+									<a class="page-link" href=""><button
+											class="pboxButton1" style="color: darkgray">${ p }</button></a>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -127,12 +127,12 @@ padding-top : 50px;
 						<c:choose>
 							<c:when test="${ pi.currentPage ne pi.maxPage }">
 								<a class="page-link"
-									href="pbox.do?currentPage=${ pi.currentPage+1 }"><button
+									href="pbox.do?userno=${loginUser.empNo}"&currentPage=${ pi.currentPage+1 }"><button
 										class="pboxButton1">></button></a>
 							</c:when>
 							<c:otherwise>
 								<a class="page-link"
-									href="pbox.do?currentPage=${ pi.currentPage+1 }"><button
+									href="pbox.do?userno=${loginUser.empNo}"&currentPage=${ pi.currentPage+1 }"><button
 										class="pboxButton1">></button></a>
 							</c:otherwise>
 						</c:choose>

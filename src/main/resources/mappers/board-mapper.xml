@@ -88,7 +88,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectsearchboardCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM BOARD N
-		JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
 		WHERE N.STATUS='Y'
 		AND BOARD_NO = #{boardno}
 		<if test="deptno != 0">
@@ -105,12 +104,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="selectsearchboard" resultMap="boardResultset">
 		SELECT N.*,
-		D.DEPARTMENT_TITLE
+		D.DEPARTMENT_TITLE,
+		U.EMP_NAME
 		FROM BOARD N
 		JOIN USER_INFO U ON(N.EMP_NO=U.EMP_NO)
 		JOIN DEPARTMENT_MANAGEMENT D ON (N.DEPARTMENT_NO=D.DEPARTMENT_NO)
-		WHERE
-		N.STATUS='Y'
+		WHERE N.STATUS='Y'
 		AND BOARD_NO = #{boardno}
 		<if test="deptno != 0">
 			AND N.DEPARTMENT_NO LIKE '%' ||#{deptno}||'%'
@@ -127,6 +126,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	</select>
+	<select id="selectsearchanony" resultMap="boardResultset">
+	SELECT *
+		FROM BOARD 	
+		WHERE STATUS='Y'
+		AND BOARD_NO = #{boardno}
+		<if test="deptno != 0">
+			AND DEPARTMENT_NO LIKE '%' ||#{deptno}||'%'
+		</if>
+		<if test="title != null">
+			AND TITLE LIKE '%' ||#{title}||'%'
+		</if>
+		<if test="content != null">
+			AND CONTENT LIKE '%' ||#{content}||'%'
+		</if>
+
+		ORDER BY WRITE_NO DESC
+	</select>
+	
+	
 	<select id="selectoldList" resultMap="boardResultset">
 
 
@@ -533,7 +551,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertanonycoment" parameterType="coment">
 		INSERT INTO COMMENTS
-		VALUES(SEQ_COMEN.NEXTVAL, null, #{ccontent}, #{cwriteno}, SYSDATE, DEFAULT,#{boardno},#{anonypassword},#{conmentnickname})
+		VALUES(SEQ_COMEN.NEXTVAL, null, #{ccontent}, #{cwriteno}, SYSDATE, DEFAULT,#{boardno},#{conmentnickname},#{anonypassword})
 
 
 

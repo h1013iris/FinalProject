@@ -41,7 +41,12 @@ public class BoardSeriveImpl implements BoardService {
 	@Override
 	public ArrayList<Board> selectsearchboard(PageInfo pi, Board b) {
         
+		if(b.getBoardno() == 4) {
+			return BoardDao.selectsearchanony(sqlSession,pi ,b);
+		}else {
+		
 		return BoardDao.selectsearchboard(sqlSession,pi ,b);
+		}
 	}
 
 	@Override
@@ -353,6 +358,9 @@ int result = BoardDao.deletepbox(sqlSession, pno);
 		
 		return BoardDao.bname(sqlSession,boardno);
 	}
+
+
+
 		
 	
 

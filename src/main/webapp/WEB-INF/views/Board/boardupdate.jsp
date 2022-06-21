@@ -41,10 +41,6 @@
 	width: 618px;
 }
 
-.commonButton1 {
-	width: 85px;
-	height: 50px;
-}
 
 .main_section {	
 	justify-content: center;
@@ -100,7 +96,7 @@
 				 <input type="hidden" name="writeno" value="${ b.writeno }">
 				 <input type="hidden" name="boardno" value="${ b.boardno }">
 				 
-					<h2>글 수정</h2>
+					
 				</div>
 
 				
@@ -108,7 +104,7 @@
 				<!-- 제목 부분 -->
 				<div class="enrollTitleSection">
 					<div class="mainStyleCh">
-						<span class="titleNamePart mainStyleCh">제목</span>
+					<span style="color:red">*</span><span class="titleNamePart mainStyleCh">제목</span>
 					</div>
 					<input type="text" name="title" id="title" class="inputTitlePart"
 						value = "${ b.title}" required>
@@ -139,14 +135,14 @@
 				<!-- 내용 부분 -->
 				<div class="enrollContentSection">
 						<div id="description" class="contentPart mainStyleCh">
-							<span class="contentEn">내용</span>
+							<span style="color:red">*</span><span class="contentEn">내용</span>
 						</div>
 						<jsp:include page="note.jsp"/>
 					</div>
 					
 					<div align="right" class="buttonSection">
 					<button type="submit" class="commonButton1">등록하기</button>
-					<button type="reset" class="commonButton1">취소하기</button>
+					<button type="button" class="commonButton1" onclick="boarddetailupdatecancle();">취소하기</button>
 				</div>
 					
 				</div>
@@ -156,7 +152,9 @@
 	</div>
 
 	<script>
-
+      function boarddetailupdatecancle(){
+    	  window.history.back();
+      }
 	  ( function() {
          
          var thisfile = document.getElementById("input_fileupload")

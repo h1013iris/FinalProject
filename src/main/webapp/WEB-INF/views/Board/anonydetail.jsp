@@ -27,6 +27,7 @@
 	margin-left: 17%;
 	width: 60%;
 	height: 60%;
+	overflow: auto;
 }
 
 .mainDivEnroll {
@@ -34,33 +35,18 @@
 	
 }
 
-.commonButton1 {
-	padding: 0;
-	font-weight: 600;
-	text-align: center;
-	line-height: 50px;
-	color: #FFF;
-	border-radius: 5px;
-	transition: all 0.2s;
-	background: #85cdff;
-	border: #85cdff;
-	box-shadow: 0px 5px 0px 0px #4c87b099;
-}
 
-.commonButton1:hover {
-	position: relative;
-	top: 5px;
-	bottom: 5px;
-	box-shadow: 0px 0px 0px 0px #4c87b099;
-}
 
 .replyAREAboard{
          width: 60%;  
 		margin-top: 10px;
-		overflow-y: scroll;
+		overflow: auto;
 		height: 30vh;
 		margin-left : 17%;
 	}
+.replyAREAboard::-webkit-scrollbar{
+  display:none;
+}
 
 #concontents {
 	margin-left: 17%;
@@ -100,7 +86,7 @@
 	#anonychangedbytton{
 	margin-left:68%;
 	}
-	#anonyboarddetailpassword{
+	#anonyboardpasnic{
 	margin-left:68%;
 	}
 	.anonyupandsel{
@@ -123,7 +109,7 @@
      ox-shadow: 0px 0px 0px 0px #4c87b099;
      }
      .delanony{
-      background: #ff0025;
+      background: #949494;
      }
 </style>
 <body>
@@ -179,11 +165,13 @@
 				
 			</div>
 		    <br>
-			<form id="postForm" action="" method="post">	
-			    <input id="anonyboarddetailpassword" type="password" name="anop" maxlength="4" style="width:137px" placeholder="비밀번호를 입력하세요">			
+			<form id="postForm" action="" method="post">
+			 <div id="anonyboardpasnic">	
+			   <span style="color:red">*</span><input id="anonyboarddetailpassword" type="password" name="anop" maxlength="4" style="width:137px" placeholder="비밀번호를 입력하세요">			
                 <input type="hidden" name="bno" value="${ b.writeno }">
                 <input type="hidden" name="boardno" value="${ b.boardno }">
                 <input class="realanopass" type="hidden" value="${ b.password }">
+                </div>
 			</form>
 			<script>
 			
@@ -229,10 +217,10 @@
 				<button class="commonButton1" id="addcom">등록하기</button>
 			</c:if>
 		   <br>		
-		   <span>닉네임</span>
+		   <span style="color:red">*</span><span>닉네임</span>
 		   <input type="text" name=conmentnickname id="conmentnickname" required>
-		   <span>비밀번호</span>
-		   <input type="password" name=anonypassword id="anonypassword" value="" maxlength="4" placeholder="댓글 비밀번호를 입력하세요" required >
+		   <span style="color:red">*</span><span>비밀번호</span>
+		   <input type="password" name=anonypassword id="anonypassword" maxlength="4" placeholder="댓글 비밀번호를 입력하세요" required >
 		</div>
 
 		<div class="replyAREAboard">

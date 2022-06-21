@@ -93,7 +93,8 @@
 .dropdown {
 	position: relative;
 	display: inline-block;
-	margin-left: 83%;
+	 margin-left: 59%;
+	 padding : 10px;
 	height: 110px;
 }
 
@@ -203,13 +204,13 @@ padding-top : 50px;
      transition: border-color 0.3s, background-color 0.3s;
      height:40px;
      
+     
  }
  .enrollanonygo:focus{
      outline: none;
  }
- .enrollanonygo::after{
-     content: attr(data-text);
-     position: absolute;
+ .enrollanonygo::after{    
+    
      width: 100%;
      height: 100%;
      top: 0;
@@ -299,11 +300,12 @@ padding-top : 50px;
 				<br>
 				<div id="pagingArea">
 					<ul class="pagination">
+					 <c:if test="${pi.currentPage ne 1}">
 						<c:choose>
 							<c:when test="${ pi.currentPage ne 1 }">
 								<a class="page-link"
-									href="anonymous.do?currentPage=${ pi.currentPage-1 }"><button
-										class="noticeButton2"><</button></a>
+									href="free.do?currentPage=${ pi.currentPage-1 }"><button
+										class="noticeButton2" style="color: white"><</button></a>
 							</c:when>
 							<c:otherwise>
 								<a class="page-link" href=""></a>
@@ -311,33 +313,35 @@ padding-top : 50px;
 								</a>
 							</c:otherwise>
 						</c:choose>
-
+					 </c:if>
+                    
 						<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 							<c:choose>
 								<c:when test="${ pi.currentPage ne p }">
-									<a class="page-link" href="anonymous.do?currentPage=${ p }"
-										style="color: white"><button class="noticeButton2">${ p }</button></a>
+									<a class="page-link" href="free.do?currentPage=${ p }"
+										><button class="noticeButton2" style="color: white">${ p }</button></a>
 								</c:when>
 								<c:otherwise>
-									<a class="page-link" href="" style="color: white"><button
-											class="noticeButton2">${ p }</button></a>
+									<a class="page-link" href="" style="color: blue"><button
+											class="noticeButton2" style="color: darkgray">${ p }</button></a>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-
-
+                     
+                       <c:if test="${pi.endPage ne pi.maxPage}">
 						<c:choose>
 							<c:when test="${ pi.currentPage ne pi.maxPage }">
 								<a class="page-link"
-									href="anonymous.do?currentPage=${ pi.currentPage+1 }"><button
-										class="noticeButton2">></button></a>
+									href="free.do?currentPage=${ pi.currentPage+1 }"><button
+										class="noticeButton2" style="color: white">></button></a>
 							</c:when>
 							<c:otherwise>
 								<a class="page-link"
-									href="anonymous.do?currentPage=${ pi.currentPage+1 }"><button
-										class="noticeButton2">></button></a>
+									href="free.do?currentPage=${ pi.currentPage+1 }"><button
+										class="noticeButton2" style="color: white" >></button></a>
 							</c:otherwise>
 						</c:choose>
+					   </c:if>	 
 					</ul>
 				</div>
 				<br> <br>
@@ -350,13 +354,18 @@ padding-top : 50px;
 							</select> 
 							<input class="searchconditionanony" type="search" name="search" value="${ search }">
 							<input type="hidden" name="cfbo" value=4>
+							
 							<button type="submit" class="goingsearchanony">검색하기</button>
 						</form>
+						
+					
+					</div>
 						 <div class="gogoanonymou">
                    <a href="erollanonymous.do"><button type="button" class="enrollanonygo">익명글쓰기</button></a>
                    </div>
-					</div>
-                  
+                  	</div>
+				
+			</div>
 					<script>
 			$(function(){
 				switch('${condition}'){				
@@ -376,9 +385,7 @@ padding-top : 50px;
 		</script>
 
 
-				</div>
-				
-			</div>
+			
 
 
 			<script>

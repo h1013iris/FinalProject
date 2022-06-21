@@ -18,6 +18,7 @@
 .middleEnrollForm {
 	display: flex;
 	justify-content: center;
+	padding : 10px;
 }
 
 .enrollReplyStatusSection {
@@ -69,7 +70,7 @@
 }
 
 #bo {
-	margin-left: 87%;
+	margin-left: 80%;
 }
 #input_fileupload{
      
@@ -111,9 +112,7 @@
 		<div class="middleEnrollForm">
 
 			<form id="enrollFormAnnoDepart" action="insertenroll.do" method="post" enctype="multipart/form-data">
-				<div class="annoDepartEnrollHeader">
-					<h2>글 작성</h2>
-				</div>
+				
 
 				<select name="bo" id="bo">
 				<c:forEach items="${ bonum }" var="b">
@@ -123,8 +122,8 @@
 
 				<!-- 제목 부분 -->
 				<div class="enrollTitleSection">
-					<div class="mainStyleCh">
-						<span class="titleNamePart mainStyleCh">제목</span>
+					<div class="mainStyleCh" style="text-align:left;">
+						<span style="color:red">*</span><span class="titleNamePart mainStyleCh">제목</span>
 					</div>
 					<input type="text" name="title" id="title" class="inputTitlePart"
 						palaceholder="제목을 입력해주세요" value ="${b.title}" required>
@@ -132,7 +131,7 @@
 				<!-- 작성자 부분 session에서 값 받아오기 ${loginUser.empName} -->
 				
 				<div class="enrollWriterSection">
-					<div class="mainStyleCh">
+					<div class="mainStyleCh" style="text-align:left;">
 						<span class="writerPart">작성자</span>
 					</div>
 					
@@ -161,8 +160,8 @@
 				  	
 					<!-- 내용 부분 -->
 					<div class="enrollContentSection">
-						<div id="description" class="contentPart mainStyleCh">
-							<span class="contentEn">내용</span>
+						<div id="description" class="contentPart mainStyleCh" style="text-align:left;">
+					<span style="color:red">*</span><span class="contentEn">내용</span>
 						</div>
 						<jsp:include page="note.jsp"/>
 					</div>
@@ -226,8 +225,8 @@
 
            // 드래그한 파일이 최초로 진입했을 때
            dropZone.addEventListener("dragenter", function(e) {
-               e.stopPropagation()
-               e.preventDefault()
+               e.stopPropagation()//이벤트가 상위 엘리먼트에 전달되지 않게 막아 준다
+               e.preventDefault()// 고유 동작을 중단시킴
 
                toggleClass("dragenter")
 
@@ -235,8 +234,8 @@
 
            // 드래그한 파일이 dropZone 영역을 벗어났을 때
            dropZone.addEventListener("dragleave", function(e) {
-               e.stopPropagation()
-               e.preventDefault()
+               e.stopPropagation()//이벤트가 상위 엘리먼트에 전달되지 않게 막아 준다
+               e.preventDefault()// 고유 동작을 중단시킴
 
                toggleClass("dragleave")
                $(this).css("background-color", "white");
@@ -245,8 +244,8 @@
 
            // 드래그한 파일이 dropZone 영역에 머물러 있을 때
            dropZone.addEventListener("dragover", function(e) {
-               e.stopPropagation()
-               e.preventDefault()
+               e.stopPropagation() //이벤트가 상위 엘리먼트에 전달되지 않게 막아 준다
+               e.preventDefault()// 고유 동작을 중단시킴
 
                toggleClass("dragover")
                $(this).css("background-color", "#85cdff");

@@ -92,8 +92,9 @@
 .dropdown {
 	position: relative;
 	display: inline-block;
-	margin-left: 83%;
 	height: 110px;
+	margin-left: 59%;
+	 padding : 10px;
 }
 
 .dropdown1 {
@@ -195,7 +196,7 @@ padding-top : 50px;
 			<div class="ham">
 
 				<a href="notice.do"><button class="noticeButton1" id="bu1">공지사항</button></a>
-				<a href="allboard.do"><button class="noticeButton1" id="bu2">자유게시판</button></a>
+				<a href="free.do"><button class="noticeButton1" id="bu2">자유게시판</button></a>
 				<a href="depart.do"><button class="noticeButton1" id="bu3">부서게시판</button></a>
 				<a href="anonymous.do"><button class="noticeButton1" id="bu4">익명게시판</button></a>
 
@@ -247,12 +248,13 @@ padding-top : 50px;
 				</div>
 				<br>
 				<div id="pagingArea">
-					<ul class="pagination">
+						<ul class="pagination">
+					 <c:if test="${pi.currentPage ne 1}">
 						<c:choose>
 							<c:when test="${ pi.currentPage ne 1 }">
 								<a class="page-link"
-									href="allboard.do?currentPage=${ pi.currentPage-1 }"><button
-										class="noticeButton2"><</button></a>
+									href="allboard.do?boardno=${boardno} &currentPage=${ pi.currentPage-1 }"><button
+										class="noticeButton2" style="color: white"><</button></a>
 							</c:when>
 							<c:otherwise>
 								<a class="page-link" href=""></a>
@@ -260,33 +262,35 @@ padding-top : 50px;
 								</a>
 							</c:otherwise>
 						</c:choose>
-
+					 </c:if>
+                    
 						<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 							<c:choose>
 								<c:when test="${ pi.currentPage ne p }">
-									<a class="page-link" href="allboard.do?currentPage=${ p }"
-										style="color: white"><button class="noticeButton2">${ p }</button></a>
+									<a class="page-link" href="?boardno=${boardno} &currentPage=${ p }"
+										><button class="noticeButton2" style="color: white">${ p }</button></a>
 								</c:when>
 								<c:otherwise>
-									<a class="page-link" href="" style="color: white"><button
-											class="noticeButton2">${ p }</button></a>
+									<a class="page-link" href="" ><button
+											class="noticeButton2" style="color: darkgray">${ p }</button></a>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-
-
+                     
+                       <c:if test="${pi.endPage ne pi.maxPage}">
 						<c:choose>
 							<c:when test="${ pi.currentPage ne pi.maxPage }">
 								<a class="page-link"
-									href="allboard.do?currentPage=${ pi.currentPage+1 }"><button
-										class="noticeButton2">></button></a>
+									href="allboard.do?boardno=${boardno} &currentPage=${ pi.currentPage+1 }"><button
+										class="noticeButton2" style="color: white">></button></a>
 							</c:when>
 							<c:otherwise>
 								<a class="page-link"
-									href="allboard.do?currentPage=${ pi.currentPage+1 }"><button
-										class="noticeButton2">></button></a>
+									href="allboard.do?boardno=${boardno} &currentPage=${ pi.currentPage+1 }"><button
+										class="noticeButton2" style="color: white" >></button></a>
 							</c:otherwise>
 						</c:choose>
+					   </c:if>	 
 					</ul>
 				</div>
 				<br> <br>
@@ -299,6 +303,7 @@ padding-top : 50px;
 							</select> 
 							<input class="searchconditionnoti" type="search" name="search" value="${ search }">
 							<input type="hidden" name="cfbo" value="${ boardno}">
+							<input type="hidden" name="empno" value="${loginUser.empNo}">
 							<button type="submit" class="goingsearchnoti">검색하기</button>
 						</form>
 					</div>

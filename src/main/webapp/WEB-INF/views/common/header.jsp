@@ -223,9 +223,10 @@
                 <ul class ="deptboard">
                     <li class="list_title"><a href="depart.do">부서 게시판</a></li>
                 </ul>
+                <div class="allbaordlistheader">
                 
-                       
-               
+                </div>
+             
                 <ul>
                                      
                     <li class="list_title"><a href="pbox.do?userno=${loginUser.empNo}">임시 보관함</a></li>
@@ -366,7 +367,7 @@
 						      
 						     
 					});
-					$(".deptboard").append(value);
+					$(".allbaordlistheader").append(value);
 				
 				
 			},
