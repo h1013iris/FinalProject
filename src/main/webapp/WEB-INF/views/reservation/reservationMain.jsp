@@ -86,7 +86,7 @@
 	    font-size: 20px;
 	    margin: 0 auto;
 	    width: 99.7%;
-	    height: 16%;
+	    height: 12%;
 	    line-height: 40px;
 	}
 	.res-columm1{
@@ -115,7 +115,7 @@
 	}
 	.reservation-today ul{
 	    overflow-y: scroll;
-	    height: 63%;		
+	    height: 71%;		
 	}
 	.reservation-today ul::-webkit-scrollbar{
 	    display: none;
@@ -159,6 +159,9 @@
 	}
 	.colscolor {
 	    background: aliceblue;
+	}
+	td[class^='time'] {
+	    width: 1%;
 	}
 </style>
 </head>
@@ -294,7 +297,9 @@
 	        				<tr class="reservationRoom-line">
 	        					<td class="name${st.index} resRoomName colscolor">${room.smallRoomName}</td>
        							<c:forEach items="${timeInfo}" var="time" varStatus="status1">
-     								<td class="time${room.roomSmallNo}${time.key}"></td>
+     								<td class="time${room.roomSmallNo}${time.key}">
+     									<input type="hidden" class="resNo"/>
+     								</td>
 	        					</c:forEach>
 	        				</tr>
         				</c:forEach>
@@ -335,6 +340,11 @@
 	 	// 전체 회의실 페이지 이름
 		$(function(){
 	         $(".page_title>.title_name").text("전체 회의실 예약 현황 페이지");
+		})
+	 	
+		$(document).on('click',"[class^='time']", function(){
+			let resNo = $(this).find('input').val()
+			detailresGo(resNo);
 		})
 	 	
     	// 특정 클래스 선택 시 상세조회 모달보이기 res_tdtimes
@@ -587,6 +597,9 @@
 					}
 					// 합쳐질 셀대상을 변수로 담기
 					cols = $('.time'+roomNo+classNo2)
+					
+					let resNoval = cols.find('.resNo')//.val(resNo);
+					console.log(resNoval)
 					
 					console.log(cols)
 					// 땅따먹기 + 색칠

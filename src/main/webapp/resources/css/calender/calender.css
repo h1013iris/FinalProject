@@ -177,25 +177,25 @@ form#calendarFrm {
     display: flex;
     height: 100%;
     margin: auto;
-    margin-top: 5%;
+    margin-top: 7%;
 }
 .calendar { 
 	/*border: 1px solid black;*/
 	width: 65vw;
 }
 .todaySchedule{
-    height: 40%;
+    height: 34%;
 }
 .monthSchedule{
 	height: 60%;
 }
 .monthSchedule ul{
     overflow-y: scroll;
-  		height: 95%;
+  		height: 47%;
 }
 .todaySchedule ul{
     overflow-y: scroll;
-    height: 75%;
+    height: 82%;
 }
 .monthSchedule ul::-webkit-scrollbar, .todaySchedule ul::-webkit-scrollbar{
     display: none;

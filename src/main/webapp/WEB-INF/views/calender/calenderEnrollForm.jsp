@@ -17,7 +17,7 @@
 					<div class="cal-left">
 						<div class="big-section">
 							<div class="iput">
-								<div class="inputTitle1">일정 제목</div>
+								<div class="inputTitle1">일정 제목<span class="redstar">*</span></div>
 								<div class="inputSection">
 									<input type="text" class="textline" name="title" placeholder="일정 제목을 입력해주세요." maxlength="49">
 								</div>
@@ -25,7 +25,7 @@
 						</div>
 						<div class="datesection">
 							<div class="iput">
-								<div class="inputTitle2">일시</div>
+								<div class="inputTitle2">일시<span class="redstar">*</span></div>
 								<div class="inputSection">
 									<input type="date" class="margin-right2 startday" id="startdate" name="startDate">
 									<input type="time" class="margin-right2 startTime" id="startTime" name="startTime">
@@ -40,7 +40,7 @@
 						</div>
 						<div class="big-section">
 							<div class="iput">
-								<div class="inputTitle2">구분</div>
+								<div class="inputTitle2">구분<span class="redstar">*</span></div>
 								<div class="inputSection">
 									<label class="margin-right3" for="work"><input type="radio" value="1" name="sectionOption" id="work" checked> 근무</label>
 									<label class="margin-right3" for="working-outside"><input type="radio" value="2" name="sectionOption" id="working-outside"> 외근</label>
@@ -52,7 +52,7 @@
 						</div>
 						<div class="big-section">
 							<div class="iput">
-								<div class="inputTitle1">공개 여부</div>
+								<div class="inputTitle1">공개 여부<span class="redstar">*</span></div>
 								<div class="inputSection">
 									<label class="margin-right3" for="personal"><input type="radio" value="개인공개" name="openOption" id="personal" checked> 개인 공개</label>
 									<label class="margin-right3" for="team"><input type="radio" value="팀공개" name="openOption" id="team"> 팀 공개</label>
@@ -74,7 +74,7 @@
 						</div>
 						<div class="big-section">
 							<div class="iput">
-								<div class="inputTitle2">알림</div>
+								<div class="inputTitle2">알림<span class="redstar">*</span></div>
 								<div class="inputSection">
 									<select name="alarm">
 										<option value="0">안함</option>
@@ -95,7 +95,7 @@
 						</div>
 						<div class="big-section">
 							<div class="iput">
-								<div class="inputTitle2 colorinfo">범주</div>
+								<div class="inputTitle2 colorinfo">범주<span class="redstar">*</span></div>
 								<div class="colorsection">
 									<div class="selectcolor-div">
 										<input type="hidden" name="selectColor" value="1">

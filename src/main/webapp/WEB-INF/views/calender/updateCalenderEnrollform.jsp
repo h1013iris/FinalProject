@@ -22,7 +22,7 @@
 								<input type="hidden" name="editStartDate" value="${ calender.startDate }">
 								<input type="hidden" name="editEndDate" value="${ calender.endDate }">
 								<input type="hidden" name="editWriterNo" value="${ calender.writerNo }">
-								<div class="inputTitle1">일정 제목</div>
+								<div class="inputTitle1">일정 제목<span class="redstar">*</span></div>
 								<div class="inputSection">
 									<input type="text" class="textline" name="title" placeholder="일정 제목을 입력해주세요." value="${ calender.title }" maxlength="50">
 								</div>
@@ -30,7 +30,7 @@
 						</div>
 						<div class="datesection">
 							<div class="iput">
-								<div class="inputTitle2">일시</div>
+								<div class="inputTitle2">일시<span class="redstar">*</span></div>
 								<div class="inputSection">
 									<input type="date" class="margin-right2 startday" id="startdate" name="startDate" value="${ fn:substring(calender.startDate, 0, 10) }">
 									<input type="time" class="margin-right2 startTime" id="startTime" name="startTime" value="${ fn:substring(calender.startDate, 11, 16) }">
@@ -45,7 +45,7 @@
 						</div>
 						<div class="big-section">
 							<div class="iput">
-								<div class="inputTitle2">구분</div>
+								<div class="inputTitle2">구분<span class="redstar">*</span></div>
 								<div class="inputSection">
 									<c:choose>
 										<c:when test="${ calender.sectionOption eq '근무' }">
@@ -89,7 +89,7 @@
 						</div>
 						<div class="big-section">
 							<div class="iput">
-								<div class="inputTitle1">공개 여부</div>
+								<div class="inputTitle1">공개 여부<span class="redstar">*</span></div>
 								<div class="inputSection">
 									<c:if test="${ calender.openOption eq '개인공개' }">
 										<label class="margin-right3" for="personal"><input type="radio" value="개인공개" name="openOption" id="personal" checked> 개인 공개</label>
@@ -124,7 +124,7 @@
 						</div>
 						<div class="big-section">
 							<div class="iput">
-								<div class="inputTitle2">알림</div>
+								<div class="inputTitle2">알림<span class="redstar">*</span></div>
 								<div class="inputSection">
 									<select name="alarm">
 										<c:if test="${ calender.alarm eq '0' }">
@@ -165,7 +165,7 @@
 						</div>
 						<div class="big-section">
 							<div class="iput">
-								<div class="inputTitle2 colorinfo">범주</div>
+								<div class="inputTitle2 colorinfo">범주<span class="redstar">*</span></div>
 								<div class="colorsection">
 									<div class="selectcolor-div">
 										<input type="hidden" name="selectColor" value="${calender.selectColor }">

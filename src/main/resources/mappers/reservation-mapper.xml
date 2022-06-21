@@ -70,8 +70,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			A.STATUS = 'Y'
 			<if test="empNo != null">
 				AND A.EMP_NO = #{empNo}
-			</if>
-			<if test="searchYear != null">
 				<![CDATA[AND (
 					EXTRACT(YEAR FROM A.START_DATE) >= #{searchYear}
 					AND EXTRACT(MONTH FROM A.START_DATE) >= #{searchMonth}
@@ -80,6 +78,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					AND EXTRACT(MONTH FROM A.END_DATE) <= #{searchMonth}
 					AND EXTRACT(DAY FROM A.END_DATE) <= #{searchDate}
 					)]]>
+			</if>
+			<if test="empNo == null">
+				AND (
+					EXTRACT(YEAR FROM A.START_DATE) = #{searchYear}
+					AND EXTRACT(MONTH FROM A.START_DATE) = #{searchMonth}
+					AND EXTRACT(DAY FROM A.START_DATE) = #{searchDate}
+					OR EXTRACT(YEAR FROM A.END_DATE) = #{searchYear}
+					AND EXTRACT(MONTH FROM A.END_DATE) = #{searchMonth}
+					AND EXTRACT(DAY FROM A.END_DATE) = #{searchDate}
+					)
 			</if>
 			<if test="roomSmallNo != null">
 				AND A.ROOM_SMALL_NO = #{roomSmallNo}

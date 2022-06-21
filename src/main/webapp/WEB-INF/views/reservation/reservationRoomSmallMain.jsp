@@ -354,8 +354,7 @@
         	<ul>
         		<c:forEach var="today" items="${myList}">
         			<c:if test="${fn:length(myList) > 0}">
-			        	<li class="today-line res_tdtimes">
-			        		<input type="hidden" value="${today.reserveNo}"/>
+			        	<li class="today-line res_tdtimes" onclick="detailresGo(${today.reserveNo}); notuse(event);">
 			   				<div class="res-todayList res-thisLine1">${today.smallRoomName}</div>
 			    			<div class="res-todayList res-thisLine2">${today.meetingName}</div>
 			     			<div class="res-todayList res-thisLine3">${fn:substring(today.startDate, 5, 7)}월 ${fn:substring(today.startDate, 8, 10)}일 ${fn:substring(today.startDate, 11, 16)} ~ ${fn:substring(today.endDate, 5, 7)}월 ${fn:substring(today.endDate, 8, 10)}일 ${fn:substring(today.endDate, 11, 16)}</div>
@@ -384,12 +383,12 @@
 	         $(".page_title>.title_name").text("${roomList[0].smallRoomName} 예약 현황");
 		})
 	 	
-    	// 특정 클래스 선택 시 상세조회 모달보이기 res_tdtimes
-    	$(document).on('click','.res_tdtimes', function(){
+		// 특정 클래스 선택 시 상세조회 모달보이기 res_tdtimes
+    	function detailresGo(resNo){
     		console.log("상세 모달로")
-    		let resNo = $(this).children('input').val();
     		console.log(resNo)
     		
+    		//event.stopPropagation()
     		$.ajax({
     			url:"selectOneReservation.do",
     			data:{
@@ -399,25 +398,23 @@
     			success:function(obj){
     				console.log("상세모달 성공")
     				
-    				let reserNo = obj.reserveNo;					// 예약번호
-    				let empNo = obj.empNo;							// 사원번호
+    				let reserNo = obj.reserveNo;					// 예약번호 (업데이트시 끌고가야함)
+    				let empNo = obj.empNo;							// 사원번호 (업데이트시 끌고가야함)
     				let roomSmallNo = obj.roomSmallNo;				// 회의실 번호
-    				let startDate = new Date(obj.startDate);		// 시작일
-    				let startTime = obj.startDate.substring(11,16);	// 시작 시간
-    				let endDate = new Date(obj.endDate);			// 종료일
-    				let endTime = obj.endDate.substring(11,16);		// 종료시간
-    				let meetingName = obj.meetingName;				// 회의명
-    				let smallRoomName = obj.smallRoomName;					// 회의실 명
-
-    				$('.reserveNo').val(reserNo);
-    				$('.empNo').val(empNo);
+    				let startDate = new Date(obj.startDate);		// 시작일 (업데이트시 끌고 가야함)
+    				let startTime = obj.startDate.substring(11,16);	// 시작 시간 (업데이트시 끌고가야함)
+    				let endDate = new Date(obj.endDate);			// 종료일 (업데이트시 끌고가야함)
+    				let endTime = obj.endDate.substring(11,16);		// 종료시간 (업데이트시 끌고가야함)
+    				let meetingName = obj.meetingName;				// 회의명 (업데이트시 끌고가야함)
+    				let smallRoomName = obj.smallRoomName;			// 회의실 명
+					
+    				// update를 위한 히든값
+    				$('.resDetailModal_body .reserveNo').val(reserNo);
+    				$('.resDetailModal_body .empNo').val(empNo);
+    				
     				$(".resDetail_time").text(startDate.getFullYear()+"년 "+startDate.getMonth()+"월 "+startDate.getDate()+"일 "+startTime+" ~ "+endDate.getFullYear()+"년 "+endDate.getMonth()+"월 "+endDate.getDate()+"일 "+endTime);
     				$('.resDetail_place').text(smallRoomName)
     				$('.resDetailModal_title').text(meetingName)
-    				$('.resDetailModal_body.startDate').val(obj.startDate.substring(0,10))
-    				$('.resDetailModal_body.startTime').val(startTime)
-    				$('.resDetailModal_body.endDate').val(obj.endDate.substring(0,10))
-    				$('.resDetailModal_body.endTime').val(endTime)
     				
     				selectOneAttendee(reserNo);
     				
@@ -426,7 +423,11 @@
     				console.log("상세모달 실패")
     			}
     		})
-    	})
+    	}
+
+		function notuse(event){
+			event.stopPropagation()
+		}
     	
     	function selectOneAttendee(reserNo) {
     		$.ajax({

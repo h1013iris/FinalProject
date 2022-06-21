@@ -224,8 +224,8 @@
 					
 					$("#res-alertBackground").hide();
 					$(".reservationEnrollFormModal").show();
-					return false;
 				})
+				return false;
 			}
 			
 			if(!$(".resname-padding").hasClass(name)){
