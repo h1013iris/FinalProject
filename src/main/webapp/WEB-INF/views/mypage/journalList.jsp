@@ -17,17 +17,6 @@
                 ~
                 <input type="date" class="search_input" id="search_input_to">
             </div>
-            <div id="sort_container">
-                <span id="sort_desc" class="sort_btn">
-                    <input type="hidden" value="1">
-                    최신순
-                </span>
-                /
-                <span id="sort_sec" class="sort_btn">
-                    <input type="hidden" value="2">
-                    오래된순
-                </span>
-            </div>
             <div id="list_container">
             	<c:forEach items="${ list }" var="a">
 	                <div class="journal_list_box">
@@ -45,5 +34,22 @@
         </div> 
     </div>
     <script src="${ pageContext.servletContext.contextPath }/resources/js/mypage/mypage.js"></script>
+    <script>
+        $(function(){
+            $(".page_title .title_name").text("업무일지관리")
+            var timeOff = new Date().getTimezoneOffset()*60000;
+            var now_utc = Date.now()
+            let sysdate = new Date(now_utc-timeOff).toISOString().split("T")[0];
+
+            $("#search_input_from").prop("max",sysdate);
+
+            $("#search_input_from").change(function(){
+                var date = $(this).val();
+                $("#search_input_to").prop("min",date)
+            })
+        })
+
+
+    </script>
 </body>
 </html>

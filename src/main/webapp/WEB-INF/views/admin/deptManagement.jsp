@@ -16,7 +16,7 @@
 	            <div id="organization_chart_title_box"><span>조직도</span></div>
 	            <div id="dept_insert_box">
 	                <span>부서추가</span>
-	                <input id="insert_dept_input" type="text" placeholder="추가할 부서명 입력">
+	                <input id="insert_dept_input" type="text" placeholder="추가할 부서명 입력" maxlength="10" oninput="this.value = this.value.replace(/[0-9.^!@#$%^&*_+{}|;'?><,.(\..*)\.]+$/g ,'');">
 	            </div>
 	            <div id="dept_list_box">
 	                <p id="company_name">LATTE</p>
@@ -37,7 +37,7 @@
 	            <div id="dept_controll_nav">
 	                <span id="dept_info_nav">부서정보</span>
 	                <span id="dept_member_nav">부서원 목록</span>
-					<button type="button" id="deleteDept">부서삭제</button>
+					<button type="button" id="deleteDept" class="commonButton1 dept_delete_btn">부서삭제</button>
 	            </div>
 	            <div id="dept_info_box">
 	                <div>
@@ -69,10 +69,15 @@
 	<div id="example">
 		<div class="member_lists">
 			<input type="hidden" class="thisEmpNo">
-			<span class="dept_profile_img_box">이미지<img src="" alt=""></span>
+			<span class="dept_profile_img_box"><img src="${ pageContext.servletContext.contextPath }/resources/images/관리자 프로필.png" alt=""></span>
 			<span class="dept_member_name">OOO</span>
 		</div>
 	</div>
     <script src="${ pageContext.servletContext.contextPath }/resources/js/admin/admin.js"></script>
+	<script>
+        $(function(){
+            $(".page_title .title_name").text("부서관리")
+        })
+    </script>
 </body>
 </html>

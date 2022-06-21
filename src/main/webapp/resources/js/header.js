@@ -130,7 +130,7 @@ function myAlert(msgTitle,msg){
 
 
 
-// 로그인 되어있지 않으면 로그인 먼저 하도록 모달 띄우고 화면 전환
+//로그인 되어있지 않으면 로그인 먼저 하도록 모달 띄우고 화면 전환
 function loginFn() {
 
 	$("#alert_container .title_name").text("로그인 확인");
@@ -173,7 +173,7 @@ $("#work_request_btn").click(function(){
     $(".work_request_modal").css("display","flex");
 })
 
-$("#search_emp").click(function(){
+$("#request_search_emp").click(function(){
 
     $.ajax({
         type:"post",
@@ -245,6 +245,27 @@ $(".work_request_insert_btn").click(function(){
         EStatus = "N";
     }
 
+
+    if(title == ''){
+        myAlert("업무요청","제목을 입력해주세요");
+        return false;
+    }
+
+    if(content == ''){
+        myAlert("업무요청","내용을 입력해주세요");
+        return false;
+    }
+
+    if(empNoArr == ''){
+        myAlert("업무요청","요청할 사원을 선택해주세요");
+        return false;
+    }
+
+    if(fromDate == '' || toDate == ''){
+        myAlert("업무요청","요청기한을 입력해주세요");
+        return false;
+    }
+    
     var ar = {
         title : title,
         content : content,

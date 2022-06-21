@@ -29,8 +29,8 @@
                 </div>
             </div>
             <div class="modal_footer">
-                <button id="todolist_insert_btn" class="next_btn" type="button">저장</button>
-                <button class="cancel_btn" type="button">취소</button>
+                <button id="todolist_insert_btn" class="next_btn commonButton1" type="button">저장</button>
+                <button class="cancel_btn commonButton1" type="button">취소</button>
             </div>
         </div>
     </div>

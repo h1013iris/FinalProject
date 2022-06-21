@@ -115,7 +115,7 @@ a{
    }
    
    #main_nav img{
-       width: 3vw !important;
+       width: 3vw;
        padding-left: 21%;
        padding-top: 20%;
    }
@@ -330,6 +330,12 @@ a{
  
  #work_request_btn{
      height: 50px;
+ }
+
+ .favorites_select_btn{
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
  }
 
 

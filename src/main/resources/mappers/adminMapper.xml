@@ -295,4 +295,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from DEPARTMENT_MANAGEMENT
 		where DEPARTMENT_NO = #{deptNo}
 	</delete>
+	
+	<select id="selectEmpUp" resultMap="EmpResult">
+		select *
+		from user_info
+		where emp_no = #{empNo}
+	</select>
+	
+	<update id="updateEmployee" parameterType="emp">
+		update user_info
+		set
+		EMP_NAME = #{empName},
+		USER_NO = #{cityNo},
+		EMAIL = #{email},
+		PHONE = #{phone},
+		ADDRESS = #{address},
+		JOB_NO = #{jobNo},
+		DEPARTMENT_NO = #{deptNo}
+		where emp_no = #{empNo}
+	</update>
 </mapper>

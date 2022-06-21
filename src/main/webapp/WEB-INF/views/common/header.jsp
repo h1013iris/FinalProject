@@ -19,8 +19,8 @@
 	<jsp:include page="../reservation/resAlert.jsp"/>
 	<jsp:include page="../manage/calculateModal.jsp"/>
 	<jsp:include page="../reservation/reservationEorollformModal.jsp"/>
-	<jsp:include page="../mypage/workRequestModal.jsp"/>
 	<jsp:include page="../mypage/empSearchModal.jsp"/>
+	<jsp:include page="../mypage/workRequestModal.jsp"/>
 	<jsp:include page="../depart/InfoDepN.jsp"/>
 	<jsp:include page="../reservation/reservationDetailModal.jsp"></jsp:include>
 	
@@ -32,7 +32,7 @@
 	            </div>
 	            <div class="favorites">
 	                <select name="favorite" id="favorites_select"></select>
-	                <button id="page_go_btn" type="submit">이동</button>
+	                <button id="page_go_btn" type="submit" class="commonButton1 favorites_select_btn">이동</button>
 	            </div>
 	        </div>
 	        
@@ -76,7 +76,7 @@
 	<aside id="main_nav">
 	    <ul>
 	        <li>
-	            <a class="mypage" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/개인페이지.png" alt=""></a>
+	            <a class="mypage" href="ToDoListPage"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/개인페이지.png" alt=""></a>
 	            <div class="detail_nav_content">
 					<div class="nananan"><p class="detail_title">마이페이지</p></div>
 					<button id="journal_btn" class="commonButton2 etcButton" type="button">업무일지작성</button>
@@ -294,43 +294,45 @@
 	            </div>
 	        </li>
 	        </c:if>
-	        <li>
-	            <a class="adminpage" href="#"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/관리자페이지.png" alt=""></a>
-	            <div class="detail_nav_content">
-	                <div class="nananan"><p class="detail_title">관리자 페이지</p></div>
-	                <ul> 
-	                    <li class="list_title">조직 관리</li>
-	                    <div class="hhh">
-		                    <li><a href="empManagement">사원 관리</a></li>
-		                    <li><a href="deptManagement">부서 관리</a></li>
-	                    </div>
-	                </ul>
-	                <ul>
-	                    <li class="list_title">게시판 관리</li>
-	                    <div class="hhh">
-	                    	<li><a href="boardManagement">게시판 관리</a></li>
-	                    </div>
-	                </ul>
-	                <ul>
-	                    <li class="list_title">회의실 관리</li>
-						<div class="hhh">
-	                    	<li><a href="meetingRoom">회의실 관리</a></li>
-	                    </div>
-	                </ul>
-	                <ul>
-	                    <li class="list_title">전재결재 관리</li>
-	                    <div class="hhh">
-		                    <li><a href="securityMain.do">문서 보안 관리</a></li>
-	                   	</div>
-	                </ul>
-	                <ul>
-	                    <li class="list_title">기타</li>
-	                    <div class="hhh">
-		                    <li><a href="banWordsPage">금지어 설정</a></li>
-	                    </div>
-	                </ul>
-	            </div>
-	        </li>
+			<c:if test="${ loginUser.empName eq '관리자' }">
+				<li>
+					<a class="adminpage" href="empManagement"><img src="${ pageContext.servletContext.contextPath }/resources/images/icons/관리자페이지.png" alt=""></a>
+					<div class="detail_nav_content">
+						<div class="nananan"><p class="detail_title">관리자 페이지</p></div>
+						<ul> 
+							<li class="list_title">조직 관리</li>
+							<div class="hhh">
+								<li><a href="empManagement">사원 관리</a></li>
+								<li><a href="deptManagement">부서 관리</a></li>
+							</div>
+						</ul>
+						<ul>
+							<li class="list_title">게시판 관리</li>
+							<div class="hhh">
+								<li><a href="boardManagement">게시판 관리</a></li>
+							</div>
+						</ul>
+						<ul>
+							<li class="list_title">회의실 관리</li>
+							<div class="hhh">
+								<li><a href="meetingRoom">회의실 관리</a></li>
+							</div>
+						</ul>
+						<ul>
+							<li class="list_title">전재결재 관리</li>
+							<div class="hhh">
+								<li><a href="securityMain.do">문서 보안 관리</a></li>
+							</div>
+						</ul>
+						<ul>
+							<li class="list_title">기타</li>
+							<div class="hhh">
+								<li><a href="banWordsPage">금지어 설정</a></li>
+							</div>
+						</ul>
+					</div>
+				</li>
+			</c:if>
 	    </ul>
 	</aside>
 	

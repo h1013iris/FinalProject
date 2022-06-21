@@ -182,5 +182,15 @@ public class adminDao {
 		return sqlSession.delete("adminMapper.deleteDept", Integer.parseInt(deptNo));
 	}
 
+	public employee selectEmpUp(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("adminMapper.selectEmpUp",empNo);
+	}
+
+	public int updateEmployee(SqlSessionTemplate sqlSession, employee emp) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("adminMapper.updateEmployee",emp);
+	}
+
 
 }

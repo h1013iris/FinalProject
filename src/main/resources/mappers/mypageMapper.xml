@@ -110,6 +110,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select *
 		from todolist
 		where EMP_NO = #{empNo}
+		order by WORK_TIME
 	</select>
 	
 	<insert id="insertTodolist" parameterType="todolist">

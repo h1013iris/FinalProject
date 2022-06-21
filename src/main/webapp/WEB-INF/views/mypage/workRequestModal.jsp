@@ -36,9 +36,10 @@
     }
 
 
-    #search_emp{
+    #request_search_emp{
         margin-top: 20px;
         margin-left: 50px;
+        position: relative;
     }
 
     #work_request_emp_box #emp_list{
@@ -112,6 +113,15 @@
         margin-left: 30px;
     }
 	
+    .work_request_modal .commonButton1{
+        width: 100px;
+        height: 40px;
+    }
+
+    .work_request_modal .commonButton2{
+        width: 100px;
+        height: 40px;
+    }
 </style>
 </head>
 <body>
@@ -127,15 +137,15 @@
                 <form action="">
                     <div id="work_request_title_box">
                         <p class="small_title">제목</p>
-                        <input name="title" type="text" id="work_request_title">
+                        <input name="title" type="text" id="work_request_title" maxlength="20">
                     </div>
                     <div id="work_request_content_box">
                         <p class="small_title">요청내용</p>
-                        <textarea id="content" cols="30" rows="10"></textarea>
+                        <textarea id="content" cols="30" rows="10" maxlength="1000"></textarea>
                     </div>
                     <div id="work_request_emp_box">
                         <p class="small_title">요청할 사원 선택</p>
-                        <button type="button" id="search_emp">찾기</button>
+                        <button type="button" id="request_search_emp" class="commonButton2">찾기</button>
                         <div id="emp_list">
                             <ul></ul>
                         </div>
@@ -148,11 +158,6 @@
                             <input type="date" id="to_date_input" class="date_input" name="toDate">
                         </div>
                     </div>
-                    <div id="attc_box">
-                        <p class="small_title">첨부파일</p>
-                        <input type="file" id="work_request_file_input">
-                        <!-- 첨부파일 버튼 -->
-                    </div>
                     <div id="work_request_check_box">
                         <input type="checkbox" name="EStatus" id="EStatus_check_box">
                         <label for="EStatus_check_box">긴급</label>
@@ -160,8 +165,8 @@
                 </form>
             </div>
             <div class="modal_footer">
-                <button class="next_btn work_request_insert_btn" type="button">다음</button>
-                <button class="cancel_btn" type="button">취소</button>
+                <button class="next_btn work_request_insert_btn commonButton1" type="button">다음</button>
+                <button id="request_cancel_btn" class="cancel_btn commonButton1" type="button">취소</button>
             </div>
         </div>
     </div>
@@ -172,5 +177,27 @@
             <span class="request delete_emp"></span>
         </li>
     </div>
+    <script>
+        $(function(){
+
+            var timeOff = new Date().getTimezoneOffset()*60000;
+            var now_utc = Date.now()
+            let sysdate = new Date(now_utc-timeOff).toISOString().split("T")[0];
+
+            $("#from_date_input").prop("min",sysdate);
+
+            $("#from_date_input").change(function(){
+                var date = $(this).val();
+                $("#to_date_input").prop("min",date)
+            })
+
+            $("#request_cancel_btn").click(function(){
+                $("#work_request_title").val("");
+                $(".work_request_modal #content").val("");
+                $(".work_request_modal").hide();
+            })
+
+        })
+    </script>
 </body>
 </html>

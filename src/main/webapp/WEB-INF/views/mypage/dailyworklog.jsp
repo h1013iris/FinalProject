@@ -40,5 +40,10 @@
         </form>
     </div>
     <script src="${ pageContext.servletContext.contextPath }/resources/js/mypage/mypage.js"></script>
+    <script>
+        $(function(){
+            $(".page_title .title_name").text("업무일지작성")
+        })
+    </script>
 </body>
 </html>

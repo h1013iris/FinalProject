@@ -179,15 +179,13 @@ $("#todolist_insert_btn").click(function(){
             time : time,
             content : content
         },
-        success:function(msg){
-            $(".insertToDoListModal").hide();
-            $("#date").val("");
-            $("#time").val("");
-            $("#content").val("");
-            myAlert("ToDoList",msg,function(){
+        success:function(){
+            // $(".insertToDoListModal").hide();
+            // $("#date").val("");
+            // $("#time").val("");
+            // $("#content").val("");
+            location.reload();
 
-                location.reload();
-            })
         }
     })
 })

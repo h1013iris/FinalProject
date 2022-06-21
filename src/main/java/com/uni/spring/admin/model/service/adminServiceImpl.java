@@ -274,5 +274,20 @@ public class adminServiceImpl implements adminService {
 		if(result <= 0)throw new CommException("부서 삭제 실패");
 	}
 
+	@Override
+	public employee selectEmpUp(String empNo) {
+		// TODO Auto-generated method stub
+		return admindao.selectEmpUp(sqlSession, Integer.parseInt(empNo));
+	}
+
+	@Override
+	public employee updateEmployee(employee emp) {
+		// TODO Auto-generated method stub
+		int result = admindao.updateEmployee(sqlSession, emp);
+		
+		if(result <= 0)throw new CommException("책임자 수정 실패");
+		return admindao.selectEmp(sqlSession, String.valueOf(emp.getEmpNo()));
+	}
+
 
 }

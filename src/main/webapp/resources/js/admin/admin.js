@@ -38,8 +38,14 @@ $(".boardMAnage .delete_btn").click(function(){
 
 $(".boardMAnage .insert_btn").click(function(){
     if(!$(".board_management_article").children().is($("input"))){
-        $(".board_management_article").append("<input id=addBoardInput type=text>");
+        $(".board_management_article").append("<input id=addBoardInput type=text>")
     }
+
+    $("#addBoardInput").focus();
+})
+
+$(document).on("focusout","#addBoardInput",function(){
+    $(this).remove();
 })
 
 $(function(){
@@ -150,6 +156,12 @@ $(".banW .insert_btn").click(function(){
     if(!$(".banwords_management_article").children().is($("input"))){
         $(".banwords_management_article").append("<input id=addBanWordsInput type=text>");
     }
+
+    $("#addBanWordsInput").focus();
+})
+
+$(document).on("focusout","#addBanWordsInput",function(){
+    $(this).remove();
 })
 
 $(function(){
