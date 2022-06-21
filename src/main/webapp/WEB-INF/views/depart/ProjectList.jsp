@@ -177,6 +177,10 @@
         </div>
     </div> 
     <script type="text/javascript">
+	  	//페이지 이름 
+		$(function(){
+	    	 $(".page_title>.title_name").text("프로젝트 관리 페이지");
+	 	})
 		$(function(){
     		selectProjectList();
     		selectFavList();

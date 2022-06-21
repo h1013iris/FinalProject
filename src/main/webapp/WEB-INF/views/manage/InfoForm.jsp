@@ -117,13 +117,13 @@
                 <div class="logo">
                     <img src="${ pageContext.servletContext.contextPath }/resources/images/facebook_cover_photo_1.png" alt="">
                 </div>
-                <span class="modal_title">경력증명서</span>
+                <span class="modal_title">재직 증명서</span>
             </div >
             <div class="modal_body sectionFormList">
                 <div id="main_InfoForm_section" style="height: 770px;">
 		            <div id="inFrom_box" style="width: 700px; height: 780px; border: 1px solid black;background-color: white;">
 		                <div id="under_info_part" style="width: 600px;height: 715px; margin-top: 27px !important;margin: 0 auto;">
-			                <div style="border: 1px solid; width: 60%;height: 35px; line-height: 35px;text-align: center;font-size: 26px;margin: 0 auto;"><span>경력 증명서</span></div>
+			                <div style="border: 1px solid; width: 60%;height: 35px; line-height: 35px;text-align: center;font-size: 26px;margin: 0 auto;"><span>재직 증명서</span></div>
 			               	<div style="height: 92%;margin-top: 20px;border: 1px solid;">
 				               	<div class="div_info_part">
 				               		<div class="firstDiv_info" >성명</div>

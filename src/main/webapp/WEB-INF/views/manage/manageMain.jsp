@@ -722,11 +722,20 @@
 			var ordq = $(".searchFilterL1").text();
 			if(ord != 0){
 				if(ordq =='검색'){
-					//myAlert("선택", "검색을 선택해주세요");
+					myAlert("선택", "검색을 선택해주세요");
+					return false;
 				}else if(ordq == '이름'){
 					searchli = $(".defualtone").val();
+					if(searchli == ''){
+						myAlert("입력", "이름을 입력해주세요");
+						return false;
+					}
 				}else if(ordq == '사원번호'){
 					searchli = $(".defualttwo").val();
+					if(searchli == ''){
+						myAlert("입력", "사번을 입력해주세요");
+						return false;
+					}
 				}
 			}
 			if(deptNo == 0){
@@ -770,10 +779,10 @@
 							$(".defualttwo").val('');
 						})
 					}
-					$(".divPartSerTdiv23").text(deptTitle);
-					$(".deptTitleNo1").val(deptNo);
+					$(".divPartSerTdiv23").text('전체');
+					$(".deptTitleNo1").val('0');
 					$(".departTitleListone").hide();	
-			
+					$(".searchFilterL1").text('검색');
 				}
 			})
 			}else if(num ==2){
@@ -781,11 +790,20 @@
 				var ordq = $(".searchFilterL2").text();
 				if(ord != 0){
 					if(ordq =='검색'){
-						//myAlert("선택", "검색을 선택해주세요");
+						myAlert("선택", "검색을 선택해주세요");
+						return false;
 					}else if(ordq == '이름'){
 						searchli = $(".defualtthree").val();
+						if(searchli == ''){
+							myAlert("입력", "이름을 입력해주세요");
+							return false;
+						}
 					}else if(ordq == '사원번호'){
-						searchli = $(".defualtfour").val();
+						searchli = $(".defualttwo").val();
+						if(searchli == ''){
+							myAlert("입력", "사번을 입력해주세요");
+							return false;
+						}
 					}
 				}
 				if(deptNo == 0){
@@ -827,9 +845,10 @@
 								$(".defualtfour").val('');
 							})	
 						}
-						$(".divPartSerTdiv24").text(deptTitle);
-						$(".deptTitleNo2").val(deptNo);
+						$(".divPartSerTdiv24").text('전체');
+						$(".deptTitleNo2").val('0');
 						$(".departTitleListtwo").hide();
+						$(".searchFilterL2").text('검색');
 					}
 				})
 			

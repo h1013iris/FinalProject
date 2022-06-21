@@ -11,33 +11,33 @@
         width: 400px;
         margin-top: 40px;
     }
-    #businessCard_box{
+    #businessCard_box_depart{
         position: relative;
         width: 600px;
         height: 300px;
         border: 1px solid black;
     }
 
-    #main_businessCard_section{
+    #main_businessCard_section_div{
         width: 600px;
         margin-left: 55px;
         background-color: white;
     }
-    #information_container{
+    #information_container_depart{
         width: 270px;
         height: 230px;
         bottom: 10px;
     }
-    #info_form{
+    #info_form_depart{
         margin-left: 60px;
     }
 
-    #info_form p {
+    #info_form_depart p {
         margin-top: 16px;
         margin-bottom: 16px;
     }
 
-    #info_form p:nth-child(2n){
+    #info_form_depart p:nth-child(2n){
         margin-left: 30px;
     }
     .down_button, .back_out_button, .back_out_button_FI{
@@ -62,7 +62,7 @@
 	}
 	.modalInfoList{
 		margin-top: 10px;
-		height: 310px;
+    	height: 322px !important;
 	}
 	.modalSectionCH img{
 		height: 13vh;
@@ -87,17 +87,17 @@
                 <span class="modal_title">전자명함</span>
             </div >
             <div class="modal_body">
-                <div id="main_businessCard_section">
-		            <div id="businessCard_box" style="width: 600px; height: 300px; border: 1px solid black;background-color: white;">
+                <div id="main_businessCard_section_div">
+		            <div id="businessCard_box_depart" style="width: 600px; height: 300px; border: 1px solid black;background-color: white;">
 		                <img id="card_img" src="../../../resources/images/facebook_cover_photo_1.png" alt="" style="width: 400px; margin-top: 40px">
-		                <div id="information_container" style="width: 270px;height: 230px;position: absolute;right: 0;bottom: 10px;">
-		                    <div id="info_form" style="margin-left: 60px;">
+		                <div id="information_container_depart" style="width: 270px;height: 230px;position: absolute;right: 0;bottom: 10px;">
+		                    <div id="info_form_depart" style="margin-left: 60px;">
 		                        <p>Name</p>
-		                        <p id="emp_name_modal"  class="emp_name_modal" style="margin-left: 30px;"></p>
+		                        <p id="emp_name_modal_depart"  class="emp_name_modal_depart" style="margin-left: 30px;"></p>
 		                        <p>Tel</p>
-		                        <p id="emp_phone_modal"  class="emp_phone_modal" style="margin-left: 30px;"></p>
+		                        <p id="emp_phone_modal_depart"  class="emp_phone_modal_depart" style="margin-left: 30px;"></p>
 		                        <p>Email</p>
-		                        <p id="emp_email_modal" class="emp_email_modal" style="margin-left: 30px;"></p>
+		                        <p id="emp_email_modal_depart" class="emp_email_modal_depart" style="margin-left: 30px;"></p>
 		                    </div>
 		                </div>
 		            </div>
@@ -131,7 +131,7 @@
   	<script type="text/javascript">
   		$(function(){
      		 $(".down_button").click(function() { 
-        	  html2canvas($("#businessCard_box"), {
+        	  html2canvas($("#businessCard_box_depart"), {
               onrendered: function(canvas) {
                   canvas.toBlob(function(blob) {
                       saveAs(blob, 'image.png');
@@ -150,10 +150,10 @@
     		console.log(empName)
     		console.log(phone)
     		console.log(email)
-    		console.log($("#emp_name_modal"))
-    		$(".emp_name_modal").text(empName);
-    		$(".emp_phone_modal").text(phone);
-    		$(".emp_email_modal").text(email);
+    		console.log($("#emp_name_modal_depart"))
+    		$(".emp_name_modal_depart").text(empName);
+    		$(".emp_phone_modal_depart").text(phone);
+    		$(".emp_email_modal_depart").text(email);
     		$(".showModalInfoDepart").css("display","flex");
     		$(".showListDeptP").css("display","none");
     	}

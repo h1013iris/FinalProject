@@ -277,18 +277,14 @@
 	                    <li class="list_title">관리</li>
 	                    <div class="hhh">
 		                    <li><a href="selectListDepartInfo.do?deptNo=${loginUser.departmentNo}">근태 관리</a></li>
-		                    <li><a href="#">휴가 관리</a></li>
+		                    <li><a href="selectListVacationInfo.do?depNo=${loginUser.departmentNo}">휴가 관리</a></li>
 		                    <li><a href="selectDepartInfo.do?deptNo=${loginUser.departmentNo}&deptTitle=">인사 정보</a></li>
-		                    <li><a href="#">증명서 관리</a></li>
 	                    </div>
 	                </ul>
 	                <ul>
 	                    <li class="list_title">급여</li>
 	                    <div class="hhh">
 		                    <li><a href="#" class="calculate4ALl">4대 보험 계산기</a></li>
-		                    <li><a href="#">급여 명세서 관리</a></li>
-		                    <li><a href="#">지출 관리</a></li>
-		                    <li><a href="#">외부 계약 관리</a></li>
 	                    </div>
 	                </ul>
 	            </div>
@@ -457,8 +453,8 @@
 						var $dWriterName = $('<td>').text(obj.writerName);
 						var $dwatcher = $('<td>').text(obj.count);
 						var $dAnnoDate = $('<td>').text(obj.annoDate);
-						var $dAnnoNo = $('<td><input type="hidden" name="annoNo" value='+obj.annoNo+'>');
-						var $dAnnoW = $('<td><input type="hidden" name="annoWR" value='+obj.annoWR+'>');
+						var $dAnnoNo = $('<input type="hidden" name="annoNo" value='+obj.annoNo+'>');
+						var $dAnnoW = $('<input type="hidden" name="annoWR" value='+obj.annoWR+'>');
 						
 						$tr.append($dTitle);
 						$tr.append($dWriterName);
@@ -480,9 +476,9 @@
 	})
 		
 	$(document).on("click",".annoDepart_detail",function(){
-		console.log($(this).children().eq(4).children().val())//번호 체크
-		console.log($(this).children().eq(5).children().val())//글작성한 사람
-		location.href="detailAnnoDepart.do?adno="+$(this).children().eq(4).children().val()+"&userNo="+${loginUser.empNo}+"&writerNo="+$(this).children().eq(5).children().val();
+		console.log($(this).children().eq(4).val())//번호 체크
+		console.log($(this).children().eq(5).val())//글작성한 사람
+		location.href="detailAnnoDepart.do?adno="+$(this).children().eq(4).val()+"&userNo="+${loginUser.empNo}+"&writerNo="+$(this).children().eq(5).val();
 	})
 	})
 

@@ -386,6 +386,16 @@ public class DepartServiceImpl implements DepartService {
 			}
 		}
 	}
+	
+	//프로젝트 삭제
+	@Override
+	public void deleteProject(int pjno) {
+		int result = departDao.deletprojectinsemi(sqlSession, pjno);//세부프로젝트 삭제 
+		int result2 = departDao.deleteProjectAttach(sqlSession, pjno);//첨부파일 삭제 
+		int result3 = departDao.deleteProjectReply(sqlSession, pjno);//댓글 삭제 
+		int result4 = departDao.deleteProject(sqlSession, pjno);//프로젝트 삭제 
+		
+	}
 
 	@Override
 	public ArrayList<Attachment> selectAttachList(int semiNo) {
@@ -432,6 +442,25 @@ public class DepartServiceImpl implements DepartService {
 		
 		return departDao.selectAInfoList(sqlSession, departmentNo);
 	}
+
+	@Override
+	public Attachment selectAttachmentProfile(String writerNo) {
+
+		return departDao.selectAttachmentProfile(sqlSession, writerNo);
+	}
+
+	@Override
+	public void updateProjectName(Project p) {
+		int result = departDao.updateProjectName(sqlSession, p);
+		
+	}
+
+	@Override
+	public ArrayList<Attachment> selectAttachListProject(int pjno) {
+		
+		return departDao.selectAttachListProject(sqlSession, pjno);
+	}
+
 
 	
 }

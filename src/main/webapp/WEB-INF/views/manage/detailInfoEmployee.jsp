@@ -14,10 +14,7 @@
 	}
 	.informaitonUpsper{
 		display: flex;
-		border: 1px solid red;
-	}
-	.upperInformationEMp{
-		border: 1px solid purple;
+		border-bottom: 1px solid;
 	}
 	.upperInformationEMp>div {
 		margin-bottom: 15px;
@@ -62,6 +59,7 @@
 		margin-left: 14px;
    	 	padding-top: 5px;
    	 	font-size: 17px;
+   	 	height: 36vh;
 	}
 	.employyDEtail{
 		display: flex;
@@ -245,13 +243,16 @@
 		$(".underinfoDiv1").click(function(){
 			$(".underinfoDiv2").removeClass("pointerMian");
 			$(".underinfoDiv1").addClass("pointerMian");
-			$(".includeProjectLi").css("display","flex");
+			$(".includeProjectLi").removeClass("block");
 			$(".includeProjectLi").addClass("none");
 		})
 		$(".InforDepartBu").click(function(){
 			location.href="selectDepartInfo.do?deptNo=${emp.deptNo}&deptTitle=${emp.deptName}";
 		})
-
+		$(".underinfoDiv1").click(function(){
+			$(".employyDEtail").removeClass("none");
+			$(".includeProjectLi").addClass("none");
+		})
 	</script>
 </body>
 </html>

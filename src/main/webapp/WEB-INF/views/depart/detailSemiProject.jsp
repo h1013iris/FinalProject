@@ -47,9 +47,9 @@
 	.outseeDueTimeInsert{
 		display:none;
 		position: absolute;
-	    top: 19vh;
 	    right: 16.4vw;
 	    z-index: 10;
+	    top: 15vh;
 	    width: 8.9vw;
 	}
 	.outseeChecklist{
@@ -163,7 +163,6 @@
 	}
 	.semiCheckListDiv{
 		margin-top :20px;
-		border: 1px solid;
 		text-align: left !important;
 	}
 	.checkListTitle{
@@ -401,7 +400,7 @@
                 <div class="headmodaltitle">
 	               	<!-- 세부 프로젝트 제목 -->
 	                <span class="modal_title detailSemiTitle"></span>
-	                <input type="hidden" class="detailSemiTitleCh" id="CHanTitle" name="SemiTitleName" width="70%">
+	                <input type="hidden" class="detailSemiTitleCh" id="CHanTitle" name="SemiTitleName" width="70%" maxlength="45">
 	                <!-- 세부 프로젝트 분류명 -->
 	                <span class="semiProTar"></span>
                 </div>
@@ -596,6 +595,7 @@
 		$(".insertCheckBox").css("display","none");
 		$(".CheckListEditButton").css("display","none");
 		$(".plusNewCheck").css("display","flex");
+		$(".insertCheckinput").val('');
 	})
 	//체크리스트 입력후 등록버튼 클릭시에(체크리스트)
 	$(".dtailSemiButtonEn").click(function(){

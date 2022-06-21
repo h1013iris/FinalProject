@@ -112,5 +112,13 @@ public interface DepartService {
 
 	ArrayList<Attachment> selectAInfoList(String departmentNo);
 
+	Attachment selectAttachmentProfile(String writerNo);
+
+	void updateProjectName(Project p);
+
+	ArrayList<Attachment> selectAttachListProject(int pjno);
+
+	void deleteProject(int pjno);
+
 
 }

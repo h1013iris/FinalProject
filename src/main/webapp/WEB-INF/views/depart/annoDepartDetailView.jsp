@@ -9,18 +9,18 @@
 <style type="text/css">
 	.annoDetailVeiw{
 		margin: 0 auto;
-		padding: 100px;
+		padding: 50px 100px 100px 100px ;
 	}
 	.annoDetailTitle{
 		margin-left : 20px;
 		font-size: 30px;
 		font-weight: 550;
-		padding-top: 5vh;
-		width: 70%;
+		padding-top: 3vh;
+		width: 80%;
 	}
 	.annoDetailPhoto{
 		width: 7vw;
-		height: 7vw;
+		height: 13vh;
 		border:1px solid;
 	}
 	/*머리부분 div*/
@@ -51,6 +51,8 @@
 	.annoDetailContent{
 		margin-bottom: 40px;
 		font-size: 19px;
+		height: 300px;
+    	overflow-y: scroll;
 	}
 	.annoDetailEdit img:hover{
 		cursor: pointer;
@@ -64,7 +66,7 @@
 		color: #85cdff;
 	}
 	.annoDetailEdit{
-		width: 20%;
+		width: 10%;
 		height:100%;
 		text-align: right;
 	}
@@ -73,7 +75,7 @@
 		width:90px;
 		height:25px;
 		text-align:center;
-		transform:translateX(190px);
+		transform:translateX(57px);
 		padding-top:6px;
 	}
 	.controlAnnoDetail li:hover{
@@ -97,6 +99,7 @@
 	}
 	.replySendArea{
 		height: 5vh;
+		margin-top: 10px;
 	}
 	.replyButton{
 		height: 32px;
@@ -104,8 +107,10 @@
 		transform:translate(10px, -17px);
 	}
 	#reply{
-		margin-top: 10px;
-		
+		height: 27px;
+	    margin-top: 10px;
+	    width: 76vw;
+	    transform: translateY(-16px);
 	}
 	.replyWriterName{
 		font-size: 18px;
@@ -143,6 +148,13 @@
 	    font-size: 14px;
 	    text-align: center;
 	}
+	.alarm_img_depart{
+		width: 7vw;
+    	height: 13vh;
+	}
+	.alarm_img_no_img{
+		transform: translate(10px, 10px);
+	}
 </style>
 </head>
 <body>
@@ -151,7 +163,14 @@
         <div class="annoDetailVeiw">
         	<!-- 위에 제목과 사진 나오는 부분 -->
         	<div class="annoDetailHead">
-	        	<div class="annoDetailPhoto">사진 part</div>
+	        	<div class="annoDetailPhoto">
+	        		<c:if test="${at.changeName ne null}">
+	                <img class="alarm_img_depart" src="${ pageContext.servletContext.contextPath }/resources/upload_files/${at.changeName}"/>
+	                </c:if>
+	                <c:if test="${at.changeName == null}">
+	                <img class="alarm_img_no_img" src="${ pageContext.servletContext.contextPath }/resources/images/관리자 프로필.png" width="100"/>
+	                </c:if>
+	        	</div>
 	        	<div class="annoDetailTitle">
 	        		<span>${d.annoTitle}</span>
 	        	</div>
@@ -213,7 +232,7 @@
         		</div>
         		<c:if test="${loginUser.empNo != d.annoWR}">
         		<div class="replySendArea">
-        			<textarea name="replyTitle" rows="2.5" cols="180" style="resize:none;" id="reply"></textarea>
+        			<input type="text" name="replyTitle"  id="reply">
         			<button type="button" class="commonButton1 replyButton" style="line-height:normal;">댓글 작성</button>
         		</div>
         		</c:if>
@@ -222,13 +241,15 @@
         	<!-- 이전 공지, 이후 공지, 목록으로 -->
         	<div class="deleteorsubmit" >
 				<button class="commonButton2 annoDetailButton" onclick="prevButton()" ><span> < Prev </span></button>
-				<button class="commonButton2 annoDetailButton" onclick="location.href='departmentPage.do'"><span> 메인으로 </span></button>
+				<button class="commonButton2 annoDetailButton" onclick="mainButton()"><span> 메인으로 </span></button>
 				<button class="commonButton2 annoDetailButton" onclick="nextButton()" ><span> Next > </span></button>
 			</div>
         </div>
     </div>
     <script type="text/javascript">
-	  	
+	  	function mainButton(){
+	  		location.href="departmentPage.do?userNo="+${loginUser.empNo}+"&departmentNo="+${loginUser.departmentNo};
+	  	}
     	/*디폴트로 사라지게*/
 	    $(document).ready(function(){
 			$(".controlAnnoDetail").hide();		
@@ -249,7 +270,7 @@
     		 if(num ==1){
     			 postForm.attr("action", "updateAnnoDepartForm.do")
     		 }else{
-    			 postForm.attr("action", "deleteAnnoDepart.do")
+    			 postForm.attr("action", "deleteAnnoDepart.do?userNo="+${loginUser.empNo}+"&departmentNo="+${loginUser.departmentNo})
     		 }
     		 postForm.submit();
     	}

@@ -21,6 +21,7 @@
 	}
 	.annoDepartTable{
 		width: 100%;
+		table-layout: fixed;
 	}
 	.annoDepartTable thead{
 		border-bottom: 1px solid;
@@ -42,6 +43,9 @@
 	.annoDepart_Tilte{
 		text-align: left;
 		padding-left: 15px;
+		white-space: nowrap;
+    	text-overflow: ellipsis;
+    	overflow: hidden;
 	}
 	.annoDepart_detail:hover{
 		cursor: pointer;
@@ -79,7 +83,7 @@
             		<thead>
             			<tr>
             				<th class="titleDepartArea">제목</th>
-            				<th>작성자</th>
+            				<th style="width: 140px;" >작성자</th>
             				<th>읽은 사람</th>
             				<th>작성일</th>
             			</tr>
@@ -91,7 +95,6 @@
             </div>
             <!-- 모달 푸터 부분 -->
             <div class="modal_footer buttonSection" align="right">
-                <button class="next_btn deletebutton commonButton1" type="button">다음</button>
                 <button class="cancel_btn closebutton commonButton1" type="button">창 닫기</button>
             </div>
         </div>
