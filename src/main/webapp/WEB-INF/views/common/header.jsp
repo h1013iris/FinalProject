@@ -158,14 +158,6 @@
 		                    <li><label for="team"><input type="checkbox" name="team" id="team" checked>${ loginUser.departmentName }</label></li>
 	                    </div>
 	                </ul>
-	                <ul>
-	                    <li class="list_title">공유 캘린더</li>
-	                    <div class="hhh">
-		                    <li><input type="checkbox" name="" id="" checked>000팀장</li>
-		                    <li><input type="checkbox" name="" id="" checked>ㅁㅁㅁ사원</li>
-		                    <li><input type="checkbox" name="" id="" checked>ㅇㅇㅇ주임</li>
-	                    </div>
-	                </ul>
 	            </div>
 	        </li>
 	        <li>

@@ -155,7 +155,7 @@
 											${dateList.date}
 										</div>
 										<c:forEach var="scheduleList" items="${monthList}">
-										<c:set var="list" value="${fn:replace(scheduleList.title, '&nbsp', '') }"/>
+										<c:set var="list" value="${fn:replace(scheduleList.title, '&nbsp;', '') }"/>
 										<c:set var="list1" value="${fn:replace(list, '.', '') }"/>
 											<c:choose>
 												<c:when test="${ fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
@@ -188,7 +188,7 @@
 											${dateList.date}
 										</div>
 										<c:forEach var="scheduleList" items="${monthList}">
-										<c:set var="list" value="${fn:replace(scheduleList.title, '&nbsp', '') }"/>
+										<c:set var="list" value="${fn:replace(scheduleList.title, '&nbsp;', '') }"/>
 										<c:set var="list1" value="${fn:replace(list, '.', '') }"/>
 											<c:choose>
 												<c:when test="${ fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
@@ -223,7 +223,7 @@
 								${dateList.date}
 							</div>
 								<c:forEach var="scheduleList" items="${monthList}">
-								<c:set var="list" value="${fn:replace(scheduleList.title, '&nbsp', '') }"/>
+								<c:set var="list" value="${fn:replace(scheduleList.title, '&nbsp;', '') }"/>
 								<c:set var="list1" value="${fn:replace(list, '.', '') }"/>
 									<c:choose>
 										<c:when test="${ fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
@@ -256,7 +256,7 @@
 								${dateList.date}
 							</div>
 								<c:forEach var="scheduleList" items="${monthList}">
-								<c:set var="list" value="${fn:replace(scheduleList.title, '&nbsp', '') }"/>
+								<c:set var="list" value="${fn:replace(scheduleList.title, '&nbsp;', '') }"/>
 								<c:set var="list1" value="${fn:replace(list, '.', '') }"/>
 									<c:choose>
 										<c:when test="${ fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
@@ -303,7 +303,7 @@
 						<fmt:formatDate value="${endDateValue}" pattern="yyyy-MM-dd" var="endDate"/>
 									<!-- 오늘이 시작일보다 크거나 같고 오늘이 종료일보다 작거나 같을때 일때  -->
 						<c:if test="${ nowDate >= startDate and nowDate <= endDate}">
-							<li class="${ fn:replace(list.title, '&nbsp', '') }" onclick="calenderDetail('${list.startDate}','${list.endDate }','${list.writerNo }')" style="margin-bottom:10px; border-bottom: 1px solid; padding-bottom: 10px;">
+							<li class="${ fn:replace(list.title, '&nbsp;', '') }" onclick="calenderDetail('${list.startDate}','${list.endDate }','${list.writerNo }')" style="margin-bottom:10px; border-bottom: 1px solid; padding-bottom: 10px;">
 								<div style="margin-bottom: 17px;"><span>${list.title }</span>
 									<c:if test="${ list.writerNo == department.departNo }">
 										<span class="range" style="background-color: #${list.selectColor};">${ department.departmentTitle }</span>
@@ -328,9 +328,14 @@
 			<div class="monthSchedule">
 				<p class="schedule-this">${ today_info.search_month }월 스케쥴</p>
 				<ul>
+					<c:if test="${ fn:length(monthList) == 0 }">
+						<li class="not-today">
+							오늘 예정된 일정이 없음
+						</li>
+					</c:if>
 					<c:forEach var="list" items="${ monthList }">
-						<li class="${ fn:replace(list.title, '&nbsp', '') }" onclick="calenderDetail('${list.startDate}','${list.endDate }','${list.writerNo }')" style="margin-bottom: 13px; border-bottom: 1px solid; padding-bottom: 10px;">
-							<p>예시 제목 : ${ list.title }  
+						<li class="${ fn:replace(list.title, '&nbsp;', '') }" onclick="calenderDetail('${list.startDate}','${list.endDate }','${list.writerNo }')" style="margin-bottom: 13px; border-bottom: 1px solid; padding-bottom: 10px;">
+							<p>${ list.title }  
 								<c:choose>
 									<c:when test="${ list.openOption eq '전체공개' }">
 										<span class="range" style="background-color: #${list.selectColor};">전체 공개</span>
@@ -506,11 +511,17 @@
 					let selectColor = value.selectColor;// 색상코드
 					let title = value.title;			// 일정명
 					let openOption = value.openOption;	// 공개여부
-					let alarm = value.alarm;			// 알림
+					let alarm = "";			// 알림
 					let place = value.place;			// 장소
 					let memo = value.memo;				// 메모
 					let sectionName = value.sectionName;// 구분명
 					let realWriter = value.realWriter;	// 진짜 작성자
+					
+					if(value.alarm == '0'){
+						alarm = '안함';
+					}else{
+						alarm = value.alarm+"분 전";
+					}
 					
 					console.log(department);
 					console.log(alarm);
@@ -604,7 +615,7 @@
 		$(".today-Schedule li").mouseenter(function(){
 			//var reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gim;
 			let block = $(this).attr("class")
-			block = block.replace(/&nbsp/gi, "").replace(/&nbsp;$/gi, "").replace(/\./gi, "");
+			block = block.replace(/&nbsp;/gi, "").replace(/&nbsp;$/gi, "").replace(/\./gi, "");
 			console.log(block)
 			$("."+block).not("li").css({"display": "block","height":"15%"})
 		})
@@ -612,7 +623,7 @@
 		// 마우스가 떠났을 시 display : none
 		$(".today-Schedule li").mouseleave(function(){
 			let none = $(this).attr("class")
-			none = none.replace(/&nbsp/gi, "").replace("&nbsp;$", "").replace(/\./gi, "");
+			none = none.replace(/&nbsp;/gi, "").replace("&nbsp;$", "").replace(/\./gi, "");
 			console.log(none)
 			$("."+none).not("li").css({"display": "none","height":"15%"})
 		})
@@ -673,7 +684,7 @@
 						console.log(val.title+" 은 한달내에 끝남 " + start.getDate() + "일 ~ " + end.getDate() +"일")
 
 						for(let i = start.getDate()+1 ; i < end.getDate() ; i++){
-							let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp/gi, "").replace(/\./gi, "")).append("ㅤ")
+							let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp;/gi, "").replace(/\./gi, "")).append("ㅤ")
 							let td = $(".td"+i)//.append(div);
 							
 							console.log(colordiv)
@@ -689,7 +700,7 @@
 					
 					console.log("말 일 : "+lastDay)
 					for(let i = start.getDate()+1 ; i <= lastDay.getDate() ; i++){
-						let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp/gi, "").replace(/\./gi, "")).append("ㅤ")
+						let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp;/gi, "").replace(/\./gi, "")).append("ㅤ")
 						let td = $(".td"+i)//.append(div);
 						
 						console.log(colordiv)
@@ -703,7 +714,7 @@
 					
 					console.log("첫 일 : "+firstDay)
 					for(let i = firstDay.getDate()  ; i < end.getDate() ; i++){
-						let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp/gi, "").replace(/\./gi, "")).append("ㅤ")
+						let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp;/gi, "").replace(/\./gi, "")).append("ㅤ")
 						let td = $(".td"+i)//.append(div);
 						
 						console.log(colordiv)
@@ -715,7 +726,7 @@
 					let lastDay = new Date(${ today_info.search_year }, ${ today_info.search_month }+1, 0);
 					
 					for(let i = firstDay.getDate() ; i <= lastDay.getDate() ; i++){
-						let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp/gi, "").replace(/\./gi, "")).append("ㅤ")
+						let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp;/gi, "").replace(/\./gi, "")).append("ㅤ")
 						let td = $(".td"+i)//.append(div);
 						
 						console.log(colordiv)
