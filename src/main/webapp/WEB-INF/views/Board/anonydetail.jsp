@@ -9,7 +9,9 @@
 <title>Insert title here</title>
 <style>
 
-
+.anonydtailmainse{
+    height:93vh !important;
+}
 #contentArea {
 	margin-left: 15%;
 }
@@ -115,7 +117,7 @@
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	<jsp:include page="checkman.jsp"></jsp:include>
-	<div class="main_section">
+	<div class="main_section anonydtailmainse">
 		<table id="contentArea" align="center" class="table">
 			<tr>
 				<th width="100">제목</th>
