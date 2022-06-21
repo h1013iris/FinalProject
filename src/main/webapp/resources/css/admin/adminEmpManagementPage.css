@@ -26,16 +26,21 @@
     padding-top: 10px;
 }
 
-.search_input_box input{
-    width: 60%;
+.list_title{
+    height: 40px;
+}
+
+.list_title input{
+    float: right;
+    width: 30%;
     height: 25px;
     border-radius: 10px;
 }
 
 .emp_insert button {
     position: absolute;
-    top: 50%;
-    left: 83%;
+    top: 40%;
+    left: 78%;
     transform: translateY(-50%);
 }
 
@@ -55,11 +60,12 @@
 }
 
 .emp_list_content .emp_profile_img{
-    display: inline-block;
-    position: relative;
-    left: 30%;
-    top: 50%;
-    transform: translateY(-50%);
+    float: left;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 70px;
+    margin-right: 50px;
 }
 
 .emp_list_content .emp_name_box {
@@ -72,4 +78,14 @@
 
 .job_level, .insert_level{
     cursor: pointer;
+}
+
+.insert_btn{
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.emp_profile_img img{
+    width: 40px;
 }

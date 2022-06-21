@@ -33,43 +33,45 @@
     .detail_back_btn{
         width: 100px;
     }
+
+    .emp_detail_container select {
+        width: 171px;
+        height: 25px;
+    }
 </style>
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	<div class="main_section">
         <div class="emp_detail_container">
-            <div class="emp_detail_label">
-            	<div>
-            		<img alt="" src="프로필 사진">
-            	</div>
+            <form class="emp_detail_label" method="post" action="updateEmployee">
                 <div class="emp_content_box">
                     <span class="emp_no emp_title">사원번호</span>
-                    <span class="emp_no empNo">${ emp.empNo }</span>
+                    <span class="emp_no"><input type="text" name="empNo" value=${ emp.empNo } disabled></span>
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_name emp_title">이름</span>
-                    <span class="emp_name">${ emp.empName }</span>
+                    <span class="emp_name"><input type="text" name="empName" value=${ emp.empName }></span>
 
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_city_no emp_title">주민등록번호</span>
-                    <span class="emp_city_no">${ emp.cityNo }</span>
+                    <span class="emp_city_no"><input type="text" name="cityNo" value=${ emp.cityNo }></span>
 
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_email emp_title">이메일</span>
-                    <span class="emp_email">${ emp.email }</span>
+                    <span class="emp_email"><input type="text" name="email" value=${ emp.email }></span>
 
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_phone emp_title">전화번호</span>
-                    <span class="emp_phone">${ emp.phone }</span>
+                    <span class="emp_phone"><input type="text" name="phone" value=${ emp.phone }></span>
 
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_address emp_title">주소</span>
-                    <span class="emp_address">${ emp.address }</span>
+                    <span class="emp_address"><input type="text" name="address" value=${ emp.address }></span>
 
                 </div>
                 <div class="emp_content_box">
@@ -79,29 +81,45 @@
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_job_no emp_title">직위</span>
-                    <span class="emp_job_no">${ emp.jobName }</span>
-
+	                <select name="jobNo" id="job_name">
+	                	<c:forEach items="${ jobList }" var="j">
+		                    <c:choose>
+		                        <c:when test="${ j.jobNo eq emp.jobNo }">
+				                    <option value="${ j.jobNo }" selected>${ j.jobName }</option>              	                            	
+                            	</c:when>
+                            	<c:otherwise>
+				                    <option value="${ j.jobNo }">${ j.jobName }</option>              	                            	
+                            	</c:otherwise>
+                           	</c:choose>     	
+	                	</c:forEach>
+	                </select>
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_dept_no emp_title">부서</span>
-                    <span class="emp_dept_no">${ emp.deptName }</span>
-
+                    <select name="deptNo" id="dept">
+	                	<c:forEach items="${ deptList }" var="d">
+                            <c:choose>
+                            	<c:when test="${ d.deptNo eq emp.deptNo }">
+				                    <option value="${ d.deptNo }" selected>${ d.deptTitle }</option>              	                            	
+                            	</c:when>
+                            	<c:otherwise>
+				                    <option value="${ d.deptNo }">${ d.deptTitle }</option>              	                            	
+                            	</c:otherwise>
+                            </c:choose>
+	                	</c:forEach>
+	                </select>
                 </div>
                 <div class="page_back">
-                    <button type="button" id="emp_update_btn" class="commonButton1">수정</button>
                     <button type="button" onclick="history.back()" class="commonButton1 detail_back_btn">되돌아 가기</button>
+                    <button type="submit" class="commonButton1">저장</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div> 
     <script src="${ pageContext.servletContext.contextPath }/resources/js/admin/admin.js"></script>
     <script>
         $(function(){
             $(".page_title .title_name").text("사원상세")
-
-            $("#emp_update_btn").click(function(){
-                location.href = "empUpdatePage?empNo="+$(".empNo").text();
-            })
         })
     </script>
 </body>

@@ -73,7 +73,7 @@ public class adminController {
 		
 		employeeAllInfo emp = adminservice.selectEmp(empNo);
 		
-		mv.addObject("emp", emp).setViewName("admin/empDetailPage");;
+		mv.addObject("emp", emp).setViewName("admin/empDetailPage");
 		
 		return mv;
 	}
@@ -298,6 +298,28 @@ public class adminController {
 		
 		adminservice.deleteDept(deptNo);
 		
+	}
+	
+	@RequestMapping("empUpdatePage")
+	public ModelAndView empUpdatePage(ModelAndView mv, String empNo){
+		ArrayList<Department> deptList = adminservice.selectAllDeptList();
+		ArrayList<Job> jobList = adminservice.selectAllJobList();
+		employee emp = adminservice.selectEmpUp(empNo);	
+		mv.addObject("jobList", jobList);
+		mv.addObject("deptList", deptList);
+		mv.addObject("emp", emp).setViewName("admin/empUpdatePage");
+		
+		return mv;
+		
+	}
+	
+	@RequestMapping("updateEmployee")
+	public String updateEmployee(employee emp,Model model) {
+		System.out.println("updateEMP 컨트롤러 ===================================="+emp);
+		employee empResult = adminservice.updateEmployee(emp);
+		model.addAttribute("emp", empResult);
+		
+		return "admin/empDetailPage";
 	}
 	
 }

@@ -30,5 +30,10 @@
         </div>  
     </div>
     <script src="${ pageContext.servletContext.contextPath }/resources/js/admin/admin.js"></script>
+    <script>
+        $(function(){
+            $(".page_title .title_name").text("게시판관리")
+        })
+    </script>
 </body>
 </html>

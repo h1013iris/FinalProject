@@ -87,5 +87,10 @@
         </div>
     </div>
     <script src="${ pageContext.servletContext.contextPath }/resources/js/mypage/mypage.js"></script>
+    <script>
+        $(function(){
+            $(".page_title .title_name").text("ToDoList")
+        })
+    </script>
 </body>
 </html>

@@ -35,8 +35,8 @@
                     <c:forEach items="${ empList }" var="e">
                         <div class="emp_list_content">
                             <input type="hidden" value=${ e.empNo }>
-                            <div class="emp_profile_img"><img src="" alt="">ㅁㄴ</div>
-                            <div class="emp_name_box"><span class="emp_name">${ e.empName }</span></div>
+                            <div class="emp_profile_img"><img src="${ pageContext.servletContext.contextPath }/resources/images/관리자 프로필.png" alt=""></div>
+                            <span class="emp_name">${ e.empName } ${ e.jobName }</span>
                         </div>
                     </c:forEach>
                 </div>
@@ -44,25 +44,28 @@
             <div class="emp_search">
                 <div class="list_title">
                     <span>사원 검색</span>
-                </div>
-                <div class="search_input_box">
                     <input id="searchText" type="text" placeholder="검색">
                 </div>
                 <div class="list_container">
                     <c:forEach items="${ empList }" var="e">
                         <div class="emp_list_content">
                             <input type="hidden" value=${ e.empNo }>
-                            <div class="emp_profile_img"><img src="" alt="">ㅁㄴ</div>
-                            <div class="emp_name_box"><span class="emp_name">${ e.empName }</span></div>
+                            <div class="emp_profile_img"><img src="${ pageContext.servletContext.contextPath }/resources/images/관리자 프로필.png" alt=""></div>
+                            <span class="emp_name">${ e.empName } ${ e.jobName }</span>
                         </div>
                     </c:forEach>
                 </div>
             </div>
             <div class="emp_insert">
-                <button type="button" class="insert_btn">사원추가</button>
+                <button type="button" class="insert_btn commonButton2">사원추가</button>
             </div>
         </div>
     </div>
     <script src="${ pageContext.servletContext.contextPath }/resources/js/admin/admin.js"></script>
+    <script>
+        $(function(){
+            $(".page_title .title_name").text("사원관리")
+        })
+    </script>
 </body>
 </html>

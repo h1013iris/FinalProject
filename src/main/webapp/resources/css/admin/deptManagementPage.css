@@ -129,6 +129,12 @@
 
 .dept_member_name{
     margin-left: 50px;
+    padding-bottom: 20px;
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    position: absolute;
+    top: 0;
 }
 
 .agency_member_list_box {
@@ -150,10 +156,22 @@
 
 #responsibleUpdate{
     display: none;
+    margin-left: 50px;
 }
 
 #deleteDept{
     position: relative;
-    right: -150px;
+    right: -18vw;
+    width: 100px;
     display: none;
+}
+
+.member_lists img{
+    width: 40px;
+}
+
+.member_lists{
+    height: 50px;
+    line-height: 50px;
+    position: relative;
 }

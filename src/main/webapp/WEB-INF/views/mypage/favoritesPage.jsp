@@ -95,6 +95,10 @@
                 }
             })
         })
+
+        $(function(){
+            $(".page_title .title_name").text("즐겨찾기 관리")
+        })
     </script>
 </body>
 </html>

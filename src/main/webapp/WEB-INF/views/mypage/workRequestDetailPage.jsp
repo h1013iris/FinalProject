@@ -49,9 +49,14 @@
         }
 
         #btn_box{
-            width: 200px;
+            width: 250px;
             margin: 30px auto;
 
+        }
+
+        #detail_page_main_section .commonButton1{
+            width: 100px;
+            height: 40px;
         }
     </style>
 </head>
@@ -86,13 +91,18 @@
                 </div>
             </div>
             <div id="btn_box">
-                <button type="button" onclick="history.back()">되돌아기</button>
+                <button type="button" onclick="history.back()" class="commonButton1">되돌아기</button>
                 <c:if test="${ loginUser.empName ne '관리자' }">
-                    <button type="button" id="success_status_update" value=${ work.raskNo }>업무완료</button>
+                    <button type="button" id="success_status_update" value=${ work.raskNo } class="commonButton1">업무완료</button>
                 </c:if>
             </div>
         </div>
     </div>
     <script src="${ pageContext.servletContext.contextPath }/resources/js/mypage/mypage.js"></script>
+    <script>
+        $(function(){
+            $(".page_title .title_name").text("업무요청상세")
+        })
+    </script>
 </body>
 </html>

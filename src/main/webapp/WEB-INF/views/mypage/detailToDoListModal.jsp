@@ -30,8 +30,8 @@
                 </div>
             </div>
             <div class="modal_footer">
-                <button id="addclass" class="next_btn update_btn" type="button">수정</button>
-                <button class="cancel_btn" type="button">취소</button>
+                <button id="addclass" class="next_btn update_btn commonButton1" type="button">수정</button>
+                <button class="cancel_btn commonButton1" type="button">취소</button>
             </div>
         </div>
     </div>

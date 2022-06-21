@@ -76,5 +76,9 @@ public interface adminService {
 
 	void deleteDept(String deptNo);
 
+	employee selectEmpUp(String empNo);
+
+	employee updateEmployee(employee emp);
+
 
 }

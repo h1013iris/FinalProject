@@ -68,5 +68,10 @@
 	    </div>
     </div>
     <script src="${ pageContext.servletContext.contextPath }/resources/js/mypage/mypage.js"></script>
+    <script>
+        $(function(){
+            $(".page_title .title_name").text("보낸 업무요청")
+        })
+    </script>
 </body>
 </html>

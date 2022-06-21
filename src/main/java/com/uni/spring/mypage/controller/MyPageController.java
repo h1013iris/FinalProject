@@ -32,10 +32,16 @@ public class MyPageController {
 	}
 	
 	@RequestMapping("journalInsert")
-	public String InsertJournal(Journal journal) {
+	public String InsertJournal(Journal journal, Model model) {
 		MPService.InsertJournal(journal);
 		
-		return "mypage/mypageMain";
+		int empNo = ((Member) model.getAttribute("loginUser")).getEmpNo();
+		
+		ArrayList<ToDoList> list = MPService.selectToDoAllList(empNo);
+		
+		model.addAttribute("list", list);
+		
+		return "mypage/ToDoList";
 	}
 	
 	@RequestMapping("journalList")
@@ -290,4 +296,5 @@ public class MyPageController {
 		
 		return new GsonBuilder().create().toJson(list);
 	}
+	
 }

@@ -44,6 +44,22 @@
 			/* text-align: center; */
 			margin: 100px auto;
 		}
+
+		.emp_insert_commit_btn{
+			width: 100px;
+		}
+
+		.emp_insert_back_btn{
+			width: 100px;
+		}
+
+		#dept{
+			height: 30px;
+		}
+
+		#job_name{
+			height: 30px;
+		}
     </style>
 </head>
 <body>
@@ -53,7 +69,7 @@
 	        <form id="insert_from" class="input_box">
 	            <div>
 	                <span>이름</span>
-	                <input type="text" id="emp_name" name="empName">
+	                <input type="text" id="emp_name" name="empName" maxlength="20" oninput="this.value = this.value.replace(/[0-9.^\s^!@#$%^&*_+{}|;'?><,.(\..*)\.]+$/g ,'');">
 	            </div>
 	            <div>
 	                <span>부서</span>
@@ -73,11 +89,11 @@
 	            </div>
 	            <div>
 	                <span>연락처</span>
-	                <input type="text" id="phone" name="phone">
+	                <input type="text" id="phone" name="phone" maxlength="13" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 	            </div>
 	            <div>
 	                <span>이메일</span>
-	                <input type="text" id="email" name="email">
+	                <input type="text" id="email" name="email" maxlength="30">
 	            </div>
 	            <div>
 	                <span>입사일</span>
@@ -85,16 +101,17 @@
 	            </div>
 	            <div>
 	                <span>주민등록번호</span>
-	                <input type="text" id="city_no" name="cityNo">
+	                <input type="text" id="city_no" name="cityNo" maxlength="13" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 	            </div>
 				<div class="btn_box">
-					<button type="button">저장</button>
+					<button type="button" class="commonButton1 emp_insert_back_btn" onclick="history.back()">돌아가기</button>
+					<button type="button" class="commonButton1 emp_insert_commit_btn">저장</button>
 				</div>
 	        </form>
 	    </div>
 	</div>
 	<script>
-		$(".btn_box button").click(function(){
+		$(".btn_box .emp_insert_commit_btn").click(function(){
 			var empName = $("#emp_name").val();
 			var deptNo = $("#dept option:selected").val();
 			var jobNo = $("#job_name option:selected").val();
@@ -120,6 +137,12 @@
 				}
 			})
 		})
+
+
+        $(function(){
+            $(".page_title .title_name").text("사원추가")
+        })
+
 	</script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/js/API/emailAPI.js"></script>
 </body>

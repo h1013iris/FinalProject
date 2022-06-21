@@ -29,6 +29,11 @@
         display: inline-block;
         margin-left: 30px;
     }
+
+    .work_request_emp_search_modal .commonButton1{
+        width: 80px;
+        height: 40px;
+    }
 </style>
 </head>
 <body>
@@ -44,8 +49,8 @@
 
             </div>
             <div class="modal_footer">
-                <button class="next_btn empSearch_next_btn" type="button">다음</button>
-                <button class="cancel_btn" type="button">취소</button>
+                <button class="next_btn empSearch_next_btn commonButton1" type="button">다음</button>
+                <button class="cancel_btn commonButton1" type="button">취소</button>
             </div>
         </div>
     </div>
@@ -56,5 +61,12 @@
             <input type="checkbox" class="emp_checkbox_input">
         </div>
     </div>
+
+    <script>
+        $(".work_request_emp_search_modal .cancel_btn").click(function(){
+            $(".work_request_emp_search_modal").hide();
+            $(".work_request_modal").css("display","flex");
+        })
+    </script>
 </body>
 </html>

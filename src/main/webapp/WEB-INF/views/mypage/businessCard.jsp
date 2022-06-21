@@ -57,7 +57,7 @@
     <jsp:include page="../common/header.jsp"></jsp:include>
 	<div class="main_section">
         <div id="main_businessCard_section">
-            <button type="button" id="img_insert_btn">이미지다운</button>
+            <button type="button" id="img_insert_btn" class="commonButton1">이미지다운</button>
             <div id="businessCard_box" style="width: 600px; height: 300px; border: 1px solid black">
                 <img id="card_img" src="../../../resources/images/facebook_cover_photo_1.png" alt="" style="width: 400px; margin-top: 40px">
                 <div id="information_container" style="width: 270px;height: 230px;position: absolute;right: 0;bottom: 10px;">
@@ -95,6 +95,12 @@
         });
 
         });
+
+
+
+        $(function(){
+            $(".page_title .title_name").text("전자명함")
+        })
 
     </script>
 </body>
