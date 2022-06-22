@@ -134,14 +134,13 @@
                 url: "selectDocApprover.do",
                 data: { docNo : ${ docNo } },
                 success: function (list) {
-					console.log(list);
-					if(list != null) {
+
+                	if(list != null) {
 						for(var i in list) {
 							if(list[i] != null) {
 								$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
 								$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
 								$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
-								console.log(list[i].empNo);
 							}
 						}
                 	}
@@ -169,20 +168,16 @@
 	    		url: "lastAprvHistory.do",
 	    		data: { docNo : ${docNo} },
 	    		success: function(data) {
-	    			
-	    			console.log(data);
-	    			
+	    				    			
 	    			let drafter = "${ loginUser.empNo }";
 	    			
 	    			// 기안자가 아닌 경우
 	    			if(drafter != data.drafter) {
-	    				console.log("기안자가 아니야!");
 	    				
 	    				myAlert("결재 취소", "기안자만 해당 문서 결재를 취소할 수 있습니다.");
 	    			
 	    			// 기안자는 맞지만 이미 승인/반려 처리된 경우
 	    			} else if(drafter == data.drafter && 'D' != data.aprvCode) {
-	    				console.log("기안자는 맞지만 이미 처리된 문서야!!!");
 	    				
 	    				let content = "이미 " + data.aprvPro + " 처리된 문서입니다."
 	    				
@@ -190,7 +185,6 @@
 	    			
 	    			// 기안자도 맞고 아직 결재 처리되기 전이라면 결재 취소 가능
 	    			} else if(drafter == data.drafter && 'D' == data.aprvCode) {
-	    				console.log("결재 취소할 수 있어!!!!!!!");
 	    				
 	    				// confirm 모달 띄우기
 	    		    	myConfirm("결재 취소", "결재를 취소하시겠습니까?");
@@ -217,7 +211,7 @@
 	    	
 	    	let form = $(".detailViewForm").serialize();
 	    	let docType = ${ docType };
-	    	console.log(docType);
+
 	    	form += "&docType=" + docType;
 	    	
 	    	$.ajax({

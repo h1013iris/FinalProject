@@ -12,7 +12,7 @@ public interface AprvMgtService {
 
 	int scrtyReqListCount();
 	
-	ArrayList<AprvDoc> selectScrtyReqList(PageInfo pi);
+	ArrayList<AprvDoc> selectScrtyReqList();
 
 	int scrtyDocListCount(AprvDoc aprvDoc);
 	

@@ -168,7 +168,7 @@
 								</span> &nbsp;
 								<b>사용일수 : </b>
 								<span contenteditable="false">
-									<input id="vacUseDays" name="vacUseDays" type="number" min="0.5" step="0.5" style="width: 15%" readonly>
+									<input id="vacUseDays" name="vacUseDays" type="number" style="width: 15%" readonly>
 								</span>일
 								<span id="formErrorMsg" style="color: red; margin-left: 5px;"></span>
 							</td>
@@ -222,7 +222,6 @@
 				data: { outboxNo : ${ outboxNo } },
 				success: function(data) {
 					
-					console.log(data)
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.drafterDept);
 					$("#dftDate").val(data.dftDate);
@@ -247,7 +246,6 @@
 		 	                url: "selectCancleDocApprover.do",
 		 	                data: { docNo : data.docNo },
 		 	                success: function (data) {
-								console.log(data);
 		 	                	if(data != null) {
 		 	                		
 		 	                		$("#firstAprv").val(data.firstAprv);
@@ -269,6 +267,7 @@
 				 			$("#formErrorMsg").text("휴가 기간을 새로 지정해주세요.");
 							$("#startDate").val('');
 							$("#endDate").val('');
+							$("#vacUseDays").val('');
 				 		}
 			 		}
 				}
@@ -292,7 +291,11 @@
 				$("#endDate").attr('readonly', true);
 				
 				document.getElementById("vacUseDays").value = 0.5;
-				$("#vacUseDays").attr('readonly', true);
+			
+			// 반차 아니고 휴가 시작, 마지막 일자 선택되어 있으면
+			} else {
+				// 사용일수 계산
+				useDaysFn();
 			}
 		});
 		
@@ -308,7 +311,6 @@
 	
 			// 주말 선택할 수 없도록
 			if(startDay == 0 || startDay == 6) {
-	            console.log("주말");
 				$("#formErrorMsg").text("주말은 선택할 수 없습니다.");
 				$("#startDate").val("");
 	        
@@ -322,9 +324,7 @@
 				$("#vacUseDays").attr('readonly', true);
 	    	
 			// 끝 날짜 선택되어 있는 경우에만 사용일수 계산
-	    	} else if($("#endDate").val() != "") {
-				console.log("끝 날짜 존재");
-				
+	    	} else if($("#endDate").val() != "") {				
 				useDaysFn();
 	    	}
 
@@ -344,14 +344,11 @@
 	        
 			// 주말 선택할 수 없도록
 			if(endDay == 0 || endDay == 6) {
-	            console.log("주말");
 				$("#formErrorMsg").text("주말은 선택할 수 없습니다.");
 				$("#endDate").val("");
 			
 			// 주말 아니고, 시작 날짜 선택되어 있는 경우에만 사용일수 계산
 			} else if($("#startDate").val() != "") {
-				console.log("시작 날짜 존재");
-				
 				useDaysFn();
 			}
  		});
@@ -366,9 +363,7 @@
 			// 휴가 날짜 유효성 검사 위해
 			let diffDate = endDate.getTime() - startDate.getTime();
 			let dateDays = diffDate / (1000 * 3600 * 24);
-			
-			//console.log(dateDays);
-			
+						
 			// 휴가 시작 날짜가 끝 날짜보다 큰 경우
 			if(dateDays < 0) {
 				
@@ -388,7 +383,6 @@
 					var temp_date = startDate;
 					
 				    if(temp_date.getTime() > endDate.getTime()) {
-				        //console.log("count : " + count);
 				        break;
 				    
 				 	} else {
@@ -396,10 +390,8 @@
 				    	var tmp = temp_date.getDay();
 				        
 						if(tmp == 0 || tmp == 6) { // 주말
-				            //console.log("주말");
 
 				        } else { // 평일
-				            //console.log("평일");
 				            count++;
 				        }
 						
@@ -475,7 +467,6 @@
  			} else {
  				
  				let docNo = $("#docNo").val();
- 	 			console.log(docNo);
  	 			
 				approveCheckFn(); // 결재 요청 확인 모달 띄우는 함수 실행
 				
@@ -508,7 +499,6 @@
  			// 문서 등록 시 임시 저장한 문서이면 새로 결재 요청
  			if($("#docNo").val() == null || $("#docNo").val() == "") {
  				url = "oboxAprvReqLeaveApp.do";
- 			
  			// 문서 번호 있으면 재결재 요청
  			} else {
  				url = "aprvReRequest.do";
@@ -521,7 +511,6 @@
                 url: url,
                 data: form,
                 success: function (result) {
-                	console.log(result)
                 	
                     if(result == "success") {
 					
@@ -560,7 +549,6 @@
     			url: "updateLeaveApp.do",
     			data: form,
     			success: function(result) {
-    				console.log(result);
     				
     				// 저장 여부만 알려주고 페이지 이동은 없음 -> 계속 작성할 수 있도록
     				if(result == "success") {

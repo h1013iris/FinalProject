@@ -128,16 +128,13 @@
 				// 폼의 모든 데이터 저장해서 변수로 선언
 				// 결재 기록 등록하기 위해 디테일뷰도 같이 넘기기
 	 			let form = $(".returnReason_form, .detailViewForm").serialize();
-				
-				console.log($("#docNo").val());
-				
+								
 				$.ajax({
 					
 					type: "post",
 	                url: "aprvReturn.do",
 	                data: form,
 	                success: function (result) {
-	                	console.log(result)
 	                	
 	                    if(result == "success") {
 							

@@ -23,14 +23,9 @@ public class AprvMgtDao {
 		return sqlSession.selectOne("aprvMgtMapper.scrtyReqListCount");
 	}
 	
-	public ArrayList<AprvDoc> selectScrtyReqList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<AprvDoc> selectScrtyReqList(SqlSessionTemplate sqlSession) {
 		
-		// 페이징처리 위해 오프셋, 로우바운즈
-		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
-		
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
-		return (ArrayList)sqlSession.selectList("aprvMgtMapper.selectScrtyReqList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("aprvMgtMapper.selectScrtyReqList");
 	}
 
 	public SecurityDoc selectScrtyReason(SqlSessionTemplate sqlSession, int docNo) {

@@ -157,7 +157,7 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;" colspan="3">
 								<span contenteditable="false" style="width: 100%;">
-									<select class="ipt_editor" id="receiveDept" name="receiveDept" style="width: 30%;">
+									<select class="coop_Receive_DeptList" id="receiveDept" name="receiveDept" style="width: 30%;">
 										<option value="">선택</option>
 										<!-- 부서 리스트 출력되는 부분 -->
 									</select>
@@ -216,7 +216,6 @@
 				data: { outboxNo : ${ outboxNo } },
 				success: function(data) {
 					
-					console.log(data)
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.drafterDept);
 					$("#dftDate").val(data.dftDate);
@@ -239,7 +238,6 @@
 		 	                url: "selectCancleDocApprover.do",
 		 	                data: { docNo : data.docNo },
 		 	                success: function (data) {
-								console.log(data);
 		 	                	if(data != null) {
 		 	                		
 		 	                		$("#firstAprv").val(data.firstAprv);
@@ -266,7 +264,6 @@
  						departmentNo : "${ loginUser.departmentNo }",
  						jobNo : "${ loginUser.jobNo }" },
  				success: function(list) {
- 					console.log(list);
                 	if(list != null || list != "") {
                 		
                 		$.each(list, function(i) {
@@ -360,23 +357,12 @@
 			let receiveDept = $("#receiveDept").val();
 			let coopContent = $("#coopContent").val();
 			let docNo = $("#docNo").val();
-			
- 			console.log(url);
- 			console.log(firstAprv);
- 			console.log(secondAprv);
- 			console.log(receiveDept);
- 			console.log(coopContent);
- 			console.log(docNo);
- 			console.log(form);
  			
 			$.ajax({
-				
 				type: "post",
                 url: url,
                 data: form,
-                success: function (result) {
-               		console.log(result)
-                	
+                success: function (result) {                	
                    	if(result == "success") {
                     	
                     	myAlert("결재 요청 확인", "결재가 성공적으로 요청되었습니다.");
@@ -407,9 +393,7 @@
     			type: "post",
     			url: "updateBusCoop.do",
     			data: form,
-    			success: function(result) {
-    				console.log(result);
-    				
+    			success: function(result) {    				
     				// 저장 여부만 알려주고 페이지 이동은 없음 -> 계속 작성할 수 있도록
     				if(result == "success") {
     					let title = "임시 보관함 저장"

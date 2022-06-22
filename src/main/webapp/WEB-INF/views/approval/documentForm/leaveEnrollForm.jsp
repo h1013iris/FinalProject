@@ -177,7 +177,7 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;">
 								<div contenteditable="false" style="width: 100%;">
-									<textarea class="docEnroll_textarea" id="vacReason" name="vacReason" style="width: 99%; height: 240px;" maxlength="200"></textarea>
+									<textarea class="docEnroll_textarea" id="vacReason" name="vacReason" style="width: 99%; height: 240px;" maxlength="1000"></textarea>
 								</div>
 							</td>
 						</tr>
@@ -264,16 +264,24 @@
 			
 			// 이전에 반차를 선택했을 경우를 위해 readonly false 먼저 실행
 			$("#endDate").attr('readonly', false);
+			$("#vacUseDays").val("");
 			
 			let vacType = $(this).val();
+			let startDate = $("#startDate").val();
+			let endDate = $("#endDate").val();
 			
 			// 반차 선택 시 시작 날짜와 끝 날짜 일치, 사용일수 0.5로 고정
 			if(vacType.indexOf("반차") > 0) {
 				
-				document.getElementById("endDate").value = $("#startDate").val();
+				document.getElementById("endDate").value = startDate;
 				$("#endDate").attr('readonly', true);
 				
 				document.getElementById("vacUseDays").value = 0.5;
+			
+			// 반차 아니고 휴가 시작, 마지막 일자 선택되어 있으면
+			} else if(startDate != "" && endDate != "") {
+				// 사용일수 계산
+				useDaysFn();
 			}
 		})
 		
@@ -291,14 +299,11 @@
 	        
 			// 주말 선택할 수 없도록
 			if(endDay == 0 || endDay == 6) {
-	            console.log("주말");
 				$("#formErrorMsg").text("주말은 선택할 수 없습니다.");
 				$("#endDate").val("");
 			
 			// 주말 아니고, 시작 날짜 선택되어 있는 경우에만 사용일수 계산
-			} else if($("#startDate").val() != "") {
-				console.log("시작 날짜 존재");
-				
+			} else if($("#startDate").val() != "") {				
 				useDaysFn();
 			}
  		});
@@ -313,9 +318,7 @@
 			// 휴가 날짜 유효성 검사 위해
 			let diffDate = endDate.getTime() - startDate.getTime();
 			let dateDays = diffDate / (1000 * 3600 * 24);
-			
-			//console.log(dateDays);
-			
+						
 			// 휴가 시작 날짜가 끝 날짜보다 큰 경우
 			if(dateDays < 0) {
 				
@@ -335,7 +338,6 @@
 					var temp_date = startDate;
 					
 				    if(temp_date.getTime() > endDate.getTime()) {
-				        //console.log("count : " + count);
 				        break;
 				    
 				 	} else {
@@ -343,10 +345,8 @@
 				    	var tmp = temp_date.getDay();
 				        
 						if(tmp == 0 || tmp == 6) { // 주말
-				            //console.log("주말");
 
 				        } else { // 평일
-				            //console.log("평일");
 				            count++;
 				        }
 						
@@ -381,9 +381,7 @@
  			let vacReason = $("#vacReason").val();
  			
  			let title = "문서 작성 확인";
- 			
- 			console.log(vacReason.length)
- 			
+ 			 			
  			if((firstAprv == null || firstAprv == "") 
 						&& (secondAprv != null || secondAprv != "")) {
 			
@@ -434,12 +432,6 @@
  				myAlert(title, content);
 				focusFn(focus);
 			
- 			} else if(vacReason.length > 500) {
- 				
- 				$("#vacReason").val(vacReason.substring(0, 500));
- 				
- 				myAlert(title, "휴가 사유를 500자 이하로 작성해주세요.");
- 				
  			// 모두 잘 입력되어 있는 경우
  			} else {
  				
@@ -475,7 +467,6 @@
                 url: "enrollDocument.do",
                 data: form,
                 success: function (result) {
-                	console.log(result)
                 	
                     if(result == "success") {
 					
@@ -509,7 +500,6 @@
     			url: "saveLeaveFormOutbox.do",
     			data: form,
     			success: function(result) {
-    				console.log(result);
     				
     				if(result == "success") {
     					let title = "임시 보관함 저장"

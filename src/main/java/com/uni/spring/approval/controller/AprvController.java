@@ -91,7 +91,6 @@ public class AprvController {
 		Member loginUser = new Member();
 		loginUser.setDepartmentNo(deptNo);
 		loginUser.setJobNo(jobNo);
-		System.out.println(loginUser.toString());
 		
 		// 해당 부서 1차, 2차 결재자 조회해서 담기
 		ArrayList<Member> approver = aprvService.selectDeptApprover(loginUser);
@@ -124,9 +123,7 @@ public class AprvController {
 		AttendLog attendLog = new AttendLog();
 		attendLog.setEmpNo(Integer.valueOf(userNo));
 		attendLog.setAttendDate(Date.valueOf(date)); // String 을 Date로 형변환해서 set
-		
-		System.out.println("Controller =========" + attendLog.toString());
-		
+				
 		// 회원의 해당 날짜 촐퇴근 시간을 근태 기록 객체에 담기
 		AttendLog userAttendLog = aprvService.selectCmt(attendLog);
 				
@@ -154,7 +151,7 @@ public class AprvController {
 		
 		// 해당 부서 1차, 2차 결재자 조회해서 담기
 		ArrayList<Member> approver = aprvService.selectDocApprover(docNo);
-		System.out.println(approver);
+
 		return new Gson().toJson(approver);
 	}
 	
@@ -261,9 +258,7 @@ public class AprvController {
 			String proDate = sdf.format(date); // sdf 형식 지정
 			list.get(i).setProDate(proDate);   // set 해주기
 		}
-  
-		System.out.println(list);
-  
+    
 		result.put("list", list);
 		result.put("currentPage",  pi.getCurrentPage());
 		result.put("startPage",  pi.getStartPage());
@@ -302,9 +297,9 @@ public class AprvController {
 		
 		// 2차 결재재일 경우, 또는 2차 결재자가  null인 문서의 1차 결재자일 경우 상태값 결재 완료로 업데이트
 		// -> 결재 기록 등록, 상태값 업데이트
-		System.out.println("결재 유형 ==========> " + approve);
-		System.out.println(aprvHistory.toString());
-		System.out.println(aprvDoc.toString());
+		//System.out.println("결재 유형 ==========> " + approve);
+		//System.out.println(aprvHistory.toString());
+		//System.out.println(aprvDoc.toString());
 
 		aprvService.documentApprove(aprvHistory, aprvDoc, approve);
 		
@@ -322,9 +317,9 @@ public class AprvController {
 		// 결재 기록에 등록
 		// 결재 상태 반려 중으로 변경
 		// 반려 문서에 등록
-		System.out.println(aprvHistory.toString());
-		System.out.println(returnDoc.toString());
-		System.out.println(aprvDoc.toString());
+		//System.out.println(aprvHistory.toString());
+		//System.out.println(returnDoc.toString());
+		//System.out.println(aprvDoc.toString());
 		
 		aprvService.aprvReturn(aprvHistory, aprvDoc, returnDoc);
 		
@@ -350,9 +345,7 @@ public class AprvController {
 	@RequestMapping(value="requestList.do", produces="application/json; charset=utf-8")
 	public Map<String, Object> selectRequestList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, 
 								AprvDoc aprvDoc) {
-		
-		System.out.println(aprvDoc.toString());
-		
+				
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		int listCount = aprvService.requestListCount(aprvDoc);
@@ -390,9 +383,7 @@ public class AprvController {
 			String proDate = sdf.format(date);	// sdf 형식 지정
 			list.get(i).setProDate(proDate);	// set 해주기
 		}
-		
-		System.out.println(list);
-		
+				
 		result.put("list", list);
       	result.put("currentPage",  pi.getCurrentPage());
       	result.put("startPage",  pi.getStartPage());
@@ -474,9 +465,7 @@ public class AprvController {
 			String proDate = sdf.format(date); // sdf 형식 지정
 			list.get(i).setProDate(proDate);   // set 해주기
 		}
-  
-		System.out.println(list);
-  
+    
 		result.put("list", list);
 		result.put("currentPage",  pi.getCurrentPage());
 		result.put("startPage",  pi.getStartPage());
@@ -558,9 +547,7 @@ public class AprvController {
 	        String reDate = sdf.format(date);   // sdf 형식 지정
 	        list.get(i).setReDate(reDate);   // set 해주기
         }
-	      
-		System.out.println(list);
-  
+	        
 		result.put("list", list);
 		result.put("currentPage",  pi.getCurrentPage());
 		result.put("startPage",  pi.getStartPage());
@@ -630,9 +617,7 @@ public class AprvController {
 	public String docScrtyRequest(SecurityDoc securityDoc) {
 		
 		// 일단 보안 문서에 등록하고
-		// 관리자가 보안 처리한 문서만 문서 상태값 변경
-		System.out.println(securityDoc.toString());
-		
+		// 관리자가 보안 처리한 문서만 문서 상태값 변경		
 		aprvService.docScrtyRequest(securityDoc);
 		
 		return new Gson().toJson("success");
@@ -674,9 +659,7 @@ public class AprvController {
 	@ResponseBody
 	@RequestMapping(value="statusList.do", produces="application/json; charset=utf-8")
 	public Map<String, Object> selectStatusList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage, AprvDoc aprvDoc) {
-		
-		System.out.println(aprvDoc.toString());
-		
+				
 		Map<String, Object> result = new HashMap<String, Object>();
 
 		int listCount = aprvService.statusListCount(aprvDoc);
@@ -704,9 +687,7 @@ public class AprvController {
 	        String dftDate = sdf.format(date);   // sdf 형식 지정
 	        list.get(i).setDraftDate(dftDate);   // set 해주기
 		}
-				
-		System.out.println(list);
-  
+				  
 		result.put("list", list);
 		result.put("currentPage",  pi.getCurrentPage());
 		result.put("startPage",  pi.getStartPage());
@@ -765,10 +746,7 @@ public class AprvController {
 	@ResponseBody
 	@RequestMapping(value="saveLeaveFormOutbox.do", produces="application/json; charset=utf-8")
 	public String saveLeaveFormOutbox(DocOutbox docOutbox, LeaveForm leaveForm) {
-		
-		System.out.println(docOutbox.toString());
-		System.out.println(leaveForm.toString());
-		
+				
 		aprvService.saveLeaveFormOutbox(docOutbox, leaveForm);
 		
 		return new Gson().toJson("success");
@@ -780,9 +758,7 @@ public class AprvController {
 	@ResponseBody
 	@RequestMapping(value="saveCmpUdpFormOutbox.do", produces="application/json; charset=utf-8")
 	public String saveCmpUdpFormOutbox(DocOutbox docOutbox, CmtUpdateForm cmtUpdateForm) {
-		
-		System.out.println(cmtUpdateForm.toString());
-		
+				
 		aprvService.saveCmpUdpFormOutbox(docOutbox, cmtUpdateForm);
 		
 		return new Gson().toJson("success");
@@ -794,9 +770,7 @@ public class AprvController {
 	@ResponseBody
 	@RequestMapping(value="saveDraftFormOutbox.do", produces="application/json; charset=utf-8")
 	public String saveDraftFormOutbox(DocOutbox docOutbox, BusDraftForm busDraftForm) {
-		
-		System.out.println(busDraftForm.toString());
-		
+				
 		aprvService.saveDraftFormOutbox(docOutbox, busDraftForm);
 		
 		return new Gson().toJson("success");
@@ -808,9 +782,7 @@ public class AprvController {
 	@ResponseBody
 	@RequestMapping(value="saveCoopFormOutbox.do", produces="application/json; charset=utf-8")
 	public String saveCoopFormOutbox(DocOutbox docOutbox, BusCoopForm busCoopForm) {
-		
-		System.out.println(busCoopForm.toString());
-		
+				
 		aprvService.saveCoopFormOutbox(docOutbox, busCoopForm);
 		
 		return new Gson().toJson("success");
@@ -862,9 +834,7 @@ public class AprvController {
 	    	String lastUpdateDate = sdf.format(date);   // sdf 형식 지정
 	    	list.get(i).setLastUpdateDate(lastUpdateDate);   // set 해주기
 	    }
-	    
-	    System.out.println(list);
-		  
+	    		  
 	    result.put("list", list);
 		result.put("currentPage",  pi.getCurrentPage());
 		result.put("startPage",  pi.getStartPage());
@@ -935,7 +905,6 @@ public class AprvController {
 		
 		BusCoopForm busCoopForm = aprvService.selectCoopFormOutbox(outboxNo);
 		
-		System.out.println(busCoopForm.toString());
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(busCoopForm);
 	}
 	
@@ -947,7 +916,6 @@ public class AprvController {
 	public String deleteOutboxDoc(int outboxNo, int docType, 
 								@RequestParam(required = false) Integer docNo) {
 		
-		System.out.println("Controller docNo ==========> " + docNo);
 		aprvService.deleteOutboxDoc(outboxNo, docType, docNo);
 		
 		return new Gson().toJson("success");
@@ -977,9 +945,7 @@ public class AprvController {
 	@ResponseBody
 	@RequestMapping(value="updateLeaveApp.do", produces="application/json; charset=utf-8")
 	public String updateLeaveApp(LeaveForm leaveForm) {
-		
-		System.out.println(leaveForm.toString());
-		
+				
 		// 최근 수정일 변경하기 위해 임시 보관 번호 선언해서 넘기기
 		int outboxNo = leaveForm.getOutboxNo();
 		
@@ -994,9 +960,7 @@ public class AprvController {
 	@ResponseBody
 	@RequestMapping(value="updateCmtUpdateApp.do", produces="application/json; charset=utf-8")
 	public String updateCmtUpdateApp(CmtUpdateForm cmtUpdateForm) {
-		
-		System.out.println(cmtUpdateForm.toString());
-		
+				
 		// 최근 수정일 변경하기 위해 임시 보관 번호 선언해서 넘기기
 		int outboxNo = cmtUpdateForm.getOutboxNo();
 		
@@ -1011,9 +975,7 @@ public class AprvController {
 	@ResponseBody
 	@RequestMapping(value="updateBusDraft.do", produces="application/json; charset=utf-8")
 	public String updateBusDraft(BusDraftForm busDraftForm) {
-		
-		System.out.println(busDraftForm.toString());
-		
+				
 		// 최근 수정일 변경하기 위해 임시 보관 번호 선언해서 넘기기
 		int outboxNo = busDraftForm.getOutboxNo();
 		
@@ -1028,9 +990,7 @@ public class AprvController {
 	@ResponseBody
 	@RequestMapping(value="updateBusCoop.do", produces="application/json; charset=utf-8")
 	public String updateBusCoop(BusCoopForm busCoopForm) {
-		
-		System.out.println(busCoopForm.toString());
-		
+				
 		// 최근 수정일 변경하기 위해 임시 보관 번호 선언해서 넘기기
 		int outboxNo = busCoopForm.getOutboxNo();
 		
@@ -1047,10 +1007,6 @@ public class AprvController {
 	public String oboxAprvReqLeaveApp(AprvDoc aprvDoc, AprvHistory aprvHistory, 
 								LeaveForm leaveForm, int outboxNo) {
 		
-		System.out.println(aprvDoc.toString());
-		System.out.println(aprvHistory.toString());
-		System.out.println(leaveForm.toString());
-		
 		aprvService.oboxAprvReqLeaveApp(aprvDoc, aprvHistory, leaveForm, outboxNo);
 		
 		return new Gson().toJson("success");
@@ -1063,10 +1019,6 @@ public class AprvController {
 	@RequestMapping(value="oboxAprvReqCmtApp.do", produces="application/json; charset=utf-8")
 	public String oboxAprvReqCmtApp(AprvDoc aprvDoc, AprvHistory aprvHistory, 
 								CmtUpdateForm cmtUpdateForm, int outboxNo) {
-		
-		System.out.println(aprvDoc.toString());
-		System.out.println(aprvHistory.toString());
-		System.out.println(cmtUpdateForm.toString());
 		
 		aprvService.oboxAprvReqCmtApp(aprvDoc, aprvHistory, cmtUpdateForm, outboxNo);
 		
@@ -1081,10 +1033,6 @@ public class AprvController {
 	public String oboxAprvReqBusDft(AprvDoc aprvDoc, AprvHistory aprvHistory, 
 								BusDraftForm busDraftForm, int outboxNo) {
 		
-		System.out.println(aprvDoc.toString());
-		System.out.println(aprvHistory.toString());
-		System.out.println(busDraftForm.toString());
-		
 		aprvService.oboxAprvReqBusDft(aprvDoc, aprvHistory, busDraftForm, outboxNo);
 		
 		return new Gson().toJson("success");
@@ -1097,10 +1045,6 @@ public class AprvController {
 	@RequestMapping(value="oboxAprvReqBusCoop.do", produces="application/json; charset=utf-8")
 	public String oboxAprvReqBusCoop(AprvDoc aprvDoc, AprvHistory aprvHistory, 
 								BusCoopForm busCoopForm, int outboxNo) {
-		
-		System.out.println(aprvDoc.toString());
-		System.out.println(aprvHistory.toString());
-		System.out.println(busCoopForm.toString());
 		
 		aprvService.oboxAprvReqBusCoop(aprvDoc, aprvHistory, busCoopForm, outboxNo);
 		
@@ -1126,11 +1070,6 @@ public class AprvController {
 	@RequestMapping(value="aprvCancle.do", produces="application/json; charset=utf-8")
 	public String aprvCancle(int docNo, int docType, DocOutbox docOutbox) {
 		
-		System.out.println("Controller =========> docType " + docType);
-		System.out.println(docOutbox.toString());
-		
-		//int docType = docOutbox.getDocType();
-		
 		aprvService.aprvCancle(docNo, docType, docOutbox);
 		
 		return new Gson().toJson("success");
@@ -1144,8 +1083,8 @@ public class AprvController {
 								CmtUpdateForm cmtUpdateForm, BusDraftForm busDraftForm,
 								BusCoopForm busCoopForm, AprvHistory aprvHistory, AprvDoc aprvDoc) {
 		
-		System.out.println(aprvHistory.toString());
-		System.out.println(aprvDoc.toString());
+		//System.out.println(aprvHistory.toString());
+		//System.out.println(aprvDoc.toString());
 		
 		aprvService.aprvReRequest(docType, outboxNo, leaveForm, cmtUpdateForm,
 								busDraftForm, busCoopForm, aprvHistory, aprvDoc);
@@ -1166,32 +1105,12 @@ public class AprvController {
 	
 	
 	
-	// 문서 전체 검색
-	@ResponseBody
-	@RequestMapping(value="searchAllDocList.do", produces="application/json; charset=utf-8")
-	public String searchAllDocList(AprvDoc aprvDoc, @RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage) {
-		
-		System.out.println(aprvDoc.toString());
-		
-		int listCount = aprvService.searchAllDocListCount(aprvDoc);
-		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
-		
-		ArrayList<AprvDoc> list = aprvService.searchAllDocList(pi, aprvDoc);
-		
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
-	
-	}
-	
-	
-	
 	// 문서 등록 시 선택할 결재자 조회
 	@ResponseBody
 	@RequestMapping(value="selectDocEnrollApprover.do", produces="application/json; charset=utf-8")
 	public String selectDocEnrollApprover(Member loginUser) {
 		
 		ArrayList<Member> list = aprvService.selectDocEnrollApprover(loginUser);
-		System.out.println(list);
 		
 		return new Gson().toJson(list);
 	}
@@ -1203,7 +1122,6 @@ public class AprvController {
 	public String selectCancleDocApprover(int docNo) {
 		
 		AprvDoc aprvDoc = aprvService.selectCancleDocApprover(docNo);
-		System.out.println(aprvDoc);
 		
 		return new Gson().toJson(aprvDoc);
 	}
@@ -1216,7 +1134,6 @@ public class AprvController {
 	public String selectApproverJob(int empNo) {
 		
 		int approverJobNo = aprvService.selectApproverJob(empNo);
-		System.out.println(approverJobNo);
 		
 		return new Gson().toJson(approverJobNo);
 	}

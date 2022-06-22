@@ -63,8 +63,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertAprvHistory" parameterType="AprvHistory">
 		INSERT INTO APRV_HISTORY VALUES
 		(SEQ_APRV_HISTORY.NEXTVAL, 
-		 <if test="docNo == null">SEQ_DOC_NO.CURRVAL,</if>
-		 <if test="docNo != null">#{docNo},</if>
+		 <choose>
+			 <when test="docNo == null or docNo == ''">SEQ_DOC_NO.CURRVAL,</when>
+			 <otherwise>#{docNo},</otherwise>
+		 </choose>
 		 #{approver}, #{approverJob}, #{aprvPro}, DEFAULT)
 	</insert>
 	
@@ -145,7 +147,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND (LOWER(B.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(C.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(D.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
-				 LOWER(E.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
+				 LOWER(E.COOP_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%')
 		</if>
 	</select>
 	
@@ -181,7 +183,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND (LOWER(B.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(C.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(D.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
-				 LOWER(E.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
+				 LOWER(E.COOP_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%')
 		</if>
 		ORDER BY PRO_DATE DESC
 	</select>
@@ -210,7 +212,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND (LOWER(B.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(C.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(D.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
-				 LOWER(E.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
+				 LOWER(E.COOP_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%')
 		</if>
 	</select>
 	
@@ -240,7 +242,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND (LOWER(B.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(C.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(D.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
-				 LOWER(E.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
+				 LOWER(E.COOP_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%')
 		</if>
 		ORDER BY A.PRO_DATE DESC
 	</select>
@@ -313,8 +315,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			C.DEPARTMENT_TITLE AS COOP_DEPT_NAME, A.DFT_CONTENT
 		FROM BUSINESS_DFT A
 		JOIN USER_INFO B ON A.DRAFTER = B.EMP_NO
-		JOIN DEPARTMENT_MANAGEMENT C ON A.COOP_DEPT = C.DEPARTMENT_NO
-		JOIN DEPARTMENT_MANAGEMENT D ON A.DRAFTER_DEPT = D.DEPARTMENT_NO
+		LEFT JOIN DEPARTMENT_MANAGEMENT C ON A.COOP_DEPT = C.DEPARTMENT_NO
+		LEFT JOIN DEPARTMENT_MANAGEMENT D ON A.DRAFTER_DEPT = D.DEPARTMENT_NO
 		WHERE DOC_NO = #{docNo}
 	</select>
 	
@@ -376,7 +378,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND (LOWER(C.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(D.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(E.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
-				 LOWER(F.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
+				 LOWER(E.COOP_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%')
 		</if>
 		<if test="condition == '반려자' and search != ''">
 		    AND B.RE_FROM LIKE '%'|| #{search} ||'%'
@@ -414,7 +416,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND (LOWER(C.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(D.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(E.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
-				 LOWER(F.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
+				 LOWER(E.COOP_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%')
 		</if>
 		<if test="condition == '반려자' and search != ''">
 		    AND B.RE_FROM LIKE '%'|| #{search} ||'%'
@@ -475,7 +477,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND (LOWER(E.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(F.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(G.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
-				 LOWER(H.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
+				 LOWER(E.COOP_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%')
 		</if>
 	</select>
 	
@@ -509,7 +511,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND (LOWER(E.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(F.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(G.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
-				 LOWER(H.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
+				 LOWER(E.COOP_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%')
 		</if>
 		ORDER BY A.PRO_DATE DESC
 	</select>
@@ -554,7 +556,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND (LOWER(C.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(D.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(E.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
-				 LOWER(F.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
+				 LOWER(F.COOP_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%')
 		</if>
 	</select>
 	
@@ -587,7 +589,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND (LOWER(C.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(D.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(E.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
-				 LOWER(F.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
+				 LOWER(F.COOP_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%')
 		</if>
 		ORDER BY A.PRO_DATE DESC
 	</select>
@@ -686,7 +688,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND (LOWER(D.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(E.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(F.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
-				 LOWER(G.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
+				 LOWER(E.COOP_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%')
 		</if>
 	</select>
 	
@@ -716,7 +718,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND (LOWER(D.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(E.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
 				 LOWER(F.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
-				 LOWER(G.COOP_CONTENT LIKE) '%'|| LOWER(#{search}) ||'%')
+				 LOWER(E.COOP_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%')
 		</if>
 		ORDER BY 1 DESC
 	</select>
@@ -862,8 +864,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 임시 저장 문서 - 휴가 신청서 결재 요청 및 업데이트 -->
 	<update id="oboxAprvReqLeaveApp" parameterType="LeaveForm">
 		UPDATE LEAVE_APP
-		SET DOC_NO = #{docNo}, DFT_DATE = SYSDATE, VAC_TYPE = #{vacType},
-			START_DATE = #{startDate}, END_DATE = #{endDate}, VAC_USE_DAYS = #{vacUseDays}, 
+		SET <choose>
+				<when test="docNo == null or docNo == ''">
+					DOC_NO = SEQ_DOC_NO.NEXTVAL, 
+				</when>
+				<otherwise>
+					DOC_NO = #{ docNo }, 
+				</otherwise>
+			</choose>
+			DFT_DATE = SYSDATE, VAC_TYPE = #{vacType}, START_DATE = #{startDate}, 
+			END_DATE = #{endDate}, VAC_USE_DAYS = #{vacUseDays}, 
 			VAC_REASON = #{vacReason}, OUTBOX_NO = NULL
 		WHERE OUTBOX_NO = #{outboxNo}
 	</update>
@@ -871,7 +881,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 임시 저장 문서 - 근태 기록 수정 신청서 결재 요청 -->
 	<update id="oboxAprvReqCmtApp" parameterType="CmtUpdateForm">
 		UPDATE CMT_UPDATE_APP
-		SET DOC_NO = #{docNo}, DFT_DATE = SYSDATE, UPDATE_DATE = #{updateDate},
+		SET 
+			<choose>
+				<when test="docNo == null or docNo == ''">
+					DOC_NO = SEQ_DOC_NO.NEXTVAL, 
+				</when>
+				<otherwise>
+					DOC_NO = #{ docNo }, 
+				</otherwise>
+			</choose>
+			DFT_DATE = SYSDATE, UPDATE_DATE = #{updateDate},
 			BE_ATTEND_TIME = TO_DATE(#{beAttendTime}, 'YYYY-MM-DD HH24:MI'), 
 			BE_LEAVE_TIME = TO_DATE(#{beLeaveTime}, 'YYYY-MM-DD HH24:MI'), 
 			ATTEND_TIME = TO_DATE(#{attendTime}, 'YYYY-MM-DD HH24:MI'), 
@@ -883,7 +902,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 임시 저장 문서 - 업무 기안서 결재 요청 -->
 	<update id="oboxAprvReqBusDft" parameterType="BusDraftForm">
 		UPDATE BUSINESS_DFT
-		SET DOC_NO = #{docNo}, DFT_DATE = SYSDATE, DOC_TITLE = #{docTitle}, 
+		SET 
+			<choose>
+				<when test="docNo == null or docNo == ''">
+					DOC_NO = SEQ_DOC_NO.NEXTVAL, 
+				</when>
+				<otherwise>
+					DOC_NO = #{ docNo }, 
+				</otherwise>
+			</choose>
+			DFT_DATE = SYSDATE, DOC_TITLE = #{docTitle}, 
 			ENF_DATE = #{enfDate}, COOP_DEPT = #{coopDept}, DFT_CONTENT = #{dftContent},
 			OUTBOX_NO = NULL
 		WHERE OUTBOX_NO = #{outboxNo}
@@ -892,7 +920,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 임시 저장 문서 - 업무 협조문 결재 요청 -->
 	<update id="oboxAprvReqBusCoop" parameterType="BusCoopForm">
 		UPDATE BUSINESS_COOP
-		SET DOC_NO = #{docNo}, DFT_DATE = SYSDATE, DOC_TITLE = #{docTitle}, 
+		SET 
+			<choose>
+				<when test="docNo == null or docNo == ''">
+					DOC_NO = SEQ_DOC_NO.NEXTVAL, 
+				</when>
+				<otherwise>
+					DOC_NO = #{ docNo }, 
+				</otherwise>
+			</choose>
+			DFT_DATE = SYSDATE, DOC_TITLE = #{docTitle}, 
 			RECEIVE_DEPT = #{receiveDept}, COOP_CONTENT = #{coopContent}, OUTBOX_NO = NULL
 		WHERE OUTBOX_NO = #{outboxNo}
 	</update>

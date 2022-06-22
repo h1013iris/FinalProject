@@ -86,20 +86,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
     		AND C.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
-		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		<if test="condition == '문서 번호' and search != ''">
+		    AND A.DOC_NO LIKE '%'|| #{search} ||'%'
 		</if>
-		<if test="condition == '제목'">
-		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		<if test="condition == '제목' and search != ''">
+		    AND LOWER(A.DOC_TITLE) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
-		<if test="condition == '내용'">
-		    AND (D.VAC_REASON LIKE '%' ||#{search}||'%' OR
-		         E.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
-		         F.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
-		         G.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		<if test="condition == '내용' and search != ''">
+		    AND (LOWER(D.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(E.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(F.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(G.COOP_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%')
 		</if>
-		<if test="condition == '보안 사유'">
-		    AND B.SCRTY_REASON LIKE '%' ||#{search}||'%'
+		<if test="condition == '보안 사유' and search != ''">
+		    AND LOWER(B.SCRTY_REASON) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
 	</select>
 	
@@ -120,20 +120,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="docForm != null and docForm != '문서 유형' and docForm != '전체'">
     		AND C.DOC_FORM = #{docForm}
 		</if>
-		<if test="condition == '문서 번호'">
-		    AND A.DOC_NO LIKE '%' ||#{search}||'%'
+		<if test="condition == '문서 번호' and search != ''">
+		    AND A.DOC_NO LIKE '%'|| #{search} ||'%'
 		</if>
-		<if test="condition == '제목'">
-		    AND A.DOC_TITLE LIKE '%' ||#{search}||'%'
+		<if test="condition == '제목' and search != ''">
+		    AND LOWER(A.DOC_TITLE) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
-		<if test="condition == '내용'">
-		    AND (E.VAC_REASON LIKE '%' ||#{search}||'%' OR
-		         F.UPDATE_REASON LIKE '%' ||#{search}||'%' OR
-		         G.DFT_CONTENT LIKE '%' ||#{search}||'%' OR
-		         H.COOP_CONTENT LIKE '%' ||#{search}||'%')
+		<if test="condition == '내용' and search != ''">
+		    AND (LOWER(E.VAC_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(F.UPDATE_REASON) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(G.DFT_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%' OR
+				 LOWER(H.COOP_CONTENT) LIKE '%'|| LOWER(#{search}) ||'%')
 		</if>
-		<if test="condition == '보안 사유'">
-		   AND B.SCRTY_REASON LIKE '%' ||#{search}||'%'
+		<if test="condition == '보안 사유' and search != ''">
+		   AND LOWER(B.SCRTY_REASON) LIKE '%'|| LOWER(#{search}) ||'%'
 		</if>
 		ORDER BY 6 DESC
 	</select>

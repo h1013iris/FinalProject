@@ -184,9 +184,7 @@
 		
 		// 화면 로드 시 가장 먼저 실행
 		$(document).ready(function() {
-	 		
-			console.log(${outboxNo})
-			
+	 					
 			// 문서 내용 조회
 			$.ajax({
 			
@@ -195,7 +193,6 @@
 				data: { outboxNo : ${ outboxNo } },
 				success: function(data) {
 					
-					console.log(data)
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.drafterDept);
 					$("#dftDate").val(data.dftDate);
@@ -215,19 +212,17 @@
 						
 						// 결재자 조회
 				 		$.ajax({
-				 			
 				 			type: "post",
 		 	                url: "selectDocApprover.do",
 		 	                data: { docNo : data.docNo },
 		 	                success: function (list) {
-								console.log(list);
-								if(list != null) {
+
+		 	                	if(list != null) {
 									for(var i in list) {
 										if(list[i] != null) {
 											$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
 											$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
 											$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
-											console.log(list[i].empNo);
 										}
 									}
 		 	                	}

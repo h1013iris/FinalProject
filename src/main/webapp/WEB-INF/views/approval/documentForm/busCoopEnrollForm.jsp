@@ -260,7 +260,6 @@
                 url: "enrollDocument.do",
                 data: form,
                 success: function (result) {
-               		console.log(result)
                 	
                    	if(result == "success") {
 					
@@ -296,7 +295,6 @@
     			url: "saveCoopFormOutbox.do",
     			data: form,
     			success: function(result) {
-    				console.log(result);
     				
     				if(result == "success") {
     					let title = "임시 보관함 저장"

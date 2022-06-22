@@ -52,15 +52,9 @@ public class aprvMgtController {
 	// 문서 보안 요청 리스트
 	@ResponseBody
 	@RequestMapping(value="docScrtyRequestList.do", produces="application/json; charset=utf-8")
-	public Map<String, Object> selectScrtyReqList(@RequestParam(value="currentPage", required = false, defaultValue = "1") int currentPage) {
-		
-		Map<String, Object> result = new HashMap<String, Object>();
-		
-		int listCount = aprvMgtService.scrtyReqListCount();
-		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 5);
+	public String selectScrtyReqList() {
 				
-		ArrayList<AprvDoc> list = aprvMgtService.selectScrtyReqList(pi);
+		ArrayList<AprvDoc> list = aprvMgtService.selectScrtyReqList();
 		
 		// SimpleDateformat 으로 날짜 형식
 	    for(int i = 0; i < list.size(); i++) {
@@ -92,15 +86,8 @@ public class aprvMgtController {
 	        list.get(i).setProDate(proDate);   // set 해주기
 	    }
 	    
-	    System.out.println(list);
-		  
-	    result.put("list", list);
-		result.put("currentPage",  pi.getCurrentPage());
-		result.put("startPage",  pi.getStartPage());
-		result.put("endPage",  pi.getEndPage());
-		result.put("maxPage",  pi.getMaxPage());
 
-        return result;
+        return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(list);
 	}
 	
 	
@@ -139,9 +126,6 @@ public class aprvMgtController {
 	@RequestMapping(value="docScrtySet.do", produces="application/json; charset=utf-8")
 	public String docScrtySet(SecurityDoc securityDoc, AprvDoc aprvDoc) {
 		
-		System.out.println(securityDoc.toString());
-		System.out.println(aprvDoc.toString());
-		
 		aprvMgtService.docScrtySet(securityDoc, aprvDoc);
 
 		return new Gson().toJson("success");
@@ -159,7 +143,7 @@ public class aprvMgtController {
 		
 		int listCount = aprvMgtService.scrtyDocListCount(aprvDoc);
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 5);
 		
 		ArrayList<AprvDoc> list = aprvMgtService.selectScrtyDocList(pi, aprvDoc);
 		
@@ -192,9 +176,7 @@ public class aprvMgtController {
 			String proDate = sdf.format(date); // sdf 형식 지정
 			list.get(i).setProDate(proDate);   // set 해주기
 		}
-  
-		System.out.println(list);
-  
+    
 		result.put("list", list);
 		result.put("currentPage",  pi.getCurrentPage());
 		result.put("startPage",  pi.getStartPage());
@@ -226,9 +208,6 @@ public class aprvMgtController {
 	@ResponseBody
 	@RequestMapping(value="docScrtyCancel.do", produces="application/json; charset=utf-8")
 	public String docScrtyCancel(SecurityDoc securityDoc, AprvDoc aprvDoc) {
-		
-		System.out.println(securityDoc.toString());
-		System.out.println(aprvDoc.toString());
 		
 		aprvMgtService.docScrtyCancel(securityDoc, aprvDoc);
 

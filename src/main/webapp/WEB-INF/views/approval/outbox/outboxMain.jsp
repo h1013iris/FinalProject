@@ -300,9 +300,7 @@
                 data: { drafter : "${ loginUser.empNo }",
 						currentPage : num },
                 success: function (result) {
-					
-                	console.log(result)
-                	
+					                	
                 	$tbody = $('.outBoxList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
@@ -460,13 +458,8 @@
 		
 		// 필터 및 검색 내용에 따른 리스트 조회
 		function filterOutboxListFn(docForm, condition, search, num) {
-			
-			console.log(docForm);
-			console.log(condition);
-			console.log(search);
-			
+
 			$.ajax({
-				
 				type: "post",
                 url: "selectOutboxList.do",
                 data: { drafter : "${ loginUser.empNo }",
@@ -475,9 +468,7 @@
 						search : search,
 						currentPage : num },
                 success: function (result) {
-					
-                	console.log(result)
-                	
+				                	
                 	$tbody = $('.outBoxList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
@@ -560,9 +551,7 @@
 		// 게시글 클릭 시
 		$(".outBoxList_table tbody").on("click", ".yesOutboxList", function() {
 			
-			let outboxNo = $(this).find("td:eq(0)").text(); // 클릭한 문서의 문서 번호 가져와서 담기
-			console.log(outboxNo);
-			
+			let outboxNo = $(this).find("td:eq(0)").text(); // 클릭한 문서의 문서 번호 가져와서 담기			
 			location.href = "outboxDetail.do?outboxNo=" + outboxNo;
 		});
 		

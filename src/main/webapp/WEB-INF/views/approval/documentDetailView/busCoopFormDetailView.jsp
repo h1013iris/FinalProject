@@ -172,9 +172,7 @@
 	
 		// 화면 로드 시 가장 먼저 실행
 		$(document).ready(function() {
-			
-			//console.log(${donNo})
-			
+						
 			// 문서 내용 조회
 			$.ajax({
 			
@@ -183,7 +181,6 @@
 				data: { docNo : ${ docNo } },
 				success: function(data) {
 					
-					console.log(data)
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.drafterDept);
 					$("#dftDate").val(data.dftDate);

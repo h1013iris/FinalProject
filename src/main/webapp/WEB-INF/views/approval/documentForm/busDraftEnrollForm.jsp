@@ -229,9 +229,8 @@
 	                url: "selectDeptList.do",
 	                data: { deptNo : "${ loginUser.departmentNo }" },
 	                success: function (list) {
-					console.log(list);
+
 	                	if(list != null || list != "") {
-	                		
 	                		$.each(list, function(i) {
 	                			$("#coopDept").append("<option value='" + list[i].deptNo + "'>" 
 	                								  + list[i].deptTitle + "</option>");
@@ -254,8 +253,8 @@
  						departmentNo : "${ loginUser.departmentNo }",
  						jobNo : "${ loginUser.jobNo }" },
  				success: function(list) {
- 					console.log(list);
-                	if(list != null || list != "") {
+
+ 					if(list != null || list != "") {
                 		
                 		$.each(list, function(i) {
                 			$(".approverList").append("<option value='" + list[i].empNo + "'>" 
@@ -354,7 +353,6 @@
                 url: "enrollDocument.do",
                 data: form,
                 success: function (result) {
-                	console.log(result)
                 	
                     if(result == "success") {
 					
@@ -390,7 +388,6 @@
     			url: "saveDraftFormOutbox.do",
     			data: form,
     			success: function(result) {
-    				console.log(result);
     				
     				if(result == "success") {
     					let title = "임시 보관함 저장"
