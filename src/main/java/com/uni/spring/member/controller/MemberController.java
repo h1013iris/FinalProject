@@ -149,6 +149,7 @@ public class MemberController {
 		return "redirect:approvalMain.do";
 		
 	}*/
+	
 	//암호화 이후 로그인 +
 	//로그인 실패시 alert뜨게
 	@PostMapping("loginMember.do")

@@ -12,6 +12,8 @@
  float: left;}
  
  .comFA{
+  cursor:pointer;
+ width: 150px;
  background-color: #d3edff;
  width: 130px;
  height:30px;

@@ -11,4 +11,5 @@ public class PageInfo {
 	private int maxPage;
 	private int pageLimit;
 	private int boardLimit;
+	
 }

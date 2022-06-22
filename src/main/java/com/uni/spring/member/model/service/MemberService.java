@@ -30,6 +30,7 @@ public interface MemberService {
 
 	int insertMemberAttachFile(MultipartFile file, HttpServletRequest request, int empNo);
 
+	
 	//비밀번호찾기_이메일인증번호 보내기전 사원정보유무확인
 	int selectFindUser(Member m);
 

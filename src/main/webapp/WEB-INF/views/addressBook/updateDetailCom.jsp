@@ -21,6 +21,7 @@
 	align-items: center;
 }
 
+
    .main{
       width: 400px;
       height:400px;

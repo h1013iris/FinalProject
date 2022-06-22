@@ -7,4 +7,5 @@ public class Dept{
 
 	private int departmentNo;
 	private String departmentTitle;
+	
 }

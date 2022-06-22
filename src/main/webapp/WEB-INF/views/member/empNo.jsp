@@ -18,6 +18,7 @@
 	align-items: center;
 }
 
+
 #logo {
 	margin-top: 30px;
 	width: 250px;

@@ -20,9 +20,16 @@
 	text-align: center;
 }
 
+
+
+#addcon {
+	margin: 0 auto;
+	text-align: center;
+
 #contain {
 	margin: 0;
 	width: 1000px;
+
 }
 
 #main {

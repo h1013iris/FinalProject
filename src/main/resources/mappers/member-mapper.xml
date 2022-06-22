@@ -20,6 +20,8 @@
  	<result property="departmentNo" column="DEPARTMENT_NO"/>
  </resultMap>
  
+ 
+ 
   <resultMap type="WideMember" id="wideMemberResultSet">
  	<id property="empNo" column="EMP_NO"/>
  	<result property="userId" column="USER_ID"/>

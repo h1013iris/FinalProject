@@ -19,6 +19,7 @@ html{
 	text-align: center;
 }
 
+
 #contain {
 	margin: 0;
 	width: 1000px;

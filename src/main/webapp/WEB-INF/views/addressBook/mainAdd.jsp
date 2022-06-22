@@ -20,6 +20,7 @@
 	width: 1000px;
 }
 
+
 #deptTitle {
 	margin: 50px;
 }
