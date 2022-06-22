@@ -639,7 +639,7 @@
 	  	}
 		$(".submitNumber").click(function(){
 			var salary= $(".payhowMuch").val().replace(/[,]/g,'');
-			console.log($(".payhowMuch").val().replace(/[,]/g,''))//콤마 사라지고 보임
+			
 			if(salary == 0){
 				myAlert("값입력", "값을 입력해주시기 바랍니다");
 				return false;
@@ -812,16 +812,16 @@
 						searchli=null;
 					}
 				}
-				console.log(deptNo)
-				console.log(deptTitle)
-				console.log(ordq)
-				console.log(searchli)
+				
+				
+				
+				
 				$.ajax({
 					url:"filterListVacation.do",
 					type:"get",
 					data:{dep:deptTitle, depNo:deptNo, ord:ordq, searchli:searchli},
 					success:function(list){
-						console.log("성공")
+						
 						$tableBody = $(' .vacationmainDiv');
 						$tableBody.html('');
 						if(list.length ==0){
@@ -933,7 +933,7 @@
 				type:"get", 
 				data:{empNo:empNo}, 
 				success:function(result){
-					console.log("성공")
+					
 					if(result == null){
 						myAlert("사번 오류", "입력하신 사번이 없습니다. 다시 입력해주세요");
 						$("#input1").focus();
@@ -949,7 +949,7 @@
 						$(".work_part").text(result.changeName+" ~ 현재");//재직기간
 						$(".why_part").text(submit);//용도
 						$(".cont_part").text(dateString);//현재 날짜
-						console.log(submit)
+						
 					}
 					
 				}, error:function(){

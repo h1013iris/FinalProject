@@ -24,10 +24,7 @@
 	margin: 50px;
 }
 
-td, th {
-	border: 1px solid black;
-	width: 200px;
-}
+
 #listMain{
 	height:400px;
 	overflow-y: scroll;
@@ -42,18 +39,18 @@ display: none;
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
-	border: 1px solid;
+	background-color: #fff;
 	
 }
 
 .listAdd td {
-	border: 1px solid;
+	border: 2px rgb(223, 238, 255) solid;
 	padding: 5px 10px;
 	width: 200px;
 }
 
 .listAdd th {
-	border: 1px solid;
+	border: 2px rgb(223, 238, 255) solid;
 	padding: 5px 10px;
 	width: 200px;
 }
@@ -71,7 +68,7 @@ display: none;
 }
 
 /*팀에서 공동 선택한 버튼디자인*/
-.commonButton1 {
+.commonButton1a {
 	padding: 0;
 	font-weight: 600;
 	text-align: center;
@@ -86,7 +83,7 @@ display: none;
 	margin: 30px;
 }
 
-.commonButton1:hover {
+.commonButton1a:hover {
 	position: relative;
 	top: 5px;
 	bottom: 5px;
@@ -143,7 +140,21 @@ outline:none;
 .trSt:hover{
 background-color: #d3edff;
 }
-
+.oneT{
+height: 25px;
+line-height: 25px;
+margin-bottom: 5px;
+}
+.mainAddList{
+	height:450px;
+	width:1200px;
+	margin-bottom:30px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color:rgb(209, 209, 209);
+  	border-radius: 20px;
+  	padding: 20px;
+}
 
 </style>
 <body>
@@ -162,14 +173,14 @@ background-color: #d3edff;
 				<form action="addressMain.do" method="get" class="a">
 					<div>
 						<input type="submit" value="전체주소록" name="departmentTitle"
-							class="commonButton1">
+							class="commonButton1a">
 					</div>
 				</form>
 				<c:forEach items="${deptTitleList}" var="dept">
 					<form action="deptAddList" method="get" class="a">
 						<div>
 							<input type="submit" value="${dept.departmentTitle}"
-								name="departmentTitle" class="commonButton1">
+								name="departmentTitle" class="commonButton1a">
 						</div>
 					</form>
 				</c:forEach>
@@ -185,8 +196,8 @@ background-color: #d3edff;
 			<!--전체 주소록 내용이 표시될곳-->
 
 			<div id="addcon">
-			
-			<table class="listAdd">
+			<div class="mainAddList">
+			<table class="listAdd oneT">
 					<tr>
 						<th style="width: 50px"></th>
 						<th>이름</th>
@@ -196,6 +207,7 @@ background-color: #d3edff;
 						<th>휴대폰</th>
 					</tr>
 					</table>
+					
 			<div id="listMain" class="sc">
 				
 			<table class="listAdd">
@@ -228,6 +240,7 @@ background-color: #d3edff;
 			</div>
 		</div>
 	</div>
+	</div>
 	<script type="text/javascript">
 	$(function(){
         $(".page_title>.title_name").text("전체 주소록");
@@ -257,7 +270,7 @@ background-color: #d3edff;
 				data:{ckEmpNo:ckEmpNo},
 				success:function(data){
 					no=data;
-					console.log("즐겨찾기에 추가 결과: "+no);
+					
 				if(no<1){
 					alert("즐겨찾기 추가에 실패했습니다");
 				}
@@ -275,7 +288,7 @@ background-color: #d3edff;
 		let num=0;
 		
 		if(checked=true){//true 체크됐을때
-			console.log("ajax 즐겨찾기 추가준비"+ckEmpNo);
+			
 		
 			$.ajax({
 				type:"POST",
@@ -283,7 +296,7 @@ background-color: #d3edff;
 				data:{ckEmpNo:ckEmpNo},
 				success:function(data){
 					no=data;
-					console.log("즐겨찾기에 추가 결과: "+no);
+					
 					if(no<1){
 						$.ajax({
 							type:"POST",
@@ -291,7 +304,7 @@ background-color: #d3edff;
 							data:{ckEmpNo:ckEmpNo},
 							success:function(data){
 								no=data;
-								console.log("즐겨찾기에 삭제 결과: "+no);
+								
 								if(no<1){
 									alert("즐겨찾기 삭제에 실패했습니다");
 										}

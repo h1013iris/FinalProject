@@ -181,18 +181,18 @@ public class AddressBookServiceImpl implements AddressBookService {
 	@Override
 	public int deleteCustoBox(List<String> cusNoArr) {
 		// TODO Auto-generated method stub
-		System.out.println("고객주소록 영구삭제 임플 cusNoArr"+cusNoArr);
+		
 		int a= addressBookDao.deleteCustoBox(sqlSession, cusNoArr);
-		System.out.println("고객주소록 영구삭제 임플 결과?"+a);
+		
 		return a;
 	}
 
 	//거래처 주소록 영구삭제
 	@Override
 	public int deleteComBox(List<String> comNoArr) {
-		System.out.println("거래처주소록 영구삭제 임플 넘어온값 comNoArr"+comNoArr);
+		
 		int a= addressBookDao.deleteComBox(sqlSession, comNoArr);
-		System.out.println("거래처주소록 영구삭제 임플 결과?"+a);
+		
 		return a;
 	}
 
@@ -200,14 +200,14 @@ public class AddressBookServiceImpl implements AddressBookService {
 	@Override
 	public int updateBackCustoBox(List<String> cusNoArr) {
 		int a= addressBookDao.updateBackCustoBox(sqlSession, cusNoArr);
-		System.out.println("고객주소록 복원 임플 결과? "+a);
+		
 		return a;
 	}
 	//거래처주소록 임시보관함 복원
 	@Override
 	public int updateBackComBox(List<String> comNoArr) {
 		int a= addressBookDao.updateBackComBox(sqlSession, comNoArr);
-		System.out.println("거래처 주소록 복원 임플 결과? "+a);
+		
 		return a;
 	}
 
@@ -223,7 +223,7 @@ public class AddressBookServiceImpl implements AddressBookService {
 		uCount=addressBookDao.selectUserCount(sqlSession,pavoMap);
 		if(uCount<1){
 		count= addressBookDao.insertPavoAdd(sqlSession,pavoMap);
-		System.out.println("즐겨찾기 추가 결과는? "+count);
+		
 		}
 		return count;
 	}

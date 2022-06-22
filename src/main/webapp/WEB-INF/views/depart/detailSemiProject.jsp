@@ -666,7 +666,7 @@
 			data:{ckeckNo:ckeckNo}, 
 			success:function(result){
 				if(result =="1"){
-					console.log("성공")
+					
 				}
 				selectCheckList(refSemi);
 			}
@@ -681,7 +681,7 @@
 			type:"post", 
 			data:{refSemi:refSemi},
 			success:function(result){
-				console.log("체크리스트 삭제 완료")
+				
 				selectSemiDetailPro(num);
 				$(".semiCheckListDiv").css("display", "none");
 				$(".checkListTitle").css("display", "none");
@@ -695,7 +695,7 @@
 	$(document).on("change",".checkBoxDiv",function(){
 		var ckeckNo = $(this).val();
 		ckeckNo = ckeckNo.replace("contentCheckBox"," ");
-		console.log(ckeckNo)
+		
 		var refSemi = $("#semiNoDETAIL").val();//세부 번호
 		if($(this).is(":checked")==false){
 			$.ajax({
@@ -743,7 +743,7 @@
 			data:{semiNo:semiNo, semiContent:semiContent}, 
 			success: function(result){
 				if(result == "1"){
-					console.log("설명 업데이트 성공")
+					
 					$("#textareaCommnet").val('');
 				}
 				selectSemiDetailPro(semiNo);
@@ -758,7 +758,7 @@
 			type:"get", 
 			data:{semiNo:semiNo}, 
 			success:function(result){
-				console.log("성공")
+				
 				$("#textareaCommnet").val('');
 				$(".commentDvi").css("display","none");
 				selectSemiDetailPro(semiNo);
@@ -768,8 +768,8 @@
 	//댓글 등록 버튼을 눌렀을 시에
 	$(function(){
    		$(".replyButton").click(function(){
-       		console.log($("#replySum").val())//값이 잘 나오는 것을 확인 완료
-       		console.log(${loginUser.empNo})
+       		
+       		
        		var refDepartNo = $("#semiNoDETAIL").val();//세부 번호
        		var replyWriter = ${loginUser.empNo};//댓글 작성자 
        		if($("#replySum").val().trim().length != 0){
@@ -783,7 +783,7 @@
       					success:function(result){
       						if(result>0){
       							$("#replySum").val("");
-      							console.log("댓글 달기 성공")//댓글 다는거는 성공
+      							
       							selectSemiDetailPro(refDepartNo);
       						}else{
       							myAlert("댓글 등록 실패","댓글을 등록을 실패하였습니다");
@@ -795,7 +795,7 @@
       		        			})
       						}
       					}, error:function(){
-      						console.log("댓글 작성 ajax 실패")
+      						
       					}
        				
        			});
@@ -838,7 +838,7 @@
 				$("#replyList").html(value);
 				}
 			},error:function(){
-				console.log("댓글 리스트조회용 ajax 통신 실패");
+				
 			}
 		})
 	}	
@@ -851,7 +851,7 @@
 			data:{replyNo:num, refDepartNo:semiNo}, 
 			success:function(result){
 				if(result == "1"){
-					console.log("댓글 삭제 성공")
+					
 					selectSemiDetailPro(semiNo);
 					$("#helpmeCOnfirm").css("display","none");
 				}
@@ -881,7 +881,7 @@
 			data:data, 
 			success:function(result){
 				if(result =="1"){
-					console.log("파일 보내기 성공")
+					
 					selectAttachFile($("#semiNoDETAIL").val());
 					$(".semiReplyPartS").css("display","none");
 					$(".semiAttachParts").css("display","block");
@@ -943,15 +943,15 @@
 	//삭제 (첨부파일 개별)
 	function deleteAttachSectDi(fileNo, changeName){
 		var semiNo = $("#semiNoDETAIL").val();//세부 번호
-		console.log(fileNo)
-		console.log(changeName)
+		
+		
 		$.ajax({
 			url:"deleteAttachOne.do", 
 			type:"post", 
 			data:{fileNo:fileNo, changeName:changeName}, 
 			success: function(result){
 				if(result == "1"){
-					console.log("개별 삭제 ")
+					
 					selectAttachFile(semiNo);
 					$(".semiReplyPartS").css("display","none");
 					$(".semiAttachParts").css("display","block");

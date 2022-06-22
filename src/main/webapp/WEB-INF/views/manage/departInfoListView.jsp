@@ -251,7 +251,7 @@
 				type:"get",
 				data:{dep:deptTitle, depNo:deptNo},
 				success:function(list){
-					console.log("성공")
+					
 					$tableBody = $(' .mainSecScroll');
 					$tableBody.html('');
 					if(list.length ==0){
@@ -296,7 +296,7 @@
 				type:"get",
 				data:{dep:dep, depNo:depNo, fil:con},
 				success:function(list){
-					console.log("성공")
+					
 					$tableBody = $(' .mainSecScroll');
 					$tableBody.html('');
 					if(list.length ==0){
@@ -362,7 +362,7 @@
 				type:"get",
 				data:{dep:dep, depNo:depNo, fil:fil, ord:ord, searchli:con},
 				success:function(list){
-					console.log("성공")
+					
 					$tableBody = $(' .mainSecScroll');
 					$tableBody.html('');
 					if(list.length ==0){

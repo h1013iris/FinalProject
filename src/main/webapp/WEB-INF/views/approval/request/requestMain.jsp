@@ -298,7 +298,7 @@
 		// 요청 리스트 조회
 		function requestListFn(num) {
 			
-			console.log(num);
+			
 			
 			$.ajax({
 				
@@ -308,7 +308,7 @@
                 		currentPage : num },
                 success: function (result) {
 					
-                	console.log(result)
+                	
                 	
                 	$tbody = $('.requestList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
@@ -470,10 +470,10 @@
 		// 요청 리스트 조회 & 필터 및 검색 내용에 따른 리스트 조회
 		function filterRequestListFn(docForm, condition, search, num) {
 			
-			console.log(docForm);
-			console.log(condition);
-			console.log(search);
-			console.log(num);
+			
+			
+			
+			
 			
 			$.ajax({
 				
@@ -487,7 +487,7 @@
 						// AprvDoc 에 있는 필드 이용하기 위해 이름 drafter 로 넘기기
                 success: function (result) {
 					
-                	console.log(result)
+                	
                 	
                 	$tbody = $('.requestList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');

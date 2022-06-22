@@ -479,7 +479,7 @@
                 data: { drafter : "${ loginUser.empNo }" },
                 success: function (list) {
 					
-                	console.log(list)
+                	
                 	
                 	$tbody = $('.requestList_main'); // 리스트가 들어갈 div
                 	$tbody.html('');
@@ -532,7 +532,7 @@
                 data: { drafter : "${ loginUser.empNo }" },
                 success: function(list) {
 					
-                	console.log(list)
+                	
                 	
                 	$tbody = $('.waitingList_main'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
@@ -583,7 +583,7 @@
                 data: { drafter : "${ loginUser.empNo }" },
                 success: function (list) {
 					
-                	console.log(list)
+                	
                 	
                 	$tbody = $('.completeList_main'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
@@ -635,7 +635,7 @@
                 data: { drafter : "${ loginUser.empNo }" },
                 success: function (list) {
 					
-                	console.log(list)
+                	
                 	
                 	$tbody = $('.statusList_main'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
@@ -817,10 +817,10 @@
 		// 필터 및 검색 내용에 따른 리스트 조회
 		function searchFilterFn(aprvStatusName, docForm, condition, search) {
 			
-			console.log(aprvStatusName);
-			console.log(docForm);
-			console.log(condition);
-			console.log(search);
+			
+			
+			
+			
 			
 			
 			$.ajax({
@@ -835,7 +835,7 @@
 						// AprvDoc 에 있는 필드 이용하기 위해 이름 drafter 로 넘기기
 				success: function(list) {
 				
-					console.log(list);
+					
 					
 					$listArea = $(".docList_area");
 	            	$listArea.html('');
@@ -907,7 +907,7 @@
                 					url: "selectApprover.do",
                 					data: { docNo : obj.docNo },
                 					success: function(approver) {
-                						//console.log(approver);
+                						//
                 						
                 						$aprvStatusName.append(" (" + approver + ")");	                					}
                 					

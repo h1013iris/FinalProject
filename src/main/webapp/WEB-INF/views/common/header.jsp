@@ -328,8 +328,8 @@
 	<script type="text/javascript">
 	
 	$(document).on('click','.reservationRoom-smallList',function(){
-		console.log("a태그 누름")
-		console.log($(this).children("input").val())
+		
+		
 		let val = $(this).children("input").val()
 		$(this).attr("href","smallRoomReservation.do?roomSmallNo="+val)
 		
@@ -338,13 +338,13 @@
 	
 	$(document).ready(function(){
 		
-		console.log("탐탐탐")
+		
 		
 		$.ajax({
 			url:"allboardlist.do",
 			type:"get",
 			success:function(list){
-				console.log(list)
+				
 					var value = "";
 					$.each(list,function(i, c) {
 						value += "<ul>"
@@ -362,7 +362,7 @@
 				
 			},
 			error : function() {
-				console.log("안됨");
+				
 	
 			}
 		});
@@ -384,7 +384,7 @@
 					let bul = $("<ul>").addClass("reservation-Bigul")
 					reservationRoomBiglist.append(bul);
 					
-					console.log("값 뽑아유")
+					
 					$.each(list, function(index, val){
 						
 						let largeNo = val.roomLargeNo;
@@ -421,7 +421,7 @@
 				}
 			}, 
 			err:function(){
-				console.log("회의실 예약 리스트값 받기 실패")
+				
 			}
 		})
 	})
@@ -464,15 +464,15 @@
 				$(".annoDepartModal").css("display","flex");
 			}, 
 			err:function(){
-				console.log("부서별 공지사항 모음 값 받기 실패")
+				
 			}
 		})
 		
 	})
 		
 	$(document).on("click",".annoDepart_detail",function(){
-		console.log($(this).children().eq(4).val())//번호 체크
-		console.log($(this).children().eq(5).val())//글작성한 사람
+		
+		
 		location.href="detailAnnoDepart.do?adno="+$(this).children().eq(4).val()+"&userNo="+${loginUser.empNo}+"&writerNo="+$(this).children().eq(5).val();
 	})
 	})
@@ -504,7 +504,7 @@
 
 	$(".clickDepartJUn").click(function(){
 		var departmentNo = ${loginUser.departmentNo};
-		console.log(departmentNo)
+		
 		$.ajax({
 			url:"selectListMemberList.do",
 			type:"get",
@@ -530,13 +530,13 @@
 	 $(".status").click(function(){
         
         var attendStatus = $(this).text();
-        console.log(attendStatus)
+        
         $.ajax({
         	url:"updateStatusMember.do", 
         	data:{empNo:${loginUser.empNo}, attendStatus:attendStatus}, 
         	type:"post", 
         	success:function(result){
-        		console.log("성공")
+        		
         		 $(".login_status").hide();
         	}
         })

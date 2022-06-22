@@ -65,6 +65,27 @@
     table-layout: fixed;
     width: 450px;
 }
+.commonButton1 {
+	padding: 0;
+	font-weight: 600;
+	text-align: center;
+	line-height: 30px;
+	color: #FFF;
+	border-radius: 5px;
+	transition: all 0.2s;
+	background: #85cdff;
+	border: #85cdff;
+	box-shadow: 0px 5px 0px 0px #4c87b099;
+	width: 100px;
+	margin: 0px;
+}
+
+.commonButton1:hover {
+	position: relative;
+	top: 5px;
+	bottom: 5px;
+	box-shadow: 0px 0px 0px 0px #4c87b099;
+}
 
 </style>
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">	
@@ -104,7 +125,7 @@ if(msg){
 					</table>
 					<div class="btn">
 					<input type="hidden" name="userId" value="${userId}">
-						<button type="submit" id="subBtn" disabled>비밀번호 변경</button>
+						<button type="submit" id="subBtn" class="commonButton1" disabled>비밀번호 변경</button>
 					</div>
 				</form>
 			<div class="out"></div>
@@ -148,21 +169,22 @@ if(msg){
            
            //비밀번호 변경 버튼 누르고나서 
            $("#subBtn").on("click",function(){
-           	   var pw = $("#userPw").val();
+           	   var pw = $("#changePw").val();
            	   var pwregex =/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
            
            	   var pwregex = pwregex.exec(pw);
-           	   if(pwregex == null){
+           	   if(pwregex === null){
            		   myAlert("비밀번호 재확인","비밀번호를 확인해주세요");
-           		   $('#userPw').focus();
+           		   $('#changePw').focus();
              			return false;
            		} //비밀번호 일치여부 재확인
-    		        else if ($("#userPw").val() != $("#ckPw").val()) {
+    		        else if ($("#changePw").val() != $("#checkPw").val()) {
     		         myAlert("비밀번호 불일치","비밀번호 일치여부를 다시 확인해주세요");
-    		          $('#ckPw').focus();
+    		          $('#checkPw').focus();
     		          return false;
     		        }else {
     		          //비밀번호 변경 성공
+    		           $("#subBtn").prop('disabled',false);
     		          myAlert("비밀번호 변경","비밀번호 변경 되었습니다");
     		        	   $("#subBtn").submit();
     		           }

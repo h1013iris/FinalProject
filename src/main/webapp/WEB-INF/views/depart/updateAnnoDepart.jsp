@@ -119,7 +119,7 @@
     	})
     	
     	$("button[name='confirmBtn']").click(function(){
-    		console.log($(this).val())
+    		
     		if($(this).val()=="true"){
     			history.go(-1);
     			$("#helpmeCOnfirm").css("display","none");

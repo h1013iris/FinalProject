@@ -192,7 +192,7 @@
 
            var toggleClass = function(className) {
                
-               console.log("current event: " + className)
+               
 
                var list = ["dragenter", "dragleave", "dragover", "drop"]
 
@@ -264,7 +264,7 @@
                
                
                var files = e.dataTransfer && e.dataTransfer.files
-               console.log(files)
+               
 
                if (files != null) {
                    if (files.length < 1) {

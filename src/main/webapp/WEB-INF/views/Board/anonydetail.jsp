@@ -180,8 +180,8 @@
 					function postFormSubmit(num){
 						var anop = $("#anonyboarddetailpassword").val();
 					    var realp = ${ b.password }					   
-					    console.log(realp)
-					    console.log(anop)
+					    
+					    
 					    if(realp == anop){
 						var postForm = $("#postForm");
 						
@@ -274,11 +274,11 @@
 							
 
 						} else {
-							console.log("댓글등록이 왜 안되지 ");
+							
 						}
 					},
 					error : function() {
-						console.log("아니 왜 안돼");
+						
 					}
 				})
 			}
@@ -324,21 +324,21 @@
 						
 					},
 					error : function() {
-						console.log("아 화난다");
+						
 					}
 				});
 	}
 	
 	function deleteReply(num , pass){		
 		var anopass = $("#anonypassword").val();		
-		console.log(anopass);
-		console.log(pass);
+		
+		
 		if(anopass == pass){
 		$("#confirm_title .title_name").text("댓글 삭제");
 		$("#confirm_body .confirm_content").text("댓글을 삭제하시겠습니까?");		
 		$("#helpmeCOnfirm").css("display","block");		
 		$("button[name='confirmBtn']").click(function(){
-    		console.log($(this).val())   			
+    		
     		if($(this).val()=="true"){    			
     			location.href="deletecoment.do?cno="+num+"&bno="+${b.writeno}+"&realbno="+4
     			$("#helpmeCOnfirm").css("display","none");       		
@@ -357,7 +357,7 @@
 			type:"get", 
 			success:function(list){
 				$("#userList").html('');
-				console.log(list)
+				
 				var ulist = list
 				var str = "";			
 				$.each(ulist, function(i){

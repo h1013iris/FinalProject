@@ -518,7 +518,7 @@ public class AprvServiceImpl implements AprvService {
 		// 임시 보관함에서 삭제
 		deleteOutboxDoc(outboxNo);
 		
-		System.out.println("Service docNo ==========> " + docNo);
+		
 		// 결재 취소한 문서의 경우 결재 정보 삭제
 		if(docNo != null) {
 			result2 = aprvDao.deleteAprvDocument(sqlSession, docNo);

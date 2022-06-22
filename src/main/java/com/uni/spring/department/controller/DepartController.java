@@ -85,7 +85,7 @@ public class DepartController {
 		//업로드 할 때 지정 경로가 필요하다 
 		String resources = request.getSession().getServletContext().getRealPath("resources");//웹 컨테이너에서의 resources 폴더까지의 경로 추출
 		
-		System.out.println(resources);
+		
 		//savePath 만들기
 		String savePath = resources + "\\upload_files\\";
 		String originName = file.getOriginalFilename();
@@ -93,7 +93,7 @@ public class DepartController {
 		
 		String ext = originName.substring(originName.lastIndexOf("."));
 		
-		System.out.println(savePath);
+		
 		String changeName = currentTime+ext;
 		
 		//try-catch와 try-multicatch의 차이점을 알아보자
@@ -219,7 +219,7 @@ public class DepartController {
 	@ResponseBody
 	@RequestMapping("annoReplyInsert.do")
 	public String insertAnnoReply(DepartmentReply dr,String refDepartNo, String replyWriter) {
-		System.out.println(dr.toString());
+		
 		dr.setRefDepartNo(Integer.parseInt(refDepartNo));
 		dr.setReplyWriter(Integer.parseInt(replyWriter));
 		int result = departService.insertAnnoReply(dr);
@@ -553,7 +553,7 @@ public class DepartController {
 	@RequestMapping("updateProjectName.do")
 	public String updateProjectName(Project p, Model m) {
 		departService.updateProjectName(p);
-		System.out.println("p의 값"+ p);
+		
 		m.addAttribute("pjno",p.getProNo());
 		return "redirect:detailProject.do";
 	}

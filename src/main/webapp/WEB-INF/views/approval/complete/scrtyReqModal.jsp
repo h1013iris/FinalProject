@@ -106,7 +106,7 @@
 			$(".errorMsg").empty();
 			
 			let scrtyReason = $("#scrtyReason").val();
-			console.log(scrtyReason)
+			
 			
 			// 유효성 검사
 			if(scrtyReason == null || scrtyReason == "") {
@@ -129,7 +129,7 @@
 	                url: "scrtyRequest.do",
 	                data: form,
 	                success: function (result) {
-	                	console.log(result)
+	                	
 	                	
 	                    if(result == "success") {
 							
