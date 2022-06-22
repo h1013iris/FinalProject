@@ -95,8 +95,6 @@ public class DateData {
 		// 이전달 다음달 및 이전년도 다음년도 리턴값 받기
 		Map<String, Integer> before_after_calendar = before_after_calendar(searchYear,searchMonth, searchDate, endDay);
 		
-		//날짜 관련
-		System.out.println("searchDate : " + searchDate);
 		// 캘린더 함수 end
 		today_Data.put("start", start); //시작요앨
 		today_Data.put("startDay", startDay); // 시작하는 일자
@@ -124,22 +122,11 @@ public class DateData {
 		int afterMonth = searchMonth+1; // 다음 달
 		int afterDate = searchDate+1; // 다음일
 
-		System.out.println("거치기 전 searchYear : " + searchYear);
-		System.out.println("거치기 전 searchMonth : " + searchMonth);
-		System.out.println("거치기 전 searchDate : " + searchDate);
-		System.out.println("거치기 전 beforeYear : " + beforeYear);
-		System.out.println("거치기 전 beforeMonth : " + beforeMonth);
-		System.out.println("거치기 전 beforeDate : "+ beforeDate);
-		System.out.println("거치기 전 afterYear : " + afterYear);
-		System.out.println("거치기 전 afterMonth : "+ afterMonth);
-		System.out.println("거치기 전 afterDate : "+ afterDate);
-		
 
 		// 일이 넘어갔다? 그럼 달 바꾸기
 		
 		// 다음일이 마지막일을 넘어서면 ( 다음달로 넘어가면 )
 		if(afterDate > endDay) {
-			System.out.println("다음일이 이번달의 마지막일을 넘어섬");
 			
 			// 다음 일을 1로
 			afterDate = 1;
@@ -162,19 +149,16 @@ public class DateData {
 			Calendar cal = new GregorianCalendar(searchYear, beforeMonth, 1); // 이전달
 			// 검색월의 이전달 마지막일 초기화
 			beforeMonthEndDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-			System.out.println((beforeMonth+1)+"월의 이전 달 마지막 일 : " + beforeMonthEndDay);
 		}else if(searchMonth == 0){ 
 			// 1월로 넘어가면 12월의 마지막 날을 구하기
 			Calendar cal = new GregorianCalendar(searchYear-1, 11, 1); // 이전달
 			// 검색월의 이전달 마지막일 초기화
 			beforeMonthEndDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-			System.out.println(12+"월의 이전 달 마지막 일 : " + beforeMonthEndDay);
 		}
 		
 		// 이전일이 1일보다 적으면 ( 이전달로 넘어가면 )
 		// ex) 3월 31일 -> 2월 28일
 		if(beforeDate < 1) {
-			System.out.println("이전일이 검색달의 첫 일보다 작음");
 			// 이전일에 마지막 일을 넣고
 			beforeDate = beforeMonthEndDay;
 		}
@@ -195,14 +179,6 @@ public class DateData {
 		}
 		
 
-		System.out.println();
-		System.out.println("거친 후 searchYear : " + searchYear);
-		System.out.println("거친 후 beforeYear : " + beforeYear);
-		System.out.println("거친 후 beforeMonth : " + beforeMonth);
-		System.out.println("거친 후 beforeDate : "+ beforeDate);
-		System.out.println("거친 후 afterYear : " + afterYear);
-		System.out.println("거친 후 afterMonth : "+afterMonth);
-		System.out.println("거친 후 afterDate : "+afterDate);
 		
 		
 		// 이전년도 이전달, 다음년도 다음달 넣고

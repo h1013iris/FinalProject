@@ -49,7 +49,6 @@ public class ReservationController {
 				
 		//검색 날짜 end
 		Map<String, Integer> todayInfo =  dateData.today_info(dateData);
-		System.out.println(todayInfo.toString());
 		
 		// 전체예약 조회
 		ArrayList<Reservation> list = reservationService.selectList(m, todayInfo);
@@ -92,7 +91,6 @@ public class ReservationController {
 		// 일정 리스트를 담음 (내 예약 현황 - 날짜 가리지 않음)
 		ArrayList<Reservation> myList = reservationService.selectList(m, todayInfo);
 		ArrayList<ReservationRoom> roomList = reservationService.selectRoomAllList();
-		System.out.println(timeInfo);
 		//배열에 담음
 		model.addAttribute("todayInfo", todayInfo);
 		model.addAttribute("timeInfo", timeInfo);
@@ -109,7 +107,6 @@ public class ReservationController {
 		
 		ArrayList<ReservationRoom> list = reservationService.selectReservationRoomList();
 		
-		System.out.println(list);
 		return new Gson().toJson(list);
 	}
 	
@@ -119,7 +116,6 @@ public class ReservationController {
 		
 		ArrayList<ReservationRoom> list = reservationService.selectLroomList();
 		
-		System.out.println(list);
 		return new Gson().toJson(list);
 	}
 	
@@ -129,7 +125,6 @@ public class ReservationController {
 		
 		ArrayList<ReservationRoom> list = reservationService.selectSroomList(lNo);
 		
-		System.out.println(list);
 		return new Gson().toJson(list);
 	}
 	
@@ -140,7 +135,6 @@ public class ReservationController {
 		
 		ArrayList<Reservation> list = reservationService.selectRoomReservation(startDate, sRoom, reserveNo);
 		
-		System.out.println(list);
 		return new Gson().toJson(list);
 	}
 	
@@ -150,7 +144,6 @@ public class ReservationController {
 		
 		ArrayList<DepartmentManagement> list = reservationService.selectResDepartment();
 		
-		System.out.println(list);
 		return new Gson().toJson(list);
 	}
 	
@@ -160,7 +153,6 @@ public class ReservationController {
 		
 		ArrayList<Member> list = reservationService.selectResAddress(dNo);
 		
-		System.out.println(list);
 		return new Gson().toJson(list);
 	}
 	
@@ -168,7 +160,6 @@ public class ReservationController {
 	@RequestMapping(value = "insertReservation.do", method = { RequestMethod.POST })
 	public String insertReservation(@RequestParam HashMap<String, Object> map) {
 		
-		System.out.println("참석자 ==>" + map);
 		
 		// 회의실 예약 db저장
 		Reservation reservation = new Reservation();
@@ -178,7 +169,7 @@ public class ReservationController {
 		reservation.setStartDate(String.valueOf(map.get("reservation[startDate]")));
 		reservation.setEndDate(String.valueOf(map.get("reservation[endDate]")));
 		reservation.setMeetingName(String.valueOf(map.get("reservation[meetingName]")));
-		reservation.setMeetingName(reservation.getMeetingName().replace(" ", "nbsp;"));
+		reservation.setMeetingName(reservation.getMeetingName().replace(" ", "&nbsp;"));
 		int result = reservationService.insertReservation(reservation);
 		
 		int resultNum = 0;
@@ -193,11 +184,9 @@ public class ReservationController {
 					
 					att.setAttendeeNo(String.valueOf(map.get("attendeeNo["+i+"]")));
 
-					System.out.println(att.getAttendeeNo());
 					list.add(att);
 				}
 			}
-			System.out.println("참석자 ==>" + list);
 			resultNum = reservationService.insertAttendee(list);
 		}
 		
@@ -249,8 +238,6 @@ public class ReservationController {
 				
 		//검색 날짜 end
 		Map<String, Integer> todayInfo =  dateData.today_info(dateData);
-		System.out.println(todayInfo.toString());
-		
 		// 전체예약 조회
 		ArrayList<Reservation> list = reservationService.smallRoomReservation(m, todayInfo, roomSmallNo);
 		
@@ -292,9 +279,6 @@ public class ReservationController {
 		// 일정 리스트를 담음 (내 예약 현황 - 날짜 가리지 않음)
 		ArrayList<Reservation> myList = reservationService.smallRoomReservation(m, todayInfo, roomSmallNo);
 		ArrayList<ReservationRoom> roomList = reservationService.selectRoomOne(roomSmallNo);
-		System.out.println(myList);
-		System.out.println(list);
-		System.out.println(timeInfo);
 		//배열에 담음
 		model.addAttribute("todayInfo", todayInfo);
 		model.addAttribute("timeInfo", timeInfo);
@@ -310,7 +294,6 @@ public class ReservationController {
 	@RequestMapping(value = "updateReservation.do", method = { RequestMethod.POST })
 	public String updateReservation(@RequestParam HashMap<String, Object> map) {
 		
-		System.out.println("참석자 ==>" + map);
 		
 		// 회의실 예약 db저장
 		Reservation reservation = new Reservation();
@@ -336,12 +319,10 @@ public class ReservationController {
 					
 					att.setAttendeeNo(String.valueOf(map.get("attendeeNo["+i+"]")));
 					att.setReserveNum(String.valueOf(map.get("reservation[reserveNo]")));
-					System.out.println(att.getReserveNum());
 					list.add(att);
 				}
 			}
 			reservationService.deleteAttendeeList(reservation.getReserveNo());
-			System.out.println("참석자 ==>" + list);
 			resultNum = reservationService.insertNewAttendee(list);
 		}
 		
