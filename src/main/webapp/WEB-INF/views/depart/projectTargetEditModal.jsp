@@ -52,17 +52,19 @@
     </div>
     <script type="text/javascript">
     	$(".proSi1").click(function(){
-    		if($("#changeTargetName").val() == $("#pcOne").val() ||$("#changeTargetName").val() == $("#pcTwo").val()
-    				||$("#changeTargetName").val() == $("#pcThree").val()|| $("#changeTargetName").val() == $("#pcFour").val()){
-    			myAlert("중복", "분류명이 중복입니다.");
-    		}else{
-    			if($("#changeTargetName").val()==''){
-    				myAlert("입력", "입력을 해주셔야 합니다.");
-    				return false;
-    			}
-    			$("#updateJC").submit();
-    		}
-    			
+
+			if($("#changeTargetName").val() == $("#pcOne").val() ||$("#changeTargetName").val() == $("#pcTwo").val()
+			||$("#changeTargetName").val() == $("#pcThree").val()|| $("#changeTargetName").val() == $("#pcFour").val()){
+					if($("#changeTargetName").val()==''){
+						myAlert("입력", "입력을 해주셔야 합니다.");
+						return false;
+					}
+    				myAlert("중복", "분류명이 중복입니다.");
+   			}else{
+   			
+   				$("#updateJC").submit();
+   			}
+			
     		
     	})
     	$(".proSi2").click(function(){

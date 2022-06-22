@@ -69,17 +69,17 @@
 					</c:if>
 					<!-- 제목 부분 -->
 					<div class="enrollTitleSection">
-						<div class="mainStyleCh"><span class="titleNamePart mainStyleCh">제목</span></div>
+						<div class="mainStyleCh"><b style="color: rgb(255, 0, 0);">*</b><span class="titleNamePart mainStyleCh">제목</span></div>
 						<input type ="text" name="annoTitle" id="title" class="inputTitlePart" value="${d.annoTitle}" required>
 					</div>
 					<!-- 작성자 부분 session에서 값 받아오기 ${loginUser.empName} -->
 					<div class="enrollWriterSection">
-						<div class="mainStyleCh"><span class="writerPart">작성자</span></div>
+						<div class="mainStyleCh"><b style="color: rgb(255, 0, 0);">*</b><span class="writerPart">작성자</span></div>
 						<input type="text" id = "writer" name="writerName" value="${loginUser.empName}" readonly>
 					</div>
 					<!-- 내용 부분 -->
 					<div class="enrollContentSection">
-						<div class="contentPart mainStyleCh"><span class="contentEn">내용</span></div>
+						<div class="contentPart mainStyleCh"><b style="color: rgb(255, 0, 0);">*</b><span class="contentEn">내용</span></div>
 						<textarea name="annoContent" rows="15" cols="90" style="resize:none;" id="content" required>${d.annoContent}</textarea>
 					</div>
 					<!-- 첨부파일 부분 -->
@@ -93,7 +93,7 @@
 						</c:if>
 					</div>
 					<div class="enrollReplyStatusSection">
-						<div class="mainStyleCh"><span class="enrollStatusSection">댓글</span></div>
+						<div class="mainStyleCh"><b style="color: rgb(255, 0, 0);">*</b><span class="enrollStatusSection">댓글</span></div>
 						<div class="radioDiv">
 							<input type="radio" id="used" value="Y" name="accessReply" <c:if test="${d.accessReply eq 'Y'}">checked</c:if>>사용
 							<input type="radio" id="notused" value="N" name="accessReply" <c:if test="${d.accessReply eq 'N'}">checked</c:if>>미사용
@@ -119,7 +119,6 @@
     	})
     	
     	$("button[name='confirmBtn']").click(function(){
-    		console.log($(this).val())
     		if($(this).val()=="true"){
     			history.go(-1);
     			$("#helpmeCOnfirm").css("display","none");

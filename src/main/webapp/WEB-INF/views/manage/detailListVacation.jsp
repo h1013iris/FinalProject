@@ -11,7 +11,6 @@
 	.vacationSection{
 		margin: 0 auto;
 		padding: 50px 100px 50px 100px ;
-		border: 1px solid;
 	}
 	.upperDeptinfo{
 		margin-bottom: 30px;
@@ -309,7 +308,6 @@
 			if(fil != '필터'){
 				fil = fil2;
 			}
-			console.log(fil2)
 			if(ord != 0){
 				if(ordq =='검색'){
 					//myAlert("선택", "검색을 선택해주세요");
@@ -331,7 +329,6 @@
 				type:"get", 
 				data:{dep:deptTitle, depNo:depNo, fil:fil2, ord:ordq, searchli:searchli},
 				success:function(list){
-					console.log(list)//들어옴
 					$tableBody = $(' .vacationmainDiv');
 					$tableBody.html('');
 					if(list.lenght == 0){
@@ -368,7 +365,6 @@
 		}
 		//분류 클릭했을 시 
 		function filterDepartCh(fil){
-			console.log(fil)
 			var dep = $(".defalutDepart11").text();
 			var depNo = $(".deptTitleNo").val();
 			

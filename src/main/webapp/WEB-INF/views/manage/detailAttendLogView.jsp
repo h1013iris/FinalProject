@@ -10,7 +10,6 @@
 	.attendLogBigDiv{
 		margin: 0 auto;
 		padding: 50px 100px 100px 100px ;
-		border: 1px solid;
 	}
 	.underHivHeavedGet{
 		display: flex;
@@ -70,7 +69,7 @@
 		margin-bottom: 15px;
 	}
 	.bigDivSection{
-		margin-top: 30px;
+		margin-top: 80px;
 	}
 	.sectionDIV:hover{
 		cursor: pointer;
