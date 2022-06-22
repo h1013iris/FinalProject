@@ -142,7 +142,7 @@
 					
 					<div align="right" class="buttonSection">
 					<button type="submit" class="commonButton1">등록하기</button>
-					<button type="reset" class="commonButton1">취소하기</button>
+					<button type="button" class="commonButton1" onclick="anonycanclebut();">취소하기</button>
 				</div>
 					
 				</div>
@@ -152,6 +152,9 @@
 	</div>
 
 	<script>
+	function anonycanclebut(){
+		window.history.back();
+	}
 	
 	  ( function() {
 	         
@@ -160,7 +163,7 @@
 
 	         var toggleClass = function(className) {
 	             
-	             console.log("current event: " + className)
+	            
 
 	             var list = ["dragenter", "dragleave", "dragover", "drop"]
 
@@ -232,7 +235,7 @@
 	             
 	             
 	             var files = e.dataTransfer && e.dataTransfer.files
-	             console.log(files)
+	             
 
 	             if (files != null) {
 	                 if (files.length < 1) {

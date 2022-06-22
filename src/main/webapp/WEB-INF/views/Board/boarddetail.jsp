@@ -27,6 +27,8 @@
 	width: 60%;
 	height: 60%;
 	overflow : auto;
+	padding:10px;
+	margin-top:10px;
 }
 .mainDivEnroll {
 	width: 83vw;
@@ -180,7 +182,7 @@
 							$("#confirm_body .confirm_content").text("글을 삭제하시겠습니까?");		
 							$("#helpmeCOnfirm").css("display","block");		
 							$("button[name='confirmBtn']").click(function(){
-					    		console.log($(this).val())   			
+					    		 			
 					    		if($(this).val()=="true"){    			
 					    			postForm.attr("action", "deleteBoard.do");					    		
 					    			$("#helpmeCOnfirm").css("display","none");  
@@ -262,11 +264,11 @@
 							selectcomList();
 							
 						} else {
-							console.log("댓글등록이 왜 안되지 ");
+						
 						}
 					},
 					error : function() {
-						console.log("아니 왜 안돼");
+					
 					}
 				})
 			}
@@ -311,7 +313,7 @@
 						
 					},
 					error : function() {
-						console.log("아 화난다");
+						
 					}
 				});
 	}
@@ -322,7 +324,7 @@
 		$("#helpmeCOnfirm").css("display","block");
    		
 		$("button[name='confirmBtn']").click(function(){
-    		console.log($(this).val())
+    		
     		if($(this).val()=="true"){
     			location.href="deletecoment.do?cno="+num+"&bno="+${b.writeno}+"&uno="+${b.empno}
     			$("#helpmeCOnfirm").css("display","none");
@@ -340,7 +342,7 @@
 			type:"get", 
 			success:function(list){
 				$("#userList").html('');
-				console.log(list)
+				
 				var ulist = list
 				var str = "";			
 				$.each(ulist, function(i){

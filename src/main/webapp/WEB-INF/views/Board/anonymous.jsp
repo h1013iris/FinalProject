@@ -304,7 +304,7 @@ padding-top : 50px;
 						<c:choose>
 							<c:when test="${ pi.currentPage ne 1 }">
 								<a class="page-link"
-									href="free.do?currentPage=${ pi.currentPage-1 }"><button
+									href="anonymous.do?currentPage=${ pi.currentPage-1 }"><button
 										class="noticeButton2" style="color: white"><</button></a>
 							</c:when>
 							<c:otherwise>
@@ -318,7 +318,7 @@ padding-top : 50px;
 						<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 							<c:choose>
 								<c:when test="${ pi.currentPage ne p }">
-									<a class="page-link" href="free.do?currentPage=${ p }"
+									<a class="page-link" href="anonymous.do?currentPage=${ p }"
 										><button class="noticeButton2" style="color: white">${ p }</button></a>
 								</c:when>
 								<c:otherwise>
@@ -332,12 +332,12 @@ padding-top : 50px;
 						<c:choose>
 							<c:when test="${ pi.currentPage ne pi.maxPage }">
 								<a class="page-link"
-									href="free.do?currentPage=${ pi.currentPage+1 }"><button
+									href="anonymous.do?currentPage=${ pi.currentPage+1 }"><button
 										class="noticeButton2" style="color: white">></button></a>
 							</c:when>
 							<c:otherwise>
 								<a class="page-link"
-									href="free.do?currentPage=${ pi.currentPage+1 }"><button
+									href="anonymous.do?currentPage=${ pi.currentPage+1 }"><button
 										class="noticeButton2" style="color: white" >></button></a>
 							</c:otherwise>
 						</c:choose>
@@ -375,7 +375,7 @@ padding-top : 50px;
 			})
 		
           
-         if(window.location.pathname === "/spring/anonymousold.do"){
+         if(window.location.pathname === "/anonymousold.do"){
             document.getElementById("isRecents").innerText="오래된순";
             }else{
             document.getElementById("isRecents").innerText="최신순";
@@ -393,7 +393,7 @@ padding-top : 50px;
     	$(function(){
     		$("#boardList tbody tr").click(function(){
     			location.href="detailanony.do?bno=" + $(this).children().eq(0).text();
-    			console.log(bno)
+    			
     		});
     	});
     	

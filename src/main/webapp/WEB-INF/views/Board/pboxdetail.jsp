@@ -116,6 +116,7 @@
 			<p style="height: 150px">${ p.content }</p>
 
 		</div>
+		<br>
 		<c:if test="${ loginUser.empNo eq p.empno }">
 			<div id="cocn">
 				<button class="btn btn-primary pboxdetailbtn" onclick="postFormSubmit(1);">글작성하기</button>
