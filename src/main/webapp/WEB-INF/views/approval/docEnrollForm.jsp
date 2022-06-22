@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -9,19 +8,13 @@
 <title>문서 등록 폼</title>
 <style type="text/css">
 	
+	.main_section { background-color: #f3f3f3; }
+	
 	.docEnrollFormDiv {
 		margin: 30px auto;
 		width: 1150px;
 	}
-	
-	.docEnrollBackground {
-		height: 780px;
-		border: 1px solid #e6e6e6;
-		background-color: #e6e6e6;
-		border-radius: 15px;
-		box-shadow: 0 0 8px #afafaf;	
-	}
-	
+
 	.formMainArea {
 		padding: 70px 0 0 100px;
 	}
@@ -134,7 +127,6 @@
 		 		
 				selectApproverFn();
 				
-				//enterCountFn();
 			}	
 		});
 	 	
@@ -221,6 +213,7 @@
  					&& firstAprv != null && firstAprv != "") {
 
  				aprvJobCompareFn(firstAprv, secondAprv);
+ 				$(".approverList option").prop("disabled", false);
  			}
  		});
  		
@@ -245,46 +238,36 @@
 	 	
  		// 결재자들의 직급 비교
  		function aprvJobCompareFn(firstAprv, secondAprv) {
- 			
+			
  			$.ajax({
- 				
  				type: "get",
  				url: "selectApproverJob.do",
  				data: { empNo : firstAprv },
  				success: function(firstAprv) {
- 					console.log(firstAprv);
  					
  					$.ajax({
- 						
  						type: "get",
  		 				url: "selectApproverJob.do",
  		 				data: { empNo : secondAprv },
  		 				success: function(secondAprv) {
- 		 					console.log(secondAprv);
  		 					
  		 					// 1차 결재자의 직급이 더 높은 경우 알림 후 결재자 비워주기
- 		 					if(firstAprv > secondAprv) {
+ 		 					if(firstAprv == secondAprv) {
+ 		 						myAlert("결재자 확인", "두 결재자의 직급이 같을 수 없습니다.");
+ 		 						$("#firstAprv").val("");
+ 		 						$("#secondAprv").val("");
+ 		 					
+ 		 					} else if(firstAprv > secondAprv) {
  		 						myAlert("결재자 확인", "1차 결재자의 직급이 더 높을 수 없습니다.");
  		 						$("#firstAprv").val("");
  		 						$("#secondAprv").val("");
  		 					
- 		 					} else if(firstAprv = secondAprv) {
- 		 						myAlert("결재자 확인", "두 결재자의 직급이 같을 수 없습니다.");
- 		 						$("#firstAprv").val("");
- 		 						$("#secondAprv").val("");
- 		 					}
+ 		 					} 
  		 				}
  					});
  				}
  			});
  		}
- 		
- 		
- 		// textarea 에서 엔터를 입력하는 경우
-		//function enterCountFn() {
-			
- 			
- 		//}
  		
  		
     	// 문서 등록 페이지에서 취소 버튼 클릭 시
