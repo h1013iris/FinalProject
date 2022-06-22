@@ -21,4 +21,5 @@ public class Company {
 	private Date creDate;
 	private String outBox;
 	
+	
 }

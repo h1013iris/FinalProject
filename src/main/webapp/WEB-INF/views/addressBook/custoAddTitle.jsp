@@ -25,6 +25,7 @@ font-size: 15px;
  }
  
  
+ 
  .cusF{
  background-color: rgb(223, 238, 255);
  width: 130px;

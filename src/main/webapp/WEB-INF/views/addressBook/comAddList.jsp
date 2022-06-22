@@ -11,6 +11,7 @@
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	<style>
 * {
+
 	margin: 0;
 	padding: 0;
 }

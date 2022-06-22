@@ -13,6 +13,7 @@
  
  .comFA{
 
+
   cursor:pointer;
  width: 150px;
  cursor:pointer;

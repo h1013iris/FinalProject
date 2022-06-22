@@ -22,4 +22,5 @@ public class WideMember {
 	private String departmentNo;//int
 	private String jobName;
 	private String departmentTitle;
+
 }

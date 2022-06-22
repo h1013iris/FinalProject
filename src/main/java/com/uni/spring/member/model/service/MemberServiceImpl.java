@@ -41,6 +41,7 @@ public class MemberServiceImpl implements MemberService {
 		}	
 		return loginUser;
 	}*/
+	
 	//비밀번호 암호화된것 로그인
 	@Override
 	 public Member loginMember(BCryptPasswordEncoder bCryptPasswordEncoder, Member m){

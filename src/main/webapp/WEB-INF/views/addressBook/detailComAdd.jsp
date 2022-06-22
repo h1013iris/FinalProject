@@ -18,6 +18,7 @@
         align-items: center;
     }
 
+
     .main{
       width: 500px;
         margin:0 auto;

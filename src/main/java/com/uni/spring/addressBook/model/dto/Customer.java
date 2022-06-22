@@ -37,6 +37,7 @@ public class Customer {
 		COM_MEMO
 		CRE_DATE
 		OUTBOX
+		
 	*/
 	
 

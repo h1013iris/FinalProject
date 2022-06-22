@@ -8,5 +8,6 @@ public class Favorite {
 	private String empNo;
 	private String empOtherNo;
 	private String bmLook;
+	
 
 }

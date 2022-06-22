@@ -16,6 +16,7 @@ public class MemberDao {
 	/*public Member selectLoginMember(SqlSessionTemplate sqlSession, Member m) {//로그인기능
 		Member m1 = sqlSession.selectOne("memberMapper.selectLoginMember",m);
 		return m1;
+		
 	}*/
 
 	public int selectEmpNoCount(SqlSessionTemplate sqlSession, int empNo) {//사번이 있는지 확인
