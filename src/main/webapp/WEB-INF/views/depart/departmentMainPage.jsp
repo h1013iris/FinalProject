@@ -279,10 +279,10 @@
 	    	 $(".page_title>.title_name").text("부서 메인 페이지");
 	 	})
     	function showModalInfoIMG(empName, phone, email){
-    		console.log(empName)
-    		console.log(phone)
-    		console.log(email)
-    		console.log($("#emp_name_modal"))
+    		
+    		
+    		
+    		
     		$(".emp_name_modal").text(empName);
     		$(".emp_phone_modal").text(phone);
     		$(".emp_email_modal").text(email);
@@ -311,13 +311,13 @@
 			var month = ('0' + (today.getMonth() + 1)).slice(-2);
 			var day = ('0' + today.getDate()).slice(-2);
 			var dateString = year + '년 ' + month  + '월 ' + day +'일';
-			console.log(empNo)
+			
 			$.ajax({
 				url:"selectInfo.do", 
 				type:"get", 
 				data:{empNo:empNo}, 
 				success:function(result){
-					console.log("성공")
+					
 					if(result == null){
 						myAlert("사번 오류", "입력하신 사번이 없습니다. 다시 입력해주세요");
 						$("#input1").focus();

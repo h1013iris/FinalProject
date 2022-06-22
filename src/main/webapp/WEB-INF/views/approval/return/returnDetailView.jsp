@@ -198,14 +198,14 @@
                 url: "selectDocApprover.do",
                 data: { docNo : ${ docNo } },
                 success: function (list) {
-					console.log(list);
+					
 					if(list != null) {
 						for(var i in list) {
 							if(list[i] != null) {
 								$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
 								$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
 								$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
-								console.log(list[i].empNo);
+								
 							}
 						}
                 	}
@@ -223,7 +223,7 @@
     			url: "selectReReason.do",
     			data: { docNo : ${ docNo } },
     			success: function(data) {
-    				console.log(data);
+    				
     				
     				document.getElementById("reFrom").innerHTML = data.reFromName;
     				document.getElementById("reReason").innerHTML = data.reReason;
@@ -246,7 +246,7 @@
     			url: "selectDrafter.do",
     			data: { docNo : ${ docNo } },
     			success: function(drafter) {
-    				console.log(drafter);
+    				
     				
     				// 기안자와 로그인 유저가 일치하지 않으면
     				if(drafter != loginUser) {

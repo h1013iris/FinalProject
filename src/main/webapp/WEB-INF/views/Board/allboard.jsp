@@ -336,7 +336,7 @@ padding-top : 50px;
     	$(function(){
     		$("#boardList tbody tr").click(function(){
     			location.href="detailBoard.do?bno=" + $(this).children().eq(0).text()+"&uno="+${ loginUser.empNo }
-    			console.log(bno)
+    			
     		});
     	});
     	

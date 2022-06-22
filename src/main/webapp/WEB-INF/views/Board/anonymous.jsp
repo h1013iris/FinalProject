@@ -393,7 +393,7 @@ padding-top : 50px;
     	$(function(){
     		$("#boardList tbody tr").click(function(){
     			location.href="detailanony.do?bno=" + $(this).children().eq(0).text();
-    			console.log(bno)
+    			
     		});
     	});
     	

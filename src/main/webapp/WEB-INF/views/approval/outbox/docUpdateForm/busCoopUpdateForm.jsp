@@ -216,7 +216,7 @@
 				data: { outboxNo : ${ outboxNo } },
 				success: function(data) {
 					
-					console.log(data)
+					
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.drafterDept);
 					$("#dftDate").val(data.dftDate);
@@ -239,7 +239,7 @@
 		 	                url: "selectCancleDocApprover.do",
 		 	                data: { docNo : data.docNo },
 		 	                success: function (data) {
-								console.log(data);
+								
 		 	                	if(data != null) {
 		 	                		
 		 	                		$("#firstAprv").val(data.firstAprv);
@@ -266,7 +266,7 @@
  						departmentNo : "${ loginUser.departmentNo }",
  						jobNo : "${ loginUser.jobNo }" },
  				success: function(list) {
- 					console.log(list);
+ 					
                 	if(list != null || list != "") {
                 		
                 		$.each(list, function(i) {
@@ -361,13 +361,13 @@
 			let coopContent = $("#coopContent").val();
 			let docNo = $("#docNo").val();
 			
- 			console.log(url);
- 			console.log(firstAprv);
- 			console.log(secondAprv);
- 			console.log(receiveDept);
- 			console.log(coopContent);
- 			console.log(docNo);
- 			console.log(form);
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
  			
 			$.ajax({
 				
@@ -375,7 +375,7 @@
                 url: url,
                 data: form,
                 success: function (result) {
-               		console.log(result)
+               		
                 	
                    	if(result == "success") {
                     	
@@ -408,7 +408,7 @@
     			url: "updateBusCoop.do",
     			data: form,
     			success: function(result) {
-    				console.log(result);
+    				
     				
     				// 저장 여부만 알려주고 페이지 이동은 없음 -> 계속 작성할 수 있도록
     				if(result == "success") {

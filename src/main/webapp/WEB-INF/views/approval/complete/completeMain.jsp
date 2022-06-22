@@ -298,7 +298,7 @@
                 		currentPage : num },
                 success: function (result) {
 					
-                	console.log(result)
+                	
                 	
                 	$tbody = $('.completeList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
@@ -459,10 +459,10 @@
 		// 필터 및 검색 내용에 따른 리스트 조회
 		function filterCompleteListFn(docForm, condition, search, num) {
 			
-			console.log(docForm);
-			console.log(condition);
-			console.log(search);
-			console.log(num);
+			
+			
+			
+			
 			
 			$.ajax({
 				
@@ -475,7 +475,7 @@
 						currentPage : num },
                 success: function (result) {
 					
-                	console.log(result)
+                	
                 	
                 	$tbody = $('.completeList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');

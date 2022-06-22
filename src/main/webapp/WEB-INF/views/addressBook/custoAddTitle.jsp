@@ -11,35 +11,39 @@
  #leftTitle{
  float: left;}
  
-  .cusFA{
- background-color: #d3edff;
- width: 130px;
- height:30px;
- border-radius:10px;
- margin-bottom: 5px;
+ .cusFA{
+ width: 150px;
  cursor:pointer;
+ background-color: rgb(223, 238, 255);
  border-color: #fff;
+ height: 50px;
+ margin-top:10px;
+margin-bottom: 10px;
+padding: 5px 10px;
+margin-right: 50px;
+font-size: 15px;
  }
  
  
  .cusF{
- background-color: #d3edff;
- width: 110px;
- height:30px;
- border-radius:10px;
- margin-bottom: 5px;
+ background-color: rgb(223, 238, 255);
+ width: 130px;
+ height:40px;
+ line-height: 40px;
+ margin-bottom: 10px;
  cursor:pointer;
  border-color: #fff;
+ margin-right: 50px;
  }
-  .cusFA:hover{
-  background-color: #407ca7;
+ .cusFA:hover{
+  background-color:#73c5ff;
   color: #fff;
  }
   .cusF:hover{
-  background-color: #407ca7;
+  background-color: #73c5ff;
   color: #fff;
  }
- 
+
 </style>
 
 <!-- 전체주소록 조회 + 폴더 조회 하나로 컨트롤러에서 가져오기? -->

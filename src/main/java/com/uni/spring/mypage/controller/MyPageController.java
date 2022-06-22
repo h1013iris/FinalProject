@@ -109,7 +109,7 @@ public class MyPageController {
 		journal.setFromDate(fromDate);
 		journal.setToDate(toDate);
 		
-		System.out.println(journal);
+		
 		
 		ArrayList<Journal> list = MPService.searchDateFrom(journal);
 		
@@ -207,7 +207,7 @@ public class MyPageController {
 		int empNo = ((Member) model.getAttribute("loginUser")).getEmpNo();
 		
 		wr.setEmpNo(empNo);
-		System.out.println(wr.getEStatus());
+		
 		MPService.insertWorkRequest(wr);
 	}
 	
@@ -280,7 +280,7 @@ public class MyPageController {
 		int empNo = ((Member) model.getAttribute("loginUser")).getEmpNo();
 		
 		MyPage mp = new MyPage();
-		System.out.println("pageNo"+pageNo);
+		
 		mp.setPageNo(Integer.parseInt(pageNo));
 		mp.setEmpNo(empNo);
 		

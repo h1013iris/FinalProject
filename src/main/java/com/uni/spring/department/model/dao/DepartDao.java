@@ -84,7 +84,7 @@ public class DepartDao {
 	}
 
 	public int insertAnnoReply(SqlSessionTemplate sqlSession, DepartmentReply dr) {
-		System.out.println(dr.toString());
+		
 		return sqlSession.insert("departMapper.insertAnnoReply", dr);
 	}
 

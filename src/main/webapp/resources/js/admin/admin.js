@@ -364,10 +364,10 @@ $(".toggle_btn").click(function(){
 function smallList(mythis){
     if(!mythis.hasClass("action")){
         mythis.addClass("action");
-        console.log("if1")
+        
         if(!mythis.parent().next().children().hasClass("small_meetingroom_content")){
             var roomNo = mythis.next().next().children().val();
-            console.log("if2")
+            
             $.ajax({
                 type:"post",
                 url:"selectSmallMeetingRoom",
@@ -387,7 +387,7 @@ function smallList(mythis){
                         selectCode+="<i class='fa-solid fa-gear'></i>"
                         selectCode+="</div>"
                         selectCode+="</div>"
-                        console.log(selectCode)
+                        
                         mythis.parent().next().append(selectCode)
                     })
                 }
@@ -664,7 +664,7 @@ $(document).on("click","#dept_member_nav",function(){
                 data:{deptNo : deptNo},
                 success:function(list){
                     var html = $("#example").html();
-                    console.log(html)
+                    
                     $.each(list, function(index, item){
                         $("#member_list_box").append(html);
                         //$(".dept_profile_img_box").eq(index).children().attr("src",item.profileImg);
