@@ -10,14 +10,12 @@
 	.aprvMain_div {
 		text-align: center;
 		margin: 0 auto;
-		padding-top: 30px;
-		padding-left: 100px;
-		padding-right: 100px;
+		padding: 50px 100px 0 100px;
 	}
 	
 	.aprvMain_upper {
 		width: 100%;
-		height: 38vh;
+		height: 40vh;
 		display: flex;
 		justify-content: space-between;
 	}
@@ -43,7 +41,7 @@
 	}
 	
 	.docRequest_list {
-		width: 46%;
+		width: 47.5%;
 		background-color: #f3f3f3;
 		padding: 15px;
 		border: 1px solid;
@@ -51,7 +49,7 @@
 	}
 	
 	.docWaiting_list {
-		width: 46%;
+		width: 47.5%;
 		background-color: #f3f3f3;
 		padding: 15px;
 		border: 1px solid;
@@ -59,7 +57,7 @@
 	}
 	
 	.docComplete_list {
-		width: 46%;
+		width: 47.5%;
 		background-color: #f3f3f3;
 		padding: 15px;
 		border: 1px solid;
@@ -67,11 +65,10 @@
 	}
 	
 	.aprvMain_lower {
-		/*border: 1px solid blue;*/
 		margin-top: 15px;
 		width: 100%;
 		display: flex;
-		height: 38vh;
+		height: 40vh;
 		justify-content: space-between;
 	}
 	
@@ -147,11 +144,7 @@
 		margin: 5px 20px 5px 0;
 		position: relative;
 		display: inline-block;
-		/*width: 150px;
-		height: 35px;*/
-		/*border-radius: 4px;*/
 		border: none;
-		/*background-size: 20px;*/
 		cursor: pointer;
 	}
 	
@@ -167,9 +160,6 @@
 	}
 	
 	.dropdown_btn {
-	
-		/*border: 1px solid #ffdab9;*/
-		/*position: absolute;*/
 		content: '';
   		display: block;
 		border: none;
@@ -187,13 +177,9 @@
 		border-radius: 4px;
 		position: absolute;
 		background-color: #bce7ff;
-		/*min-sidth: 75px;*/
-		/*padding: 7px 10px;*/
 		box-shadow: 0 8 10 6 rgba(0, 0, 0, 0.2);
-		/*list-style-type: none;*/
 		width: 100%;
 		top: 40px;
-		/*transition: .3s ease-in;*/
 	}
 	
 	.dropdown_content li {
@@ -223,7 +209,6 @@
 	
 	.docSearch_area {
 		display: flex;
-		/*border: 1px solid blue;*/
 		padding: 10px 0 15px 0;
 	}
 	
@@ -255,11 +240,6 @@
 	
 	.docList_area {
 		width: 100%;
-		/*border: 1px solid #e6e6e6;
-		background-color: #e6e6e6;
-		border-radius: 15px;
-		box-shadow: 0 0 8px #afafaf;*/
-		/*display: none;*/
 	}
 	
 	.searchDocList_table>tbody>tr:hover {
@@ -306,45 +286,7 @@
 	<jsp:include page="../common/header.jsp"/>
 	
 	<div class="main_section">
-       	
-       	<div class="aprvMain_div">
-       		
-       		<!-- 검색 -->
-       		<div class="docSearch_area">
-        		<div class="filter_initialize">
-	        		<button class="initialize_btn" onClick="location.reload()">메인으로</button>
-        		</div>
-        		
-        		<div class="filter_dropdown">
-	        		<button class="dropdown_btn docFormDefault">문서 유형</button>
-	        		<ul class="dropdown_content docFormfilter">
-	        			<li>전체</li>
-	        			<%-- 문서 유형 출력 --%>
-	        		</ul>
-        		</div>
-        		
-        		<div class="filter_dropdown">
-	        		<button class="dropdown_btn statusDefault">상태</button>
-	        		<ul class="dropdown_content statusfilter">
-	        			<li>전체</li>
-	        			<%-- 문서 상태값 출력 --%>
-	        		</ul>
-        		</div>
-        		
-        		<div class="filter_dropdown">
-        			<button class="dropdown_btn conditionDefault">검색 조건</button>
-        			<ul class="dropdown_content conditionfilter">
-	        			<li>문서 번호</li>
-	        			<li>제목</li>
-	        			<li>내용</li>
-	        		</ul>
-        		</div>
-        		
-        		<div class="search_div">
-        			<div class="searchInput_div"><input id="search" name="search"/></div>
-        			<div class="searchImg_div"><img src="https://img.icons8.com/material/24/000000/search--v1.png"></div>
-        		</div>
-        	</div>
+		<div class="aprvMain_div">
         	
         	<div class="docList_area">
 		       	<!-- 상단 -->
@@ -479,7 +421,7 @@
                 data: { drafter : "${ loginUser.empNo }" },
                 success: function (list) {
 					
-                	
+                	console.log(list)
                 	
                 	$tbody = $('.requestList_main'); // 리스트가 들어갈 div
                 	$tbody.html('');
@@ -532,7 +474,7 @@
                 data: { drafter : "${ loginUser.empNo }" },
                 success: function(list) {
 					
-                	
+                	console.log(list)
                 	
                 	$tbody = $('.waitingList_main'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
@@ -583,7 +525,7 @@
                 data: { drafter : "${ loginUser.empNo }" },
                 success: function (list) {
 					
-                	
+                	console.log(list)
                 	
                 	$tbody = $('.completeList_main'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
@@ -635,7 +577,7 @@
                 data: { drafter : "${ loginUser.empNo }" },
                 success: function (list) {
 					
-                	
+                	console.log(list)
                 	
                 	$tbody = $('.statusList_main'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
@@ -817,10 +759,10 @@
 		// 필터 및 검색 내용에 따른 리스트 조회
 		function searchFilterFn(aprvStatusName, docForm, condition, search) {
 			
-			
-			
-			
-			
+			console.log(aprvStatusName);
+			console.log(docForm);
+			console.log(condition);
+			console.log(search);
 			
 			
 			$.ajax({
@@ -835,7 +777,7 @@
 						// AprvDoc 에 있는 필드 이용하기 위해 이름 drafter 로 넘기기
 				success: function(list) {
 				
-					
+					console.log(list);
 					
 					$listArea = $(".docList_area");
 	            	$listArea.html('');
@@ -907,7 +849,7 @@
                 					url: "selectApprover.do",
                 					data: { docNo : obj.docNo },
                 					success: function(approver) {
-                						//
+                						//console.log(approver);
                 						
                 						$aprvStatusName.append(" (" + approver + ")");	                					}
                 					

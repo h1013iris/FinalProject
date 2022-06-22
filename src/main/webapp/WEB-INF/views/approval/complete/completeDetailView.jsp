@@ -8,17 +8,11 @@
 <title>결재 완료 상세 페이지</title>
 <style type="text/css">
 
+	.main_section { background-color: #f3f3f3; }
+	
 	.docDetailViewDiv {
 		margin: 30px auto;
 		width: 1150px;
-	}
-	
-	.docDetailBackground {
-		height: 780px;
-		border: 1px solid #e6e6e6;
-		background-color: #e6e6e6;
-		border-radius: 15px;
-		box-shadow: 0 0 8px #afafaf;	
 	}
 	
 	.docDetailMainArea {
@@ -37,7 +31,7 @@
 	}
 	
 	.docDetail_textarea {
-		resize: none;
+		resize: vertical;
 		border: none;
 	}
 	
@@ -157,7 +151,7 @@
                 url: "selectDocApprover.do",
                 data: { docNo : ${ docNo } },
                 success: function (list) {
-					
+					console.log(list);
 					
 					let loginUser = ${ loginUser.empNo };
 					let lastAprv = "";
@@ -225,11 +219,11 @@
     			url: "docScrtyReqCheck.do",
     			data: { docNo : "${ docNo }" },
     			success: function(result) {
-    				
+    				console.log(result);
     				
     				// 조회 결과가 존재하면
     				if(result == "yes") {
-    					
+    					console.log("보안 요청 불가능");
     					
     					$(".sequrity_btn").hide(); 	// 해당 버튼 숨기고
     					$(".scrtyCheckMsg").show(); // 메시지 띄우기
@@ -238,7 +232,7 @@
     					
     				// 존재하지 않으면
     				} else if(result == "no") {
-    					
+    					console.log("보안 요청 가능");
     					
     					//$(".scrtyCheckMsg").hide(); // 메시지 숨기기
     				}

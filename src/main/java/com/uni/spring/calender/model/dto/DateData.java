@@ -89,8 +89,6 @@ public class DateData {
 		// 이전달 다음달 및 이전년도 다음년도 리턴값 받기
 		Map<String, Integer> before_after_calendar = before_after_calendar(search_year,search_month);
 		
-		//날짜 관련
-		System.out.println("search_month : " + search_month);
 		// 캘린더 함수 end
 		today_Data.put("start", start); //시작요앨
 		today_Data.put("startDay", startDay); // 시작하는 일자

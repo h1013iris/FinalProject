@@ -126,7 +126,7 @@
 						<span style="color:red">*</span><span class="titleNamePart mainStyleCh">제목</span>
 					</div>
 					<input type="text" name="title" id="title" class="inputTitlePart"
-						palaceholder="제목을 입력해주세요" value ="${b.title}" required>
+						palaceholder="제목을 입력해주세요" value ="${b.title}"  maxlength="30" required>
 				</div>
 				<!-- 작성자 부분 session에서 값 받아오기 ${loginUser.empName} -->
 				
@@ -160,11 +160,13 @@
 				  	
 					<!-- 내용 부분 -->
 					<div class="enrollContentSection">
-						<div id="description" class="contentPart mainStyleCh" style="text-align:left;">
-					<span style="color:red">*</span><span class="contentEn">내용</span>
+						<div id="description" class="contentPart mainStyleCh">
+							<span style="color:red">*</span><span class="contentEn">내용</span>
 						</div>
 						<jsp:include page="note.jsp"/>
 					</div>
+					
+					
 				
 					  
 				    
@@ -192,9 +194,9 @@
 
            var toggleClass = function(className) {
                
-               
+              
 
-               var list = ["dragenter", "dragleave", "dragover", "drop"]
+               var list = ["dragenter", "dragleave", "dragover", "drop"] //이벤트들
 
                for (var i = 0; i < list.length; i++) {
                    if (className === list[i]) {
@@ -228,7 +230,7 @@
                e.stopPropagation()//이벤트가 상위 엘리먼트에 전달되지 않게 막아 준다
                e.preventDefault()// 고유 동작을 중단시킴
 
-               toggleClass("dragenter")
+               toggleClass("dragenter") //선택요소에 클래스값넣기
 
            })
 

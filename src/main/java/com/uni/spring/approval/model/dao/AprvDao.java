@@ -52,7 +52,7 @@ public class AprvDao {
 
 	public AttendLog selectCmt(SqlSessionTemplate sqlSession, AttendLog attendLog) {
 		
-		
+		System.out.println("Dao =========" + attendLog.toString());
 		
 		return sqlSession.selectOne("aprvMapper.selectCmt", attendLog);
 	}

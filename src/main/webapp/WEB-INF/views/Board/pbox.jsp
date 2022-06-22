@@ -49,6 +49,9 @@ padding-top : 50px;
 	margin-left : 5%;
 	margin-bottom:100%;
 }
+.notpboardwhy{
+text-align: center;
+}
 
 </style>
 </head>
@@ -87,7 +90,7 @@ padding-top : 50px;
 					</tbody>
 					<c:if test="${ empty list }">
 						<tr>
-							<td colspan="5">존재하는 게시글이 없습니다.</td>
+							<td colspan="5" class="notpboardwhy">존재하는 게시글이 없습니다.</td>
 						</tr>
 					</c:if>
 				</table>
@@ -97,7 +100,8 @@ padding-top : 50px;
 	</div>
 		<div id="pagingArea">
 					<ul class="pagination">
-						<c:choose>
+					<c:if test="${pi.currentPage ne 1}">
+						<c:choose>					
 							<c:when test="${ pi.currentPage ne 1 }">
 								<a class="page-link"
 									href="pbox.do?userno=${loginUser.empNo}"&currentPage=${ pi.currentPage-1 }"><button
@@ -108,7 +112,9 @@ padding-top : 50px;
 								<button class="pboxButton1"><</button>
 								</a>
 							</c:otherwise>
+							
 						</c:choose>
+						</c:if>
 
 						<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 							<c:choose>
@@ -123,7 +129,7 @@ padding-top : 50px;
 							</c:choose>
 						</c:forEach>
 
-
+                       <c:if test="${pi.endPage ne pi.maxPage}">
 						<c:choose>
 							<c:when test="${ pi.currentPage ne pi.maxPage }">
 								<a class="page-link"
@@ -136,6 +142,7 @@ padding-top : 50px;
 										class="pboxButton1">></button></a>
 							</c:otherwise>
 						</c:choose>
+						</c:if>
 					</ul>
 				</div>
 	 </div>

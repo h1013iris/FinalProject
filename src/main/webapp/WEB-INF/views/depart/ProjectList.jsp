@@ -161,7 +161,7 @@
         					</div>
         					<div>
 	        					<form action="insertDepartProject.do" id ="inputProject" method="post">
-		        					<input placeholder="프로젝트 이름을 입력해주세요" type="text" id="title" name="proTitle" class="projectInputSection">
+		        					<input placeholder="프로젝트 이름을 입력해주세요" type="text" id="title" name="proTitle" class="projectInputSection" maxlength="42">
 		        					<input type="hidden" id="writer" name="proWriter" value ="${loginUser.empNo}">
 			              			<input type="hidden" id="depart" name="proDepart" value="${loginUser.departmentNo}">
 	        					</form>
@@ -177,10 +177,6 @@
         </div>
     </div> 
     <script type="text/javascript">
-	  	//페이지 이름 
-		$(function(){
-	    	 $(".page_title>.title_name").text("프로젝트 관리 페이지");
-	 	})
 		$(function(){
     		selectProjectList();
     		selectFavList();
@@ -192,6 +188,10 @@
     	$(function(){
     		
     		$(".projectinPro").click(function(){
+    			if($(".projectInputSection").val() ==''){
+    				myAlert("입력", "프로젝트 명을 입력해주세요");
+    				return false;
+    			}
     			   $("#inputProject").submit();
     		})
     		
@@ -219,7 +219,7 @@
     				$(".flex-container").prepend(value);
     				selectFavList();
     			}, error:function(){
-    				
+    				console.log("프로젝트 가져오는 것 실패")
     			}
     		})
     	}
@@ -243,7 +243,7 @@
 					   selectFavList(); 
 				   }
 			   },error:function(){
-				   
+				   console.log("실패")
 			   }
 		   })
 		   
@@ -273,7 +273,7 @@
     				$(".flex-container1").empty();
     				$(".flex-container1").prepend(value);
     				}, error:function(){
-				   
+				   console.log("실패")
 			   }
 		   })
 		   
@@ -294,7 +294,7 @@
 				   }				 
 				
 			   },error:function(){
-				   
+				   console.log("실패")
 			   }
 		   })
 	  }
@@ -302,7 +302,7 @@
 	$(document).on("click",".flex-item",function(){
 		
 		var pjno= $(this).children().children().eq(3).val();
-		
+		console.log(pjno)
 		location.href = "detailProject.do?pjno="+pjno;
 	});
 	function notuse(event){

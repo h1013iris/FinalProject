@@ -7,18 +7,12 @@
 <title>보안 설정 문서 상세 페이지</title>
 <style type="text/css">
 	
+	.main_section { background-color: #f3f3f3; }
+	
 	.docDetailViewDiv {
 		margin: 30px auto;
 		width: 1500px;
 	}
-	
-	/*.docDetailBackground {
-		height: 790px;
-		border: 1px solid #e6e6e6;
-		background-color: #e6e6e6;
-		border-radius: 15px;
-		box-shadow: 0 0 8px #afafaf;	
-	}*/
 	
 	.docDetailMainArea {
 		padding: 70px 0 60px 10%;
@@ -197,14 +191,14 @@
                 url: "selectDocApprover.do",
                 data: { docNo : ${ docNo } },
                 success: function (list) {
-					
+					console.log(list);
 					if(list != null) {
 						for(var i in list) {
 							if(list[i] != null) {
 								$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
 								$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
 								$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
-								
+								console.log(list[i].empNo);
 							}
 						}
 	                	}
@@ -223,7 +217,7 @@
     			data: { docNo : "${ docNo }" },
     			success: function(data) {
     				
-    				
+    				console.log(data);
     				
     				document.getElementById("scrtyReqDate").innerHTML = data.scrtyReqDate;
     				document.getElementById("scrtyReason").innerHTML = data.scrtyReason;
@@ -262,7 +256,7 @@
 	    					aprvStatus : 2,
 	    					status : "Y" },
 	    			success: function(result) {
-	    				
+	    				console.log(result);
 	    				
 	    				if(result == "success") {
 	                    	

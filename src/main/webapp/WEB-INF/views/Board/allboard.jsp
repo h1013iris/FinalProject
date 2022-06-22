@@ -317,7 +317,7 @@ padding-top : 50px;
 			})
 		
           
-         if(window.location.pathname === "/spring/allboardold.do"){
+         if(window.location.pathname === "/allboardold.do"){
             document.getElementById("isRecents").innerText="오래된순";
             }else{
             document.getElementById("isRecents").innerText="최신순";

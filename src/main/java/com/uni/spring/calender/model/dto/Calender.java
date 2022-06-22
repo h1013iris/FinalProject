@@ -48,15 +48,10 @@ public class Calender {
 		// 수정하기여서 존재하면
 		if(calender.getEditStartDate() != null && calender.getEditEndDate() != null) {
 
-			System.out.println(day.getEditStartDate());
-			System.out.println(day.getEditEndDate());
-			
 			day.setEditStartDate(calender.getEditStartDate().replace("-", "/").replace(":00.0", ""));
 			day.setEditEndDate(calender.getEditEndDate().replace("-", "/").replace(":00.0", ""));
 			day.setEditWriterNo(calender.getEditWriterNo().replace("-", "/"));
 			
-			System.out.println(day.getEditStartDate());
-			System.out.println(day.getEditEndDate());
 		}
 		
 		if(!startTime.isEmpty() && !endTime.isEmpty()) {
@@ -69,8 +64,6 @@ public class Calender {
 			day.setStartDate(date.replace("-", "/").concat(" "+startTime));
 			day.setEndDate(date.replace("-", "/").concat(" "+endTime));
 		}
-		
-		System.out.println(day);
 		
 		return day;
 	}
@@ -93,10 +86,6 @@ public class Calender {
 		// 년 월 일 분리
 		day = date.split("-");
 		
-		//임의 값 확인
-		for(int i = 0 ; i < day.length ; i++) {
-			System.out.println("년 월 일 확인 ==> "+day[i]);
-		}
 		
 		// deteDeta에 년월일 담기
 		dec.setYear(day[0]);

@@ -162,7 +162,7 @@
 
          var toggleClass = function(className) {
              
-             
+        
 
              var list = ["dragenter", "dragleave", "dragover", "drop"]
 

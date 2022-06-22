@@ -11,6 +11,9 @@
 	<jsp:include page="../common/header.jsp"></jsp:include>
 
 <style>
+html{
+	overflow-y:scroll; 
+}	
 
 #container {
 	text-align: center;
@@ -23,9 +26,13 @@
 }
 
 #deptTitle {
-	margin: 50px;
+	margin: 50px
 }
 
+td, th {
+	border: 1px solid black;
+	width: 200px;
+}
 
 table {
 	margin: 0;
@@ -48,20 +55,20 @@ display: none;
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
-	background-color: #fff;
+	border: 1px solid;
 	
 }
 
 .listAdd td {
-	border: 2px rgb(223, 238, 255) solid;
+	border: 1px solid;
 	padding: 5px 10px;
-	width: 230px;
+	width: 200px;
 }
 
 .listAdd th {
-	border: 2px rgb(223, 238, 255) solid;
+	border: 1px solid;
 	padding: 5px 10px;
-	width: 230px;
+	width: 200px;
 }
 
 .a {
@@ -102,7 +109,7 @@ background-color: #d3edff;
 }
 
 /*팀에서 공동 선택한 버튼디자인*/
-.commonButton1a {
+.commonButton1 {
 	padding: 0;
 	font-weight: 600;
 	text-align: center;
@@ -117,7 +124,7 @@ background-color: #d3edff;
 	margin: 30px;
 }
 
-.commonButton1a:hover {
+.commonButton1:hover {
 	position: relative;
 	top: 5px;
 	bottom: 5px;
@@ -152,21 +159,7 @@ outline:none;
 	box-shadow: 0px 0px 0px 0px #4c87b099;
 	
 }
-.oneT{
-height: 25px;
-line-height: 25px;
-margin-bottom: 5px;
-}
-.boxAddList{
-	height:450px;
-	width:1250px;
-	margin-bottom:30px;
-	margin-left: auto;
-	margin-right: auto;
-	background-color:rgb(209, 209, 209);
-  	border-radius: 20px;
-  	padding: 20px;
-}
+
 </style>
 
 	<div class="main_section">
@@ -183,14 +176,14 @@ margin-bottom: 5px;
 				<form action="addressMain.do" method="get" class="a">
 					<div>
 						<input type="submit" value="전체주소록" name="departmentTitle"
-							class="commonButton1a">
+							class="commonButton1">
 					</div>
 				</form>
 				<c:forEach items="${deptTitleList}" var="dept">
 					<form action="deptAddList" method="get" class="a">
 						<div>
 							<input type="submit" value="${dept.departmentTitle}"
-								name="departmentTitle" class="commonButton1a">
+								name="departmentTitle" class="commonButton1">
 						</div>
 					</form>
 				</c:forEach>
@@ -207,8 +200,7 @@ margin-bottom: 5px;
 
 			<!--부서별 주소록 내용이 표시될곳-->
 			<div id="addcon">
-			<div class="boxAddList">
-			<table class="listAdd oneT">
+				<table class="listAdd">
 					<tr>
 						<th>이름</th>
 						<th>부서명</th>
@@ -232,7 +224,6 @@ margin-bottom: 5px;
 			</div>
 			</div>
 		</div>
-	</div>
 	</div>
 	<script type="text/javascript">
 		

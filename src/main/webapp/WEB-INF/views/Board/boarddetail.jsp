@@ -27,6 +27,8 @@
 	width: 60%;
 	height: 60%;
 	overflow : auto;
+	padding:10px;
+	margin-top:10px;
 }
 .mainDivEnroll {
 	width: 83vw;
@@ -180,7 +182,7 @@
 							$("#confirm_body .confirm_content").text("글을 삭제하시겠습니까?");		
 							$("#helpmeCOnfirm").css("display","block");		
 							$("button[name='confirmBtn']").click(function(){
-					    		
+					    		 			
 					    		if($(this).val()=="true"){    			
 					    			postForm.attr("action", "deleteBoard.do");					    		
 					    			$("#helpmeCOnfirm").css("display","none");  
@@ -262,11 +264,11 @@
 							selectcomList();
 							
 						} else {
-							
+						
 						}
 					},
 					error : function() {
-						
+					
 					}
 				})
 			}

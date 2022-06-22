@@ -50,14 +50,14 @@ public class MemberServiceImpl implements MemberService {
 		
 		if(loginUser == null) {
 			
-			
+			System.out.println("없는 아이디");
 			throw new CommException("로그인 정보를 다시 확인해주세요");
 		}
 		
 		//mathes(입력한비번,암호화비번) ture, false로 반환
 		if(!bCryptPasswordEncoder.matches(m.getUserPw(), loginUser.getUserPw())) {
 			
-			
+			System.out.println("비밀번호 불일치");
 			throw new CommException("로그인 정보를 다시 확인해주세요");
 			
 		}
@@ -73,10 +73,10 @@ public class MemberServiceImpl implements MemberService {
 		WideMember m =  null;
 		
 		int result = memberDao.selectEmpNoCount(sqlSession, empNo);
-		
+		System.out.println("사번조회"+result);
 		if(result < 1){//조회한 사번이 조회되지 않으면 count한게 0 이라면
 			//throw new CommException("사번을 확인해주세요");
-			
+			System.out.println("사번 조회 안됨");
 		}
 		else {//조회한 사번이 있다면
 			m = memberDao.selectNewMember(sqlSession,empNo);
@@ -112,12 +112,12 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String selectFindId(WideMember wm) {
 		String msg = memberDao.selectFindId(sqlSession, wm);
-		
+		System.out.println("아이디는"+msg);//아이디가 잘 담겼는지 확인
 		/*if(msg.isEmpty()) {
-			
+			System.out.println("아이디가 없다.."+msg);//아이디가 잘 담겼는지 확인
 			throw new CommException("입력정보를 다시 확인해주세요");
 		}
-		
+		System.out.println("아이디는"+msg);//아이디가 잘 담겼는지 확인
 		*/return msg;
 		
 	}

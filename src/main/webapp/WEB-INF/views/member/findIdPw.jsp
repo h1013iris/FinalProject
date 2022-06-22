@@ -10,15 +10,13 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous">
-	
 </script>
 <script
 	src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 </head>
-<link rel="stylesheet"
-	href="${ pageContext.servletContext.contextPath }/resources/css/common.css">
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">	
 <body>
-<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
+
 	<style>
 body {
 	width: 100%;
@@ -33,25 +31,23 @@ ul, li {
 	list-style: none;
 }
 
-
 * {
 	margin: 0;
 	padding: 0;
 }
 
-#main {
-	display: grid;
-	place-items: center;
-	height: 100vh;
+#main{
+display: grid;
+  place-items: center;
+  height: 100vh;
 }
 /*tab css*/
 .tab {
 	margin-bottom: 400px;
 	width: 500px;
 	height: 300px;
-	position: left 50%;
-	top: 50%;
-
+	position: left 50%; top: 50%;
+    
 }
 
 .tabnav {
@@ -115,10 +111,9 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	-webkit-appearance: none;
 	margin: 0;
 }
-
-::placeholder {
-	font-size: 2px;
-	text-align: center;
+::placeholder{
+font-size:2px;
+text-align: center;
 }
 
 /*팀에서 공동 선택한 버튼디자인*/
@@ -143,7 +138,6 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	bottom: 5px;
 	box-shadow: 0px 0px 0px 0px #4c87b099;
 }
-
 .commonButton1_1 {
 	padding: 0;
 	font-weight: 600;
@@ -156,11 +150,11 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	border: #85cdff;
 	box-shadow: 0px 5px 0px 0px #4c87b099;
 	width: 70px;
-	height: 15px;
+	height:15px;
 	margin-left: 5px;
 	font-size: 5px;
+	
 }
-
 .commonButton1_1:hover {
 	position: relative;
 	top: 5px;
@@ -168,21 +162,15 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	box-shadow: 0px 0px 0px 0px #4c87b099;
 }
 
-#logo {
-	width: 400px;
-	text-align: center;
-	margin-bottom: 100px;
-}
-#logoDiv{
-text-align: center;
-}
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-}
-.findTab{
-margin: 0 auto;
-}
+  #logo{
+    width:480px;
+    text-align: center; 
+    margin-bottom: 50px;
+            
+        }
+
 </style>
+
 	<script>
 		$(function() {
 			$('.tabcontent > div').hide();
@@ -195,256 +183,194 @@ margin: 0 auto;
 		});
 	</script>
 <body>
-	<script
-		src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/js/header.js"></script>
 
 	<div id="main">
-		<div class="tab">
-			<div id="logoDiv">
-				<a href="login.do"><img
-					src=resources/images/member/header_logo.png alt="메인으로 이동" id="logo" /></a>
+	<div class="tab">
+	<div><a href="login.do"><img src=resources/images/member/header_logo.png alt="메인으로 이동" id="logo"/></a></div>
+	
+		<ul class="tabnav">
+			<li><a href="#tab01" class="findTab_f">아이디찾기</a></li>
+			<li><a href="#tab02" class="findTab_f">비밀번호 찾기</a></li>
+		</ul>
+		<div class="out"></div>
+		<div class="tabcontent">
+			<div id="tab01">
+				<form action="selectFindId.do" method="post">
+					<table class="fin">
+						<tr>
+							<td>이름</td>
+							<td><input type="text" class="input" name="empName"></td>
+							<td></td>
+						</tr>
+
+						<tr>
+							<td>부서</td>
+							<td><select class="input" name="departmentTitle">
+									<c:forEach items="${dtlist}" var="dt">
+										<option value="${dt.departmentTitle}">"${dt.departmentTitle}"</option>
+									</c:forEach>
+							</select></td>
+							<td></td>
+						</tr>
+
+						<tr>
+							<td>생년월일</td>
+							<td><input type="number" class="input" name="userNo"
+								placeholder="생년월일 6자리를 입력해주세요"  maxlength="6"></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>이메일</td>
+							<td><input type="email" class="input" name="email" 
+								placeholder="가입당시 이메일을 입력해주세요"></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="btn">
+						<input type="submit" value="아이디찾기" class="commonButton1">
+					</div>
+
+				</form>
 			</div>
 
-			<ul class="tabnav">
-				<li><a href="#tab01" class="findTab_f">아이디찾기</a></li>
-				<li><a href="#tab02" class="findTab_f">비밀번호 찾기</a></li>
-			</ul>
-			<div class="out"></div>
-			<div class="tabcontent">
-				<div id="tab01">
-					<form action="selectFindId.do" method="post">
-						<table class="findTab">
-							<tr>
-								<td>이름</td>
-								<td><input type="text" class="input fin" name="empName"></td>
-								<td></td>
-							</tr>
+			<div id="tab02">
+				<form id="findPwForm" action="findPwForm.do" method="post">
+					<table class="fin">
+						<tr>
+							<td>이름</td>
+							<td><input type="text" name="empName" class="input"></td>
+							<td></td>
+						</tr>
 
-							<tr>
-								<td>부서</td>
-								<td><select class="input" name="departmentTitle">
-										<c:forEach items="${dtlist}" var="dt">
-											<option value="${dt.departmentTitle}">"${dt.departmentTitle}"</option>
-										</c:forEach>
-								</select></td>
-								<td></td>
-							</tr>
+						<tr>
+							<td>아이디</td>
+							<td><input type="text" name="userId" class="input"></td>
+							<td></td>
+						</tr>
 
-							<tr>
-								<td>생년월일</td>
-								<td><input type="number" class="input fin" name="userNo"
-									placeholder="생년월일 6자리를 입력해주세요" oninput="maxCheck(this)"
-									maxlength="6"></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>이메일</td>
-								<td><input type="email" class="input fin" name="email"
-									placeholder="가입당시 이메일을 입력해주세요"></td>
-								<td></td>
-							</tr>
-						</table>
-						<div class="btn">
-							<input type="submit" value="아이디찾기" class="commonButton1">
-						</div>
+						<tr>
+							<td>생년월일</td>
+							<td><input type="text" class="input" name="userNo"
+								placeholder="생년월일 6자리를 입력해주세요" minlength="6" maxlength="6"></td>
+							<td></td>
+						</tr>
 
-					</form>
-				</div>
+						<tr>
+							<td>이메일</td>
+							<td><input type="text" name="email" class="input mail_input"
+								placeholder="가입당시 이메일을 입력해주세요"></td>
+							<td><button type="button" class="mail_check_button commonButton1_1">인증하기</button> 
+								</td>
+						</tr>
 
-				<div id="tab02">
-					<form id="findPwForm" action="findPwForm.do" method="post">
-						<table class="findTab">
-							<tr>
-								<td>이름</td>
-								<td><input type="text" name="empName" class="input fin"></td>
-								<td></td>
-							</tr>
+						<tr>
+							<td></td>
+							<td><input type="text" class="input mail_con_input"
+								placeholder="인증번호를 입력해주세요"></td>
+							<td><button type="button" class="mail_checkCon_button commonButton1_1">인증확인</button>
+								</td>
+						</tr>
 
-							<tr>
-								<td>아이디</td>
-								<td><input type="text" name="userId" class="input fin"></td>
-								<td></td>
-							</tr>
-
-							<tr>
-								<td>생년월일</td>
-								<td><input type="number" class="input fin" name="userNo"
-									placeholder="생년월일 6자리를 입력해주세요" oninput="maxCheck(this)"
-									maxlength="6" maxlength="6"></td>
-								<td></td>
-							</tr>
-
-							<tr>
-								<td>이메일</td>
-								<td><input type="text" name="email"
-									class="input mail_input  fin" placeholder="가입당시 이메일을 입력해주세요"></td>
-								<td><button type="button"
-										class="mail_check_button commonButton1_1">인증하기</button></td>
-							</tr>
-
-							<tr>
-								<td></td>
-								<td><input type="text" class="input mail_con_input fin"
-									placeholder="인증번호를 입력해주세요"></td>
-								<td><button type="button"
-										class="mail_checkCon_button commonButton1_1">인증확인</button></td>
-							</tr>
-
-						</table>
-						<div class="btn">
-							<input type="submit" id="findPw" disabled value="비밀번호 찾기"
-								class="commonButton1">
-						</div>
-					</form>
-				</div>
+					</table>
+					<div class="btn">
+						<input type="submit" id="findPw" disabled value="비밀번호 찾기" class="commonButton1">
+					</div>
+				</form>
 			</div>
-			<div class="out"></div>
 		</div>
+		<div class="out"></div>
+	</div>
 	</div>
 	<!--tab-->
-	<jsp:include page="../common/alert.jsp" />
+	<jsp:include page="../common/alert.jsp"/>	
 	<script>
-		var code = ""//컨트롤러에서 전달받은 인증번호를 저장하는용도
 
-		/*인증번호 전송전 회원정보 있는지 확인 원본*/
-		/*	$(".mail_check_button").click(function(){//인증번호 전송 버튼을 눌렀을때
-		 //1.회원정보를 확인하는 ajax
-		 $.ajax({
-		 type:"post",
-		 url:"selectFindUser",
-		 data:$("#findPwForm").serialize(),
-		 success:function(data){
-		 
-		 count=data;
-		 //여기에 disabled해제하는거 적어주기 사번이 없으면 없다고 정보 띄우기
-		 }
-		 })
-		 //인증번호 버튼 누르면 이메일전송하는 버튼
-		 //2-1 회원정보가 있을때 ajax 실행되게
-		 if(count === '1'){//회원정보가 있을때
 		
-		 var email = $(".mail_input").val();//인풋박스에서 입력한 이메일을 email 변수에 담아줌
-		
-		 //ajax url로 값을 보내도록 GET방식
-		 $.ajax({
-		 type:"GET",
-		 url:"mailCheck?email=" + email,
-		 success:function(data){
-		
-		 //
-		
-		 //컨트롤러에서 전달받은 인증번호를 선언해준 변수에 저장
-		 code = data;
-		 myAlert("인증번호 전송","이메일로 인증번호가 전송되었습니다");
-		 }
-		
-		 });
-		 //myAlert("인증번호 전송","이메일로 인증번호가 전송되었습니다");
-		 //2-2 회원정보가 없다면 alert창으로 정보를 다시 확인해달라 하기
-		 }else{
-		 myAlert("정보불일치","입력한 정보를 다시 확인해주세요!");
-		 }
-		 });
-		 */
-		 /*인증번호 전송전 회원정보 있는지 확인 */
-		$(".mail_check_button").click(function() {//인증번호 전송 버튼을 눌렀을때
-			//1.회원정보를 확인하는 ajax
-			$.ajax({
-				type : "post",
-				url : "selectFindUser",
-				data : $("#findPwForm").serialize(),
-				success : function(data) {
-					
-					count = data;
-					//여기에 disabled해제하는거 적어주기 사번이 없으면 없다고 정보 띄우기
-					//인증번호 버튼 누르면 이메일전송하는 버튼
-					//2-1 회원정보가 있을때 ajax 실행되게
-					if (count === '1') {//회원정보가 있을때
+var code =""//컨트롤러에서 전달받은 인증번호를 저장하는용도
 
-						var email = $(".mail_input").val();//인풋박스에서 입력한 이메일을 email 변수에 담아줌
-
-						//ajax url로 값을 보내도록 GET방식
-						$.ajax({
-							type : "GET",
-							url : "mailCheck?email=" + email,
-							success : function(data) {
-
-								//
-
-								//컨트롤러에서 전달받은 인증번호를 선언해준 변수에 저장
-								code = data;
-								myAlert("인증번호 전송", "이메일로 인증번호가 전송되었습니다");
-							}
-
-						});
-						//myAlert("인증번호 전송","이메일로 인증번호가 전송되었습니다");
-						//2-2 회원정보가 없다면 alert창으로 정보를 다시 확인해달라 하기
-					} else {
-						myAlert("정보불일치", "입력한 정보를 다시 확인해주세요!");
-					}
-				}
-			})
-		});
-
-		/*인증번호 비교*/
-		//인증확인 버튼을 누르면
-		/*
-		 $(".mail_checkCon_button").click(function(){
-		 var inputNum =$(".mail_con_input").val(); //인증번호 확인란에 입력한 값
-		
-		 if(code!=null && code!=""){
-		 if(inputNum == code){
-		 //alert("인증번호가 일치합니다");
-		 myAlert("인증번호 일치","인증번호가 일치합니다");
-		 $('#findPw').prop('disabled',false);
-		 }else{
-		 //alert("인증번호가 일치하지 않습니다. 다시 확인해주세요");
-		 myAlert("인증번호 불일치","인증번호가 일치하지 않습니다. 다시 확인해주세요");
-		 }
-		 }
-		 })
-		 */
-
-		$(".mail_checkCon_button").click(function() {
-			var inputNum = $(".mail_con_input").val(); //인증번호 확인란에 입력한 값
-
-			if (code != null && code != "") {
-				if (inputNum == code) {
-					myAlert("인증번호 일치", "인증번호가 일치합니다");
-					$('#findPw').prop('disabled', false);
-				} else {
-					myAlert("인증번호 불일치", "인증번호가 일치하지 않습니다.다시 확인해주세요");
-					$('#findPw').prop('disabled', true);
-				}
-			} else if (code === null || code === "") {
-				myAlert("인증번호 불일치", "인증번호가 일치하지 않습니다.다시 확인해주세요");
-				$('#findPw').prop('disabled', true);
+/*인증번호 전송전 회원정보 있는지 확인*/
+	$(".mail_check_button").click(function(){//인증번호 전송 버튼을 눌렀을때
+		//1.회원정보를 확인하는 ajax
+		$.ajax({
+			type:"post",
+			url:"selectFindUser",
+			data:$("#findPwForm").serialize(),
+			success:function(data){
+				console.log("사원이 있는가?:"+ data);
+				count=data;
+				//여기에 disabled해제하는거 적어주기 사번이 없으면 없다고 정보 띄우기
 			}
-
-		});
-
-		//다른 탭 누르면 이전탭에 적은거 지워지게하기
-
-		$(".findTab_f").on("click", function() {
-			$('.fin').val('');
-		});
-
-		//input number 길이제한
-		function maxCheck(object) {
-			if (object.value.length > object.maxLength) {
-				object.value = object.value.slice(0, object.maxLength);
+		})
+		//인증번호 버튼 누르면 이메일전송하는 버튼
+		//2-1 회원정보가 있을때 ajax 실행되게
+		if(count === '1'){//회원정보가 있을때
+		
+		var email = $(".mail_input").val();//인풋박스에서 입력한 이메일을 email 변수에 담아줌
+		
+		//ajax url로 값을 보내도록 GET방식
+		$.ajax({
+			type:"GET",
+			url:"mailCheck?email=" + email,
+			success:function(data){
+				
+			//console.log("인증번호 : "+ data);
+			
+			//컨트롤러에서 전달받은 인증번호를 선언해준 변수에 저장
+			code = data;
 			}
+			
+		});
+		myAlert("인증번호 전송","이메일로 인증번호가 전송되었습니다");
+		//2-2 회원정보가 없다면 alert창으로 정보를 다시 확인해달라 하기
+		}else{
+			myAlert("정보불일치","입력한 정보를 다시 확인해주세요!");
 		}
-		
-       
-        		
-        		var msgTitle = '${msgTitle}';
-        		var msg = '${msg}';
-        		if(msg){
-        		myAlert(msgTitle,msg);
+	});
 
-        		}
-	</script>
+/*인증번호 비교*/
+//인증확인 버튼을 누르면
+/*
+$(".mail_checkCon_button").click(function(){
+	var inputNum =$(".mail_con_input").val(); //인증번호 확인란에 입력한 값
+	
+	if(code!=null && code!=""){
+	if(inputNum == code){
+		//alert("인증번호가 일치합니다");
+		myAlert("인증번호 일치","인증번호가 일치합니다");
+		$('#findPw').prop('disabled',false);
+	}else{
+		//alert("인증번호가 일치하지 않습니다. 다시 확인해주세요");
+		myAlert("인증번호 불일치","인증번호가 일치하지 않습니다. 다시 확인해주세요");
+	}
+	}
+})
+*/
+
+$(".mail_checkCon_button").click(function(){
+	var inputNum =$(".mail_con_input").val(); //인증번호 확인란에 입력한 값
+	
+	if(code!=null && code!=""){
+	if(inputNum == code){
+		myAlert("인증번호 일치","인증번호가 일치합니다");
+		$('#findPw').prop('disabled',false);
+	}else{
+		myAlert("인증번호 불일치","인증번호가 일치하지 않습니다.다시 확인해주세요");
+		$('#findPw').prop('disabled',true);
+	}
+	}else if(code===null||code===""){
+		myAlert("인증번호 불일치","인증번호가 일치하지 않습니다.다시 확인해주세요");
+		$('#findPw').prop('disabled',true);
+	}
+	
+})
+
+//다른 탭 누르면 이전탭에 적은거 지워지게 아직 안됨..ㅜ
+$(".findTab_f").click(function(){
+$('.fin').find('input').each(function(){
+	$(this).val('')});
+});
+</script>
 </body>
 
 </html>

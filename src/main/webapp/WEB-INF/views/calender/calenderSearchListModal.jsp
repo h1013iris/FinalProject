@@ -7,43 +7,6 @@
 <meta charset="UTF-8">
 <title>Document</title>
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/common.css">
-<style type="text/css">
-	.calenderSearchListModal .calenderSearchList_header{
-		border-bottom: 1px solid;
-		font-size: 30px;
-	    padding-bottom: 10px;
-	}
-	.calenderSearchListModal .cal_document {
-	    border-bottom: 1px solid;
-	}
-	.calenderSearchListModal .cal_document:hover {
-	    background-color: #f5f5f5;
-	}
-	.calenderSearchListModal .cal-sList-top {
-	    margin-bottom: 10px;
-	    margin-top: 10px;
-	}
-	.calenderSearchListModal .cal-sList-title {
-	    margin-right: 15px;
-	    font-size: 18px;
-	}
-	.calenderSearchListModal .cal-sList-middle {
-	    display: flex;
-	    padding-bottom: 12px;
-        font-size: 15px;
-	}
-	.calenderSearchListModal .cal-sList-input {
-	    margin-left: 20px;
-	}
-	.calenderSearchListModal .backCalender-button {
-	    width: 10%;
-	}
-	.calenderSearchListModal .cal-sList-open {
-	    font-size: 15px;
-	    padding-left: 4px;
-    	padding-right: 4px;
-	}
-</style>
 </head>
 <body>
     <div id="modal_background" class="calenderSearchListModal">

@@ -188,7 +188,7 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;">
 								<span contenteditable="false" style="width: 100%;">
-									<textarea class="docEnroll_textarea" id="updateReason" name="updateReason" style="width: 99%; height: 240px;" maxlength="450"></textarea>
+									<textarea class="docEnroll_textarea" id="updateReason" name="updateReason" style="width: 99%; height: 240px;" maxlength="1000"></textarea>
 								</span> 
 							</td>
 						</tr>
@@ -237,7 +237,7 @@
  			
  			// 주말 선택할 수 없도록
  			} else if(updateDateDay == 0 || updateDateDay == 6) {
-	            
+	            console.log("주말");
 				$("#formErrorMsg").text("주말은 선택할 수 없습니다.");
 				$("#endDate").val("");
 				
@@ -291,8 +291,8 @@
 			$("#beAttendTime2").val(updateDate + " " + beAttendTime);
 			$("#beLeaveTime2").val(updateDate + " " + beLeaveTime);
 			
-			
-			
+			console.log($("#beAttendTime2").val());
+			console.log($("#beLeaveTime2").val());
  		}
  		
  		// 수정 후 출근 시간 변경 시
@@ -411,7 +411,7 @@
                 url: "enrollDocument.do",
                 data: form,
                 success: function (result) {
-                	
+                	console.log(result)
                 	
                     if(result == "success") {
 					
@@ -447,7 +447,7 @@
     			url: "saveCmpUdpFormOutbox.do",
     			data: form,
     			success: function(result) {
-    				
+    				console.log(result);
     				
     				if(result == "success") {
     					let title = "임시 보관함 저장"

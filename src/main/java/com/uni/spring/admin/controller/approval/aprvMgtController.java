@@ -92,7 +92,7 @@ public class aprvMgtController {
 	        list.get(i).setProDate(proDate);   // set 해주기
 	    }
 	    
-	    
+	    System.out.println(list);
 		  
 	    result.put("list", list);
 		result.put("currentPage",  pi.getCurrentPage());
@@ -139,8 +139,8 @@ public class aprvMgtController {
 	@RequestMapping(value="docScrtySet.do", produces="application/json; charset=utf-8")
 	public String docScrtySet(SecurityDoc securityDoc, AprvDoc aprvDoc) {
 		
-		
-		
+		System.out.println(securityDoc.toString());
+		System.out.println(aprvDoc.toString());
 		
 		aprvMgtService.docScrtySet(securityDoc, aprvDoc);
 
@@ -193,7 +193,7 @@ public class aprvMgtController {
 			list.get(i).setProDate(proDate);   // set 해주기
 		}
   
-		
+		System.out.println(list);
   
 		result.put("list", list);
 		result.put("currentPage",  pi.getCurrentPage());
@@ -227,8 +227,8 @@ public class aprvMgtController {
 	@RequestMapping(value="docScrtyCancel.do", produces="application/json; charset=utf-8")
 	public String docScrtyCancel(SecurityDoc securityDoc, AprvDoc aprvDoc) {
 		
-		
-		
+		System.out.println(securityDoc.toString());
+		System.out.println(aprvDoc.toString());
 		
 		aprvMgtService.docScrtyCancel(securityDoc, aprvDoc);
 

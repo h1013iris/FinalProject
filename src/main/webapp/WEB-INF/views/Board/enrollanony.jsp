@@ -55,6 +55,7 @@
 	justify-content: center;
 	align-items: center;
 	width: 83vw;
+	padding:20px;
 }
 
 #enrollFormAnnoDepart {
@@ -100,10 +101,7 @@
 	<div class="main_section">
 		<div class="middleEnrollForm">
 
-			<form id="enrollFormAnnoDepart" action="insertanony.do" method="post" enctype="multipart/form-data">
-				<div class="annoDepartEnrollHeader">
-					<h2>글 작성</h2>
-				</div>
+			<form id="enrollFormAnnoDepart" action="insertanony.do" method="post" enctype="multipart/form-data">				
 
 				
 				<!-- 제목 부분 -->
@@ -112,7 +110,7 @@
 				<span style="color:red">*</span><span class="titleNamePart mainStyleCh">제목</span>
 					</div>
 					<input type="text" name="title" id="title" class="inputTitlePart"
-						palaceholder="제목을 입력해주세요" value ="${b.title}" required>
+						palaceholder="제목을 입력해주세요" value ="${b.title}" maxlength="30" required>
 				</div>
 				<!-- 작성자 부분 session에서 값 받아오기 ${loginUser.empName} -->
 				
@@ -121,7 +119,7 @@
 						<span style="color:red">*</span><span class="writerPart">작성자</span>
 					</div>
 					
-					<input type="text" id="writer" name="nickname"> 
+					<input type="text" id="writer" name="nickname" required> 
 					
 							                
 				</div>

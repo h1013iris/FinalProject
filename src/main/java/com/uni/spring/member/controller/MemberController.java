@@ -78,7 +78,7 @@ public class MemberController {
 		
 		WideMember m = memberService.selectNewMember(empNo);
 		
-		
+		System.out.println("m은?:"+m);
 		
 		if(m!=null){
 		
@@ -112,24 +112,24 @@ public class MemberController {
 			) {//여기서는 불러온 정보 + 업테이트식으로 회원가입
 		
 		m.setAddress(oneAddress+"/"+twoAddress);//주소 합쳐서Address에 넣어주기
-		
+		System.out.println(m);
 		//암호화 하기전 회원가입시 입력한 비밀번호
-		
+		System.out.println("회원가입시 입력한 비밀번호: "+m.getUserPw());
 		
 		//비밀번호 암호화
 		String encPwd =bCryptPasswordEncoder.encode(m.getUserPw());
 		
-		
+		System.out.println("암호화한 비밀번호: "+encPwd);
 		
 		m.setUserPw(encPwd);//암호화한 비밀번호를 다시 넣어준다.
 		int empNo = m.getEmpNo();
 		
 		int result = memberService.insertMemberAttachFile(file, request, empNo);
 		if(result > 0) {
-			
+			System.out.println("성공");
 			manageService.insertVacationForm(m);
 		} else {
-			
+			System.out.println("실패");
 		}
 		memberService.updateNewMember(m);
 		
@@ -172,7 +172,7 @@ public class MemberController {
 	        
 	        String statuslogin = manageService.selectSatatusLog(loginUser.getEmpNo());
 	        /*김태연 캘린더!!!!!!!!*/
-	        
+	        System.out.println("로그인 유저 부서넘버 ====> "+loginUser.getDepartmentNo());
 	        DepartmentManagement department = new DepartmentManagement();
 	        if(loginUser.getDepartmentNo() != null) {// 부서 번호가 존재할 시
 	        	String departmentNo = loginUser.getDepartmentNo();
@@ -209,7 +209,7 @@ public class MemberController {
 	@PostMapping("selectFindId.do")
 	public String selectFindId(WideMember wm, Model model) {
 		
-		
+		System.out.println("jsp에서 값이 넘어왔나용?"+wm);
 		String msg = memberService.selectFindId(wm);
 			if(msg!=null){
 			model.addAttribute("msgTitle","아이디 찾기");
@@ -218,7 +218,6 @@ public class MemberController {
 		else if(msg==null || msg.equals("")){
 			model.addAttribute("msgTitle","아이디 찾기");
 			model.addAttribute("msg","아이디 찾기 정보를 다시 확인해주세요");
-			
 		}
 		return "main";
 	}
@@ -229,9 +228,9 @@ public class MemberController {
 	@PostMapping("selectFindUser")
 	@ResponseBody//ajax
 	public String selectFindUser(Member m) {
+		System.out.println("인증하기 버튼 누르면 값이 전달되는지");
 		
-		
-		
+		System.out.println("비밀번호 찾기시 입력한 정보: "+m);
 		//입력받은 정보로 사원정보가 있는지 확인해야함
 		
 		int userCount=0;
@@ -250,15 +249,15 @@ public class MemberController {
 	public String mailCheckGET(String email) throws Exception{
 		
 		//view에서 데이터 넘어오는지 확인
-		
-		
+		System.out.println("이메일 데이터 전송 확인");
+		System.out.println("인증번호 전달할 이메일 : "+ email);
 		
 		/*인증번호 랜덤값 생성*/
 		//Random클래스 객체변수 random선언
 		Random random = new Random();
 		//111111부터 999999사이의 랜덤숫자를 얻기
 		int checkNum = random.nextInt(888888)+111111;
-		
+		System.out.println("랜덤인증번호: "+checkNum);
 		
 		/*이메일 보내기*/
 		//메일 전송시 넣을 내용
@@ -312,19 +311,19 @@ public class MemberController {
 	public String updatePw(Member m ,Model model) {
 		
 		//제대로 정보가 넘어왔는지 확인
-		
+		System.out.println("비밀번호 변경창으로 넘어온 정보"+m);
 		//비밀번호 암호화
 		String newPw = m.getUserPw();
 		String id = m.getUserId();
 		String encPw = bCryptPasswordEncoder.encode(newPw);
 
-		
+		System.out.println("암호화된 비밀번호 :" +encPw);
 		m.setUserPw(encPw);
 		m.setUserId(id);
 		
 		int result = memberService.updatePw(m);
 		
-		//
+		//System.out.println("result:" + result);
 		if(result > 0) {
 			model.addAttribute("msg","비밀번호가 변경되었습니다");
 			}else {

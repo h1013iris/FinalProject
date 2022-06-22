@@ -21,6 +21,10 @@
 	padding: 0px;
 }
 
+html{
+overflow-y: scroll;
+}
+
 #container {
 	height: 100vh;
 	display: flex;
@@ -38,23 +42,24 @@
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
-	background-color: #fff;
+	border: 1px solid;
+	background-color: rgb(223, 238, 255);
 	
 }
 
 .listAdd td {
-	border: 2px rgb(223, 238, 255) solid;
+	border: 2px white solid;
 	padding: 5px 10px;
 	width: 200px;
 }
 
 .listAdd th {
-	border: 2px rgb(223, 238, 255) solid;
+	border: 2px white solid;
 	padding: 5px 10px;
 	width: 200px;
 }
 #listMain{
-	height:150px;
+	height:230px;
 	overflow-y: scroll;
 }
 .a {
@@ -66,7 +71,7 @@
 	text-align: center;
 }
 .boxAddList{
-	height:250px;
+	height:420px;
 	margin-bottom:30px;
 	margin-left: auto;
 	margin-right: auto;
@@ -93,7 +98,7 @@ display: none;
 }
 
 .buttonDiv{
-margin-top: 10px;
+margin-top: 30px;
 }
 
 .trSt:hover{
@@ -132,10 +137,10 @@ margin-bottom: 5px;
 	<div class="main_section">
 		<div id="container">
 			<div id="addcon">
-				
+				<div class="boxAddList">
 					<form>
 						<div class="boxTitle">거래처 주소록 임시보관함</div>
-						<div class="boxAddList">
+						
 						<table class="listAdd oneT">
 							<tr>
 								<th style="width: 50px"></th>
@@ -168,10 +173,10 @@ margin-bottom: 5px;
 					</div>
 				
 					
-					
+					<div class="boxAddList">
 					<form>
 						<div class="boxTitle">고객 주소록 임시보관함</div>
-						<div class="boxAddList">
+						
 						<table class="listAdd oneT">
 							<tr>
 								<th style="width: 50px"></th>
@@ -218,14 +223,14 @@ margin-bottom: 5px;
 			});
 			//고객주소록 임시보관함에서 삭제 ajax
 			if (num === 1) {
-				
+				console.log("고객 주소록 임시보관함 삭제 체크목록 : " + cusNoArr);
 
 				$.ajax({
 					type : "POST",
 					url : "deleteCustoBox.do",
 					data : {cusNoArr : cusNoArr},
 					success : function(data) {
-						
+						console.log("삭제결과" + data);
 						no = data;
 						if (no > 0) {
 							alert("삭제 되었습니다.");
@@ -243,7 +248,7 @@ margin-bottom: 5px;
 					url : "backCustoBox.do",
 					data : {cusNoArr : cusNoArr},
 					success : function(data) {
-						
+						console.log("복원결과" + data);
 						no = data;
 						if (no > 0) {
 							alert("복원 되었습니다.");
@@ -267,7 +272,7 @@ margin-bottom: 5px;
 				comNoArr.push(com);
 					
 				});
-				
+				console.log("거래처 주소록 임시보관함 삭제 체크목록 : " + comNoArr);
 				//거래처 주소록 임시보관함에서 삭제 ajax
 			if (num === 1) {
 				$.ajax({
@@ -275,7 +280,7 @@ margin-bottom: 5px;
 					url : "deleteComBox.do",
 					data : {comNoArr : comNoArr},
 					success : function(data) {
-						
+						console.log("삭제결과" + data);
 						no = data;
 						if (no > 0) {
 							alert("삭제 되었습니다.");
@@ -293,7 +298,7 @@ margin-bottom: 5px;
 					url : "backComBox.do",
 					data : {comNoArr : comNoArr},
 					success : function(data) {
-						
+						console.log("복원결과" + data);
 						no = data;
 						if (no > 0) {
 							alert("복원 되었습니다.");

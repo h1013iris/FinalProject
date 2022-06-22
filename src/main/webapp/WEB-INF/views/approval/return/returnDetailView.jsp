@@ -8,19 +8,13 @@
 <title>반려 문서 상세 페이지</title>
 <style type="text/css">
 
+	.main_section { background-color: #f3f3f3; }
+
 	.docDetailViewDiv {
 		margin: 30px auto;
 		width: 1500px;
 	}
-	
-	/*.docDetailBackground {
-		height: 790px;
-		border: 1px solid #e6e6e6;
-		background-color: #e6e6e6;
-		border-radius: 15px;
-		box-shadow: 0 0 8px #afafaf;	
-	}*/
-	
+
 	.docDetailMainArea {
 		padding: 70px 0 0 100px;
 		float: left;
@@ -114,9 +108,12 @@
 		line-height: 130%;
 	}
 	
-	#reReason::-webkit-scrollbar {
-		/*width: 20px;*/
-	}
+	/*#reReason::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+  }
+  #reReason::-webkit-scrollbar-track {
+    background-color: grey;
+  }*/
 	
 	.returnModal_hr {
 		margin: 15px 0 15px 0;
@@ -201,14 +198,14 @@
                 url: "selectDocApprover.do",
                 data: { docNo : ${ docNo } },
                 success: function (list) {
-					
+					console.log(list);
 					if(list != null) {
 						for(var i in list) {
 							if(list[i] != null) {
 								$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
 								$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
 								$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
-								
+								console.log(list[i].empNo);
 							}
 						}
                 	}
@@ -226,7 +223,7 @@
     			url: "selectReReason.do",
     			data: { docNo : ${ docNo } },
     			success: function(data) {
-    				
+    				console.log(data);
     				
     				document.getElementById("reFrom").innerHTML = data.reFromName;
     				document.getElementById("reReason").innerHTML = data.reReason;
@@ -249,7 +246,7 @@
     			url: "selectDrafter.do",
     			data: { docNo : ${ docNo } },
     			success: function(drafter) {
-    				
+    				console.log(drafter);
     				
     				// 기안자와 로그인 유저가 일치하지 않으면
     				if(drafter != loginUser) {

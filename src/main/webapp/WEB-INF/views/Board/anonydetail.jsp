@@ -30,6 +30,8 @@
 	width: 60%;
 	height: 60%;
 	overflow: auto;
+	padding:10px;
+	margin-top:10px;
 }
 
 .mainDivEnroll {
@@ -180,8 +182,7 @@
 					function postFormSubmit(num){
 						var anop = $("#anonyboarddetailpassword").val();
 					    var realp = ${ b.password }					   
-					    
-					    
+					   
 					    if(realp == anop){
 						var postForm = $("#postForm");
 						
@@ -220,11 +221,11 @@
 			</c:if>
 		   <br>		
 		   <span style="color:red">*</span><span>닉네임</span>
-		   <input type="text" name=conmentnickname id="conmentnickname" required>
+		   <input type="text" name=conmentnickname id="conmentnickname">
 		   <span style="color:red">*</span><span>비밀번호</span>
-		   <input type="password" name=anonypassword id="anonypassword" maxlength="4" placeholder="댓글 비밀번호를 입력하세요" required >
+		   <input type="password" name=anonypassword id="anonypassword" maxlength="4" placeholder="비밀번호를 입력하세요">
 		</div>
-
+         
 		<div class="replyAREAboard">
 			<table id="replyList">
 				<thead>
@@ -249,7 +250,39 @@
 	<script>
 	$(function() {
 		selectcomList();
-		$("#addcom").click(function() {
+		$("#addcom").click(function() {			 
+		         var compass = $("#anonypassword").val();
+		         var conickname = $("#conmentnickname").val();
+		       
+		         if(compass === ""  && conickname === ""){
+		        	 $("#alert_container .title_name").text("종합오류");
+						$("#alert_body .alert_content").text("닉네임과비밀번호를입력해주세요");
+						$("#alertBackground").css("display","block");
+						
+						$(document).on("click", ".cancel_btn", function() {
+				 			
+							$("#alertBackground").css("display","none");
+						})
+		         }else if(compass === ""){
+		        	 $("#alert_container .title_name").text("비밀번호오류");
+						$("#alert_body .alert_content").text("비밀번호를을입력해주세요");
+						$("#alertBackground").css("display","block");
+						
+						$(document).on("click", ".cancel_btn", function() {
+				 			
+							$("#alertBackground").css("display","none");
+						})
+		        	 }else if(conickname === ""){
+		        		 $("#alert_container .title_name").text("닉네임오류");
+		 				$("#alert_body .alert_content").text("닉네임을입력해주세요");
+		 				$("#alertBackground").css("display","block");
+		 				
+		 				$(document).on("click", ".cancel_btn", function() {
+		 		 			
+		 					$("#alertBackground").css("display","none");
+		        	 })
+		        	 }else{     
+		         
 			var bno = ${b.writeno};
 			
 			var realbno = ${b.boardno};
@@ -282,6 +315,7 @@
 					}
 				})
 			}
+		}
 		})
 	});
 
@@ -332,13 +366,12 @@
 	function deleteReply(num , pass){		
 		var anopass = $("#anonypassword").val();		
 		
-		
 		if(anopass == pass){
 		$("#confirm_title .title_name").text("댓글 삭제");
 		$("#confirm_body .confirm_content").text("댓글을 삭제하시겠습니까?");		
 		$("#helpmeCOnfirm").css("display","block");		
 		$("button[name='confirmBtn']").click(function(){
-    		
+    		  			
     		if($(this).val()=="true"){    			
     			location.href="deletecoment.do?cno="+num+"&bno="+${b.writeno}+"&realbno="+4
     			$("#helpmeCOnfirm").css("display","none");       		

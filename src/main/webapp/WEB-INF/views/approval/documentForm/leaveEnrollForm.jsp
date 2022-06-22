@@ -177,7 +177,7 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;">
 								<div contenteditable="false" style="width: 100%;">
-									<textarea class="docEnroll_textarea" id="vacReason" name="vacReason" style="width: 99%; height: 240px;" maxlength="500"></textarea>
+									<textarea class="docEnroll_textarea" id="vacReason" name="vacReason" style="width: 99%; height: 240px;" maxlength="200"></textarea>
 								</div>
 							</td>
 						</tr>
@@ -291,13 +291,13 @@
 	        
 			// 주말 선택할 수 없도록
 			if(endDay == 0 || endDay == 6) {
-	            
+	            console.log("주말");
 				$("#formErrorMsg").text("주말은 선택할 수 없습니다.");
 				$("#endDate").val("");
 			
 			// 주말 아니고, 시작 날짜 선택되어 있는 경우에만 사용일수 계산
 			} else if($("#startDate").val() != "") {
-				
+				console.log("시작 날짜 존재");
 				
 				useDaysFn();
 			}
@@ -314,7 +314,7 @@
 			let diffDate = endDate.getTime() - startDate.getTime();
 			let dateDays = diffDate / (1000 * 3600 * 24);
 			
-			//
+			//console.log(dateDays);
 			
 			// 휴가 시작 날짜가 끝 날짜보다 큰 경우
 			if(dateDays < 0) {
@@ -335,7 +335,7 @@
 					var temp_date = startDate;
 					
 				    if(temp_date.getTime() > endDate.getTime()) {
-				        //
+				        //console.log("count : " + count);
 				        break;
 				    
 				 	} else {
@@ -343,10 +343,10 @@
 				    	var tmp = temp_date.getDay();
 				        
 						if(tmp == 0 || tmp == 6) { // 주말
-				            //
+				            //console.log("주말");
 
 				        } else { // 평일
-				            //
+				            //console.log("평일");
 				            count++;
 				        }
 						
@@ -366,17 +366,8 @@
 				}
 			}
 		}
-		
-		
-		$(document).on("keyup", ".docEnroll_textarea", function() {
-			
-			let key = event.key || event.keyCode;
- 			
- 			if(key === 'Enter' || key === 13) {
- 				document.getElementsByClassName("docEnroll_textarea").value += $(this).val() + "\n";
- 			}
-		});
 
+		
 		
 		// 결재 요청 버튼 클릭 시
  		$(".submit_btn").click(function() {
@@ -391,7 +382,7 @@
  			
  			let title = "문서 작성 확인";
  			
- 			
+ 			console.log(vacReason.length)
  			
  			if((firstAprv == null || firstAprv == "") 
 						&& (secondAprv != null || secondAprv != "")) {
@@ -484,7 +475,7 @@
                 url: "enrollDocument.do",
                 data: form,
                 success: function (result) {
-                	
+                	console.log(result)
                 	
                     if(result == "success") {
 					
@@ -518,7 +509,7 @@
     			url: "saveLeaveFormOutbox.do",
     			data: form,
     			success: function(result) {
-    				
+    				console.log(result);
     				
     				if(result == "success") {
     					let title = "임시 보관함 저장"

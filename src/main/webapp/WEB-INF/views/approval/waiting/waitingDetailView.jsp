@@ -8,19 +8,13 @@
 <title>결재 대기 문서 상세 페이지</title>
 <style type="text/css">
 
+	.main_section { background-color: #f3f3f3; }
+
 	.docDetailViewDiv {
 		margin: 30px auto;
 		width: 1150px;
 	}
-	
-	.docDetailBackground {
-		height: 780px;
-		border: 1px solid #e6e6e6;
-		background-color: #e6e6e6;
-		border-radius: 15px;
-		box-shadow: 0 0 8px #afafaf;	
-	}
-	
+
 	.docDetailMainArea {
 		padding: 70px 0 0 100px;
 		float: left;
@@ -33,7 +27,7 @@
 	}
 	
 	.docDetail_textarea {
-		resize: none;
+		resize: vertical;
 		border: none;
 	}
 	
@@ -137,14 +131,14 @@
                 url: "selectDocApprover.do",
                 data: { docNo : ${ docNo } },
                 success: function (list) {
-					
+					console.log(list);
 					if(list != null) {
 						for(var i in list) {
 							if(list[i] != null) {
 								$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
 								$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
 								$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
-								
+								console.log(list[i].empNo);
 							}
 						}
                 	}
@@ -173,8 +167,8 @@
 			let firstAprv = $("#aprv0").val();
 			let secondAprv = $("#aprv1").val();
 			
-			
-			
+			console.log(secondAprv != "" && loginUser == firstAprv);
+			console.log(loginUser == secondAprv || 
 					(secondAprv == "" && loginUser == firstAprv));
 			
     		// 확인 버튼 클릭 시 confirm 모달 사라지고 결재 승인 진행
@@ -200,7 +194,7 @@
     			// 2차 결재자가 null이 아니고, 본인이 1차 결재자일 경우 -> 결재 기록만 등록
     			if(secondAprv != "" && loginUser == firstAprv) {
     				
-    				
+    				console.log("중간 승인");
     				approve = 1;
     			
     			// 최종 승인
@@ -208,7 +202,7 @@
     			} else if(loginUser == secondAprv || 
     						(secondAprv == "" && loginUser == firstAprv)) {
     				
-    				
+    				console.log("최종 승인");
     				approve = 2;
     			}
     			
@@ -221,7 +215,7 @@
     				url: "documentApprove.do",
     				data: form,
     				success: function(result) {
-    					
+    					console.log(result)
 	                	
 	                    if(result == "success") {
 

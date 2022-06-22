@@ -48,7 +48,7 @@ public class adminServiceImpl implements adminService {
 		
 		var insertUsers= admindao.insertUserSelect(sqlSession, emp.getCityNo());
 		
-		
+		System.out.println("service"+insertUsers);
 		return insertUsers;
 	}
 

@@ -144,7 +144,7 @@
 					<tbody>
 						<tr>
 							<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle; border-image: none;">
-								 시행일자 
+								 <b style="color: rgb(255, 0, 0);">*</b> 시행일자 
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;">
 								<span contenteditable="false">
@@ -177,7 +177,7 @@
 						<tr>
 							<td style="background: rgb(255, 255, 255); border-width: medium 1px 1px; border-style: none solid solid; border-color: currentColor black black; padding: 5px; height: 300px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;" colspan="4" class="dext_table_border_t">
 								<span contenteditable="false" style="width: 100%;">
-									<textarea class="docUpdate_textarea" id="dftContent" name="dftContent" style="width: 99%; height: 290px;" maxlength="950"></textarea>
+									<textarea class="docUpdate_textarea" id="dftContent" name="dftContent" style="width: 99%; height: 290px;" maxlength="1000"></textarea>
 								</span>
 							</td>
 						</tr>
@@ -238,7 +238,7 @@
 	                url: "selectDeptList.do",
 	                data: { deptNo : "${ loginUser.departmentNo }" },
 	                success: function (list) {
-					
+					console.log(list);
 	                	if(list != null || list != "") {
 	                		
 	                		$.each(list, function(i) {
@@ -262,7 +262,7 @@
 				data: { outboxNo : ${ outboxNo } },
 				success: function(data) {
 					
-					
+					console.log(data)
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.drafterDept);
 					$("#enfDate").val(data.enfDate);
@@ -285,7 +285,7 @@
 		 	                url: "selectCancleDocApprover.do",
 		 	                data: { docNo : data.docNo },
 		 	                success: function (data) {
-								
+								console.log(data);
 		 	                	if(data != null) {
 		 	                		
 		 	                		$("#firstAprv").val(data.firstAprv);
@@ -323,7 +323,7 @@
  						departmentNo : "${ loginUser.departmentNo }",
  						jobNo : "${ loginUser.jobNo }" },
  				success: function(list) {
- 					
+ 					console.log(list);
                 	if(list != null || list != "") {
                 		
                 		$.each(list, function(i) {
@@ -346,8 +346,8 @@
  			let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10); // 오늘 날짜
 			let enfDate = $("#enfDate").val(); 			
  			
- 			
- 			
+ 			console.log(today);
+ 			console.log(enfDate);
  			
  			// 시행일이 어제 이전이면 에러메시지 띄우기
  			if(today > enfDate) {
@@ -452,7 +452,7 @@
                 url: url,
                 data: form,
                 success: function (result) {
-                	
+                	console.log(result)
                 	
                     if(result == "success") {
 					
@@ -491,7 +491,7 @@
     			url: "updateBusDraft.do",
     			data: form,
     			success: function(result) {
-    				
+    				console.log(result);
     				
     				// 저장 여부만 알려주고 페이지 이동은 없음 -> 계속 작성할 수 있도록
     				if(result == "success") {

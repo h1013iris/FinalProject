@@ -139,7 +139,7 @@
 					<tbody>
 						<tr>
 							<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle; border-image: none;">
-								 시행일자 
+								 <b style="color: rgb(255, 0, 0);">*</b> 시행일자 
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;">
 								<span contenteditable="false">
@@ -172,7 +172,7 @@
 						<tr>
 							<td style="background: rgb(255, 255, 255); border-width: medium 1px 1px; border-style: none solid solid; border-color: currentColor black black; padding: 5px; height: 300px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;" colspan="4" class="dext_table_border_t">
 								<span contenteditable="false" style="width: 100%;">
-									<textarea class="docEnroll_textarea" id="dftContent" name="dftContent" style="width: 99%; height: 290px;" maxlength="950"></textarea>
+									<textarea class="docEnroll_textarea" id="dftContent" name="dftContent" style="width: 99%; height: 290px;" maxlength="1000"></textarea>
 								</span>
 							</td>
 						</tr>
@@ -229,7 +229,7 @@
 	                url: "selectDeptList.do",
 	                data: { deptNo : "${ loginUser.departmentNo }" },
 	                success: function (list) {
-					
+					console.log(list);
 	                	if(list != null || list != "") {
 	                		
 	                		$.each(list, function(i) {
@@ -254,7 +254,7 @@
  						departmentNo : "${ loginUser.departmentNo }",
  						jobNo : "${ loginUser.jobNo }" },
  				success: function(list) {
- 					
+ 					console.log(list);
                 	if(list != null || list != "") {
                 		
                 		$.each(list, function(i) {
@@ -354,7 +354,7 @@
                 url: "enrollDocument.do",
                 data: form,
                 success: function (result) {
-                	
+                	console.log(result)
                 	
                     if(result == "success") {
 					
@@ -390,7 +390,7 @@
     			url: "saveDraftFormOutbox.do",
     			data: form,
     			success: function(result) {
-    				
+    				console.log(result);
     				
     				if(result == "success") {
     					let title = "임시 보관함 저장"

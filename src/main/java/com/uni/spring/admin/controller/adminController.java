@@ -49,7 +49,7 @@ public class adminController {
 	@ResponseBody
 	@RequestMapping("insertEmp")
 	public String insertEmp(employee emp) {
-		
+		System.out.println("controller"+emp);
 		
 		var emp_rnt= adminservice.insertEmp(emp);
 		
@@ -59,7 +59,7 @@ public class adminController {
 	
 //	@RequestMapping("selectSort")
 //	public String selectSort(int number, ModelAndView mv) {
-//		
+//		System.out.println(number);
 //		
 //		ArrayList<employee> list = adminservice.selectSort(number);
 //		
@@ -135,7 +135,7 @@ public class adminController {
 	@ResponseBody
 	@RequestMapping("BanWordsDelete")
 	public void deleteBanWords(String words) {
-		
+		System.out.println(words);
 		adminservice.deleteBanWords(words);
 	}
 	
@@ -175,7 +175,7 @@ public class adminController {
 	@RequestMapping("selectSmallMeetingRoom")
 	public String selectSmallList(String roomNoLarge) {
 		
-		
+		System.out.println(roomNoLarge);
 		ArrayList<MeetingRoom> list = adminservice.selectSmallList(roomNoLarge);
 		
 		
@@ -315,7 +315,7 @@ public class adminController {
 	
 	@RequestMapping("updateEmployee")
 	public String updateEmployee(employee emp,Model model) {
-		
+		System.out.println("updateEMP 컨트롤러 ===================================="+emp);
 		employee empResult = adminservice.updateEmployee(emp);
 		model.addAttribute("emp", empResult);
 		

@@ -208,7 +208,7 @@ padding-top : 50px;
 					</button>
 					<div class="dropdown-content" id="drp">
 						<a id="new" href="free.do">최신순</a> 
-						<a id="old"	href="free.do">오래된순</a>
+						<a id="old"	href="freeold.do">오래된순</a>
 					</div>
 				</div>
 			</div>
@@ -317,7 +317,7 @@ padding-top : 50px;
 			})
 		
           
-         if(window.location.pathname === "/spring/noticeold.do"){
+         if(window.location.pathname === "/freeold.do"){
             document.getElementById("isRecents").innerText="오래된순";
             }else{
             document.getElementById("isRecents").innerText="최신순";

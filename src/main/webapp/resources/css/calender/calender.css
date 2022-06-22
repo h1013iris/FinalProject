@@ -76,6 +76,7 @@ text-overflow:ellipsis;
 	background-color: #FFFFFF;
 	border:1px solid white;
 	border-collapse: collapse;
+	table-layout: fixed;
 }
 .calendar_body .today{
 	border:1px solid white;
@@ -144,13 +145,13 @@ form#calendarFrm {
 	font-size: 22px;
 	font-weight: bold;
     border-bottom: 1px solid;
-  		padding-bottom: 5px;
+  	padding-bottom: 5px;
 }
 .scheduleList {
 	border-top: 1px solid black;
 }
 .today-Schedule {
-    width: 15vw;
+    width: 18vw;
     height: 100%;
     margin-left: 20px;
     display: flex;
@@ -188,6 +189,7 @@ form#calendarFrm {
 }
 .monthSchedule{
 	height: 60%;
+	width: 100%;
 }
 .monthSchedule ul{
     overflow-y: scroll;
@@ -219,4 +221,17 @@ form#calendarFrm {
 .today-Schedule .range{
     padding-left: 4px;
    	padding-right: 4px;
+}
+span.cal-title-list {
+    max-width: 90px;
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+p.font-small.cal-place-list {
+    width: 130px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

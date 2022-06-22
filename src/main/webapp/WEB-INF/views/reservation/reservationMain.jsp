@@ -349,9 +349,6 @@
 	 	
     	// 특정 클래스 선택 시 상세조회 모달보이기 res_tdtimes
     	function detailresGo(resNo){
-    		console.log("상세 모달로")
-    		console.log(resNo)
-    		
     		//event.stopPropagation()
     		$.ajax({
     			url:"selectOneReservation.do",
@@ -360,7 +357,6 @@
     			},
     			type:"get",
     			success:function(obj){
-    				console.log("상세모달 성공")
     				
     				let reserNo = obj.reserveNo;					// 예약번호 (업데이트시 끌고가야함)
     				let empNo = obj.empNo;							// 사원번호 (업데이트시 끌고가야함)
@@ -376,15 +372,14 @@
     				$('.resDetailModal_body .reserveNo').val(reserNo);
     				$('.resDetailModal_body .empNo').val(empNo);
     				
-    				$(".resDetail_time").text(startDate.getFullYear()+"년 "+startDate.getMonth()+"월 "+startDate.getDate()+"일 "+startTime+" ~ "+endDate.getFullYear()+"년 "+endDate.getMonth()+"월 "+endDate.getDate()+"일 "+endTime);
-    				$('.resDetail_place').text(smallRoomName)
-    				$('.resDetailModal_title').text(meetingName)
+    				$(".resDetail_time").html(startDate.getFullYear()+"년 "+startDate.getMonth()+"월 "+startDate.getDate()+"일 "+startTime+" ~ "+endDate.getFullYear()+"년 "+endDate.getMonth()+"월 "+endDate.getDate()+"일 "+endTime);
+    				$('.resDetail_place').html(smallRoomName)
+    				$('.resDetailModal_title').html(meetingName)
     				
     				selectOneAttendee(reserNo);
     				
     			},
     			error:function(){
-    				console.log("상세모달 실패")
     			}
     		})
     	}
@@ -401,8 +396,6 @@
     			},
     			type:"get",
     			success:function(obj){
-    				console.log("참석자 성공")
-    				
     				$.each(obj, function(idx, val){
     					
     					let attendee = val.empName;
@@ -417,7 +410,6 @@
 				    
     			},
     			error:function(){
-    				console.log("참석자 실패")
     			}
 			})
 		}
@@ -434,7 +426,6 @@
 			// 확인 클릭 시
 			$(".true_btn").click(function() {
 				$("#helpmeCOnfirm").hide();
-				console.log("확인 클릭함")
 				deleteresGo(reserveNo);
 		    });
 	    }
@@ -451,7 +442,6 @@
 					location.reload();
 				},
 				error:function(error){
-					console.log("삭제 실패")
 				}
 			})
 		}
@@ -474,7 +464,6 @@
 					})
 				count++;
 			</c:forEach>
-			console.log(arr)
 			
 			
 			// 타임 값 비교를 위해 배열 선언
@@ -528,7 +517,7 @@
 						startTime = "0"+hour+":"+start.getMinutes();
 					}
 				}
-				console.log(startTime)
+				
 				
 				// endTime도 startTime과 마찬가지
 				if(end.getMinutes() == 0){
@@ -548,12 +537,9 @@
 						endTime = "0"+hour+":"+end.getMinutes();
 					}
 				}
-				console.log(endTime)
 				
 				// 시작일자와 종료일자가 같으면 탐
 				if(start.getDate() == end.getDate()){
-					console.log("시작일자와 종료일자가 같음")
-					
 					
 					let count = 0; // 셀 병합 할 카운트 수
 					
@@ -599,9 +585,6 @@
 					cols = $('.time'+roomNo+classNo2)
 					
 					let resNoval = cols.find('.resNo')//.val(resNo);
-					console.log(resNoval)
-					
-					console.log(cols)
 					// 땅따먹기 + 색칠
 					// 방법 - time이란 클래스를 찾아서 차이 만큼 셀 병합 
 					for(let i = start ; i < end ; i.setMinutes(i.getMinutes()+30)){
@@ -615,7 +598,6 @@
 					}
 					cols.append('<input type="hidden" value="'+resNo+'"/>').addClass("res_tdtimes");
 					// 필요없는 컬럼 지우기
-					console.log(count) // 카운트 수 확인
 					// 카운트 수의 -1 을 하여 시작시간을 제외하여 삭제
 					for(let i = 0 ; i < count-1 ; i++){
 						cols.next().remove();
@@ -624,7 +606,6 @@
 					
 				// 시작일만 오늘이면 탐
 				}else if(start.getDate() == dd.substring(dd.length-2)){
-					console.log("시작일만 오늘임")
 					let count = 0; // 셀 병합 할 카운트 수
 					
 					// 셀병합랄 클래스 찾기
@@ -643,11 +624,9 @@
 						if(SroomNo == value){
 							// 클래스 넘버를 넣고 break;
 							roomNo = value;
-							console.log(roomNo)
 							break;
 						}
 					}
-					console.log(roomNo)
 					
 					
 					// 2. timeInfo의 value 값이 val.startDate의 시간과 같아야함
@@ -667,10 +646,8 @@
 						}
 						
 					}
-					console.log(classNo2)
 					// 합쳐질 셀대상을 변수로 담기
 					cols = $('.time'+roomNo+classNo2)
-					console.log(cols)
 					// 땅따먹기 + 색칠
 					// 방법 - time이란 클래스를 찾아서 차이 만큼 셀 병합 
 					for(let i = start ; i < end ; i.setMinutes(i.getMinutes()+30)){
@@ -684,14 +661,12 @@
 					}
 					cols.append('<input type="hidden" value="'+resNo+'"/>').addClass("res_tdtimes")
 					// 필요없는 컬럼 지우기
-					console.log(count) // 카운트 수 확인
 					// 카운트 수의 -1 을 하여 시작시간을 제외하여 삭제
 					for(let i = 0 ; i < count-1 ; i++){
 						cols.next().remove();
 					}
 				// 종료일만 오늘이면 탐
 				}else if(end.getDate() == dd.substring(dd.length-2)){
-					console.log("종료일만 오늘임")
 					let count = 0; // 셀 병합 할 카운트 수
 					
 					// 셀병합랄 클래스 찾기
@@ -710,11 +685,9 @@
 						if(SroomNo == value){
 							// 클래스 넘버를 넣고 break;
 							roomNo = value;
-							console.log(roomNo)
 							break;
 						}
 					}
-					console.log(roomNo)
 					
 					
 					// 2. timeInfo의 value 값이 val.endDate의 시간과 같아야함
@@ -734,14 +707,11 @@
 						}
 						
 					}
-					console.log(classNo2)
 					// 합쳐질 셀대상을 변수로 담기
 					cols = $('.time'+roomNo+classNo2)
-					console.log(cols)
 					// 찾은 요소 행에서 첫 요소의 다음요소 가져오기
 					let firstcols = cols.siblings(":first").next()
 					
-					console.log(firstcols)
 					// 땅따먹기 + 색칠
 					// 방법 -
 					for(let i = end ; i > start ; i.setMinutes(i.getMinutes()-30)){
@@ -756,7 +726,6 @@
 					}
 					cols.append('<input type="hidden" value="'+resNo+'"/>').addClass("res_tdtimes")
 					// 필요없는 컬럼 지우기
-					console.log(count) // 카운트 수 확인
 					// 카운트 수의 -1 을 하여 시작시간을 제외하여 삭제
 					for(let i = 0 ; i < count-1 ; i++){
 						// 만약 text가 존재하는 요소를 만나면

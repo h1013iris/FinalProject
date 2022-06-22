@@ -56,6 +56,10 @@
     				||$("#changeTargetName").val() == $("#pcThree").val()|| $("#changeTargetName").val() == $("#pcFour").val()){
     			myAlert("중복", "분류명이 중복입니다.");
     		}else{
+    			if($("#changeTargetName").val()==''){
+    				myAlert("입력", "입력을 해주셔야 합니다.");
+    				return false;
+    			}
     			$("#updateJC").submit();
     		}
     			

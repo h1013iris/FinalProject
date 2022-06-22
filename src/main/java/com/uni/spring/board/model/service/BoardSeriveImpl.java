@@ -90,9 +90,10 @@ public class BoardSeriveImpl implements BoardService {
 	@Override
 	public void insertboard(Board b ,int deno) {
 		if(deno > 0) {
-			String con = b.getContent();
+			/*String con = b.getContent();
 			con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
-			b.setContent(con);
+			b.setContent(con);*/
+			//summernote의경우 알아서 코드로 다 처리해줌 
 			b.setDeptno(deno);
 			BoardDao.deletepno(sqlSession, b );
 			int result = BoardDao.insertboard(sqlSession, b );
@@ -205,9 +206,9 @@ public class BoardSeriveImpl implements BoardService {
 
 	@Override
 	public void saveboard(pbox p) {
-		String con = p.getContent();
+		/*String con = p.getContent();
 		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
-	    p.setContent(con);	    
+	    p.setContent(con);	 */   
 		int result = BoardDao.saveboard(sqlSession, p);
 		if(result < 0) {
 			throw new CommException("게시글 추가 실패");
@@ -273,9 +274,9 @@ int result = BoardDao.deletepbox(sqlSession, pno);
 
 	@Override
 	public void insertanony(Board b) {
-		String con = b.getContent();
+		/*String con = b.getContent();
 		con = con.replaceAll("<p>", "").replaceAll("</p>", "\n");
-		b.setContent(con);				
+		b.setContent(con);		*/		
 		int result = BoardDao.insertanony(sqlSession, b );
 		if(result < 0) {
 			throw new CommException("게시글 추가 실패");

@@ -126,17 +126,17 @@ $(document).on("keyup",".percent_text",function(e){
 })
 $(function(){
     var AllLength = $(".percent_text").length;
-    
+    console.log("length"+AllLength)
 
     var avg = 0;
     for(let i = 0; i < AllLength; i++){
 
         avg += Number($(".percent_text").eq(i).val());
         
-        
+        console.log("담기냐"+avg)
     }
 
-    
+    console.log("최종계산전"+avg)
     var avg = avg / AllLength;
 
     $("#gauge_bar").css("width",avg+"%");
@@ -145,17 +145,17 @@ $(function(){
 
 function percentCheck(){
     var AllLength = $(".percent_text").length;
-    
+    console.log("length"+AllLength)
 
     var avg = 0;
     for(let i = 0; i < AllLength; i++){
 
         avg += Number($(".percent_text").eq(i).val());
         
-        
+        console.log("담기냐"+avg)
     }
 
-    
+    console.log("최종계산전"+avg)
     var avg = avg / AllLength;
 
     $("#gauge_bar").css("width",avg+"%");
