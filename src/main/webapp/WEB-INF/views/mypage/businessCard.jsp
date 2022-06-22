@@ -12,10 +12,8 @@
     }
 
     #img_insert_btn{
-        position: absolute;
-        top: 430px;
-        right: 400px;
-        z-index: 99;
+        float: right;
+        margin-right: 200px;
     }
 
     #businessCard_box{
@@ -23,6 +21,7 @@
         width: 600px;
         height: 300px;
         border: 1px solid black;
+        background-color: #fff;
     }
 
     #main_businessCard_section{
@@ -57,45 +56,44 @@
     <jsp:include page="../common/header.jsp"></jsp:include>
 	<div class="main_section">
         <div id="main_businessCard_section">
-            <button type="button" id="img_insert_btn" class="commonButton1">이미지다운</button>
-            <div id="businessCard_box" style="width: 600px; height: 300px; border: 1px solid black">
-                <img id="card_img" src="../../../resources/images/facebook_cover_photo_1.png" alt="" style="width: 400px; margin-top: 40px">
-                <div id="information_container" style="width: 270px;height: 230px;position: absolute;right: 0;bottom: 10px;">
-                    <div id="info_form" style="margin-left: 60px;">
+            <div id="businessCard_box">
+                <img id="card_img" src="../../../resources/images/facebook_cover_photo_1.png" alt="">
+                <div id="information_container">
+                    <div id="info_form">
                         <p>Name</p>
-                        <p id="emp_name" style="margin-left: 30px;">${ loginUser.empName }</p>
+                        <p id="emp_name">${ loginUser.empName }</p>
                         <p>Tel</p>
-                        <p id="emp_phone"  style="margin-left: 30px;">${ loginUser.phone }</p>
+                        <p id="emp_phone">${ loginUser.phone }</p>
                         <p>Email</p>
-                        <p id="emp_email"  style="margin-left: 30px;">${ loginUser.email }</p>
+                        <p id="emp_email">${ loginUser.email }</p>
                     </div>
                 </div>
             </div>
         </div>
+        <button type="button" id="img_insert_btn" class="commonButton1">이미지다운</button>
     </div>
     <script>
         $(function(){
 
-        $("#img_insert_btn").click(function() { 
+            $("#img_insert_btn").click(function() { 
 
-            html2canvas($("#businessCard_box"), {
+                html2canvas($("#main_businessCard_section"), {
 
-                onrendered: function(canvas) {
+                    onrendered: function(canvas) {
 
-                    canvas.toBlob(function(blob) {
+                        canvas.toBlob(function(blob) {
 
-                        saveAs(blob, 'image.png');
+                            saveAs(blob, 'image.png');
 
-                    });
+                        });
 
-                }
+                    }
+
+                });
 
             });
 
         });
-
-        });
-
 
 
         $(function(){

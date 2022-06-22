@@ -51,7 +51,7 @@
                         <div class="emp_list_content">
                             <input type="hidden" value=${ e.empNo }>
                             <div class="emp_profile_img"><img src="${ pageContext.servletContext.contextPath }/resources/images/관리자 프로필.png" alt=""></div>
-                            <span class="emp_name">${ e.empName } ${ e.jobName }</span>
+                            <span class="emp_search_name">${ e.empName } ${e.jobName}</span>
                         </div>
                     </c:forEach>
                 </div>
@@ -65,6 +65,8 @@
     <script>
         $(function(){
             $(".page_title .title_name").text("사원관리")
+
+
         })
     </script>
 </body>

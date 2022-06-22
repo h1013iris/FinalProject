@@ -9,7 +9,7 @@
 <style>
 	.emp_detail_container{
         width: 400px;
-        margin: 80px auto;
+        margin: 15vh auto;
 	}
 	
     .emp_detail_label{
@@ -31,6 +31,10 @@
     }
     
     .detail_back_btn{
+        width: 100px;
+    }
+
+    .emp_detail_label .commonButton1{
         width: 100px;
     }
 </style>

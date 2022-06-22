@@ -44,7 +44,7 @@
         }
 
         #detail_page_main_section{
-            width: 30vw;
+            width: 40vw;
             margin: 10vh auto;
         }
 
@@ -57,6 +57,20 @@
         #detail_page_main_section .commonButton1{
             width: 100px;
             height: 40px;
+        }
+
+        .title_emp_list{
+            float: left;
+        }
+
+        #emp_name_box{
+            float: left;
+            height: 200px;
+            width: 450px;
+        }
+
+        #request_content_container{
+            clear: both;
         }
     </style>
 </head>
@@ -71,7 +85,11 @@
                 </div>
                 <div class="container">
                     <span class="request_emp_list title_emp_list">업무요청사원</span>
-                    <span class="request_emp_list content_emp_list">${ work.empName }</span>
+                    <div id="emp_name_box">
+                        <c:forEach items="${ empList }" var="a">
+                        	<span class="request_emp_list content_emp_list">${ a.empName }, </span>                    
+                        </c:forEach>
+                    </div>
                 </div>
                 <div id="request_content_container">
                     <span class="request_content title_content">요청내용</span>

@@ -10,7 +10,7 @@
         
         .input_box div{
             height: 30px;
-            margin: 15px 0;
+            margin: 30px 0;
         }
 
         .insert_container select{
@@ -26,7 +26,7 @@
         .insert_container span {
             display: inline-block;
             width: 200px;
-            text-align: center;
+            text-align: left;
             font-size: 18px;
         }
 
@@ -42,7 +42,7 @@
 		.insert_container{
 			width: 390px;
 			/* text-align: center; */
-			margin: 100px auto;
+			margin: 20vh auto;
 		}
 
 		.emp_insert_commit_btn{
@@ -68,11 +68,11 @@
 	    <div class="insert_container">
 	        <form id="insert_from" class="input_box">
 	            <div>
-	                <span>이름</span>
+	                <span>* 이름</span>
 	                <input type="text" id="emp_name" name="empName" maxlength="20" oninput="this.value = this.value.replace(/[0-9.^\s^!@#$%^&*_+{}|;'?><,.(\..*)\.]+$/g ,'');">
 	            </div>
 	            <div>
-	                <span>부서</span>
+	                <span>* 부서</span>
 	                <select name="deptNo" id="dept">
 	                	<c:forEach items="${ deptList }" var="d">
 		                    <option value="${ d.deptNo }">${ d.deptTitle }</option>              	
@@ -80,7 +80,7 @@
 	                </select>
 	            </div>
 	            <div>
-	                <span>직위</span>
+	                <span>* 직위</span>
 	                <select name="jobNo" id="job_name">
 	                	<c:forEach items="${ jobList }" var="j">
 		                    <option value="${ j.jobNo }">${ j.jobName }</option>            	
@@ -88,19 +88,19 @@
 	                </select>
 	            </div>
 	            <div>
-	                <span>연락처</span>
-	                <input type="text" id="phone" name="phone" maxlength="13" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+	                <span>* 연락처</span>
+	                <input type="text" id="phone" name="phone" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 	            </div>
 	            <div>
-	                <span>이메일</span>
+	                <span>* 이메일</span>
 	                <input type="text" id="email" name="email" maxlength="30">
 	            </div>
 	            <div>
-	                <span>입사일</span>
+	                <span>* 입사일</span>
 	                <input type="date" id="hire_date" name="hireDate">
 	            </div>
 	            <div>
-	                <span>주민등록번호</span>
+	                <span>* 주민등록번호</span>
 	                <input type="text" id="city_no" name="cityNo" maxlength="13" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 	            </div>
 				<div class="btn_box">
@@ -119,23 +119,28 @@
 			var email = $("#email").val();
 			var hireDate = $("#hire_date").val();
 			var cityNo = $("#city_no").val();
-			
-			$.ajax({
-				url:"insertEmp",
-				data:{
-					empName : empName,
-					deptNo : deptNo,
-					jobNo : jobNo,
-					phone : phone,
-					email : email,
-					hireDate : hireDate,
-					cityNo : cityNo
-				},
-				success : function(empNo){
 
-				myConfirm("사원 추가 성공","이메일로 사원번호를 전송 하시겠습니까?",myConfirmColback(empName, email, empNo));
-				}
-			})
+			if(empName == "" || deptNo == "" || jobNo == "" || phone == "" || email == "" || hireDate == "" || cityNo == ""){
+				myAlert("사원추가","필수 입력을 전부 입력해 주세요");
+			} else {
+				$.ajax({
+					url:"insertEmp",
+					data:{
+						empName : empName,
+						deptNo : deptNo,
+						jobNo : jobNo,
+						phone : phone,
+						email : email,
+						hireDate : hireDate,
+						cityNo : cityNo
+					},
+					success : function(empNo){
+	
+					myConfirm("사원 추가 성공","이메일로 사원번호를 전송 하시겠습니까?",myConfirmColback(empName, email, empNo));
+					}
+				})
+			}
+			
 		})
 
 

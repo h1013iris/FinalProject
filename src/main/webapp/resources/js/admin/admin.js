@@ -5,13 +5,13 @@ $(function(){
     })
 
 
-
-        //검색
+    //검색
     $("#searchText").keyup(function(){
         var text = $("#searchText").val();
         $(".emp_search .emp_list_content").hide();
-        $('.emp_search .emp_name:contains('+text+')').parent().parent().show();
+        $('.emp_search .emp_search_name:contains('+text+')').parent().show();
     })
+
 
     $(".emp_list_content").click(function(){
         var empNo = $(this).children().eq(0).val();
@@ -38,7 +38,7 @@ $(".boardMAnage .delete_btn").click(function(){
 
 $(".boardMAnage .insert_btn").click(function(){
     if(!$(".board_management_article").children().is($("input"))){
-        $(".board_management_article").append("<input id=addBoardInput type=text>")
+        $(".board_management_article").append("<input id=addBoardInput type=text maxlength='10'>")
     }
 
     $("#addBoardInput").focus();
@@ -71,7 +71,7 @@ $(function(){
     })
 
     $(".boardName").click(function(){
-        if($(this).text() != "공지" && $(this).text() != "자유" && $(this).text() != "부서" && $(this).text() != "익명"){
+        if($(this).text() != "공지사항게시판" && $(this).text() != "자유게시판" && $(this).text() != "부서게시판" && $(this).text() != "익명게시판"){
             
             $(this).parent().prepend("<input id=BoardUpdateInput type=text>");
             $(this).hide();
@@ -252,7 +252,7 @@ $(function(){
 
 // update
 $(".large_meetingroom").click(function(){
-    $(this).after("<input id=meetingroomLargeUpdateInput type=text>");
+    $(this).after("<input id=meetingroomLargeUpdateInput type=text maxlength='10'>");
     $(this).hide();
     $("#meetingroomLargeUpdateInput").focus();
 })
@@ -287,7 +287,7 @@ $(document).on("keyup","#meetingroomLargeUpdateInput",function(e){
 // insert
 $(".large_insert_btn").click(function(){
     if(!$(".meetingroom_management_article").children().is($("input"))){
-        $(".meetingroom_management_article").append("<input id=addMeetingRoomLargeCategory type=text>");
+        $(".meetingroom_management_article").append("<input id=addMeetingRoomLargeCategory type=text maxlength='10'>");
     }
 
     $("#addMeetingRoomLargeCategory").focus();
@@ -405,7 +405,7 @@ function smallList(mythis){
 
 // update
 $(document).on("click",".small_meetingroom",function(){
-    $(this).after("<input id=meetingroomSmallUpdateInput type=text>");
+    $(this).after("<input id=meetingroomSmallUpdateInput type=text maxlength='10'>");
     $(this).hide();
     $("#meetingroomSmallUpdateInput").focus();
 })
@@ -446,7 +446,7 @@ $(".small_insert_btn").click(function(){
     }
     
     if(!$(".meetingroom_management_article").children().is($("input"))){
-        $(this).parent().after("<input id=addMeetingRoomSmallInsert type=text>")
+        $(this).parent().after("<input id=addMeetingRoomSmallInsert type=text maxlength='10'>")
         $("#addMeetingRoomSmallInsert").focus();
     }
 })
@@ -545,19 +545,22 @@ $(document).on("keyup",".maxCountInput",function(e){
     if(e.keyCode == 13){
         var text = $(".maxCountInput").val();
         var roomNo = $("#roomNoSmall").val();
-        $.ajax({
-            type:"post",
-            url:"maxCountUpdate",
-            data:{
-                maxCount:text,
-                roomNoSmall:roomNo
-            },
-            success:function(){
-                $(".maxCount").remove();
-                $(".maxCountInput").val("").hide();
-                $(".maxCount_box").append("<span class='maxCount'>"+text+"명</span>")
-            }
-        })
+
+        if(text > 0 && text <= 99){
+            $.ajax({
+                type:"post",
+                url:"maxCountUpdate",
+                data:{
+                    maxCount:text,
+                    roomNoSmall:roomNo
+                },
+                success:function(){
+                    $(".maxCount").remove();
+                    $(".maxCountInput").val("").hide();
+                    $(".maxCount_box").append("<span class='maxCount'>"+text+"명</span>")
+                }
+            })
+        } 
     }
 })
 
@@ -649,7 +652,8 @@ $(document).on("click",".dept_name",function(){
     var deptName = $(this).text();
     $(this).next().toggle();
     $("#dept_controll_box_title span").text(deptName);
-
+    $("#responsibleUpdate").hide();
+    $("#dept_responsible").show();
     deptInfo(deptName);
 })
 
@@ -756,7 +760,7 @@ $(document).on("keyup","#dept_name_update",function(e){
 
 
 $(document).on("click","#dept_responsible",function(){
-
+    var dept_name = $("#dept_responsible").text();
     var deptNo = $("#dept_code").text();
 
     $.ajax({
@@ -766,7 +770,11 @@ $(document).on("click","#dept_responsible",function(){
         data:{deptNo : deptNo},
         success:function(list){
             $.each(list, function(index, item){
-                $("#responsibleUpdate").append("<option value="+item.empName+">"+item.empName+" "+item.jobName+"</option>");
+                if(item.empName == dept_name){
+                    $("#responsibleUpdate").append("<option value="+item.empName+" selected>"+item.empName+" "+item.jobName+"</option>");
+                }else {
+                    $("#responsibleUpdate").append("<option value="+item.empName+">"+item.empName+" "+item.jobName+"</option>");
+                }
                 $("#dept_responsible").hide();
                 $("#responsibleUpdate").show();
             })
@@ -774,11 +782,12 @@ $(document).on("click","#dept_responsible",function(){
     })
 })
 
-$(document).on("mouseout","#responsibleUpdate",function(){
-    $("#dept_responsible").show();
-    $(this).hide();
-    $(this).children().remove();
-})
+// $(document).on("mouseout","#responsibleUpdate",function(){
+//     $("#dept_responsible").show();
+//     $(this).hide();
+//     $(this).children().remove();
+// })
+
 
 
 
@@ -803,7 +812,7 @@ $(document).on("change","#responsibleUpdate",function(){
 })
 
 
-$(document).on("click","#deleteDept",function(){
+$("#deleteDept").click(function(){
     if($("#dept_info_box").css("display") != "none"){
         var deptNo = $("#dept_code").text();
 
@@ -812,6 +821,7 @@ $(document).on("click","#deleteDept",function(){
             url:"deleteDept",
             data:{deptNo : deptNo},
             success:function(){
+                alert("ASd")
                 location.reload();
             }
         })

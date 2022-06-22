@@ -9,7 +9,7 @@
 <style>
 	.emp_detail_container{
         width: 400px;
-        margin: 80px auto;
+        margin: 15vh auto;
 	}
 	
     .emp_detail_label{
@@ -38,6 +38,11 @@
         width: 171px;
         height: 25px;
     }
+
+    .emp_detail_label .commonButton1{
+        width: 100px;
+        
+    }
 </style>
 </head>
 <body>
@@ -47,26 +52,26 @@
             <form class="emp_detail_label" method="post" action="updateEmployee">
                 <div class="emp_content_box">
                     <span class="emp_no emp_title">사원번호</span>
-                    <span class="emp_no"><input type="text" name="empNo" value=${ emp.empNo } disabled></span>
+                    <span class="emp_no"><input type="text" name="empNo" value=${ emp.empNo } readonly></span>
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_name emp_title">이름</span>
-                    <span class="emp_name"><input type="text" name="empName" value=${ emp.empName }></span>
+                    <span class="emp_name"><input id="empName" type="text" name="empName" value=${ emp.empName } maxlength="20" oninput="this.value = this.value.replace(/[0-9.^\s^!@#$%^&*_+{}|;'?><,.(\..*)\.]+$/g ,'');"></span>
 
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_city_no emp_title">주민등록번호</span>
-                    <span class="emp_city_no"><input type="text" name="cityNo" value=${ emp.cityNo }></span>
+                    <span class="emp_city_no"><input type="text" name="cityNo" value=${ emp.cityNo } maxlength="13" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></span>
 
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_email emp_title">이메일</span>
-                    <span class="emp_email"><input type="text" name="email" value=${ emp.email }></span>
+                    <span class="emp_email"><input type="text" name="email" value=${ emp.email } maxlength="30"></span>
 
                 </div>
                 <div class="emp_content_box">
                     <span class="emp_phone emp_title">전화번호</span>
-                    <span class="emp_phone"><input type="text" name="phone" value=${ emp.phone }></span>
+                    <span class="emp_phone"><input type="text" name="phone" value=${ emp.phone } maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></span>
 
                 </div>
                 <div class="emp_content_box">
@@ -110,8 +115,8 @@
 	                </select>
                 </div>
                 <div class="page_back">
-                    <button type="button" onclick="history.back()" class="commonButton1 detail_back_btn">되돌아 가기</button>
                     <button type="submit" class="commonButton1">저장</button>
+                    <button type="button" onclick="history.back()" class="commonButton1 detail_back_btn">되돌아 가기</button>
                 </div>
             </form>
         </div>
@@ -120,6 +125,7 @@
     <script>
         $(function(){
             $(".page_title .title_name").text("사원상세")
+
         })
     </script>
 </body>

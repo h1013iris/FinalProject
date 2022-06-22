@@ -36,8 +36,8 @@
                     </div>
                 </div>
             </div>
-            <button type="button" id="journal_update_btn" class="commonButton1">수정</button>
-            <button type="button" id="journal_delete_btn" class="commonButton1">삭제</button>
+            <button type="button" id="journal_update_btn">수정</button>
+            <button type="button" id="journal_delete_btn">삭제</button>
         </form>
     </div>
     <script src="${ pageContext.servletContext.contextPath }/resources/js/mypage/mypage.js"></script>

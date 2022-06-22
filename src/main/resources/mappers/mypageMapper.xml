@@ -43,6 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap type="workRequest" id="workRequestResult">
 		<result property="raskNo" column="RASK_NO"/>
 		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
 		<result property="title" column="RASK_TITLE"/>
 		<result property="content" column="RASK_CONTENT"/>
 		<result property="fromDate" column="DAY_FROM"/>
@@ -210,9 +211,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectworkDetail" resultMap="workRequestResult">
-		select *
-		from work_request
+		select
+			a.RASK_NO,b.EMP_NAME,a.RASK_TITLE,a.RASK_CONTENT,a.DAY_FROM,a.DAY_TO,a.EMERGENCY_STATUS,a.STATUS
+		from work_request a
+		join user_info b on a.emp_no = b.emp_no
 		where rask_no = #{raskNo}
+		
 	</select>
 	
 	<update id="updateRequestStatus">
@@ -254,17 +258,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and emp_no = #{empNo}
 	</delete>
 	
+	<select id="selectEmp" resultMap="EmpResult">
+		select *
+		from user_info
+		where emp_no = #{empNo}
+	</select>
 	
+	<select id="selectworkRequestDetail" resultMap="workRequestResult">
+		select *
+		from WORK_REQUEST
+		where rask_no = #{raskNo}
+	</select>
 	
+	<select id="selectWorkEmpList" resultType="string">
+		select EMP_NO
+		from WORK_REQUEST_EMP
+		where rask_no = #{raskNo}
+	</select>
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	<select id="selectEmpList" parameterType="map" resultMap="EmpResult">
+		select EMP_NAME
+		from USER_INFO
+		where 1 = 1 and
+		<foreach collection="array" item="eNo" separator="or">
+		emp_no = #{eNo}
+		</foreach>
+	</select>
+
+
+	<update id="updateEmployee" parameterType="emp">
+		update user_info
+		set USER_PW = #{userPwd},
+		EMP_NAME = #{empName},
+		USER_NO = #{cityNo},
+		EMAIL = #{email},
+		PHONE = #{phone},
+		ADDRESS = #{address}
+		where emp_no = #{empNo}
+	</update>
 	
 	
 	
