@@ -66,8 +66,13 @@
 		   $(".simpleProjectCreateModal").hide();
 	   })
 	   $(".spmodal_next").click(function(){
+		   if($(".spr_body_text").val() ==''){
+				myAlert("입력", "프로젝트 명을 입력해주세요");
+				return false;
+			}
 		   $("#insertDJSimple").submit();
 	   })
+	  
     </script>
   	<script src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 	
