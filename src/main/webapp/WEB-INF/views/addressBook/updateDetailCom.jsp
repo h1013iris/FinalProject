@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>거래처 수정</title>
 <script
-	src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
+	src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script> 
 </head>
 <style>
 * {
@@ -57,6 +57,7 @@ textarea {
 
 .Title {
 	text-align: left;
+	vertical-align: top;
 }
    .commonButton1_1 {
 	padding: 0;
@@ -83,15 +84,28 @@ textarea {
 	box-shadow: 0px 0px 0px 0px #4c87b099;
 	
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.point{
+color: red;
+}
+.Tfont{
+font-size: 20px;
+font-weight: bold;
+margin-bottom: 20px;
+}
 </style>
 
 
 <body>
-
+ 	<jsp:include page="../common/header.jsp"></jsp:include>
+     <div class="main_section">
 	<div id="container">
 		<div class="main">
 			<form action="updateComList.do" method="post">
-				<h3>거래처 수정</h3>
+				<p class="Tfont">거래처 수정</p>
 				<table class="main2">
 					<tr>
 						<td><select id="selbox" name="inFolder">
@@ -107,37 +121,37 @@ textarea {
 					<!--내부폴더는 empNo로 distinct로 중복제거 select해서 목록띄우기-->
 					<c:forEach items="${comDetail}" var="com">
 						<tr>
-							<td class="Title">* 회사명</td>
+							<td class="Title"><label class="point">*</label> 회사명</td>
 							<td><input type="text" name="comNm" value="${com.comNm}"  class="inputBox"
 								required maxlength="19"></td>
 						</tr>
 						<tr>
-							<td class="Title">* 사업자번호</td>
-							<td><input type="text" name="comNo" value="${com.comNo}"
-								class="inputBox" required maxlength="10" placeholder="하이픈빼고 10자리"></td>
+							<td class="Title"><label class="point">*</label> 사업자번호</td>
+							<td><input type="number" name="comNo" value="${com.comNo}"
+								class="inputBox" oninput="maxCheck(this)" required maxlength="10" placeholder="하이픈빼고 10자리"></td>
 						</tr>
 						<tr>
-							<td class="Title">* 대표번호</td>
-							<td><input type="text" name="comTel" value="${com.comTel}"
-								required maxlength="13" class="inputBox"></td>
+							<td class="Title"><label class="point">*</label> 대표번호</td>
+							<td><input type="number" name="comTel" value="${com.comTel}"
+								required maxlength="11" oninput="maxCheck(this)" class="inputBox"></td>
 						</tr>
 						<tr>
-							<td class="Title">&nbsp;&nbsp;대표명</td>
+							<td class="Title"><label class="point">*</label> 대표명</td>
 							<td><input type="text" name="comCeo" value="${com.comCeo}"
-								maxlength="9" class="inputBox"></td>
+								maxlength="9" required class="inputBox"></td>
 						</tr>
 						<tr>
-							<td class="Title">* 담당자</td>
+							<td class="Title"><label class="point">*</label> 담당자</td>
 							<td><input type="text" name="comPix" value="${com.comPix}"
 								required maxlength="9" class="inputBox"></td>
 						</tr>
 						<tr>
-							<td class="Title">&nbsp;&nbsp;휴대폰</td>
-							<td><input type="text" name="comPhone"
-								value="${com.comPhone}" class="inputBox" maxlength="13"></td>
+							<td class="Title"><label class="point">*</label> 휴대폰</td>
+							<td><input type="number" name="comPhone" required
+								value="${com.comPhone}" class="inputBox" oninput="maxCheck(this)" maxlength="11"></td>
 						</tr>
 						<tr>
-							<td class="Title">* 이메일</td>
+							<td class="Title"><label class="point">*</label> 이메일</td>
 							<td><input type="email" name="comEmail"
 								value="${com.comEmail}" required class="inputBox" maxlength="29"></td>
 						<tr>
@@ -160,6 +174,7 @@ textarea {
 				</div>
 			</form>
 		</div>
+	</div>
 	</div>
 	<script>
 		/*원본
@@ -203,6 +218,16 @@ textarea {
 				}
 			});
 		});
+		  
+		  //input number 길이제한
+		  function maxCheck(object){
+		 	 if(object.value.length>object.maxLength){
+		 		 object.value = object.value.slice(0,object.maxLength);
+		 	 }
+		  }
+		  $(function() {
+				$(".page_title>.title_name").text("거래처 주소록");
+			})
 	</script>
 </body>
 </html>
