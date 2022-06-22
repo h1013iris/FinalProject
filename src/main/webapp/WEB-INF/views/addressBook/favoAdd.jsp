@@ -10,7 +10,7 @@
 <script
 	src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
 </head>
-<body>
+<body> 
 	<jsp:include page="../common/header.jsp"></jsp:include>
 <style>
 
@@ -32,7 +32,7 @@
 }
 
 #listMain{
-	height:380px;
+	height:400px;
 	overflow-y: scroll;
 }
 
@@ -46,25 +46,24 @@ display: none;
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: 10px;
-	background-color: rgb(223, 238, 255);
+	background-color: #fff;
 }
 
 .listAdd td {
-	border: 2px white solid;
+	border: 2px rgb(223, 238, 255) solid;
 	padding: 5px 10px;
 	width: 200px;
 }
 
 .listAdd th {
-	border: 2px white solid;
+	border: 2px rgb(223, 238, 255) solid;
 	padding: 5px 10px;
 	width: 200px;
-
 }
 
-
 .boxAddList{
-	height:430px;
+	height:450px;
+	width:1200px;
 	margin-bottom:30px;
 	margin-left: auto;
 	margin-right: auto;
@@ -133,7 +132,7 @@ line-height: 25px;
 			let no=0;
 			let num=0;
 		
-			console.log("ajax 즐겨찾기 삭제준비"+ckEmpNo);
+			
 		
 				$.ajax({
 					type:"POST",
@@ -141,7 +140,7 @@ line-height: 25px;
 							data:{ckEmpNo:ckEmpNo},
 							success:function(data){
 							no=data;
-							console.log("즐겨찾기에 삭제 결과: "+no);
+							
 							myAlert("즐겨찾기 삭제 결과","즐겨찾기 목록에서 삭제 되었습니다");
 							$("#alert_footer").click(function(){
 							location.href="favoAdd.do";
