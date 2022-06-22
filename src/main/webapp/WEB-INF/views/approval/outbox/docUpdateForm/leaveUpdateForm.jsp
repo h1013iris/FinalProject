@@ -179,7 +179,7 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;">
 								<div contenteditable="false" style="width: 100%;">
-									<textarea class="" id="vacReason" name="vacReason" style="width: 99%; height: 240px; resize: vertical;" maxlength="500">
+									<textarea class="docUpdate_textarea" id="vacReason" name="vacReason" style="width: 99%; height: 240px; resize: vertical;" maxlength="1000">
 									</textarea>
 								</div> 
 							</td>

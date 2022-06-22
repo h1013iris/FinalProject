@@ -177,7 +177,7 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;">
 								<div contenteditable="false" style="width: 100%;">
-									<textarea class="docEnroll_textarea" id="vacReason" name="vacReason" style="width: 99%; height: 240px;" maxlength="500"></textarea>
+									<textarea class="docEnroll_textarea" id="vacReason" name="vacReason" style="width: 99%; height: 240px;" maxlength="200"></textarea>
 								</div>
 							</td>
 						</tr>
@@ -366,17 +366,8 @@
 				}
 			}
 		}
-		
-		
-		$(document).on("keyup", ".docEnroll_textarea", function() {
-			
-			let key = event.key || event.keyCode;
- 			
- 			if(key === 'Enter' || key === 13) {
- 				document.getElementsByClassName("docEnroll_textarea").value += $(this).val() + "\n";
- 			}
-		});
 
+		
 		
 		// 결재 요청 버튼 클릭 시
  		$(".submit_btn").click(function() {

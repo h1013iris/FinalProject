@@ -8,28 +8,21 @@
 <title>임시 보관함 상세 페이지</title>
 <style type="text/css">
 	
+	.main_section { background-color: #f3f3f3; }
+	
 	.docDetailViewDiv {
 		margin: 30px auto;
-		width: 1500px;
+		width: 1150px;
 	}
-	
-	.docDetailBackground {
-		height: 790px;
-		border: 1px solid #e6e6e6;
-		background-color: #e6e6e6;
-		border-radius: 15px;
-		box-shadow: 0 0 8px #afafaf;
-	}
-	
+
 	.docDetailMainArea {
-		margin-left: 7%;
-		padding: 70px 0 60px 10%;
+		padding: 70px 0 0 100px;
 		float: left;
 	}
 	
-	.docDetailTable {	
+	/*.docDetailTable {	
 		padding: 0 25px 25px 25px;
-	}
+	}*/
 	
 	.docDetailArea {
 		border: 1px solid darkgray;
@@ -38,12 +31,12 @@
 	}
 	
 	.docDetail_textarea {
-		resize: none;
+		resize: vertical;
 		border: none;
 	}
 	
 	.docDetailBtnsArea {
-		padding-left: 75%;
+		padding-left: 84%;
 		padding-top: 90px;
 	}
 	
