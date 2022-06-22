@@ -321,7 +321,7 @@ padding-top : 50px;
 			})
 		
           
-         if(window.location.pathname === "/spring/noticeold.do"){
+         if(window.location.pathname === "/noticeold.do"){
             document.getElementById("isRecents").innerText="오래된순";
             }else{
             document.getElementById("isRecents").innerText="최신순";
@@ -342,7 +342,7 @@ padding-top : 50px;
     		$("#boardList tbody tr").click(function(){
     			
     			location.href="detailBoard.do?bno=" + $(this).children().eq(0).text()+"&uno="+${ loginUser.empNo }
-    			console.log(bno)
+    			
     		});
     	});
     	

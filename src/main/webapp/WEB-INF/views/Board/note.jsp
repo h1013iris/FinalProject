@@ -19,10 +19,10 @@
 
 </style>
 <body>
-<textarea name="content" id="summernote" value="" style="">${b.content}</textarea>
+<textarea name="content" id="summernote">${b.content}</textarea>
 
 <script>
-$('#summernote').val().replace(/\n/g, "<br>")
+
 
 $(document).ready(function() {
      $('#summernote').summernote({
