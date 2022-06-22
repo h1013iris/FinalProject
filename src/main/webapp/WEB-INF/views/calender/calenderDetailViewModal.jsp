@@ -55,8 +55,6 @@
   		$(document).on('DOMSubtreeModified', ".calhidden-realwriter", function() {
   			let loginUser = '${ loginUser.empNo }';
   	  		let realWriter = $(".calhidden-realwriter").val()
-  	  		console.log("세션 확인 ==> "+loginUser)
-  	  		console.log("찐 작성자 확인 ==> "+$(".calhidden-realwriter").val())
   			
   	  		if(loginUser == realWriter){
   	  			$(".calenderModal_Footer .delete_btn").css("display","inline")

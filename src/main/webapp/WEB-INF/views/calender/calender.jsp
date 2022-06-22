@@ -164,7 +164,7 @@
 												or fn:substring(scheduleList.endDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
 												and fn:substring(scheduleList.endDate, 8, 10) == dateList.date 
 												or fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.endDate, 8, 10) == dateList.date}">
-													<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black;">
+													<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black; width: 189px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden">
 														${ scheduleList.title }
 													</div>
 												</c:when>
@@ -174,7 +174,7 @@
 												or fn:substring(scheduleList.startDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.startDate, 8, 10), '0') 
 												and fn:substring(scheduleList.startDate, 8, 10) == dateList.date 
 												or fn:substring(scheduleList.startDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.startDate, 8, 10) == dateList.date}">
-													<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black;">
+													<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black; width: 189px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden">
 														${ scheduleList.title }
 													</div>
 												</c:when>
@@ -197,7 +197,7 @@
 												or fn:substring(scheduleList.endDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
 												and fn:substring(scheduleList.endDate, 8, 10) == dateList.date 
 												or fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.endDate, 8, 10) == dateList.date}">
-													<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black;">
+													<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black; width: 189px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden">
 														${ scheduleList.title }
 													</div>
 												</c:when>
@@ -207,7 +207,7 @@
 												or fn:substring(scheduleList.startDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.startDate, 8, 10), '0') 
 												and fn:substring(scheduleList.startDate, 8, 10) == dateList.date 
 												or fn:substring(scheduleList.startDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.startDate, 8, 10) == dateList.date}">
-													<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px;  color:black;">
+													<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px;  color:black; width: 189px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden">
 														${ scheduleList.title }
 													</div>
 												</c:when>
@@ -232,7 +232,7 @@
 										or fn:substring(scheduleList.endDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
 										and fn:substring(scheduleList.endDate, 8, 10) == dateList.date 
 										or fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.endDate, 8, 10) == dateList.date}">
-											<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black;">
+											<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black; width: 189px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden">
 												${ scheduleList.title }
 											</div>
 										</c:when>
@@ -242,7 +242,7 @@
 										or fn:substring(scheduleList.startDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.startDate, 8, 10), '0') 
 										and fn:substring(scheduleList.startDate, 8, 10) == dateList.date 
 										or fn:substring(scheduleList.startDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.startDate, 8, 10) == dateList.date}">
-											<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black;">
+											<div class="${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black; width: 189px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden">
 												${ scheduleList.title }
 											</div>
 										</c:when>
@@ -265,7 +265,7 @@
 										or fn:substring(scheduleList.endDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.endDate, 8, 10), '0') 
 										and fn:substring(scheduleList.endDate, 8, 10) == dateList.date 
 										or fn:substring(scheduleList.endDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.endDate, 8, 10) == dateList.date}">
-											<div class=" ${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black;">
+											<div class=" ${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black; width: 189px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden">
 												${ scheduleList.title }
 											</div>
 										</c:when>
@@ -275,7 +275,7 @@
 										or fn:substring(scheduleList.startDate, 5, 7) == dateList.month and fn:startsWith(fn:substring(scheduleList.startDate, 8, 10), '0') 
 										and fn:substring(scheduleList.startDate, 8, 10) == dateList.date 
 										or fn:substring(scheduleList.startDate, 5, 7) eq '0'+(1+dateList.month) and fn:substring(scheduleList.startDate, 8, 10) == dateList.date}">
-											<div class=" ${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black;">
+											<div class=" ${ list1 }" style="background-color: #${ scheduleList.selectColor}; display:none; line-height: 18px; color:black; width: 189px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">
 												${ scheduleList.title }
 											</div>
 										</c:when>
@@ -304,21 +304,23 @@
 									<!-- 오늘이 시작일보다 크거나 같고 오늘이 종료일보다 작거나 같을때 일때  -->
 						<c:if test="${ nowDate >= startDate and nowDate <= endDate}">
 							<li class="${ fn:replace(list.title, '&nbsp;', '') }" onclick="calenderDetail('${list.startDate}','${list.endDate }','${list.writerNo }')" style="margin-bottom:10px; border-bottom: 1px solid; padding-bottom: 10px;">
-								<div style="margin-bottom: 17px;"><span>${list.title }</span>
-									<c:if test="${ list.writerNo == department.departNo }">
-										<span class="range" style="background-color: #${list.selectColor};">${ department.departmentTitle }</span>
-									</c:if>
-									<c:if test="${ list.writerNo != department.departNo }">
-										<span class="range" style="background-color: #${list.selectColor};">내 할 일</span>
-									</c:if>
-									<c:if test="${ list.writerNo == 10000 }">
-										<span class="range" style="background-color: #${list.selectColor};">전체 공개</span>
-									</c:if>
+								<div style="margin-bottom: 17px;"><span class="cal-title-list">${list.title }</span>
+									<c:choose>
+										<c:when test="${ list.openOption eq '전체공개' }">
+											<span class="range" style="background-color: #${list.selectColor};">${ department.departmentTitle }</span>
+										</c:when>
+										<c:when test="${ list.openOption eq '팀공개' }">
+											<span class="range" style="background-color: #${list.selectColor};">내 할 일</span>
+										</c:when>
+										<c:when test="${ list.openOption eq '개인공개' }">
+											<span class="range" style="background-color: #${list.selectColor};">전체 공개</span>
+										</c:when>
+									</c:choose>
 								</div>
 								<p class="font-small">시간  ${ fn:substring(list.startDate, 0, 4) }년 ${ fn:substring(list.startDate, 5, 7) }월 ${ fn:substring(list.startDate, 8, 10) }일 ${ fn:substring(list.startDate, 11, fn:length(list.startDate)-5) }
 							~ ${ fn:substring(list.endDate, 0, 4) }년 ${ fn:substring(list.endDate, 5, 7) }월 ${ fn:substring(list.endDate, 8, 10) }일 ${ fn:substring(list.endDate, 11, fn:length(list.endDate)-5) }</p>
 								<c:if test="${ fn:length(list.place) != 0 }">
-									<p class="font-small">장소  ${ list.place }</p>
+									<p class="font-small cal-place-list">장소  ${ list.place }</p>
 								</c:if>
 							</li>
 						</c:if>
@@ -335,7 +337,7 @@
 					</c:if>
 					<c:forEach var="list" items="${ monthList }">
 						<li class="${ fn:replace(list.title, '&nbsp;', '') }" onclick="calenderDetail('${list.startDate}','${list.endDate }','${list.writerNo }')" style="margin-bottom: 13px; border-bottom: 1px solid; padding-bottom: 10px;">
-							<p>${ list.title }  
+							<p><span class="cal-title-list">${ list.title }</span>  
 								<c:choose>
 									<c:when test="${ list.openOption eq '전체공개' }">
 										<span class="range" style="background-color: #${list.selectColor};">전체 공개</span>
@@ -352,7 +354,7 @@
 							<p class="font-small">시간  ${ fn:substring(list.startDate, 0, 4) }년 ${ fn:substring(list.startDate, 5, 7) }월 ${ fn:substring(list.startDate, 8, 10) }일 ${ fn:substring(list.startDate, 11, fn:length(list.startDate)-5) }
 							~ ${ fn:substring(list.endDate, 0, 4) }년 ${ fn:substring(list.endDate, 5, 7) }월 ${ fn:substring(list.endDate, 8, 10) }일 ${ fn:substring(list.endDate, 11, fn:length(list.endDate)-5) }</p>
 							<c:if test="${ fn:length(list.place) != 0 }">
-								<p class="font-small">장소  ${ list.place }</p>
+								<p class="font-small cal-place-list">장소  ${ list.place }</p>
 							</c:if>
 						</li>
 					</c:forEach>
@@ -375,27 +377,22 @@
 			let departmentNo = "";
 			
 			if($("#my").is(":checked") && $("#team").is(":checked")){ // 모두 체크 시
-				console.log("모두 체크!!!!!")
 				empNo = "${empNo}";
 				departmentNo = "${departmentNo}";
 				location.href = "calendar.do?empNo="+empNo+"&departmentNo="+departmentNo;
 			}else if($("#my").is(":checked") && !$("#team").is(":checked")){ // 내할일만 체크시
-	            console.log("내 할 일만 !! 체크박스 체크했음!");
 				empNo = "${empNo}";
 	            location.href = "calendar.do?empNo="+empNo;
 	        }else if($("#team").is(":checked") && !$("#my").is(":checked")){ // 부서만 체크시
-	            console.log("부서만 !! 체크박스 체크했음!");
 				departmentNo = "${departmentNo}";
 	            location.href = "calendar.do?departmentNo="+departmentNo;
 	        }else{ // 둘다 체크가 안되있을 시
-	            console.log("모두 !! 체크박스 체크 해제!");
 	            location.href = "calendar.do";
 	        }
 	    });
 	
 		// 상세조회로 이동
 		$(document).on('click',".calenderSearchList_body .cal_document",function() {
-			console.log("cal_document 클릭함!!!!!!!")
 			let startDate = $(this).children().eq(0).val()
 			let endDate = $(this).children().eq(1).val()
 			let writerNo = $(this).children().eq(2).val()
@@ -413,16 +410,13 @@
 	
 		// 검색 버튼 클릭시 목록 조회하기
 		$(".searchcalender").on('click', function() {
-			console.log("검색 버튼 클릭")
 			
 			// 검색 값 받기
 			let searchWord = $(".searchSchedule").val()
 			
-			console.log(searchWord)
 			
 			// 빈 값이 아닌 경우
 			if(searchWord != ''){
-				console.log("들어옴")
 				
 				$.ajax({
 					url:"searchCalender.do",
@@ -431,28 +425,26 @@
 					},
 					type:"get",
 					success:function(search){
-						console.log("성공")
 						
 						if(search.length > 0){
 							search.forEach(function(val, index){
-								console.log(val)
 								
 								let calDocument = $('<div>').addClass("cal_document")
 								let top = $('<div>').addClass("cal-sList-top")
 								let title = $("<span>").addClass('cal-sList-title').html(val.title)
-								let open = $("<span>").addClass('cal-sList-open').text("내 할 일").css("background-color","#"+val.selectColor)
+								let open = $("<span>").addClass('cal-sList-open').html("내 할 일").css("background-color","#"+val.selectColor)
 								if(val.openOption == '팀공개'){
-									open.text(val.department)
+									open.html(val.department)
 								}else if(val.openOption == '전체공개'){
-									open.text("전체공개")
+									open.html("전체공개")
 								}
 								let middle = $('<div>').addClass('cal-sList-middle')
-								let p1 = $('<p>').text("시간")
-								let p2 = $('<p>').text("장소")
+								let p1 = $('<p>').html("시간")
+								let p2 = $('<p>').html("장소")
 								
 								let input = $("<span>").addClass('cal-sList-input')
-								let time = $('<p>').addClass('cal-sList-time').text(val.startDate.substring(0,4)+"년 "+val.startDate.substring(5,7)+"월 "+val.startDate.substring(8,10)+"일 "+val.startDate.substring(11,16)+" ~ "+val.endDate.substring(0,4)+"년 "+val.endDate.substring(5,7)+"월 "+val.endDate.substring(8,10)+"일 "+val.endDate.substring(11,16))
-								let place = $('<p>').addClass('cal-sList-place').text(val.place)
+								let time = $('<p>').addClass('cal-sList-time').html(val.startDate.substring(0,4)+"년 "+val.startDate.substring(5,7)+"월 "+val.startDate.substring(8,10)+"일 "+val.startDate.substring(11,16)+" ~ "+val.endDate.substring(0,4)+"년 "+val.endDate.substring(5,7)+"월 "+val.endDate.substring(8,10)+"일 "+val.endDate.substring(11,16))
+								let place = $('<p>').addClass('cal-sList-place').html(val.place)
 								
 								let span = $("<span>")
 								let hidStart = $("<input>").attr("type","hidden").val(val.startDate).attr("name","startDate"+index).addClass("startDate"+index)
@@ -473,7 +465,6 @@
 						
 					},
 					err:function(){
-						console.log("실패")
 					}
 				})
 			}else{ 
@@ -490,9 +481,6 @@
 			// 그 값을 include된 jsp 파일에 뿌려준다? let td = fkkdsdok;
 			// include된 파일에 존재하는 태그들 안에 append를 해주거나, 화면에만 보여주면 되니까 text나 val()에 넣어준다
 			//display : flex; 해주고
-			console.log("시작일 : "+startDate)
-			console.log("종료일 : "+endDate)
-			console.log("진짜 작성자 번호 : "+writerNo)
 			$.ajax({
 				url:"calenderDetailView.do",
 				data:{
@@ -502,8 +490,6 @@
 				},
 				type:"get",
 				success:function(value){
-					console.log("성공")
-					
 					let start = value.startDate; 		// 시작일
 					let end = value.endDate; 			// 종료일
 					let writerNo = value.writerNo;		// 작성자번호
@@ -523,35 +509,26 @@
 						alarm = value.alarm+"분 전";
 					}
 					
-					console.log(department);
-					console.log(alarm);
-					console.log(memo);
-					console.log(place);
-					console.log(sectionName);
-					console.log(title);
-					console.log(realWriter);
-					
 					$(".calenderModal_Title").html(title).css({"font-size":"20px","font-weight":"bold"});
 					if(department != undefined){
-						$(".openOption").text(department).css({"background":"#"+selectColor,"font-weight":"500"});
+						$(".openOption").html(department).css({"background":"#"+selectColor,"font-weight":"500"});
 					}else{
-						$(".openOption").text(openOption).css("background","#"+selectColor);
+						$(".openOption").html(openOption).css("background","#"+selectColor);
 					}
 					
 					$(".calhidden-writerNo").val(writerNo)
 					$('.calhidden-realwriter').val(realWriter);
-					$(".cal-date").text(start.substring(0,4)+"년 "+start.substring(5,7)+"월 "+start.substring(8,10)+"일 "+start.substring(11,16)+" ~ "+end.substring(0,4)+"년 "+end.substring(5,7)+"월 "+end.substring(8,10)+"일 "+end.substring(11,16))
+					$(".cal-date").html(start.substring(0,4)+"년 "+start.substring(5,7)+"월 "+start.substring(8,10)+"일 "+start.substring(11,16)+" ~ "+end.substring(0,4)+"년 "+end.substring(5,7)+"월 "+end.substring(8,10)+"일 "+end.substring(11,16))
 					$('.hidden-startDate').val(start)
 					$('.hidden-endDate').val(end)
-					$(".cal-section").text(sectionName)
+					$(".cal-section").html(sectionName)
 					$(".cal-place").html(place)
-					$(".cal-openOption").text(openOption)
-					$(".cal-alarm").text(alarm)
+					$(".cal-openOption").html(openOption)
+					$(".cal-alarm").html(alarm)
 					$(".cal-memo").html(memo)
 					$(".calenderModal_BigDiv").css("display","flex");
 				},
 				err:function(){
-					console.log("실패")
 				}
 			})
 		}
@@ -569,10 +546,6 @@
 			let endDate = $('.hidden-endDate').val()
 			let realWriter = $(".calhidden-realwriter").val()
 			
-			console.log("시작일 : "+startDate)
-			console.log("종료일 : "+endDate)
-			console.log("작성자 번호 : "+realWriter)
-			
 			$.ajax({
 				url:"deleteCalender.do",
 				data:{
@@ -584,7 +557,6 @@
 				success:function(val){
 					
 					if(val == "성공"){
-						console.log(val)
 						$(".calenderModal_BigDiv").css("display","none");
 						$(".calenderModal_Title").empty();
 						$(".openOption").empty();
@@ -605,7 +577,6 @@
 					}
 				},
 				err:function(){
-					console.log("실패")
 				}
 			})
 			
@@ -616,7 +587,6 @@
 			//var reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gim;
 			let block = $(this).attr("class")
 			block = block.replace(/&nbsp;/gi, "").replace(/&nbsp;$/gi, "").replace(/\./gi, "");
-			console.log(block)
 			$("."+block).not("li").css({"display": "block","height":"15%"})
 		})
 		
@@ -624,7 +594,6 @@
 		$(".today-Schedule li").mouseleave(function(){
 			let none = $(this).attr("class")
 			none = none.replace(/&nbsp;/gi, "").replace("&nbsp;$", "").replace(/\./gi, "");
-			console.log(none)
 			$("."+none).not("li").css({"display": "none","height":"15%"})
 		})
 		
@@ -664,11 +633,9 @@
 						  title : '${scheduleList.title}',
 						  openOption : '${scheduleList.openOption}',
 						  alarm : ${scheduleList.alarm},
-						  <c:choose><c:when test="${fn:length(scheduleList.place) == 0}"></c:when><c:otherwise>place : '${scheduleList.place}',</c:otherwise></c:choose>
-						  <c:choose><c:when test="${fn:length(scheduleList.memo) == 0}"></c:when><c:otherwise>memo : '${scheduleList.memo}'</c:otherwise></c:choose>
+						  <c:choose><c:when test="${fn:length(scheduleList.place) == 0}"></c:when><c:otherwise>place : '${scheduleList.place}'</c:otherwise></c:choose>
 						  })
 			</c:forEach>
-			console.log(arr)
 			
 			arr.forEach(function(val){
 				let start = val.startDate;
@@ -678,47 +645,35 @@
 				// 하루종일 이거나 검색달 내에 끝나면 탐
 				if(start.getMonth() == end.getMonth()){
 					if(start.getDate() == end.getDate()){// 하루종일인 경우
-						console.log(val.title+" 은 하루종일 " + start.getDate() + "일")
 						
 					}else{// 검색 달 내에 끝나는 경우
-						console.log(val.title+" 은 한달내에 끝남 " + start.getDate() + "일 ~ " + end.getDate() +"일")
 
 						for(let i = start.getDate()+1 ; i < end.getDate() ; i++){
 							let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp;/gi, "").replace(/\./gi, "")).append("ㅤ")
 							let td = $(".td"+i)//.append(div);
-							
-							console.log(colordiv)
-							console.log(td)
+						
 							td.append(colordiv)
 							
 						}
 					}
 				}else if(start.getFullYear() == ${today_info.search_year} && 1+start.getMonth() == ${today_info.search_month} && 1+end.getMonth() != ${today_info.search_month}){
 					// 시작일이 검색 달이면 탐
-					console.log(val.title+" 은 시작일이 검색달임 " + start.getDate() + "일")
 					let lastDay = new Date(start.getFullYear(), start.getMonth()+1, 0);
 					
-					console.log("말 일 : "+lastDay)
 					for(let i = start.getDate()+1 ; i <= lastDay.getDate() ; i++){
 						let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp;/gi, "").replace(/\./gi, "")).append("ㅤ")
-						let td = $(".td"+i)//.append(div);
+						let td = $(".td"+i)
 						
-						console.log(colordiv)
-						console.log(td)
 						td.append(colordiv)
 					}
 				}else if(end.getFullYear() == ${today_info.search_year} && 1+end.getMonth() == ${today_info.search_month} && 1+start.getMonth() != ${today_info.search_month}){
 					// 종료일이 검색 달이면 탐
-					console.log(val.title+" 은 종료일이 검색달임 " + end.getDate() + "일")
 					let firstDay = new Date(end.getFullYear(), end.getMonth(), 1);
 					
-					console.log("첫 일 : "+firstDay)
 					for(let i = firstDay.getDate()  ; i < end.getDate() ; i++){
 						let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp;/gi, "").replace(/\./gi, "")).append("ㅤ")
-						let td = $(".td"+i)//.append(div);
+						let td = $(".td"+i);
 						
-						console.log(colordiv)
-						console.log(td)
 						td.append(colordiv)
 					}
 				}else{ // 시작일이 이전달(이전부터) 다음달(이후까지) 사이에 있는 애면
@@ -727,10 +682,8 @@
 					
 					for(let i = firstDay.getDate() ; i <= lastDay.getDate() ; i++){
 						let colordiv = $("<div>").css({"background":"#"+val.selectColor,"display":"none"}).addClass(val.title.replace(/&nbsp;/gi, "").replace(/\./gi, "")).append("ㅤ")
-						let td = $(".td"+i)//.append(div);
+						let td = $(".td"+i)
 						
-						console.log(colordiv)
-						console.log(td)
 						td.append(colordiv)
 					}
 				}
@@ -739,7 +692,6 @@
 			
 			// 오늘의 일정이 존재 할 시에 "오늘 예정된 일정이 없습니다."가 가려진다
 			if($(".todayList").find("li").length != 1){
-				console.log("존재함")
 				$(".not-today").css("display","none");
 			}
 			

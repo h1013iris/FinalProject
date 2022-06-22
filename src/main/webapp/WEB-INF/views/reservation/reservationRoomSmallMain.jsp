@@ -77,7 +77,7 @@
 	.reservation-today {
 	    width: 98.5%;
 	    border-top: 1px solid;
-	    height: 43%;
+	    height: 43.8%;
 	    margin: 0 auto;
 	}
 	.reservation-today .res-today, .res-list {		
@@ -88,8 +88,8 @@
 	    line-height: 40px;
 	}
 	.res-list {
-	    height: 17%;
-	    line-height: 40px;
+	    height: 10%;
+	    line-height: 39px;
 	}
 	.res-list, .res-today {
 	    background: #d2eaff;
@@ -133,7 +133,7 @@
 	}
 	.reservation-today ul{
 	    overflow-y: scroll;
-	    height: 63%;		
+	    height: 81%;		
 	}
 	.reservation-today ul::-webkit-scrollbar{
 	    display: none;
@@ -182,6 +182,23 @@
 	td[class *= time] {
 	    width: 42px;
 	}
+	.reservation_dontTouch_btn{
+	    width: 53%;
+	    height: 80%;
+	    padding-bottom: 3px;
+	    margin-top: 3px;
+	    background-color: gray !important;
+	}
+	.reservation-main .reservation_dontTouch_btn{
+		background-color: #9e9e9e;
+		box-shadow: 0px 5px 0px 0px #d3d3d3;
+	}
+	.reservation-main .reservation_dontTouch_btn:hover{
+		box-shadow: 0px 0px 0px 0px #d3d3d3;
+	}
+	.reservation-today.resvation-history {
+	    height: 72%;
+	}
 </style>
 </head>
 <body>
@@ -192,115 +209,115 @@
         	<div class="reservation-navi">
         	<c:choose>
         	<c:when test="${ todayInfo.searchMonth == 12 and todayInfo.searchDate == 31 }"><!-- 만약 12월 31일이면  -->
-        		<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.beforeMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
+        		<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.beforeMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
 					&lt;&lt;&nbsp;
 				<!-- 이전달 -->
 				</a> 
-        		<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.searchMonth-1}&date=${todayInfo.beforeDate}&roomSmallNo=${roomSmallNo}">
+        		<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.searchMonth-1}&date=${todayInfo.beforeDate}&roomSmallNo=${roomSmallNo}">
 					&lt;
 				<!-- 이전일 -->
 				</a>&nbsp;
 				<span class="this_day">
 					${todayInfo.searchYear} . <c:if test="${todayInfo.searchMonth < 10}">0</c:if>${todayInfo.searchMonth} . <c:if test="${todayInfo.searchDate < 10}">0</c:if>${todayInfo.searchDate}
 				</span>&nbsp;
-        		<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.afterYear}&month=${todayInfo.afterMonth}&date=${todayInfo.afterDate}&roomSmallNo=${roomSmallNo}">
+        		<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.afterYear}&month=${todayInfo.afterMonth}&date=${todayInfo.afterDate}&roomSmallNo=${roomSmallNo}">
 					&gt;
 				<!-- 다음일 -->
 				</a> 
-				<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.afterYear}&month=${todayInfo.afterMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
+				<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.afterYear}&month=${todayInfo.afterMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
 				<!-- 다음달 -->
 					&nbsp;&gt;&gt;
 				</a> 
 			</c:when>
         	<c:when test="${ todayInfo.searchMonth == 1 and todayInfo.searchDate == 1 }"><!-- 만약 1월 1일이면  -->
-        		<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.beforeYear}&month=${todayInfo.beforeMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
+        		<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.beforeYear}&month=${todayInfo.beforeMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
 					&lt;&lt;&nbsp;
 				<!-- 이전달 -->
 				</a> 
-        		<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.beforeYear}&month=${todayInfo.beforeMonth}&date=${todayInfo.beforeDate}&roomSmallNo=${roomSmallNo}">
+        		<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.beforeYear}&month=${todayInfo.beforeMonth}&date=${todayInfo.beforeDate}&roomSmallNo=${roomSmallNo}">
 					&lt;
 				<!-- 이전일 -->
 				</a>&nbsp;
 				<span class="this_day">
 					${todayInfo.searchYear} . <c:if test="${todayInfo.searchMonth < 10}">0</c:if>${todayInfo.searchMonth} . <c:if test="${todayInfo.searchDate < 10}">0</c:if>${todayInfo.searchDate }
 				</span>&nbsp;
-        		<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.searchMonth-1}&date=${todayInfo.afterDate}&roomSmallNo=${roomSmallNo}">
+        		<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.searchMonth-1}&date=${todayInfo.afterDate}&roomSmallNo=${roomSmallNo}">
 					&gt;
 				<!-- 다음일 -->
 				</a> 
-				<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.afterMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
+				<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.afterMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
 				<!-- 다음달 -->
 					&nbsp;&gt;&gt;
 				</a> 
 			</c:when>
         	<c:when test="${ todayInfo.searchDate == todayInfo.endDay }">
         	<!-- 말일이면  -->
-				<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.beforeMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
+				<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.beforeMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
 					&lt;&lt;&nbsp;
 				<!-- 이전달 -->
 				</a> 
-        		<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.searchMonth-1}&date=${todayInfo.beforeDate}&roomSmallNo=${roomSmallNo}">
+        		<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.searchMonth-1}&date=${todayInfo.beforeDate}&roomSmallNo=${roomSmallNo}">
 					&lt;
 				<!-- 이전일 -->
 				</a>&nbsp;
 				<span class="this_day">
 					${todayInfo.searchYear} . <c:if test="${todayInfo.searchMonth < 10}">0</c:if>${todayInfo.searchMonth} . <c:if test="${todayInfo.searchDate < 10}">0</c:if>${todayInfo.searchDate }
 				</span>&nbsp;
-        		<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.afterMonth}&date=${todayInfo.afterDate}&roomSmallNo=${roomSmallNo}">
+        		<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.afterMonth}&date=${todayInfo.afterDate}&roomSmallNo=${roomSmallNo}">
 					&gt;
 				<!-- 다음일 -->
 				</a> 
-				<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.afterMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
+				<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.afterMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
 				<!-- 다음달 -->
 					&nbsp;&gt;&gt;
 				</a> 
 			</c:when>
 			<c:when test="${ todayInfo.searchDate == 1 }">
         	<!-- 첫날이면  -->
-				<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.beforeMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
+				<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.beforeMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
 					&lt;&lt;&nbsp;
 				<!-- 이전달 -->
 				</a> 
-        		<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.beforeMonth}&date=${todayInfo.beforeDate}&roomSmallNo=${roomSmallNo}">
+        		<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.beforeMonth}&date=${todayInfo.beforeDate}&roomSmallNo=${roomSmallNo}">
 					&lt;
 				<!-- 이전일 -->
 				</a>&nbsp;
 				<span class="this_day">
 					${todayInfo.searchYear} . <c:if test="${todayInfo.searchMonth < 10}">0</c:if>${todayInfo.searchMonth} . <c:if test="${todayInfo.searchDate < 10}">0</c:if>${todayInfo.searchDate }
 				</span>&nbsp;
-        		<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.afterMonth}&date=${todayInfo.afterDate}&roomSmallNo=${roomSmallNo}">
+        		<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.afterMonth}&date=${todayInfo.afterDate}&roomSmallNo=${roomSmallNo}">
 					&gt;
 				<!-- 다음일 -->
 				</a> 
-				<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.afterMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
+				<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.afterMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
 				<!-- 다음달 -->
 					&nbsp;&gt;&gt;
 				</a> 
 			</c:when>
         	<c:otherwise><!-- 말일이 아니면  -->
-        		<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.beforeMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
+        		<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.beforeMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
 					&lt;&lt;&nbsp;
 				<!-- 이전달 -->
 				</a> 
-        		<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.searchMonth-1}&date=${todayInfo.beforeDate}&roomSmallNo=${roomSmallNo}">
+        		<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.searchMonth-1}&date=${todayInfo.beforeDate}&roomSmallNo=${roomSmallNo}">
 					&lt;
 				<!-- 이전일 -->
 				</a>&nbsp;
 				<span class="this_day">
 					${todayInfo.searchYear} . <c:if test="${todayInfo.searchMonth < 10}">0</c:if>${todayInfo.searchMonth} . <c:if test="${todayInfo.searchDate < 10}">0</c:if>${todayInfo.searchDate }
 				</span>&nbsp;
-        		<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.searchMonth-1}&date=${todayInfo.afterDate}&roomSmallNo=${roomSmallNo}">
+        		<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.searchMonth-1}&date=${todayInfo.afterDate}&roomSmallNo=${roomSmallNo}">
 					&gt;
 				<!-- 다음일 -->
 				</a> 
-				<a class="before_after_month" href="/roomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.afterMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
+				<a class="before_after_month" href="/smallRoomReservation.do?year=${todayInfo.searchYear}&month=${todayInfo.afterMonth}&date=${todayInfo.searchDate}&roomSmallNo=${roomSmallNo}">
 				<!-- 다음달 -->
 					&nbsp;&gt;&gt;
 				</a> 
 			</c:otherwise>
 			</c:choose>
         	</div>
-        	<div class="reservation-today">
+        	<div class="reservation-today resvation-history">
         	<div class="res-list"><p> 예약 현황</p></div>
         	<table class="today-reservation">
         		<thead>
@@ -315,16 +332,23 @@
         	<ul>
         		<c:forEach var="reserve" items="${list}">
         			<c:if test="${fn:length(list) > 0}">
-			        	<li class="today-line res_tdtimes">
+			        	<li class="today-line res_tdtimes" onclick="detailresGo(${reserve.reserveNo}); notuse(event);">
 			        		<input type="hidden" value="${reserve.reserveNo}"/>
 			   				<div class="res-todayList res-thisLine1">${reserve.smallRoomName}</div>
 			    			<div class="res-todayList res-thisLine2">${reserve.meetingName}</div>
 			     			<div class="res-todayList res-thisLine3">${fn:substring(reserve.startDate, 5, 7)}월 ${fn:substring(reserve.startDate, 8, 10)}일 ${fn:substring(reserve.startDate, 11, 16)} ~ ${fn:substring(reserve.endDate, 5, 7)}월 ${fn:substring(reserve.endDate, 8, 10)}일 ${fn:substring(reserve.endDate, 11, 16)}</div>
-			     			<c:if test="${reserve.status eq 'Y'}">
-				     			<div class="res-todayList res-thisLine4">
-				     				<button type="button" class="commonButton1 reservation_Cancel_btn" onclick="deleteReservation(${reserve.reserveNo})">예약 취소</button>
-				     			</div>
-			     			</c:if>
+			     			<c:choose>
+				     			<c:when test="${reserve.status eq 'Y' and loginUser.empNo == reserve.empNo}">
+					     			<div class="res-todayList res-thisLine4">
+					     				<button type="button" class="commonButton1 reservation_Cancel_btn" onclick="deleteReservation(${reserve.reserveNo})">예약 취소</button>
+					     			</div>
+				     			</c:when>
+				     			<c:when test="${reserve.status eq 'Y' and loginUser.empNo != reserve.empNo}">
+					     			<div class="res-todayList res-thisLine4">
+					     				<button type="button" class="commonButton1 reservation_dontTouch_btn" disabled>예약 취소</button>
+					     			</div>
+				     			</c:when>
+			     			</c:choose>
 			     		</li>
 			     	</c:if>
 
@@ -385,9 +409,6 @@
 	 	
 		// 특정 클래스 선택 시 상세조회 모달보이기 res_tdtimes
     	function detailresGo(resNo){
-    		console.log("상세 모달로")
-    		console.log(resNo)
-    		
     		//event.stopPropagation()
     		$.ajax({
     			url:"selectOneReservation.do",
@@ -396,7 +417,6 @@
     			},
     			type:"get",
     			success:function(obj){
-    				console.log("상세모달 성공")
     				
     				let reserNo = obj.reserveNo;					// 예약번호 (업데이트시 끌고가야함)
     				let empNo = obj.empNo;							// 사원번호 (업데이트시 끌고가야함)
@@ -420,7 +440,6 @@
     				
     			},
     			error:function(){
-    				console.log("상세모달 실패")
     			}
     		})
     	}
@@ -437,7 +456,6 @@
     			},
     			type:"get",
     			success:function(obj){
-    				console.log("참석자 성공")
     				
     				$.each(obj, function(idx, val){
     					
@@ -454,7 +472,6 @@
 				    
     			},
     			error:function(){
-    				console.log("참석자 실패")
     			}
 			})
 		}
@@ -471,7 +488,6 @@
 			// 확인 클릭 시
 			$(".true_btn").click(function() {
 				$("#helpmeCOnfirm").hide();
-				console.log("확인 클릭함")
 				deleteresGo(reserveNo);
 		    });
 	    }
@@ -488,7 +504,6 @@
 					location.reload();
 				},
 				error:function(error){
-					console.log("삭제 실패")
 				}
 			})
 		}

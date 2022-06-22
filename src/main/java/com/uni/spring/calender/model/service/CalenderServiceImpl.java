@@ -62,7 +62,6 @@ public class CalenderServiceImpl implements CalenderService {
 	@Override
 	public DepartmentManagement selectDepartment(String departmentNo) {
 		DepartmentManagement department = new DepartmentManagement();
-		System.out.println(departmentNo);
 		department = calenderDao.selectDepartment(departmentNo, sqlSession);
 		return department;
 	}
@@ -75,8 +74,6 @@ public class CalenderServiceImpl implements CalenderService {
 		startDate = startDate.replaceAll("-", "/").substring(0, 16);
 		endDate = endDate.replaceAll("-", "/").substring(0, 16);
 		
-		System.out.println("서비스 임플 시작일 == >"+startDate);
-		System.out.println("서비스 임플 종료일 == >"+endDate);
 		data.put("startDate", startDate);
 		data.put("endDate", endDate);
 		data.put("writerNo", writerNo);
@@ -92,8 +89,6 @@ public class CalenderServiceImpl implements CalenderService {
 		startDate = startDate.replaceAll("-", "/").substring(0, 16);
 		endDate = endDate.replaceAll("-", "/").substring(0, 16);
 		
-		System.out.println("서비스 임플 시작일 == >"+startDate);
-		System.out.println("서비스 임플 종료일 == >"+endDate);
 		data.put("startDate", startDate);
 		data.put("endDate", endDate);
 		data.put("realWriter", realWriter);

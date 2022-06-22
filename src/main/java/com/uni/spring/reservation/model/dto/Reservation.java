@@ -44,7 +44,6 @@ public class Reservation {
 		
 		//임의 값 확인
 		for(int i = 0 ; i < day.length ; i++) {
-			System.out.println("년 월 일 확인 ==> "+day[i]);
 			if(i == 0) {
 				map.put("searchYear", Integer.parseInt(day[i]));
 			}else if(i == 1) {
@@ -53,8 +52,6 @@ public class Reservation {
 				map.put("searchDate", Integer.parseInt(day[i]));
 			}
 		}
-		System.out.println(map);
-		
 		return map;
 	}
 
@@ -63,7 +60,6 @@ public class Reservation {
 		reservation.setStartDate(reservation.getStartDate().concat(" ").concat(startTime));
 		reservation.setEndDate(reservation.getEndDate().concat(" ").concat(endTime));
 		
-		System.out.println(reservation);
 		return reservation;
 	}
 
@@ -86,7 +82,6 @@ public class Reservation {
 		
 		//임의 값 확인
 		for(int i = 0 ; i < day.length ; i++) {
-			System.out.println("년 월 일 확인 ==> "+day[i]);
 			if(i == 0) {
 				map.put("searchYear", day[i]);
 			}else if(i == 1) {
