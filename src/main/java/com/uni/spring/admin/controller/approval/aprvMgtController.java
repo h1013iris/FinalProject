@@ -27,7 +27,7 @@ public class aprvMgtController {
 
 	@Autowired
 	public AprvMgtService aprvMgtService;
-	 
+	
 	
 	// 보안 설정 메인
 	@RequestMapping("securityMain.do")

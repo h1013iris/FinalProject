@@ -50,7 +50,7 @@ public class AprvController {
 	public ModelAndView apprvalMain(ModelAndView mv) {
 		
 		mv.setViewName("approval/approvalMain");
-		 
+		
 		return mv;
 	}
 	
