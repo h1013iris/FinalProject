@@ -53,7 +53,7 @@ public class ManageController {
 		for (AttendLog at : al) {
 			att.add(new AttendLog().attendList(at));
 		}
-		
+		System.out.println(al);
 		
 		//휴가정보
 		ArrayList<vacationInfo> vi = manageService.selectListVacation(departmentNo);
@@ -113,16 +113,16 @@ public class ManageController {
 	@RequestMapping("selectListDepartInfo.do")
 	public ModelAndView selectListDepartInfo(int deptNo, ModelAndView mv ) {
 		String fd = manageService.selectFirstday();//이번달 주 월요일들 모음
-		
+		System.out.println(fd);
 		calendarWeek cw = new calendarWeek().changeList(fd);
-		
+		System.out.println(cw);
 		ArrayList<AttendLog> list = manageService.selectAttendAvg(cw);
-		
+		System.out.println(list);//성공
 		ArrayList<AttendLog> att = new ArrayList<AttendLog>();
 		for (AttendLog at : list) {
 			att.add(new AttendLog().attendAVGLIST(at));
 		}
-		
+		System.out.println(att);
 		ArrayList<Department> dplist = adminService.selectAllDeptList();
 		calendarWeek cw2 = new calendarWeek().selectThisWeek();
 		ArrayList<AttendLog> al = manageService.selectListAttendLogAVG(cw2);
@@ -131,7 +131,7 @@ public class ManageController {
 		for (AttendLog at : al) {
 			att2.add(new AttendLog().attendAVGLISTAV(at));
 		}
-		
+		System.out.println(att2);
 		
 		//근태 수정요청 요번주 리스트 뽑아오기
 		ArrayList<CmtUpdateForm> clist = manageService.selectListEdittW(cw2);
@@ -145,17 +145,17 @@ public class ManageController {
 		//부서, 직급, 이름, 이번주 누적, 월별 누적
 		//주차별 업무 시작 종료 근무시간나오는 리스트 
 		String fd = manageService.selectFirstday();//이번달 주 월요일들 모음
-		
+		System.out.println(fd);
 		calendarWeek cw = new calendarWeek().changeList(fd);//주 가져오
-		
+		System.out.println(cw);
 		cw.setEmpNo(empNo);//넘버 같이 보내주기 
 		ArrayList<AttendLog> list = manageService.selectAttendAvg(cw);//평균들 
-		
+		System.out.println(list);//성공
 		AttendLog att = new AttendLog();//주마다 근무시간 합계
 		for (AttendLog at : list) {
 			att = new AttendLog().attendAVGLIST(at);
 		}
-		
+		System.out.println("개인?!?!"+att);//성공함
 		ArrayList<Department> dplist = adminService.selectAllDeptList();
 		calendarWeek cw2 = new calendarWeek().selectThisWeek();
 		cw2.setEmpNo(empNo);//넘버 같이 보내주기 
@@ -164,7 +164,7 @@ public class ManageController {
 		for (AttendLog at : al) {
 			att2 =new AttendLog().attendAVGLISTAV(at);
 		}
-		
+		System.out.println(att2);//성공인지 확인하기 
 		
 		//개인 날짜리스트 값들 가져오기 
 		/* ATTEND_NO -> 근태 순번
@@ -186,7 +186,7 @@ public class ManageController {
 	public String updateAttendLogEdit(CmtUpdateForm cf) {
 		String attendTime = cf.getUpdateDate() +" "+cf.getAttendTime();//출근 시간
 		String leaveTime = cf.getUpdateDate() +" "+ cf.getLeaveTime();//퇴근 시간
-		//
+		//System.out.println(attendTime);
 		cf.setAttendTime(attendTime);cf.setLeaveTime(leaveTime);
 		manageService.updateAttendLogEdit(cf);
 		int result = 0;
@@ -199,12 +199,12 @@ public class ManageController {
 		String fd = manageService.selectFirstday();//이번달 주 월요일들 모음
 		calendarWeek cw = new calendarWeek().changeList(fd);//객체안에 월부터 금 날짜 넣음
 		ArrayList<AttendLog> list = manageService.selectAttendAvgfilter(cw, md);
-		
+		System.out.println(list);//성공?
 		ArrayList<AttendLog> att = new ArrayList<AttendLog>();
 		for (AttendLog at : list) {
 			att.add(new AttendLog().attendAVGLIST(at));
 		}
-		
+		System.out.println(att);
 		ArrayList<Department> dplist = adminService.selectAllDeptList();
 		calendarWeek cw2 = new calendarWeek().selectThisWeek();//이번주 월, 금
 		ArrayList<AttendLog> al = manageService.selectListAttendLogAVGfilter(cw2,md);
@@ -213,12 +213,12 @@ public class ManageController {
 		for (AttendLog at : al) {
 			att2.add(new AttendLog().attendAVGLISTAV(at));
 		}
-		
+		System.out.println(att2);
 		
 		Map<String,Object> map = new HashMap<>();
 		map.put("att", att);
 		map.put("att2", att2);
-		
+		System.out.println(map);
 		
 		return new Gson().toJson(map);
 	}
@@ -250,7 +250,7 @@ public class ManageController {
 	//휴가 상세페이지 
 	@RequestMapping("selectListVacationInfo.do")
 	public ModelAndView selectListVacationInfo(manageDepart md, ModelAndView mv) {
-		
+		System.out.println(md);
 		//이번주 월-금 날짜 
 		calendarWeek cw2 = new calendarWeek().selectThisWeek();
 		//휴가 내용 리스트
@@ -259,7 +259,7 @@ public class ManageController {
 		ArrayList<LeaveForm> lf = manageService.selectListLeaveForm(md, cw2);
 		
 		ArrayList<Department> dplist = adminService.selectAllDeptList();
-		
+		System.out.println(lf);
 		mv.addObject("vi",vi).addObject("lf",lf).addObject("dplist",dplist).setViewName("manage/detailListVacation");
 		return mv;
 	}

@@ -170,7 +170,7 @@ public class ManageServiceImpl implements ManageService {
 	@Override
 	public void updatevacationaYear(Member loginUser) {
 		int result = manageDao.updatevacationYear(sqlSession, loginUser);
-		
+		System.out.println(loginUser);
 	}
 
 	@Override

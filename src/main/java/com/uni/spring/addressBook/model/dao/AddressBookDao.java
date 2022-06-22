@@ -39,14 +39,14 @@ public class AddressBookDao {
 	public ArrayList<Customer> selectCustoList(SqlSessionTemplate sqlSession, int empNo) {
 		// TODO Auto-generated method stub
 		ArrayList<Customer> a = (ArrayList) sqlSession.selectList("addressBookMapper.selectCustoList", empNo);
-		
+		System.out.println("다오에서 고객 리스트" + a);// 얘는 불러와지는데
 		return a;
 	}
 
 	// 거래처 주소록 메인
 	public ArrayList<Company> selectComList(SqlSessionTemplate sqlSession, int empNo) {
 		ArrayList<Company> a = (ArrayList) sqlSession.selectList("addressBookMapper.selectComList", empNo);
-		
+		System.out.println("다오에서 거래처 리스트" + a);// 거래처주소록 번호 안불러와짐..
 		return a;
 	}
 
@@ -140,7 +140,7 @@ public class AddressBookDao {
 	// 부서별 주소록 검색
 	public ArrayList<WideMember> selectDeptAddSearch(SqlSessionTemplate sqlSession, Map<String, Object> deptSearch) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("deptSearch 다오: "+deptSearch);
 		return (ArrayList) sqlSession.selectList("addressBookMapper.selectDeptAddSearch", deptSearch);
 	}
 
@@ -159,14 +159,14 @@ public class AddressBookDao {
 	// 고객주소록 영구삭제
 	public int deleteCustoBox(SqlSessionTemplate sqlSession, List<String> cusNoArr) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("고객주소록 삭제 다오: " + cusNoArr);
 		return sqlSession.delete("addressBookMapper.deleteCustoBox", cusNoArr);
 	}
 
 	// 거래처 주소록 영구삭제
 	public int deleteComBox(SqlSessionTemplate sqlSession, List<String> comNoArr) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("고객주소록 삭제 다오: " + comNoArr);
 		return sqlSession.delete("addressBookMapper.deleteComBox", comNoArr);
 	}
 

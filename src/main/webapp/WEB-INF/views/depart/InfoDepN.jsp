@@ -147,10 +147,10 @@
   			$(".showListDeptP").css("display","none");
   		})
 		function showModalInfoIMG(empName, phone, email){
-    		
-    		
-    		
-    		
+    		console.log(empName)
+    		console.log(phone)
+    		console.log(email)
+    		console.log($("#emp_name_modal_depart"))
     		$(".emp_name_modal_depart").text(empName);
     		$(".emp_phone_modal_depart").text(phone);
     		$(".emp_email_modal_depart").text(email);

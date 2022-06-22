@@ -154,7 +154,7 @@
 	  	}
 		$(".submitNumberone").click(function(){
 			var salary= $(".payhowMuchone").val().replace(/[,]/g,'');
-			
+			console.log($(".payhowMuchone").val().replace(/[,]/g,''))//콤마 사라지고 보임
 			if(salary == 0){
 				return false;
 			}

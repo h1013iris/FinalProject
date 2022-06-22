@@ -278,8 +278,8 @@
     	$(function(){
     		selectAnnoReplyList();
     		$(".replyButton").click(function(){
-        		
-        		
+        		console.log($("#reply").val())//값이 잘 나오는 것을 확인 완료
+        		console.log(${loginUser.empNo})
         		var adno = ${d.annoNo};//게시글 번호
         		var replyWriter = ${loginUser.empNo};
         		if($("#reply").val().trim().length != 0){
@@ -293,7 +293,7 @@
        					success:function(result){
        						if(result>0){
        							$("#reply").val("");
-       							
+       							console.log("댓글 달기 성공")//댓글 다는거는 성공
        							selectAnnoReplyList();
        						}else{
        							myAlert("댓글 등록 실패","댓글을 등록을 실패하였습니다");
@@ -304,7 +304,7 @@
        		        			})
        						}
        					}, error:function(){
-       						
+       						console.log("댓글 작성 ajax 실패")
        					}
         				
         			});
@@ -348,7 +348,7 @@
     				})
     				$("#replyList").html(value);
     			},error:function(){
-    				
+    				console.log("댓글 리스트조회용 ajax 통신 실패");
     			}
     		})
     	}
@@ -359,7 +359,7 @@
     		$("#helpmeCOnfirm").css("display","block");
        		
     		$("button[name='confirmBtn']").click(function(){
-        		
+        		console.log($(this).val())
         		if($(this).val()=="true"){
         			location.href="deleteAnnoDepartReply.do?adro="+num+"&adno="+${d.annoNo};
         			$("#helpmeCOnfirm").css("display","none");
@@ -370,7 +370,7 @@
     	//이전 게시물 버튼
 		function prevButton(){
 			var adno = ${d.prevNo};
-			
+			console.log(adno+"이전")
 			if(adno == null || adno ==""){
 				$("#alert_container .title_name").text("공지사항");
     			$("#alert_body .alert_content").text("이전 공지사항이 없습니다.");
@@ -391,7 +391,7 @@
 		function nextButton(){
 			
 			var adno = ${d.nextNo};
-			
+			console.log(adno+"이후")
 			 if (adno == null || adno ==""){
 				$("#alert_container .title_name").text("공지사항");
     			$("#alert_body .alert_content").text("이후 공지사항이 없습니다.");

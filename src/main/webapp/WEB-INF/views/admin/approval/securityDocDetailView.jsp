@@ -191,14 +191,14 @@
                 url: "selectDocApprover.do",
                 data: { docNo : ${ docNo } },
                 success: function (list) {
-					
+					console.log(list);
 					if(list != null) {
 						for(var i in list) {
 							if(list[i] != null) {
 								$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
 								$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
 								$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
-								
+								console.log(list[i].empNo);
 							}
 						}
 	                	}
@@ -217,7 +217,7 @@
     			data: { docNo : "${ docNo }" },
     			success: function(data) {
     				
-    				
+    				console.log(data);
     				
     				document.getElementById("scrtyReqDate").innerHTML = data.scrtyReqDate;
     				document.getElementById("scrtyReason").innerHTML = data.scrtyReason;
@@ -256,7 +256,7 @@
 	    					aprvStatus : 2,
 	    					status : "Y" },
 	    			success: function(result) {
-	    				
+	    				console.log(result);
 	    				
 	    				if(result == "success") {
 	                    	

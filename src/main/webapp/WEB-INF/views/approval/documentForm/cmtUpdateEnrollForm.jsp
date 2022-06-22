@@ -237,7 +237,7 @@
  			
  			// 주말 선택할 수 없도록
  			} else if(updateDateDay == 0 || updateDateDay == 6) {
-	            
+	            console.log("주말");
 				$("#formErrorMsg").text("주말은 선택할 수 없습니다.");
 				$("#endDate").val("");
 				
@@ -291,8 +291,8 @@
 			$("#beAttendTime2").val(updateDate + " " + beAttendTime);
 			$("#beLeaveTime2").val(updateDate + " " + beLeaveTime);
 			
-			
-			
+			console.log($("#beAttendTime2").val());
+			console.log($("#beLeaveTime2").val());
  		}
  		
  		// 수정 후 출근 시간 변경 시
@@ -411,7 +411,7 @@
                 url: "enrollDocument.do",
                 data: form,
                 success: function (result) {
-                	
+                	console.log(result)
                 	
                     if(result == "success") {
 					
@@ -447,7 +447,7 @@
     			url: "saveCmpUdpFormOutbox.do",
     			data: form,
     			success: function(result) {
-    				
+    				console.log(result);
     				
     				if(result == "success") {
     					let title = "임시 보관함 저장"
