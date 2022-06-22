@@ -8,7 +8,7 @@
     <title>고객 등록</title>
   <script
 		src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
-</head>
+</head> 
 <style>
   *{margin: 0;
         padding: 0;}
@@ -52,9 +52,10 @@
     }
         .Title{
     text-align: left;
+    vertical-align: top;
     }
     
-        .commonButton1_1 {
+    .commonButton1_1 {
 	padding: 0;
 	font-weight: 100px;
 	text-align: center;
@@ -79,15 +80,30 @@
 	box-shadow: 0px 0px 0px 0px #4c87b099;
 	
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.Tfont{
+font-size: 20px;
+font-weight: bold;
+margin-bottom: 20px;
+
+}
+.point{
+color: red;
+}
 </style>
 
 
   <body>
-
+ 	<jsp:include page="../common/header.jsp"></jsp:include>
+     <div class="main_section">
     <div id="container">
         <div class="main">
             <form action="insertCusAdd" method="post">
-                <h3>고객 등록</h3>
+                <p class="Tfont">고객 등록</p>
         <table class="main2">
             <tr>
                 <td>
@@ -98,41 +114,41 @@
             </c:forEach>
                    <option id="direct">직접입력</option>
                    </td>
-                   <td><input type="text" id="selboxDirect" class="inputBox" value=""/>
+                   <td><input type="text" id="selboxDirect" class="inputBox" value="" maxlength="9"/>
             
             </select>
             </td>
            </tr>
             <!--내부폴더는 empNo로 distinct로 중복제거 select해서 목록띄우기-->
                 <tr> 
-                    <td class="Title">* 회사명</td>
+                    <td class="Title"><label class="point">*</label> 회사명</td>
                     <td><input type="text" name="comNm" class="inputBox"  required maxlength="19"></td>
                 </tr>
                 <tr>
-                    <td class="Title">사업자번호</td>
-                    <td><input type="text" name="comNo" class="inputBox" maxlength="10" placeholder="하이픈빼고 10자리"></td>
+                    <td class="Title">&nbsp;&nbsp;사업자번호</td>
+                    <td><input type="number" name="comNo" class="inputBox" maxlength="10" oninput="maxCheck(this)"  placeholder="하이픈빼고 10자리"></td>
                 </tr>
                 <tr>
-                    <td class="Title">* 대표번호</td>
-                    <td><input type="text" name="comTel" class="inputBox" required maxlength="13"></td>
+                    <td class="Title"><label class="point">*</label> 대표번호</td>
+                    <td><input type="number" name="comTel" class="inputBox" oninput="maxCheck(this)"  required maxlength="11"></td>
                 </tr>
                 <tr>
-                    <td class="Title">* 대표명</td>
+                    <td class="Title"><label class="point">*</label> 대표명</td>
                     <td><input type="text"  name="comCeo" class="inputBox" required maxlength="9"></td>
                 </tr>
                 <tr>
-                    <td class="Title">* 담당자</td>
+                    <td class="Title"><label class="point">*</label> 담당자</td>
                     <td><input type="text"  name="comPix" class="inputBox" required required maxlength="9" ></td>
                 </tr>
                 <tr>
-                    <td class="Title">* 휴대폰</td>
-                    <td><input type="text" name="comPhone" class="inputBox" required maxlength="13"></td>
+                    <td class="Title"><label class="point">*</label> 휴대폰</td>
+                    <td><input type="number" name="comPhone" class="inputBox" oninput="maxCheck(this)"  required maxlength="11"></td>
                 </tr>
                 <tr>
-                    <td class="Title">* 이메일</td>
+                    <td class="Title"><label class="point">*</label> 이메일</td>
                     <td><input type="email" name="comEmail" class="inputBox" required maxlength="29"></td>
                 <tr>
-                    <td class="Title">기타</td>
+                    <td class="Title">&nbsp;&nbsp;기타</td>
                     <td><textarea name="comMemo" class="inputBox" rows="5"  maxlength="49"></textarea></td>
                 </tr>
                     
@@ -147,6 +163,7 @@
                 <input type="button" value="취소" class="commonButton1_1" onclick="location.href='custoAdd.do'"/>
                 </div>
            </form>
+        </div>
         </div>
     </div>
   <script>
@@ -174,7 +191,15 @@
     });
     });
    
-
+  //input number 길이제한
+  function maxCheck(object){
+ 	 if(object.value.length>object.maxLength){
+ 		 object.value = object.value.slice(0,object.maxLength);
+ 	 }
+  }
+  $(function() {
+		$(".page_title>.title_name").text("고객 주소록");
+	})
     </script>
  </body>
 </html>
