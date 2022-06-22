@@ -16,7 +16,7 @@
 		<result property="hireDate" column="HIRE_DATE" />
 		<result property="status" column="STATUS" />
 		<result property="endDate" column="END_DATE" />
-		<result property="jobNo" column="JOB_NO" />
+		<result property="jobNo" column="JOB_NO" /> 
 		<result property="departmentNo" column="DEPARTMENT_NO" />
 	</resultMap>
 
