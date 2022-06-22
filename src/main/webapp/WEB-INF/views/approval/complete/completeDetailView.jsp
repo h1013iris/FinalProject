@@ -134,11 +134,10 @@
 
 			// 로그인이 되어있지 않으면
 			if("${ loginUser.empNo }" == "") {	
-				loginFn(); // 로그인 먼저
+				loginFn(); 			// 로그인 먼저
 			
-			} else {				
-				scrtyCheckFn();		// 보안 요청된 문서인지 확인
-				lastAprvCheckFn();	// 로그인 유저가 해당 문서의 최종 결재자인지 확인
+			} else {
+				lastAprvCheckFn();	// 결재자 조회 및 최종 결재자인지, 보안 문서인지 확인
 			}
 		});
     	
@@ -151,8 +150,6 @@
                 url: "selectDocApprover.do",
                 data: { docNo : ${ docNo } },
                 success: function (list) {
-					console.log(list);
-					
 					let loginUser = ${ loginUser.empNo };
 					let lastAprv = "";
 					
@@ -162,18 +159,15 @@
 							$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
 							$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
 							$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
-						
-						// 마지막 결재자 변수에 담기
-						} else {
-							lastAprv = list[i-1].empNo;
+							// 최종 결재자 변수에 담기
+							lastAprv = list[i].empNo;
 						}
 					}
 					
-					// 로그인 유저와 최종 결재자가 일치하면 보안 요청 버튼 보이도록
+					// 로그인 유저와 최종 결재자가 일치하면 보안된 문서인지 확인
 					if(loginUser == lastAprv) {
-						$(".sequrity_btn").show();
+						scrtyCheckFn();
 					}
-					
                 }
 	 		});
     		
@@ -214,31 +208,23 @@
     	function scrtyCheckFn() {
     		
     		$.ajax({
-    			
     			type: "post",
     			url: "docScrtyReqCheck.do",
-    			data: { docNo : "${ docNo }" },
+    			data: { docNo : ${ docNo } },
     			success: function(result) {
-    				console.log(result);
-    				
     				// 조회 결과가 존재하면
     				if(result == "yes") {
-    					console.log("보안 요청 불가능");
     					
     					$(".sequrity_btn").hide(); 	// 해당 버튼 숨기고
     					$(".scrtyCheckMsg").show(); // 메시지 띄우기
     					$(".docDetailBtnsArea").css("padding-top", "0");		// 버튼 위치 조정
     					$(".docDetailMainArea").css("padding", "0 0 0 100px");	// 문서 위치 조정
-    					
-    				// 존재하지 않으면
+    					$(".docDetailBtn").css("margin", "0 5px 10px 5px");
+    				// 존재하지 않으면 버튼 띄우기
     				} else if(result == "no") {
-    					console.log("보안 요청 가능");
-    					
-    					//$(".scrtyCheckMsg").hide(); // 메시지 숨기기
+    					$(".sequrity_btn").show();
     				}
-    				
-    			}
-    			
+    			}    			
     		});
     		
     	}

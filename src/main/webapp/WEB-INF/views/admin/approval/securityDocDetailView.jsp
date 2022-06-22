@@ -104,6 +104,7 @@
 	#scrtyReason {
 		padding-left: 2px;
 		height: 300px;
+		word-break:break-all;
 		white-space: pre-wrap;
 		overflow: auto;
 		line-height: 130%;
@@ -191,17 +192,16 @@
                 url: "selectDocApprover.do",
                 data: { docNo : ${ docNo } },
                 success: function (list) {
-					console.log(list);
-					if(list != null) {
+
+                	if(list != null) {
 						for(var i in list) {
 							if(list[i] != null) {
 								$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
 								$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
 								$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
-								console.log(list[i].empNo);
 							}
 						}
-	                	}
+                	}
 		 		}
 	 		});
     	}
@@ -216,9 +216,7 @@
     			url: "selectScrtyReason.do",
     			data: { docNo : "${ docNo }" },
     			success: function(data) {
-    				
-    				console.log(data);
-    				
+    				    				
     				document.getElementById("scrtyReqDate").innerHTML = data.scrtyReqDate;
     				document.getElementById("scrtyReason").innerHTML = data.scrtyReason;
     				document.getElementById("scrtySetDate").innerHTML = data.scrtySetDate;
@@ -256,7 +254,6 @@
 	    					aprvStatus : 2,
 	    					status : "Y" },
 	    			success: function(result) {
-	    				console.log(result);
 	    				
 	    				if(result == "success") {
 	                    	

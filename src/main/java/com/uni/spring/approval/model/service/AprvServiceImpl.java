@@ -99,16 +99,16 @@ public class AprvServiceImpl implements AprvService {
 			
 		} else if(docType == 30) {
 			result = aprvDao.insertBusCoop(sqlSession, busCoopform);
-			
 		}
 		
 		if(result < 1) {
 			throw new CommException("문서 저장 실패");
-		}else if(result > 0 && docType == 11) {
-			int result1 = manageDao.updateVacation(sqlSession, leaveForm);
+		
+		} else if(result > 0 && docType == 11) {
+			manageDao.updateVacation(sqlSession, leaveForm);
 		}
 		
-		insertDoc(aprvDoc); // 결재 문서 저장
+		insertDoc(aprvDoc); 			// 결재 문서 저장
 		insertAprvHistory(aprvHistory); // 결재 기록 저장
 	}
 	
@@ -518,7 +518,6 @@ public class AprvServiceImpl implements AprvService {
 		// 임시 보관함에서 삭제
 		deleteOutboxDoc(outboxNo);
 		
-		System.out.println("Service docNo ==========> " + docNo);
 		// 결재 취소한 문서의 경우 결재 정보 삭제
 		if(docNo != null) {
 			result2 = aprvDao.deleteAprvDocument(sqlSession, docNo);
@@ -782,22 +781,6 @@ public class AprvServiceImpl implements AprvService {
 	public ArrayList<DocType> selectDocTypeList(String docType) {
 		
 		return aprvDao.selectDocTypeList(sqlSession, docType);
-	}
-	
-	
-	// 문서 전체 검색 리스트 개수
-	@Override
-	public int searchAllDocListCount(AprvDoc aprvDoc) {
-		
-		return aprvDao.searchAllDocListCount(sqlSession, aprvDoc);
-	}
-
-
-	// 문서 전체 검색 리스트 조회
-	@Override
-	public ArrayList<AprvDoc> searchAllDocList(PageInfo pi, AprvDoc aprvDoc) {
-		
-		return aprvDao.searchAllDocList(sqlSession, pi, aprvDoc);
 	}
 
 

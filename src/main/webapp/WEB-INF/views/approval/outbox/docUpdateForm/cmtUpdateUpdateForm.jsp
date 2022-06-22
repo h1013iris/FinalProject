@@ -234,7 +234,6 @@
                 data: { deptNo : "${ loginUser.departmentNo }" },
                 success: function (data) {
                 	if(data != null || data != "") {
-                		console.log(data);
                 		$("#drafterDept").val(data);
                 	}
                 }
@@ -253,7 +252,6 @@
 				data: { outboxNo : ${ outboxNo } },
 				success: function(data) {
 					
-					console.log(data)
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.jobName);
 					$("#draftDate").val(data.dftDate);
@@ -279,7 +277,6 @@
 		 	                url: "selectCancleDocApprover.do",
 		 	                data: { docNo : data.docNo },
 		 	                success: function (data) {
-								console.log(data);
 		 	                	if(data != null) {
 		 	                		
 		 	                		$("#firstAprv").val(data.firstAprv);
@@ -306,7 +303,6 @@
  						departmentNo : "${ loginUser.departmentNo }",
  						jobNo : "${ loginUser.jobNo }" },
  				success: function(list) {
- 					console.log(list);
                 	if(list != null || list != "") {
                 		
                 		$.each(list, function(i) {
@@ -389,9 +385,6 @@
 			
 			$("#beAttendTime2").val(updateDate + " " + beAttendTime);
 			$("#beLeaveTime2").val(updateDate + " " + beLeaveTime);
-			
-			console.log($("#beAttendTime2").val());
-			console.log($("#beLeaveTime2").val());
  		}
  		
  		// 수정 후 출근 시간 변경 시
@@ -424,15 +417,7 @@
  			let updateReason = $("#updateReason").val();
  			
  			let title = "문서 작성 확인";
- 			
- 			console.log(firstAprv);
- 			console.log(updateDate);
- 			console.log(beAttendTime);
- 			console.log(beLeaveTime);
- 			console.log(attendTime);
- 			console.log(leaveTime);
- 			console.log(updateReason);
- 			
+
  			if((firstAprv == null || firstAprv == "") 
 					&& (secondAprv != null || secondAprv != "")) {
 			
@@ -534,9 +519,7 @@
  				type: "post",
                 url: url,
                 data: form,
-                success: function (result) {
-                	console.log(result)
-                	
+                success: function (result) {                	
                     if(result == "success") {
 					
                     	myAlert("결재 요청 확인", "결재가 성공적으로 요청되었습니다.");
@@ -567,9 +550,7 @@
     			type: "post",
     			url: "updateCmtUpdateApp.do",
     			data: form,
-    			success: function(result) {
-    				console.log(result);
-    				
+    			success: function(result) {    				
     				// 저장 여부만 알려주고 페이지 이동은 없음 -> 계속 작성할 수 있도록
     				if(result == "success") {
     					let title = "임시 보관함 저장"

@@ -157,7 +157,7 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;">
 								<span contenteditable="false" style="width: 100%;">
-									<select class="ipt_editor" id="coopDept" name="coopDept" style="width: 90%;">
+									<select class="coop_Receive_DeptList" id="coopDept" name="coopDept" style="width: 90%;">
 										<option value="">선택</option>
 										<!-- 부서 리스트 출력되는 부분 -->
 									</select>
@@ -226,30 +226,7 @@
                 }
 	 		});
  		}
- 		
- 		
- 		// 부서 리스트 조회하는 함수
- 		function selectDeptListFn() {
- 			
- 			// 부서 조회해서 select에 넣기
-	 		$.ajax({
-	 			
-	 			type: "post",
-	                url: "selectDeptList.do",
-	                data: { deptNo : "${ loginUser.departmentNo }" },
-	                success: function (list) {
-					console.log(list);
-	                	if(list != null || list != "") {
-	                		
-	                		$.each(list, function(i) {
-	                			$("#coopDept").append("<option value='" + list[i].deptNo + "'>" 
-	                								  + list[i].deptTitle + "</option>");
-	                		});
-	                	}
-	                }
-	 		});
- 		}
- 		
+
  		
  		// 기존 내용 조회
  		function selectBusDraftOutboxFn() {
@@ -262,7 +239,6 @@
 				data: { outboxNo : ${ outboxNo } },
 				success: function(data) {
 					
-					console.log(data)
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.drafterDept);
 					$("#enfDate").val(data.enfDate);
@@ -285,7 +261,6 @@
 		 	                url: "selectCancleDocApprover.do",
 		 	                data: { docNo : data.docNo },
 		 	                success: function (data) {
-								console.log(data);
 		 	                	if(data != null) {
 		 	                		
 		 	                		$("#firstAprv").val(data.firstAprv);
@@ -323,7 +298,6 @@
  						departmentNo : "${ loginUser.departmentNo }",
  						jobNo : "${ loginUser.jobNo }" },
  				success: function(list) {
- 					console.log(list);
                 	if(list != null || list != "") {
                 		
                 		$.each(list, function(i) {
@@ -345,9 +319,6 @@
 			
  			let today = new Date(+ new Date() + 3240 * 10000).toISOString().substring(0, 10); // 오늘 날짜
 			let enfDate = $("#enfDate").val(); 			
- 			
- 			console.log(today);
- 			console.log(enfDate);
  			
  			// 시행일이 어제 이전이면 에러메시지 띄우기
  			if(today > enfDate) {
@@ -451,9 +422,7 @@
 				type: "post",
                 url: url,
                 data: form,
-                success: function (result) {
-                	console.log(result)
-                	
+                success: function (result) {                	
                     if(result == "success") {
 					
                     	let title = "결재 요청 확인";
@@ -490,9 +459,7 @@
     			type: "post",
     			url: "updateBusDraft.do",
     			data: form,
-    			success: function(result) {
-    				console.log(result);
-    				
+    			success: function(result) {    				
     				// 저장 여부만 알려주고 페이지 이동은 없음 -> 계속 작성할 수 있도록
     				if(result == "success") {
     					let title = "임시 보관함 저장"

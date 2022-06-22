@@ -8,7 +8,7 @@
 <style type="text/css">
 	
 	.mainDiv {
-		padding: 100px;
+		padding: 50px 100px 0 100px;
 		text-align: center;
 	}
 	
@@ -35,7 +35,6 @@
 	.scrtyDoc_table td {
 		border-top: 1px solid darkgray;
 		padding: 15px;
-		
 	}
 	
 	/* 말줄임표 CSS */
@@ -47,7 +46,6 @@
 	
 	.scrtyDoc_table th {
 		padding: 15px;
-		background-color: darogray;
 	}
 	
 	.scrtyDoc_thead {
@@ -55,12 +53,27 @@
 		font-size: 16px;
 	}
 	
-	.noScrtyDocList {
+	.docScrtyRequestList_area {
+		display: block;
+		overflow-y : scroll;
+	}
+	
+	.docScrtyRequestList_area::-webkit-scrollbar {
+    	display: none;
+	}
+	
+	.docScrtyRequestList_thead th {
+		position: sticky;
+    	top: 0px;
+    	background-color: #e6e6e6 !important;
+	}
+						
+	.noScrtyDocList, .noScrtyReqDocList {
 		color: blue;
 	}
 	
 	.scrtyList_hr {
-		margin: 25px 0 40px 0;
+		margin: 50px 0 40px 0;
 	}
 		
 	.filter_dropdown, .filter_initialize {
@@ -234,12 +247,7 @@
 	        		</tbody>
 	         	</table>
 	    	</div>
-	    	
-	    	<!-- 페이징바 만들기 -->
-			<div class="pagingArea docSeqRequestList_pagingArea" align="center">
-				<%-- 페이징바 들어갈 부분 --%>
-			</div>
-			
+
 			<hr class="scrtyList_hr">
 	       	
 	       	<div class="docSearch_area">
@@ -330,32 +338,29 @@
 		
 		
 		// 보안 요청 리스트 조회하는 함수
-		function scrtyReqListFn(num) {
+		function scrtyReqListFn() {
 			
 			$.ajax({
 				
 				type: "post",
                 url: "docScrtyRequestList.do",
-                data: { currentPage : num },
-                success: function (result) {
-					
-                	console.log(result)
-                	
+                success: function (list) {
+					                	
                 	$tbody = $('.docScrtyRequestList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
-                	if(result.list.length == 0) {
+                	if(list.length == 0) {
                 		
-                		var $noListTh = $("<th colspan='6'>").text("보안 요청된 문서가 존재하지 않습니다.").addClass("noScrtyDocList");
+                		var $noListTh = $("<th colspan='6'>").text("보안 요청된 문서가 존재하지 않습니다.").addClass("noScrtyReqDocList");
                 		var $noListTr = $('<tr>').append($noListTh);
                 		
 						$tbody.append($noListTr);
                 	
                 	} else {
 						
-                		$.each(result.list, function(i, obj) {
+                		$.each(list, function(i, obj) {
                 			
-                			var $tr = $('<tr>').addClass("yesScrtyDocList");
+                			var $tr = $('<tr>').addClass("yesScrtyReqDocList");
                 			var $docNo = $('<td>').text(obj.docNo);
                 			var $docForm = $('<td>').text(obj.docForm).attr("title", obj.docForm);
                 			
@@ -380,43 +385,9 @@
                 			$tbody.append($tr);
                 		});
                 		
-                		// 페이징 처리
-                        let bar = '';
-                        let currentPage = result.currentPage;	// 현재 페이지
-                        let startPage = result.startPage;		// 시작 페이지
-                        let endPage = result.endPage; 			// 끝 페이지
-                        let maxPage = result.maxPage; 			// 최대 페이지
-                        
-                        bar += '<ul class="pagination">';
-                        
-                        if(currentPage != 1) {
-                        	bar += '<li class="page-item commonButton1" onclick="scrtyReqListFn(' + parseInt(currentPage-1) + ');"><</li>'
-                        
-                        } else {
-                        	bar += '<li class="page-item disabled commonButton1"><</li>'
-                        }
-                            
-                        for(var i = startPage; i <= endPage; i++) {
-                           
-                        	if(i != currentPage) {
-                        	   bar += '<li class="page-num commonButton1" onclick="scrtyReqListFn(' + i + ');">'+ i +'</li>'
-                           
-                           } else {
-                        	   bar += '<li class="page-num disabled commonButton1">'+ i +'</li>'
-                           }
-                        }
-                             
-                       	if(currentPage != maxPage) {
-                            bar += '<li class="page-item commonButton1" onclick="scrtyReqListFn(' + parseInt(currentPage+1) + ');">></li>'
-                        
-                       	} else {
-                        	bar += '<li class="page-item disabled commonButton1">></li>'
-                        }
-                             
-                        bar += '</ul>';
-                            
-                        $(".pagingArea").html(bar);
                 	}
+                	
+                	$(".docScrtyRequestList_area").css("height", "31.5vh");
                 }
 			});
 		}
@@ -427,14 +398,11 @@
 		function scrtyDocList(num) {
 			
 			$.ajax({
-				
 				type: "post",
                 url: "scrtyDocList.do",
                 data: { currentPage : num },
                 success: function (result) {
-					
-                	console.log(result)
-                	
+					                	
                 	$tbody = $('.scrtyDocList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
@@ -593,14 +561,7 @@
 		// 필터 및 검색 내용에 따른 리스트 조회
 		function filterScrtyDocList(docForm, condition, search, num) {
 			
-			console.log(docForm);
-			console.log(condition);
-			console.log(search);
-			console.log(num);
-			
-			
 			$.ajax({
-				
 				type: "post",
                 url: "scrtyDocList.do",
                 data: { docForm : docForm,
@@ -608,9 +569,7 @@
 						search : search,
 						currentPage : num },
                 success: function (result) {
-					
-                	console.log(result)
-                	
+					                	
                 	$tbody = $('.scrtyDocList_tbody'); // 리스트가 들어갈 tbody
                 	$tbody.html('');
                 	
@@ -694,7 +653,7 @@
 		
 		
 		// 보안 요청 문서 게시글 클릭 시
-		$(".docScrtyRequestList_table tbody").on("click", ".yesScrtyDocList", function() {
+		$(".docScrtyRequestList_table tbody").on("click", ".yesScrtyReqDocList", function() {
 			
 			let docNo = $(this).find("td:eq(0)").text(); // 클릭한 문서의 문서 번호 가져와서 담기
 			location.href = "securityReqDetail.do?docNo=" + docNo;

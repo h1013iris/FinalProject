@@ -131,14 +131,13 @@
                 url: "selectDocApprover.do",
                 data: { docNo : ${ docNo } },
                 success: function (list) {
-					console.log(list);
-					if(list != null) {
+
+                	if(list != null) {
 						for(var i in list) {
 							if(list[i] != null) {
 								$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
 								$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
 								$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
-								console.log(list[i].empNo);
 							}
 						}
                 	}
@@ -164,12 +163,12 @@
   			myConfirm(title, content);
 			
   			let loginUser = "${ loginUser.empNo }";
-			let firstAprv = $("#aprv0").val();
-			let secondAprv = $("#aprv1").val();
+			let firstAprv = $("#aprv1").val();
+			let secondAprv = $("#aprv2").val();
 			
-			console.log(secondAprv != "" && loginUser == firstAprv);
+			/*console.log(secondAprv != "" && loginUser == firstAprv);
 			console.log(loginUser == secondAprv || 
-					(secondAprv == "" && loginUser == firstAprv));
+					(secondAprv == "" && loginUser == firstAprv));*/
 			
     		// 확인 버튼 클릭 시 confirm 모달 사라지고 결재 승인 진행
     		$(document).on("click", ".true_btn", function() {
@@ -180,12 +179,8 @@
 				// 결재 기록 등록하기 위해 디테일뷰도 같이 넘기기
 	 			let form = $(".detailViewForm").serialize();
     			
-    			let aprvPro = "A"; // 결재 처리 (승인)
+    			let aprvPro = "A"; 	// 결재 처리 (승인)
     			let aprvStatus = 2; // 결재 진행 상태 (결재 완료) -> 마지막 결재자일 경우
-    			
-    			let loginUser = "${ loginUser.empNo }";
-    			let firstAprv = $("#aprv0").val();
-    			let secondAprv = $("#aprv1").val();
     			
     			let url = "";		// 중간. 최종 승인에 따라 url 변경
     			let approve = 0;	// 중간, 최종 승인 구별하기 위한 변수
@@ -193,16 +188,13 @@
     			// 중간 승인
     			// 2차 결재자가 null이 아니고, 본인이 1차 결재자일 경우 -> 결재 기록만 등록
     			if(secondAprv != "" && loginUser == firstAprv) {
-    				
-    				console.log("중간 승인");
-    				approve = 1;
+       				approve = 1;
     			
     			// 최종 승인
     			// 본인이 2차 결재자이거나, 2차 결재자가 null인 문서의 1차 결재자일 경우 -> 기록 등록, 상태값 변경
     			} else if(loginUser == secondAprv || 
     						(secondAprv == "" && loginUser == firstAprv)) {
     				
-    				console.log("최종 승인");
     				approve = 2;
     			}
     			
@@ -215,7 +207,6 @@
     				url: "documentApprove.do",
     				data: form,
     				success: function(result) {
-    					console.log(result)
 	                	
 	                    if(result == "success") {
 

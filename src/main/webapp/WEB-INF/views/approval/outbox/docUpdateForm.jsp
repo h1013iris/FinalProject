@@ -160,11 +160,11 @@
                 url: "selectDeptList.do",
                 data: { deptNo : "${ loginUser.departmentNo }" },
                 success: function (list) {
-				console.log(list);
-                	if(list != null || list != "") {
+
+                	if(list.length != 0) {
                 		
                 		$.each(list, function(i) {
-                			$("#receiveDept").append("<option value='" + list[i].deptNo + "'>" 
+                			$(".coop_Receive_DeptList").append("<option value='" + list[i].deptNo + "'>" 
                 								  + list[i].deptTitle + "</option>");
                 		});
                 	}
@@ -183,7 +183,6 @@
  						departmentNo : "${ loginUser.departmentNo }",
  						jobNo : "${ loginUser.jobNo }" },
  				success: function(list) {
- 					console.log(list);
                 	if(list != null || list != "") {
                 		
                 		$.each(list, function(i) {
@@ -241,17 +240,13 @@
  				type: "get",
  				url: "selectApproverJob.do",
  				data: { empNo : firstAprv },
- 				success: function(firstAprv) {
- 					console.log(firstAprv);
- 					
+ 				success: function(firstAprv) { 					
  					$.ajax({
  						
  						type: "get",
  		 				url: "selectApproverJob.do",
  		 				data: { empNo : secondAprv },
- 		 				success: function(secondAprv) {
- 		 					console.log(secondAprv);
- 		 					
+ 		 				success: function(secondAprv) { 		 					
  		 					// 1차 결재자의 직급이 더 높은 경우 알림 후 결재자 비워주기
  		 					if(firstAprv > secondAprv) {
  		 						myAlert("결재자 확인", "1차 결재자의 직급이 더 높을 수 없습니다.");

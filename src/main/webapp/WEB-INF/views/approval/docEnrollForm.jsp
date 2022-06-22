@@ -161,8 +161,8 @@
  						departmentNo : "${ loginUser.departmentNo }",
  						jobNo : "${ loginUser.jobNo }" },
  				success: function(list) {
- 					console.log(list);
-                	if(list != null || list != "") {
+
+ 					if(list != null || list != "") {
                 		
                 		$.each(list, function(i) {
                 			$(".approverList").append("<option value='" + list[i].empNo + "'>" 
@@ -184,9 +184,7 @@
                 url: "selectDeptList.do",
                	data: { deptNo : "${ loginUser.departmentNo }" },
                 success: function (list) {
-				
-                	console.log(list);
-                	
+				                	
                 	if(list != null || list != "") {
                 		
                 		$.each(list, function(i) {

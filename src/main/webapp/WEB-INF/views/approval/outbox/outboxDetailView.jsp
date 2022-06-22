@@ -20,10 +20,6 @@
 		float: left;
 	}
 	
-	/*.docDetailTable {	
-		padding: 0 25px 25px 25px;
-	}*/
-	
 	.docDetailArea {
 		border: 1px solid darkgray;
 		background-color: white;

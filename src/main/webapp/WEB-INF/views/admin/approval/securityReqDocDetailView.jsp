@@ -104,6 +104,7 @@
 	#scrtyReason {
 		padding-left: 2px;
 		height: 300px;
+		word-break:break-all;
 		white-space: pre-wrap;
 		overflow: auto;
 		line-height: 130%;
@@ -188,14 +189,13 @@
                 url: "selectDocApprover.do",
                 data: { docNo : ${ docNo } },
                 success: function (list) {
-					console.log(list);
-					if(list != null) {
+
+                	if(list != null) {
 						for(var i in list) {
 							if(list[i] != null) {
 								$("#aprv" + (parseInt(i) + 1)).val(list[i].empNo);
 								$("#aprvName" + (parseInt(i) + 1)).val(list[i].empName);
 								$("#aprvJobName" + (parseInt(i) + 1)).val(list[i].jobName);
-								console.log(list[i].empNo);
 							}
 						}
                 	}
@@ -213,8 +213,6 @@
     			url: "selectScrtyReason.do",
     			data: { docNo : "${ docNo }" },
     			success: function(data) {
-    				
-    				console.log(data);
     				
     				document.getElementById("scrtyReqDate").innerHTML = data.scrtyReqDate;
     				document.getElementById("scrtyReason").innerHTML = data.scrtyReason;
@@ -251,9 +249,7 @@
 	    					scrtyStatus : "Y",
 	    					aprvStatus : 3,
 	    					status : "N" },
-	    			success: function(result) {
-	    				console.log(result);
-	    				
+	    			success: function(result) {	    				
 	    				if(result == "success") {
 	                    	
 	                    	let content = "보안이 설정되었습니다.";

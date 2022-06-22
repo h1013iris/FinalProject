@@ -43,9 +43,9 @@ public class AprvMgtServiceImpl implements AprvMgtService {
 
 	
 	@Override // 문서 보안 요청 리스트 조회
-	public ArrayList<AprvDoc> selectScrtyReqList(PageInfo pi) {
+	public ArrayList<AprvDoc> selectScrtyReqList() {
 		
-		return aprvMgtDao.selectScrtyReqList(sqlSession, pi);
+		return aprvMgtDao.selectScrtyReqList(sqlSession);
 	}
 
 

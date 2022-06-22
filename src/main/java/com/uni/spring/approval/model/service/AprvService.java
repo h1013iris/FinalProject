@@ -129,10 +129,6 @@ public interface AprvService {
 	void aprvReRequest(int docType, int outboxNo, LeaveForm leaveForm, CmtUpdateForm cmtUpdateForm, BusDraftForm busDraftForm, BusCoopForm busCoopForm, AprvHistory aprvHistory, AprvDoc aprvDoc);
 
 	ArrayList<DocType> selectDocTypeList(String docType);
-	
-	int searchAllDocListCount(AprvDoc aprvDoc);
-
-	ArrayList<AprvDoc> searchAllDocList(PageInfo pi, AprvDoc aprvDoc);
 
 	ArrayList<Member> selectDocEnrollApprover(Member loginUser);
 

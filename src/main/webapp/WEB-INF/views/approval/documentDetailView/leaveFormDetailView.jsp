@@ -133,7 +133,7 @@
 					<tbody>
 						<tr>
 							<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;">
-								<b style="color: rgb(255, 0, 0);">*</b> 휴가 종류
+								휴가 종류
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; height: 25px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle;">
 								<div contenteditable="false">
@@ -143,7 +143,7 @@
 						</tr>
 						<tr>
 							<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;">
-								<b style="color: rgb(255, 0, 0);">*</b> 휴가 기간
+								휴가 기간
 							</td>
 							<td style="padding: 5px; border: 1px solid black; height: 25px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; vertical-align: middle; background-color: rgb(255, 255, 255);">
 								<span style="font-weight: normal;">
@@ -160,7 +160,7 @@
 						</tr>
 						<tr>
 							<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 250px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;">
-								<b style="color: rgb(255, 0, 0);">*</b> 휴가 사유
+								휴가 사유
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;">
 								<div contenteditable="false" style="width: 100%;">
@@ -179,9 +179,7 @@
  	
  		// 화면 로드 시 가장 먼저 실행
  		$(document).ready(function() {
-			
-			console.log(${donNo})
-			
+						
 			// 문서 내용 조회
 			$.ajax({
 			
@@ -190,7 +188,6 @@
 				data: { docNo : ${ docNo } },
 				success: function(data) {
 					
-					console.log(data)
 					$("#drafter").val(data.drafterName + " (" + data.drafter + ")");
 					$("#drafterDept").val(data.drafterDept);
 					$("#dftDate").val(data.dftDate);
