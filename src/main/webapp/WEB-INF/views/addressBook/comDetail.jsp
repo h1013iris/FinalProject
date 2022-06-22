@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8"> 
 <title>거래처 상세보기</title>
 <script
 	src="${ pageContext.servletContext.contextPath }/resources/library/jquery-3.6.0.min.js"></script>
@@ -53,6 +53,7 @@
     }
     .Title {
 	text-align: left;
+	vertical-align: top;
 }
     .commonButton1_1 {
 	padding: 0;
@@ -79,15 +80,23 @@
 	box-shadow: 0px 0px 0px 0px #4c87b099;
 	
 }
-    
+.Tfont{
+font-size: 20px;
+font-weight: bold;
+margin-bottom: 20px;
+
+}
+
 </style>
 
 
 <body>
+ 	<jsp:include page="../common/header.jsp"></jsp:include>
+     <div class="main_section">
 	<div id="container">
 		<div class="main">
 			<form id="comdetail" action="" method="post">
-				<h3>거래처 상세조회</h3>
+				<p class="Tfont">거래처 상세조회</p>
 				<table class="main2">
 
 					<c:forEach items="${comDetail}" var="comD">
@@ -154,6 +163,7 @@
 				</div>
 			</form>
 		</div>
+		</div>
 	</div>
 	<!--
 	<script>
@@ -194,7 +204,7 @@
 					url : "deleteComAdd.do",
 					data : {compNo:compNo},
 					success : function(data) {
-						console.log("삭제 결과는?: " + data);
+						
 						no = data;
 						if (no === '1') {
 							/*
@@ -214,6 +224,10 @@
 				})
 			}
 		};
+		
+		 $(function() {
+				$(".page_title>.title_name").text("거래처 주소록");
+			})
 	</script>
 </body>
 </html>
