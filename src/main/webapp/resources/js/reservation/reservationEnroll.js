@@ -19,23 +19,14 @@
 			let meetingRoom = $(".res-smallCategory").val()
 
 			if(enrollFormReservation.attendeeNo != undefined){
-				console.log("들어옴 =========")
+				
 				let size = $("input[name = 'attendeeNo']").length
 				
 				for(let i = 0; i < size ; i++){
 					attendeeNo[i] = $("input[name = 'attendeeNo']").eq(i).val()
-					console.log($("input[name = 'attendeeNo']").eq(i).val());
-					console.log("나감 ======")
+					
 				}
 			}
-			console.log(attendeeNo.length)
-			console.log(empNo)
-			console.log(roomSmallNo)
-			console.log(startDate)
-			console.log(startTime)
-			console.log(endDate)
-			console.log(endDate)
-			console.log(meetingName)
 			// 회의실번호가 없으면
 			if(roomSmallNo == '' || roomSmallNo == undefined || meetingRoom == '선택'){
 				$("#res-alert_title .title_name").text("회의실 선택 확인");
@@ -100,14 +91,12 @@
 						},
 						type:"post",
 						success:function(index){
-							console.log(index)
-							
 							if(index > 0){
 								location.href = "roomReservation.do";
 							}
 						},
 						error:function(error){
-							console.log("실패")
+							
 						}
 					})
 				}else if(push == 2){
@@ -133,14 +122,13 @@
 						},
 						type:"post",
 						success:function(index){
-							console.log(index)
 							
 							if(index > 0){
 								location.href = "roomReservation.do";
 							}
 						},
 						error:function(error){
-							console.log("실패")
+							
 						}
 					})
 				}
@@ -151,17 +139,14 @@
 			
 			let start = document.getElementById("res-startDate")
 			let minn = new Date().toISOString().substring(0, 10);
-			console.log(minn)
 			start.min = minn;
 			
 			// 날짜 선택시 종료일도 min 처리
 			$(document).on('change','#res-startDate',function(){
-				console.log("시작일 값 바꿈")
 				
 				let minval = document.getElementById("res-startDate").value
 				let end = document.getElementById("res-endDate")
 				
-				console.log(minval)
 				end.min = minval;
 				
 			})
@@ -171,7 +156,6 @@
 				url:"selectLroomList.do",
 				type:"get",
 				success:function(list){
-					console.log("대분류 미팅룸 찾기 성공")
 					
 					let select = $(".res-bigCategory")
 					
@@ -183,7 +167,6 @@
 							let largeName = obj.largeRoomName;
 							let lNo = obj.roomLargeNo;
 							
-							console.log(largeName)
 							option.val(lNo)
 							option.append(largeName)
 							select.append(option)
@@ -191,14 +174,12 @@
 					}
 				},
 				error:function(){
-					console.log("대분류 미팅룸 찾기 실패")
 				}
 			})
 			
 			// 소분류 미팅룸 이름
 			$(document).on('change',".res-bigCategory", function() {
 				let lNo = $('.res-bigCategory').val()
-				console.log(lNo)
 				$.ajax({
 					url:"selectSroomList.do",
 					data:{
@@ -206,7 +187,6 @@
 					},
 					type:"get",
 					success:function(list){
-						console.log("소분류 미팅룸 찾기 성공")
 						
 						let select = $(".res-smallCategory")
 						let base = $("<option>").val("선택").text("선택")
@@ -221,7 +201,6 @@
 								let sNo = obj.roomSmallNo;
 								let max = obj.maxCount;
 								
-								console.log(smallName)
 								option.val(sNo)
 								option.append(smallName).append(" - ("+max+"명)")
 								select.append(option)
@@ -230,7 +209,6 @@
 						
 					},
 					error:function(){
-						console.log("소분류 미팅룸 찾기 실패")
 					}
 				})
 			})
@@ -239,7 +217,6 @@
 				url:"selectResDepartment.do",
 				type:"get",
 				success:function(list){
-					console.log("부서찾기 성공")
 					
 					if(list.length != 0){
 						
@@ -262,7 +239,6 @@
 					}
 				},
 				error:function(){
-					console.log("부서찾기 실패")
 				}
 			})
 
@@ -270,7 +246,6 @@
 			let arr5 = new Array();
 			// 날짜 선택 시 
 			$(document).on('change','.res-startDate',function(){
-				console.log("시작일 바꿈")
 
 				let sRoom = $(".res-smallCategory").val()
 				let startDate = $('.res-startDate').val()
@@ -295,7 +270,6 @@
 					},
 					type:"get",
 					success:function(list){
-						console.log("값 가져오기 성공")
 						
 						// 값을 가져왔을 시 존재하는 시간대 제외하고 선택할 수 있게 해주기
 						if(list.length != 0){
@@ -309,8 +283,6 @@
 							$.each(list, function(index, val){
 								let startDate = val.startDate;
 								let endDate = val.endDate;
-								console.log(startDate)
-								console.log(endDate)
 								let start = new Date(startDate);
 								let end = new Date(endDate);
 								// 시작시간이 가능한 시간대만 보여주기
@@ -326,7 +298,6 @@
 											midTime = "0"+hour+":00";
 										}
 										
-										//console.log('시만 존재 : '+midTime)
 
 									}else if(i.getMinutes() == 30){
 										//midTime = i.getHours()+"시 "+i.getMinutes()+"분";
@@ -338,7 +309,6 @@
 											midTime = "0"+hour+":"+i.getMinutes();
 										}
 										
-										//console.log('분도 존재 : '+midTime)
 									}
 									
 									
@@ -358,12 +328,9 @@
 						
 					},
 					error:function(){
-						console.log("값 가져오기 실패")
 					},
 					complete : function(data, status) {
-						console.log("안나오니?")
 						
-						console.log(arr)
 						// 시작시간가능한거(예약 있는 시간대 제외 해야함) -- 제대로 안탐 6/14
 						$.each(arr, function(index, obj){
 							
@@ -414,7 +381,6 @@
 					},
 					type:"get",
 					success:function(list){
-						console.log("값 가져오기 성공")
 						
 						// 값을 가져왔을 시 존재하는 시간대 제외하고 선택할 수 있게 해주기
 						if(list.length != 0){
@@ -441,7 +407,6 @@
 								let resHours = arrrr[0];
 								let resMinutes = arrrr[1];
 								
-								console.log("resTime : "+resTime)
 								// 시작 시간 가져오기(예약 되어있는 시간과 비교 하기 위해)
 								let startTimeval = $("#res-startTime").val()
 								let startHour = Number(startTimeval.substring(0,2)) 	// 시작시간 시
@@ -469,7 +434,6 @@
 								if(resHours >= startHour && resMinutes >= startMinute){
 									// 끝에 사라진 기준점 넣기
 									eStandard = resTime;
-									console.log("끝 기준점 : " + eStandard)
 									
 									// 기준점 기준으로 삭제
 									arr1 = arr1.slice(0, arr1.indexOf(eStandard));
@@ -480,11 +444,9 @@
 									}else{
 										let end = document.getElementById("res-endDate")
 										let max = document.getElementById("res-startDate").value;
-										console.log(max)
 										let dateee = new Date(max)
 										dateee.setDate(dateee.getDate()+1)
 										max = dateee.getFullYear()+"-"+("0"+(dateee.getMonth()+1))+"-"+dateee.getDate();
-										console.log(max)
 										end.max = max;
 										
 										if($("#res-endDate").attr("readonly")){
@@ -501,7 +463,6 @@
 										// 5시간30분뒤 시간 생성
 										let limit = new Date($("#res-startDate").val()+(' '+startTimeval))
 										limit.setMinutes(limit.getMinutes()+330);
-										console.log("limit : "+limit)
 										
 										let limitEnd = new Date($("#res-startDate").val()+' 23:30')
 										// 1-1. 최대 5시간 이후는 값 지워주기
@@ -539,11 +500,9 @@
 									}else{
 										let end = document.getElementById("res-endDate")
 										let max = document.getElementById("res-startDate").value;
-										console.log(max)
 										let dateee = new Date(max)
 										dateee.setDate(dateee.getDate()+1)
 										max = dateee.getFullYear()+"-"+("0"+(dateee.getMonth()+1))+"-"+dateee.getDate();
-										console.log(max)
 										end.max = max;
 										
 										if($("#res-endDate").attr("readonly")){
@@ -586,7 +545,6 @@
 								// 5시간30분뒤 시간 생성
 								let limit = new Date($("#res-startDate").val()+(' '+startTimeval))
 								limit.setMinutes(limit.getMinutes()+330);
-								console.log("limit : "+limit)
 								
 								let limitEnd = new Date($("#res-startDate").val()+' 23:30')
 								// 1-1. 최대 5시간 이후는 값 지워주기
@@ -624,11 +582,9 @@
 							}else{
 								let end = document.getElementById("res-endDate")
 								let max = document.getElementById("res-startDate").value;
-								console.log(max)
 								let dateee = new Date(max)
 								dateee.setDate(dateee.getDate()+1)
 								max = dateee.getFullYear()+"-"+("0"+(dateee.getMonth()+1))+"-"+dateee.getDate();
-								console.log(max)
 								end.max = max;
 								
 								if($("#res-endDate").attr("readonly")){
@@ -639,12 +595,8 @@
 						
 					},
 					error:function(){
-						console.log("값 가져오기 실패")
 					},
 					complete : function(data, status) {
-						console.log("안나오니?")
-						
-						console.log(arr1)
 						// 종료시간가능한거(예약 있는 시간대 제외 해야함)
 						// arr1가 존재하면(종료 시간이 존재하면)
 						if(arr1.length != 0){
@@ -668,7 +620,6 @@
 			
 			// 만약 endDate를 change 하면 하루전 최대 가능한 시간 뽑아주기
 			$(document).on('change','#res-endDate',function(){
-				console.log("종료일 바꿈")
 				
 				
 				
@@ -687,8 +638,6 @@
 					startTime.setMinutes(startTime.getMinutes()+330) // 5시간 50분 뒤
 					//	startTime.setDate(startTime.getDate()+1)
 					let limit = startTime;
-					console.log(limitstart)
-					console.log(limit)
 					let count = 0;
 					// for문 돌리기(시작 시간다음날의 00시00분 ~ 시작시간의 최대 5시간 30분까지) 
 					for(let i = limitstart ; i < limit; i.setMinutes(i.getMinutes()+30)){
@@ -720,8 +669,6 @@
 						// 만들어진 midTime을 배열에 넣어주기
 						arr.push(midTime)
 					}
-					console.log("다음날 arr ~ 시작시간 이후의 5시간 30분")
-					console.log(arr)
 					
 					// endDate를 value를 변수에 담아 저장
 					let endDate = $("#res-endDate").val()
@@ -740,8 +687,6 @@
 					},
 					type:"get",
 					success:function(list){
-						console.log("값 가져오기 성공")
-						
 						// 값을 가져왔을 시 존재하는 시간대 제외하고 선택할 수 있게 해주기
 						if(list.length != 0){
 							
@@ -767,7 +712,6 @@
 								let resHours = arrrr[0];
 								let resMinutes = arrrr[1];
 								
-								console.log("resTime : "+resTime)
 								// 초기화된시간 가져오기(예약 되어있는 시간과 비교 하기 위해)
 								let startTimeval = arr[0];
 								let startHour = Number(startTimeval.substring(0,2)) 	// 시작시간 시
@@ -795,7 +739,6 @@
 								if(resHours >= startHour && resMinutes >= startMinute){
 									// 끝에 사라진 기준점 넣기
 									eStandard = resTime;
-									console.log("끝 기준점 : " + eStandard)
 									
 									// 기준점 기준으로 삭제
 									arr = arr.slice(0, arr.indexOf(eStandard));
@@ -810,7 +753,6 @@
 										// 5시간30분뒤 시간 생성
 										let limit = new Date($("#res-startDate").val()+(' '+startTimeval))
 										limit.setMinutes(limit.getMinutes()+330);
-										console.log("limit : "+limit)
 										
 										let limitEnd = new Date($("#res-startDate").val()+' 23:30')
 										// 1-1. 최대 5시간 이후는 값 지워주기
@@ -882,7 +824,6 @@
 								// 5시간30분뒤 시간 생성
 								let limit = new Date($("#res-startDate").val()+(' '+startTimeval))
 								limit.setMinutes(limit.getMinutes()+330);
-								console.log("limit : "+limit)
 								
 								let limitEnd = new Date($("#res-startDate").val()+' 23:30')
 								// 1-1. 최대 5시간 이후는 값 지워주기
@@ -922,12 +863,9 @@
 						
 					},
 					error:function(){
-						console.log("값 가져오기 실패")
 					},
 					complete : function(data, status) {
-						console.log("안나오니?")
 						
-						console.log(arr)
 						// 종료시간가능한거(예약 있는 시간대 제외 해야함)
 						// arr가 존재하면(종료 시간이 존재하면)
 						if(arr.length != 0){
@@ -980,7 +918,6 @@
 					},
 					type:"get",
 					success:function(list){
-						console.log("값 가져오기 성공")
 						
 						// 값을 가져왔을 시 존재하는 시간대 제외하고 선택할 수 있게 해주기
 						if(list.length != 0){
@@ -1007,7 +944,6 @@
 								let resHours = arrrr[0];
 								let resMinutes = arrrr[1];
 								
-								console.log("resTime : "+resTime)
 								// 시작 시간 가져오기(예약 되어있는 시간과 비교 하기 위해)
 								let startTimeval = $("#res-startTime").val()
 								let startHour = Number(startTimeval.substring(0,2)) 	// 시작시간 시
@@ -1035,7 +971,6 @@
 								if(resHours >= startHour && resMinutes >= startMinute){
 									// 끝에 사라진 기준점 넣기
 									eStandard = resTime;
-									console.log("끝 기준점 : " + eStandard)
 									
 									// 기준점 기준으로 삭제
 									arr1 = arr1.slice(0, arr1.indexOf(eStandard));
@@ -1046,11 +981,9 @@
 									}else{
 										let end = document.getElementById("res-endDate")
 										let max = document.getElementById("res-startDate").value;
-										console.log(max)
 										let dateee = new Date(max)
 										dateee.setDate(dateee.getDate()+1)
 										max = dateee.getFullYear()+"-"+("0"+(dateee.getMonth()+1))+"-"+dateee.getDate();
-										console.log(max)
 										end.max = max;
 										
 										if($("#res-endDate").attr("readonly")){
@@ -1067,7 +1000,6 @@
 										// 5시간30분뒤 시간 생성
 										let limit = new Date($("#res-startDate").val()+(' '+startTimeval))
 										limit.setMinutes(limit.getMinutes()+330);
-										console.log("limit : "+limit)
 										
 										let limitEnd = new Date($("#res-startDate").val()+' 23:30')
 										// 1-1. 최대 5시간 이후는 값 지워주기
@@ -1105,11 +1037,9 @@
 									}else{
 										let end = document.getElementById("res-endDate")
 										let max = document.getElementById("res-startDate").value;
-										console.log(max)
 										let dateee = new Date(max)
 										dateee.setDate(dateee.getDate()+1)
 										max = dateee.getFullYear()+"-"+("0"+(dateee.getMonth()+1))+"-"+dateee.getDate();
-										console.log(max)
 										end.max = max;
 										
 										if($("#res-endDate").attr("readonly")){
@@ -1152,7 +1082,6 @@
 								// 5시간30분뒤 시간 생성
 								let limit = new Date($("#res-startDate").val()+(' '+startTimeval))
 								limit.setMinutes(limit.getMinutes()+330);
-								console.log("limit : "+limit)
 								
 								let limitEnd = new Date($("#res-startDate").val()+' 23:30')
 								// 1-1. 최대 5시간 이후는 값 지워주기
@@ -1190,11 +1119,9 @@
 							}else{
 								let end = document.getElementById("res-endDate")
 								let max = document.getElementById("res-startDate").value;
-								console.log(max)
 								let dateee = new Date(max)
 								dateee.setDate(dateee.getDate()+1)
 								max = dateee.getFullYear()+"-"+("0"+(dateee.getMonth()+1))+"-"+dateee.getDate();
-								console.log(max)
 								end.max = max;
 								
 								if($("#res-endDate").attr("readonly")){
@@ -1205,12 +1132,8 @@
 						
 					},
 					error:function(){
-						console.log("값 가져오기 실패")
 					},
 					complete : function(data, status) {
-						console.log("안나오니?")
-						
-						console.log(arr1)
 						// 종료시간가능한거(예약 있는 시간대 제외 해야함)
 						// arr1가 존재하면(종료 시간이 존재하면)
 						if(arr1.length != 0){
@@ -1242,7 +1165,6 @@
 			$(document).on('click','.department-pline',function(){
 				//.department-pline
 				let dNo = $(this).children('input').val()
-				console.log(dNo)
 				$.ajax({
 					url:"selectResAddress.do",
 					data:{
@@ -1250,7 +1172,6 @@
 					},
 					type:"get",
 					success:function(list){
-						console.log("부서 내 사원 이름 찾기 성공")
 						
 						if(list.length != 0){
 							
@@ -1273,7 +1194,6 @@
 						}
 					},
 					error:function(error){
-						console.log("부서 내 사원 이름 찾기 실패")
 					}
 				})
 			})
@@ -1282,7 +1202,6 @@
 			$(document).on('click','.image-x',function(){
 				let parent = $(this).parent().attr("class");
 				parent = parent.split(" ")
-				console.log(parent[1]);
 				parent = parent[1];
 				
 				$("."+parent).remove();

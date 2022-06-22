@@ -122,6 +122,9 @@
 	button.commonButton1.reserve_contact {
 	    height: 90%;
 	}
+	.redstar{
+		color: red;
+	}
 
 </style>
 </head>
@@ -143,7 +146,7 @@
 					<input type="hidden" class="reserveNo" value="0"/>
 					<table class="reservation-table">
 						<tr class="reservation-article">
-							<td class="article-in-option">회의실 선택</td>
+							<td class="article-in-option"><span class="redstar">*</span>회의실 선택</td>
 							<td>
 								<select name="resBigCategory" class="res-bigCategory">
 									<option value="선택">선택</option>
@@ -154,7 +157,7 @@
 							</td>
 						</tr>
 						<tr class="reservation-article">
-							<td class="article-in-option res-dateLine">일시</td>
+							<td class="article-in-option res-dateLine"><span class="redstar">*</span>일시</td>
 							<td class="res-dateLine">
 								<label for="startDate"><input type="date" name="startDate" id="res-startDate" class="res-startDate"></label>
 								<span>
@@ -176,7 +179,7 @@
 							</td>
 						</tr>
 						<tr class="reservation-article">
-							<td class="article-in-option">참석자</td>
+							<td class="article-in-option"><span class="redstar">*</span>참석자</td>
 							<td>
 								<div style=" display: flex;height: 79%;">
 									<button class="commonButton1 reserve_contact" type="button">주소록</button> 
@@ -192,16 +195,16 @@
 							</td>
 						</tr>
 						<tr class="reservation-article">
-							<td class="article-in-option">회의명</td>
+							<td class="article-in-option"><span class="redstar">*</span>회의명</td>
 							<td>
-								<input type="text" name="meetingName" id="meetingName" maxlength="24">
+								<input type="text" name="meetingName" id="meetingName" maxlength="50">
 							</td>
 						</tr>
 					</table>
 				</form>
             </div>
             <div class="modal_footer reservationEnroll_footer">
-                <button class="reservation_submit commonButton1" type="button">다음</button>
+                <button class="reservation_submit commonButton1" type="button">예약하기</button>
                 <button class="reservationEnroll_cancelbtn commonButton1" type="button">취소</button>
             </div>
         </div>
@@ -211,10 +214,8 @@
 		$(document).on('click','.empName-pline',function(){
 			let val = $(this).find('input').val()
 			let name = $(this).find('.empName-res').text()
-			console.log(val+" "+ name)
 			
 			let meetingRoom = $(".res-smallCategory").val()
-			console.log(meetingRoom)
 			
 			if(meetingRoom == '선택'){
 				
@@ -224,6 +225,8 @@
 					
 					$("#res-alertBackground").hide();
 					$(".reservationEnrollFormModal").show();
+
+					//return false;
 				})
 				return false;
 			}

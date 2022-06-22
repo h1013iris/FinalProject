@@ -193,7 +193,7 @@
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;">
 								<span contenteditable="false" style="width: 100%;">
-									<textarea class="txta_editor" id="updateReason" name="updateReason" style="width: 99%; height: 240px; resize: vertical;" maxlength="500"></textarea>
+									<textarea class="docUpdate_textarea" id="updateReason" name="updateReason" style="width: 99%; height: 240px; resize: vertical;" maxlength="1000"></textarea>
 								</span> 
 							</td>
 						</tr>

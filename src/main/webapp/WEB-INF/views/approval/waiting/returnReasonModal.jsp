@@ -95,7 +95,7 @@
 						<span class="returnText">반려 사유</span> &nbsp;
 						<span class="errorMsg"></span>
 						<div class="returnReason_textarea">
-							<textarea id="reReason" name="reReason" maxlength="450"></textarea>
+							<textarea id="reReason" name="reReason" maxlength="400"></textarea>
 						</div>
 					</div>
 	            </div>

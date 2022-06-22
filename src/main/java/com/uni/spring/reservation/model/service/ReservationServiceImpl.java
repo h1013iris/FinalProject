@@ -102,7 +102,6 @@ public class ReservationServiceImpl implements ReservationService {
 		Map<String, String> map = res.putMap(startDate, sRoom);
 		map.put("reserveNo", reserveNo);
 
-		System.out.println(map);
 		ArrayList<Reservation> list = reservationDao.selectRoomReservation(map, sqlSession);
 		return list;
 	}
@@ -144,11 +143,11 @@ public class ReservationServiceImpl implements ReservationService {
 		// m 객체가 null이 아니면 ( 내 예약 현황 )
 		if(m != null) {
 			map.put("empNo", m.getEmpNo());
-		}else { // null이면 ( 전체 예약 현황)
-			map.put("searchYear", todayInfo.get("searchYear"));
-			map.put("searchMonth", todayInfo.get("searchMonth"));
-			map.put("searchDate", todayInfo.get("searchDate"));
 		}
+		// null이면 ( 전체 예약 현황)
+		map.put("searchYear", todayInfo.get("searchYear"));
+		map.put("searchMonth", todayInfo.get("searchMonth"));
+		map.put("searchDate", todayInfo.get("searchDate"));
 		map.put("roomSmallNo", Integer.parseInt(roomSmallNo));
 		
 		ArrayList<Reservation> list = reservationDao.smallRoomReservation(map, sqlSession);

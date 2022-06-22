@@ -8,17 +8,11 @@
 <title>결재 완료 상세 페이지</title>
 <style type="text/css">
 
+	.main_section { background-color: #f3f3f3; }
+	
 	.docDetailViewDiv {
 		margin: 30px auto;
 		width: 1150px;
-	}
-	
-	.docDetailBackground {
-		height: 780px;
-		border: 1px solid #e6e6e6;
-		background-color: #e6e6e6;
-		border-radius: 15px;
-		box-shadow: 0 0 8px #afafaf;	
 	}
 	
 	.docDetailMainArea {
@@ -37,7 +31,7 @@
 	}
 	
 	.docDetail_textarea {
-		resize: none;
+		resize: vertical;
 		border: none;
 	}
 	

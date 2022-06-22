@@ -7,10 +7,7 @@
 <meta charset="UTF-8">
 <title>업무 협조문</title>
 <style type="text/css">
-	
-	.coopContent_textarea {
-		border: none;
-	}
+
 	
 </style>
 </head>
@@ -144,7 +141,7 @@
 					<tbody>
 						<tr>
 							<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle; border-image: none;">
-								 수신 부서 
+								 <b style="color: rgb(255, 0, 0);">*</b> 수신 부서 
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;" colspan="3">
 								<span contenteditable="false" style="width: 100%;">
@@ -157,7 +154,7 @@
 						</tr>
 						<tr>
 							<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle; border-image: none;">
-								 제목 
+								 <b style="color: rgb(255, 0, 0);">*</b> 제목 
 							</td>
 							<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle; border-image: none;" colspan="3">
 								<span contenteditable="false" class="comp_wrap" data-cid="5" data-dsl="{{text}}" data-wrapper="" style="width: 100%;" data-value="" data-autotype="">
@@ -168,7 +165,7 @@
 						<tr>
 							<td style="background: rgb(255, 255, 255); border-width: medium 1px 1px; border-style: none solid solid; border-color: currentColor black black; padding: 5px; height: 300px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;" colspan="4" class="dext_table_border_t">
 								<span contenteditable="false" style="width: 100%;">
-									<textarea class="docEnroll_textarea" id="coopContent" name="coopContent" style="width: 99%; height: 290px;" maxlength="950"></textarea>
+									<textarea class="docEnroll_textarea" id="coopContent" name="coopContent" style="width: 99%; height: 290px;" maxlength="1000"></textarea>
 								</span>
 							</td>
 						</tr>

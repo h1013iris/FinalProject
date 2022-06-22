@@ -8,19 +8,13 @@
 <title>반려 문서 상세 페이지</title>
 <style type="text/css">
 
+	.main_section { background-color: #f3f3f3; }
+
 	.docDetailViewDiv {
 		margin: 30px auto;
 		width: 1500px;
 	}
-	
-	/*.docDetailBackground {
-		height: 790px;
-		border: 1px solid #e6e6e6;
-		background-color: #e6e6e6;
-		border-radius: 15px;
-		box-shadow: 0 0 8px #afafaf;	
-	}*/
-	
+
 	.docDetailMainArea {
 		padding: 70px 0 0 100px;
 		float: left;
@@ -114,9 +108,12 @@
 		line-height: 130%;
 	}
 	
-	#reReason::-webkit-scrollbar {
-		/*width: 20px;*/
-	}
+	/*#reReason::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+  }
+  #reReason::-webkit-scrollbar-track {
+    background-color: grey;
+  }*/
 	
 	.returnModal_hr {
 		margin: 15px 0 15px 0;

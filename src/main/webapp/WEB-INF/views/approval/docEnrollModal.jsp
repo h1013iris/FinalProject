@@ -106,7 +106,7 @@
 			        <div class="select_div docTitleArea">
 			        	<label class="docEnroll_select_title">문서 제목</label>
 			        	<div class="input_docTitle">
-			        		<input type="text" id="modalDocTitle" name="modalDocTitle" maxlength="40">
+			        		<input type="text" id="modalDocTitle" name="modalDocTitle" maxlength="200">
 			        	</div>
 			        </div>
 	            </div>
