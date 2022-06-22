@@ -10,7 +10,7 @@
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	<style>
-* {
+* { 
 	margin: 0;
 	padding: 0;
 }
@@ -21,15 +21,9 @@
 }
 
 
-
 #addcon {
 	margin: 0 auto;
 	text-align: center;
-
-#contain {
-	margin: 0;
-	width: 1000px;
-
 }
 
 #main {
@@ -37,24 +31,34 @@
 	align-items: center;
 }
 
-#addcon {
-	margin: 0 auto;
-	text-align: center;
+.cusAddList {
+	height: 450px;
+	width: 1400px; margin-bottom : 30px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: rgb(209, 209, 209);
+	border-radius: 20px;
+	padding: 20px;
+	display: block;
+	margin-bottom: 30px;
 }
 
 #left {
-	width: 30%;
-	margin-left: 50px;
-	
+ float:left;
+	width:180px;
+	margin-left: 10px;
+	height: 400px;
+	overflow-y: scroll;
 }
 
-.a {
-	width: 200px;
-	display: inline-block;
-	background-color: aqua;
-	margin: 2px;
-	height: 30px;
-	text-align: center;
+#listMain {
+ display:inline-block; 
+	height: 400px;
+	overflow-y: scroll;
+}
+
+.sc::-webkit-scrollbar {
+	display: none;
 }
 
 .listAdd {
@@ -62,42 +66,40 @@
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
-	border: 1px solid;
-	
+	background-color: #fff;
 }
 
 .listAdd td {
-	border: 1px solid;
+	border: 2px rgb(223, 238, 255) solid;
 	padding: 5px 10px;
-	width: 200px;
+	width: 230px;
 }
 
 .listAdd th {
-	border: 1px solid;
+	border: 2px rgb(223, 238, 255) solid;
 	padding: 5px 10px;
+	width: 230px;
+}
+
+.a {
 	width: 200px;
-}
-#listMain{
-	height:200px;
-	overflow-y: scroll;
-	margin-bottom: 50px;
-}
-
-.sc::-webkit-scrollbar{
-display: none;
+	display: inline-block;
+	margin: 2px;
+	height: 30px;
+	text-align: center;
 }
 
-#btnT{
-margin:50px;
+.trSt:hover {
+	background-color: #d3edff;
+	cursor: pointer;
 }
 
-.trSt:hover{
-background-color: #d3edff;
-cursor: pointer;
+#btnT {
+	margin: 50px;
 }
 
 /*팀에서 공동 선택한 버튼디자인*/
-.commonButton1 {
+.commonButton1a {
 	padding: 0;
 	font-weight: 600;
 	text-align: center;
@@ -109,15 +111,16 @@ cursor: pointer;
 	border: #85cdff;
 	box-shadow: 0px 5px 0px 0px #4c87b099;
 	width: 200px;
-	margin: 10px;
+	margin: 0px;
 }
 
-.commonButton1:hover {
+.commonButton1a:hover {
 	position: relative;
 	top: 5px;
 	bottom: 5px;
 	box-shadow: 0px 0px 0px 0px #4c87b099;
 }
+
 .commonButton1_1 {
 	padding: 0;
 	font-weight: 600;
@@ -141,56 +144,62 @@ cursor: pointer;
 	box-shadow: 0px 0px 0px 0px #4c87b099;
 }
 
+.oneT {
+	height: 25px;
+	line-height: 25px;
+	margin-bottom: 5px;
+}
 </style>
 	<div class="main_section">
 		<div id="container">
-
-		<div id="btnT">
-			<button type="button" class="commonButton1"
-				onclick="location.href='comAdd.do'">거래처주소록</button>
-			<button type="button" class="commonButton1"
-				onclick="location.href='custoAdd.do'">고객주소록</button>
-		</div>
-			<!--고객 주소록 폴더들 표시될곳-->
-			<div id="left">
-
-				<jsp:include page="../addressBook/custoAddTitle.jsp"></jsp:include>
+			<div id="btnT">
+				<button type="button" class="commonButton1a"
+					onclick="location.href='comAdd.do'">거래처주소록</button>
+				<button type="button" class="commonButton1a"
+					onclick="location.href='custoAdd.do'">고객주소록</button>
 			</div>
-			<!--고객 주소록 내용이 표시될곳-->
 			<div id="main">
+		
 				<div id="addcon">
-				
-					<table class="listAdd">
-						<tr>
-							<th>회사명</th>
-							<th>휴대폰</th>
-							<th>이메일</th>
-							<th style="width:300px">기타</th>
-						</tr>
-						</table>
-						<div id="listMain" class="sc">
-						<table class="listAdd">
-						<c:forEach items="${custoList}" var="cus">
-							<tr class="trSt" onclick="location.href='custoDetailView.do?cusNo=${cus.cusNo}'">
-								<td>${cus.comNm}</td>
-								<td>${cus.comPhone}</td>
-								<td>${cus.comEmail}</td>
-								<td style="width:300px">${cus.comMemo}</td>
-							</tr>
-						</c:forEach>
-					</table>
+					<div class="cusAddList">
+						<div id="left" class="sc">
+							<jsp:include page="../addressBook/custoAddTitle.jsp"></jsp:include>
+						</div>
+						<div id="all">
+							<table class="listAdd oneT">
+								<tr>
+									<th>회사명</th>
+									<th>휴대폰</th>
+									<th>이메일</th>
+									<th style="width: 400px">기타</th>
+								</tr>
+							</table>
+							<div id="listMain" class="sc">
+								<table class="listAdd">
+									<c:forEach items="${custoList}" var="cus">
+										<tr class="trSt"
+											onclick="location.href='custoDetailView.do?cusNo=${cus.cusNo}'">
+											<td>${cus.comNm}</td>
+											<td>${cus.comPhone}</td>
+											<td>${cus.comEmail}</td>
+											<td style="width: 400px">${cus.comMemo}</td>
+										</tr>
+									</c:forEach>
+								</table>
+							</div>
+						</div>
 					</div>
 					<form action="cusAddWriter.do" method="post">
-						<input type="submit" id="cusAddWriter" class="commonButton1_1" value="고객등록"/>
+						<input type="submit" id="cusAddWriter" class="commonButton1_1" value="고객등록" />
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-<script type="text/javascript">
-$(function(){
-    $(".page_title>.title_name").text("고객 주소록");
- })
-</script>
+	<script type="text/javascript">
+		$(function() {
+			$(".page_title>.title_name").text("고객 주소록");
+		})
+	</script>
 </body>
 </html>
