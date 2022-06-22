@@ -40,7 +40,7 @@ import com.uni.spring.member.model.dto.Member;
 @SessionAttributes("loginUser") // 해당 key값의 value를 세션에 추가
 @Controller // 가장 먼저 어노테이션으로 등록
 public class AprvController {
-	
+	 
 	@Autowired
 	public AprvService aprvService;
 	
