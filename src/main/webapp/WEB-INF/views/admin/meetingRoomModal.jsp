@@ -24,7 +24,7 @@
                 <div class="content_body_box">
                     <div class="maxCount_box">
                         <span class="body_title">최대인원</span>
-                        <input type='text' class='maxCountInput' placeholder='숫자만 입력' >
+                        <input type='text' class='maxCountInput' placeholder='숫자만 입력' maxlength='2' oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                     </div>
                     <div class="status_box">
                         <span class="body_title">사용가능상태</span>
@@ -37,5 +37,8 @@
             </div>
         </div>
     </div>
+    <script>
+        $("#maxCount").val();
+    </script>
 </body>
 </html>

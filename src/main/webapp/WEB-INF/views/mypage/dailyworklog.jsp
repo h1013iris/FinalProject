@@ -24,7 +24,7 @@
                 <div id="main_content">
                     <div id="main_journal">
                         <div id="main_journal_title"><span>업무내용</span></div>
-                        <textarea id="main_journal_content" name="content"></textarea>
+                        <textarea id="main_journal_content" name="content" required></textarea>
                     </div>
                     <div id="side_note">
                         <div id="side_note_title"><span>비고</span></div>

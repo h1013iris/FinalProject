@@ -131,6 +131,31 @@ public class MyPageDao {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("mypageMapper.deleteMypage",mp);
 	}
+
+	public employee selectEmp(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mypageMapper.selectEmp", empNo);
+	}
+
+	public WorkRequest selectworkRequestDetail(SqlSessionTemplate sqlSession, String raskNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mypageMapper.selectworkRequestDetail",Integer.parseInt(raskNo));
+	}
+
+	public String selectWorkEmpList(SqlSessionTemplate sqlSession, String raskNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mypageMapper.selectWorkEmpList",Integer.parseInt(raskNo));
+	}
+
+	public ArrayList<employee> selectEmpList(SqlSessionTemplate sqlSession, int[] empNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList) sqlSession.selectList("mypageMapper.selectEmpList", empNo);
+	}
+
+	public int updateEmployee(SqlSessionTemplate sqlSession, employee emp) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("mypageMapper.updateEmployee", emp);
+	}
 	
 	
 

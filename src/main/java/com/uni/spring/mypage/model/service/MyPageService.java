@@ -56,4 +56,12 @@ public interface MyPageService {
 
 	void deleteMypage(MyPage mp);
 
+	employee selectEmp(int empNo);
+
+	WorkRequest selectworkRequestDetail(String raskNo);
+
+	ArrayList<employee> selectWorkEmpList(String raskNo);
+
+	void updateEmployee(employee emp);
+
 }

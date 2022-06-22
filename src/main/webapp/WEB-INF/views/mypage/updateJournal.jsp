@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" id="journal_update_submit_btn" class="commonButton1">저장</button>
+            <button type="submit" id="journal_update_submit_btn">저장</button>
         </form>
     </div>
     <script src="${ pageContext.servletContext.contextPath }/resources/js/mypage/mypage.js"></script>

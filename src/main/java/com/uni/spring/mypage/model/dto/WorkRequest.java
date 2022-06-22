@@ -17,6 +17,7 @@ public class WorkRequest {
 	
 	private int raskNo;
 	private int empNo;
+	private String empName;
 	private String title;
 	private String content;
 	private Date fromDate;

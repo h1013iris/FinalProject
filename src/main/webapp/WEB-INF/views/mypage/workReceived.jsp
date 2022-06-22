@@ -54,7 +54,7 @@
 <body>
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	<div class="main_section">
-	    <div id="workreceived_main_section">
+	    <div id="workreceived_main_section" class="workReceivedSection">
             <c:forEach items="${ list }" var="a" varStatus="status">
                 <div class="workreceived_lists">
                     <input type="hidden" class="workreceived_raskNo" value="${ a.raskNo }">

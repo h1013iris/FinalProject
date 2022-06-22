@@ -171,23 +171,31 @@ $("#todolist_insert_btn").click(function(){
     var time = $("#time").val();
     var content = $("#content").val();
 
-    $.ajax({
-        type:"post",
-        url:"todolistInsert",
-        data:{
-            todoDate : todoDate,
-            time : time,
-            content : content
-        },
-        success:function(){
-            // $(".insertToDoListModal").hide();
-            // $("#date").val("");
-            // $("#time").val("");
-            // $("#content").val("");
-            location.reload();
 
-        }
-    })
+    if(todoDate == "" || time == "" || content == ""){
+        myAlert("입력제한","요청날짜, 시간, 내용을 입력해야 합니다");
+    } else {
+        $.ajax({
+            type:"post",
+            url:"todolistInsert",
+            data:{
+                todoDate : todoDate,
+                time : time,
+                content : content
+            },
+            success:function(){
+                $(".insertToDoListModal").hide();
+                $("#date").val("");
+                $("#time").val("");
+                $("#content").val("");
+                location.reload();
+    
+            }
+        })
+
+    }
+
+
 })
 
 $(document).on("click",".checkboxInput",function(){
@@ -269,10 +277,16 @@ $(".empSearch_next_btn").click(function(){
     alert(a)
 })
 
-$(document).on("click",".workreceived_lists",function(){
+$(document).on("click",".workReceivedSection .workreceived_lists",function(){
     var raskNo = $(this).children().eq(0).val();
 
     location.href = "workDetailPage?raskNo="+raskNo;
+})
+
+$(document).on("click",".workRequestSection .workreceived_lists",function(){
+    var raskNo = $(this).children().eq(0).val();
+
+    location.href = "workRequestDetailPage?raskNo="+raskNo;
 })
 
 $("#success_status_update").click(function(){

@@ -3,6 +3,7 @@ package com.uni.spring.mypage.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,9 @@ import com.uni.spring.mypage.model.service.MyPageService;
 @SessionAttributes("loginUser")
 @Controller
 public class MyPageController {
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
 	private MyPageService MPService;
@@ -242,6 +246,17 @@ public class MyPageController {
 		return "mypage/workRequestDetailPage";
 	}
 	
+	@RequestMapping("workRequestDetailPage")
+	public String workRequestDetailPage(String raskNo, Model model) {
+		WorkRequest wr = MPService.selectworkRequestDetail(raskNo);
+		ArrayList<employee> empList = MPService.selectWorkEmpList(raskNo);
+		
+		model.addAttribute("work", wr);
+		model.addAttribute("empList", empList);
+		
+		return "mypage/workDetailPage";
+	}
+	
 	@ResponseBody
 	@RequestMapping("updateRequestStatus")
 	public void updateRequestStatus(String raskNo) {
@@ -295,6 +310,29 @@ public class MyPageController {
 		ArrayList<MyPage> list = MPService.selectMyPageDeleteList(empNo);
 		
 		return new GsonBuilder().create().toJson(list);
+	}
+	
+	@RequestMapping("myinfoUpdate")
+	public String updateMyInfo(Model model) {
+		int empNo = ((Member) model.getAttribute("loginUser")).getEmpNo();
+		
+		employee emp = MPService.selectEmp(empNo);
+		
+		model.addAttribute("emp", emp);
+		
+		return "mypage/updateEmpPage";
+	}
+	
+	@RequestMapping("updateEmployeemypage")
+	public String updateEmployee(employee emp) {
+		
+		String encPwd = bCryptPasswordEncoder.encode(emp.getUserPwd());
+		
+		emp.setUserPwd(encPwd);
+		System.out.println("================================================"+emp);
+		MPService.updateEmployee(emp);
+		
+		return "redirect:ToDoListPage";
 	}
 	
 }

@@ -469,6 +469,7 @@
 		})
 		
 	})
+
 		
 	$(document).on("click",".annoDepart_detail",function(){
 		console.log($(this).children().eq(4).val())//번호 체크
@@ -546,7 +547,7 @@
 	<!-- 이메일 API -->
 	<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 	<script>
-	(function(){
+		(function(){
 		emailjs.init("Mafb0wCflnksYAr8I");
 	})();
 	</script>

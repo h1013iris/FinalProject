@@ -285,7 +285,7 @@ public class adminServiceImpl implements adminService {
 		// TODO Auto-generated method stub
 		int result = admindao.updateEmployee(sqlSession, emp);
 		
-		if(result <= 0)throw new CommException("책임자 수정 실패");
+		if(result <= 0)throw new CommException("사원 수정 실패");
 		return admindao.selectEmp(sqlSession, String.valueOf(emp.getEmpNo()));
 	}
 

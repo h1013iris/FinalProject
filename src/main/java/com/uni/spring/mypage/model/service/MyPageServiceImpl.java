@@ -182,4 +182,42 @@ public class MyPageServiceImpl implements MyPageService {
 		if(result <= 0) throw new CommException("즐겨찾기 추가 실패"); 
 	}
 
+	@Override
+	public employee selectEmp(int empNo) {
+		// TODO Auto-generated method stub
+		return MPDao.selectEmp(sqlSession, empNo);
+	}
+
+	@Override
+	public WorkRequest selectworkRequestDetail(String raskNo) {
+		// TODO Auto-generated method stub
+		return MPDao.selectworkRequestDetail(sqlSession, raskNo);
+	}
+
+	@Override
+	public ArrayList<employee> selectWorkEmpList(String raskNo) {
+		// TODO Auto-generated method stub
+		
+		String empNoList = MPDao.selectWorkEmpList(sqlSession, raskNo);
+		
+		String[] list = empNoList.split(",");
+		
+		int[] empNo = new int[list.length];
+		
+		for(int i = 0; i < list.length; i++) {
+			empNo[i] = Integer.parseInt(list[i]);
+		}
+		
+		return MPDao.selectEmpList(sqlSession, empNo);
+
+	}
+
+	@Override
+	public void updateEmployee(employee emp) {
+		// TODO Auto-generated method stub
+		int result = MPDao.updateEmployee(sqlSession, emp);
+		
+		if(result <= 0) throw new CommException("회원정보수정 실패"); 
+	}
+
 }

@@ -29,6 +29,7 @@ public class employee {
 	private String jobName;
 	private String deptName;
 	private String profileImg;
+	private String userPwd;
 	
 	public employee(int empNo2, String empName2, String cityNo2, String email2, String phone2, String address2,
 			Date hireDate2, int jobNo2, int deptNo2) {
