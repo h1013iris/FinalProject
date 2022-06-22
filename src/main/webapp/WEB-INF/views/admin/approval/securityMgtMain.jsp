@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>문서 보안 관리 메인</title>
 <style type="text/css">
-	
+	 
 	.mainDiv {
 		padding: 50px 100px 0 100px;
 		text-align: center;

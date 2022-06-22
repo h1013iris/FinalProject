@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>보안 설정 문서 상세 페이지</title>
 <style type="text/css">
-	
+	 
 	.main_section { background-color: #f3f3f3; }
 	
 	.docDetailViewDiv {
