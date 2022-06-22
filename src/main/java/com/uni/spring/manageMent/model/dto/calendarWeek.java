@@ -67,10 +67,10 @@ public class calendarWeek {
 		ca.add(Calendar.DATE, -7);
 		ca.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		String weekq = sdd.format(ca.getTime());
-		
+		System.out.println("저번주"+weekq);
 		calendarWeek cw = new calendarWeek(monWeek, tueWeek, wenWeek, thiWeek, friWeek, weeko, weekt, weekh, weeku, weekf);
-		
-		
+		System.out.println(cw.toString());
+		System.out.println((ca.get(Calendar.WEEK_OF_MONTH)-1));
 		return cw;
 	}
 	
@@ -99,7 +99,7 @@ public class calendarWeek {
 		cw.setMonWeek(sl[0]);cw.setTueWeek(sl[1]);cw.setWenWeek(sl[2]);
 		cw.setThiWeek(sl[3]);cw.setFriWeek(sl[4]);
 		
-		
+		System.out.println(cw.toString());
 		
 		Calendar ca = Calendar.getInstance(); //캘린더 객체 생성
 		Date date = new Date();
@@ -142,11 +142,11 @@ public class calendarWeek {
 		date2 = new Date(date2.getTime() + (1000 * 60 * 60 * 24 - 1)); 
 		date3 = new Date(date3.getTime() + (1000 * 60 * 60 * 24 - 1)); 
 		date4 = new Date(date4.getTime() + (1000 * 60 * 60 * 24 - 1));
-		
-		
-		
-		
-		
+		System.out.println(date);
+		System.out.println(date1);
+		System.out.println(date2);
+		System.out.println(date3);
+		System.out.println(date4);
 		ca.setTime(date);
 		ca.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);//금요일날자
 		String  a = sdd.format(ca.getTime());//첫번째주 금요일

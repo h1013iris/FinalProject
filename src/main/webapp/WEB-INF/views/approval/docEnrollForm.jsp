@@ -161,7 +161,7 @@
  						departmentNo : "${ loginUser.departmentNo }",
  						jobNo : "${ loginUser.jobNo }" },
  				success: function(list) {
- 					
+ 					console.log(list);
                 	if(list != null || list != "") {
                 		
                 		$.each(list, function(i) {
@@ -185,7 +185,7 @@
                	data: { deptNo : "${ loginUser.departmentNo }" },
                 success: function (list) {
 				
-                	
+                	console.log(list);
                 	
                 	if(list != null || list != "") {
                 		
@@ -244,7 +244,7 @@
  				url: "selectApproverJob.do",
  				data: { empNo : firstAprv },
  				success: function(firstAprv) {
-          
+ 					
  					$.ajax({
  						type: "get",
  		 				url: "selectApproverJob.do",

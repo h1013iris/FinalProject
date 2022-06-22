@@ -23,6 +23,7 @@
 #addcon {
 	margin: 0 auto;
 	text-align: center;
+
 }
 
 #main {
@@ -31,21 +32,20 @@
 }
 
 #left {
- float:left;
-	width:180px;
-	margin-left: 10px;
-	height: 400px;
-	overflow-y: scroll;
+	width: 30%;
+	margin-left: 50px;
+	
 }
 
-#listMain {
- display:inline-block; 
-	height: 400px;
+
+#listMain{
+	height:200px;
 	overflow-y: scroll;
+	margin-bottom: 50px;
 }
 
-.sc::-webkit-scrollbar {
-	display: none;
+.sc::-webkit-scrollbar{
+display: none;
 }
 
 .listAdd {
@@ -53,39 +53,48 @@
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
-	background-color: #fff;
+	border: 1px solid;
+	
 }
 
 .listAdd td {
-	border: 2px rgb(223, 238, 255) solid;
+	border: 1px solid;
 	padding: 5px 10px;
-	width: 230px;
+	width: 200px;
 }
 
 .listAdd th {
-	border: 2px rgb(223, 238, 255) solid;
+	border: 1px solid;
 	padding: 5px 10px;
-	width: 230px;
+	width: 200px;
 }
 
 .a {
 	width: 200px;
 	display: inline-block;
+	background-color: aqua;
 	margin: 2px;
 	height: 30px;
 	text-align: center;
 }
-
-.trSt:hover {
-	background-color: #d3edff;
-	cursor: pointer;
+#Bbtn{
+margin:0 auto;
 }
 
-#btnT {
-	margin: 50px;
+.trSt:hover{
+background-color: #d3edff;
+cursor: pointer;
+}
+
+.hrSt a{
+color: inherit;
+}
+
+#btnT{
+margin:50px;
 }
 /*팀에서 공동 선택한 버튼디자인*/
-.commonButton1a {
+.commonButton1 {
 	padding: 0;
 	font-weight: 600;
 	text-align: center;
@@ -97,10 +106,10 @@
 	border: #85cdff;
 	box-shadow: 0px 5px 0px 0px #4c87b099;
 	width: 200px;
-	margin: 0px;
+	margin: 10px;
 }
 
-.commonButton1a:hover {
+.commonButton1:hover {
 	position: relative;
 	top: 5px;
 	bottom: 5px;
@@ -130,77 +139,64 @@
 	box-shadow: 0px 0px 0px 0px #4c87b099;
 }
 
-.oneT {
-	height: 25px;
-	line-height: 25px;
-	margin-bottom: 5px;
-}
 
-.comAddList {
-	height: 450px;
-	width: 1400px;
-	margin-bottom: 30px;
-	margin-left: auto;
-	margin-right: auto;
-	background-color: rgb(209, 209, 209);
-	border-radius: 20px;
-	padding: 20px;
-}
 </style>
 	<div class="main_section">
 		<div id="container">
 			<div id="btnT">
-				<button type="button" class="commonButton1a"
-					onclick="location.href='comAdd.do'">거래처주소록</button>
-				<button type="button" class="commonButton1a"
-					onclick="location.href='custoAdd.do'">고객주소록</button>
+			<button type="button" class="commonButton1" onclick="location.href='comAdd.do'">거래처주소록</button>
+			<button type="button" class="commonButton1" onclick="location.href='custoAdd.do'">고객주소록</button>
 			</div>
+		<!--거래처 주소록 폴더들 표시될곳-->
+				<div id="left">
+				<jsp:include page="../addressBook/comAddTitle.jsp"></jsp:include>
+				</div>
+			<!--고객 주소록 내용이 표시될곳-->
 			<div id="main">
+		
 				<div id="addcon">
-					<div class="comAddList">
-						<div id="left" class="sc">
-							<jsp:include page="../addressBook/comAddTitle.jsp"></jsp:include>
-						</div>
-						<div id="all">
-							<table class="listAdd oneT">
-								<tr>
-									<th>회사명</th>
-									<th>휴대폰</th>
-									<th>이메일</th>
-									<th style="width: 400px">기타</th>
-								</tr>
-							</table>
-							<div id="listMain" class="sc">
-								<table class="listAdd">
-									<c:forEach items="${comList}" var="com">
-										<tr class="trSt"
-											onclick="location.href='comDetailView.do?compNo=${com.compNo}'">
-											<td>${com.comNm}</td>
-											<td>${com.comPhone}</td>
-											<td>${com.comEmail}</td>
-											<td style="width: 400px">${com.comMemo}</td>
-										</tr>
-									</c:forEach>
-								</table>
-							</div>	
-						</div>
+			
+				<div id="all">
+					<table class="listAdd">
+						<tr>
+							<th>회사명</th>
+							<th>휴대폰</th>
+							<th>이메일</th>
+							<th style="width:300px">기타</th>
+						</tr>
+						</table>
+						<div id="listMain" class="sc">
+						<table class="listAdd">
+						<c:forEach items="${comList}" var="com">
+							<tr class="trSt" onclick="location.href='comDetailView.do?compNo=${com.compNo}'">
+								<td class="hrSt">${com.comNm}</td>
+								<td>${com.comPhone}</td>
+								<td>${com.comEmail}</td>
+								<td style="width:300px">${com.comMemo}</td>
+							</tr>
+						</c:forEach>
+					</table>
 					</div>
+					<div id='Bbtn'>
 					<form action="comAddWriter.do" method="post">
 						<input type="submit" class="commonButton1_1" value="거래처등록">
 					</form>
+					</div>
+				</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<script>
 		var msg = '${msg}';
 		if (msg != null && msg != "") {
 			alert(msg);
 		}
-
-		$(function() {
-			$(".page_title>.title_name").text("거래처 주소록");
-		})
+		
+		$(function(){
+	        $(".page_title>.title_name").text("거래처 주소록");
+	     })
 	</script>
 </body>
 </html>

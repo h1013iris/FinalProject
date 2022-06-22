@@ -229,7 +229,7 @@
 	                url: "selectDeptList.do",
 	                data: { deptNo : "${ loginUser.departmentNo }" },
 	                success: function (list) {
-					
+					console.log(list);
 	                	if(list != null || list != "") {
 	                		
 	                		$.each(list, function(i) {
@@ -254,7 +254,7 @@
  						departmentNo : "${ loginUser.departmentNo }",
  						jobNo : "${ loginUser.jobNo }" },
  				success: function(list) {
- 					
+ 					console.log(list);
                 	if(list != null || list != "") {
                 		
                 		$.each(list, function(i) {
@@ -354,7 +354,7 @@
                 url: "enrollDocument.do",
                 data: form,
                 success: function (result) {
-                	
+                	console.log(result)
                 	
                     if(result == "success") {
 					
@@ -390,7 +390,7 @@
     			url: "saveDraftFormOutbox.do",
     			data: form,
     			success: function(result) {
-    				
+    				console.log(result);
     				
     				if(result == "success") {
     					let title = "임시 보관함 저장"

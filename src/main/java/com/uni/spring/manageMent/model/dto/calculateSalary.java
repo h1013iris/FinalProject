@@ -52,11 +52,11 @@ public class calculateSalary {
 			goyoungH = salary *(0.008+0.0085);
 		}
 		emptot = gukmin/2+gungan/2+gunGangi/2+goyoung;
-		
+		System.out.println(emptot);
 		imtot = gukmin/2+gungan/2+gunGangi/2+goyoungH;
-		
+		System.out.println(imtot);
 		totalV = emptot+imtot;
-		
+		System.out.println(totalV);
 		String guk = String.valueOf(formatter.format(gukmin));//국민연금
 		String gukHalf =String.valueOf(formatter.format(gukmin/2));//국민연금 반
 		String gun = String.valueOf(formatter.format(gungan));//건강보험 계산

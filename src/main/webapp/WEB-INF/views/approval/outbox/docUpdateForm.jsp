@@ -160,7 +160,7 @@
                 url: "selectDeptList.do",
                 data: { deptNo : "${ loginUser.departmentNo }" },
                 success: function (list) {
-				
+				console.log(list);
                 	if(list != null || list != "") {
                 		
                 		$.each(list, function(i) {
@@ -183,7 +183,7 @@
  						departmentNo : "${ loginUser.departmentNo }",
  						jobNo : "${ loginUser.jobNo }" },
  				success: function(list) {
- 					
+ 					console.log(list);
                 	if(list != null || list != "") {
                 		
                 		$.each(list, function(i) {
@@ -242,7 +242,7 @@
  				url: "selectApproverJob.do",
  				data: { empNo : firstAprv },
  				success: function(firstAprv) {
- 					
+ 					console.log(firstAprv);
  					
  					$.ajax({
  						
@@ -250,7 +250,7 @@
  		 				url: "selectApproverJob.do",
  		 				data: { empNo : secondAprv },
  		 				success: function(secondAprv) {
- 		 					
+ 		 					console.log(secondAprv);
  		 					
  		 					// 1차 결재자의 직급이 더 높은 경우 알림 후 결재자 비워주기
  		 					if(firstAprv > secondAprv) {

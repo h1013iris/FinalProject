@@ -144,7 +144,7 @@ padding-top : 50px;
     
     			function pboxlist(num){
     			location.href="detailpbox.do?pno=" + num
-    			
+    			console.log(pno)
     		}
     	
     	
@@ -154,7 +154,7 @@ padding-top : 50px;
     		$("#helpmeCOnfirm").css("display","block");
        		
     		$("button[name='confirmBtn']").click(function(){
-        		
+        		console.log($(this).val())
         		if($(this).val()=="true"){
         			location.href="deletepbox.do?pno="+ num +"&userno="+${loginUser.empNo};
         			$("#helpmeCOnfirm").css("display","none");
