@@ -196,7 +196,7 @@ public class AddressBookDao {
 	//즐겨찾기 등록여부 조회
 	public int selectUserCount(SqlSessionTemplate sqlSession, Map<String, Object> pavoMap) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("addressBookMapper.selectUserCount",pavoMap);
+		return sqlSession.selectOne("addressBookMapper.selectUserCount",pavoMap); 
 	}
 
 	//메인 주소록 가기전 즐겨찾기 여부 확인
