@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +8,7 @@
 </head>
 <style>
 .commonButton1{
-     padding: 0;
+     padding: 0; 
      font-weight: 600;
      text-align: center;
      line-height: 50px;
