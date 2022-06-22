@@ -10,7 +10,6 @@
 	.DeptInfoMainDIve{
 		margin: 0 auto;
 		padding: 50px 100px 40px 100px;
-		border: 1px solid gray;
 	}
 	.upperDeptinfo{
 		margin-bottom: 50px;
@@ -251,7 +250,6 @@
 				type:"get",
 				data:{dep:deptTitle, depNo:deptNo},
 				success:function(list){
-					console.log("성공")
 					$tableBody = $(' .mainSecScroll');
 					$tableBody.html('');
 					if(list.length ==0){
@@ -279,6 +277,7 @@
 					$(".defalutDepart11").text(deptTitle);
 					$(".deptTitleNo").val(deptNo);
 					$(".departTitleListone").removeClass("block");
+					$(".headerNameSw").text(deptTitle);
 				}
 			})
 		}
@@ -296,7 +295,6 @@
 				type:"get",
 				data:{dep:dep, depNo:depNo, fil:con},
 				success:function(list){
-					console.log("성공")
 					$tableBody = $(' .mainSecScroll');
 					$tableBody.html('');
 					if(list.length ==0){
@@ -362,7 +360,6 @@
 				type:"get",
 				data:{dep:dep, depNo:depNo, fil:fil, ord:ord, searchli:con},
 				success:function(list){
-					console.log("성공")
 					$tableBody = $(' .mainSecScroll');
 					$tableBody.html('');
 					if(list.length ==0){

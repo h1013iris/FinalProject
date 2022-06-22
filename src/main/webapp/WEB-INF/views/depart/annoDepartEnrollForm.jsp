@@ -116,7 +116,6 @@
     	})
     	
     	$("button[name='confirmBtn']").click(function(){
-    		console.log($(this).val())
     		if($(this).val()=="true"){
     			location.href="departmentPage.do";
     			$("#helpmeCOnfirm").css("display","none");

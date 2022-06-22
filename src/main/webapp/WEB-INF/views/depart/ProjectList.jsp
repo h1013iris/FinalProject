@@ -177,6 +177,9 @@
         </div>
     </div> 
     <script type="text/javascript">
+	    $(function(){
+			$(".page_title>.title_name").text("내 프로젝트 페이지");
+		})
 		$(function(){
     		selectProjectList();
     		selectFavList();
@@ -219,7 +222,6 @@
     				$(".flex-container").prepend(value);
     				selectFavList();
     			}, error:function(){
-    				console.log("프로젝트 가져오는 것 실패")
     			}
     		})
     	}
@@ -243,7 +245,6 @@
 					   selectFavList(); 
 				   }
 			   },error:function(){
-				   console.log("실패")
 			   }
 		   })
 		   
@@ -273,7 +274,6 @@
     				$(".flex-container1").empty();
     				$(".flex-container1").prepend(value);
     				}, error:function(){
-				   console.log("실패")
 			   }
 		   })
 		   
@@ -294,7 +294,6 @@
 				   }				 
 				
 			   },error:function(){
-				   console.log("실패")
 			   }
 		   })
 	  }
@@ -302,7 +301,6 @@
 	$(document).on("click",".flex-item",function(){
 		
 		var pjno= $(this).children().children().eq(3).val();
-		console.log(pjno)
 		location.href = "detailProject.do?pjno="+pjno;
 	});
 	function notuse(event){

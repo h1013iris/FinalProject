@@ -48,7 +48,6 @@ public class DepartServiceImpl implements DepartService {
 	@Override
 	public ArrayList<DepartmentAnno> selectAnnoDepartList(int adno) {
 		ArrayList<DepartmentAnno> list = departDao.selectAnnoDepartList(sqlSession, adno);
-		System.out.println("공지사항 리스트 가져와"+list.toString());
 		return list;
 	}
 

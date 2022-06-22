@@ -10,7 +10,6 @@
 	.attendLogBigDiv{
 		margin: 0 auto;
 		padding: 50px 100px 100px 100px ;
-		border: 1px solid;
 	}
 	.upperDeptinfo{
 		margin-bottom: 30px;
@@ -376,7 +375,6 @@
 			if(fil != '필터'){
 				fil = fil2;
 			}
-			console.log(fil2)
 			if(ord != 0){
 				if(ordq =='검색'){
 					myAlert("선택", "검색을 선택해주세요");
@@ -398,7 +396,6 @@
 				type:"get", 
 				data:{dep:deptTitle, depNo:deptNo, fil:fil2, ord:ordq, searchli:searchli},
 				success:function(list){
-					console.log(list)//들어옴
 					if(list.lenght == 0){
 						$(".scrolldivse").html('');
 					}else if(list.length != 0){
@@ -428,7 +425,6 @@
 						
 					})	
 					$(".scrolldivse").html(value);
-					console.log("성공")
 					$(".defalutDepart11").text(deptTitle);//박스 명 변경
 					$(".filterCHange").text(fil2);
 					$(".deptTitleNo").val(deptNo);//부서 번호 변경
@@ -444,7 +440,6 @@
 		}
 		//분류 클릭했을 시 
 		function filterDepartCh(fil){
-			console.log(fil)
 			var dep = $(".defalutDepart11").text();
 			var depNo = $(".deptTitleNo").val();
 			

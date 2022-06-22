@@ -92,6 +92,7 @@
 	}
 	.imgSHowMOdalInfo>div{
 		flex: 1 1 30%;
+		margin-bottom: 10px;
 	}
 	
 	.imgSHowMOdalInfo{
@@ -274,18 +275,13 @@
         </div>
     </div> 
     <script>
-	  //페이지 이름 
-		$(function(){
-	    	 $(".page_title>.title_name").text("부서 메인 페이지");
-	 	})
+	    $(function(){
+			$(".page_title>.title_name").text("부서 메인 페이지");
+		})
     	function showModalInfoIMG(empName, phone, email){
-    		console.log(empName)
-    		console.log(phone)
-    		console.log(email)
-    		console.log($("#emp_name_modal"))
-    		$(".emp_name_modal").text(empName);
-    		$(".emp_phone_modal").text(phone);
-    		$(".emp_email_modal").text(email);
+    		$(".emp_name_modal_depart").text(empName);
+    		$(".emp_phone_modal_depart").text(phone);
+    		$(".emp_email_modal_depart").text(email);
     		$(".showModalInfoDepart").css("display","flex");
     		$(".showListDeptP").css("display","none");
     	}
@@ -311,13 +307,12 @@
 			var month = ('0' + (today.getMonth() + 1)).slice(-2);
 			var day = ('0' + today.getDate()).slice(-2);
 			var dateString = year + '년 ' + month  + '월 ' + day +'일';
-			console.log(empNo)
+			var dateString2 = year + '/' + month  + '/' + day +'/';
 			$.ajax({
 				url:"selectInfo.do", 
 				type:"get", 
 				data:{empNo:empNo}, 
 				success:function(result){
-					console.log("성공")
 					if(result == null){
 						myAlert("사번 오류", "입력하신 사번이 없습니다. 다시 입력해주세요");
 						$("#input1").focus();
@@ -330,9 +325,9 @@
 						$(".address_part").text(result.address);//주소
 						$(".depart_part").text(result.departmentName);//소속
 						$(".job_part").text(result.jobName);//지위
-						$(".work_part").text(result.changeName+" ~ 현재");//재직기간
+						$(".work_part").text(result.changeName+" ~ "+dateString);//재직기간
 						$(".why_part").text(val);//용도
-						$(".cont_part").text(dateString);//현재 날짜
+						$(".cont_part").text(dateString2);//현재 날짜
 						
 					}
 					

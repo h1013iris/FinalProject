@@ -223,7 +223,7 @@
 			</div>
 			<!-- 버튼부분 -->
 			<div class="InforDepartBuDiv">
-				<button type="button" class="commonButton1 InforDepartBu"> 메인페이지로</button>
+				<button type="button" class="commonButton1 InforDepartBu"> 이전페이지로</button>
 			</div>
 		</div>
 	</div>

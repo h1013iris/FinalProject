@@ -173,7 +173,7 @@
 		        		</ul>
 		        		<form action="" id="postForm_detailPro" method="post">
 		        			<input type="hidden" name ="proNo" value="${p.proNo}">
-		        			<input type="hidden" name ="proTitle" value="${p.proTitle}">
+		        			<input type="hidden"  name ="proTitle" value="${p.proTitle}">
 		        		</form>
 					</div>
 				</div>
@@ -221,6 +221,7 @@
 		        			</ul>
 	        			</div>
 	        		</div>
+	        		<c:if test="${pc.pcOne ne null or !empty pc.pcOne }">
 	        		<div class="mainshowSection">
 	        			<!-- 세부 프로젝트 -->
 	        			<c:forEach items="${slist}" var="sl">
@@ -244,9 +245,11 @@
 							</div>
 	        			</div>
 	        		</div>
+	        		
 	        		<div class="plusNewSemiBu">
 	        			<div class="innerNewSeim" id="innerNewSeim1" onclick="openSemiInsert('inputSemisePro1','innerNewSeim1')"><img src="${ pageContext.servletContext.contextPath }/resources/images/plus.png" width="35"></div>
 	        		</div>
+	        		</c:if>
 	        	</div>
 	        	<div class="divtwowP">
 	        		
@@ -263,6 +266,7 @@
 		        			</ul>
 	        			</div>
 	        		</div>
+	        		<c:if test="${pc.pcTwo ne null or !empty pc.pcTwo }">
 	        		<div class="mainshowSection">
 	        			<!-- 세부 프로젝트 -->
 	        			<c:forEach items="${slist}" var="sl">
@@ -286,7 +290,7 @@
 							</div>
 	        			</div>
 	        		</div>
-	        		
+	        		</c:if>
 	        		<div class="plusNewSemiBu">
 	        			<div class="innerNewSeim" id="innerNewSeim2" onclick="openSemiInsert('inputSemisePro2','innerNewSeim2')"><img src="${ pageContext.servletContext.contextPath }/resources/images/plus.png" width="35"></div>
 	        		</div>
@@ -306,6 +310,7 @@
 		        			</ul>
 	        			</div>
 	        		</div>
+	        		<c:if test="${pc.pcThree ne null or !empty pc.pcThree }">
 	        		<div class="mainshowSection">
 	        			<!-- 세부 프로젝트 -->
 	        			<c:forEach items="${slist}" var="sl">
@@ -332,6 +337,7 @@
 	        		<div class="plusNewSemiBu">
 	        			<div class="innerNewSeim" id="innerNewSeim3" onclick="openSemiInsert('inputSemisePro3','innerNewSeim3')"><img src="${ pageContext.servletContext.contextPath }/resources/images/plus.png" width="35"></div>
 	        		</div>
+	        		</c:if>
 	        	</div>
 	        	<div class="divfourwP">
 	        		<div class="nameandControl">
@@ -347,6 +353,7 @@
 		        			</ul>
 	        			</div>
 	        		</div>
+	        		<c:if test="${pc.pcFour ne null or !empty pc.pcFour }">
 	        		<div class="mainshowSection">
 	        			<!-- 세부 프로젝트 -->
 	        			<c:forEach items="${slist}" var="sl">
@@ -373,11 +380,13 @@
 	        		<div class="plusNewSemiBu">
 	        			<div class="innerNewSeim" id="innerNewSeim4" onclick="openSemiInsert('inputSemisePro4','innerNewSeim4')"><img src="${ pageContext.servletContext.contextPath }/resources/images/plus.png" width="35"></div>
 	        		</div>
+	        		</c:if>
 	        	</div>
         	</div>
         </div>
     </div>
     <script type="text/javascript">
+    	
 		/*클릭했을시 나오게*/
 		function openBurger(name){
 			event.stopPropagation();
@@ -387,6 +396,9 @@
 		/*바깥부분 클릭했을시 사라지게*/
 		$(document).click(function(){
 			$(".controlAnnoDetail").hide();	
+		})
+		$(document).click(function(){
+			$(".controlAnnoDetailProject").css("display","none");
 		})
 		//참여자 바깥부분 클릭했을시 사라지게
 		$(document).click(function(){
@@ -416,10 +428,16 @@
     	}
     	/*등록버튼 클릭시*/
     	function submitForm(name){
+    		var su = $("#"+name).children().eq(0);
+    		if(su.val() == ''){
+    			myAlert("입력","세부 프로젝트 명을 입력해주세요");
+    			return false;
+    		}
     		$("#"+name).submit()
     	}
     	$(".imagehamburger2").click(function(){
-    		$(".controlAnnoDetailProject").css("display","flex");
+    		event.stopPropagation();
+    		$(".controlAnnoDetailProject").css("display","block");
     	})
    		function postFormSubmit111(num, sec, target){
        		//num =1 -> 수정, num =2 -> 삭제	
